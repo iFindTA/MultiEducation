@@ -15,6 +15,8 @@
 		60B4414F20735B6400B871E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4414E20735B6400B871E1 /* main.m */; };
 		60B4415920735B6400B871E1 /* MultiEducationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4415820735B6400B871E1 /* MultiEducationTests.m */; };
 		60B4416420735B6400B871E1 /* MultiEducationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4416320735B6400B871E1 /* MultiEducationUITests.m */; };
+		60B4417420735D0600B871E1 /* Addressbook.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4417320735D0600B871E1 /* Addressbook.pbobjc.m */; };
+		7A34CE401660B5173CE3F117 /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,11 @@
 		60B4415F20735B6400B871E1 /* MultiEducationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiEducationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60B4416320735B6400B871E1 /* MultiEducationUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiEducationUITests.m; sourceTree = "<group>"; };
 		60B4416520735B6400B871E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		60B4417220735D0600B871E1 /* Addressbook.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Addressbook.pbobjc.h; sourceTree = "<group>"; };
+		60B4417320735D0600B871E1 /* Addressbook.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Addressbook.pbobjc.m; sourceTree = "<group>"; };
+		6EB6CD631A8393192773F231 /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
+		BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MultiEducation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC46A5708A4601A65D1E9717 /* Pods-MultiEducation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A34CE401660B5173CE3F117 /* libPods-MultiEducation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28C4FF93E5BD89F5F619F20F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		60B4413320735B6400B871E1 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +101,8 @@
 				60B4415720735B6400B871E1 /* MultiEducationTests */,
 				60B4416220735B6400B871E1 /* MultiEducationUITests */,
 				60B4413D20735B6400B871E1 /* Products */,
+				921A9EB02ED016D2E40FD711 /* Pods */,
+				28C4FF93E5BD89F5F619F20F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +119,7 @@
 		60B4413E20735B6400B871E1 /* MultiEducation */ = {
 			isa = PBXGroup;
 			children = (
+				60B4417120735D0600B871E1 /* Models */,
 				60B4413F20735B6400B871E1 /* AppDelegate.h */,
 				60B4414020735B6400B871E1 /* AppDelegate.m */,
 				60B4414220735B6400B871E1 /* ViewController.h */,
@@ -132,6 +151,24 @@
 			path = MultiEducationUITests;
 			sourceTree = "<group>";
 		};
+		60B4417120735D0600B871E1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				60B4417220735D0600B871E1 /* Addressbook.pbobjc.h */,
+				60B4417320735D0600B871E1 /* Addressbook.pbobjc.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		921A9EB02ED016D2E40FD711 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6EB6CD631A8393192773F231 /* Pods-MultiEducation.debug.xcconfig */,
+				EC46A5708A4601A65D1E9717 /* Pods-MultiEducation.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,9 +176,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 60B4416820735B6400B871E1 /* Build configuration list for PBXNativeTarget "MultiEducation" */;
 			buildPhases = (
+				A127AE35E17049BE53A39444 /* [CP] Check Pods Manifest.lock */,
 				60B4413820735B6400B871E1 /* Sources */,
 				60B4413920735B6400B871E1 /* Frameworks */,
 				60B4413A20735B6400B871E1 /* Resources */,
+				A44A8880C26DB5A06FCF7E62 /* [CP] Embed Pods Frameworks */,
+				B1B8B772C1B2CBFBEEF0AC13 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,6 +300,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A127AE35E17049BE53A39444 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A44A8880C26DB5A06FCF7E62 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1B8B772C1B2CBFBEEF0AC13 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		60B4413820735B6400B871E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -267,6 +355,7 @@
 			files = (
 				60B4414420735B6400B871E1 /* ViewController.m in Sources */,
 				60B4414F20735B6400B871E1 /* main.m in Sources */,
+				60B4417420735D0600B871E1 /* Addressbook.pbobjc.m in Sources */,
 				60B4414120735B6400B871E1 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,10 +517,12 @@
 		};
 		60B4416920735B6400B871E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EB6CD631A8393192773F231 /* Pods-MultiEducation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niuduo.multiedu.MultiEducation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -441,10 +532,12 @@
 		};
 		60B4416A20735B6400B871E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC46A5708A4601A65D1E9717 /* Pods-MultiEducation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.niuduo.multiedu.MultiEducation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
