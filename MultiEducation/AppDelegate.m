@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+#import <UINavigationController+SJVideoPlayerAdd.h>
 
 @interface AppDelegate ()
 
@@ -18,6 +20,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
+    ViewController *rootProfile = [[ViewController alloc] init];
+    rootProfile.view.backgroundColor = [UIColor whiteColor];
+    UINavigationController *rootNavi = [[UINavigationController alloc] initWithRootViewController:rootProfile];
+    rootNavi.sj_gestureType = SJFullscreenPopGestureType_Full;
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    self.window = [[UIWindow alloc] initWithFrame:bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = rootNavi;
+    [self.window makeKeyAndVisible];
 
     return YES;
 }

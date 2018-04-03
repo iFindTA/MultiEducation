@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <Masonry/Masonry.h>
+#import "MEFrameProfile.h"
 
 
 @interface ViewController ()
@@ -19,15 +20,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+
+    self.title = @"first";
+    self.view.backgroundColor = [UIColor whiteColor];
     
     /**
      18751732219:123456
      */
-    [self.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    
 
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.backgroundColor = [UIColor blueColor];
+    [btn setTitle:@"push" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(pushEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).mas_offset(-20);
+        make.top.equalTo(self.view).offset(100);
+        make.height.equalTo(@30);
     }];
 }
 
+- (void)pushEvent {
+    MEFrameProfile *profile = [[MEFrameProfile alloc] init];
+    [self.navigationController pushViewController:profile animated:true];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

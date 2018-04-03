@@ -6,9 +6,9 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <PBBaseClasses/PBBaseProfile.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : PBBaseProfile
 
 
 @end
