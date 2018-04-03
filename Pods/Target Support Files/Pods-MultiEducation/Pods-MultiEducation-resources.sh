@@ -76,6 +76,22 @@ EOM
       ;;
   esac
 }
+if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj"
+  install_resource "PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj"
+  install_resource "PBNetService/PBNetService/Pod/Assets/balanceMap.json"
+  install_resource "PBNetService/PBNetService/Pod/Assets/flk_dev.cer"
+  install_resource "PBNetService/PBNetService/Pod/Assets/flk_test.cer"
+  install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
+fi
+if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj"
+  install_resource "PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj"
+  install_resource "PBNetService/PBNetService/Pod/Assets/balanceMap.json"
+  install_resource "PBNetService/PBNetService/Pod/Assets/flk_dev.cer"
+  install_resource "PBNetService/PBNetService/Pod/Assets/flk_test.cer"
+  install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
+fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

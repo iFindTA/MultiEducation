@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1373F5D62AFE58EA0869F07F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1373F5B91EEBB1F4B52DF8C0 /* SystemConfiguration.framework */; };
 		60B4414120735B6400B871E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4414020735B6400B871E1 /* AppDelegate.m */; };
 		60B4414420735B6400B871E1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4414320735B6400B871E1 /* ViewController.m */; };
 		60B4414720735B6400B871E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60B4414520735B6400B871E1 /* Main.storyboard */; };
@@ -15,7 +16,8 @@
 		60B4414F20735B6400B871E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4414E20735B6400B871E1 /* main.m */; };
 		60B4415920735B6400B871E1 /* MultiEducationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4415820735B6400B871E1 /* MultiEducationTests.m */; };
 		60B4416420735B6400B871E1 /* MultiEducationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4416320735B6400B871E1 /* MultiEducationUITests.m */; };
-		60B4417420735D0600B871E1 /* Addressbook.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4417320735D0600B871E1 /* Addressbook.pbobjc.m */; };
+		60B4417A20739F7A00B871E1 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B4417920739F7A00B871E1 /* libsqlite3.0.tbd */; };
+		60B4417F20739FDC00B871E1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B4417E20739FDC00B871E1 /* libz.tbd */; };
 		7A34CE401660B5173CE3F117 /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1373F5B91EEBB1F4B52DF8C0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		60B4413C20735B6400B871E1 /* MultiEducation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiEducation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60B4413F20735B6400B871E1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60B4414020735B6400B871E1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -53,8 +56,12 @@
 		60B4415F20735B6400B871E1 /* MultiEducationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiEducationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		60B4416320735B6400B871E1 /* MultiEducationUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiEducationUITests.m; sourceTree = "<group>"; };
 		60B4416520735B6400B871E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		60B4417220735D0600B871E1 /* Addressbook.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Addressbook.pbobjc.h; sourceTree = "<group>"; };
-		60B4417320735D0600B871E1 /* Addressbook.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Addressbook.pbobjc.m; sourceTree = "<group>"; };
+		60B4417620739F6E00B871E1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		60B4417920739F7A00B871E1 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		60B4417B20739F8000B871E1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		60B4417C20739F8500B871E1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		60B4417D20739F8E00B871E1 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		60B4417E20739FDC00B871E1 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6EB6CD631A8393192773F231 /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MultiEducation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC46A5708A4601A65D1E9717 /* Pods-MultiEducation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.release.xcconfig"; sourceTree = "<group>"; };
@@ -66,6 +73,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A34CE401660B5173CE3F117 /* libPods-MultiEducation.a in Frameworks */,
+				60B4417F20739FDC00B871E1 /* libz.tbd in Frameworks */,
+				1373F5D62AFE58EA0869F07F /* SystemConfiguration.framework in Frameworks */,
+				60B4417A20739F7A00B871E1 /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +99,14 @@
 		28C4FF93E5BD89F5F619F20F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				60B4417E20739FDC00B871E1 /* libz.tbd */,
+				60B4417D20739F8E00B871E1 /* CoreFoundation.framework */,
+				60B4417C20739F8500B871E1 /* UIKit.framework */,
+				60B4417B20739F8000B871E1 /* Foundation.framework */,
+				60B4417920739F7A00B871E1 /* libsqlite3.0.tbd */,
+				60B4417620739F6E00B871E1 /* CFNetwork.framework */,
 				BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */,
+				1373F5B91EEBB1F4B52DF8C0 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,6 +136,7 @@
 		60B4413E20735B6400B871E1 /* MultiEducation */ = {
 			isa = PBXGroup;
 			children = (
+				60B4417520737B3700B871E1 /* Macros */,
 				60B4417120735D0600B871E1 /* Models */,
 				60B4413F20735B6400B871E1 /* AppDelegate.h */,
 				60B4414020735B6400B871E1 /* AppDelegate.m */,
@@ -154,10 +172,15 @@
 		60B4417120735D0600B871E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				60B4417220735D0600B871E1 /* Addressbook.pbobjc.h */,
-				60B4417320735D0600B871E1 /* Addressbook.pbobjc.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		60B4417520737B3700B871E1 /* Macros */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Macros;
 			sourceTree = "<group>";
 		};
 		921A9EB02ED016D2E40FD711 /* Pods */ = {
@@ -234,6 +257,7 @@
 		60B4413420735B6400B871E1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = ME;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = niuduo;
 				TargetAttributes = {
@@ -355,7 +379,6 @@
 			files = (
 				60B4414420735B6400B871E1 /* ViewController.m in Sources */,
 				60B4414F20735B6400B871E1 /* main.m in Sources */,
-				60B4417420735D0600B871E1 /* Addressbook.pbobjc.m in Sources */,
 				60B4414120735B6400B871E1 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,7 +484,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -510,6 +533,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

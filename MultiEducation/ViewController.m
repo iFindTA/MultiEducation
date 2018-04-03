@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "Addressbook.pbobjc.h"
+#import <Masonry/Masonry.h>
+
 
 @interface ViewController ()
 
@@ -19,7 +20,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    
+    /**
+     18751732219:123456
+     */
+    [self.view mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    }];
 }
 
 
