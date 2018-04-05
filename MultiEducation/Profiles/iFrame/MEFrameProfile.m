@@ -8,10 +8,18 @@
 
 @implementation MEFrameProfile
 
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    
+    
+    return nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.title = @"second";
+
+
 }
 
 @end

@@ -6,11 +6,19 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEUserVM.h"
+#import "MEDispatcher.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MEBaseTabBarProfile.h"
+#import "MEBaseNavigationProfile.h"
 #import <UINavigationController+SJVideoPlayerAdd.h>
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong, readwrite) MEBaseTabBarProfile *winRootTabProfile;
+
+@property (nonatomic, strong, readwrite) MEBaseNavigationProfile *winProfile;
 
 @end
 
@@ -20,14 +28,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
-    ViewController *rootProfile = [[ViewController alloc] init];
-    rootProfile.view.backgroundColor = [UIColor whiteColor];
-    UINavigationController *rootNavi = [[UINavigationController alloc] initWithRootViewController:rootProfile];
-    rootNavi.sj_gestureType = SJFullscreenPopGestureType_Full;
+#if DEBUG
+    NSString *sandboxPath = NSHomeDirectory();
+    NSLog(@"sandbox path for debug:%@", sandboxPath);
+#endif
+    
+    //init root navigation profile
+    BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
+    UIViewController *rootProfile = [self assembleRootProfileWhileUserValid:signedin];
+    self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
+    [self.winProfile setNavigationBarHidden:true animated:true];
+    self.winProfile.sj_gestureType = SJFullscreenPopGestureType_Full;
     CGRect bounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    self.window.rootViewController = rootNavi;
+    self.window.rootViewController = self.winProfile;
     [self.window makeKeyAndVisible];
 
     return YES;
@@ -60,5 +75,33 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark -- handle root profile
+
+- (UIViewController *)assembleRootProfileWhileUserValid:(BOOL)valid {
+    UIViewController *destProfile = nil;
+    if (valid) {
+        
+    } else {
+        
+        ViewController *profile = [[ViewController alloc] init];
+        return profile;
+        
+        
+        
+        //当前没有可用的user 需要用户重新登录授权
+        Class cls = [self class];
+        if ([cls instancesRespondToSelector:@selector(ksks)]) {
+            
+        }
+    }
+    
+    return destProfile;
+}
+
+#pragma mark -- handle splash for sence change
+
+- (void)changeDisplayStyle:(uint)style {
+    
+}
 
 @end

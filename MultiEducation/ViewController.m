@@ -41,11 +41,19 @@
         make.top.equalTo(self.view).offset(100);
         make.height.equalTo(@30);
     }];
+    
+    
 }
 
 - (void)pushEvent {
-    MEFrameProfile *profile = [[MEFrameProfile alloc] init];
-    [self.navigationController pushViewController:profile animated:true];
+//    MEFrameProfile *profile = [[MEFrameProfile alloc] init];
+//    [self.navigationController pushViewController:profile animated:true];
+    
+    NSString *urlString = @"profile://root@MEAuthorMainProfile/?b=7&msg=jjd#code";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    if (err) {
+        NSLog(err.description);
+    }
 }
 
 - (void)didReceiveMemoryWarning {

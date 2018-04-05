@@ -15,10 +15,12 @@ PODS:
   - AFNetworking/UIKit (3.2.0):
     - AFNetworking/NSURLSession
   - Masonry (1.1.0)
-  - PBBaseClasses (1.6.0):
+  - NSURL+QueryDictionary (1.2.0)
+  - PBBaseClasses (1.7.0):
     - Masonry
     - PBKits
     - PBMediator
+    - SJFullscreenPopGesture
     - SVProgressHUD
     - WZLBadge
     - YYKit
@@ -31,9 +33,9 @@ PODS:
     - PBMulticastDelegate
     - SVProgressHUD
   - Protobuf (3.5.0)
-  - SJFullscreenPopGesture (1.3.7.3):
-    - SJFullscreenPopGesture/View (= 1.3.7.3)
-  - SJFullscreenPopGesture/View (1.3.7.3)
+  - SJFullscreenPopGesture (1.3.7.4):
+    - SJFullscreenPopGesture/View (= 1.3.7.4)
+  - SJFullscreenPopGesture/View (1.3.7.4)
   - SQLCipher (3.4.2):
     - SQLCipher/standard (= 3.4.2)
   - SQLCipher/common (3.4.2)
@@ -48,29 +50,30 @@ PODS:
   - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
-  - PBBaseClasses (~> 1.6.0)
+  - NSURL+QueryDictionary (~> 1.2.0)
+  - PBBaseClasses (~> 1.7.0)
   - PBKits (~> 1.2.2)
   - PBNetService (~> 4.1.0)
   - Protobuf (~> 3.5.0)
-  - SJFullscreenPopGesture
   - WHC_ModelSqliteKit/SQLCipher (~> 1.3.0)
 
 SPEC CHECKSUMS:
   AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  PBBaseClasses: d9f154533569878431d083dfe4cfa94c4e6a3505
+  NSURL+QueryDictionary: bae616404e2adf6409d3d5c02a093cbf44c8a236
+  PBBaseClasses: 05df2bb07241588fa2cf4cb1c79b5a9bc1e62aaf
   PBKits: f0c06a07a3d65bd872e9e059301c3916cf5f71c7
   PBMediator: b9a87dd91276156805c7a12ba3bd45150142c4e8
   PBMulticastDelegate: f0bca392e4aa2d424700a9c103bf5978a7c7aaa4
   PBNetService: 1aa2f6eaf7711b60786816a18925bca2511f4b89
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
-  SJFullscreenPopGesture: f16c9f31a32aa741d6f79d56952572bdd07860b8
+  SJFullscreenPopGesture: f3d5f29be37a81a2bb399ca4807783fdf54490ad
   SQLCipher: f9fcf29b2e59ced7defc2a2bdd0ebe79b40d4990
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   WHC_ModelSqliteKit: dfafef3ee872dedd9823395291fc80bf37eac46d
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 76d4c0d21fcecf14079fda1cb00445eca16b59ee
+PODFILE CHECKSUM: 933854af739d64983c9a87220589386188f92631
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.4.0

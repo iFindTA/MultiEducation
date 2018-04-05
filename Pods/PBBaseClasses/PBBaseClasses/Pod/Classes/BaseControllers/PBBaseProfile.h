@@ -12,6 +12,7 @@
 #import "PBNavigationBar.h"
 #import <PBMediator/PBMediator.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <SJFullscreenPopGesture/UINavigationController+SJVideoPlayerAdd.h>
 
 /**
  FLK Base Classes
@@ -69,6 +70,10 @@ NS_ASSUME_NONNULL_BEGIN
  hidden custom navigationBar, move bar outof screen to headtop!
  */
 - (void)hiddenNavigationBar;
+/**
+ * update style(full/left), default was full = 1, and left = 0
+ * */
+- (void)updateGesturePopStyle:(int)style;
 
 /**
  change the color of navigationBar's shadow image

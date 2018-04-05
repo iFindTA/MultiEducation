@@ -8,8 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		1373F5D62AFE58EA0869F07F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1373F5B91EEBB1F4B52DF8C0 /* SystemConfiguration.framework */; };
-		1373F6BE59F5D079CCCF547E /* MEFrameProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1373F225CF72F35CBFAD8C24 /* MEFrameProfile.m */; };
-		1373F7CE4C8BDC93DB0D31DE /* MEBaseProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1373F68D039A7D468F11DEE1 /* MEBaseProfile.m */; };
+		608338E82075E57700BD565E /* MEKits.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338E72075E57700BD565E /* MEKits.m */; };
+		608338F62075EAF000BD565E /* MEBaseNavigationProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338EB2075EAEF00BD565E /* MEBaseNavigationProfile.m */; };
+		608338F72075EAF000BD565E /* MEBaseProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338ED2075EAEF00BD565E /* MEBaseProfile.m */; };
+		608338F82075EAF000BD565E /* MEBaseTabBarProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338EF2075EAEF00BD565E /* MEBaseTabBarProfile.m */; };
+		608338F92075EAF000BD565E /* MEFrameProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338F42075EAF000BD565E /* MEFrameProfile.m */; };
+		608338FC2075EB7400BD565E /* MEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338FB2075EB7400BD565E /* MEUser.m */; };
+		608338FF2075EBA800BD565E /* MEUserVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 608338FE2075EBA800BD565E /* MEUserVM.m */; };
+		608339022075F66500BD565E /* MEVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 608339012075F66500BD565E /* MEVM.m */; };
+		60833906207602DE00BD565E /* MEAuthorMainProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60833905207602DE00BD565E /* MEAuthorMainProfile.m */; };
+		6083390A2076079F00BD565E /* MEDispatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 608339092076079F00BD565E /* MEDispatcher.m */; };
+		6083390D20761F1900BD565E /* MENotFoundProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6083390C20761F1900BD565E /* MENotFoundProfile.m */; };
+		60833910207632FE00BD565E /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6083390F207632FD00BD565E /* iconfont.ttf */; };
 		60B4414120735B6400B871E1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4414020735B6400B871E1 /* AppDelegate.m */; };
 		60B4414420735B6400B871E1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B4414320735B6400B871E1 /* ViewController.m */; };
 		60B4414720735B6400B871E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60B4414520735B6400B871E1 /* Main.storyboard */; };
@@ -41,11 +51,31 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1373F225CF72F35CBFAD8C24 /* MEFrameProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFrameProfile.m; sourceTree = "<group>"; };
-		1373F37449FA9DEF7E2B5A01 /* MEFrameProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFrameProfile.h; sourceTree = "<group>"; };
 		1373F5B91EEBB1F4B52DF8C0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1373F68D039A7D468F11DEE1 /* MEBaseProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseProfile.m; sourceTree = "<group>"; };
-		1373FD018587F0ED5D327400 /* MEBaseProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseProfile.h; sourceTree = "<group>"; };
+		1373FC27CB0DAB7428D069D3 /* MEConstTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEConstTypes.h; sourceTree = "<group>"; };
+		608338E62075E57700BD565E /* MEKits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEKits.h; sourceTree = "<group>"; };
+		608338E72075E57700BD565E /* MEKits.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEKits.m; sourceTree = "<group>"; };
+		608338EA2075EAEF00BD565E /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
+		608338EB2075EAEF00BD565E /* MEBaseNavigationProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseNavigationProfile.m; sourceTree = "<group>"; };
+		608338EC2075EAEF00BD565E /* MEBaseProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseProfile.h; sourceTree = "<group>"; };
+		608338ED2075EAEF00BD565E /* MEBaseProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseProfile.m; sourceTree = "<group>"; };
+		608338EE2075EAEF00BD565E /* MEBaseTabBarProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseTabBarProfile.h; sourceTree = "<group>"; };
+		608338EF2075EAEF00BD565E /* MEBaseTabBarProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseTabBarProfile.m; sourceTree = "<group>"; };
+		608338F32075EAF000BD565E /* MEFrameProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEFrameProfile.h; sourceTree = "<group>"; };
+		608338F42075EAF000BD565E /* MEFrameProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEFrameProfile.m; sourceTree = "<group>"; };
+		608338FA2075EB7400BD565E /* MEUser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEUser.h; sourceTree = "<group>"; };
+		608338FB2075EB7400BD565E /* MEUser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEUser.m; sourceTree = "<group>"; };
+		608338FD2075EBA800BD565E /* MEUserVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEUserVM.h; sourceTree = "<group>"; };
+		608338FE2075EBA800BD565E /* MEUserVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEUserVM.m; sourceTree = "<group>"; };
+		608339002075F66500BD565E /* MEVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVM.h; sourceTree = "<group>"; };
+		608339012075F66500BD565E /* MEVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVM.m; sourceTree = "<group>"; };
+		60833904207602DE00BD565E /* MEAuthorMainProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEAuthorMainProfile.h; sourceTree = "<group>"; };
+		60833905207602DE00BD565E /* MEAuthorMainProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEAuthorMainProfile.m; sourceTree = "<group>"; };
+		608339082076079F00BD565E /* MEDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEDispatcher.h; sourceTree = "<group>"; };
+		608339092076079F00BD565E /* MEDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEDispatcher.m; sourceTree = "<group>"; };
+		6083390B20761F1900BD565E /* MENotFoundProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MENotFoundProfile.h; sourceTree = "<group>"; };
+		6083390C20761F1900BD565E /* MENotFoundProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MENotFoundProfile.m; sourceTree = "<group>"; };
+		6083390F207632FD00BD565E /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		60B4413C20735B6400B871E1 /* MultiEducation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiEducation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60B4413F20735B6400B871E1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		60B4414020735B6400B871E1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -102,33 +132,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1373FB75BC6652F710CC6EA0 /* Bases */ = {
-			isa = PBXGroup;
-			children = (
-				1373F68D039A7D468F11DEE1 /* MEBaseProfile.m */,
-				1373FD018587F0ED5D327400 /* MEBaseProfile.h */,
-			);
-			path = Bases;
-			sourceTree = "<group>";
-		};
-		1373FD5B82A206ED4795DDD8 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				1373FFDF7C2A2D3ECFA69E30 /* iFrame */,
-				1373FB75BC6652F710CC6EA0 /* Bases */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
-		1373FFDF7C2A2D3ECFA69E30 /* iFrame */ = {
-			isa = PBXGroup;
-			children = (
-				1373F225CF72F35CBFAD8C24 /* MEFrameProfile.m */,
-				1373F37449FA9DEF7E2B5A01 /* MEFrameProfile.h */,
-			);
-			path = iFrame;
-			sourceTree = "<group>";
-		};
 		28C4FF93E5BD89F5F619F20F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,6 +145,92 @@
 				1373F5B91EEBB1F4B52DF8C0 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		608338E52075E54100BD565E /* UtilKits */ = {
+			isa = PBXGroup;
+			children = (
+				608338E62075E57700BD565E /* MEKits.h */,
+				608338E72075E57700BD565E /* MEKits.m */,
+			);
+			path = UtilKits;
+			sourceTree = "<group>";
+		};
+		608338E92075EAEF00BD565E /* Bases */ = {
+			isa = PBXGroup;
+			children = (
+				608338EA2075EAEF00BD565E /* MEBaseNavigationProfile.h */,
+				608338EB2075EAEF00BD565E /* MEBaseNavigationProfile.m */,
+				608338EC2075EAEF00BD565E /* MEBaseProfile.h */,
+				608338ED2075EAEF00BD565E /* MEBaseProfile.m */,
+				608338EE2075EAEF00BD565E /* MEBaseTabBarProfile.h */,
+				608338EF2075EAEF00BD565E /* MEBaseTabBarProfile.m */,
+			);
+			path = Bases;
+			sourceTree = "<group>";
+		};
+		608338F02075EAF000BD565E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				608339002075F66500BD565E /* MEVM.h */,
+				608339012075F66500BD565E /* MEVM.m */,
+				608338FD2075EBA800BD565E /* MEUserVM.h */,
+				608338FE2075EBA800BD565E /* MEUserVM.m */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		608338F12075EAF000BD565E /* Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				608339032075FB0300BD565E /* SignInUps */,
+				608338F22075EAF000BD565E /* iFrame */,
+			);
+			path = Profiles;
+			sourceTree = "<group>";
+		};
+		608338F22075EAF000BD565E /* iFrame */ = {
+			isa = PBXGroup;
+			children = (
+				608338F32075EAF000BD565E /* MEFrameProfile.h */,
+				608338F42075EAF000BD565E /* MEFrameProfile.m */,
+			);
+			path = iFrame;
+			sourceTree = "<group>";
+		};
+		608338F52075EAF000BD565E /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Vendors;
+			sourceTree = "<group>";
+		};
+		608339032075FB0300BD565E /* SignInUps */ = {
+			isa = PBXGroup;
+			children = (
+				60833904207602DE00BD565E /* MEAuthorMainProfile.h */,
+				60833905207602DE00BD565E /* MEAuthorMainProfile.m */,
+			);
+			path = SignInUps;
+			sourceTree = "<group>";
+		};
+		608339072076078100BD565E /* Dispatch */ = {
+			isa = PBXGroup;
+			children = (
+				608339082076079F00BD565E /* MEDispatcher.h */,
+				608339092076079F00BD565E /* MEDispatcher.m */,
+				6083390B20761F1900BD565E /* MENotFoundProfile.h */,
+				6083390C20761F1900BD565E /* MENotFoundProfile.m */,
+			);
+			path = Dispatch;
+			sourceTree = "<group>";
+		};
+		6083390E207632FD00BD565E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6083390F207632FD00BD565E /* iconfont.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		60B4413320735B6400B871E1 = {
@@ -169,8 +258,15 @@
 		60B4413E20735B6400B871E1 /* MultiEducation */ = {
 			isa = PBXGroup;
 			children = (
+				608339072076078100BD565E /* Dispatch */,
+				608338E52075E54100BD565E /* UtilKits */,
 				60B4417520737B3700B871E1 /* Macros */,
+				608338F52075EAF000BD565E /* Vendors */,
 				60B4417120735D0600B871E1 /* Models */,
+				608338F02075EAF000BD565E /* ViewModels */,
+				608338E92075EAEF00BD565E /* Bases */,
+				608338F12075EAF000BD565E /* Profiles */,
+				6083390E207632FD00BD565E /* Resources */,
 				60B4413F20735B6400B871E1 /* AppDelegate.h */,
 				60B4414020735B6400B871E1 /* AppDelegate.m */,
 				60B4414220735B6400B871E1 /* ViewController.h */,
@@ -180,7 +276,6 @@
 				60B4414A20735B6400B871E1 /* LaunchScreen.storyboard */,
 				60B4414D20735B6400B871E1 /* Info.plist */,
 				60B4414E20735B6400B871E1 /* main.m */,
-				1373FD5B82A206ED4795DDD8 /* Classes */,
 			);
 			path = MultiEducation;
 			sourceTree = "<group>";
@@ -206,6 +301,8 @@
 		60B4417120735D0600B871E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				608338FA2075EB7400BD565E /* MEUser.h */,
+				608338FB2075EB7400BD565E /* MEUser.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -213,6 +310,7 @@
 		60B4417520737B3700B871E1 /* Macros */ = {
 			isa = PBXGroup;
 			children = (
+				1373FC27CB0DAB7428D069D3 /* MEConstTypes.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";
@@ -336,6 +434,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60833910207632FE00BD565E /* iconfont.ttf in Resources */,
 				60B4414C20735B6400B871E1 /* LaunchScreen.storyboard in Resources */,
 				60B4414920735B6400B871E1 /* Assets.xcassets in Resources */,
 				60B4414720735B6400B871E1 /* Main.storyboard in Resources */,
@@ -365,13 +464,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MultiEducation-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A44A8880C26DB5A06FCF7E62 /* [CP] Embed Pods Frameworks */ = {
@@ -395,9 +497,22 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-resources.sh",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj",
+				"${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/balanceMap.json",
+				"${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/flk_dev.cer",
+				"${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/flk_test.cer",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/balanceMap.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_dev.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_test.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -411,11 +526,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				608338F72075EAF000BD565E /* MEBaseProfile.m in Sources */,
+				608338F92075EAF000BD565E /* MEFrameProfile.m in Sources */,
+				608338F62075EAF000BD565E /* MEBaseNavigationProfile.m in Sources */,
+				60833906207602DE00BD565E /* MEAuthorMainProfile.m in Sources */,
+				608338E82075E57700BD565E /* MEKits.m in Sources */,
 				60B4414420735B6400B871E1 /* ViewController.m in Sources */,
+				6083390D20761F1900BD565E /* MENotFoundProfile.m in Sources */,
+				608338F82075EAF000BD565E /* MEBaseTabBarProfile.m in Sources */,
 				60B4414F20735B6400B871E1 /* main.m in Sources */,
+				608338FC2075EB7400BD565E /* MEUser.m in Sources */,
 				60B4414120735B6400B871E1 /* AppDelegate.m in Sources */,
-				1373F6BE59F5D079CCCF547E /* MEFrameProfile.m in Sources */,
-				1373F7CE4C8BDC93DB0D31DE /* MEBaseProfile.m in Sources */,
+				608338FF2075EBA800BD565E /* MEUserVM.m in Sources */,
+				608339022075F66500BD565E /* MEVM.m in Sources */,
+				6083390A2076079F00BD565E /* MEDispatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

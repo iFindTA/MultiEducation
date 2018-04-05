@@ -3,8 +3,8 @@
 // Copyright (c) 2018 niuduo. All rights reserved.
 //
 
-#import <PBBaseClasses/PBBaseProfile.h>
+#import "MEBaseProfile.h"
 
-@interface MEFrameProfile : PBBaseProfile
+@interface MEFrameProfile : MEBaseProfile
 
 @end

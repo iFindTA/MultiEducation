@@ -6,9 +6,9 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <PBBaseClasses/PBBaseProfile.h>
+#import "MEBaseProfile.h"
 
-@interface ViewController : PBBaseProfile
+@interface ViewController : MEBaseProfile
 
 
 @end
