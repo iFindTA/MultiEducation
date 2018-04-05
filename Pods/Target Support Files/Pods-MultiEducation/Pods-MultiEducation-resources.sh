@@ -86,17 +86,17 @@ EOM
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj"
   install_resource "${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj"
-  install_resource "${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/balanceMap.json"
-  install_resource "${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/flk_dev.cer"
-  install_resource "${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/flk_test.cer"
+  install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/balanceMap.json"
+  install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer"
+  install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer"
   install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj"
   install_resource "${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj"
-  install_resource "${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/balanceMap.json"
-  install_resource "${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/flk_dev.cer"
-  install_resource "${PODS_ROOT}/PBNetService/PBNetService/Pod/Assets/flk_test.cer"
+  install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/balanceMap.json"
+  install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer"
+  install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer"
   install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
 fi
 

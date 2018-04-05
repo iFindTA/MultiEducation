@@ -7,6 +7,7 @@
 #import "MEDispatcher.h"
 #import "MEConstTypes.h"
 #import <Masonry/Masonry.h>
+#import <PBService/PBService.h>
 
 @interface MEBaseProfile : PBBaseProfile
 
@@ -14,5 +15,26 @@
  切换授权中心与主界面
  */
 - (void)splash2ChangeDisplayStyle:(MEDisplayStyle)style;
+
+#pragma mark -- Root TabBar Actions
+
+/**
+ *  @brief hidden/show root tabbar
+ *
+ *  @param hidden   wether hidden
+ *  @param animated wether animated
+ *  @Attentions:    this function need AppDelegate Class support '- (FLKBaseTabBarController *)rootTabBar' method
+ *
+ */
+- (void)hideTabBar:(BOOL)hidden animated:(BOOL)animated;
+
+/**
+ *  @brief update tabBar's item badge value
+ *
+ *  @param value the value
+ *  @param idx   the item's index
+ */
+- (void)setBadgeValue:(NSInteger)value atIndex:(NSUInteger)idx;
+- (void)clearBadgeAtIndex:(NSUInteger)idx;
 
 @end

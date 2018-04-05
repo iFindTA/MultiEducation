@@ -46,14 +46,14 @@
 }
 
 - (void)pushEvent {
-//    MEFrameProfile *profile = [[MEFrameProfile alloc] init];
-//    [self.navigationController pushViewController:profile animated:true];
     
-    NSString *urlString = @"profile://root@MEAuthorMainProfile/?b=7&msg=jjd#code";
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
-    if (err) {
-        NSLog(err.description);
-    }
+//    NSString *urlString = @"profile://root@MEAuthorMainProfile/?b=7&msg=jjd#code";
+//    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+//    if (err) {
+//        NSLog(err.description);
+//    }
+    
+    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
 }
 
 - (void)didReceiveMemoryWarning {

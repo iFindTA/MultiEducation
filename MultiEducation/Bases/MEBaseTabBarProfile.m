@@ -10,4 +10,12 @@
 
 @implementation MEBaseTabBarProfile
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+//    self.tabBar.barTintColor = [UIColor redColor];
+//    self.tabBar.tintColor = [UIColor blackColor];
+    
+    
+}
+
 @end

@@ -14,6 +14,9 @@
 #import "MEBaseNavigationProfile.h"
 #import <UINavigationController+SJVideoPlayerAdd.h>
 
+#import "MEIndexProfile.h"
+#import "MEBabyProfile.h"
+
 @interface AppDelegate ()
 
 @property (nonatomic, strong, readwrite) MEBaseTabBarProfile *winRootTabProfile;
@@ -101,7 +104,35 @@
 #pragma mark -- handle splash for sence change
 
 - (void)changeDisplayStyle:(uint)style {
-    
+    if (style & MEDisplayStyleAuthor) {
+        
+    } else if (style & MEDisplayStyleMainSence) {
+        /*
+        NSArray <NSString *>*clss = @[@"MEIndexProfile", @"MEChatSessionProfile", @"MEBabyProfile", @"MEGardenProfile", @"MEPersonalProfile"];
+        __block NSMutableArray <Class>* classes = [NSMutableArray arrayWithCapacity:0];
+        [clss enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            Class cls =NSClassFromString(obj);
+            [classes addObject:cls];
+        }];
+        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+        [[UITabBar appearance] setBarTintColor:[UIColor blueColor]];
+        [[UITabBar appearance] setTranslucent:false];
+        //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateNormal];
+       self.winRootTabProfile = [MEBaseTabBarProfile barWithSubClasses:classes.copy];
+        //*/
+        
+        MEIndexProfile *index = [[MEIndexProfile alloc] initWithNibName:nil bundle:nil];
+        MEBaseNavigationProfile *indexNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:index];
+        
+        MEBabyProfile *baby = [[MEBabyProfile alloc] initWithNibName:nil bundle:nil];
+        MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
+        babyNavi.tabBarItem.title = @"baby";
+        
+        self.winRootTabProfile = [[MEBaseTabBarProfile alloc] initWithNibName:nil bundle:nil];
+        self.winRootTabProfile.viewControllers = @[indexNavi, babyNavi];
+        
+        [self.winProfile setViewControllers:@[self.winRootTabProfile] animated:true];
+    }
 }
 
 @end

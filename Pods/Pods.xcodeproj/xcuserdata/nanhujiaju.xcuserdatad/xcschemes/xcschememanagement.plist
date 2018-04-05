@@ -34,12 +34,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PBMulticastDelegate.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>PBNetService.xcscheme</key>
+		<key>PBService.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
