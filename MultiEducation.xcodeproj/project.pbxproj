@@ -38,6 +38,11 @@
 		60B4417F20739FDC00B871E1 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B4417E20739FDC00B871E1 /* libz.tbd */; };
 		60C175EF207868330077DD0D /* MEBaseScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C175EE207868330077DD0D /* MEBaseScene.m */; };
 		60C175F2207868730077DD0D /* MEVideoPlayProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C175F1207868730077DD0D /* MEVideoPlayProfile.m */; };
+		60C175FC2078CA0E0077DD0D /* tenggeer.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 60C175FB2078CA0E0077DD0D /* tenggeer.mp4 */; };
+		60C175FF2078CE320077DD0D /* MEPlayerControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C175FE2078CE320077DD0D /* MEPlayerControl.m */; };
+		60C176022078D46F0077DD0D /* MEPlayerLike.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C176012078D46F0077DD0D /* MEPlayerLike.m */; };
+		60C176062078D5CE0077DD0D /* MEPlayerLike.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60C176052078D5CE0077DD0D /* MEPlayerLike.xib */; };
+		60C176092078DEB70077DD0D /* MEVideoRelateVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60C176082078DEB70077DD0D /* MEVideoRelateVM.m */; };
 		7A34CE401660B5173CE3F117 /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +128,16 @@
 		60C175F0207868730077DD0D /* MEVideoPlayProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVideoPlayProfile.h; sourceTree = "<group>"; };
 		60C175F1207868730077DD0D /* MEVideoPlayProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVideoPlayProfile.m; sourceTree = "<group>"; };
 		60C175F3207868FF0077DD0D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		60C175F42078A6370077DD0D /* MEPrefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPrefix.pch; sourceTree = "<group>"; };
+		60C175F52078B0D50077DD0D /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		60C175FB2078CA0E0077DD0D /* tenggeer.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tenggeer.mp4; sourceTree = "<group>"; };
+		60C175FD2078CE320077DD0D /* MEPlayerControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayerControl.h; sourceTree = "<group>"; };
+		60C175FE2078CE320077DD0D /* MEPlayerControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPlayerControl.m; sourceTree = "<group>"; };
+		60C176002078D46F0077DD0D /* MEPlayerLike.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayerLike.h; sourceTree = "<group>"; };
+		60C176012078D46F0077DD0D /* MEPlayerLike.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPlayerLike.m; sourceTree = "<group>"; };
+		60C176052078D5CE0077DD0D /* MEPlayerLike.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEPlayerLike.xib; sourceTree = "<group>"; };
+		60C176072078DEB70077DD0D /* MEVideoRelateVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVideoRelateVM.h; sourceTree = "<group>"; };
+		60C176082078DEB70077DD0D /* MEVideoRelateVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVideoRelateVM.m; sourceTree = "<group>"; };
 		60ED4B7520774A51008557F2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6EB6CD631A8393192773F231 /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		BBB1C157DB056E68EE7C7CA2 /* libPods-MultiEducation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MultiEducation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +176,7 @@
 		28C4FF93E5BD89F5F619F20F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				60C175F52078B0D50077DD0D /* MediaPlayer.framework */,
 				60C175F3207868FF0077DD0D /* AVFoundation.framework */,
 				60ED4B7520774A51008557F2 /* CoreGraphics.framework */,
 				60B4417E20739FDC00B871E1 /* libz.tbd */,
@@ -206,6 +222,8 @@
 				608339012075F66500BD565E /* MEVM.m */,
 				608338FD2075EBA800BD565E /* MEUserVM.h */,
 				608338FE2075EBA800BD565E /* MEUserVM.m */,
+				60C176072078DEB70077DD0D /* MEVideoRelateVM.h */,
+				60C176082078DEB70077DD0D /* MEVideoRelateVM.m */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -264,6 +282,7 @@
 		6083390E207632FD00BD565E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				60C175FB2078CA0E0077DD0D /* tenggeer.mp4 */,
 				6083390F207632FD00BD565E /* iconfont.ttf */,
 			);
 			path = Resources;
@@ -370,6 +389,7 @@
 				60B4414020735B6400B871E1 /* AppDelegate.m */,
 				60B4414220735B6400B871E1 /* ViewController.h */,
 				60B4414320735B6400B871E1 /* ViewController.m */,
+				60C175F42078A6370077DD0D /* MEPrefix.pch */,
 				60B4414520735B6400B871E1 /* Main.storyboard */,
 				60B4414820735B6400B871E1 /* Assets.xcassets */,
 				60B4414A20735B6400B871E1 /* LaunchScreen.storyboard */,
@@ -419,6 +439,11 @@
 			children = (
 				60C175F0207868730077DD0D /* MEVideoPlayProfile.h */,
 				60C175F1207868730077DD0D /* MEVideoPlayProfile.m */,
+				60C176002078D46F0077DD0D /* MEPlayerLike.h */,
+				60C176012078D46F0077DD0D /* MEPlayerLike.m */,
+				60C176052078D5CE0077DD0D /* MEPlayerLike.xib */,
+				60C175FD2078CE320077DD0D /* MEPlayerControl.h */,
+				60C175FE2078CE320077DD0D /* MEPlayerControl.m */,
 			);
 			path = VideoPlayer;
 			sourceTree = "<group>";
@@ -547,8 +572,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60C175FC2078CA0E0077DD0D /* tenggeer.mp4 in Resources */,
 				60833910207632FE00BD565E /* iconfont.ttf in Resources */,
 				60B4414C20735B6400B871E1 /* LaunchScreen.storyboard in Resources */,
+				60C176062078D5CE0077DD0D /* MEPlayerLike.xib in Resources */,
 				60B4414920735B6400B871E1 /* Assets.xcassets in Resources */,
 				60B4414720735B6400B871E1 /* Main.storyboard in Resources */,
 			);
@@ -646,12 +673,15 @@
 				608338F92075EAF000BD565E /* MEFrameProfile.m in Sources */,
 				608339282076548B00BD565E /* MEChatSessionProfile.m in Sources */,
 				608338F62075EAF000BD565E /* MEBaseNavigationProfile.m in Sources */,
+				60C176022078D46F0077DD0D /* MEPlayerLike.m in Sources */,
 				60C175EF207868330077DD0D /* MEBaseScene.m in Sources */,
+				60C176092078DEB70077DD0D /* MEVideoRelateVM.m in Sources */,
 				60833906207602DE00BD565E /* MEAuthorMainProfile.m in Sources */,
 				608338E82075E57700BD565E /* MEKits.m in Sources */,
 				60B4414420735B6400B871E1 /* ViewController.m in Sources */,
 				6083390D20761F1900BD565E /* MENotFoundProfile.m in Sources */,
 				608338F82075EAF000BD565E /* MEBaseTabBarProfile.m in Sources */,
+				60C175FF2078CE320077DD0D /* MEPlayerControl.m in Sources */,
 				60B4414F20735B6400B871E1 /* main.m in Sources */,
 				608338FC2075EB7400BD565E /* MEUser.m in Sources */,
 				60B4414120735B6400B871E1 /* AppDelegate.m in Sources */,
@@ -828,10 +858,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M8K6A7692X;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.niuduo.multiedu.MultiEducation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nanhu.yuanbao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -843,10 +876,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M8K6A7692X;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.niuduo.multiedu.MultiEducation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nanhu.yuanbao;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

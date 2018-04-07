@@ -4,10 +4,11 @@
 //
 
 #import <PBBaseClasses/PBBaseProfile.h>
+#import "MEBaseScene.h"
 #import "MEDispatcher.h"
 #import "MEConstTypes.h"
-#import <Masonry/Masonry.h>
 #import <PBService/PBService.h>
+#import <UIViewController+SJVideoPlayerAdd.h>
 
 @interface MEBaseProfile : PBBaseProfile
 
@@ -15,6 +16,8 @@
  切换授权中心与主界面
  */
 - (void)splash2ChangeDisplayStyle:(MEDisplayStyle)style;
+
+#pragma mark --- Appliccation StatuBar
 
 #pragma mark -- Root TabBar Actions
 

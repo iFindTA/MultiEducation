@@ -10,6 +10,10 @@
 
 @implementation MEBaseProfile
 
+- (void)dealloc {
+    NSLog(@"class--%@---released...", NSStringFromClass(self.class));
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
