@@ -1,3 +1,4 @@
+#import <CoreGraphics/CoreGraphics.h>
 /**
  * const var types
  * */
@@ -11,8 +12,13 @@
 
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
+#define SCREEN_SCALE [[UIScreen mainScreen] scale]
 //以6为标准
 #define adoptValue(a) (a*(SCREEN_WIDTH/375.0))
+
+static NSString * const ME_DISPATCH_KEY_CALLBACK                =   @"ME_DISPATCH_KEY_CALLBACK";
+//tabbar item image size
+static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                  =   30.f;
 
 typedef NS_ENUM(NSUInteger, MEDisplayStyle) {
     MEDisplayStyleAuthor                        =   1   <<  0,//显示用户授权中心

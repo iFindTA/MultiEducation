@@ -11,4 +11,26 @@
 
 @interface MEVM : NSObject
 
+/**
+ fetch token for current valid user
+ */
++ (NSString * _Nullable)fetchUserToken;
+
+/**
+ assemble request
+
+ @param data origin body data
+ */
++ (NSData * _Nullable)assembleRequestWithData:(NSData * _Nonnull)data;
+
+/**
+ fetch or sync data with remote process
+
+ @param data binary data
+ @param hud whether show hud while request
+ @param success callback
+ @param failure callback
+ */
+- (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(id _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+
 @end

@@ -6,11 +6,11 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MEBaseSence.h"
+#import "MEBaseScene.h"
 
 typedef void(^MESearchBlock)(void);
 
-@interface MEIndexSearchSence : MEBaseSence
+@interface MEIndexSearchSence : MEBaseScene
 
 - (void)handleSearchBlock:(MESearchBlock)block;
 

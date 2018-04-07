@@ -10,6 +10,8 @@
 
 @interface MEAuthorMainProfile ()
 
+@property (nonatomic, strong) NSDictionary *params;
+
 @end
 
 @implementation MEAuthorMainProfile
@@ -17,6 +19,7 @@
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
+        self.params = params;
         NSLog(@"收到的参数:%@", params);
     }
     return self;
@@ -42,6 +45,14 @@
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    void (^callback)() = self.params[ME_DISPATCH_KEY_CALLBACK];
+    if (callback) {
+        callback();
+    }
 }
 
 - (void)didReceiveMemoryWarning {

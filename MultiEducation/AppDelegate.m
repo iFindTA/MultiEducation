@@ -13,9 +13,10 @@
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
 #import <UINavigationController+SJVideoPlayerAdd.h>
-
-#import "MEIndexProfile.h"
 #import "MEBabyProfile.h"
+#import "MEIndexProfile.h"
+#import "MEGardenProfile.h"
+#import "MEPersonalProfile.h"
 
 @interface AppDelegate ()
 
@@ -80,7 +81,70 @@
 
 #pragma mark -- handle root profile
 
+- (NSArray *)map4TabBarProfiles {
+    NSMutableArray *sets = [NSMutableArray arrayWithCapacity:0];
+    NSMutableDictionary *map = [NSMutableDictionary dictionaryWithCapacity:0];
+    CGFloat imgSize = ME_TABBAR_ITEM_IMAGE_SIZE / SCREEN_SCALE;
+    UIColor *color = pbColorMake(ME_THEME_COLOR_VALUE);
+    //宝宝
+    NSString *title = @"宝宝";
+    NSString *code = @"\U0000e6d0";
+    UIImage *icon = [UIImage pb_iconFont:nil withName:code withSize:imgSize withColor:color];
+    [map setObject:icon forKey:title];
+    [sets addObject:map.copy];[map removeAllObjects];
+    //幼儿园
+    title = @"幼儿园";code = @"\U0000e8e3";
+    icon = [UIImage pb_iconFont:nil withName:code withSize:imgSize withColor:color];
+    [map setObject:icon forKey:title];
+    [sets addObject:map.copy];[map removeAllObjects];
+    //个人
+    title = @"个人";code = @"\U0000e7a3";
+    icon = [UIImage pb_iconFont:nil withName:code withSize:imgSize withColor:color];
+    [map setObject:icon forKey:title];
+    [sets addObject:map.copy];[map removeAllObjects];
+    
+    return sets.copy;
+}
+
 - (UIViewController *)assembleRootProfileWhileUserValid:(BOOL)valid {
+    
+#if DEBUG
+    NSArray *tabInfos = [self map4TabBarProfiles];
+    NSDictionary *map = tabInfos[0];
+    NSString *key = map.allKeys.firstObject;UIImage *value = map[key];
+    MEBabyProfile *baby = [[MEBabyProfile alloc] initWithNibName:nil bundle:nil];
+    MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
+    babyNavi.tabBarItem.title = key;
+    babyNavi.tabBarItem.image = value;
+    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    babyNavi.tabBarItem.selectedImage = value;
+    
+    map = tabInfos[1];
+    key = map.allKeys.firstObject;value = map[key];
+    MEGardenProfile *garden = [[MEGardenProfile alloc] initWithNibName:nil bundle:nil];
+    MEBaseNavigationProfile *gardenNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:garden];
+    gardenNavi.tabBarItem.title = key;
+    gardenNavi.tabBarItem.image = value;
+    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    gardenNavi.tabBarItem.selectedImage = value;
+    
+    map = tabInfos[2];
+    key = map.allKeys.firstObject;value = map[key];
+    MEPersonalProfile *personal = [[MEPersonalProfile alloc] initWithNibName:nil bundle:nil];
+    MEBaseNavigationProfile *personalNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:personal];
+    personalNavi.tabBarItem.title = key;
+    personalNavi.tabBarItem.image = value;
+    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    personalNavi.tabBarItem.selectedImage = value;
+    //tabbar
+    UIColor *color = pbColorMake(ME_THEME_COLOR_VALUE);
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
+    self.winRootTabProfile = [[MEBaseTabBarProfile alloc] initWithNibName:nil bundle:nil];
+    self.winRootTabProfile.viewControllers = @[babyNavi, gardenNavi, personalNavi];
+    
+    return self.winRootTabProfile;
+#endif
+    
     UIViewController *destProfile = nil;
     if (valid) {
         

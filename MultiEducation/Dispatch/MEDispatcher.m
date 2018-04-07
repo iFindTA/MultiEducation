@@ -103,6 +103,11 @@
         err = [self errorWirhInfo:@"url route params error!"];
         return err;
     }
+    //pre deal with params
+    NSMutableDictionary *passParams = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (params) {
+        [passParams addEntriesFromDictionary:params];
+    }
     /**
      * profile://(alert:// or do://)root(cur代表当前显示的profile)@className/initMethod,?p=v&p=v#code(xib/sb)
      */
@@ -127,19 +132,22 @@
             
         } else {
             // 代码创建实例
-            NSDictionary *params = [url uq_queryDictionary];
+            NSDictionary *queryParams = [url uq_queryDictionary];
+            if (queryParams.allKeys.count > 0) {
+                [passParams addEntriesFromDictionary:queryParams];
+            }
             // 查找出初始化方法
             NSString *initMethod = [url path];
             NSString *regString = @"^(__initWith).*$";
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regString];
             if (![predicate evaluateWithObject:regString]) {
-                if (params.allKeys.count == 0) {
+                if (passParams.allKeys.count == 0) {
                     //如果没有传递参数 则忽略初始化方法 直接指定为默认init
                     initMethod = @"init";
                 } else {
                     //有参数则查找是否定义了初始化方法
                     Class cls = NSClassFromString(clsString);
-                    if (!cls) {
+                    if (cls) {
                         NSString *queryMethod = [self fetchInitializedMethod4Class:cls];
                         if (queryMethod.length > 0 || [queryMethod hasSuffix:@":"]) {
                             //找到了相关的方法
@@ -154,13 +162,15 @@
             
             if (clsString && initMethod) {
                 NSError *error = nil;
-                id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,params];
+                id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams.copy];
                 if (!error && aDester != nil) {
                     if ([aDester isKindOfClass:[UIViewController class]]) {
                         profile = (UIViewController *)aDester;
                     }
                 }else{
                     NSLog(@"error:%@",error.localizedDescription);
+                    err = [self errorWirhInfo:@"url route params error!"];
+                    goto error_occour;
                 }
             }
         }

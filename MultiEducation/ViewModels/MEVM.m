@@ -10,4 +10,16 @@
 
 @implementation MEVM
 
++ (NSString *)fetchUserToken {
+    return nil;
+}
+
++ (NSData *)assembleRequestWithData:(NSData *)data {
+    return data;
+}
+
+- (void)postData:(NSData *)data hudEnable:(BOOL)hud success:(void (^)(id _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
+    
+}
+
 @end

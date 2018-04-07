@@ -90,6 +90,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer"
   install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer"
   install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
+  install_resource "${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj"
@@ -98,6 +99,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer"
   install_resource "${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer"
   install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
+  install_resource "${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
