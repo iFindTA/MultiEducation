@@ -85,7 +85,7 @@
 - (NSArray *)map4TabBarProfiles {
     NSMutableArray *sets = [NSMutableArray arrayWithCapacity:0];
     NSMutableDictionary *map = [NSMutableDictionary dictionaryWithCapacity:0];
-    CGFloat imgSize = ME_TABBAR_ITEM_IMAGE_SIZE / SCREEN_SCALE;
+    CGFloat imgSize = ME_TABBAR_ITEM_IMAGE_SIZE / MESCREEN_SCALE;
     UIColor *color = pbColorMake(ME_THEME_COLOR_VALUE);
     //首页
     NSString *title = @"首页";

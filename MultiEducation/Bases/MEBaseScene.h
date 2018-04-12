@@ -7,6 +7,7 @@
 //
 
 #import "PBView.h"
+#import "MEUIBaseHeader.h"
 
 @interface MEBaseScene : PBView
 

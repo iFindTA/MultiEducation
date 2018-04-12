@@ -6,7 +6,7 @@
 //  Copyright © 2018年 laborc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <YYKit/YYLabel.h>
 
 @interface MEBaseLabel : UILabel
 
