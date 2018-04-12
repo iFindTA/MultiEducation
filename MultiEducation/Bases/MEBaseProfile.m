@@ -30,6 +30,7 @@
 //    UIColor *themeColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
 //    self.view.backgroundColor = themeColor;
     
+    self.edgesForExtendedLayout=UIRectEdgeNone;
 }
 
 - (PBNavigationBar *)initializedNavigationBar {

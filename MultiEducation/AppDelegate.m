@@ -186,6 +186,9 @@
     if (style & MEDisplayStyleAuthor) {
         UIViewController *authorProfile = [self assembleRootProfileWhileUserValid:false];
         [self.winProfile setViewControllers:@[authorProfile] animated:true];
+    } else if (style & MEDisplayStyleVisitor) {
+        //
+        
     } else if (style & MEDisplayStyleMainSence) {
         UIViewController *profile = [self assembleRootProfileWhileUserValid:true];
         if ([profile isKindOfClass:[MEBaseTabBarProfile class]] ||

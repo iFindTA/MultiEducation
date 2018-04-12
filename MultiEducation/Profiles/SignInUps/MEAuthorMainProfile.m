@@ -29,10 +29,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //left
-    UINavigationItem *title = [[UINavigationItem alloc] initWithTitle:@"授权中心"];
-    //title.leftBarButtonItems = @[spacer, backBarItem];
-    [self.navigationBar pushNavigationItem:title animated:true];
+    UIImage *image = [UIImage pb_imageWithColor:[UIColor whiteColor]];
+    self.navigationBar.backgroundColor = [UIColor whiteColor];
+    [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    //[self hiddenNavigationBar];
     
     CGRect bounds = CGRectMake(100, 200, 100, 50);
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -49,10 +49,17 @@
     [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(browserEvent) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
+    
+    
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self setNeedsStatusBarAppearanceUpdate];
 }
 
 - (void)didReceiveMemoryWarning {
