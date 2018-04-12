@@ -21,16 +21,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"首页";
-    
     UIButton * searchbar = [[UIButton alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 44.0f)];
     [searchbar setTintColor:[UIColor redColor]];
+    searchbar.titleLabel.text = @"sousuo";
     [searchbar addTarget:self action:@selector(displaySearchSence) forControlEvents:UIControlEventTouchUpInside];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@""];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"首页"];
     item.titleView = searchbar;
-    
-//    UIBarButtonItem * searchButton = [[UIBarButtonItem alloc]initWithCustomView:searchbar];
-//    item.rightBarButtonItem = searchButton;
     
     [self.navigationBar pushNavigationItem:item animated:true];
     

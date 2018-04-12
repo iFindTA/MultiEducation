@@ -17,6 +17,7 @@
 #import "MEIndexProfile.h"
 #import "MEGardenProfile.h"
 #import "MEPersonalProfile.h"
+#import "MEChatSessionProfile.h"
 
 @interface AppDelegate ()
 
@@ -86,10 +87,20 @@
     NSMutableDictionary *map = [NSMutableDictionary dictionaryWithCapacity:0];
     CGFloat imgSize = ME_TABBAR_ITEM_IMAGE_SIZE / SCREEN_SCALE;
     UIColor *color = pbColorMake(ME_THEME_COLOR_VALUE);
-    //宝宝
-    NSString *title = @"宝宝";
+    //首页
+    NSString *title = @"首页";
     NSString *code = @"\U0000e6d0";
     UIImage *icon = [UIImage pb_iconFont:nil withName:code withSize:imgSize withColor:color];
+    [map setObject:icon forKey:title];
+    [sets addObject:map.copy];[map removeAllObjects];
+    //聊天
+    title = @"聊天";code = @"\U0000e8e3";
+    icon = [UIImage pb_iconFont:nil withName:code withSize:imgSize withColor:color];
+    [map setObject:icon forKey:title];
+    [sets addObject:map.copy];[map removeAllObjects];
+    //宝宝
+    title = @"宝宝成长";code = @"\U0000e6d0";
+    icon = [UIImage pb_iconFont:nil withName:code withSize:imgSize withColor:color];
     [map setObject:icon forKey:title];
     [sets addObject:map.copy];[map removeAllObjects];
     //幼儿园
@@ -112,6 +123,24 @@
     NSArray *tabInfos = [self map4TabBarProfiles];
     NSDictionary *map = tabInfos[0];
     NSString *key = map.allKeys.firstObject;UIImage *value = map[key];
+    MEIndexProfile *index = [[MEIndexProfile alloc] initWithNibName:nil bundle:nil];
+    MEBaseNavigationProfile *indexNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:index];
+    indexNavi.tabBarItem.title = key;
+    indexNavi.tabBarItem.image = value;
+    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    indexNavi.tabBarItem.selectedImage = value;
+    
+    map = tabInfos[1];
+    key = map.allKeys.firstObject;value = map[key];
+    MEChatSessionProfile *chat = [[MEChatSessionProfile alloc] initWithNibName:nil bundle:nil];
+    MEBaseNavigationProfile *chatNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:chat];
+    chatNavi.tabBarItem.title = key;
+    chatNavi.tabBarItem.image = value;
+    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    chatNavi.tabBarItem.selectedImage = value;
+    
+    map = tabInfos[2];
+    key = map.allKeys.firstObject;value = map[key];
     MEBabyProfile *baby = [[MEBabyProfile alloc] initWithNibName:nil bundle:nil];
     MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
     babyNavi.tabBarItem.title = key;
@@ -119,7 +148,7 @@
     value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     babyNavi.tabBarItem.selectedImage = value;
     
-    map = tabInfos[1];
+    map = tabInfos[3];
     key = map.allKeys.firstObject;value = map[key];
     MEGardenProfile *garden = [[MEGardenProfile alloc] initWithNibName:nil bundle:nil];
     MEBaseNavigationProfile *gardenNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:garden];
@@ -128,7 +157,7 @@
     value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     gardenNavi.tabBarItem.selectedImage = value;
     
-    map = tabInfos[2];
+    map = tabInfos[4];
     key = map.allKeys.firstObject;value = map[key];
     MEPersonalProfile *personal = [[MEPersonalProfile alloc] initWithNibName:nil bundle:nil];
     MEBaseNavigationProfile *personalNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:personal];
@@ -140,7 +169,7 @@
     UIColor *color = pbColorMake(ME_THEME_COLOR_VALUE);
     [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
     self.winRootTabProfile = [[MEBaseTabBarProfile alloc] initWithNibName:nil bundle:nil];
-    self.winRootTabProfile.viewControllers = @[babyNavi, gardenNavi, personalNavi];
+    self.winRootTabProfile.viewControllers = @[indexNavi, chatNavi, babyNavi, gardenNavi, personalNavi];
     
     return self.winRootTabProfile;
 #endif

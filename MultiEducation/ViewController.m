@@ -42,7 +42,6 @@
         make.height.equalTo(@30);
     }];
     
-    
 }
 
 - (void)pushEvent {
@@ -59,6 +58,14 @@
     }
     
     //[self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+}
+
+- (void)videoRecordEvent {
+    NSString *urlString = @"profile://root@MEVideoRecordProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    if (err) {
+        NSLog(err.description);
+    }
 }
 
 - (void)didReceiveMemoryWarning {

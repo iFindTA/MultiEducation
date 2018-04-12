@@ -7,7 +7,7 @@
 //
 
 #import "PBView.h"
-#import <Masonry/Masonry.h>
+#import "MEConstTypes.h"
 
 @interface MEBaseScene : PBView
 

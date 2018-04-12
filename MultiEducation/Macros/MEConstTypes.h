@@ -4,7 +4,8 @@
  * */
 
 #define ME_THEME_COLOR_KEY                                      @"themeColor"
-#define ME_THEME_COLOR_VALUE                                    0xE15256
+//#define ME_THEME_COLOR_VALUE                                    0xE15256
+#define ME_THEME_COLOR_VALUE                                    0x609EE1
 #define ME_TEXT_COLOR_GRAY                                      0xDDDDDD
 
 #define SYSTEM_VERSION_GREATER_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)

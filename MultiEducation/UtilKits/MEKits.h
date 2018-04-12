@@ -7,10 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 /**
  公共基础类 主要类方法处理
  */
 @interface MEKits : NSObject
+
+/**
+ 获取文件大小
+ */
++ (CGFloat)fileSizeWithPath:(NSString *)path;
 
 @end

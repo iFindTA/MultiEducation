@@ -3,11 +3,12 @@
 // Copyright (c) 2018 niuduo. All rights reserved.
 //
 
-#import <PBBaseClasses/PBBaseProfile.h>
+#import "MEKits.h"
 #import "MEBaseScene.h"
 #import "MEDispatcher.h"
 #import "MEConstTypes.h"
 #import <PBService/PBService.h>
+#import <PBBaseClasses/PBBaseProfile.h>
 #import <UIViewController+SJVideoPlayerAdd.h>
 
 @interface MEBaseProfile : PBBaseProfile

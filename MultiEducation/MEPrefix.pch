@@ -9,7 +9,12 @@
 #ifndef MEPrefix_pch
 #define MEPrefix_pch
 
+#ifdef __OBJC__
 #define MAS_SHORTHAND
 #define MAS_SHORTHAND_GLOBALS
+#import <PBKits/PBKits.h>
+#import <Masonry/Masonry.h>
+#import "MEDispatcher.h"
+#endif
 
 #endif /* MEPrefix_pch */

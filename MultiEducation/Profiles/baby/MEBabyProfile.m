@@ -35,6 +35,19 @@
         make.top.equalTo(self.view).offset(100);
         make.height.equalTo(@30);
     }];
+    
+    UIButton *recBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    recBtn.backgroundColor = [UIColor greenColor];
+    [recBtn setTitle:@"record" forState:UIControlStateNormal];
+    [recBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [recBtn addTarget:self action:@selector(videoRecordEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:recBtn];
+    [recBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).mas_offset(-20);
+        make.top.equalTo(btn.mas_bottom).offset(30);
+        make.height.equalTo(@30);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,6 +59,21 @@
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     //NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callBack};
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    if (err) {
+        NSLog(err.description);
+    }
+}
+
+- (void)videoRecordEvent {
+    //params
+    void(^callback)(NSString *, CGFloat) = ^(NSString *p, CGFloat d) {
+        CGFloat size = [MEKits fileSizeWithPath:p];
+        CGFloat uintM = size/ 1024.f / 1024.f;
+        NSLog(@"%f 秒的视频大小:%f M", d, uintM);
+    };
+    NSString *urlString = @"profile://root@MEVideoRecordProfile/";
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callback};
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     if (err) {
         NSLog(err.description);
     }
