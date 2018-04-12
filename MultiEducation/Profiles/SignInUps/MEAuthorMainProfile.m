@@ -61,11 +61,11 @@
 }
 
 - (void)loginEvent {
-    
+    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
 }
 
 - (void)browserEvent {
-    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+    [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
 }
 
 /*
