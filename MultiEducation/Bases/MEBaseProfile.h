@@ -6,7 +6,6 @@
 #import "MEKits.h"
 #import "MEBaseScene.h"
 #import "MEDispatcher.h"
-#import "MEConstTypes.h"
 #import <PBService/PBService.h>
 #import <PBBaseClasses/PBBaseProfile.h>
 #import <UIViewController+SJVideoPlayerAdd.h>

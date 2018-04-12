@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MEMacros.h"
 #import "MEBaseScene.h"
-#import "FscColorDefine.h"
 
 @interface MEBaseCell : UITableViewCell
 

@@ -7,7 +7,6 @@
 //
 
 #import "PBView.h"
-#import "MEConstTypes.h"
 
 @interface MEBaseScene : PBView
 

@@ -8,13 +8,18 @@
 
 #ifndef MEPrefix_pch
 #define MEPrefix_pch
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#endif
 
 #ifdef __OBJC__
 #define MAS_SHORTHAND
 #define MAS_SHORTHAND_GLOBALS
+#import "MEMacros.h"
+#import "MEDispatcher.h"
 #import <PBKits/PBKits.h>
 #import <Masonry/Masonry.h>
-#import "MEDispatcher.h"
 #endif
 
 #endif /* MEPrefix_pch */
