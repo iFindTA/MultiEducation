@@ -10,3 +10,5 @@ first of all, welcom to join in our team ! and you should follow options below:
 ### 3, please install protobuf-3.5.1 on your mac by homebrew
 
 ### 4, at last install Xunique with python3(pip3)
+	4.1, create git hooks:pre-commit for xunique.sh
+	4.2, chmod 775 permission

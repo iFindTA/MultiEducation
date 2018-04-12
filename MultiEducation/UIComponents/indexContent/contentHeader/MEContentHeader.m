@@ -72,7 +72,7 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
     //banner
     CGRect bounds = CGRectMake(ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN, MESCREEN_WIDTH - ME_LAYOUT_MARGIN * 2, ME_CONTENT_HEADER_BANNER_HEIGHT);
     UIImage *img = [UIImage imageNamed:@"index_content_header_placeholder"];
-    self.banner = [YJBannerView bannerViewWithFrame:bounds dataSource:self delegate:self emptyImage:img placeholderImage:img selectorString:@"sd_setImageWithURL:placeholderImage:"];
+    self.banner = [YJBannerView bannerViewWithFrame:bounds dataSource:self delegate:self emptyImage:img placeholderImage:img selectorString:@"setImageWithURL:placeholder:"];
     self.banner.pageControlStyle = PageControlHollow;
     self.banner.pageControlAliment = PageControlAlimentRight;
     [self addSubview:self.banner];

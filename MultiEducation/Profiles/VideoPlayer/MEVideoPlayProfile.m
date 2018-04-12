@@ -39,7 +39,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     
     //init video player
     [self.view addSubview:self.playerScene];
-    CGFloat height = SCREEN_WIDTH / ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE;
+    CGFloat height = MESCREEN_WIDTH / ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE;
     [self.playerScene makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(height);
@@ -52,7 +52,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     }];
     //self.likeScene.backgroundColor = [UIColor pb_randomColor];
     self.likeScene.titleLab.text = @"小蝌蚪找妈妈";
-    CGFloat imgSize = 20/SCREEN_SCALE;UIColor *imgColor = pbColorMake(ME_TEXT_COLOR_GRAY);
+    CGFloat imgSize = 20/MESCREEN_SCALE;UIColor *imgColor = pbColorMake(0x666666);
     UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000eed2" withSize:imgSize withColor:imgColor];
     img = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [self.likeScene.likeBtn setTitle:nil forState:UIControlStateNormal];

@@ -21,7 +21,6 @@
     self.title = @"宝宝";
     
     
-    [self setBadgeValue:10 atIndex:2];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.backgroundColor = [UIColor blueColor];
@@ -53,6 +52,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSLog(@"view will appear!");
 }
 
 - (void)urlEvent {

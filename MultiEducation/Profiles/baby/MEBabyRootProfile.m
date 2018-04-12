@@ -25,7 +25,7 @@
     [super viewDidLoad];
     
     //隐藏导航条
-    [self hideNavigationBar];
+    [self hiddenNavigationBar];
     
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyHeader" owner:self options:nil] lastObject];
     [self.view addSubview: self.headerView];
@@ -54,17 +54,17 @@
 }
 
 - (void)pushBabyContentProfile:(NSString *)title webUrl:(NSString *)webUrl doUrl:(NSString *)doUrl {    
-    SchedulerParams *params = [[[[SchedulerParams builder] addCtrlParams: @"title" value: title] addCtrlParams: @"webUrl" value: webUrl] build];
-    
-    self.hidesBottomBarWhenPushed = YES;
-    [MEScheduler doUrl: doUrl  widthTarget:self widthParams: params];
-    self.hidesBottomBarWhenPushed =NO;
+//    SchedulerParams *params = [[[[SchedulerParams builder] addCtrlParams: @"title" value: title] addCtrlParams: @"webUrl" value: webUrl] build];
+//
+//    self.hidesBottomBarWhenPushed = YES;
+//    [MEScheduler doUrl: doUrl  widthTarget:self widthParams: params];
+//    self.hidesBottomBarWhenPushed =NO;
 }
 
 #pragma mark - MEBabyContentDelegate
 - (void)didTouchBabyContentType:(MEBabyContentType)type {
     NSLog(@"did touch baby content type:%ld", (unsigned long)type);
-    
+    /*
     NSString *title;
     NSString *webUrl;
     NSString *doUrl;
@@ -99,6 +99,7 @@
     }
     
     [self pushBabyContentProfile: title webUrl: webUrl doUrl: doUrl];
+    //*/
 }
 
 #pragma mark - lazyloading

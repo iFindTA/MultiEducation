@@ -7,11 +7,8 @@
 //
 
 #import "MEIndexProfile.h"
-#import "MEIndexSearchSence.h"
 
 @interface MEIndexProfile ()
-
-@property (nonatomic, strong) MEIndexSearchSence *searchSence;
 
 @end
 
@@ -21,25 +18,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIButton * searchbar = [[UIButton alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 44.0f)];
-    [searchbar setTintColor:[UIColor redColor]];
-    searchbar.titleLabel.text = @"sousuo";
-    [searchbar addTarget:self action:@selector(displaySearchSence) forControlEvents:UIControlEventTouchUpInside];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"首页"];
-    item.titleView = searchbar;
     
     [self.navigationBar pushNavigationItem:item animated:true];
     
-    self.searchSence = [[MEIndexSearchSence alloc] initWithFrame:CGRectZero];
-    self.searchSence.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:self.searchSence];
-    [self.searchSence mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    self.searchSence.hidden = true;
-    [self.searchSence handleSearchBlock:^{
-        [self hiddenSearchSence];
-    }];
+    
+    [self setBadgeValue:10 atIndex:2];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,17 +31,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)displaySearchSence {
-    self.searchSence.hidden = false;
-    
-    [self hideTabBar:true animated:true];
-}
-
-- (void)hiddenSearchSence {
-    self.searchSence.hidden = true;
-    
-    [self hideTabBar:false animated:true];
-}
 
 /*
 #pragma mark - Navigation

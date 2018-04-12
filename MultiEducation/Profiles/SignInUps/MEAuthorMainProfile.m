@@ -30,34 +30,42 @@
     // Do any additional setup after loading the view.
     
     //left
-    UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backBarItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e600"];
     UINavigationItem *title = [[UINavigationItem alloc] initWithTitle:@"授权中心"];
-    title.leftBarButtonItems = @[spacer, backBarItem];
+    //title.leftBarButtonItems = @[spacer, backBarItem];
     [self.navigationBar pushNavigationItem:title animated:true];
     
-    UILabel *label = [UILabel new];
-    label.font = [UIFont systemFontOfSize:20];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor grayColor];
-    label.text = @"授权中心";
-    [self.view addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+    CGRect bounds = CGRectMake(100, 200, 100, 50);
+    MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = bounds;
+    [btn setTitle:@"登录" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(loginEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+    bounds.origin.y += 100;
+    btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = bounds;
+    [btn setTitle:@"逛逛" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(browserEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    void (^callback)() = self.params[ME_DISPATCH_KEY_CALLBACK];
-    if (callback) {
-        callback();
-    }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)loginEvent {
+    
+}
+
+- (void)browserEvent {
+    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
 }
 
 /*

@@ -8,6 +8,6 @@
 
 #import <YYKit/YYLabel.h>
 
-@interface MEBaseLabel : UILabel
+@interface MEBaseLabel : YYLabel
 
 @end

@@ -14,10 +14,10 @@
 #import "MEBaseNavigationProfile.h"
 #import <UINavigationController+SJVideoPlayerAdd.h>
 #import "MEBabyProfile.h"
-#import "MEIndexProfile.h"
-#import "MEGardenProfile.h"
-#import "MEPersonalProfile.h"
-#import "MEChatSessionProfile.h"
+#import "MEIndexRootProfile.h"
+#import "MEBabyRootProfile.h"
+#import "MEPersonalRootProfile.h"
+#import "MEAuthorMainProfile.h"
 
 @interface AppDelegate ()
 
@@ -120,75 +120,63 @@
 - (UIViewController *)assembleRootProfileWhileUserValid:(BOOL)valid {
     
 #if DEBUG
-    NSArray *tabInfos = [self map4TabBarProfiles];
-    NSDictionary *map = tabInfos[0];
-    NSString *key = map.allKeys.firstObject;UIImage *value = map[key];
-    MEIndexProfile *index = [[MEIndexProfile alloc] initWithNibName:nil bundle:nil];
-    MEBaseNavigationProfile *indexNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:index];
-    indexNavi.tabBarItem.title = key;
-    indexNavi.tabBarItem.image = value;
-    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    indexNavi.tabBarItem.selectedImage = value;
     
-    map = tabInfos[1];
-    key = map.allKeys.firstObject;value = map[key];
-    MEChatSessionProfile *chat = [[MEChatSessionProfile alloc] initWithNibName:nil bundle:nil];
-    MEBaseNavigationProfile *chatNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:chat];
-    chatNavi.tabBarItem.title = key;
-    chatNavi.tabBarItem.image = value;
-    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    chatNavi.tabBarItem.selectedImage = value;
-    
-    map = tabInfos[2];
-    key = map.allKeys.firstObject;value = map[key];
-    MEBabyProfile *baby = [[MEBabyProfile alloc] initWithNibName:nil bundle:nil];
-    MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
-    babyNavi.tabBarItem.title = key;
-    babyNavi.tabBarItem.image = value;
-    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    babyNavi.tabBarItem.selectedImage = value;
-    
-    map = tabInfos[3];
-    key = map.allKeys.firstObject;value = map[key];
-    MEGardenProfile *garden = [[MEGardenProfile alloc] initWithNibName:nil bundle:nil];
-    MEBaseNavigationProfile *gardenNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:garden];
-    gardenNavi.tabBarItem.title = key;
-    gardenNavi.tabBarItem.image = value;
-    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    gardenNavi.tabBarItem.selectedImage = value;
-    
-    map = tabInfos[4];
-    key = map.allKeys.firstObject;value = map[key];
-    MEPersonalProfile *personal = [[MEPersonalProfile alloc] initWithNibName:nil bundle:nil];
-    MEBaseNavigationProfile *personalNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:personal];
-    personalNavi.tabBarItem.title = key;
-    personalNavi.tabBarItem.image = value;
-    value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    personalNavi.tabBarItem.selectedImage = value;
-    //tabbar
-    UIColor *color = pbColorMake(ME_THEME_COLOR_VALUE);
-    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
-    self.winRootTabProfile = [[MEBaseTabBarProfile alloc] initWithNibName:nil bundle:nil];
-    self.winRootTabProfile.viewControllers = @[indexNavi, chatNavi, babyNavi, gardenNavi, personalNavi];
-    
-    return self.winRootTabProfile;
 #endif
     
     UIViewController *destProfile = nil;
     if (valid) {
+        UIColor *color = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        //首页
+        NSString *title = @"首页";
+        UIImage *image = [UIImage imageNamed:@"bar_index"];
+        UIImage *selectImg = [image pb_darkColor:color lightLevel:1.f];
+        MEIndexRootProfile *index = [[MEIndexRootProfile alloc] init];
+        MEBaseNavigationProfile *indexNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:index];
+        indexNavi.navigationBarHidden = true;
+        indexNavi.tabBarItem.title = title;
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        indexNavi.tabBarItem.image = image;
+        indexNavi.tabBarItem.selectedImage = selectImg;
+        //宝宝成长
+        title = @"宝宝成长";
+        image = [UIImage imageNamed:@"bar_baby"];
+        //selectImg = [UIImage imageNamed:@"bar_baby_select"];
+        selectImg = [image pb_darkColor:color lightLevel:1.f];
+        MEBabyRootProfile *baby = [[MEBabyRootProfile alloc] init];
+        MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
+        babyNavi.navigationBarHidden = true;
+        babyNavi.tabBarItem.title = title;
+        babyNavi.tabBarItem.image = image;
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        babyNavi.tabBarItem.image = image;
+        babyNavi.tabBarItem.selectedImage = selectImg;
+        //个人
+        title = @"个人";
+        image = [UIImage imageNamed:@"bar_personal"];
+        selectImg = [image pb_darkColor:color lightLevel:1.f];
+        MEPersonalRootProfile *personal = [[MEPersonalRootProfile alloc] init];
+        MEBaseNavigationProfile *personalNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:personal];
+        personalNavi.navigationBarHidden = true;
+        personalNavi.tabBarItem.title = title;
+        personalNavi.tabBarItem.image = image;
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        personalNavi.tabBarItem.image = image;
+        personalNavi.tabBarItem.selectedImage = selectImg;
+        //自动登陆
+        //UITabBarController *mainCtrl = [[IosUtils getMainStore] instantiateViewControllerWithIdentifier:@"FscNewMainCtrl"];
+        //root tabbar
+        [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
+        MEBaseTabBarProfile *profile = [[MEBaseTabBarProfile alloc] init];
+        profile.viewControllers = @[indexNavi, babyNavi, personalNavi];
         
+        destProfile = profile;
     } else {
-        
-        ViewController *profile = [[ViewController alloc] init];
-        return profile;
-        
-        
-        
         //当前没有可用的user 需要用户重新登录授权
-        Class cls = [self class];
-        if ([cls instancesRespondToSelector:@selector(ksks)]) {
-            
-        }
+        MEAuthorMainProfile *profile = [[MEAuthorMainProfile alloc] init];
+        destProfile = profile;
     }
     
     return destProfile;
@@ -198,32 +186,14 @@
 
 - (void)changeDisplayStyle:(uint)style {
     if (style & MEDisplayStyleAuthor) {
-        
+        UIViewController *authorProfile = [self assembleRootProfileWhileUserValid:false];
+        [self.winProfile setViewControllers:@[authorProfile] animated:true];
     } else if (style & MEDisplayStyleMainSence) {
-        /*
-        NSArray <NSString *>*clss = @[@"MEIndexProfile", @"MEChatSessionProfile", @"MEBabyProfile", @"MEGardenProfile", @"MEPersonalProfile"];
-        __block NSMutableArray <Class>* classes = [NSMutableArray arrayWithCapacity:0];
-        [clss enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            Class cls =NSClassFromString(obj);
-            [classes addObject:cls];
-        }];
-        [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-        [[UITabBar appearance] setBarTintColor:[UIColor blueColor]];
-        [[UITabBar appearance] setTranslucent:false];
-        //[[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateNormal];
-       self.winRootTabProfile = [MEBaseTabBarProfile barWithSubClasses:classes.copy];
-        //*/
-        
-        MEIndexProfile *index = [[MEIndexProfile alloc] initWithNibName:nil bundle:nil];
-        MEBaseNavigationProfile *indexNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:index];
-        
-        MEBabyProfile *baby = [[MEBabyProfile alloc] initWithNibName:nil bundle:nil];
-        MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
-        babyNavi.tabBarItem.title = @"baby";
-        
-        self.winRootTabProfile = [[MEBaseTabBarProfile alloc] initWithNibName:nil bundle:nil];
-        self.winRootTabProfile.viewControllers = @[indexNavi, babyNavi];
-        
+        UIViewController *profile = [self assembleRootProfileWhileUserValid:true];
+        if ([profile isKindOfClass:[MEBaseTabBarProfile class]] ||
+            [profile isMemberOfClass:[MEBaseTabBarProfile class]]) {
+            self.winRootTabProfile = (MEBaseTabBarProfile *)profile;
+        }
         [self.winProfile setViewControllers:@[self.winRootTabProfile] animated:true];
     }
 }

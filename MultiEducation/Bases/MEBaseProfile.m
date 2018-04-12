@@ -8,6 +8,14 @@
 #import <objc/message.h>
 #import "PBBaseTabBarProfile+Hidden.h"
 
+@interface MEBaseProfile ()
+
+@property (nonatomic, strong, readwrite) PBNavigationBar *navigationBar;
+
+@property (nonatomic, strong, readwrite) UIView *contentView;
+
+@end
+
 @implementation MEBaseProfile
 
 - (void)dealloc {
@@ -16,6 +24,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.navigationController setNavigationBarHidden:true animated:true];
+    
+//    UIColor *themeColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+//    self.view.backgroundColor = themeColor;
+    
 }
 
 - (PBNavigationBar *)initializedNavigationBar {
@@ -45,6 +59,10 @@
     return self.navigationBar;
 }
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)splash2ChangeDisplayStyle:(MEDisplayStyle)style {
     [self.appDelegate changeDisplayStyle:style];
 }
@@ -67,6 +85,10 @@
 }
 
 #pragma mark -- tabBar event
+
+- (void)hideNavigationBar {
+    self.navigationBar.hidden = true;
+}
 
 - (void)hideTabBar:(BOOL)hidden animated:(BOOL)animated {
     PBBaseTabBarProfile *tabBarCtr = [self rootTabBar];

@@ -32,7 +32,7 @@ static NSUInteger ME_PREVIEW_ITEM_SIZE                      =   60;
     self = [super initWithFrame:frame];
     if (self) {
         //撤回
-        NSUInteger size = ME_PREVIEW_ITEM_SIZE/SCREEN_SCALE;UIColor *color = [UIColor whiteColor];
+        NSUInteger size = ME_PREVIEW_ITEM_SIZE/MESCREEN_SCALE;UIColor *color = [UIColor whiteColor];
         UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000e76b" withSize:size withColor:color];
         self.recallBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.recallBtn setImage:img forState:UIControlStateNormal];

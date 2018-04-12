@@ -36,7 +36,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //隐藏导航条
-    [self hideNavigationBar];
+    [self hiddenNavigationBar];
     //加载头部
     NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"MEIndexHeader" owner:self options:nil];
     self.header = [nibs firstObject];

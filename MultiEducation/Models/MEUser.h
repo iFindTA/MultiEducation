@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MEConstTypes.h"
 
 @interface MEUser : NSObject
 

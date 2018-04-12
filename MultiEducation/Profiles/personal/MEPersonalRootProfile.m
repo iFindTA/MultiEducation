@@ -10,7 +10,7 @@
 #import "MEPersonalListCell.h"
 #import "MEPersonalVipCell.h"
 #import "MEPersonalRecordCell.h"
-#import "MELoginProfile.h"
+//#import "MELoginProfile.h"
 
 @interface MEPersonalRootProfile () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self hideNavigationBar];
+    [self hiddenNavigationBar];
     _headerView = [self headerView];
     _tableView = [self tableView];
 }
@@ -37,7 +37,7 @@
 }
 
 - (UIView *)headerView {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 170)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MESCREEN_WIDTH, 170)];
     headerView.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
     [self.view addSubview:headerView];
     
@@ -223,7 +223,7 @@
     
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MESCREEN_WIDTH, default_cell_height)];
     contentView.backgroundColor = UIColorFromRGB(0xffffff);
-    [self.contentView addSubview:contentView];
+    [self.view addSubview:contentView];
     
     MEBaseLabel *titleLabel = [[MEBaseLabel alloc] initWithFrame:CGRectMake(10, (default_cell_height - METHEME_FONT_TITLE) / 2, 0, 0)];
     titleLabel.font = UIFontPingFangSC(METHEME_FONT_TITLE);
@@ -259,10 +259,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        MELoginProfile *login = [[MELoginProfile alloc] init];
-        login.loginType = indexPath.row;
-        login.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:login animated:YES];
+//        MELoginProfile *login = [[MELoginProfile alloc] init];
+//        login.loginType = indexPath.row;
+//        login.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:login animated:YES];
     }
 }
 
