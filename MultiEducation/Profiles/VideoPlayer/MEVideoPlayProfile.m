@@ -136,10 +136,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     model.title = @"小黄人大战";
     model.fatherView = self.playerScene;
     model.placeholderImage = [UIImage imageNamed:@"playerBg"];
-    //model.videoURL = [NSURL URLWithString:@"http://120.25.226.186:32812/resources/videos/minion_01.mp4"];
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"tenggeer" ofType:@"mp4"];
-    NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
-    model.videoURL = fileUrl;
+    model.videoURL = [NSURL URLWithString:@"http://120.25.226.186:32812/resources/videos/minion_01.mp4"];
     
     return model;
 }

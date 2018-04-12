@@ -66,7 +66,6 @@
 		C2374C852FF26744C4280F48C6530F60 /* MEVideoPlayProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = E9069D1FF87A05CB35EB42EDE743428E /* MEVideoPlayProfile.m */; };
 		C24339DF43292AC51A1EE1FA45683C94 /* MEPlayerControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BBC94F0F022F295A10483AC7D25505AD /* MEPlayerControl.m */; };
 		C7FFAEEA16165BEA48AB846841C005DA /* MEVerticalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E7063BC76D54E6B5CF5EF896E5A4B731 /* MEVerticalItem.m */; };
-		C82FC6BDA9DF03640781414683155F05 /* tenggeer.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 5AFCCE056EC36B101B04A25416ABA5E0 /* tenggeer.mp4 */; };
 		C89B84437BAD4B37B0B17CACB2B7DBA0 /* MEPersonalRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 428009E64B354F05B3E4004283896D58 /* MEPersonalRecordCell.m */; };
 		D018419E61B2E0073A92A14D6DB3CBE1 /* MEBaseScene.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB3178813440804AB932AF1976EC844 /* MEBaseScene.m */; };
 		D42B5F8D7FE3023BD070FAFE9AF22B40 /* MEBabyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBC51469001294FC6F30AB9C1C493A3 /* MEBabyHeader.m */; };
@@ -157,7 +156,6 @@
 		58C249B46352B3E34B00C2CD8CF27C26 /* MEBaseNavigationProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseNavigationProfile.m; sourceTree = "<group>"; };
 		5950181CCD0E8C06A1D6453D17AD9E4B /* UIView+BlurEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+BlurEffect.h"; sourceTree = "<group>"; };
 		5AB82AF46CF47881BD14389103F0F19D /* MEAuthorMainProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEAuthorMainProfile.h; sourceTree = "<group>"; };
-		5AFCCE056EC36B101B04A25416ABA5E0 /* tenggeer.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tenggeer.mp4; sourceTree = "<group>"; };
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -393,7 +391,6 @@
 			children = (
 				18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */,
 				D252EECD0EFC3CA8F4309F11940D4D71 /* imgResource.xcassets */,
-				5AFCCE056EC36B101B04A25416ABA5E0 /* tenggeer.mp4 */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -871,7 +868,6 @@
 				E42F2B87A822FB45E382EE9BFAC9B2A7 /* Main.storyboard in Resources */,
 				7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */,
 				85B41EB315B294A07DF3A3C47192C2FC /* imgResource.xcassets in Resources */,
-				C82FC6BDA9DF03640781414683155F05 /* tenggeer.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
