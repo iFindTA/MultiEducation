@@ -100,7 +100,7 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
         NSDictionary *sectMap = @{@"title":title, @"list":sectItems.copy};
         [tmp addObject:sectMap];
     }
-    NSLog(@"%@", tmp.copy);
+    //NSLog(@"%@", tmp.copy);
     return tmp.copy;
 }
 
@@ -210,8 +210,10 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
             }
         }
         //callback
+        weakify(self)
         cell.MEIndexItemCallback = ^(NSUInteger section, NSUInteger index){
-            NSLog(@"did touch item :%d===%d", section, index);
+            strongify(self)
+            [self userDidTouchIndexContentItem:section rowIndex:index];
         };
         return cell;
     } else {
@@ -238,8 +240,10 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
         }
         
         //callback
+        weakify(self)
         cell.MEIndexItemCallback = ^(NSUInteger section, NSUInteger index){
-            NSLog(@"did touch item :%d===%d", section, index);
+            strongify(self)
+            [self userDidTouchIndexContentItem:section rowIndex:index];
         };
         
         return cell;
@@ -312,6 +316,17 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
 }
 
 #pragma mark -- reload ui
+
+#pragma mark --- Touch Item Event
+
+- (void)userDidTouchIndexContentItem:(NSUInteger)section rowIndex:(NSUInteger)row {
+    NSString *urlString = @"profile://root@MEVideoPlayProfile/";
+    //NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callBack};
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    if (err) {
+        NSLog(err.description);
+    }
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

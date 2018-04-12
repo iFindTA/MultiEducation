@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import <Masonry/Masonry.h>
-#import "MEFrameProfile.h"
 
 
 @interface ViewController ()
@@ -61,8 +60,15 @@
 }
 
 - (void)videoRecordEvent {
+    //params
+    void(^callback)(NSString *, CGFloat) = ^(NSString *p, CGFloat d) {
+        CGFloat size = [MEKits fileSizeWithPath:p];
+        CGFloat uintM = size/ 1024.f / 1024.f;
+        NSLog(@"%f 秒的视频大小:%f M", d, uintM);
+    };
     NSString *urlString = @"profile://root@MEVideoRecordProfile/";
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callback};
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     if (err) {
         NSLog(err.description);
     }

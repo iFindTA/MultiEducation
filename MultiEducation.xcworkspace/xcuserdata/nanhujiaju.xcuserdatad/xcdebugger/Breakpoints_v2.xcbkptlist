@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MultiEducation/AppDelegate.m"
-            timestampString = "545232839.451987"
+            timestampString = "545234596.987077"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "-map4TabBarProfiles"
             landmarkType = "7">
          </BreakpointContent>

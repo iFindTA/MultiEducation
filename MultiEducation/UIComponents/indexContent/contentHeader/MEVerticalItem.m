@@ -8,7 +8,7 @@
 
 #import "MEVerticalItem.h"
 #import "MEBaseLabel.h"
-#import "UIImageView+AFNetworking.h"
+#import <UIImageView+WebCache.h>
 
 @interface MEVerticalItem ()
 
@@ -30,7 +30,7 @@
         [self addSubview:self.icon];
         [self addSubview:self.label];
         self.label.text = title.copy;
-        [self.icon setImageWithURL:[NSURL URLWithString:urlString]];
+        [self.icon sd_setImageWithURL:[NSURL URLWithString:urlString]];
     }
     return self;
 }

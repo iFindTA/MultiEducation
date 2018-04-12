@@ -7,17 +7,15 @@
 //
 
 #import "MEUserVM.h"
-#import "MEDispatcher.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
 #import <UINavigationController+SJVideoPlayerAdd.h>
-#import "MEBabyProfile.h"
-#import "MEIndexRootProfile.h"
 #import "MEBabyRootProfile.h"
-#import "MEPersonalRootProfile.h"
+#import "MEIndexRootProfile.h"
 #import "MEAuthorMainProfile.h"
+#import "MEPersonalRootProfile.h"
 
 @interface AppDelegate ()
 

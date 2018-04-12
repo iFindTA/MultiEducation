@@ -50,7 +50,8 @@ static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                  =   30.f;
 
 typedef NS_ENUM(NSUInteger, MEDisplayStyle) {
     MEDisplayStyleAuthor                        =   1   <<  0,//显示用户授权中心
-    MEDisplayStyleMainSence                     =   1   <<  1//显示主页面
+    MEDisplayStyleVisitor                       =   1   <<  1,//显示游客模式 只有首页内容
+    MEDisplayStyleMainSence                     =   1   <<  2//显示主页面
 };
 
 typedef NS_ENUM(NSUInteger, MEUserRole) {
