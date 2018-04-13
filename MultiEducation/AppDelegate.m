@@ -9,11 +9,11 @@
 #import "MEUserVM.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MESignInProfile.h"
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
 #import "MEBabyRootProfile.h"
 #import "MEIndexRootProfile.h"
-#import "MEAuthorMainProfile.h"
 #import "MEPersonalRootProfile.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <UINavigationController+SJVideoPlayerAdd.h>
@@ -179,7 +179,7 @@
         destProfile = profile;
     } else {
         //当前没有可用的user 需要用户重新登录授权
-        MEAuthorMainProfile *profile = [[MEAuthorMainProfile alloc] init];
+        MESignInProfile *profile = [[MESignInProfile alloc] init];
         destProfile = profile;
     }
     

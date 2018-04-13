@@ -231,7 +231,14 @@ error_occour:{
     } else if (type & MEProfileTypeXIB) {
         fragment = @"xib";
     }
-    NSString *urlString = [NSString stringWithFormat:@"profile://root@%@/%@?%@#%@", cls, method, queryString, fragment];
+    //assemble
+    NSString *urlString;
+    if (queryString.length > 0) {
+        urlString = [NSString stringWithFormat:@"profile://root@%@/%@#%@", cls, method, fragment];
+    } else {
+        urlString = [NSString stringWithFormat:@"profile://root@%@/%@?%@#%@", cls, method, queryString, fragment];
+    }
+    
     url = [NSURL URLWithString:urlString];
     
     return url;

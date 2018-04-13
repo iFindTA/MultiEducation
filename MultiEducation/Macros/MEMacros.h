@@ -16,10 +16,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 //#define ME_THEME_COLOR_VALUE                                          0xE15256
 #define ME_THEME_COLOR_VALUE                                            0x609EE1
+#define ME_THEME_COLOR_TEXT                                             0x333333
+#define ME_THEME_COLOR_LINE                                             0xEEEEEE
 #define ME_ANIMATION_DURATION                                           0.25f
 
 #define UIFontPingFangSC(f)             [UIFont fontWithName:@"PingFangSC-Regular" size:f]
 #define UIFontPingFangSCBold(f)         [UIFont fontWithName:@"PingFangSC-SemiBold" size:f]
+#define UIFontPingFangSCMedium(f)       [UIFont fontWithName:@"PingFangSC-Medium" size:f]
 #define UIFontSystem(f)                 [UIFont systemFontOfSize:f]
 #define UIFontSystemBold(f)             [UIFont boldSystemFontOfSize:f]
 #define UIFontIconFont(f)               [UIFont fontWithName:@"iconfont" size:f]
@@ -43,6 +46,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_LAYOUT_MARGIN                                                  5
 #define ME_LAYOUT_SUBBAR_HEIGHT                                          40
 #define ME_LAYOUT_ICON_HEIGHT                                            30
+#define ME_LAYOUT_LINE_HEIGHT                                            1
 
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))

@@ -81,6 +81,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    [self.player pause];
 }
 
 - (void)viewWillLayoutSubviews {
