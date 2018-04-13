@@ -51,9 +51,21 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))
 
-static NSString * const ME_DISPATCH_KEY_CALLBACK                =   @"ME_DISPATCH_KEY_CALLBACK";
+static NSString * const ME_DISPATCH_KEY_CALLBACK                            =   @"ME_DISPATCH_KEY_CALLBACK";
 //tabbar item image size
-static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                  =   30.f;
+static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                              =   30.f;
+
+#pragma mark -- regular
+#define ME_REGULAR_MOBILE_LENGTH                                            11
+#define ME_REGULAR_PASSWD_LEN_MAX                                           12
+#define ME_REGULAR_PASSWD_LEN_MIN                                           6
+#define ME_REGULAR_CODE_LEN_MIN                                             4
+#define ME_REGULAR_CODE_LEN_MAX                                             8
+#define ME_REGULAR_CLASSNO_LEN_MIX                                          5
+#define ME_REGULAR_CLASSNO_LEN_MAX                                          10
+static NSString * const ME_REGULAR_MOBILE                                   =   @"^1+[3578]+\\d{9}";
+
+#pragma mark --- Type enums
 
 typedef NS_ENUM(NSUInteger, MEDisplayStyle) {
     MEDisplayStyleAuthor                        =   1   <<  0,//显示用户授权中心

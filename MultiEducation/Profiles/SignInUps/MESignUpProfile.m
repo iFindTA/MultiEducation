@@ -7,16 +7,20 @@
 //
 
 #import "MESignUpProfile.h"
+#import "MESignInputField.h"
+#import "UITextField+MaxLength.h"
+#import <YYKit/NSAttributedString+YYText.h>
 #import <JKCountDownButton/JKCountDownButton.h>
-#import <JVFloatLabeledTextField/JVFloatLabeledTextField.h>
 
 @interface MESignUpProfile ()
 
 /**
  mobile & pwd
  */
-@property (nonatomic, strong) JVFloatLabeledTextField *inputMobile;
-@property (nonatomic, strong) JVFloatLabeledTextField *inputPwd;
+@property (nonatomic, strong) MESignInputField *inputMobile;
+@property (nonatomic, strong) MESignInputField *inputPwd;
+@property (nonatomic, strong) MESignInputField *inputClassno;
+@property (nonatomic, strong) MESignInputField *inputCode;
 
 @end
 
@@ -52,10 +56,11 @@
     }];
     UIFont *inputFont = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     UIColor *textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    JVFloatLabeledTextField *input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    MESignInputField *input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = inputFont;
     input.placeholder = @"手机号码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_MOBILE_LENGTH;
     input.keyboardType = UIKeyboardTypePhonePad;
     [self.view addSubview:input];
     self.inputMobile = input;
@@ -85,10 +90,11 @@
         make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
-    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = inputFont;
     input.placeholder = @"密码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_PASSWD_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNamePhonePad;
     [self.view addSubview:input];
     self.inputPwd = input;
@@ -118,13 +124,14 @@
         make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
-    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = inputFont;
     input.placeholder = @"班级码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_CODE_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:input];
-    self.inputPwd = input;
+    self.inputClassno = input;
     [input makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(icon).offset(-ME_LAYOUT_MARGIN);
         make.bottom.equalTo(icon).offset(ME_LAYOUT_MARGIN);
@@ -151,7 +158,6 @@
         make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
-    //
     UIColor *themeColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
     JKCountDownButton *countDown = [JKCountDownButton buttonWithType:UIButtonTypeCustom];
     countDown.titleLabel.font = inputFont;
@@ -182,10 +188,11 @@
             return @"重新获取";
         }];
     }];
-    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = inputFont;
     input.placeholder = @"验证码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_CODE_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:input];//input.backgroundColor = [UIColor pb_randomColor];
     [input makeConstraints:^(MASConstraintMaker *make) {
@@ -222,20 +229,16 @@
     NSString *protocol = @"多元幼教用户服务条款";
     NSString *protocolString = @"点击立即注册及代表您同意多元幼教用户服务条款";
     NSRange protocolRange = [protocolString rangeOfString:protocol];
-    NSDictionary *attrs = @{NSForegroundColorAttributeName:themeColor, NSFontAttributeName:UIFontPingFangSCBold(METHEME_FONT_SUBTITLE-2)};
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:protocolString];
-    [text setAttributes:attrs range:protocolRange];
+    weakify(self)
+    [text setTextHighlightRange:protocolRange color:themeColor backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        strongify(self)
+        [self displayUserRegisterProtocol];
+    }];
     MEBaseLabel *protocolLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    protocolLabel.font = UIFontPingFangSCBold(METHEME_FONT_SUBTITLE-2);
     [protocolLabel setAttributedText:text];
-    [protocolLabel setHighlightTapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-        NSLog(@"inner========");
-    }];
-    [protocolLabel setTextTapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
-        NSLog(@"did touch protocol");
-        if (NSEqualRanges(protocolRange, range)) {
-            NSLog(@"inner");
-        }
-    }];
+    
     [self.view addSubview:protocolLabel];
     [protocolLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(btn);
@@ -247,7 +250,7 @@
     btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     btn.titleLabel.font = font;
     [btn setTitle:@"已有账号，去登录" forState:UIControlStateNormal];
-    [btn setTitleColor:themeColor forState:UIControlStateNormal];
+    [btn setTitleColor:textColor forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(exchangeSplash2Sign) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     [btn makeConstraints:^(MASConstraintMaker *make) {
@@ -292,6 +295,34 @@
 }
 
 - (void)registerTouchEvent {
+    //check mobile
+    NSString *mobile = self.inputMobile.text;
+    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        return;
+    }
+    //check pwd
+    NSString *pwd = self.inputPwd.text;
+    if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
+        NSString *errString = PBFormat(@"请输入%zd~%zd位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
+        [SVProgressHUD showErrorWithStatus:errString];
+        return;
+    }
+    //check classno
+    NSString *classno = self.inputClassno.text;
+    if (classno.length < ME_REGULAR_CLASSNO_LEN_MIX) {
+        NSString *errString = PBFormat(@"请输入%zd~%zd位班级码！", ME_REGULAR_CLASSNO_LEN_MIX, ME_REGULAR_CLASSNO_LEN_MAX);
+        [SVProgressHUD showErrorWithStatus:errString];
+        return;
+    }
+    //check code
+    NSString *code = self.inputCode.text;
+    if (code.length < ME_REGULAR_CODE_LEN_MIN) {
+        NSString *errString = PBFormat(@"请输入%zd~%zd位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
+        [SVProgressHUD showErrorWithStatus:errString];
+        return;
+    }
+    //TODO:// sigin-in action
     
 }
 
