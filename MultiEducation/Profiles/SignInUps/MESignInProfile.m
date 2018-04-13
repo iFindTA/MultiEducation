@@ -289,7 +289,8 @@
 
 - (void)registerAccountTouchEvent {
     NSURL *routeUrl = [MEDispatcher profileUrlWithClass:@"MESignUpProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
-    [MEDispatcher openURL:routeUrl withParams:nil];
+    NSError *error = [MEDispatcher openURL:routeUrl withParams:nil];
+    [self handleTransitionError:error];
 }
 
 - (void)loginTouchEvent {

@@ -9,6 +9,7 @@
 #import "MEBaseScene.h"
 #import "MEUserVM.h"
 #import "AppDelegate.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @implementation MEBaseScene
 
@@ -21,6 +22,14 @@
 - (MEUserRole)currentUserRole {
     return [[self appDelegate].curUser userRole];
 }
+
+- (void)handleTransitionError:(NSError *)error {
+    if (error) {
+        [SVProgressHUD showErrorWithStatus:error.domain];
+    }
+}
+
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

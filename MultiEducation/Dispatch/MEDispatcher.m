@@ -233,7 +233,7 @@ error_occour:{
     }
     //assemble
     NSString *urlString;
-    if (queryString.length > 0) {
+    if (!queryString || queryString.length == 0) {
         urlString = [NSString stringWithFormat:@"profile://root@%@/%@#%@", cls, method, fragment];
     } else {
         urlString = [NSString stringWithFormat:@"profile://root@%@/%@?%@#%@", cls, method, queryString, fragment];
