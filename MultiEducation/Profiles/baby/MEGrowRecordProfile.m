@@ -47,9 +47,9 @@
     
     _fillBaseInfoView = [[UIView alloc] init];
     [_babyScrollView addSubview:_fillBaseInfoView];
-    v.backgroundColor = UIColorFromRGB(0xffffff);
+    _fillBaseInfoView.backgroundColor = UIColorFromRGB(0xffffff);
     __block UIScrollView *babyScrollView = _babyScrollView;
-    [fillBabyInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_fillBaseInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(babyScrollView.mas_top);
         make.left.mas_equalTo(babyScrollView.mas_left);
         make.bottom.mas_equalTo(babyScrollView.mas_bottom);
@@ -57,9 +57,9 @@
     }];
     
     _fillGrowInfoView = [[UIView alloc] init];
-    [_fillGrowInfoView addSubview:fillBabyInfoView];
+    [_fillGrowInfoView addSubview:_fillBaseInfoView];
     _fillGrowInfoView.backgroundColor = UIColorFromRGB(0xffffff);
-    __block UIScrollView *babyScrollView = _fillGrowInfoView;
+    __block UIScrollView *babyScrollView1 = _fillGrowInfoView;
     [_fillGrowInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(babyScrollView.mas_top);
         make.left.mas_equalTo(babyScrollView.mas_left);
