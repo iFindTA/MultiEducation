@@ -41,8 +41,10 @@
 		6F73BF6C2FA8DBC1AE5677F0355DB451 /* MEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F18BC21FF8A62003F712FF99B6783B9 /* MEUser.m */; };
 		72A76C03C53299A35616AAEF76D9717F /* MEPersonalListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3659526B225936E648C14D846E7EE /* MEPersonalListModel.m */; };
 		74C6EC5DB340D6504141A523EED61F85 /* MEIndexContentTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C20850EE5E6F131096A018C48AA786F8 /* MEIndexContentTitleCell.xib */; };
-		77C1EE108E9F3199439F3192962EEB61 /* MEBabyInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1441BD956F60CCA3C2F2696A2F02FB37 /* MEBabyInfoCell.xib */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		764D8CF12080AB6800E27605 /* MEBabyPhotoProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D8CF02080AB6800E27605 /* MEBabyPhotoProfile.m */; };
+		764D8CFD2080AF6200E27605 /* MEBabyPhotoHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 764D8CFC2080AF6200E27605 /* MEBabyPhotoHeader.m */; };
+		77C1EE108E9F3199439F3192962EEB61 /* MEBabyInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1441BD956F60CCA3C2F2696A2F02FB37 /* MEBabyInfoCell.xib */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
 		7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EAA5E1E600BCEE92B868AAE3668E9F /* MESignInputField.m */; };
@@ -195,6 +197,10 @@
 		753C6320F18EA7A83BEF055EC2A72CDC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		755A6E7C23FB3E9CAB9E49738DB08131 /* MEPersonalVipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPersonalVipCell.m; sourceTree = "<group>"; };
 		75C9A9F922FD651336871B37B2AE752D /* MEPersonalListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPersonalListModel.h; sourceTree = "<group>"; };
+		764D8CEF2080AB6800E27605 /* MEBabyPhotoProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyPhotoProfile.h; sourceTree = "<group>"; };
+		764D8CF02080AB6800E27605 /* MEBabyPhotoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyPhotoProfile.m; sourceTree = "<group>"; };
+		764D8CFB2080AF6200E27605 /* MEBabyPhotoHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyPhotoHeader.h; sourceTree = "<group>"; };
+		764D8CFC2080AF6200E27605 /* MEBabyPhotoHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyPhotoHeader.m; sourceTree = "<group>"; };
 		776E61A125FB0A97F8A81902AE00BA84 /* MEBabyWebProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBabyWebProfile.h; sourceTree = "<group>"; };
 		781307DB8A28E3756A2D9DBE247F1480 /* MEIndexHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIndexHeader.m; sourceTree = "<group>"; };
 		7B52140F568CE4929D9FA8D829F6AA40 /* MEBabyContentHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentHeader.m; sourceTree = "<group>"; };
@@ -385,20 +391,12 @@
 		2470414544B59C6A3ABC1BDAADE8C456 /* babyContent */ = {
 			isa = PBXGroup;
 			children = (
-				63CEEB94E7668F3D9979B98463DF6B58 /* MEBabyComponentCell.h */,
-				59D3CD371A0268812E9A8FFF66A5865D /* MEBabyComponentCell.m */,
-				082A7261982DAA19D68C160052597342 /* MEBabyComponentCell.xib */,
+				764D8CF92080AF3D00E27605 /* babyPhotoHeader */,
+				764D8CFA2080AF4F00E27605 /* babyPhotoContent */,
+				764D8CF82080AF2800E27605 /* babyContentHeader */,
+				764D8CF72080AF0E00E27605 /* babyContentCell */,
 				F30397047BEA357EF04CA5A7F30B8E1C /* MEBabyContent.h */,
 				B5E18F767947E147FF72E8AA9D82B915 /* MEBabyContent.m */,
-				B1727C3E14C245BE2B5F2ED38CC70BE9 /* MEBabyContentHeader.h */,
-				7B52140F568CE4929D9FA8D829F6AA40 /* MEBabyContentHeader.m */,
-				5E324EBD48D42AB177F08518E42021F8 /* MEBabyContentHeader.xib */,
-				D7D9DFA58FBF52AAFE3770682B82BFF5 /* MEBabyInfoCell.h */,
-				E98F44F30B4AD3EE017104E0FDEE8220 /* MEBabyInfoCell.m */,
-				1441BD956F60CCA3C2F2696A2F02FB37 /* MEBabyInfoCell.xib */,
-				B3762169CCE1F38971D722AC1AE37A69 /* MEBabyPhotoCell.h */,
-				049C4D8A3E90808C4EBB0615FAF2FFDB /* MEBabyPhotoCell.m */,
-				C1AB5201EF22E0FA8F3DC86C40BB38D9 /* MEBabyPhotoCell.xib */,
 			);
 			path = babyContent;
 			sourceTree = "<group>";
@@ -446,6 +444,8 @@
 				B6D92BB39D2C2940EC5D6B8E60130DA0 /* MEBabyRootProfile.m */,
 				776E61A125FB0A97F8A81902AE00BA84 /* MEBabyWebProfile.h */,
 				086C77C2BB22402895A2EED4A09D9E0F /* MEBabyWebProfile.m */,
+				764D8CEF2080AB6800E27605 /* MEBabyPhotoProfile.h */,
+				764D8CF02080AB6800E27605 /* MEBabyPhotoProfile.m */,
 				510B870A93A19C2CFC3A0DD18DF7B931 /* MEGrowRecordProfile.h */,
 				EBD3E771F41309BE7B37933E55DD12E0 /* MEGrowRecordProfile.m */,
 			);
@@ -509,6 +509,48 @@
 				D56C3FD0F5B7FDFDC9BD0E49E2654847 /* MEVideoRelateVM.m */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		764D8CF72080AF0E00E27605 /* babyContentCell */ = {
+			isa = PBXGroup;
+			children = (
+				63CEEB94E7668F3D9979B98463DF6B58 /* MEBabyComponentCell.h */,
+				59D3CD371A0268812E9A8FFF66A5865D /* MEBabyComponentCell.m */,
+				082A7261982DAA19D68C160052597342 /* MEBabyComponentCell.xib */,
+				D7D9DFA58FBF52AAFE3770682B82BFF5 /* MEBabyInfoCell.h */,
+				E98F44F30B4AD3EE017104E0FDEE8220 /* MEBabyInfoCell.m */,
+				1441BD956F60CCA3C2F2696A2F02FB37 /* MEBabyInfoCell.xib */,
+				B3762169CCE1F38971D722AC1AE37A69 /* MEBabyPhotoCell.h */,
+				049C4D8A3E90808C4EBB0615FAF2FFDB /* MEBabyPhotoCell.m */,
+				C1AB5201EF22E0FA8F3DC86C40BB38D9 /* MEBabyPhotoCell.xib */,
+			);
+			path = babyContentCell;
+			sourceTree = "<group>";
+		};
+		764D8CF82080AF2800E27605 /* babyContentHeader */ = {
+			isa = PBXGroup;
+			children = (
+				B1727C3E14C245BE2B5F2ED38CC70BE9 /* MEBabyContentHeader.h */,
+				7B52140F568CE4929D9FA8D829F6AA40 /* MEBabyContentHeader.m */,
+				5E324EBD48D42AB177F08518E42021F8 /* MEBabyContentHeader.xib */,
+			);
+			path = babyContentHeader;
+			sourceTree = "<group>";
+		};
+		764D8CF92080AF3D00E27605 /* babyPhotoHeader */ = {
+			isa = PBXGroup;
+			children = (
+				764D8CFB2080AF6200E27605 /* MEBabyPhotoHeader.h */,
+				764D8CFC2080AF6200E27605 /* MEBabyPhotoHeader.m */,
+			);
+			path = babyPhotoHeader;
+			sourceTree = "<group>";
+		};
+		764D8CFA2080AF4F00E27605 /* babyPhotoContent */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = babyPhotoContent;
 			sourceTree = "<group>";
 		};
 		77BC15F8E686F754390D69C2852A438F /* MultiEducation */ = {
@@ -1020,6 +1062,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				446CB806887877986123034D0407DBA2 /* AppDelegate.m in Sources */,
+				764D8CFD2080AF6200E27605 /* MEBabyPhotoHeader.m in Sources */,
 				DAD64112B4F62AD0FDF9441CF3A3720D /* GardenHeader.m in Sources */,
 				B2A7BD63D80FF706E13A35EE0F930AD9 /* MEBabyComponentCell.m in Sources */,
 				9069829CAA0287AEC3EFA86431744B16 /* MEBabyContent.m in Sources */,
@@ -1071,6 +1114,7 @@
 				E0D84C2A464E3E6D5963D26D50F2BB62 /* MESignUpProfile.m in Sources */,
 				6F73BF6C2FA8DBC1AE5677F0355DB451 /* MEUser.m in Sources */,
 				B7657D63A0213F12AB98DAAFDA819161 /* MEUserVM.m in Sources */,
+				764D8CF12080AB6800E27605 /* MEBabyPhotoProfile.m in Sources */,
 				9397FA3C534B6A887C1D79800EB9E934 /* MEVM.m in Sources */,
 				C7FFAEEA16165BEA48AB846841C005DA /* MEVerticalItem.m in Sources */,
 				C2374C852FF26744C4280F48C6530F60 /* MEVideoPlayProfile.m in Sources */,

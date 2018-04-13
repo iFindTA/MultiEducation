@@ -31,8 +31,10 @@
 
 - (void)babyContentHeaderTapEvent {
     NSLog(@"did touch babyphoto header");
+    
+    NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    [self handleTransitionError:err];
 }
-
-
 
 @end

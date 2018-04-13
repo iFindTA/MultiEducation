@@ -6,10 +6,10 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "MEBaseLabel.h"
+#import "MEBaseScene.h"
 
-@interface MEBabyContentHeader : UIView
+@interface MEBabyContentHeader : MEBaseScene
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *leftIcon;
