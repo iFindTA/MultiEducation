@@ -9,10 +9,9 @@
 #import "MEBabyWebProfile.h"
 #import "MEBaseLabel.h"
 
-@interface MEBabyWebProfile () {
-    NSString *_title;
-    NSString *_webUrl;
-}
+@interface MEBabyWebProfile ()
+
+@property (nonatomic, strong) NSDictionary *params; //params;
 
 @property (nonatomic, strong) UINavigationItem *navigationItem;
 
@@ -24,6 +23,15 @@
 
 @implementation MEBabyWebProfile
 
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        self.params = params;
+        NSLog(@"收到的参数:%@", params);
+    }
+    return self;
+}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -34,19 +42,10 @@
     
 }
 
-- (void)ctrlInit:(id)params {
-    if ([params objectForKey: @"title"]) {
-        _title = [params objectForKey: @"title"];
-    }
-    if ([params objectForKey: @"webUrl"]) {
-        _webUrl = [params objectForKey: @"webUrl"];
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.titleLab.text = _title;
+    self.titleLab.text = [self.params objectForKey: @"title"];
     self.navigationItem.leftBarButtonItem = self.backItem;
     self.navigationItem.titleView = self.titleLab;
     [self.navigationBar pushNavigationItem: self.navigationItem animated:true];
@@ -57,7 +56,7 @@
     _webView.allowsInlineMediaPlayback = YES;
     _webView.mediaPlaybackRequiresUserAction = NO;
     
-    NSURL *url = [NSURL URLWithString: _webUrl];
+    NSURL *url = [NSURL URLWithString: [self.params objectForKey: @"url"]];
     NSURLRequest *request =[NSURLRequest requestWithURL: url];
     [_webView loadRequest: request];
     [self.view addSubview: _webView];

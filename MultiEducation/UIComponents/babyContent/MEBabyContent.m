@@ -32,6 +32,7 @@
 @property (nonatomic, strong) UICollectionView *componentView;
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *tableDataArr; //table dataArr
 
 @end
 
@@ -98,8 +99,9 @@
     }];
     
     [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self.scrollContentView).mas_offset(10);
-                make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
+        make.width.mas_equalTo(MESCREEN_WIDTH);
+        make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
+        make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
         make.height.mas_equalTo(256.f);
     }];
     
@@ -136,7 +138,7 @@
     if ([collectionView isEqual: self.babyPhtoView]) {
         return CGSizeMake(78.f, 78.f);
     } else {
-        return CGSizeMake(175.f, 82.f);
+        return CGSizeMake((MESCREEN_WIDTH - 25) / 2, 82.f);
     }
 }
 
@@ -179,7 +181,6 @@
     if (!_componentView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         [layout setScrollDirection: UICollectionViewScrollDirectionVertical];
-        layout.itemSize =CGSizeMake(175, 82);
         layout.minimumInteritemSpacing = 5.f;
         layout.minimumLineSpacing = 5.f;
 
