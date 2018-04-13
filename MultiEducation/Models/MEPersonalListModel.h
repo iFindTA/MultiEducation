@@ -6,7 +6,7 @@
 //  Copyright © 2018年 laborc. All rights reserved.
 //
 
-#import "MEBaseModel.h"
+#import "MEM.h"
 #define default_cell_height      45
 #define vip_cell_height          45
 #define record_cell_height       160
@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, MEPersonalListModelType) {
     MEPersonalListModelTypeRecord                                  =   1   <<  2,//历史记录
 };
 
-@interface MEPersonalListModel : MEBaseModel
+@interface MEPersonalListModel : MEM
 
 
 @property (nonatomic, assign) MEPersonalListModelType cellType;

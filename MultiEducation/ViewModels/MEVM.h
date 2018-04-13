@@ -12,6 +12,11 @@
 @interface MEVM : NSObject
 
 /**
+ 角色
+ */
+@property (nonatomic, assign) MEUserRole userRole;
+
+/**
  fetch token for current valid user
  */
 + (NSString * _Nullable)fetchUserToken;

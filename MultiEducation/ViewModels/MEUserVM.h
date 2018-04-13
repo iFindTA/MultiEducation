@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)whetherExistValidSignedInUser;
 
+/**
+ getter user role
+ */
+- (MEUserRole)userRole;
+
 @end
 
 NS_ASSUME_NONNULL_END

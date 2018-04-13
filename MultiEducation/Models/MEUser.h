@@ -6,10 +6,13 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "MEM.h"
 
-@interface MEUser : NSObject
+@interface MEUser : MEM
 
+/**
+ 角色
+ */
 @property (nonatomic, assign) MEUserRole    role;
 
 @property (nonatomic, assign) MEUserState   state;

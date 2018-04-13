@@ -14,6 +14,9 @@ PODS:
   - AFNetworking/Serialization (3.2.0)
   - AFNetworking/UIKit (3.2.0):
     - AFNetworking/NSURLSession
+  - IQKeyboardManager (5.0.8)
+  - JKCountDownButton (1.2.0)
+  - JVFloatLabeledTextField (1.2.1)
   - Masonry (1.1.0)
   - "NSURL+QueryDictionary (1.2.0)"
   - PBBaseClasses (1.7.0):
@@ -54,6 +57,9 @@ PODS:
     - Masonry
 
 DEPENDENCIES:
+  - IQKeyboardManager (~> 5.0.8)
+  - JKCountDownButton (~> 1.2.0)
+  - JVFloatLabeledTextField (~> 1.2.1)
   - "NSURL+QueryDictionary (~> 1.2.0)"
   - PBBaseClasses (~> 1.7.0)
   - PBKits (~> 1.2.2)
@@ -67,6 +73,9 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
+    - IQKeyboardManager
+    - JKCountDownButton
+    - JVFloatLabeledTextField
     - Masonry
     - "NSURL+QueryDictionary"
     - PBBaseClasses
@@ -86,6 +95,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
+  IQKeyboardManager: 266cb7b1d11f94a3e71229d77f960f9a1b538e5b
+  JKCountDownButton: cc72e24c8b73f232b15cc348277422b089d43bff
+  JVFloatLabeledTextField: cfc44e3c4d493b2ed92ede8035e8e89c2912ba64
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   "NSURL+QueryDictionary": bae616404e2adf6409d3d5c02a093cbf44c8a236
   PBBaseClasses: 05df2bb07241588fa2cf4cb1c79b5a9bc1e62aaf
@@ -103,6 +115,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: 12e907de469e36db1a821af5fcc964245de43d94
+PODFILE CHECKSUM: 896b61c644d5115b3d081ced9121663b2e5fa7d7
 
 COCOAPODS: 1.5.0

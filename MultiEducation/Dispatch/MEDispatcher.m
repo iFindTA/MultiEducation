@@ -76,7 +76,7 @@
  */
 + (UIViewController *)fetchStartNavigationProfile4Type:(NSString *)type {
     //空值 root 或用户未登录均返回根视图
-    if (type.length == 0 || [type isEqualToString:@"root"] || !self.app.signedUsr) {
+    if (type.length == 0 || [type isEqualToString:@"root"] || !self.app.curUser) {
         return self.app.winProfile;
     }
     if ([type isEqualToString:@"cur"]) {
@@ -231,7 +231,14 @@ error_occour:{
     } else if (type & MEProfileTypeXIB) {
         fragment = @"xib";
     }
-    NSString *urlString = [NSString stringWithFormat:@"profile://root@%@/%@?%@#%@", cls, method, queryString, fragment];
+    //assemble
+    NSString *urlString;
+    if (queryString.length > 0) {
+        urlString = [NSString stringWithFormat:@"profile://root@%@/%@#%@", cls, method, fragment];
+    } else {
+        urlString = [NSString stringWithFormat:@"profile://root@%@/%@?%@#%@", cls, method, queryString, fragment];
+    }
+    
     url = [NSURL URLWithString:urlString];
     
     return url;

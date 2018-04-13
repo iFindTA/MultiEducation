@@ -47,4 +47,10 @@
     return ret;
 }
 
+#pragma mark --- setter & getter
+
+- (MEUserRole)userRole {
+    return self.usr.role;
+}
+
 @end

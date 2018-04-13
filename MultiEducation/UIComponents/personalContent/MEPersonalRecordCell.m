@@ -38,8 +38,8 @@
         arrowView.image = arrowImage;
         [contentView addSubview:arrowView];
         [arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(titleLabel.centerY);
-            make.right.equalTo(contentView.right).with.offset(-15);
+            make.centerY.mas_equalTo(titleLabel.mas_centerY);
+            make.right.equalTo(contentView.mas_right).with.offset(-15);
             make.size.mas_equalTo(CGSizeMake(arrowImage.size.width, arrowImage.size.height));
         }];
         
@@ -59,7 +59,7 @@
             make.left.mas_equalTo(5);
             make.right.mas_equalTo(5);
             make.top.mas_equalTo(default_cell_height);
-            make.bottom.equalTo(contentView.bottom).with.offset(-5);
+            make.bottom.equalTo(contentView.mas_bottom).with.offset(-5);
         }];
         
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];

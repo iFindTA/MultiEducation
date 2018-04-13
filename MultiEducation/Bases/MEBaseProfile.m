@@ -3,16 +3,13 @@
 // Copyright (c) 2018 niuduo. All rights reserved.
 //
 
-#import "MEBaseProfile.h"
+#import "MEUserVM.h"
 #import "AppDelegate.h"
 #import <objc/message.h>
+#import "MEBaseProfile.h"
 #import "PBBaseTabBarProfile+Hidden.h"
 
 @interface MEBaseProfile ()
-
-@property (nonatomic, strong, readwrite) PBNavigationBar *navigationBar;
-
-@property (nonatomic, strong, readwrite) UIView *contentView;
 
 @end
 
@@ -114,6 +111,12 @@
 - (void)clearBadgeAtIndex:(NSUInteger)idx {
     PBBaseTabBarProfile *tabBarCtr = [self rootTabBar];
     [tabBarCtr clearBadgeAtIndex:idx];
+}
+
+#pragma mark --- user relatives
+
+- (MEUserRole)currentUserRole {
+    return [[self appDelegate].curUser userRole];
 }
 
 @end

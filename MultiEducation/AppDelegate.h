@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  the user view model who did signed-in
  */
-@property (nonatomic, strong, readonly, nullable) MEUserVM * signedUsr;
+@property (nonatomic, strong, readonly, nullable) MEUserVM * curUser;
 
 /**
  splash change display sence

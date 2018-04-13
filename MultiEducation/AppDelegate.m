@@ -9,19 +9,22 @@
 #import "MEUserVM.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MESignInProfile.h"
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
-#import <UINavigationController+SJVideoPlayerAdd.h>
 #import "MEBabyRootProfile.h"
 #import "MEIndexRootProfile.h"
-#import "MEAuthorMainProfile.h"
 #import "MEPersonalRootProfile.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import <UINavigationController+SJVideoPlayerAdd.h>
 
 @interface AppDelegate ()
 
 @property (nonatomic, strong, readwrite) MEBaseTabBarProfile *winRootTabProfile;
 
 @property (nonatomic, strong, readwrite) MEBaseNavigationProfile *winProfile;
+
+@property (nonatomic, strong, readwrite) MEUserVM *curUser;
 
 @end
 
@@ -38,7 +41,7 @@
     
     //init root navigation profile
     BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
-    UIViewController *rootProfile = [self assembleRootProfileWhileUserValid:signedin];
+    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:signedin?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];
     self.winProfile.sj_gestureType = SJFullscreenPopGestureType_Full;
@@ -47,6 +50,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.winProfile;
     [self.window makeKeyAndVisible];
+    //for input
+    [IQKeyboardManager sharedManager].enable = true;
 
     return YES;
 }
@@ -115,14 +120,14 @@
     return sets.copy;
 }
 
-- (UIViewController *)assembleRootProfileWhileUserValid:(BOOL)valid {
+- (UIViewController *)assembleRootProfileWhileUserChangeState:(MEDisplayStyle)style {
     
 #if DEBUG
     
 #endif
     
     UIViewController *destProfile = nil;
-    if (valid) {
+    if (style & MEDisplayStyleMainSence) {
         UIColor *color = UIColorFromRGB(ME_THEME_COLOR_VALUE);
         //首页
         NSString *title = @"首页";
@@ -163,17 +168,18 @@
         selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         personalNavi.tabBarItem.image = image;
         personalNavi.tabBarItem.selectedImage = selectImg;
-        //自动登陆
-        //UITabBarController *mainCtrl = [[IosUtils getMainStore] instantiateViewControllerWithIdentifier:@"FscNewMainCtrl"];
         //root tabbar
         [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
         MEBaseTabBarProfile *profile = [[MEBaseTabBarProfile alloc] init];
         profile.viewControllers = @[indexNavi, babyNavi, personalNavi];
         
         destProfile = profile;
+    } else if (style & MEDisplayStyleVisitor) {
+        MEIndexRootProfile *profile = [[MEIndexRootProfile alloc] init];
+        destProfile = profile;
     } else {
         //当前没有可用的user 需要用户重新登录授权
-        MEAuthorMainProfile *profile = [[MEAuthorMainProfile alloc] init];
+        MESignInProfile *profile = [[MESignInProfile alloc] init];
         destProfile = profile;
     }
     
@@ -183,19 +189,16 @@
 #pragma mark -- handle splash for sence change
 
 - (void)changeDisplayStyle:(uint)style {
-    if (style & MEDisplayStyleAuthor) {
-        UIViewController *authorProfile = [self assembleRootProfileWhileUserValid:false];
-        [self.winProfile setViewControllers:@[authorProfile] animated:true];
-    } else if (style & MEDisplayStyleVisitor) {
-        //
-        
-    } else if (style & MEDisplayStyleMainSence) {
-        UIViewController *profile = [self assembleRootProfileWhileUserValid:true];
+    if (style & MEDisplayStyleMainSence) {
+        UIViewController *profile = [self assembleRootProfileWhileUserChangeState:style];
         if ([profile isKindOfClass:[MEBaseTabBarProfile class]] ||
             [profile isMemberOfClass:[MEBaseTabBarProfile class]]) {
             self.winRootTabProfile = (MEBaseTabBarProfile *)profile;
         }
         [self.winProfile setViewControllers:@[self.winRootTabProfile] animated:true];
+    } else {
+        UIViewController *authorProfile = [self assembleRootProfileWhileUserChangeState:style];
+        [self.winProfile setViewControllers:@[authorProfile] animated:true];
     }
 }
 

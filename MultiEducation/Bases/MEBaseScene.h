@@ -11,4 +11,9 @@
 
 @interface MEBaseScene : PBView
 
+/**
+ getter user role
+ */
+- (MEUserRole)currentUserRole;
+
 @end

@@ -7,8 +7,20 @@
 //
 
 #import "MEBaseScene.h"
+#import "MEUserVM.h"
+#import "AppDelegate.h"
 
 @implementation MEBaseScene
+
+- (AppDelegate *)appDelegate {
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return delegate;
+}
+#pragma mark --- user relatives
+
+- (MEUserRole)currentUserRole {
+    return [[self appDelegate].curUser userRole];
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.
