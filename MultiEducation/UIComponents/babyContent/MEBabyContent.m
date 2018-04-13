@@ -81,12 +81,14 @@
     }];
     
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(self.scrollContentView);
+        make.top.left.right.mas_equalTo(self.scrollView);
+        make.width.mas_equalTo(MESCREEN_WIDTH);
         make.height.mas_equalTo(230.f);
     }];
     
     [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self.scrollContentView);
+        make.left.mas_equalTo(self.scrollView);
+        make.width.mas_equalTo(MESCREEN_WIDTH);
         make.top.mas_equalTo(self.headerView.mas_bottom);
         make.height.mas_equalTo(54.f);
     }];
