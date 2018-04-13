@@ -7,8 +7,9 @@
 //
 
 #import "MESignInProfile.h"
+#import "MESignInputField.h"
+#import "UITextField+MaxLength.h"
 #import <JKCountDownButton/JKCountDownButton.h>
-#import <JVFloatLabeledTextField/JVFloatLabeledTextField.h>
 
 @interface MESignInProfile ()
 
@@ -17,14 +18,14 @@
 /**
  mobile & pwd
  */
-@property (nonatomic, strong) JVFloatLabeledTextField *inputMobile;
-@property (nonatomic, strong) JVFloatLabeledTextField *inputPwd;
+@property (nonatomic, strong) MESignInputField *inputMobile;
+@property (nonatomic, strong) MESignInputField *inputPwd;
 
 /**
  mobile & code
  */
 @property (nonatomic, strong) MEBaseScene *codeSignPanel;
-@property (nonatomic, strong) JVFloatLabeledTextField *inputCode;
+@property (nonatomic, strong) MESignInputField *inputCode;
 
 /**
  sign-in mode pwd or code
@@ -73,10 +74,11 @@
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     UIColor *textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    JVFloatLabeledTextField *input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    MESignInputField *input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"手机号码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_MOBILE_LENGTH;
     input.keyboardType = UIKeyboardTypePhonePad;
     [self.view addSubview:input];
     self.inputMobile = input;
@@ -106,10 +108,11 @@
         make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
-    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"密码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_PASSWD_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNamePhonePad;
     [self.view addSubview:input];
     self.inputPwd = input;
@@ -180,10 +183,11 @@
             return @"重新获取";
         }];
     }];
-    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"验证码";
     input.textColor = textColor;
+    input.maxLength = ME_REGULAR_CODE_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNumberPad;
     [self.codeSignPanel addSubview:input];
     self.inputCode = input;//input.backgroundColor = [UIColor pb_randomColor];
@@ -249,8 +253,8 @@
     font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
     btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     btn.titleLabel.font = font;
-    [btn setTitle:@"随便逛逛^_^" forState:UIControlStateNormal];
-    [btn setTitleColor:themeColor forState:UIControlStateNormal];
+    [btn setTitle:@"随便逛逛 >>" forState:UIControlStateNormal];
+    [btn setTitleColor:textColor forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(browserEvent) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     [btn makeConstraints:^(MASConstraintMaker *make) {
@@ -296,6 +300,35 @@
 
 - (void)loginTouchEvent {
     [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+#if DEBUG
+    return;
+#endif
+    //check mobile
+    NSString *mobile = self.inputMobile.text;
+    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        return;
+    }
+    //登录方式
+    BOOL whetherPwdSignInMode = !self.modeChangeBtn.selected;
+    if (whetherPwdSignInMode) {
+        //check pwd
+        NSString *pwd = self.inputPwd.text;
+        if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
+            NSString *errString = PBFormat(@"请输入%zd~%zd位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
+            [SVProgressHUD showErrorWithStatus:errString];
+            return;
+        }
+    } else {
+        //check code
+        NSString *code = self.inputCode.text;
+        if (code.length < ME_REGULAR_CODE_LEN_MIN) {
+            NSString *errString = PBFormat(@"请输入%zd~%zd位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
+            [SVProgressHUD showErrorWithStatus:errString];
+            return;
+        }
+    }
+    
 }
 
 - (void)browserEvent {

@@ -38,7 +38,7 @@
     NSString *sandboxPath = NSHomeDirectory();
     NSLog(@"sandbox path for debug:%@", sandboxPath);
 #endif
-    
+    //create user
     //init root navigation profile
     BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
     UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:signedin?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
