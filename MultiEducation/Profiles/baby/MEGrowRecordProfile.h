@@ -8,6 +8,6 @@
 
 #import "MEBaseProfile.h"
 
-@interface MEGrowRecordProfile : MEBaseProfile
+@interface MEGrowRecordProfile : MEBaseProfile <UIScrollViewDelegate>
 
 @end

@@ -7,14 +7,17 @@
 //
 
 #import "MEGrowRecordProfile.h"
+#import "MEBabyFillBaseLabel.h"
+#import "MEBabyBaseInfoCard.h"
+#import "MEBabyOtherInfoCard.h"
 #define card_distance                 10
 #define card_left_width               30
 
 @interface MEGrowRecordProfile ()
 {
     UIScrollView *_babyScrollView;
-    UIView *_fillBaseInfoView;
-    UIView *_fillGrowInfoView;
+    MEBabyBaseInfoCard *_fillBaseInfoView;
+    MEBabyOtherInfoCard *_fillGrowInfoView;
 }
 
 @end
@@ -29,43 +32,21 @@
 
 - (void)setBabyRecordView {
     float contentHeight = 72.0f;
-    _babyScrollView = [[UIScrollView alloc] init];
-    _babyScrollView.backgroundColor = UIColorFromRGB(0xf9fee2);
+    _babyScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(card_distance, contentHeight + 64, MESCREEN_WIDTH - card_distance, MESCREEN_HEIGHT - contentHeight * 2 - 64)];
+    _babyScrollView.delegate = self;
     [self.view addSubview:_babyScrollView];
+    CGFloat cardWidth = MESCREEN_WIDTH - card_distance * 2 - card_left_width - 20;
+    _babyScrollView.contentSize = CGSizeMake(2 * cardWidth + card_distance + 10, _babyScrollView.frame.size.height);
     
-    CGFloat cardWidth = MESCREEN_WIDTH - card_distance * 2 - card_left_width;
-    weakify(self);
-    [_babyScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        strongify(self);
-        make.left.mas_equalTo(card_distance);
-        make.right.mas_equalTo(self.view.mas_right);
-        make.bottom.equalTo(self.view.mas_bottom).with.offset(-contentHeight);
-        make.top.equalTo(self.view.mas_top).with.offset(contentHeight + 64);
-    }];
-    
-    _babyScrollView.contentSize = CGSizeMake(2 * cardWidth + 10, _babyScrollView.frame.size.height);
-    
-    _fillBaseInfoView = [[UIView alloc] init];
+    _fillBaseInfoView = [[MEBabyBaseInfoCard alloc] initWithFrame:CGRectMake(0, 1, cardWidth, _babyScrollView.frame.size.height - 2)];
     [_babyScrollView addSubview:_fillBaseInfoView];
-    _fillBaseInfoView.backgroundColor = UIColorFromRGB(0xffffff);
-    __block UIScrollView *babyScrollView = _babyScrollView;
-    [_fillBaseInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(babyScrollView.mas_top);
-        make.left.mas_equalTo(babyScrollView.mas_left);
-        make.bottom.mas_equalTo(babyScrollView.mas_bottom);
-        make.width.mas_equalTo(cardWidth);
-    }];
     
-    _fillGrowInfoView = [[UIView alloc] init];
-    [_fillGrowInfoView addSubview:_fillBaseInfoView];
-    _fillGrowInfoView.backgroundColor = UIColorFromRGB(0xffffff);
-    __block UIScrollView *babyScrollView1 = _fillGrowInfoView;
-    [_fillGrowInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(babyScrollView.mas_top);
-        make.left.mas_equalTo(babyScrollView.mas_left);
-        make.bottom.mas_equalTo(babyScrollView.mas_bottom);
-        make.width.mas_equalTo(cardWidth);
-    }];
+    _fillGrowInfoView = [[MEBabyOtherInfoCard alloc] initWithFrame:CGRectMake(_fillBaseInfoView.frame.size.width + card_distance, 1, cardWidth, _babyScrollView.frame.size.height - 2)];
+    [_babyScrollView addSubview:_fillGrowInfoView];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
 }
 
 

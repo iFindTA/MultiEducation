@@ -10,6 +10,7 @@
 #import "MEPersonalListCell.h"
 #import "MEPersonalVipCell.h"
 #import "MEPersonalRecordCell.h"
+#import "MEGrowRecordProfile.h"
 //#import "MELoginProfile.h"
 
 @interface MEPersonalRootProfile () <UITableViewDelegate, UITableViewDataSource>
@@ -259,10 +260,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-//        MELoginProfile *login = [[MELoginProfile alloc] init];
-//        login.loginType = indexPath.row;
-//        login.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:login animated:YES];
+        MEGrowRecordProfile *login = [[MEGrowRecordProfile alloc] init];
+        login.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:login animated:YES];
+
     }
 }
 
