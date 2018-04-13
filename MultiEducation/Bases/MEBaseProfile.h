@@ -41,6 +41,11 @@
 - (void)setBadgeValue:(NSInteger)value atIndex:(NSUInteger)idx;
 - (void)clearBadgeAtIndex:(NSUInteger)idx;
 
+#pragma mark --- user relatives
 
+/**
+ 当前用户角色
+ */
+- (MEUserRole)currentUserRole;
 
 @end

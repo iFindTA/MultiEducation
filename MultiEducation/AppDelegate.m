@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong, readwrite) MEBaseNavigationProfile *winProfile;
 
+@property (nonatomic, strong, readwrite) MEUserVM *curUser;
+
 @end
 
 @implementation AppDelegate
@@ -38,7 +40,7 @@
     
     //init root navigation profile
     BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
-    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:MEDisplayStyleAuthor];
+    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:signedin?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];
     self.winProfile.sj_gestureType = SJFullscreenPopGestureType_Full;

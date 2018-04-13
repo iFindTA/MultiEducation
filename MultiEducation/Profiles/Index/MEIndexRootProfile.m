@@ -111,6 +111,10 @@
             [self.view layoutIfNeeded];
         }];
     };
+    
+    if (self.userActivity) {
+        <#statements#>
+    }
 }
 
 - (void)hiddenOrShowSearchBar:(UIButton *)btn {
