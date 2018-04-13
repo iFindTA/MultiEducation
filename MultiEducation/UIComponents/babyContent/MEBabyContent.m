@@ -27,6 +27,7 @@
 
 @property (nonatomic, strong) MEBabyContentHeader *photoHeader;
 @property (nonatomic, strong) UICollectionView *babyPhtoView;
+@property (nonatomic, strong) NSMutableArray *babyPhotos;   //babyPhoto
 
 @property (nonatomic, strong) UICollectionView *componentView;
 
@@ -209,6 +210,17 @@
         [_babyPhtoView registerNib: [UINib nibWithNibName: @"MEBabyPhotoCell" bundle: nil] forCellWithReuseIdentifier: BABY_PHOTOVIEW_IDEF];
     }
     return _babyPhtoView;
+}
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame: CGRectZero style: UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        
+        _tableView.backgroundColor = [UIColor whiteColor];
+    }
+    return _tableView;
 }
 
 @end
