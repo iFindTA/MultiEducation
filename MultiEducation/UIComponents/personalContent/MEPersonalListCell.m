@@ -35,8 +35,8 @@
         arrowView.image = arrowImage;
         [contentView addSubview:arrowView];
         [arrowView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(contentView.centerY);
-            make.right.equalTo(contentView.right).with.offset(-15);
+            make.centerY.mas_equalTo(contentView.mas_centerY);
+            make.right.equalTo(contentView.mas_right).with.offset(-15);
             make.size.mas_equalTo(CGSizeMake(arrowImage.size.width, arrowImage.size.height));
         }];
         
@@ -46,7 +46,7 @@
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(10);
             make.top.equalTo(self.mas_bottom).with.offset(-1);
-            make.right.mas_equalTo(contentView.right);
+            make.right.mas_equalTo(contentView.mas_right);
             make.height.mas_equalTo(.5);
         }];
     }

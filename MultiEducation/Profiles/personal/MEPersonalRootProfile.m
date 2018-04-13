@@ -57,7 +57,7 @@
     [headSculptureView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(leftDistance);
         make.size.mas_equalTo(CGSizeMake(60, 60));
-        make.centerY.equalTo(headerView.centerY).with.offset(10);
+        make.centerY.equalTo(headerView.mas_centerY).with.offset(10);
     }];
     
     float offsetY = 2.4f;
@@ -69,10 +69,10 @@
     nameLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headSculptureView.right).with.offset(10);
-        make.centerY.equalTo(headSculptureView.centerY).with.offset(-(offsetY + METHEME_FONT_TITLE / 2));
+        make.left.equalTo(headSculptureView.mas_right).with.offset(10);
+        make.centerY.equalTo(headSculptureView.mas_centerY).with.offset(-(offsetY + METHEME_FONT_TITLE / 2));
         make.height.mas_equalTo(METHEME_FONT_TITLE);
-        make.right.mas_equalTo(headerView.right);
+        make.right.mas_equalTo(headerView.mas_right);
     }];
     
     MEBaseLabel *signatureLabel = [[MEBaseLabel alloc] init];
@@ -82,10 +82,10 @@
     signatureLabel.textAlignment = NSTextAlignmentLeft;
     [headerView addSubview:signatureLabel];
     [signatureLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headSculptureView.right).with.offset(10);
-        make.centerY.equalTo(headSculptureView.centerY).with.offset(offsetY + METHEME_FONT_SUBTITLE / 2);
+        make.left.equalTo(headSculptureView.mas_right).with.offset(10);
+        make.centerY.equalTo(headSculptureView.mas_centerY).with.offset(offsetY + METHEME_FONT_SUBTITLE / 2);
         make.height.mas_equalTo(METHEME_FONT_SUBTITLE);
-        make.right.mas_equalTo(headerView.right);
+        make.right.mas_equalTo(headerView.mas_right);
     }];
     
     UIImage *setImage = [UIImage imageNamed:@"personal_set_icon"];
@@ -94,8 +94,8 @@
     setBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [headerView addSubview:setBtn];
     [setBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(headSculptureView.centerY);
-        make.right.equalTo(headerView.right).with.offset(-leftDistance);
+        make.centerY.mas_equalTo(headSculptureView.mas_centerY);
+        make.right.equalTo(headerView.mas_right).with.offset(-leftDistance);
         make.size.mas_equalTo(CGSizeMake(setImage.size.width * 3, setImage.size.height));
     }];
     
@@ -114,10 +114,10 @@
     [self.view addSubview:tableView];
     __block UIView *headerView = _headerView;
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(headerView.bottom);
+        make.top.mas_equalTo(headerView.mas_bottom);
         make.left.mas_equalTo(0);
-        make.right.mas_equalTo(self.view.right);
-        make.bottom.equalTo(self.view.bottom).with.offset(-48);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-48);
     }];
     return tableView;
 }
@@ -238,9 +238,9 @@
     [contentView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(10);
-        make.top.equalTo(contentView.bottom).with.offset(-.5);
-        make.right.mas_equalTo(contentView.right);
-        make.bottom.mas_equalTo(contentView.bottom);
+        make.top.equalTo(contentView.mas_bottom).with.offset(-.5);
+        make.right.mas_equalTo(contentView.mas_right);
+        make.bottom.mas_equalTo(contentView.mas_bottom);
     }];
     
     return contentView;
