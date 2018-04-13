@@ -9,7 +9,7 @@
 #import "MEBabyWebProfile.h"
 #import "MEBaseLabel.h"
 
-@interface MEBabyWebProfile ()  {
+@interface MEBabyWebProfile () {
     NSString *_title;
     NSString *_webUrl;
 }
@@ -57,12 +57,10 @@
     _webView.allowsInlineMediaPlayback = YES;
     _webView.mediaPlaybackRequiresUserAction = NO;
     
-    
     NSURL *url = [NSURL URLWithString: _webUrl];
     NSURLRequest *request =[NSURLRequest requestWithURL: url];
     [_webView loadRequest: request];
     [self.view addSubview: _webView];
-    
 }
 
 - (void)didReceiveMemoryWarning {

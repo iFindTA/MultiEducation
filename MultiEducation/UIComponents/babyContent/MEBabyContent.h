@@ -12,22 +12,15 @@
  类型定义
  */
 typedef NS_ENUM(NSUInteger, MEBabyContentType) {
-    MEBabyContentTypeBabyPhoto                                   =   1   <<  0,//宝宝相册
-    MEBabyContentTypeBeautyDay                                   =   1   <<  1,//一日精彩
-    MEBabyContentTypeGrowth                                      =   1   <<  2,//成长档案
-    MEBabyContentTypeEvaluate                                    =   1   <<  3,//发展评价
-    MEBabyContentTypeInvite                                      =   1   <<  4,//邀请家人
+    MEBabyContentTypeGrowth                                      =   1   <<  0,//成长档案
+    MEBabyContentTypeEvaluate                                    =   1   <<  1,//发展评价
+    MEBabyContentTypeAnnounce                                    =   1   <<  2,//园所公告
+    MEBabyContentTypeSurvey                                      =   1   <<  3,//问卷调查
+    MEBabyContentTypeRecipes                                     =   1   <<  4,//每周食谱
+    MEBabyContentTypeLive                                        =   1   <<  5,//直播课堂
 };
-
-@protocol MEBabyContentDelegate <NSObject>
-@optional
-
-- (void)didTouchBabyContentType:(MEBabyContentType)type;
-
-@end
 
 @interface MEBabyContent : MEBaseScene
 
-@property (nonatomic, weak) id <MEBabyContentDelegate> delegate;
-
 @end
+
