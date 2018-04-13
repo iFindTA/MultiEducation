@@ -32,8 +32,6 @@
 		52AEA7A6E0CE98D8EC85E1D126B1CCA7 /* MEIndexSearchScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DA2DEC29FCAA1FC42B391182921C702 /* MEIndexSearchScene.m */; };
 		5F49A7F3974D7CD2B0215185EBAB1DD5 /* MEVideoRelateVM.m in Sources */ = {isa = PBXBuildFile; fileRef = D56C3FD0F5B7FDFDC9BD0E49E2654847 /* MEVideoRelateVM.m */; };
 		5FEB1081D01FC63FDD2121F655DE17B5 /* MEPlayerLike.xib in Resources */ = {isa = PBXBuildFile; fileRef = A26A6494F26AF3DDEBFA01FC7A3F2913 /* MEPlayerLike.xib */; };
-		607879A320809777004FEDD4 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 607879A220809777004FEDD4 /* UITextField+MaxLength.m */; };
-		607879A6208099C6004FEDD4 /* MESignInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 607879A5208099C6004FEDD4 /* MESignInputField.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		6204314D34F7DC30655A8CC5642C007D /* MEBabyWebProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 086C77C2BB22402895A2EED4A09D9E0F /* MEBabyWebProfile.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
@@ -43,8 +41,10 @@
 		6F73BF6C2FA8DBC1AE5677F0355DB451 /* MEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F18BC21FF8A62003F712FF99B6783B9 /* MEUser.m */; };
 		72A76C03C53299A35616AAEF76D9717F /* MEPersonalListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3659526B225936E648C14D846E7EE /* MEPersonalListModel.m */; };
 		74C6EC5DB340D6504141A523EED61F85 /* MEIndexContentTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C20850EE5E6F131096A018C48AA786F8 /* MEIndexContentTitleCell.xib */; };
+		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
+		7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EAA5E1E600BCEE92B868AAE3668E9F /* MESignInputField.m */; };
 		7E64FF2AFC108B8F23A9DD90E69E13DA /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F4A2FAC7D04842F636448627B119E4 /* libPods-MultiEducation.a */; };
 		85B41EB315B294A07DF3A3C47192C2FC /* imgResource.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D252EECD0EFC3CA8F4309F11940D4D71 /* imgResource.xcassets */; };
 		88EECBF97112DB5A22A7967BD5DCE407 /* MEBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B481AA68F429C178776A5A87738B2D4 /* MEBaseCell.m */; };
@@ -116,6 +116,7 @@
 /* Begin PBXFileReference section */
 		01790E59122AD9711B649FD9D02352B5 /* MEIndexClassesScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexClassesScene.h; sourceTree = "<group>"; };
 		039D43827A45D6963A29AABA846B7212 /* UIView+BlurEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+BlurEffect.m"; sourceTree = "<group>"; };
+		04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITextField+MaxLength.m"; sourceTree = "<group>"; };
 		049C4D8A3E90808C4EBB0615FAF2FFDB /* MEBabyPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyPhotoCell.m; sourceTree = "<group>"; };
 		058A2EFF3BEBDF9A30BEC2F7D7B927AB /* MESignUpProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESignUpProfile.h; sourceTree = "<group>"; };
 		0665851624CEF54E62772643E34216EC /* MEM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEM.h; sourceTree = "<group>"; };
@@ -135,6 +136,7 @@
 		18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		19D183675D37617CCCC54C3234FB6DB2 /* MEUIBaseHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUIBaseHeader.h; sourceTree = "<group>"; };
 		1B1A9F782972A27F2B0E17C6ED55CFA6 /* MEVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVM.h; sourceTree = "<group>"; };
+		1CB21041F26C53618E427ADED48DD192 /* UITextField+MaxLength.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextField+MaxLength.h"; sourceTree = "<group>"; };
 		1EA983C6AF57FF05C6C5753B555092AE /* MEIndexRootProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexRootProfile.h; sourceTree = "<group>"; };
 		23D1E0DE84CBE4736F4AC551BAD34633 /* MEContentHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEContentHeader.h; sourceTree = "<group>"; };
 		25190448871181068B1923F95898834E /* MEKits.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEKits.m; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 		2E0B82CEEF381F7AF37F4F29C8289989 /* MELoginTextScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginTextScene.h; sourceTree = "<group>"; };
 		2FDB7D81AC1267976D7C1011889E64A6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GardenHeader.xib; sourceTree = "<group>"; };
 		30ADE91C62294023ED64210DA976BBA9 /* MEIndexRootProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIndexRootProfile.m; sourceTree = "<group>"; };
+		30EAA5E1E600BCEE92B868AAE3668E9F /* MESignInputField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESignInputField.m; sourceTree = "<group>"; };
 		31E3D93B91D169CF5D9FEC4CEF84514D /* MEBaseLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseLabel.m; sourceTree = "<group>"; };
 		3306B0945584A668D8F02DBDCDE0FC2F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		35321B07CEA36FE81CE1DF23B13DB646 /* MEBabyHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEBabyHeader.xib; sourceTree = "<group>"; };
@@ -174,10 +177,6 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5E324EBD48D42AB177F08518E42021F8 /* MEBabyContentHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEBabyContentHeader.xib; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
-		607879A120809777004FEDD4 /* UITextField+MaxLength.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextField+MaxLength.h"; sourceTree = "<group>"; };
-		607879A220809777004FEDD4 /* UITextField+MaxLength.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITextField+MaxLength.m"; sourceTree = "<group>"; };
-		607879A4208099C6004FEDD4 /* MESignInputField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESignInputField.h; sourceTree = "<group>"; };
-		607879A5208099C6004FEDD4 /* MESignInputField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESignInputField.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		612249B004BA9DA7A98C9F83991C3B54 /* MEChatSessionProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEChatSessionProfile.m; sourceTree = "<group>"; };
 		63CEEB94E7668F3D9979B98463DF6B58 /* MEBabyComponentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyComponentCell.h; sourceTree = "<group>"; };
@@ -240,6 +239,7 @@
 		BBC94F0F022F295A10483AC7D25505AD /* MEPlayerControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPlayerControl.m; sourceTree = "<group>"; };
 		BEA66C0A23210F048FF81E9FEA0A53BD /* MEBaseTabBarProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseTabBarProfile.m; sourceTree = "<group>"; };
 		BEEFE1072436159F5A702EAB33FE2C94 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		BF07963D2B2E86FE37378E296C3AD348 /* MESignInputField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESignInputField.h; sourceTree = "<group>"; };
 		C029A9E21E341CF0483B04554DFD18A9 /* MEIndexClassesScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIndexClassesScene.m; sourceTree = "<group>"; };
 		C1AB5201EF22E0FA8F3DC86C40BB38D9 /* MEBabyPhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEBabyPhotoCell.xib; sourceTree = "<group>"; };
 		C20850EE5E6F131096A018C48AA786F8 /* MEIndexContentTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEIndexContentTitleCell.xib; sourceTree = "<group>"; };
@@ -482,10 +482,10 @@
 			children = (
 				C9F0743EB754A532E39B54FBB85EA401 /* MESignInProfile.h */,
 				B10B4F7EF6669CCAD324CB6B2DCA3E5C /* MESignInProfile.m */,
+				BF07963D2B2E86FE37378E296C3AD348 /* MESignInputField.h */,
+				30EAA5E1E600BCEE92B868AAE3668E9F /* MESignInputField.m */,
 				058A2EFF3BEBDF9A30BEC2F7D7B927AB /* MESignUpProfile.h */,
 				D873706DECAF2734D92865EC3922E939 /* MESignUpProfile.m */,
-				607879A4208099C6004FEDD4 /* MESignInputField.h */,
-				607879A5208099C6004FEDD4 /* MESignInputField.m */,
 			);
 			path = SignInUps;
 			sourceTree = "<group>";
@@ -716,6 +716,8 @@
 		CE0AB0A4477DD8D2AA918169371C0BE1 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				1CB21041F26C53618E427ADED48DD192 /* UITextField+MaxLength.h */,
+				04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */,
 				5950181CCD0E8C06A1D6453D17AD9E4B /* UIView+BlurEffect.h */,
 				039D43827A45D6963A29AABA846B7212 /* UIView+BlurEffect.m */,
 				B4F046AD6E36ED10D9D49B97A22DD2F5 /* UIView+Frame.h */,
@@ -724,8 +726,6 @@
 				700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */,
 				FEF9D25D9FECFD41D3E5F9AB7A25EC36 /* UIViewController+Utils.h */,
 				AA705D3F0BFFE39B743B60947687E652 /* UIViewController+Utils.m */,
-				607879A120809777004FEDD4 /* UITextField+MaxLength.h */,
-				607879A220809777004FEDD4 /* UITextField+MaxLength.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1022,10 +1022,8 @@
 				1D3797D0047644E24C3A1FAAA4A68992 /* MEBaseButton.m in Sources */,
 				88EECBF97112DB5A22A7967BD5DCE407 /* MEBaseCell.m in Sources */,
 				15A9B34E0BCE9B00A87FD825445AB818 /* MEBaseCollectionCell.m in Sources */,
-				607879A320809777004FEDD4 /* UITextField+MaxLength.m in Sources */,
 				6501096D801BA4E64C292E024CA2BE36 /* MEBaseImageView.m in Sources */,
 				4783F5731225B8352459537E0D0D4B78 /* MEBaseLabel.m in Sources */,
-				607879A6208099C6004FEDD4 /* MESignInputField.m in Sources */,
 				65B8475B1BD90D4488923B7CB8D26B7D /* MEBaseNavigationProfile.m in Sources */,
 				031538E4F2F0D51468936913233116D4 /* MEBaseProfile.m in Sources */,
 				D018419E61B2E0073A92A14D6DB3CBE1 /* MEBaseScene.m in Sources */,
@@ -1059,6 +1057,7 @@
 				97E552ADFB3F5F7943BDDA12B6AA889B /* MEProgressView.m in Sources */,
 				08CB6B9ECBE3E0992D415627BA93613E /* MESearchBar.m in Sources */,
 				97513C50EBE68A736AB564DD25AAD696 /* MESignInProfile.m in Sources */,
+				7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */,
 				E0D84C2A464E3E6D5963D26D50F2BB62 /* MESignUpProfile.m in Sources */,
 				6F73BF6C2FA8DBC1AE5677F0355DB451 /* MEUser.m in Sources */,
 				B7657D63A0213F12AB98DAAFDA819161 /* MEUserVM.m in Sources */,
@@ -1069,6 +1068,7 @@
 				8BF5E12E2C27795DD92447A8CA867593 /* MEVideoRecordProfile.m in Sources */,
 				62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */,
 				5F49A7F3974D7CD2B0215185EBAB1DD5 /* MEVideoRelateVM.m in Sources */,
+				7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */,
 				1E875B2DC795B73EA691B47B3C03F1DF /* UIView+BlurEffect.m in Sources */,
 				ED0D090076CEE017686C906F12AFFD4E /* UIView+Frame.m in Sources */,
 				610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */,
