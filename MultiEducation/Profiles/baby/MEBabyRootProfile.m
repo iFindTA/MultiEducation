@@ -29,8 +29,7 @@
     
     //layout
     [self.babyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(self.view).mas_offset(-ME_HEIGHT_TABBAR);
+        make.left.top.right.bottom.mas_equalTo(self.view);
     }];
 }
 

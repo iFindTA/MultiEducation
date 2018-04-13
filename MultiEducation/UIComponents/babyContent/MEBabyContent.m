@@ -11,12 +11,19 @@
 #import "MEBabyHeader.h"
 #import "MEBabyContentHeader.h"
 #import "MEBabyComponentCell.h"
+#import "MEBabyInfoCell.h"
 
 #define MAX_BABY_PHOTO 10
 #define COMPONENT_COUNT 6
 
 #define BABY_PHOTOVIEW_IDEF @"baby_photoView_idef"
 #define SCROLL_CONTENTVIEW_IDEF @"scroll_contentView_idef"
+#define BABY_INFO_IDEF @"baby_info_idef"
+
+#define TABLEVIEW_ROW_HEIGHT 102.f
+#define TABLEVIEW_SECTION_HEIGHT 44.f
+
+#define TABLEVIEW_TOTAL_HEIGHT TABLEVIEW_ROW_HEIGHT * 10 +
 
 @interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource>
 
@@ -42,6 +49,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self createSubviews];
+        
     }
     return self;
 }
@@ -58,8 +66,7 @@
     [self.scrollContentView addSubview: self.photoHeader];
     [self.scrollContentView addSubview: self.babyPhtoView];
     [self.scrollContentView addSubview: self.componentView];
-    
-
+    [self.scrollContentView addSubview: self.tableView];
     
     //layoutBackContentView
     
@@ -95,21 +102,37 @@
     
     [self.babyPhtoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
-        make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(0);
-        make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(15.f);
+        make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(-10);
+        make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(10.f);
         make.height.mas_equalTo(78);
     }];
     
     [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(MESCREEN_WIDTH);
+        make.width.mas_equalTo(MESCREEN_WIDTH - 20);
         make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
         make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
         make.height.mas_equalTo(256.f);
     }];
     
-    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.componentView.mas_bottom).mas_offset(10.f);
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.scrollContentView);
+        make.top.mas_equalTo(self.componentView.mas_bottom);
+        make.height.mas_equalTo([self tableviewHeight]);
     }];
+    
+    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
+    }];
+}
+
+//let tableView.height = tableView.contentView.height  don't let it can scroll !!!
+- (CGFloat)tableviewHeight {
+    CGFloat height = 0;
+    for (int i = 0; i < [self.tableView numberOfSections]; i++) {
+        height += TABLEVIEW_SECTION_HEIGHT;
+        height += [self.tableView numberOfRowsInSection: i] * TABLEVIEW_ROW_HEIGHT;
+    }
+    return height;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -148,17 +171,46 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([collectionView isEqual: self.babyPhtoView]) {
         //babyPhotoView collectionView cell
-        
         NSLog(@"did select babyPhotoView at indexPath.item:%ld", (long)indexPath.item);
-        
-        
     } else {
         //scrollContentView collectionView cell
         
         NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
-
-        
     }
+}
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 5;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: BABY_INFO_IDEF];
+    
+    
+    return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"育儿资讯";
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 44;
+}
+
+#pragma mark - UITabelViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return TABLEVIEW_ROW_HEIGHT;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"did select tableview in section:%ld in row:%ld", (long)indexPath.section, (long)indexPath.row);
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
 }
 
 #pragma mark - lazyloading
@@ -220,8 +272,8 @@
         _tableView = [[UITableView alloc] initWithFrame: CGRectZero style: UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        
         _tableView.backgroundColor = [UIColor whiteColor];
+        [_tableView registerNib: [UINib nibWithNibName: @"MEBabyInfoCell" bundle: nil] forCellReuseIdentifier: BABY_INFO_IDEF];
     }
     return _tableView;
 }

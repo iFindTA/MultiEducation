@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7QR-NX-LEl" customClass="MEBabyInfoCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="102"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7QR-NX-LEl" id="NqD-yu-GCm">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="101.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VEc-Lr-AmT" customClass="MEBaseLabel">
+                        <rect key="frame" x="10" y="14" width="231" height="44"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="44" id="VPY-8C-Vno"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bvv-IZ-rsJ" customClass="MEBaseLabel">
+                        <rect key="frame" x="10" y="68" width="60" height="15"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="DJw-r5-2R8"/>
+                            <constraint firstAttribute="height" constant="15" id="l0D-GF-arb"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="k5y-Wd-DHF">
+                        <rect key="frame" x="267" y="14" width="98" height="75"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="75" id="Y8p-EW-Z9p"/>
+                            <constraint firstAttribute="width" constant="98" id="rMR-9c-0l3"/>
+                        </constraints>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROL-c3-DEj" customClass="MEBaseLabel">
+                        <rect key="frame" x="80" y="68" width="60" height="15"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="3gJ-pN-VEi"/>
+                            <constraint firstAttribute="height" constant="15" id="pZo-FU-WFl"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="k5y-Wd-DHF" secondAttribute="trailing" constant="10" id="6oi-Jy-guh"/>
+                    <constraint firstItem="k5y-Wd-DHF" firstAttribute="top" secondItem="NqD-yu-GCm" secondAttribute="top" constant="14" id="AdG-I6-RsM"/>
+                    <constraint firstItem="Bvv-IZ-rsJ" firstAttribute="leading" secondItem="VEc-Lr-AmT" secondAttribute="leading" id="Ehj-xj-xir"/>
+                    <constraint firstItem="ROL-c3-DEj" firstAttribute="top" secondItem="Bvv-IZ-rsJ" secondAttribute="top" id="Oz2-fC-NPC"/>
+                    <constraint firstItem="Bvv-IZ-rsJ" firstAttribute="top" secondItem="VEc-Lr-AmT" secondAttribute="bottom" constant="10" id="Y1p-jJ-8cH"/>
+                    <constraint firstItem="ROL-c3-DEj" firstAttribute="leading" secondItem="Bvv-IZ-rsJ" secondAttribute="trailing" constant="10" id="dGF-al-hAc"/>
+                    <constraint firstItem="VEc-Lr-AmT" firstAttribute="top" secondItem="NqD-yu-GCm" secondAttribute="top" constant="14" id="dSl-pf-vSO"/>
+                    <constraint firstItem="VEc-Lr-AmT" firstAttribute="leading" secondItem="NqD-yu-GCm" secondAttribute="leading" constant="10" id="oI5-Pa-l2H"/>
+                    <constraint firstItem="k5y-Wd-DHF" firstAttribute="leading" secondItem="VEc-Lr-AmT" secondAttribute="trailing" constant="26" id="xLZ-dA-lP1"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="16.5" y="-108"/>
+        </tableViewCell>
+    </objects>
+</document>

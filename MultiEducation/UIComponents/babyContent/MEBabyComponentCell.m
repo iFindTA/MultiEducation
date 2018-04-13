@@ -68,7 +68,7 @@
     
     self.titleLabel.text = title;
     self.subtitleLabel.text = subTitle;
-    self.backgroundColor = backgroundColor;
+    self.backView.backgroundColor = backgroundColor;
     self.icon.image = iconImage;
     
 }

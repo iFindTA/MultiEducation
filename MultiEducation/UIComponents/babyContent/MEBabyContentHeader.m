@@ -30,7 +30,7 @@
 }
 
 - (void)babyContentHeaderTapEvent {
-    
+    NSLog(@"did touch babyphoto header");
 }
 
 

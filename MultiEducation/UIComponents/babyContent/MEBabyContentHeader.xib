@@ -20,16 +20,15 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Sri-7S-NxT">
-                    <rect key="frame" x="23" y="17.5" width="15" height="19"/>
-                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="baby_content_photo" translatesAutoresizingMaskIntoConstraints="NO" id="Sri-7S-NxT">
+                    <rect key="frame" x="23" y="19.5" width="19" height="15"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="19" id="006-Of-z56"/>
-                        <constraint firstAttribute="width" constant="15" id="QTC-wF-JsB"/>
+                        <constraint firstAttribute="height" constant="15" id="006-Of-z56"/>
+                        <constraint firstAttribute="width" constant="19" id="QTC-wF-JsB"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="宝宝相册" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2qJ-z0-k1r">
-                    <rect key="frame" x="50" y="17.5" width="180" height="19"/>
+                    <rect key="frame" x="54" y="17.5" width="180" height="19"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="19" id="ec1-dA-xjd"/>
                         <constraint firstAttribute="width" constant="180" id="ylJ-av-wJ1"/>
@@ -38,9 +37,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Y4l-4E-be7">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="baby_content_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="Y4l-4E-be7">
                     <rect key="frame" x="339" y="22" width="5" height="10"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="5" id="88Z-rU-YFh"/>
                         <constraint firstAttribute="height" constant="10" id="LHs-bi-EsE"/>
@@ -65,4 +63,8 @@
             <point key="canvasLocation" x="25" y="37"/>
         </view>
     </objects>
+    <resources>
+        <image name="baby_content_arrow" width="7" height="12"/>
+        <image name="baby_content_photo" width="19" height="15"/>
+    </resources>
 </document>

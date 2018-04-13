@@ -102,8 +102,6 @@
     if (!_closeItem) {
         _closeItem = [[UIBarButtonItem alloc] init];
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage *image = [UIImage imageNamed:@""];
-        [btn setImage:image forState:UIControlStateNormal];
         [btn setTitle:@"关闭" forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(popWebTouchEvent) forControlEvents:UIControlEventTouchUpInside];
         [btn.titleLabel setFont:[UIFont systemFontOfSize:17]];

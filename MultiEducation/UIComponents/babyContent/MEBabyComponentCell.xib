@@ -23,7 +23,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9YK-YG-bx5" customClass="MEBaseLabel">
                                 <rect key="frame" x="14" y="38" width="80" height="20"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="CSu-cH-zUE"/>
                                     <constraint firstAttribute="height" constant="20" id="FBj-JA-pUg"/>
@@ -31,6 +31,10 @@
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
                                         <real key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="subtitle"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -43,7 +47,7 @@
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Zg-lZ-jai" customClass="MEBaseLabel">
                                 <rect key="frame" x="14" y="10" width="100" height="20"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="coH-2Z-oCe"/>
                                     <constraint firstAttribute="height" constant="20" id="fiE-yk-Xt9"/>
@@ -52,10 +56,14 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
                                         <real key="value" value="14"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="title"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="9YK-YG-bx5" firstAttribute="top" secondItem="4Zg-lZ-jai" secondAttribute="bottom" constant="8" id="18g-dd-ZNI"/>
                             <constraint firstAttribute="trailing" secondItem="kqK-gp-RwO" secondAttribute="trailing" constant="12" id="Gxl-3x-TKa"/>
@@ -64,6 +72,12 @@
                             <constraint firstItem="9YK-YG-bx5" firstAttribute="leading" secondItem="4Zg-lZ-jai" secondAttribute="leading" id="eYX-Qd-1Zj"/>
                             <constraint firstItem="4Zg-lZ-jai" firstAttribute="top" secondItem="ReW-lF-5LQ" secondAttribute="top" constant="10" id="o7M-8z-AKV"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
             </view>
