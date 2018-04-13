@@ -169,7 +169,6 @@
 		58C249B46352B3E34B00C2CD8CF27C26 /* MEBaseNavigationProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseNavigationProfile.m; sourceTree = "<group>"; };
 		5950181CCD0E8C06A1D6453D17AD9E4B /* UIView+BlurEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+BlurEffect.h"; sourceTree = "<group>"; };
 		59D3CD371A0268812E9A8FFF66A5865D /* MEBabyComponentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyComponentCell.m; sourceTree = "<group>"; };
-		5AB82AF46CF47881BD14389103F0F19D /* MEAuthorMainProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEAuthorMainProfile.h; sourceTree = "<group>"; };
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5E324EBD48D42AB177F08518E42021F8 /* MEBabyContentHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEBabyContentHeader.xib; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
@@ -1003,7 +1002,6 @@
 			files = (
 				446CB806887877986123034D0407DBA2 /* AppDelegate.m in Sources */,
 				DAD64112B4F62AD0FDF9441CF3A3720D /* GardenHeader.m in Sources */,
-				F85AD7332357BE5867C64250E85040FD /* MEAuthorMainProfile.m in Sources */,
 				B2A7BD63D80FF706E13A35EE0F930AD9 /* MEBabyComponentCell.m in Sources */,
 				9069829CAA0287AEC3EFA86431744B16 /* MEBabyContent.m in Sources */,
 				94DA5F369A1E4D2A36348611BFB11B85 /* MEBabyContentHeader.m in Sources */,
