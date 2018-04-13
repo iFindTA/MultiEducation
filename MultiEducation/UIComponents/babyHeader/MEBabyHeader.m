@@ -16,7 +16,7 @@
     
     [self layoutIfNeeded];
    
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle: UIBlurEffectStyleRegular];
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle: UIBlurEffectStyleLight];
     UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect: effect];
     [_backContentView addSubview: effectView];
     
@@ -29,9 +29,6 @@
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
     NSLog(@"click setting event");
-    if (self.settingCallBack) {
-        self.settingCallBack();
-    }
 }
 
 

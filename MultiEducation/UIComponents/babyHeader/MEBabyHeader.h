@@ -27,8 +27,6 @@ typedef void(^settingCallBack)(void);
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *babyWeightLab;
 
-@property (nonatomic, weak) settingCallBack settingCallBack;
-
 
 
 

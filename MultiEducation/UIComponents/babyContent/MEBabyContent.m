@@ -8,6 +8,31 @@
 
 #import "MEBabyContent.h"
 #import "UIView+Frame.h"
+#import "MEBabyHeader.h"
+#import "MEBabyContentHeader.h"
+#import "MEBabyComponentCell.h"
+
+#define MAX_BABY_PHOTO 10
+#define COMPONENT_COUNT 6
+
+#define BABY_PHOTOVIEW_IDEF @"baby_photoView_idef"
+#define SCROLL_CONTENTVIEW_IDEF @"scroll_contentView_idef"
+
+@interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) MEBabyHeader *headerView;
+
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *scrollContentView;
+
+@property (nonatomic, strong) MEBabyContentHeader *photoHeader;
+@property (nonatomic, strong) UICollectionView *babyPhtoView;
+
+@property (nonatomic, strong) UICollectionView *componentView;
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@end
 
 @implementation MEBabyContent
 
@@ -21,161 +46,169 @@
 
 - (void)createSubviews {
     
-    UIView *babyPhotoView = [self createContentView: MEBabyContentTypeBabyPhoto title: @"宝宝相册" subTitle: @"77张"];
-    [self addSubview: babyPhotoView];
-    UIView *beautyDayView = [self createContentView: MEBabyContentTypeBeautyDay title: @"一日精彩" subTitle: @"记录每个瞬间"];
-    [self addSubview: beautyDayView];
-    UIView *growthView = [self createContentView: MEBabyContentTypeGrowth title: @"成长档案" subTitle: @"小班上"];
-    [self addSubview: growthView];
-    UIView *evaluateView = [self createContentView: MEBabyContentTypeEvaluate title: @"发展评价" subTitle: @"小班四月"];
-    [self addSubview: evaluateView];
-    UIView *inviteView = [self createContentView: MEBabyContentTypeInvite title: @"邀请家人" subTitle: @"邀请有礼"];
-    [self addSubview: inviteView];
+    [self addSubview: self.scrollView];
+    [self.scrollView addSubview: self.scrollContentView];
     
-    //contentView width and height
-    CGFloat contentWidth = (MESCREEN_WIDTH - 28) / 2;
-    CGFloat contentHeight = 104;
+    self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyHeader" owner:self options:nil] lastObject];
+    [self.scrollContentView addSubview: self.headerView];
     
-    //layout
-    [babyPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).mas_offset(10);
-        make.top.mas_equalTo(self.mas_top).mas_offset(10);
-        make.width.mas_equalTo(contentWidth);
-        make.height.mas_equalTo(contentHeight);
-    }];
+    self.photoHeader = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyContentHeader" owner:self options:nil] lastObject];
+    [self.scrollContentView addSubview: self.photoHeader];
+    [self.scrollContentView addSubview: self.babyPhtoView];
+    [self.scrollContentView addSubview: self.componentView];
     
-    [beautyDayView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(babyPhotoView.mas_right).mas_offset(8);
-        make.top.mas_equalTo(self.mas_top).mas_offset(10);
-        make.width.mas_equalTo(contentWidth);
-        make.height.mas_equalTo(contentHeight);
-    }];
-    
-    //reset contentView width and height
-    contentWidth = (MESCREEN_WIDTH - 36) / 3;
-    contentHeight = 113;
-    
-    [growthView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).mas_offset(10);
-        make.top.mas_equalTo(babyPhotoView.mas_bottom).mas_offset(10);
-        make.width.mas_equalTo(contentWidth);
-        make.height.mas_equalTo(contentHeight);
-    }];
-    
-    [evaluateView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(growthView.mas_right).mas_offset(8);
-        make.top.mas_equalTo(babyPhotoView.mas_bottom).mas_offset(10);
-        make.width.mas_equalTo(contentWidth);
-        make.height.mas_equalTo(contentHeight);
-    }];
-    
-    [inviteView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(evaluateView.mas_right).mas_offset(8);
-        make.top.mas_equalTo(babyPhotoView.mas_bottom).mas_offset(10);
-        make.width.mas_equalTo(contentWidth);
-        make.height.mas_equalTo(contentHeight);
-    }];
-    
-}
 
-- (UIView *)createContentView:(MEBabyContentType)type title:(NSString *)title subTitle:(NSString *)subTitle {
     
-    UIColor *contentBackgroundColor;
-    NSString *imageName;
-    CGSize imageSize;
-    switch (type) {
-        case MEBabyContentTypeBabyPhoto: {
-            contentBackgroundColor = UIColorFromRGB(0xE78B8B);
-            imageName = @"baby_content_photo";
-            imageSize = CGSizeMake(28, 22);
-        }
-            break;
-        case MEBabyContentTypeBeautyDay: {
-            contentBackgroundColor = UIColorFromRGB(0x8F9BE6);
-            imageName = @"baby_content_beauty_day";
-            imageSize = CGSizeMake(26, 21);
-        }
-            break;
-        case MEBabyContentTypeGrowth: {
-            contentBackgroundColor = UIColorFromRGB(0xB0D996);
-            imageName = @"baby_content_growth";
-            imageSize = CGSizeMake(27, 22);
-        }
-            break;
-        case MEBabyContentTypeEvaluate: {
-            contentBackgroundColor = UIColorFromRGB(0xDFC191);
-            imageName = @"baby_content_evaluate";
-            imageSize = CGSizeMake(20, 25);
-        }
-            break;
-        case MEBabyContentTypeInvite: {
-            contentBackgroundColor = UIColorFromRGB(0xBC97D5);
-            imageName = @"baby_content_invite";
-            imageSize = CGSizeMake(26, 26);
-        }
-        default:
-            break;
+    //layoutBackContentView
+    
+    //in iOS11  scrollView's Y will down scroll 20pt!
+    CGFloat toTop;
+    if (@available(iOS 11.0, *)) {
+        toTop = -20;
+    } else {
+        toTop = 0;
     }
     
-    UIView *contentView = [[UIView alloc] init];
-    contentView.backgroundColor = contentBackgroundColor;
-    contentView.userInteractionEnabled = YES;
-    contentView.layer.cornerRadius = 2.f;
-    contentView.clipsToBounds = YES;
-    contentView.tag = type;
-    
-    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(babyContentTapEvent:)];
-    [contentView addGestureRecognizer: tapGes];
-    
-    
-    MEBaseLabel *nameLab = [[MEBaseLabel alloc] init];
-    nameLab.text = title;
-    nameLab.textColor = [UIColor whiteColor];
-    nameLab.font = UIFontPingFangSC(14);
-    nameLab.textAlignment = NSTextAlignmentLeft;
-    [contentView addSubview: nameLab];
-    
-    MEBaseLabel *tipLab = [[MEBaseLabel alloc] init];
-    tipLab.text = subTitle;
-    tipLab.textColor = [UIColor whiteColor];
-    tipLab.font = UIFontPingFangSC(12);
-    tipLab.textAlignment = NSTextAlignmentLeft;
-    [contentView addSubview: tipLab];
-    
-    UIImageView *icon = [[UIImageView alloc] init];
-    icon.image = [UIImage imageNamed: imageName];
-    [contentView addSubview: icon];
-    
-    //layout
-    [nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(contentView.mas_left).offset(11);
-        make.top.mas_equalTo(contentView.mas_top).offset(16);
-        make.width.mas_equalTo(70);
-        make.height.mas_equalTo(20);
+    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.mas_equalTo(self);
+        make.top.mas_equalTo(self).mas_offset(toTop);
     }];
     
-    [tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(contentView.mas_left).offset(11);
-        make.top.mas_equalTo(nameLab.mas_bottom).offset(4);
-        make.width.mas_equalTo(80);
-        make.height.mas_equalTo(17);
+    [_scrollContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.scrollView);
     }];
     
-    [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(contentView.mas_right).offset(-15);
-        make.bottom.mas_equalTo(contentView.mas_bottom).offset(-12);
-        make.width.mas_equalTo(imageSize.width);
-        make.height.mas_equalTo(imageSize.height);
+    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(self.scrollContentView);
+        make.height.mas_equalTo(230.f);
     }];
     
-    return contentView;
+    [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.scrollContentView);
+        make.top.mas_equalTo(self.headerView.mas_bottom);
+        make.height.mas_equalTo(54.f);
+    }];
+    
+    [self.babyPhtoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
+        make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(0);
+        make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(15.f);
+        make.height.mas_equalTo(78);
+    }];
+    
+    [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.scrollContentView).mas_offset(10);
+                make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
+        make.height.mas_equalTo(256.f);
+    }];
+    
+    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.componentView.mas_bottom).mas_offset(10.f);
+    }];
 }
 
-- (void)babyContentTapEvent:(UITapGestureRecognizer *)ges {
-    MEBabyContentType type = [ges view].tag;
-    if (self.delegate && [self.delegate respondsToSelector: @selector( didTouchBabyContentType:)]) {
-        [self.delegate didTouchBabyContentType: type];
+#pragma mark - UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    if ([collectionView isEqual: self.babyPhtoView]) {
+        return MAX_BABY_PHOTO;
+    } else {
+        return COMPONENT_COUNT;
     }
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell;
+    
+    if ([collectionView isEqual: self.babyPhtoView]) {
+        //babyPhotoView collectionView cell
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier: BABY_PHOTOVIEW_IDEF forIndexPath: indexPath];
+    } else {
+//        scrollContentView collectionView cell
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
+        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item];
+    }
+    return cell;
+}
+
+#pragma mark - UICollectionViewFlowLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([collectionView isEqual: self.babyPhtoView]) {
+        return CGSizeMake(78.f, 78.f);
+    } else {
+        return CGSizeMake(175.f, 82.f);
+    }
+}
+
+#pragma mark - UICollectionViewLayout
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([collectionView isEqual: self.babyPhtoView]) {
+        //babyPhotoView collectionView cell
+        
+        NSLog(@"did select babyPhotoView at indexPath.item:%ld", (long)indexPath.item);
+        
+        
+    } else {
+        //scrollContentView collectionView cell
+        
+        NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
+
+        
+    }
+}
+
+#pragma mark - lazyloading
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] init];
+        _scrollView.backgroundColor = [UIColor whiteColor];
+    }
+    return _scrollView;
+}
+
+- (UIView *)scrollContentView {
+    if (!_scrollContentView) {
+        _scrollContentView = [[UIView alloc] init];
+        _scrollContentView.backgroundColor = [UIColor whiteColor];
+        _scrollView.showsVerticalScrollIndicator = NO;
+    }
+    return _scrollContentView;
+}
+
+- (UICollectionView *)componentView {
+    if (!_componentView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        [layout setScrollDirection: UICollectionViewScrollDirectionVertical];
+        layout.itemSize =CGSizeMake(175, 82);
+        layout.minimumInteritemSpacing = 5.f;
+        layout.minimumLineSpacing = 5.f;
+
+        _componentView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
+        _componentView.delegate = self;
+        _componentView.dataSource = self;
+        _componentView.backgroundColor = [UIColor whiteColor];
+        _componentView.showsVerticalScrollIndicator = NO;
+        
+        [_componentView registerNib: [UINib nibWithNibName: @"MEBabyComponentCell" bundle: nil] forCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF];
+    }
+    return _componentView;
+}
+
+- (UICollectionView *)babyPhtoView {
+    if (!_babyPhtoView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        [layout setScrollDirection: UICollectionViewScrollDirectionHorizontal];
+        layout.itemSize =CGSizeMake(78, 78);
+        layout.minimumInteritemSpacing = 5.f;
+        
+        _babyPhtoView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
+        _babyPhtoView.delegate = self;
+        _babyPhtoView.dataSource = self;
+        _babyPhtoView.backgroundColor = [UIColor whiteColor];
+        _babyPhtoView.showsHorizontalScrollIndicator = NO;
+        
+        [_babyPhtoView registerNib: [UINib nibWithNibName: @"MEBabyPhotoCell" bundle: nil] forCellWithReuseIdentifier: BABY_PHOTOVIEW_IDEF];
+    }
+    return _babyPhtoView;
 }
 
 @end
