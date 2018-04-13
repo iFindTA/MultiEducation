@@ -41,4 +41,6 @@
 - (void)setBadgeValue:(NSInteger)value atIndex:(NSUInteger)idx;
 - (void)clearBadgeAtIndex:(NSUInteger)idx;
 
+
+
 @end

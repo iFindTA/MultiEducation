@@ -29,10 +29,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIImage *image = [UIImage pb_imageWithColor:[UIColor whiteColor]];
-    self.navigationBar.backgroundColor = [UIColor whiteColor];
-    [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    //[self hiddenNavigationBar];
+    [self hiddenNavigationBar];
+    
+    //welcom
+    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
+    label.text = @"欢迎登录多元幼教";
     
     CGRect bounds = CGRectMake(100, 200, 100, 50);
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -59,7 +61,15 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self setNeedsStatusBarAppearanceUpdate];
+    //[self setNeedsStatusBarAppearanceUpdate];
+    //黑色
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //黑色
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {

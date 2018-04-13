@@ -101,8 +101,8 @@
     [self.view insertSubview:self.classesScene belowSubview:self.searchScene];
     [self.classesScene makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.searchBar.mas_bottom);
-        make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-ME_HEIGHT_TABBAR);
+        make.left.right.bottom.equalTo(self.view);
+        //make.bottom.equalTo(self.view.mas_bottom).offset(-ME_HEIGHT_TABBAR);
     }];
     self.classesScene.hideShowBarCallback = ^(BOOL hide){
         strongify(self)

@@ -22,6 +22,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define UIFontPingFangSCBold(f)         [UIFont fontWithName:@"PingFangSC-SemiBold" size:f]
 #define UIFontSystem(f)                 [UIFont systemFontOfSize:f]
 #define UIFontSystemBold(f)             [UIFont boldSystemFontOfSize:f]
+#define METHEME_FONT_LARGETITLE                                         18.f
 #define METHEME_FONT_TITLE                                              15.f
 #define METHEME_FONT_SUBTITLE                                           13.f
 #define METHEME_FONT_NAVIGATION                                         22.f
@@ -55,9 +56,10 @@ typedef NS_ENUM(NSUInteger, MEDisplayStyle) {
 };
 
 typedef NS_ENUM(NSUInteger, MEUserRole) {
-    MEUserRoleParent                        =   1   <<  0,  //家长
-    MEUserRoleTeacher                       =   1   <<  1,  //老师
-    MEUserRoleGardener                      =   1   <<  2   //园务
+    MEUserRoleVisitor                       =   1   <<  0,  //游客
+    MEUserRoleParent                        =   1   <<  1,  //家长
+    MEUserRoleTeacher                       =   1   <<  2,  //老师
+    MEUserRoleGardener                      =   1   <<  3   //园务
 };
 /**
  user state
