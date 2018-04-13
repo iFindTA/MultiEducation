@@ -11,11 +11,12 @@
 #import "ViewController.h"
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
-#import <UINavigationController+SJVideoPlayerAdd.h>
 #import "MEBabyRootProfile.h"
 #import "MEIndexRootProfile.h"
 #import "MEAuthorMainProfile.h"
 #import "MEPersonalRootProfile.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import <UINavigationController+SJVideoPlayerAdd.h>
 
 @interface AppDelegate ()
 
@@ -49,6 +50,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.winProfile;
     [self.window makeKeyAndVisible];
+    //for input
+    [IQKeyboardManager sharedManager].enable = true;
 
     return YES;
 }

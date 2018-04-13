@@ -7,6 +7,7 @@
 //
 
 #import "MEAuthorMainProfile.h"
+#import <JVFloatLabeledTextField/JVFloatLabeledTextField.h>
 
 @interface MEAuthorMainProfile ()
 
@@ -35,6 +36,31 @@
     MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     label.font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
     label.text = @"欢迎登录多元幼教";
+    [self.view addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(adoptValue(ME_LAYOUT_SUBBAR_HEIGHT * 2));
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+    }];
+    //mobile
+    MEBaseImageView *icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    [self.view addSubview:icon];
+    icon.image = [UIImage imageNamed:@"signin_mobile"];
+    [icon makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(label.mas_bottom).offset(ME_LAYOUT_SUBBAR_HEIGHT);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
+    JVFloatLabeledTextField *input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.placeholder = @"输入手机号码";
+    [self.view addSubview:input];
+    [input makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(icon);
+        make.left.equalTo(icon.mas_right).offset(ME_LAYOUT_MARGIN);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+    }];
     
     CGRect bounds = CGRectMake(100, 200, 100, 50);
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];

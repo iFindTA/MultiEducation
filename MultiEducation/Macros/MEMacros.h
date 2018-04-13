@@ -22,6 +22,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define UIFontPingFangSCBold(f)         [UIFont fontWithName:@"PingFangSC-SemiBold" size:f]
 #define UIFontSystem(f)                 [UIFont systemFontOfSize:f]
 #define UIFontSystemBold(f)             [UIFont boldSystemFontOfSize:f]
+#define UIFontIconFont(f)               [UIFont fontWithName:@"iconfont" size:f]
 #define METHEME_FONT_LARGETITLE                                         18.f
 #define METHEME_FONT_TITLE                                              15.f
 #define METHEME_FONT_SUBTITLE                                           13.f
@@ -41,6 +42,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_LAYOUT_BOUNDARY                                               20
 #define ME_LAYOUT_MARGIN                                                  5
 #define ME_LAYOUT_SUBBAR_HEIGHT                                          40
+#define ME_LAYOUT_ICON_HEIGHT                                            30
 
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))
