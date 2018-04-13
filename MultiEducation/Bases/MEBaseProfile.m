@@ -8,6 +8,7 @@
 #import <objc/message.h>
 #import "MEBaseProfile.h"
 #import "PBBaseTabBarProfile+Hidden.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface MEBaseProfile ()
 
@@ -117,6 +118,12 @@
 
 - (MEUserRole)currentUserRole {
     return [[self appDelegate].curUser userRole];
+}
+
+- (void)handleTransitionError:(NSError *)error {
+    if (error) {
+        [SVProgressHUD showErrorWithStatus:error.domain];
+    }
 }
 
 @end

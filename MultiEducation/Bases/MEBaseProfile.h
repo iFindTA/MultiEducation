@@ -48,4 +48,9 @@
  */
 - (MEUserRole)currentUserRole;
 
+/**
+ handle error
+ */
+- (void)handleTransitionError:(NSError *_Nullable)error;
+
 @end
