@@ -265,13 +265,11 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //[self setNeedsStatusBarAppearanceUpdate];
-    //黑色
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    //黑色
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
