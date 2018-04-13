@@ -7,8 +7,16 @@
 //
 
 #import "MESignUpProfile.h"
+#import <JKCountDownButton/JKCountDownButton.h>
+#import <JVFloatLabeledTextField/JVFloatLabeledTextField.h>
 
 @interface MESignUpProfile ()
+
+/**
+ mobile & pwd
+ */
+@property (nonatomic, strong) JVFloatLabeledTextField *inputMobile;
+@property (nonatomic, strong) JVFloatLabeledTextField *inputPwd;
 
 @end
 
@@ -19,6 +27,235 @@
     // Do any additional setup after loading the view.
     
     [self hiddenNavigationBar];
+    
+    //welcom
+    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
+    label.text = @"注册账号";
+    [self.view addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(adoptValue(ME_LAYOUT_SUBBAR_HEIGHT * 2));
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+    }];
+    //mobile
+    MEBaseImageView *icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    icon.contentMode = UIViewContentModeScaleAspectFill;
+    [self.view addSubview:icon];
+    icon.image = [UIImage imageNamed:@"signin_mobile"];
+    [icon makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(label.mas_bottom).offset(ME_LAYOUT_SUBBAR_HEIGHT);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
+    UIFont *inputFont = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
+    UIColor *textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    JVFloatLabeledTextField *input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = inputFont;
+    input.placeholder = @"手机号码";
+    input.textColor = textColor;
+    input.keyboardType = UIKeyboardTypePhonePad;
+    [self.view addSubview:input];
+    self.inputMobile = input;
+    [input makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(icon).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo(icon).offset(ME_LAYOUT_MARGIN);
+        make.left.equalTo(icon.mas_right).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+    }];
+    MEBaseScene *line = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    line.backgroundColor =UIColorFromRGB(ME_THEME_COLOR_LINE);
+    [self.view addSubview:line];
+    [line makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(input.mas_bottom).offset(ME_LAYOUT_MARGIN * 0.5);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view);
+        make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    //password
+    icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    icon.contentMode = UIViewContentModeScaleAspectFill;
+    [self.view addSubview:icon];
+    icon.image = [UIImage imageNamed:@"signin_pwd"];
+    [icon makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(line.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
+    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = inputFont;
+    input.placeholder = @"密码";
+    input.textColor = textColor;
+    input.keyboardType = UIKeyboardTypeNamePhonePad;
+    [self.view addSubview:input];
+    self.inputPwd = input;
+    [input makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(icon).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo(icon).offset(ME_LAYOUT_MARGIN);
+        make.left.equalTo(icon.mas_right).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+    }];
+    line = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    line.backgroundColor =UIColorFromRGB(ME_THEME_COLOR_LINE);
+    [self.view addSubview:line];
+    [line makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(input.mas_bottom).offset(ME_LAYOUT_MARGIN * 0.5);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view);
+        make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    //class no
+    icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    icon.contentMode = UIViewContentModeScaleAspectFill;
+    [self.view addSubview:icon];
+    icon.image = [UIImage imageNamed:@"signup_classno"];
+    [icon makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(line.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
+    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = inputFont;
+    input.placeholder = @"班级码";
+    input.textColor = textColor;
+    input.keyboardType = UIKeyboardTypeNumberPad;
+    [self.view addSubview:input];
+    self.inputPwd = input;
+    [input makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(icon).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo(icon).offset(ME_LAYOUT_MARGIN);
+        make.left.equalTo(icon.mas_right).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+    }];
+    line = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    line.backgroundColor =UIColorFromRGB(ME_THEME_COLOR_LINE);
+    [self.view addSubview:line];
+    [line makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(input.mas_bottom).offset(ME_LAYOUT_MARGIN * 0.5);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view);
+        make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    //code
+    icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    icon.contentMode = UIViewContentModeScaleAspectFill;
+    [self.view addSubview:icon];
+    icon.image = [UIImage imageNamed:@"signin_code"];
+    [icon makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(line.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
+    //
+    UIColor *themeColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+    JKCountDownButton *countDown = [JKCountDownButton buttonWithType:UIButtonTypeCustom];
+    countDown.titleLabel.font = inputFont;
+    [countDown setTitle:@"验证码" forState:UIControlStateNormal];
+    [countDown setTitleColor:themeColor forState:UIControlStateNormal];
+    countDown.layer.cornerRadius = ME_LAYOUT_SUBBAR_HEIGHT * 0.5;
+    countDown.layer.masksToBounds = true;
+    countDown.layer.borderWidth = ME_LAYOUT_LINE_HEIGHT;
+    countDown.layer.borderColor = themeColor.CGColor;
+    countDown.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:countDown];
+    [countDown makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(icon.mas_centerY);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(adoptValue(ME_HEIGHT_NAVIGATIONBAR*3));
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+    }];
+    [countDown countDownButtonHandler:^(JKCountDownButton *countDownButton, NSInteger tag) {
+        countDownButton.enabled = NO;
+        [countDownButton startCountDownWithSecond:59];
+        
+        [countDownButton countDownChanging:^NSString *(JKCountDownButton *countDownButton,NSUInteger second) {
+            NSString *title = [NSString stringWithFormat:@"剩余%zd秒",second];
+            return title;
+        }];
+        [countDownButton countDownFinished:^NSString *(JKCountDownButton *countDownButton, NSUInteger second) {
+            countDownButton.enabled = YES;
+            return @"重新获取";
+        }];
+    }];
+    input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = inputFont;
+    input.placeholder = @"验证码";
+    input.textColor = textColor;
+    input.keyboardType = UIKeyboardTypeNumberPad;
+    [self.view addSubview:input];//input.backgroundColor = [UIColor pb_randomColor];
+    [input makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(icon).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo(icon).offset(ME_LAYOUT_MARGIN);
+        make.left.equalTo(icon.mas_right).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(countDown.mas_left).offset(-ME_LAYOUT_BOUNDARY);
+    }];
+    line = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    line.backgroundColor =UIColorFromRGB(ME_THEME_COLOR_LINE);
+    [self.view addSubview:line];
+    [line makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(input.mas_bottom).offset(ME_LAYOUT_MARGIN * 0.5);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view);
+        make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    // sign in
+    UIFont *font = UIFontPingFangSCBold(METHEME_FONT_TITLE);
+    MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    btn.titleLabel.font = font;
+    btn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+    [btn setTitle:@"立即注册" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(registerTouchEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    [btn makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(line.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+    }];
+    //protocol
+    NSString *protocol = @"多元幼教用户服务条款";
+    NSString *protocolString = @"点击立即注册及代表您同意多元幼教用户服务条款";
+    NSRange protocolRange = [protocolString rangeOfString:protocol];
+    NSDictionary *attrs = @{NSForegroundColorAttributeName:themeColor, NSFontAttributeName:UIFontPingFangSCBold(METHEME_FONT_SUBTITLE-2)};
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:protocolString];
+    [text setAttributes:attrs range:protocolRange];
+    MEBaseLabel *protocolLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    [protocolLabel setAttributedText:text];
+    [protocolLabel setHighlightTapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        NSLog(@"inner========");
+    }];
+    [protocolLabel setTextTapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
+        NSLog(@"did touch protocol");
+        if (NSEqualRanges(protocolRange, range)) {
+            NSLog(@"inner");
+        }
+    }];
+    [self.view addSubview:protocolLabel];
+    [protocolLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(btn);
+        make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY * 0.5);
+        make.height.equalTo(ME_HEIGHT_STATUSBAR);
+    }];
+    //exchange to sign-in
+    font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
+    btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    btn.titleLabel.font = font;
+    [btn setTitle:@"已有账号，去登录" forState:UIControlStateNormal];
+    [btn setTitleColor:themeColor forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(exchangeSplash2Sign) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    [btn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.bottom.equalTo(self.view).offset(-ME_LAYOUT_MARGIN);
+        make.width.equalTo(ME_HEIGHT_TABBAR * 2);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+    }];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -39,6 +276,23 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark --- Touch Event
+
+- (void)displayUserRegisterProtocol {
+    NSDictionary *params = @{@"title":@"多元幼教用户条款", @"url":@"http://baidu.com/"};
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBabyWebProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:params];
+    [self handleTransitionError:err];
+}
+
+- (void)exchangeSplash2Sign {
+    [self defaultGoBackStack];
+}
+
+- (void)registerTouchEvent {
+    
 }
 
 /*

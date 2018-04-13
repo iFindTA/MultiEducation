@@ -205,6 +205,7 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
                 (i % numPerLine == 0)?[cell.leftScene setTag:real_item_index]:[cell.rightScene setTag:real_item_index];
                 cell.tag = __sect;
                 NSString *imgUrl = info[@"image"];
+                (i % numPerLine == 0)?[cell.leftImageView setImageURL:[NSURL URLWithString:imgUrl]]:[cell.rightImageView setImageURL:[NSURL URLWithString:imgUrl]];
             } else {
                 cell.rightScene.hidden = true;
             }
@@ -233,6 +234,8 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
                 NSString *title = info[@"title"];
                 (i % 2 == 0)?[cell.leftTitleLab setText:title]:[cell.rightTitleLab setText:title];
                 (i % numPerLine == 0)?[cell.leftScene setTag:real_item_index]:[cell.rightScene setTag:real_item_index];
+                NSString *imgUrl = info[@"image"];
+                (i % numPerLine == 0)?[cell.leftImageView setImageURL:[NSURL URLWithString:imgUrl]]:[cell.rightImageView setImageURL:[NSURL URLWithString:imgUrl]];
                 cell.tag = __sect;
             } else {
                 cell.rightScene.hidden = true;
@@ -321,11 +324,8 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
 
 - (void)userDidTouchIndexContentItem:(NSUInteger)section rowIndex:(NSUInteger)row {
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
-    //NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callBack};
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
-    if (err) {
-        NSLog(err.description);
-    }
+    [self handleTransitionError:err];
 }
 
 /*

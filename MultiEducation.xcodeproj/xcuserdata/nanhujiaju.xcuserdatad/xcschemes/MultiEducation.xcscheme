@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "60B4413B20735B6400B871E1"
+               BlueprintIdentifier = "C3A0B7953994CEFA6B24AD5BD1A9BE71"
                BuildableName = "MultiEducation.app"
                BlueprintName = "MultiEducation"
                ReferencedContainer = "container:MultiEducation.xcodeproj">
@@ -47,7 +47,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "60B4413B20735B6400B871E1"
+            BlueprintIdentifier = "C3A0B7953994CEFA6B24AD5BD1A9BE71"
             BuildableName = "MultiEducation.app"
             BlueprintName = "MultiEducation"
             ReferencedContainer = "container:MultiEducation.xcodeproj">
@@ -55,7 +55,7 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "NSZommbeEnabled"
+            key = "NSZommbieEnabled"
             value = "YES"
             isEnabled = "YES">
          </EnvironmentVariable>

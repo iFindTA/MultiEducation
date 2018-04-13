@@ -74,6 +74,7 @@
     }];
     UIColor *textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     JVFloatLabeledTextField *input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"手机号码";
     input.textColor = textColor;
     input.keyboardType = UIKeyboardTypePhonePad;
@@ -106,6 +107,7 @@
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"密码";
     input.textColor = textColor;
     input.keyboardType = UIKeyboardTypeNamePhonePad;
@@ -179,6 +181,7 @@
         }];
     }];
     input = [[JVFloatLabeledTextField alloc] initWithFrame:CGRectZero];
+    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"验证码";
     input.textColor = textColor;
     input.keyboardType = UIKeyboardTypeNumberPad;
