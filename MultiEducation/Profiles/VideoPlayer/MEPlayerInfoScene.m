@@ -1,14 +1,14 @@
 //
-//  MEPlayerLike.m
+//  MEPlayerInfoScene.m
 //  MultiEducation
 //
-//  Created by nanhu on 2018/4/7.
+//  Created by nanhu on 2018/4/14.
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MEPlayerLike.h"
+#import "MEPlayerInfoScene.h"
 
-@implementation MEPlayerLike
+@implementation MEPlayerInfoScene
 
 /*
 // Only override drawRect: if you perform custom drawing.
