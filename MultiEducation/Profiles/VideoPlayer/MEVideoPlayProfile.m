@@ -7,21 +7,26 @@
 //
 
 #import "MEVideoPlayProfile.h"
-#import "MEPlayerLike.h"
 #import "MEPlayerControl.h"
 #import "MEVideoRelateVM.h"
 #import <ZFPlayer/ZFPlayer.h>
+#import "MEPlayerInfoScene.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   16.f/9;
 
 @interface MEVideoPlayProfile () <ZFPlayerDelegate, UITableViewDelegate>
 
+/**
+ video info that received
+ */
+@property (nonatomic, strong) NSDictionary *videoInfo;
+
 @property (nonatomic, strong) ZFPlayerView *player;
 @property (nonatomic, strong) MEBaseScene *playerScene;
 @property (nonatomic, strong) MEPlayerControl *playerControl;
 //点赞面板
-@property (nonatomic, strong) MEPlayerLike *likeScene;
+//@property (nonatomic, strong) MEPlayerLike *likeScene;
 //推荐列表
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, strong) MEVideoRelateVM *tableVM;
@@ -29,6 +34,14 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 @end
 
 @implementation MEVideoPlayProfile
+
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        self.videoInfo = params;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,31 +57,16 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(height);
     }];
-    //点赞
-    [self.view addSubview:self.likeScene];
-    [self.likeScene makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.playerScene.mas_bottom);
-        make.left.right.equalTo(self.view);
-    }];
-    //self.likeScene.backgroundColor = [UIColor pb_randomColor];
-    self.likeScene.titleLab.text = @"小蝌蚪找妈妈";
-    CGFloat imgSize = 20/MESCREEN_SCALE;UIColor *imgColor = pbColorMake(0x666666);
-    UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000eed2" withSize:imgSize withColor:imgColor];
-    img = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [self.likeScene.likeBtn setTitle:nil forState:UIControlStateNormal];
-    [self.likeScene.likeBtn setImage:img forState:UIControlStateNormal];
-    img = [UIImage pb_iconFont:nil withName:@"\U0000e617" withSize:imgSize withColor:imgColor];
-    img = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [self.likeScene.dislikeBtn setTitle:nil forState:UIControlStateNormal];
-    [self.likeScene.dislikeBtn setImage:img forState:UIControlStateNormal];
-    self.likeScene.likeLab.textColor = self.likeScene.dislikeLab.textColor = imgColor;
     
     //推荐列表
     [self.view addSubview:self.table];
     [self.table makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.likeScene.mas_bottom);
+        make.top.equalTo(self.player.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
     }];
+    //table header
+    MEPlayerInfoScene *infoHeader = [MEPlayerInfoScene configreInfoDescriptionPanelWithInfo:self.videoInfo];
+    self.table.tableHeaderView = infoHeader;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -115,6 +113,9 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (MEPlayerControl *)playerControl {
     if (!_playerControl) {
         _playerControl = [[MEPlayerControl alloc] init];
+        _playerControl.videoPlayControlCallback = ^(MEVideoPlayUserAction action) {
+            NSLog(@"action :%zd", action);
+        };
     }
     return _playerControl;
 }
@@ -126,6 +127,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (ZFPlayerView *)player {
     if (!_player) {
         _player = [[ZFPlayerView alloc] initWithFrame:CGRectZero];
+        _player.delegate = self;
         //[_player playerControlView:self.playerControlScene playerModel:[self fetchPlayModel]];
         [_player playerControlView:self.playerControl playerModel:[self fetchPlayModel]];
         
@@ -143,14 +145,6 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     return model;
 }
 
-- (MEPlayerLike *)likeScene {
-    if (!_likeScene) {
-        NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"MEPlayerLike" owner:self options:nil];
-        _likeScene = [nibs firstObject];
-    }
-    return _likeScene;
-}
-
 - (MEVideoRelateVM *)tableVM {
     if (!_tableVM) {
         NSString *currentVideoID = @"";
@@ -162,10 +156,23 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (UITableView *)table {
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        //_table.dataSource = self.tableVM;
         _table.delegate = self;
     }
     return _table;
+}
+
+#pragma mark --- ZFPlayer Delegate
+
+- (void)zf_playerBackAction {
+    [self defaultGoBackStack];
+}
+
+- (void)zf_playerControlViewWillShow:(UIView *)controlView isFullscreen:(BOOL)fullscreen {
+    [self.playerControl updateUserActionItemState4Hidden:false];
+}
+
+- (void)zf_playerControlViewWillHidden:(UIView *)controlView isFullscreen:(BOOL)fullscreen {
+    [self.playerControl updateUserActionItemState4Hidden:true];
 }
 
 /*

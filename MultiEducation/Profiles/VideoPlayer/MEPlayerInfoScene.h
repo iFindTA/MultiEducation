@@ -10,4 +10,9 @@
 
 @interface MEPlayerInfoScene : MEBaseScene
 
+/**
+ configure video play description panel
+ */
++ (instancetype)configreInfoDescriptionPanelWithInfo:(NSDictionary *)info;
+
 @end
