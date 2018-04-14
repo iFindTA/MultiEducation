@@ -14,10 +14,15 @@ first of all, welcom to join in our team ! and you should follow options below:
 	4.2, chmod 775 permission
 
 ##### git ignore recommand:
+
 step1: git rm -rf --cached MultiEducation.xcodeproj/userdata/
+
 step2: git rm -rf --cached MultiEducation.xcworkspace/userdata/
+
 step3: git rm -rf --cached Pods/Pods.xcodeproj/userdata/
+
 step4: add 
+
 ```
 .DS_Store
 .idea/
@@ -28,5 +33,6 @@ Pods/Pods.xcodeproj/xcuserdata/
 MultiEducation.xcodeproj/xcuserdata/
 MultiEducation.xcworkspace/xcuserdata/
 ```
+
 to .gitignore
 
