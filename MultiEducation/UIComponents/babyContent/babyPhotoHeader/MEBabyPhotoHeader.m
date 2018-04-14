@@ -11,7 +11,7 @@
 @interface MEBabyPhotoHeader() {
     NSArray *_titles;
     
-    UIButton *_selectedBtn; // selecting btn
+    MEBaseButton *_selectedBtn; // selecting btn
 }
 
 @property (nonatomic, strong) MEBaseScene *markLine;    //mark choose whice view
@@ -44,6 +44,9 @@
         [btn setTitleColor: [UIColor blackColor] forState: UIControlStateNormal];
         [btn addTarget: self action: @selector(buttonTouchEvent:) forControlEvents: UIControlEventTouchUpInside];
         
+        [self addSubview: btn];
+        
+        //layout
         if (!preBtn) {
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(self.mas_left).mas_offset(leftSpace);
@@ -58,11 +61,8 @@
                 make.top.bottom.mas_equalTo(preBtn);
                 make.width.mas_equalTo(btnWidth);
             }];
-            
-            [self addSubview: btn];
-            
-            preBtn = btn;
         }
+        preBtn = btn;
     }
     
     [self addSubview: self.markLine];
@@ -73,13 +73,13 @@
         make.centerX.mas_equalTo(_selectedBtn.mas_centerX);
     }];
     
-    
-    
+}
+
+- (void)markLineAnimation:(NSInteger)page {
+    [self updateMarkLineConstraints: page];
 }
 
 - (void)buttonTouchEvent:(MEBaseButton *)sender {
-    
-    
     if (sender.tag != _selectedBtn.tag) {
         _selectedBtn = sender;
         if (self.babyPhotoHeaderCallBack) {
@@ -92,20 +92,19 @@
 - (void)updateMarkLineConstraints:(NSInteger)page {
     //page == sender.tag - 100
     
-    [self setNeedsUpdateConstraints];
-    
+    [self.markLine setNeedsUpdateConstraints];
     MEBaseButton *btn = [self viewWithTag: 100 + page];
-    
     weakify(self);
     [UIView animateWithDuration: PBANIMATE_DURATION animations:^{
         strongify(self);
-        [self.markLine mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(btn.centerX);
+        [self.markLine mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(16);
+            make.height.mas_equalTo(3);
+            make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-4);
+            make.centerX.mas_equalTo(btn.mas_centerX);
         }];
         [self.markLine.superview layoutIfNeeded];
     }];
-    
-    
 }
 
 #pragma mark - lazyloading
