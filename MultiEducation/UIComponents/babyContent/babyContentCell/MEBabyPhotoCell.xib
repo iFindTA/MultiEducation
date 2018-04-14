@@ -31,6 +31,7 @@
             <connections>
                 <outlet property="babyPhotoImage" destination="m45-FP-fxw" id="fay-f1-JOp"/>
             </connections>
+            <point key="canvasLocation" x="-305" y="48"/>
         </view>
     </objects>
 </document>

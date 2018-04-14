@@ -16,4 +16,6 @@ typedef void(^BabyPhotoHeaderCallBack)(NSInteger index);
 
 @property (nonatomic, copy) BabyPhotoHeaderCallBack babyPhotoHeaderCallBack;
 
+- (void)markLineAnimation:(NSInteger)page;
+
 @end
