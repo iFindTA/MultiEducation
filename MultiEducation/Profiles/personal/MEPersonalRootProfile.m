@@ -111,7 +111,6 @@
     
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.scrollEnabled = YES;
-    tableView.bounces = NO;
     [self.view addSubview:tableView];
     __block UIView *headerView = _headerView;
     [tableView mas_makeConstraints:^(MASConstraintMaker *make) {

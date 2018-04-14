@@ -71,6 +71,9 @@
 		97E552ADFB3F5F7943BDDA12B6AA889B /* MEProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5574A92575B4ABFF4C6450B47FAD614 /* MEProgressView.m */; };
 		98F5D2B478D0D8E5186682409A7B4286 /* MEIndexSearchMaskScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C00DA13241B4744B0DF0AA5DC2E7F5 /* MEIndexSearchMaskScene.m */; };
 		A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = DF202D9C6AA31F2A6DF0BF9A5165905A /* MEGardenRootProfile.m */; };
+		ACA1F68E2081C9BF0088A2F2 /* MEEvaluateProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1F68D2081C9BF0088A2F2 /* MEEvaluateProfile.m */; };
+		ACA1F6912081CB3B0088A2F2 /* MEEvaluateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1F6902081CB3B0088A2F2 /* MEEvaluateCell.m */; };
+		ACA1F6942081CBCB0088A2F2 /* MEEvaluateSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1F6932081CBCB0088A2F2 /* MEEvaluateSelectItem.m */; };
 		AE210B6FB65B89D29B9FAA12603FF95E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29BED58F38B64F9B9542E5193DE02FB4 /* Assets.xcassets */; };
 		B2633EFDBCC5B98A87F74581F4318150 /* MultiEducationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE22B52E5FB7B8BE48639CCFA6B66C4 /* MultiEducationUITests.m */; };
 		B75CAB0F6AAB263DBADEF1F76342F6F6 /* MEPlayerLike.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E6ED7FC614FCCE86E9DCFF3DD36DB /* MEPlayerLike.m */; };
@@ -242,6 +245,12 @@
 		AA705D3F0BFFE39B743B60947687E652 /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
 		AB3897811CD8AA62EF75C58ACF63DC53 /* MEIndexSearchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexSearchScene.h; sourceTree = "<group>"; };
 		ABB3178813440804AB932AF1976EC844 /* MEBaseScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBaseScene.m; sourceTree = "<group>"; };
+		ACA1F68C2081C9BF0088A2F2 /* MEEvaluateProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEEvaluateProfile.h; sourceTree = "<group>"; };
+		ACA1F68D2081C9BF0088A2F2 /* MEEvaluateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateProfile.m; sourceTree = "<group>"; };
+		ACA1F68F2081CB3B0088A2F2 /* MEEvaluateCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEEvaluateCell.h; sourceTree = "<group>"; };
+		ACA1F6902081CB3B0088A2F2 /* MEEvaluateCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateCell.m; sourceTree = "<group>"; };
+		ACA1F6922081CBCB0088A2F2 /* MEEvaluateSelectItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEEvaluateSelectItem.h; sourceTree = "<group>"; };
+		ACA1F6932081CBCB0088A2F2 /* MEEvaluateSelectItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateSelectItem.m; sourceTree = "<group>"; };
 		AD56F50A90C7346C4E3D701CD3DCE3D2 /* MEIndexSearchMaskScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexSearchMaskScene.h; sourceTree = "<group>"; };
 		AE3C3477D4A89CDDD17662F444BF7845 /* MEPlayerLike.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayerLike.h; sourceTree = "<group>"; };
 		B10B4F7EF6669CCAD324CB6B2DCA3E5C /* MESignInProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESignInProfile.m; sourceTree = "<group>"; };
@@ -420,6 +429,10 @@
 				C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */,
 				B4F2E55CB4D69DF1D8550482FEF669A5 /* MEBabyRecordLabel.h */,
 				A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */,
+				ACA1F68F2081CB3B0088A2F2 /* MEEvaluateCell.h */,
+				ACA1F6902081CB3B0088A2F2 /* MEEvaluateCell.m */,
+				ACA1F6922081CBCB0088A2F2 /* MEEvaluateSelectItem.h */,
+				ACA1F6932081CBCB0088A2F2 /* MEEvaluateSelectItem.m */,
 			);
 			path = babyContent;
 			sourceTree = "<group>";
@@ -479,6 +492,8 @@
 				B6D92BB39D2C2940EC5D6B8E60130DA0 /* MEBabyRootProfile.m */,
 				510B870A93A19C2CFC3A0DD18DF7B931 /* MEGrowRecordProfile.h */,
 				EBD3E771F41309BE7B37933E55DD12E0 /* MEGrowRecordProfile.m */,
+				ACA1F68C2081C9BF0088A2F2 /* MEEvaluateProfile.h */,
+				ACA1F68D2081C9BF0088A2F2 /* MEEvaluateProfile.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -1112,6 +1127,7 @@
 				3B8094F2FBA1A02D321918AE9625790F /* MEBabyInfoCell.m in Sources */,
 				605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */,
 				0A3709BB7039B49F18EF410C66F6FF0F /* MEBabyPhotoCell.m in Sources */,
+				ACA1F68E2081C9BF0088A2F2 /* MEEvaluateProfile.m in Sources */,
 				037C60D0FE2401C3CC442A7D783CEF0F /* MEBabyPhotoHeader.m in Sources */,
 				1A5675D4F633906ECEE1355469A5297A /* MEBabyPhotoProfile.m in Sources */,
 				5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */,
@@ -1152,6 +1168,7 @@
 				4ED97BB1821A667F6FD42D9FA2CEC0DB /* MEPersonalVipCell.m in Sources */,
 				C24339DF43292AC51A1EE1FA45683C94 /* MEPlayerControl.m in Sources */,
 				B75CAB0F6AAB263DBADEF1F76342F6F6 /* MEPlayerLike.m in Sources */,
+				ACA1F6912081CB3B0088A2F2 /* MEEvaluateCell.m in Sources */,
 				97E552ADFB3F5F7943BDDA12B6AA889B /* MEProgressView.m in Sources */,
 				08CB6B9ECBE3E0992D415627BA93613E /* MESearchBar.m in Sources */,
 				97513C50EBE68A736AB564DD25AAD696 /* MESignInProfile.m in Sources */,
@@ -1167,6 +1184,7 @@
 				62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */,
 				5F49A7F3974D7CD2B0215185EBAB1DD5 /* MEVideoRelateVM.m in Sources */,
 				7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */,
+				ACA1F6942081CBCB0088A2F2 /* MEEvaluateSelectItem.m in Sources */,
 				1E875B2DC795B73EA691B47B3C03F1DF /* UIView+BlurEffect.m in Sources */,
 				ED0D090076CEE017686C906F12AFFD4E /* UIView+Frame.m in Sources */,
 				610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */,
