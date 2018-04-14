@@ -9,30 +9,52 @@ first of all, welcom to join in our team ! and you should follow options below:
 
 ### 3, please install protobuf-3.5.1 on your mac by homebrew
 
-### 4, at last install Xunique with python3(pip3)
+### 4, install Xunique with python3(pip3)
+
 	4.1, create git hooks:pre-commit for xunique.sh
 	4.2, chmod 775 permission
 
-##### git ignore recommand:
+### 5，install sketch and sourcetree softwares
 
-step1: git rm -rf --cached MultiEducation.xcodeproj/userdata/
+### 6，setup git pre-commit and gitignore option:
 
-step2: git rm -rf --cached MultiEducation.xcworkspace/userdata/
+	6.1 setup pre-commit:
 
-step3: git rm -rf --cached Pods/Pods.xcodeproj/userdata/
+		6.1.1 $ cd $SRCROOT/.git/hooks
 
-step4: add 
+		6.1.2 $ vim pre-commit
 
-```
-.DS_Store
-.idea/
-.xcworkspace
-.xcuserdata
-.xcuserstate
-Pods/Pods.xcodeproj/xcuserdata/
-MultiEducation.xcodeproj/xcuserdata/
-MultiEducation.xcworkspace/xcuserdata/
-```
+		6.1.3 $ copy code below:
 
-to .gitignore
+			```
+			PATH=$PATH:/usr/local/bin:/usr/local/sbin
+			#!/usr/bin/env sh
+
+			xunique $HOME/Documents/Gitee/MultiEducation/MultiEducation.xcodeproj
+			xunique $HOME/Documents/Gitee/MultiEducation/MultiEducation/Pods/Pods.xcodeproj
+			```
+		6.1.4 $ :wq 
+		
+	6.2 setup gitignore option:
+
+		6.2.1 step1: git rm -rf --cached MultiEducation.xcodeproj/userdata/
+
+		6.2.2 step2: git rm -rf --cached MultiEducation.xcworkspace/userdata/
+
+		6.2.3 step3: git rm -rf --cached Pods/Pods.xcodeproj/userdata/
+
+		6.2.4 step4: add 
+
+			```
+			.DS_Store
+			.idea/
+			.xcworkspace
+			.xcuserdata
+			.xcuserstate
+			Pods/Pods.xcodeproj/xcuserdata/
+			MultiEducation.xcodeproj/xcuserdata/
+			MultiEducation.xcworkspace/xcuserdata/
+			```
+
+		to .gitignore
 
