@@ -12,3 +12,26 @@ first of all, welcom to join in our team ! and you should follow options below:
 ### 4, at last install Xunique with python3(pip3)
 	4.1, create git hooks:pre-commit for xunique.sh
 	4.2, chmod 775 permission
+
+##### git ignore recommand:
+```
+.DS_Store
+.idea/
+.xcuserdata
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xccheckout
+*.moved-aside
+DerivedData
+*.xcuserstate
+
+xcuserdata/*
+*.xcworkspace
+```
