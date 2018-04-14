@@ -8,6 +8,7 @@
 
 #import "MEBabyPhotoProfile.h"
 #import "MEBabyPhotoHeader.h"
+#import <MWPhotoBrowser.h>
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -25,7 +26,7 @@ static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
 
-@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate>
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
 
@@ -33,7 +34,12 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MEBaseScene *scrollContent;
 
 @property (nonatomic, strong) UICollectionView *photoView;  //photo
+@property (nonatomic, strong) NSMutableArray *photos;   //photo's dataArr
+
 @property (nonatomic, strong) UICollectionView *timeLineView;   //时间轴
+@property (nonatomic, strong) NSMutableArray *timeLineArr;  //timeline's dataArr
+
+@property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
 @end
 
@@ -101,6 +107,16 @@ static CGFloat const ITEM_LEADING = 10.f;
     
 }
 
+#pragma mark - MWPhotoBrowser
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return 10;
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    MWPhoto *photo = [MWPhoto photoWithImage: [UIImage imageNamed: @"baby_content_photo"]];
+    return photo;
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     if ([collectionView isEqual: self.photoView]) {
@@ -163,6 +179,10 @@ static CGFloat const ITEM_LEADING = 10.f;
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"did selected item section:%ld, item:%ld", (unsigned long)indexPath.section, (unsigned long)indexPath.item);
+    
+    [self.navigationController pushViewController: self.photoBrowser animated: YES];
+    //MWBrowser can't reuser!!! need set nil;
+    _photoBrowser = nil;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -243,6 +263,39 @@ static CGFloat const ITEM_LEADING = 10.f;
         
     }
     return _timeLineView;
+}
+
+- (MWPhotoBrowser *)photoBrowser {
+    if (!_photoBrowser) {
+        //初始化
+        _photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
+        //set options
+        [_photoBrowser setCurrentPhotoIndex:0];
+        _photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
+        _photoBrowser.displayNavArrows = NO; //显示左右划动
+        _photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮
+        _photoBrowser.alwaysShowControls = NO; //控制条始终显示
+        _photoBrowser.zoomPhotosToFill = YES; //是否自适应大小
+        _photoBrowser.enableGrid = YES;//是否允许网络查看图片
+        _photoBrowser.startOnGrid = NO; //是否以网格开始;
+        _photoBrowser.enableSwipeToDismiss = YES;
+        _photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
+    }
+    return _photoBrowser;
+}
+
+- (NSMutableArray *)photos {
+    if (!_photos) {
+        _photos = [NSMutableArray array];
+    }
+    return _photos;
+}
+
+- (NSMutableArray *)timeLineArr {
+    if (!_timeLineArr) {
+        _timeLineArr = [NSMutableArray array];
+    }
+    return _timeLineArr;
 }
 
 @end
