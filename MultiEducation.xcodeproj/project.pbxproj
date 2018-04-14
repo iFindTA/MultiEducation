@@ -402,6 +402,15 @@
 			path = UIComponents;
 			sourceTree = "<group>";
 		};
+		1A33A4CF86BEC5500BD89020C5552CC4 /* webBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				CCC7338B4AE4062D1B83582225351982 /* MEBrowserProfile.h */,
+				A08D7D2A6DFBC4C3EC9EFB1D89A4B8D9 /* MEBrowserProfile.m */,
+			);
+			path = webBrowser;
+			sourceTree = "<group>";
+		};
 		1FEB9DA63DEEF5C45237E96FC033BF87 /* indexSearchMask */ = {
 			isa = PBXGroup;
 			children = (
@@ -552,22 +561,6 @@
 				D56C3FD0F5B7FDFDC9BD0E49E2654847 /* MEVideoRelateVM.m */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		1A33A4CF86BEC5500BD89020C5552CC4 /* webBrowser */ = {
-			isa = PBXGroup;
-			children = (
-				CCC7338B4AE4062D1B83582225351982 /* MEBrowserProfile.h */,
-				A08D7D2A6DFBC4C3EC9EFB1D89A4B8D9 /* MEBrowserProfile.m */,
-			);
-			path = webBrowser;
-			sourceTree = "<group>";
-		};
-		FCEDA81856D43B2B4E728DCF53BFC17C /* browserProgressLine */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = browserProgressLine;
 			sourceTree = "<group>";
 		};
 		77BC15F8E686F754390D69C2852A438F /* MultiEducation */ = {
@@ -861,6 +854,13 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		FCEDA81856D43B2B4E728DCF53BFC17C /* browserProgressLine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = browserProgressLine;
+			sourceTree = "<group>";
+		};
 		FFF07DD434FE55009C631D42E56EF569 /* Bases */ = {
 			isa = PBXGroup;
 			children = (
@@ -1063,6 +1063,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-resources.sh",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj",
@@ -1076,6 +1077,7 @@
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MWPhotoBrowser.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
@@ -1321,7 +1323,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1395,7 +1397,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

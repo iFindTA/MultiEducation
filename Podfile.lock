@@ -20,6 +20,7 @@ PODS:
   - JVFloatLabeledTextField (1.2.1)
   - Masonry (1.1.0)
   - MBProgressHUD (0.9.2)
+  - MJRefresh (3.1.15.3)
   - MWPhotoBrowser (2.1.2):
     - DACircularProgress (~> 2.3)
     - MBProgressHUD (~> 0.9)
@@ -66,6 +67,7 @@ DEPENDENCIES:
   - IQKeyboardManager (~> 5.0.8)
   - JKCountDownButton (~> 1.2.0)
   - JVFloatLabeledTextField (~> 1.2.1)
+  - MJRefresh (~> 3.1.15.3)
   - MWPhotoBrowser (~> 2.1.2)
   - "NSURL+QueryDictionary (~> 1.2.0)"
   - PBBaseClasses (~> 1.7.1)
@@ -85,6 +87,7 @@ SPEC REPOS:
     - JVFloatLabeledTextField
     - Masonry
     - MBProgressHUD
+    - MJRefresh
     - MWPhotoBrowser
     - "NSURL+QueryDictionary"
     - PBBaseClasses
@@ -110,6 +113,7 @@ SPEC CHECKSUMS:
   JVFloatLabeledTextField: cfc44e3c4d493b2ed92ede8035e8e89c2912ba64
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   MWPhotoBrowser: 5836d7aa041dc05a13de380c246826578adc5ea5
   "NSURL+QueryDictionary": bae616404e2adf6409d3d5c02a093cbf44c8a236
   PBBaseClasses: 05a1ea8c4c440e27d128f00fe33dd3a8c15e2969
@@ -127,6 +131,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: 2566482a85ac3b41ff8eb2db958b84e216e8e129
+PODFILE CHECKSUM: 24888f599275b77aea5e3abcf1a479a7e1da91a4
 
 COCOAPODS: 1.5.0
