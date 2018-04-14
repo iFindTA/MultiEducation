@@ -44,12 +44,12 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
             make.top.equalTo(self.marginScene);
             make.left.equalTo(self.marginScene).offset(ME_LAYOUT_MARGIN * 2);
             make.right.equalTo(self.marginScene);
-            make.height.equalTo(itemHeight);
+            make.height.equalTo(0);
         }];
         [self.sectionTitleLab makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.sectionScene);
         }];
-        [self.sectionConstraint deactivate];
+        //[self.sectionConstraint deactivate];
         [self.middleSeperator makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.marginScene.mas_bottom);
             make.centerX.equalTo(self.marginScene.mas_centerX);

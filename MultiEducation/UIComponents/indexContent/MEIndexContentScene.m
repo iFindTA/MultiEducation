@@ -12,10 +12,6 @@
 
 static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_DISTANCE                               =   200;
 static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE                              =   30;
-static NSUInteger const ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE                                       =   2;
-
-static NSUInteger const ME_INDEX_CONTENT_ITEM_HEIGHT                                                =   120;
-static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                                          =   150;
 
 @interface MEIndexContentScene ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -111,8 +107,8 @@ static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                      
         NSDictionary *sectMap = self.dataSource[i];
         NSArray *list = sectMap[@"list"];
         NSUInteger counts = list.count;
-        NSUInteger rows = counts / ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
-        if (counts % ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE != 0) {
+        NSUInteger rows = counts / ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
+        if (counts % ME_INDEX_STORY_ITEM_NUMBER_PER_LINE != 0) {
             rows += 1;
         }
         __rows += rows;
@@ -149,8 +145,8 @@ static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                      
     NSDictionary *sectMap = self.dataSource[section];
     NSArray *list = sectMap[@"list"];
     NSUInteger counts = list.count;
-    NSUInteger rows = counts / ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
-    if (counts % ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE != 0) {
+    NSUInteger rows = counts / ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
+    if (counts % ME_INDEX_STORY_ITEM_NUMBER_PER_LINE != 0) {
         rows += 1;
     }
     return rows;
@@ -158,9 +154,9 @@ static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                      
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger __row = [indexPath row];
-    CGFloat row_height = ME_INDEX_CONTENT_ITEM_HEIGHT;
+    CGFloat row_height = ME_INDEX_STORY_ITEM_HEIGHT;
     if (__row == 0) {
-        row_height = ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT;
+        row_height = ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT;
     }
     return adoptValue(row_height);
 }
@@ -180,7 +176,7 @@ static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                      
     cell.sectionTitleLab.text = title;
     [cell configureStoryItem4RowIndex:__row];
     //item
-    NSUInteger numPerLine = ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
+    NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
     for (int i = 0; i < numPerLine; i ++) {
         NSUInteger real_item_index = __row * numPerLine + i;
         if (real_item_index < list.count) {

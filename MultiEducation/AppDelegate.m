@@ -142,7 +142,7 @@
         indexNavi.tabBarItem.image = image;
         indexNavi.tabBarItem.selectedImage = selectImg;
         //宝宝成长
-        title = @"宝宝成长";
+        title = ((self.curUser.userRole == MEUserRoleTeacher)?@"班级":@"宝宝成长");
         image = [UIImage imageNamed:@"bar_baby"];
         //selectImg = [UIImage imageNamed:@"bar_baby_select"];
         selectImg = [image pb_darkColor:color lightLevel:1.f];

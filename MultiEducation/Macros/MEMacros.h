@@ -55,6 +55,10 @@ static NSString * const ME_DISPATCH_KEY_CALLBACK                            =   
 //tabbar item image size
 static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                              =   30.f;
 
+#define ME_INDEX_STORY_ITEM_NUMBER_PER_LINE                                 2
+#define ME_INDEX_STORY_ITEM_HEIGHT                                          120
+#define ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT                                   150
+
 #pragma mark -- regular
 #define ME_REGULAR_MOBILE_LENGTH                                            11
 #define ME_REGULAR_PASSWD_LEN_MAX                                           12
