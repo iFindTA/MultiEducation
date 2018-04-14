@@ -240,7 +240,7 @@ typedef NS_ENUM(NSUInteger, PBViewPresentation) {
 
 - (UIBarButtonItem *)barSpacer {
     UIBarButtonItem *barSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    barSpacer.width = -PB_CONTENT_MARGIN * 2;
+    barSpacer.width = - PB_BOUNDARY_MARGIN;
     return barSpacer;
 }
 

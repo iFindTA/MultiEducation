@@ -14,6 +14,10 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SJFullscreenPopGesture/UINavigationController+SJVideoPlayerAdd.h>
 
+@interface MENavigationBar :UINavigationBar
+
+@end
+
 /**
  FLK Base Classes
  *

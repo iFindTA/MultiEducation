@@ -40,11 +40,11 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
         return 0;
     }
     //banner
-    CGFloat header_height = ME_LAYOUT_MARGIN+ME_CONTENT_HEADER_BANNER_HEIGHT;
+    CGFloat header_height = ME_LAYOUT_BOUNDARY+ME_CONTENT_HEADER_BANNER_HEIGHT;
     //子分类
     NSArray *subItems = [map objectForKey:@"subClasses"];
     subItems = @[@"1",@"2",@"3",@"4",@"5"];
-    ME_SUBCLASS_PANEL_HEIGHT = [MEContentSubcategory subcategoryClassPanelHeight4Classes:subItems] + ME_LAYOUT_MARGIN;
+    ME_SUBCLASS_PANEL_HEIGHT = [MEContentSubcategory subcategoryClassPanelHeight4Classes:subItems] + ME_LAYOUT_BOUNDARY;
     header_height += ME_SUBCLASS_PANEL_HEIGHT;
     //广告ad
     //BOOL whetherShowAD = false;
@@ -86,8 +86,10 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
                       @{@"title":@"周末大餐", @"img":@"http://icons.iconarchive.com/icons/graphicloads/100-flat/256/home-icon.png"}];
     MEContentSubcategory *subClass = [MEContentSubcategory subcategoryWithClasses:items];
     [self addSubview:subClass];
+    weakify(self)
     subClass.subClassesCallback = ^(NSUInteger tag){
-        NSLog(@"touch sub class tag:%zd", tag);
+        strongify(self)
+        [self subCategoryClassTouchIndex:tag];
     };
     [subClass makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.banner.mas_bottom);
@@ -114,7 +116,19 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
 }
 
 - (void)bannerView:(YJBannerView *)bannerView didSelectItemAtIndex:(NSInteger)index {
-    
+    NSDictionary *params = @{@"title":@"多元幼教AD", @"url":@"http://baidu.com/"};
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBabyWebProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:params];
+    [self handleTransitionError:err];
+}
+
+#pragma mark --- Touch Event
+
+- (void)subCategoryClassTouchIndex:(NSUInteger)index {
+    NSDictionary *params = @{@"title":@"歌曲欣赏", @"url":@"http://baidu.com/"};
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:params];
+    [self handleTransitionError:err];
 }
 
 /*
