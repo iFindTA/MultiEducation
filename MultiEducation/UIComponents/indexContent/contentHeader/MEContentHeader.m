@@ -117,7 +117,7 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
 
 - (void)bannerView:(YJBannerView *)bannerView didSelectItemAtIndex:(NSInteger)index {
     NSDictionary *params = @{@"title":@"多元幼教AD", @"url":@"http://baidu.com/"};
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBabyWebProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBrowserProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [self handleTransitionError:err];
 }

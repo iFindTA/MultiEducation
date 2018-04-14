@@ -8,7 +8,7 @@
 
 #import "MEBabyRootProfile.h"
 #import "MEBabyContent.h"
-#import "MEBabyWebProfile.h"
+#import "MEBrowserProfile.h"
 #import "MEDispatcher.h"
 
 @interface MEBabyRootProfile ()

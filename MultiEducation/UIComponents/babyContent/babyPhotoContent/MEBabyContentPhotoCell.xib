@@ -19,9 +19,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="174" height="174"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="p7W-sp-gM1">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="baby_content_photo" translatesAutoresizingMaskIntoConstraints="NO" id="p7W-sp-gM1">
                         <rect key="frame" x="0.0" y="0.0" width="174" height="174"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ox9-at-Ha3" customClass="MEBaseLabel">
                         <rect key="frame" x="12" y="145" width="150" height="20"/>
@@ -61,4 +60,7 @@
             <point key="canvasLocation" x="-53" y="40"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="baby_content_photo" width="19" height="15"/>
+    </resources>
 </document>

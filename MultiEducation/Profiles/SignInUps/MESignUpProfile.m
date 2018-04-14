@@ -285,7 +285,7 @@
 
 - (void)displayUserRegisterProtocol {
     NSDictionary *params = @{@"title":@"多元幼教用户条款", @"url":@"http://baidu.com/"};
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBabyWebProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBrowserProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [self handleTransitionError:err];
 }
