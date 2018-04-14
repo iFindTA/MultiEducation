@@ -13,6 +13,7 @@
 
 #define PHOTO_IDEF @"photo_cell_idef"
 #define TIME_LINE_IDEF @"time_line_cell_idef"
+#define TIME_LINE_SECTION_HEADER_IDEF @"time_line_section_header_idef"
 
 #define PHOTO_CELL_SIZE CGSizeMake((MESCREEN_WIDTH - ITEM_LEADING * 2 - PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH) / 2, (MESCREEN_WIDTH - ITEM_LEADING * 2 - PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH) / 2)
 #define TIME_LINE_CELL_SIZE CGSizeMake((MESCREEN_WIDTH - ITEM_LEADING * 2 - TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH * 3) / 4, (MESCREEN_WIDTH - ITEM_LEADING * 2 - TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH * 3) / 4)
@@ -21,7 +22,6 @@
 static CGFloat const HEADER_HEIGHT = 60.f;
 static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
-
 static CGFloat const ITEM_LEADING = 10.f;
 
 
@@ -70,7 +70,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     }];
 
     [self.scrollContent mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.scrollView);
+        make.edges.equalTo(_scrollView);
+        make.height.equalTo(_scrollView);
+        make.width.greaterThanOrEqualTo(@0.f);
     }];
     
     CGFloat height = MESCREEN_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - ME_HEIGHT_STATUSBAR - HEADER_HEIGHT;
@@ -89,7 +91,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     }];
     
     [self.scrollContent mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.timeLineView.mas_right).mas_offset(10);
+        make.width.mas_equalTo(2 * MESCREEN_WIDTH);
     }];
     
 }
@@ -137,6 +139,27 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+        UICollectionReusableView *reusableView;
+        if (kind == UICollectionElementKindSectionHeader) {
+            reusableView = [collectionView dequeueReusableSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF forIndexPath: indexPath];
+            if (!reusableView) {
+                reusableView = [[UICollectionReusableView alloc] init];
+            }
+        }
+        
+        reusableView.backgroundColor=[UIColor cyanColor];
+        return reusableView;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    if (collectionView == _timeLineView) {
+        return CGSizeMake(MESCREEN_HEIGHT - 20, 100);
+    } else {
+        return CGSizeZero;
+    }
+}
+
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"did selected item section:%ld, item:%ld", (unsigned long)indexPath.section, (unsigned long)indexPath.item);
@@ -148,10 +171,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         NSInteger page = (NSInteger)(scrollView.contentOffset.x / scrollView.frame.size.width);
         [self.header markLineAnimation: page];
     }
-}
-
-- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-    NSLog(@"aaa");
 }
 
 #pragma mark - lazyloading
@@ -169,8 +188,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame: CGRectZero];
+        _scrollView = [[UIScrollView alloc] init];
         _scrollView.backgroundColor = [UIColor whiteColor];
+        _scrollView.showsHorizontalScrollIndicator = NO;
         _scrollView.pagingEnabled = YES;
         _scrollView.delegate = self;
     }
@@ -209,6 +229,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [layout setScrollDirection: UICollectionViewScrollDirectionVertical];
         layout.minimumInteritemSpacing = TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH;
         layout.minimumLineSpacing = TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH;
+        layout.headerReferenceSize = CGSizeMake(MESCREEN_HEIGHT - 20, 100);
         
         _timeLineView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
         _timeLineView.delegate = self;
@@ -217,6 +238,9 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineView.showsVerticalScrollIndicator = NO;
         
         [_timeLineView registerNib: [UINib nibWithNibName: @"MEBabyContentPhotoCell" bundle: nil] forCellWithReuseIdentifier:  TIME_LINE_IDEF];
+        
+        [_timeLineView registerClass: [UICollectionReusableView class] forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF];
+        
     }
     return _timeLineView;
 }

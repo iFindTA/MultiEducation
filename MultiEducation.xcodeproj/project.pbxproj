@@ -425,12 +425,9 @@
 		2AD300EA3F3262E916351C1BB9DA9AF5 /* babyPhotoContent */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< HEAD
 				01438EA76A6328FD7B6A345883776372 /* MEBabyContentPhotoCell.h */,
 				756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */,
 				CE2231AA69ED2034486F0E17455E20A7 /* MEBabyContentPhotoCell.xib */,
-=======
->>>>>>> 566090fc7125e6be5d58f78e76ed97594d975101
 			);
 			path = babyPhotoContent;
 			sourceTree = "<group>";
@@ -1091,11 +1088,8 @@
 				11A53BE90F62636CD6F74B96DE261BBF /* MEBabyComponentCell.m in Sources */,
 				9069829CAA0287AEC3EFA86431744B16 /* MEBabyContent.m in Sources */,
 				96C618B7630F3758E3FF1F7965BE64FF /* MEBabyContentHeader.m in Sources */,
-<<<<<<< HEAD
 				82C7415BFC15AC9A894F458E23741C0E /* MEBabyContentPhotoCell.m in Sources */,
-=======
 				522E8BB83AC1CDA07B8A8ADDC6EDE0B4 /* MEBabyFillBaseLabel.m in Sources */,
->>>>>>> 566090fc7125e6be5d58f78e76ed97594d975101
 				D42B5F8D7FE3023BD070FAFE9AF22B40 /* MEBabyHeader.m in Sources */,
 				3B8094F2FBA1A02D321918AE9625790F /* MEBabyInfoCell.m in Sources */,
 				605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */,
