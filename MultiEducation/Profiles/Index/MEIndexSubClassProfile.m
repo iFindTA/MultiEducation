@@ -10,13 +10,30 @@
 
 @interface MEIndexSubClassProfile ()
 
+@property (nonatomic, strong) NSDictionary *mapInfo;
+
 @end
 
 @implementation MEIndexSubClassProfile
 
+- (id)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        self.mapInfo = params;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    NSString *title = self.mapInfo[@"title"];
+    UIBarButtonItem *spacer = [self barSpacer];
+    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
+    item.leftBarButtonItems = @[spacer, backItem];
+    [self.navigationBar pushNavigationItem:item animated:true];
 }
 
 - (void)didReceiveMemoryWarning {
