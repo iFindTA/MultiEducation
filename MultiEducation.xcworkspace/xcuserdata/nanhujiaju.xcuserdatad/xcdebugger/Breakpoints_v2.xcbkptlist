@@ -36,7 +36,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MultiEducation/AppDelegate.m"
-            timestampString = "545307253.3932"
+            timestampString = "545307616.027943"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
@@ -346,6 +346,54 @@
             startingLineNumber = "101"
             endingLineNumber = "101"
             landmarkName = "+openURL:withParams:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MultiEducation/UIComponents/indexContent/MEIndexContentScene.m"
+            timestampString = "545366044.04933"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MultiEducation/UIComponents/indexContent/MEIndexContentScene.m"
+            timestampString = "545366044.0496711"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MultiEducation/UIComponents/indexContent/contentCell/MEIndexContentBaseCell.m"
+            timestampString = "545320005.565143"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "-layoutSubviews"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

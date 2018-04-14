@@ -19,7 +19,7 @@ PODS:
   - JVFloatLabeledTextField (1.2.1)
   - Masonry (1.1.0)
   - "NSURL+QueryDictionary (1.2.0)"
-  - PBBaseClasses (1.7.0):
+  - PBBaseClasses (1.7.1):
     - Masonry
     - PBKits
     - PBMediator
@@ -61,7 +61,7 @@ DEPENDENCIES:
   - JKCountDownButton (~> 1.2.0)
   - JVFloatLabeledTextField (~> 1.2.1)
   - "NSURL+QueryDictionary (~> 1.2.0)"
-  - PBBaseClasses (~> 1.7.0)
+  - PBBaseClasses (~> 1.7.1)
   - PBKits (~> 1.2.2)
   - PBService (~> 4.2.0)
   - Protobuf (~> 3.5.0)
@@ -100,7 +100,7 @@ SPEC CHECKSUMS:
   JVFloatLabeledTextField: cfc44e3c4d493b2ed92ede8035e8e89c2912ba64
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   "NSURL+QueryDictionary": bae616404e2adf6409d3d5c02a093cbf44c8a236
-  PBBaseClasses: 05df2bb07241588fa2cf4cb1c79b5a9bc1e62aaf
+  PBBaseClasses: 05a1ea8c4c440e27d128f00fe33dd3a8c15e2969
   PBKits: f0c06a07a3d65bd872e9e059301c3916cf5f71c7
   PBMediator: b9a87dd91276156805c7a12ba3bd45150142c4e8
   PBService: 91d85950b1db6d544fb30998cf3fcd34de86220b
@@ -115,6 +115,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: 896b61c644d5115b3d081ced9121663b2e5fa7d7
+PODFILE CHECKSUM: a3b85c5a475de21077cb44f932ff1a756ac3e03b
 
 COCOAPODS: 1.5.0

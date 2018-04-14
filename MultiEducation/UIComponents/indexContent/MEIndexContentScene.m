@@ -8,17 +8,14 @@
 
 #import "MEIndexContentScene.h"
 #import "MEContentHeader.h"
-#import "MEIndexContentCell.h"
-#import "MEIndexContentTitleCell.h"
+#import "MEIndexStoryItemCell.h"
 
 static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_DISTANCE                               =   200;
 static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE                              =   30;
 static NSUInteger const ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE                                       =   2;
 
-static NSUInteger const ME_INDEX_CONTENT_ITEM_HEIGHT                                                =   140;
-static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                                          =   160;
-static NSString  * ME_INDEX_CONTENT_ITEM_IDENTIFIER                                                 =   @"index_content_cell";
-static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                                           =   @"index_content_title_cell";
+static NSUInteger const ME_INDEX_CONTENT_ITEM_HEIGHT                                                =   120;
+static NSUInteger const ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT                                          =   150;
 
 @interface MEIndexContentScene ()<UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -59,8 +56,8 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
         
         //register cell
         //[self.table registerClass:[MEIndexContentCell class] forCellReuseIdentifier:ME_INDEX_CONTENT_ITEM_IDENTIFIER];
-        [self.table registerNib:[UINib nibWithNibName:@"MEIndexContentCell" bundle:nil] forCellReuseIdentifier:ME_INDEX_CONTENT_ITEM_IDENTIFIER];
-        [self.table registerNib:[UINib nibWithNibName:@"MEIndexContentTitleCell" bundle:nil] forCellReuseIdentifier:ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER];
+//        [self.table registerNib:[UINib nibWithNibName:@"MEIndexContentCell" bundle:nil] forCellReuseIdentifier:ME_INDEX_CONTENT_ITEM_IDENTIFIER];
+//        [self.table registerNib:[UINib nibWithNibName:@"MEIndexContentSetionCell" bundle:nil] forCellReuseIdentifier:ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER];
         
     }
     return self;
@@ -80,6 +77,7 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.delegate = self;
         _table.dataSource = self;
+        _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
 }
@@ -166,95 +164,114 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSUInteger __row = [indexPath row];
+    CGFloat row_height = ME_INDEX_CONTENT_ITEM_HEIGHT;
     if (__row == 0) {
-        return ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT;
+        row_height = ME_INDEX_CONTENT_ITEM_TITLE_HEIGHT;
     }
-    return ME_INDEX_CONTENT_ITEM_HEIGHT;
+    return adoptValue(row_height);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*static NSString *identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }//*/
     
+    static NSString *identifier = @"index_content_story_item_cell";
+    MEIndexStoryItemCell *cell = (MEIndexStoryItemCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[MEIndexStoryItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSUInteger __row = [indexPath row];NSUInteger __sect = [indexPath section];
-    //
     NSDictionary *sectMap = self.dataSource[__sect];
     NSArray *list = sectMap[@"list"];
+    NSString *title = sectMap[@"title"];
+    cell.sectionTitleLab.text = title;
+    [cell configureStoryItem4RowIndex:__row];
+    //item
+    NSUInteger numPerLine = ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
+    for (int i = 0; i < numPerLine; i ++) {
+        NSUInteger real_item_index = __row * numPerLine + i;
+        if (real_item_index < list.count) {
+            NSDictionary *info = list[real_item_index];
+            NSString *title = info[@"title"];
+            (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
+            (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
+            cell.tag = __sect;
+            NSString *imgUrl = info[@"image"];
+            UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
+            if (i % numPerLine == 0) {
+                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+            } else {
+                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+            }
+        } else {
+            cell.rightItemScene.hidden = true;
+        }
+    }
+    //callback
+    weakify(self)
+    cell.indexContentItemCallback = ^(NSUInteger section, NSUInteger index){
+        strongify(self)
+        [self userDidTouchIndexContentItem:section rowIndex:index];
+    };
+    /*
+    NSUInteger __row = [indexPath row];NSUInteger __sect = [indexPath section];
+    NSDictionary *sectMap = self.dataSource[__sect];
+    NSArray *list = sectMap[@"list"];
+    MEIndexContentBaseCell *cell;
     if (__row == 0) {
-        MEIndexContentTitleCell * cell = [self.table dequeueReusableCellWithIdentifier:ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER];
-        if (cell == nil) {
-            NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"MEIndexContentTitleCell" owner:self options:nil];
-            cell = nibs.firstObject;
-        }
+        static NSString *identifier = @"index_content_info_cell";
+        cell = (MEIndexContentInfoCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[MEIndexContentInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        }/
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        //标题
-        NSString *title = sectMap[@"title"];
-        cell.titleLab.text = title;
-        //item
-        NSUInteger numPerLine = ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
-        for (int i = 0; i < numPerLine; i ++) {
-            NSUInteger real_item_index = __row * numPerLine + i;
-            if (real_item_index < list.count) {
-                NSDictionary *info = list[real_item_index];
-                NSString *title = info[@"title"];
-                (i % numPerLine == 0)?[cell.leftTitleLab setText:title]:[cell.rightTitleLab setText:title];
-                (i % numPerLine == 0)?[cell.leftScene setTag:real_item_index]:[cell.rightScene setTag:real_item_index];
-                cell.tag = __sect;
-                NSString *imgUrl = info[@"image"];
-                (i % numPerLine == 0)?[cell.leftImageView setImageURL:[NSURL URLWithString:imgUrl]]:[cell.rightImageView setImageURL:[NSURL URLWithString:imgUrl]];
-            } else {
-                cell.rightScene.hidden = true;
-            }
+        //configre map
+        Class subClass = [MEIndexContentInfoCell class];
+        if ([cell isKindOfClass:subClass] || [cell isMemberOfClass:subClass]) {
+            MEIndexContentInfoCell *subCell = (MEIndexContentInfoCell *)cell;
+            NSString *title = sectMap[@"title"];
+            subCell.sectionTitleLab.text = title;
         }
-        //callback
-        weakify(self)
-        cell.MEIndexItemCallback = ^(NSUInteger section, NSUInteger index){
-            strongify(self)
-            [self userDidTouchIndexContentItem:section rowIndex:index];
-        };
-        return cell;
     } else {
-        MEIndexContentCell * cell = [self.table dequeueReusableCellWithIdentifier:ME_INDEX_CONTENT_ITEM_IDENTIFIER];
-        if (cell == nil) {
-            NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"MEIndexContentCell" owner:self options:nil];
-            cell = nibs.firstObject;
+        static NSString *identifier = @"index_content_title_cell";
+        cell = (MEIndexContentBaseCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[MEIndexContentBaseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        //item
-        NSUInteger numPerLine = ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
-        for (int i = 0; i < numPerLine; i ++) {
-            NSUInteger real_item_index = __row * numPerLine + i;
-            if (real_item_index < list.count) {
-                NSDictionary *info = list[real_item_index];
-                NSString *title = info[@"title"];
-                (i % 2 == 0)?[cell.leftTitleLab setText:title]:[cell.rightTitleLab setText:title];
-                (i % numPerLine == 0)?[cell.leftScene setTag:real_item_index]:[cell.rightScene setTag:real_item_index];
-                NSString *imgUrl = info[@"image"];
-                (i % numPerLine == 0)?[cell.leftImageView setImageURL:[NSURL URLWithString:imgUrl]]:[cell.rightImageView setImageURL:[NSURL URLWithString:imgUrl]];
-                cell.tag = __sect;
-            } else {
-                cell.rightScene.hidden = true;
-            }
-        }
-        
-        //callback
-        weakify(self)
-        cell.MEIndexItemCallback = ^(NSUInteger section, NSUInteger index){
-            strongify(self)
-            [self userDidTouchIndexContentItem:section rowIndex:index];
-        };
-        
-        return cell;
     }
     
-    //cell.textLabel.text = info[@"title"];
+    //*item
+    NSUInteger numPerLine = ME_INDEX_CONTENT_ITEM_NUMBER_PER_LINE;
+    for (int i = 0; i < numPerLine; i ++) {
+        NSUInteger real_item_index = __row * numPerLine + i;
+        if (real_item_index < list.count) {
+            NSDictionary *info = list[real_item_index];
+            NSString *title = info[@"title"];
+            (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
+            (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
+            cell.tag = __sect;
+            NSString *imgUrl = info[@"image"];
+            UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
+            if (i % numPerLine == 0) {
+                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+            } else {
+                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+            }
+        } else {
+            cell.rightItemScene.hidden = true;
+        }
+    }
+    [cell.contentView updateConstraints];
+    //callback
+    weakify(self)
+    cell.indexContentItemCallback = ^(NSUInteger section, NSUInteger index){
+        strongify(self)
+        [self userDidTouchIndexContentItem:section rowIndex:index];
+    };
     
-    return nil;
+    //*/
+    return cell;
 }
 
 #pragma mark -- ScrollView Delegate
@@ -274,6 +291,14 @@ static NSString  * ME_INDEX_CONTENT_ITEM_TITLE_IDENTIFIER                       
         self.whetherTrigger = offset_y > ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_DISTANCE;
         if (!self.whetherTrigger) {
             self.lastEndOffsetPt = CGPointZero;
+            return;
+        }
+        //滑到底
+        CGFloat height = scrollView.frame.size.height;
+        CGFloat distanceFromBottom = scrollView.contentSize.height - offset_y;
+        //NSLog(@"height:%f contentYoffset:%f frame.y:%f",height,offset_y,scrollView.frame.origin.y);
+        if (distanceFromBottom < height) {
+            NSLog(@"end of content");
             return;
         }
         

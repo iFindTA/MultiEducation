@@ -163,7 +163,7 @@
     countDown.titleLabel.font = inputFont;
     [countDown setTitle:@"验证码" forState:UIControlStateNormal];
     [countDown setTitleColor:themeColor forState:UIControlStateNormal];
-    countDown.layer.cornerRadius = ME_LAYOUT_SUBBAR_HEIGHT * 0.5;
+    countDown.layer.cornerRadius = ME_LAYOUT_SUBBAR_HEIGHT * 0.75 * 0.5;
     countDown.layer.masksToBounds = true;
     countDown.layer.borderWidth = ME_LAYOUT_LINE_HEIGHT;
     countDown.layer.borderColor = themeColor.CGColor;
@@ -173,7 +173,7 @@
         make.centerY.equalTo(icon.mas_centerY);
         make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
         make.width.equalTo(adoptValue(ME_HEIGHT_NAVIGATIONBAR*3));
-        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT * 0.75);
     }];
     [countDown countDownButtonHandler:^(JKCountDownButton *countDownButton, NSInteger tag) {
         countDownButton.enabled = NO;
