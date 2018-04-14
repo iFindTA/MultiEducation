@@ -3,5 +3,6 @@
 .xcworkspace
 .xcuserdata
 .xcuserstate
-xcuserdata/*
-
+Pods/Pods.xcodeproj/xcuserdata/
+MultiEducation.xcodeproj/xcuserdata/
+MultiEducation.xcworkspace/xcuserdata/
