@@ -9,7 +9,9 @@
 #import "MEBrowserProfile.h"
 #import "MEBaseLabel.h"
 
-@interface MEBrowserProfile () <UIWebViewDelegate>
+static CGFloat const PROGRESS_HEIGHT  = 3.f;
+
+@interface MEBrowserProfile () <WKNavigationDelegate>
 
 @property (nonatomic, strong) NSDictionary *params; //params;
 
@@ -19,7 +21,7 @@
 @property (nonatomic, strong) UIBarButtonItem *backItem;  //go back web
 @property (nonatomic, strong) UIBarButtonItem *closeItem;   //pop nav
 
-@property (nonatomic, strong) UIView *progress; //web load progress
+@property (nonatomic, strong) UIProgressView *progress; //web load progress
 
 @end
 
@@ -37,6 +39,12 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    [_progress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.navigationBar.mas_bottom);
+        make.height.mas_equalTo(PROGRESS_HEIGHT);
+    }];
+    
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo(self.navigationBar.mas_bottom);
@@ -52,17 +60,8 @@
     self.navigationItem.titleView = self.titleLab;
     [self.navigationBar pushNavigationItem: self.navigationItem animated:true];
     
-    _webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-    _webView.backgroundColor = [UIColor whiteColor];
-    _webView.scalesPageToFit = YES;
-    _webView.allowsInlineMediaPlayback = YES;
-    _webView.mediaPlaybackRequiresUserAction = NO;
-    _webView.delegate = self;
-    
-    NSURL *url = [NSURL URLWithString: [self.params objectForKey: @"url"]];
-    NSURLRequest *request =[NSURLRequest requestWithURL: url];
-    [_webView loadRequest: request];
-    [self.view addSubview: _webView];
+    [self.view addSubview: self.webView];
+    [self.view addSubview: self.progress];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,16 +81,34 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - UIWebViewDelegate
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//
-//}
-//- (void)webViewDidStartLoad:(UIWebView *)webView {
-//
-//}
-//- (void)webViewDidFinishLoad:(UIWebView *)webView {
-//
-//}
+#pragma mark - WKWebView
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    if ([webView.URL.absoluteString hasPrefix:@"https://itunes.apple.com"]) {
+        [[UIApplication sharedApplication] openURL:navigationAction.request.URL];
+        decisionHandler(WKNavigationActionPolicyCancel);
+    }else {
+        decisionHandler(WKNavigationActionPolicyAllow);
+    }
+}
+
+// 计算wkWebView进度条
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == self.webView && [keyPath isEqualToString:@"estimatedProgress"]) {
+        CGFloat newprogress = [[change objectForKey:NSKeyValueChangeNewKey] doubleValue];
+        if (newprogress == 1) {
+            self.progress.hidden = YES;
+            [self.progress setProgress:0 animated:NO];
+        }else {
+            self.progress.hidden = NO;
+            [self.progress setProgress:newprogress animated:YES];
+        }
+    }
+}
+
+- (void)dealloc {
+    [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
+}
+
 #pragma mark - lazyloading
 - (UIBarButtonItem *)backItem {
     if (!_backItem) {
@@ -144,12 +161,27 @@
     return _titleLab;
 }
 
-- (UIView *)progress {
-    if (!_progress) {
-        _progress = [[UIView alloc] init];
-        _progress.backgroundColor = UIColorFromRGB(0x598BEE);
+- (UIProgressView *)progress {
+    if(!_progress) {
+        _progress = [[UIProgressView alloc] init];
+        _progress.tintColor = [UIColor orangeColor];
+        _progress.trackTintColor = [UIColor whiteColor];
+        [self.view addSubview:_progress];
     }
     return _progress;
+}
+
+- (WKWebView *)webView {
+    if (!_webView) {
+        _webView = [[WKWebView alloc] init];
+        _webView.backgroundColor = [UIColor whiteColor];
+        [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+        
+        NSURL *url = [NSURL URLWithString: [self.params objectForKey: @"url"]];
+        NSURLRequest *request =[NSURLRequest requestWithURL: url];
+        [_webView loadRequest: request];
+    }
+    return _webView;
 }
 
 @end

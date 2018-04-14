@@ -45,6 +45,14 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @implementation MEBabyPhotoProfile
 
+- (instancetype)__initWithParmas:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -52,7 +60,18 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     self.sj_fadeAreaViews = @[self.scrollView];
     
+    [self customNavigation];
+    
     [self layoutView];
+}
+
+- (void)customNavigation {
+    NSString *title = @"宝宝相册";
+    UIBarButtonItem *spacer = [self barSpacer];
+    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
+    item.leftBarButtonItems = @[spacer, backItem];
+    [self.navigationBar pushNavigationItem:item animated:true];
 }
 
 - (void)layoutView {

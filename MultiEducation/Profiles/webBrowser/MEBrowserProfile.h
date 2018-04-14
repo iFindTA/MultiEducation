@@ -7,9 +7,10 @@
 //
 
 #import "MEBaseProfile.h"
+#import <WebKit/WebKit.h>
 
 @interface MEBrowserProfile : MEBaseProfile
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 
 @end
