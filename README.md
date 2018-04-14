@@ -58,3 +58,9 @@ first of all, welcom to join in our team ! and you should follow options below:
 
 		to .gitignore
 
+### 7, when you submit you change-codes to gitee, follow steps below:
+
+		7.1, commit your changes on your local master
+		
+		7.2, pull remote codes and push your local to remote repo !
+
