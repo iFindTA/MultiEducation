@@ -73,7 +73,6 @@
 		A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = DF202D9C6AA31F2A6DF0BF9A5165905A /* MEGardenRootProfile.m */; };
 		ACA1F68E2081C9BF0088A2F2 /* MEEvaluateProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1F68D2081C9BF0088A2F2 /* MEEvaluateProfile.m */; };
 		ACA1F6912081CB3B0088A2F2 /* MEEvaluateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1F6902081CB3B0088A2F2 /* MEEvaluateCell.m */; };
-		ACA1F6942081CBCB0088A2F2 /* MEEvaluateSelectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = ACA1F6932081CBCB0088A2F2 /* MEEvaluateSelectItem.m */; };
 		AE210B6FB65B89D29B9FAA12603FF95E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29BED58F38B64F9B9542E5193DE02FB4 /* Assets.xcassets */; };
 		B2633EFDBCC5B98A87F74581F4318150 /* MultiEducationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE22B52E5FB7B8BE48639CCFA6B66C4 /* MultiEducationUITests.m */; };
 		B75CAB0F6AAB263DBADEF1F76342F6F6 /* MEPlayerLike.m in Sources */ = {isa = PBXBuildFile; fileRef = F40E6ED7FC614FCCE86E9DCFF3DD36DB /* MEPlayerLike.m */; };
@@ -249,8 +248,8 @@
 		ACA1F68D2081C9BF0088A2F2 /* MEEvaluateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateProfile.m; sourceTree = "<group>"; };
 		ACA1F68F2081CB3B0088A2F2 /* MEEvaluateCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEEvaluateCell.h; sourceTree = "<group>"; };
 		ACA1F6902081CB3B0088A2F2 /* MEEvaluateCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateCell.m; sourceTree = "<group>"; };
-		ACA1F6922081CBCB0088A2F2 /* MEEvaluateSelectItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEEvaluateSelectItem.h; sourceTree = "<group>"; };
-		ACA1F6932081CBCB0088A2F2 /* MEEvaluateSelectItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateSelectItem.m; sourceTree = "<group>"; };
+		ACA1F6952081ED630088A2F2 /* MEEvaluateSelectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEEvaluateSelectItem.h; sourceTree = "<group>"; };
+		ACA1F6962081ED630088A2F2 /* MEEvaluateSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateSelectItem.m; sourceTree = "<group>"; };
 		AD56F50A90C7346C4E3D701CD3DCE3D2 /* MEIndexSearchMaskScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexSearchMaskScene.h; sourceTree = "<group>"; };
 		AE3C3477D4A89CDDD17662F444BF7845 /* MEPlayerLike.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayerLike.h; sourceTree = "<group>"; };
 		B10B4F7EF6669CCAD324CB6B2DCA3E5C /* MESignInProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESignInProfile.m; sourceTree = "<group>"; };
@@ -430,9 +429,9 @@
 				B4F2E55CB4D69DF1D8550482FEF669A5 /* MEBabyRecordLabel.h */,
 				A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */,
 				ACA1F68F2081CB3B0088A2F2 /* MEEvaluateCell.h */,
+				ACA1F6952081ED630088A2F2 /* MEEvaluateSelectItem.h */,
+				ACA1F6962081ED630088A2F2 /* MEEvaluateSelectItem.m */,
 				ACA1F6902081CB3B0088A2F2 /* MEEvaluateCell.m */,
-				ACA1F6922081CBCB0088A2F2 /* MEEvaluateSelectItem.h */,
-				ACA1F6932081CBCB0088A2F2 /* MEEvaluateSelectItem.m */,
 			);
 			path = babyContent;
 			sourceTree = "<group>";
@@ -1184,7 +1183,7 @@
 				62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */,
 				5F49A7F3974D7CD2B0215185EBAB1DD5 /* MEVideoRelateVM.m in Sources */,
 				7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */,
-				ACA1F6942081CBCB0088A2F2 /* MEEvaluateSelectItem.m in Sources */,
+				ACA1F6972081ED630088A2F2 /* MEEvaluateSelectItem.m in Sources */,
 				1E875B2DC795B73EA691B47B3C03F1DF /* UIView+BlurEffect.m in Sources */,
 				ED0D090076CEE017686C906F12AFFD4E /* UIView+Frame.m in Sources */,
 				610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */,
