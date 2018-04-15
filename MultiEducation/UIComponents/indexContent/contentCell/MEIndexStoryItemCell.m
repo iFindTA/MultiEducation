@@ -151,7 +151,7 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
 - (MEBaseScene *)sectionScene {
     if (!_sectionScene) {
         _sectionScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-        _sectionScene.backgroundColor = [UIColor redColor];
+        _sectionScene.backgroundColor = [UIColor whiteColor];
     }
     return _sectionScene;
 }

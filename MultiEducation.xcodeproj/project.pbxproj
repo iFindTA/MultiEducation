@@ -528,15 +528,6 @@
 			path = Index;
 			sourceTree = "<group>";
 		};
-		8D9F9097379E54C1064837731E468573 /* shareActivity */ = {
-			isa = PBXGroup;
-			children = (
-				179DEC08303D75A2C929EDA78ED6F2D3 /* MEActivity.h */,
-				F2ABD80A426A68A49A0836FB5CE9B6E2 /* MEActivity.m */,
-			);
-			path = shareActivity;
-			sourceTree = "<group>";
-		};
 		6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,6 +647,15 @@
 				18A0D48C6152E6379212DFA472991405 /* MEIndexHeader.xib */,
 			);
 			path = indexHeader;
+			sourceTree = "<group>";
+		};
+		8D9F9097379E54C1064837731E468573 /* shareActivity */ = {
+			isa = PBXGroup;
+			children = (
+				179DEC08303D75A2C929EDA78ED6F2D3 /* MEActivity.h */,
+				F2ABD80A426A68A49A0836FB5CE9B6E2 /* MEActivity.m */,
+			);
+			path = shareActivity;
 			sourceTree = "<group>";
 		};
 		8F7E7201698917A62043AE569E7C9EFD /* babyContentHeader */ = {

@@ -9,6 +9,7 @@
 #import "MEIndexContentScene.h"
 #import "MEContentHeader.h"
 #import "MEIndexStoryItemCell.h"
+#import <MJRefresh/MJRefreshNormalHeader.h>
 
 static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_DISTANCE                               =   200;
 static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE                              =   30;
@@ -49,6 +50,12 @@ static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE          
         self.lastEndOffsetPt = CGPointZero;
         //header
         self.table.tableHeaderView = self.header;
+        //refresh
+        weakify(self)
+        self.table.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            strongify(self)
+            [self userTriggeredRefreshEvent];
+        }];
     }
     return self;
 }
@@ -67,6 +74,9 @@ static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE          
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.delegate = self;
         _table.dataSource = self;
+        if (@available(iOS 11.0, *)) {
+            _table.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
         _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
@@ -276,6 +286,10 @@ static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE          
 }
 
 #pragma mark -- reload ui
+
+- (void)userTriggeredRefreshEvent {
+    
+}
 
 #pragma mark --- Touch Item Event
 

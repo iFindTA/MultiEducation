@@ -17,6 +17,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //#define ME_THEME_COLOR_VALUE                                          0xE15256
 #define ME_THEME_COLOR_VALUE                                            0x609EE1
 #define ME_THEME_COLOR_TEXT                                             0x333333
+#define ME_THEME_COLOR_TEXT_GRAY                                        0x666666
 #define ME_THEME_COLOR_LINE                                             0xEEEEEE
 #define ME_ANIMATION_DURATION                                           0.25f
 
