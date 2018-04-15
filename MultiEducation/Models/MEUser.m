@@ -10,4 +10,14 @@
 
 @implementation MEUser
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _role = MEUserRoleVisitor;
+        _state = MEUserStateOffline;
+        _keepWatchingDuration = 0.f;
+    }
+    return self;
+}
+
 @end

@@ -41,6 +41,8 @@
     //create user
     //init root navigation profile
     BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
+    MEUser *usr = [[MEUser alloc] init];
+    self.curUser = [MEUserVM vmWithModel:usr];
     UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:signedin?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];

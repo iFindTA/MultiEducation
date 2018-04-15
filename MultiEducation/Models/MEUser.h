@@ -10,6 +10,8 @@
 
 @interface MEUser : MEM
 
+@property (nonatomic, copy) NSString *userID;
+
 /**
  角色
  */

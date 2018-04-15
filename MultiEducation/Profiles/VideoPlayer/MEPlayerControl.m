@@ -28,6 +28,11 @@
 - (id)init {
     self = [super init];
     if (self) {
+        //hide super control
+        NSValue *hiddenValue = [NSNumber numberWithBool:true];
+        [self setValue:hiddenValue forKeyPath:@"self.backBtn.hidden"];
+        [self setValue:hiddenValue forKeyPath:@"self.titleLabel.hidden"];
+        
         [self addSubview:self.likeBtn];
         [self addSubview:self.volume];
         [self addSubview:self.shareBtn];

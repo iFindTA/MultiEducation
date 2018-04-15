@@ -39,8 +39,8 @@
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        self.params = params;
-        NSLog(@"收到的参数:%@", params);
+        _params = params;
+        //NSLog(@"收到的参数:%@", params);
     }
     return self;
 }
@@ -299,8 +299,16 @@
 }
 
 - (void)loginTouchEvent {
-    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+    
 #if DEBUG
+    //whether exist callback
+    void(^callbackExcute)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
+    if (callbackExcute) {
+        callbackExcute();
+        return;
+    }
+    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+    
     return;
 #endif
     //check mobile

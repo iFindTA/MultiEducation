@@ -7,7 +7,6 @@
 //
 
 #import "MEUserVM.h"
-#import "MEUser.h"
 
 @interface MEUserVM ()
 

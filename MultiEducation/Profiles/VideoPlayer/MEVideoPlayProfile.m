@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEActivity.h"
 #import "MEVideoPlayProfile.h"
 #import "MEPlayerControl.h"
 #import "MEVideoRelateVM.h"
@@ -38,8 +39,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self.player removeObserver:self forKeyPath:@"state"];
     [self.player removeObserver:self forKeyPath:@"isFullScreen"];
-    
 }
 
 - (instancetype)__initWithParams:(NSDictionary *)params {
@@ -89,20 +90,27 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
                                                object:nil
      ];
     //*/
+    
+    [self.player autoPlayTheVideo];
+    
+    //下载相关视频列表
+    [self.tableVM loadRelateVideos];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.player autoPlayTheVideo];
-    //下载相关视频列表
-    [self.tableVM loadRelateVideos];
+    if ([self.player isPauseByUser]) {
+        PBMAINDelay(ME_ANIMATION_DURATION, ^{
+            [self.player play];
+        });
+    }
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self.player pause];
+    
 }
 
 - (void)viewWillLayoutSubviews {
@@ -231,6 +239,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     } else if ([keyPath isEqualToString:@"state"]) {
         NSInteger state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         if (state == ZFPlayerStateStopped) {
+            //如果有下一个视频
             [self.playerControl showNextPlayItem:@"大头儿子小头爸爸"];
         } else {
             [self.playerControl closeNextRecommandItemEvent];
@@ -246,12 +255,44 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
  */
 - (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
     if (action & MEVideoPlayUserActionLike) {
-        //收藏
-        if (self.currentUserRole) {
-            <#statements#>
+        //收藏callback
+        void(^likeCallback)(void) = ^(){
+            NSString *uid = @"fetch user's id";
+            
+            //收藏动作
+            NSLog(@"sigin after excute block with user:%@", uid);
+        };
+        if (![self userDidSignIn]) {
+            NSDictionary *params =@{ME_DISPATCH_KEY_CALLBACK:[likeCallback copy]};
+            NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+            NSError *err = [MEDispatcher openURL:signInUrl withParams:nil];
+            [self handleTransitionError:err];
+            return;
+        }
+        //收藏动作
+        if (likeCallback) {
+            likeCallback();
         }
     } else if (action & MEVideoPlayUserActionShare) {
-        
+        NSString *textToShare = @"多元幼教_V2.0新版从火星回来了！";
+        UIImage *imageToShare = [UIImage imageNamed:@"playerBg"];
+        NSURL *urlToShare = [NSURL URLWithString:@"https://github.com/iFindTA"];
+        NSArray *activityItems = @[urlToShare,textToShare,imageToShare];
+        //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
+        MEActivity *active = [[MEActivity alloc] initWithTitie:@"多元幼教V2.0" withActivityImage:[UIImage imageNamed:@"AppIcon"] withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
+        NSArray *activities = @[active];
+        UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:activities];
+        shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
+            NSLog(@"activityType :%@", activityType);
+            if (completed) {
+                NSLog(@"completed");
+            } else {
+                NSLog(@"cancel");
+            }
+        };
+        //关闭系统的一些activity类型
+        shareProfile.excludedActivityTypes = @[];
+        [self presentViewController:shareProfile animated:true completion:nil];
     } else if (action & MEVideoPlayUserActionNextItem) {
         
     }

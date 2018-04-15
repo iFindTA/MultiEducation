@@ -7,10 +7,10 @@
 //
 
 #import "MEVM.h"
+#import "MEUser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class MEUser;
 @interface MEUserVM : MEVM
 
 /**
