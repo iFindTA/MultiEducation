@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) NSDictionary *descInfo;
 
+@property (nonatomic, strong) MEBaseLabel *titleLab;
+
 @end
 
 @implementation MEPlayerInfoScene
@@ -47,20 +49,23 @@
     //title
     UIFont *font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
     NSString *title = self.descInfo[@"title"];
-    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
-    label.font = font;
-    label.text = title;
-    label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    [self addSubview:label];
-    [label makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.equalTo(self);
-        make.left.equalTo(self).offset(ME_LAYOUT_MARGIN);
-        make.height.equalTo(ME_HEIGHT_TABBAR);
-    }];
+    self.titleLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    self.titleLab.font = font;
+    self.titleLab.text = title;
+    self.titleLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    [self addSubview:self.titleLab];
+   
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    [self.titleLab makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.right.equalTo(self);
+        make.left.equalTo(self).offset(ME_LAYOUT_MARGIN);
+        make.height.equalTo(ME_HEIGHT_TABBAR);
+    }];
 }
 
 /*

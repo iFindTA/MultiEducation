@@ -114,8 +114,44 @@
 
 #pragma mark --- user relatives
 
+- (UIViewController *)fetchTopProfile4Window:(UIWindow *)window {
+    UIViewController *topViewController = [window rootViewController];
+    while (true) {
+        if (topViewController.presentedViewController) {
+            topViewController = topViewController.presentedViewController;
+        } else if ([topViewController isKindOfClass:[UINavigationController class]] && [(UINavigationController*)topViewController topViewController]) {
+            topViewController = [(UINavigationController *)topViewController topViewController];
+        } else if ([topViewController isKindOfClass:[UITabBarController class]]) {
+            UITabBarController *tab = (UITabBarController *)topViewController;
+            topViewController = tab.selectedViewController;
+        } else {
+            break;
+        }
+    }
+    return topViewController;
+}
+
+- (UIViewController *)topestProfile {
+    NSArray <UIWindow *>*windows = [UIApplication sharedApplication].windows;
+    UIViewController *profile;UIWindow *win;
+    NSEnumerator *enumerator = [windows reverseObjectEnumerator];
+    while (win = [enumerator nextObject]) {
+        UIViewController *tmpProfile = [self fetchTopProfile4Window:win];
+        if (tmpProfile != nil) {
+            profile = tmpProfile;
+            NSLog(@"找到了topest:%@", win);
+            break;
+        }
+    }
+    return profile;
+}
+
 - (MEUserRole)currentUserRole {
     return [[self appDelegate].curUser userRole];
+}
+
+- (BOOL)userDidSignIn {
+    return self.currentUserRole != MEUserRoleVisitor;
 }
 
 - (void)handleTransitionError:(NSError *)error {

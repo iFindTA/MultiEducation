@@ -19,4 +19,9 @@
 
 @property (nonatomic, assign) NSTimeInterval signtimestamp;
 
+/**
+ user keep watching timeinterval
+ */
+@property (nonatomic, assign) NSTimeInterval keepWatchingDuration;
+
 @end

@@ -11,6 +11,8 @@
 #import <PBBaseClasses/PBBaseProfile.h>
 #import <UIViewController+SJVideoPlayerAdd.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MEBaseProfile : PBBaseProfile
 
 /**
@@ -44,9 +46,19 @@
 #pragma mark --- user relatives
 
 /**
+ fetch current profile that topest!
+ */
+- (UIViewController *)topestProfile;
+
+/**
  当前用户角色
  */
 - (MEUserRole)currentUserRole;
+
+/**
+ whether user did sign-in
+ */
+- (BOOL)userDidSignIn;
 
 /**
  handle error
@@ -54,3 +66,5 @@
 - (void)handleTransitionError:(NSError *_Nullable)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

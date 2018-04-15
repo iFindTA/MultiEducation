@@ -35,6 +35,13 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 @implementation MEVideoPlayProfile
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self.player removeObserver:self forKeyPath:@"isFullScreen"];
+    
+}
+
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
@@ -61,12 +68,27 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     //推荐列表
     [self.view addSubview:self.table];
     [self.table makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.player.mas_bottom);
+        make.top.equalTo(self.playerScene.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
     }];
     //table header
     MEPlayerInfoScene *infoHeader = [MEPlayerInfoScene configreInfoDescriptionPanelWithInfo:self.videoInfo];
     self.table.tableHeaderView = infoHeader;
+    
+    //observes
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__applicationDidEnterForeground) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    [self.player addObserver:self forKeyPath:@"isFullScreen" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [self.player addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    /*
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onDeviceOrientationChange)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil
+     ];
+    //*/
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,13 +109,16 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     [super viewWillLayoutSubviews];
 }
 
-- (BOOL)shouldAutorotate {
+// 是否支持自动转屏
+- (BOOL)shouldAutorotate{
     return false;
+    //return !ZFPlayerShared.isLockScreen;
 }
 
+
 - (BOOL)prefersStatusBarHidden {
+    //return false;
     return ZFPlayerShared.isStatusBarHidden;
-    //return true;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -113,21 +138,20 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (MEPlayerControl *)playerControl {
     if (!_playerControl) {
         _playerControl = [[MEPlayerControl alloc] init];
+        weakify(self)
         _playerControl.videoPlayControlCallback = ^(MEVideoPlayUserAction action) {
-            NSLog(@"action :%zd", action);
+            strongify(self)
+            [self userVideoPlayerInterfaceActionType:action];
         };
     }
     return _playerControl;
-}
-
-- (void)handleDeviceOrientationDidChange:(NSNotification *)notification {
-    NSLog(@"oritention");
 }
 
 - (ZFPlayerView *)player {
     if (!_player) {
         _player = [[ZFPlayerView alloc] initWithFrame:CGRectZero];
         _player.delegate = self;
+        _player.fullScreenPlay = false;
         //[_player playerControlView:self.playerControlScene playerModel:[self fetchPlayModel]];
         [_player playerControlView:self.playerControl playerModel:[self fetchPlayModel]];
         
@@ -157,6 +181,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.delegate = self;
+        //_table.backgroundColor = [UIColor blueColor];
     }
     return _table;
 }
@@ -173,6 +198,68 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)zf_playerControlViewWillHidden:(UIView *)controlView isFullscreen:(BOOL)fullscreen {
     [self.playerControl updateUserActionItemState4Hidden:true];
+}
+
+#pragma mark --- Observes
+
+- (void)__applicationDidEnterBackground {
+    [self.player pause];
+}
+
+- (void)__applicationDidEnterForeground {
+    if (self.player.state != ZFPlayerStateStopped && self.player.state != ZFPlayerStateFailed) {
+        [self.player play];
+    }
+}
+
+- (void)onDeviceOrientationChange {
+    BOOL fullValue = [[self.player valueForKeyPath:@"isFullScreen"] boolValue];
+    if (fullValue) {
+        NSLog(@"2 full");
+    } else {
+        NSLog(@"exit full");
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"isFullScreen"]) {
+        BOOL isFullScreen = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+        NSLog(@"变成%@", isFullScreen?@"全屏":@"小屏");
+        [self.playerControl updateVideoPlayerState:isFullScreen];
+        
+        [self.view layoutIfNeeded];
+    } else if ([keyPath isEqualToString:@"state"]) {
+        NSInteger state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+        if (state == ZFPlayerStateStopped) {
+            [self.playerControl showNextPlayItem:@"大头儿子小头爸爸"];
+        } else {
+            [self.playerControl closeNextRecommandItemEvent];
+        }
+        
+    }
+}
+
+#pragma mark --- user touch action
+
+/**
+ 收藏 & 分享
+ */
+- (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
+    if (action & MEVideoPlayUserActionLike) {
+        //收藏
+        if (self.currentUserRole) {
+            <#statements#>
+        }
+    } else if (action & MEVideoPlayUserActionShare) {
+        
+    } else if (action & MEVideoPlayUserActionNextItem) {
+        
+    }
+    UIAlertController *sheet  = [UIAlertController alertControllerWithTitle:@"标题二" message:@"这里是要显示的信息" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [sheet addAction:cancel];
 }
 
 /*
