@@ -19,4 +19,14 @@
  */
 + (CGFloat)fileSizeWithPath:(NSString *)path;
 
+
+/**
+ 压缩image到制定大小以下
+
+ @param image original image
+ @param maxLength maxLength that you can accept
+ @return image after compress
+ */
++ (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength;
+
 @end
