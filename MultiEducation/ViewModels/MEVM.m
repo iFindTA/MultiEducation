@@ -25,7 +25,7 @@
     return data;
 }
 
-- (void)postData:(NSData *)data cmdCode:(NSString *)cmdCode operationCode:(NSString *)opCode hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
+- (void)postData:(NSData *)data hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
     
     
     MECarrierPB *carrier = [[MECarrierPB alloc] init];
@@ -34,9 +34,19 @@
      */
 //    NSString *uuidToken = [MEVM createUUID];
 //    [carrier setToken:uuidToken];
-    //[carrier setCmdCode:@"SESSION_POST"];
+    /**
+     *  cmdCode
+     */
+    NSString *cmdCode = [self cmdCode];
     [carrier setCmdCode:cmdCode];
-    [carrier setReqCode:opCode];
+    /**
+     *  reqCode
+     */
+    NSString *optCode = [self operationCode];
+    [carrier setReqCode:optCode];
+    /**
+     *  real binary data
+     */
     [carrier setSource:data];
     //cmd version
     NSString *cmdVersion = [self cmdVersion];
