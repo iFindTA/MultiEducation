@@ -38,6 +38,9 @@
     [carrier setCmdCode:cmdCode];
     [carrier setReqCode:opCode];
     [carrier setSource:data];
+    //cmd version
+    NSString *cmdVersion = [self cmdVersion];
+    [carrier setCmdVersion:cmdVersion];
     
     NSData *signedData = [carrier data];
     [[PBService shared] POSTData:signedData classIdentifier:self.class hudEnable:hud success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable resObj) {
@@ -60,6 +63,11 @@
             failure(error);
         }
     }];
+}
+
+#pragma mark --- 需要被override的methods
+- (NSString *)cmdVersion {
+    return @"1";
 }
 
 @end

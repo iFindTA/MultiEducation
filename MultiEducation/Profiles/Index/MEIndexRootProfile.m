@@ -112,7 +112,7 @@
         }];
     };
     //游客模式 提示登录
-    if (self.currentUserRole == MEUserRoleVisitor) {
+    if (self.currentUser.userType == MEUserRoleVisitor) {
         //TODO://游客模式 引导登录
         //MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     }

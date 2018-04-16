@@ -19,8 +19,8 @@
 }
 #pragma mark --- user relatives
 
-- (MEUserRole)currentUserRole {
-    return [[self appDelegate].curUser userRole];
+- (MEPBUser * _Nullable)currentUser; {
+    return [self appDelegate].curUser;
 }
 
 - (void)handleTransitionError:(NSError *)error {

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+import "MEClass.proto";
+
+message MEPBUser {
+    int64 id = 1; //用户id
+    int64 schoolId = 2; //学校id
+    string uuid = 3; //唯一统一标示符
+    string username = 4; //用户名
+    string password = 5; //用户名
+    string name = 6; //中文名
+    MEPBUserRole userType = 7; //用户类型(1老师;2学生;3家长;4教务)
+    int64 phaseId = 8; //学段id
+    int32 gender = 9; //性别1:男，2：女
+    string mobile = 10; //电话
+    string address = 11; //地址
+    string email = 12; //email
+    string token = 13; //token
+    string schoolName = 14; //学校名称
+    string portrait = 15; //头像
+    ParentsPb parentsPb = 16;
+    TeacherPb teacherPb = 17;
+    SchoolPb schoolPb = 18;
+    repeated FuncCtrlPb funcCtrlPb = 19;
+    int32 hasInitPwd = 20;
+    string bucketDomain = 21; //七牛域名
+    string uptoken = 22; //七牛上传token
+    int32 groupStatus = 23; //群聊开关状态
+    int32 isMember = 24; //是否是会员
+    int64 deadline = 25; //会员截止日期
+    SystemConfigPb systemConfigPb = 26; //系统配置
+    int64 diskCap = 27; //当前网盘容量
+    DeanPb deanPb = 28;
+    int32 isTourist = 29; //是否是游客
+    string rcToken = 30; //融云token
+    int32 isUserCharge = 31; //判断用户是否需要进入收费页面
+    string code = 32; //验证码
+}
+
+enum MEPBUserRole {
+    Visitor = 1; //游客
+    Parent = 2;//家长
+    Teacher = 4;//老师
+    Gardener = 8;//园务
+}
+
+message SchoolPb {
+    int64 id = 1; //学校id
+    string domain = 2; //学校域名
+    string name = 3; //学校名称
+    int64 year = 4; //年
+    int32 semester = 5; //学期
+
+    int32 isSchoolCharge = 6; //是否收费
+    int64 freeDate = 7; //免费时间
+}
+
+message FuncCtrlPb {
+    int64 schoolId = 1; //学校id
+    string funcCode = 2; //功能code
+    int32 androidStatus = 3; //状态
+    int32 iosStatus = 4; //状态
+}
+
+message ParentsPb {
+    string mobile = 1; //手机
+    repeated StudentPb studentPb = 2; //学生
+    repeated MEPBClass classPb = 3; //学生班级
+}
+
+message TeacherPb {
+    string mobile = 1; //手机
+    repeated MEPBClass classPb = 2; //班级
+}
+
+message DeanPb {
+    repeated MEPBClass classPb = 1; //班级
+}
+
+message StudentPb {
+    int64 id = 1;
+    string uuid = 2; //唯一统一标示符
+    string name = 3; //名称
+    int64 classId = 4; //班级
+    int64 gradeId = 5; //年级
+
+    string classNo = 6; //班级码
+    int64 birthday = 7; //出生日期
+    int32 parentType = 8;//家长类型
+    int32 gender = 9;//性别
+
+
+}
+
+message SystemConfigPb {
+    string diskCap = 1; //网盘容量
+    string uploadLimit = 2; //上传限制
+}

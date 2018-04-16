@@ -376,13 +376,25 @@
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
     weakify(self)
-    [vm postData:pbdata cmdCode:@"SESSION_POST" operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
-        [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+    [vm postData:pbdata cmdCode:SESSION_POST operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            [self.appDelegate updateCurrentSignedInUser:user];
+            PBMAINDelay(ME_ANIMATION_DURATION, ^{
+                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+            });
+        }
     } failure:^(NSError * _Nonnull error) {
-        
+        strongify(self)
+        [self handleTransitionError:error];
     }];
     
 }
+
+
 
 - (void)browserEvent {
     [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];

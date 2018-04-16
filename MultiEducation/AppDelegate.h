@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class MEUserVM, MEBaseNavigationProfile;
+@class MEPBUser, MEBaseNavigationProfile;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
@@ -22,12 +22,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  the user view model who did signed-in
  */
-@property (nonatomic, strong, readonly, nullable) MEUserVM * curUser;
+@property (nonatomic, strong, readonly, nullable) MEPBUser * curUser;
 
 /**
  splash change display sence
  */
 - (void)changeDisplayStyle:(uint)style;
+
+/**
+ 更新当前登录用户
+ */
+- (void)updateCurrentSignedInUser:(MEPBUser *)usr;
 
 @end
 

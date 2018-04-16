@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message MEPBClassList {
+    repeated MEPBClass ClassPB = 1;
+}
+
+message MEPBClass {
+    int64 id = 1; //id
+    string className = 2; //班级名称
+    int64 gradeId = 3; //年级id
+    string gradeName = 4; //年级名次
+    string monitorUrl = 5; //监控地址
+    int64 year = 6; //年
+    int32 semester = 7; //学期
+}
