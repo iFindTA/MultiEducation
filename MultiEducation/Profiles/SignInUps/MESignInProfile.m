@@ -252,7 +252,7 @@
         make.left.equalTo(btn);
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
     }];
-    //register user
+    /*register user
     MEBaseButton *registerBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     registerBtn.titleLabel.font = font;
     [registerBtn setTitle:@"注册账号" forState:UIControlStateNormal];
@@ -263,7 +263,7 @@
         make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
         make.right.equalTo(btn);
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
-    }];
+    }];//*/
     //游客模式
     font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
     btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
