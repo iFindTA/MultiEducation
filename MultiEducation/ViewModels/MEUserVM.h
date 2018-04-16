@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)vmWithModel:(MEUser *)usr;
 
-+ (instancetype)vmWithPB:(LoginPb *)pb;
++ (instancetype)vmWithPB:(MEPBSignIn *)pb;
 
 /**
  fetch user who signed-in latest

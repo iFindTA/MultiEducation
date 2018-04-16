@@ -44,19 +44,19 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MesignInRoot : GPBRootObject
 @end
 
-#pragma mark - LoginPb
+#pragma mark - MEPBSignIn
 
-typedef GPB_ENUM(LoginPb_FieldNumber) {
-  LoginPb_FieldNumber_LoginName = 1,
-  LoginPb_FieldNumber_Password = 2,
-  LoginPb_FieldNumber_Token = 3,
-  LoginPb_FieldNumber_Name = 5,
-  LoginPb_FieldNumber_AppleToken = 6,
-  LoginPb_FieldNumber_Code = 7,
-  LoginPb_FieldNumber_ClassNo = 8,
+typedef GPB_ENUM(MEPBSignIn_FieldNumber) {
+  MEPBSignIn_FieldNumber_LoginName = 1,
+  MEPBSignIn_FieldNumber_Password = 2,
+  MEPBSignIn_FieldNumber_Token = 3,
+  MEPBSignIn_FieldNumber_Name = 5,
+  MEPBSignIn_FieldNumber_AppleToken = 6,
+  MEPBSignIn_FieldNumber_Code = 7,
+  MEPBSignIn_FieldNumber_ClassNo = 8,
 };
 
-@interface LoginPb : GPBMessage
+@interface MEPBSignIn : GPBMessage
 
 /** 用户名 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *loginName;

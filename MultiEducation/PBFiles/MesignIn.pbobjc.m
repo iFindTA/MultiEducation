@@ -42,9 +42,9 @@ static GPBFileDescriptor *MesignInRoot_FileDescriptor(void) {
   return descriptor;
 }
 
-#pragma mark - LoginPb
+#pragma mark - MEPBSignIn
 
-@implementation LoginPb
+@implementation MEPBSignIn
 
 @dynamic loginName;
 @dynamic password;
@@ -54,7 +54,7 @@ static GPBFileDescriptor *MesignInRoot_FileDescriptor(void) {
 @dynamic code;
 @dynamic classNo;
 
-typedef struct LoginPb__storage_ {
+typedef struct MEPBSignIn__storage_ {
   uint32_t _has_storage_[1];
   NSString *loginName;
   NSString *password;
@@ -63,7 +63,7 @@ typedef struct LoginPb__storage_ {
   NSString *appleToken;
   NSString *code;
   NSString *classNo;
-} LoginPb__storage_;
+} MEPBSignIn__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -74,74 +74,74 @@ typedef struct LoginPb__storage_ {
       {
         .name = "loginName",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_LoginName,
+        .number = MEPBSignIn_FieldNumber_LoginName,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, loginName),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, loginName),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "password",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_Password,
+        .number = MEPBSignIn_FieldNumber_Password,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, password),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, password),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "token",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_Token,
+        .number = MEPBSignIn_FieldNumber_Token,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, token),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, token),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "name",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_Name,
+        .number = MEPBSignIn_FieldNumber_Name,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, name),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, name),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "appleToken",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_AppleToken,
+        .number = MEPBSignIn_FieldNumber_AppleToken,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, appleToken),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, appleToken),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "code",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_Code,
+        .number = MEPBSignIn_FieldNumber_Code,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, code),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, code),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "classNo",
         .dataTypeSpecific.className = NULL,
-        .number = LoginPb_FieldNumber_ClassNo,
+        .number = MEPBSignIn_FieldNumber_ClassNo,
         .hasIndex = 6,
-        .offset = (uint32_t)offsetof(LoginPb__storage_, classNo),
+        .offset = (uint32_t)offsetof(MEPBSignIn__storage_, classNo),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[LoginPb class]
+        [GPBDescriptor allocDescriptorForClass:[MEPBSignIn class]
                                      rootClass:[MesignInRoot class]
                                           file:MesignInRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(LoginPb__storage_)
+                                   storageSize:sizeof(MEPBSignIn__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =

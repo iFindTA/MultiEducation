@@ -344,7 +344,7 @@
     
     
     //assemble pb file
-    LoginPb *pb = [[LoginPb alloc] init];
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
     //check mobile
     NSString *mobile = self.inputMobile.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
@@ -375,8 +375,9 @@
     //goto signin
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
+    weakify(self)
     [vm postData:pbdata cmdCode:@"SESSION_POST" operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
-        
+        [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
     } failure:^(NSError * _Nonnull error) {
         
     }];
