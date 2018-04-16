@@ -42,9 +42,9 @@ static GPBFileDescriptor *MecarrierRoot_FileDescriptor(void) {
   return descriptor;
 }
 
-#pragma mark - CmdSignPb
+#pragma mark - MECarrierPB
 
-@implementation CmdSignPb
+@implementation MECarrierPB
 
 @dynamic cmdCode;
 @dynamic reqCode;
@@ -57,7 +57,7 @@ static GPBFileDescriptor *MecarrierRoot_FileDescriptor(void) {
 @dynamic cmdVersion;
 @dynamic sessionToken;
 
-typedef struct CmdSignPb__storage_ {
+typedef struct MECarrierPB__storage_ {
   uint32_t _has_storage_[1];
   NSString *cmdCode;
   NSString *reqCode;
@@ -67,7 +67,7 @@ typedef struct CmdSignPb__storage_ {
   NSString *token;
   NSString *cmdVersion;
   NSString *sessionToken;
-} CmdSignPb__storage_;
+} MECarrierPB__storage_;
 
 // This method is threadsafe because it is initially called
 // in +initialize for each subclass.
@@ -78,61 +78,61 @@ typedef struct CmdSignPb__storage_ {
       {
         .name = "cmdCode",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_CmdCode,
+        .number = MECarrierPB_FieldNumber_CmdCode,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, cmdCode),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, cmdCode),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "reqCode",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_ReqCode,
+        .number = MECarrierPB_FieldNumber_ReqCode,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, reqCode),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, reqCode),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "respCode",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_RespCode,
+        .number = MECarrierPB_FieldNumber_RespCode,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, respCode),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, respCode),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "msg",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_Msg,
+        .number = MECarrierPB_FieldNumber_Msg,
         .hasIndex = 3,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, msg),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, msg),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "source",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_Source,
+        .number = MECarrierPB_FieldNumber_Source,
         .hasIndex = 4,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, source),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, source),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeBytes,
       },
       {
         .name = "token",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_Token,
+        .number = MECarrierPB_FieldNumber_Token,
         .hasIndex = 5,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, token),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, token),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "openTransaction",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_OpenTransaction,
+        .number = MECarrierPB_FieldNumber_OpenTransaction,
         .hasIndex = 6,
         .offset = 7,  // Stored in _has_storage_ to save space.
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
@@ -141,7 +141,7 @@ typedef struct CmdSignPb__storage_ {
       {
         .name = "isAcross",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_IsAcross,
+        .number = MECarrierPB_FieldNumber_IsAcross,
         .hasIndex = 8,
         .offset = 9,  // Stored in _has_storage_ to save space.
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
@@ -150,29 +150,29 @@ typedef struct CmdSignPb__storage_ {
       {
         .name = "cmdVersion",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_CmdVersion,
+        .number = MECarrierPB_FieldNumber_CmdVersion,
         .hasIndex = 10,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, cmdVersion),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, cmdVersion),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
       {
         .name = "sessionToken",
         .dataTypeSpecific.className = NULL,
-        .number = CmdSignPb_FieldNumber_SessionToken,
+        .number = MECarrierPB_FieldNumber_SessionToken,
         .hasIndex = 11,
-        .offset = (uint32_t)offsetof(CmdSignPb__storage_, sessionToken),
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, sessionToken),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
-        [GPBDescriptor allocDescriptorForClass:[CmdSignPb class]
+        [GPBDescriptor allocDescriptorForClass:[MECarrierPB class]
                                      rootClass:[MecarrierRoot class]
                                           file:MecarrierRoot_FileDescriptor()
                                         fields:fields
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
-                                   storageSize:sizeof(CmdSignPb__storage_)
+                                   storageSize:sizeof(MECarrierPB__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =

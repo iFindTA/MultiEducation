@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-message CmdSignPb {
+message MECarrierPB {
     string cmdCode = 1; //命令code
     string reqCode = 2; //请求code
     string respCode = 3; //响应code

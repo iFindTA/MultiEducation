@@ -28,7 +28,7 @@
 - (void)postData:(NSData *)data cmdCode:(NSString *)cmdCode operationCode:(NSString *)opCode hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
     
     
-    CmdSignPb *carrier = [[CmdSignPb alloc] init];
+    MECarrierPB *carrier = [[MECarrierPB alloc] init];
     /**
      *  uuid for unique request
      */
@@ -45,7 +45,7 @@
             if ([resObj isKindOfClass:[NSData class]]||[resObj isMemberOfClass:[NSData class]]) {
                 NSData *responseData = (NSData *)resObj;
                 NSError *err;
-                CmdSignPb *responseCarrier = [CmdSignPb parseFromData:responseData error:&err];
+                MECarrierPB *responseCarrier = [MECarrierPB parseFromData:responseData error:&err];
                 if (err && failure) {
                     failure(err);
                 } else {

@@ -44,22 +44,22 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MecarrierRoot : GPBRootObject
 @end
 
-#pragma mark - CmdSignPb
+#pragma mark - MECarrierPB
 
-typedef GPB_ENUM(CmdSignPb_FieldNumber) {
-  CmdSignPb_FieldNumber_CmdCode = 1,
-  CmdSignPb_FieldNumber_ReqCode = 2,
-  CmdSignPb_FieldNumber_RespCode = 3,
-  CmdSignPb_FieldNumber_Msg = 4,
-  CmdSignPb_FieldNumber_Source = 5,
-  CmdSignPb_FieldNumber_Token = 6,
-  CmdSignPb_FieldNumber_OpenTransaction = 7,
-  CmdSignPb_FieldNumber_IsAcross = 8,
-  CmdSignPb_FieldNumber_CmdVersion = 9,
-  CmdSignPb_FieldNumber_SessionToken = 10,
+typedef GPB_ENUM(MECarrierPB_FieldNumber) {
+  MECarrierPB_FieldNumber_CmdCode = 1,
+  MECarrierPB_FieldNumber_ReqCode = 2,
+  MECarrierPB_FieldNumber_RespCode = 3,
+  MECarrierPB_FieldNumber_Msg = 4,
+  MECarrierPB_FieldNumber_Source = 5,
+  MECarrierPB_FieldNumber_Token = 6,
+  MECarrierPB_FieldNumber_OpenTransaction = 7,
+  MECarrierPB_FieldNumber_IsAcross = 8,
+  MECarrierPB_FieldNumber_CmdVersion = 9,
+  MECarrierPB_FieldNumber_SessionToken = 10,
 };
 
-@interface CmdSignPb : GPBMessage
+@interface MECarrierPB : GPBMessage
 
 /** 命令code */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *cmdCode;
