@@ -17,4 +17,7 @@ pod 'JVFloatLabeledTextField', '~> 1.2.1'
 pod 'WHC_ModelSqliteKit/SQLCipher', '~> 1.3.0'
 pod 'MWPhotoBrowser', '~> 2.1.2'
 pod 'Qiniu', '~> 7.2.3'
+pod 'UMCCommon', '~> 1.5.0'
+pod 'UMCSecurityPlugins', '~> 1.0.6'
+pod 'UMCAnalytics', '~> 5.5.0'
 end
