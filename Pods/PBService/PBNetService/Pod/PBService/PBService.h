@@ -48,7 +48,7 @@ typedef NS_ENUM(NSUInteger, PBNetState) {
  @param success callback
  @param failure callback
  */
-- (void)POSTData:(NSData *)data classIdentifier:(Class)cls hudEnable:(BOOL)hud success:(void(^_Nullable)(NSURLSessionDataTask *task, id _Nullable resObj))success failure:(void(^_Nullable)(NSURLSessionDataTask * _Nullable task, NSError *error))failure;
+- (void)POSTData:(NSData *)data classIdentifier:(Class)cls hudEnable:(BOOL)hud success:(void(^_Nullable)(NSURLSessionDataTask *_Nullable task, id _Nullable resObj))success failure:(void(^_Nullable)(NSURLSessionDataTask * _Nullable task, NSError *error))failure;
 
 @end
 

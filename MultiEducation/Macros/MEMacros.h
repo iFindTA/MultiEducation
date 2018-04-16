@@ -11,6 +11,12 @@
 
 #define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
 
+#if DEBUG
+#define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
+#else
+#define ME_APP_BASE_HOST                                                @"http://192.168.1.199"
+#endif
+
 #define UIColorFromRGB(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \

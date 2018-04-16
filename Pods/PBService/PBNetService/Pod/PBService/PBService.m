@@ -250,7 +250,7 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
     
 }
 
-- (void)POSTData:(NSData *)data classIdentifier:(nonnull Class)cls hudEnable:(BOOL)hud success:(void (^ _Nullable)(NSURLSessionDataTask * _Nonnull, id _Nullable))success failure:(void (^ _Nullable)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure {
+- (void)POSTData:(NSData *)data classIdentifier:(nonnull Class)cls hudEnable:(BOOL)hud success:(void (^ _Nullable)(NSURLSessionDataTask * _Nullable, id _Nullable))success failure:(void (^ _Nullable)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure {
     //step 1: check the network state
     if (![self whetherRequestShouldContinueWithHudEnable:hud]) {
         //408 request time out!
@@ -261,20 +261,41 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
         return;
     }
     //step2 send request
-    void (^successResponse)(NSURLSessionDataTask * _Nonnull, id _Nullable) = [self successOnRequestWithSuccess:success andFailure:failure hudEnable:hud];
+    void (^successResponse)(NSURLSessionDataTask * _Nullable, id _Nullable) = [self successOnRequestWithSuccess:success andFailure:failure hudEnable:hud];
     void (^failureReponse)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull) = [self failureOnRequestWithFailure:failure hudEnable:hud];
-    NSURLSessionDataTask *dataTask = [super POST:@"api/app" parameters:data progress:nil success:successResponse failure:failureReponse];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/api/app", self.baseURL.absoluteString]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/x-protobuf" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:data];
+    //_manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    NSURLSessionDataTask *dataTask = [self dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+#if DEBUG
+        NSLog(@"http resp %@----error:%@", responseObject, error.description);
+#endif
+        if (error) {
+            failureReponse(nil, error);
+        } else {
+            successResponse(nil, responseObject);
+        }
+    }];
     //step 5: store the vcr's class charator for canceling action some where.
     if (cls != nil) {
         dataTask.pb_taskIdentifier = [NSString stringWithFormat:@"class_%@_request", NSStringFromClass(cls)];
     }
+    [dataTask resume];
 }
 
 #pragma mark -- handle request response block
 
-- (void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject))successOnRequestWithSuccess:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success andFailure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure hudEnable:(BOOL)hud {
+- (void (^)(NSURLSessionDataTask * _Nullable task, id  _Nullable responseObject))successOnRequestWithSuccess:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success andFailure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure hudEnable:(BOOL)hud {
     
-    void (^response)(NSURLSessionDataTask * _Nonnull, id _Nullable) = ^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject){
+    void (^response)(NSURLSessionDataTask * _Nullable, id _Nullable) = ^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject){
         
         //dismiss the hud
         if (hud) {

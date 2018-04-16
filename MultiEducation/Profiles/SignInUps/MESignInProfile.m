@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEUserVM.h"
 #import "MESignInProfile.h"
 #import "MESignInputField.h"
 #import "UITextField+MaxLength.h"
@@ -122,6 +123,7 @@
     input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
     input.placeholder = @"密码";
     input.textColor = textColor;
+    input.secureTextEntry = true;
     input.maxLength = ME_REGULAR_PASSWD_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNamePhonePad;
     [self.view addSubview:input];
@@ -273,6 +275,16 @@
         make.width.equalTo(ME_HEIGHT_TABBAR * 2);
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
     }];
+    
+#if DEBUG
+    self.inputMobile.text = @"18751732219";
+    self.inputPwd.text = @"123456";
+#endif
+    
+    [PBService configBaseURL:ME_APP_BASE_HOST];
+    [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
+        
+    }];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -309,7 +321,7 @@
 }
 
 - (void)loginTouchEvent {
-    
+    /*
 #if DEBUG
     //*whether exist callback
     void(^callbackExcute)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
@@ -317,7 +329,7 @@
         callbackExcute();
         return;
     }
-    //*/
+    //
     [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
     
     return;
@@ -328,6 +340,18 @@
         [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
         return;
     }
+    //*/
+    
+    
+    //assemble pb file
+    LoginPb *pb = [[LoginPb alloc] init];
+    //check mobile
+    NSString *mobile = self.inputMobile.text;
+    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        return;
+    }
+    [pb setLoginName:mobile];
     //登录方式
     BOOL whetherPwdSignInMode = !self.modeChangeBtn.selected;
     if (whetherPwdSignInMode) {
@@ -338,6 +362,7 @@
             [SVProgressHUD showErrorWithStatus:errString];
             return;
         }
+        [pb setPassword:pwd];
     } else {
         //check code
         NSString *code = self.inputCode.text;
@@ -347,6 +372,14 @@
             return;
         }
     }
+    //goto signin
+    MEUserVM *vm = [MEUserVM vmWithPB:pb];
+    NSData *pbdata = [pb data];
+    [vm postData:pbdata cmdCode:@"SESSION_POST" operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
+        
+    } failure:^(NSError * _Nonnull error) {
+        
+    }];
     
 }
 
