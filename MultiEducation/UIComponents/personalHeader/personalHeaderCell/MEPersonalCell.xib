@@ -53,7 +53,7 @@
             <connections>
                 <outlet property="textLab" destination="w9j-6B-D5K" id="j1G-OQ-kdQ"/>
             </connections>
-            <point key="canvasLocation" x="-37" y="41"/>
+            <point key="canvasLocation" x="69" y="43"/>
         </tableViewCell>
     </objects>
     <resources>

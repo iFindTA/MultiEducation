@@ -15,5 +15,4 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *videoName;
 
-
 @end

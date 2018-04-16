@@ -7,20 +7,18 @@
 //
 
 #import "MEPersonalRootProfile.h"
-#import "MEPersonalListCell.h"
-#import "MEPersonalVipCell.h"
-#import "MEPersonalRecordCell.h"
 #import "MEGrowRecordProfile.h"
 #import "MEPersonalHeader.h"
 #import "MEHistoryVideo.h"
 #import "MEPersonalSectionHeader.h"
+#import "MEPersonalCell.h"
 
 #define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户安全", @"帮助中心", @"反馈"]
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 44.f;
 static CGFloat const HEADER_HEIGHT = 170.f;
-static CGFloat const HISTORY_HEIGHT = 170.f;
+static CGFloat const HISTORY_HEIGHT = 155.f;
 static CGFloat const SECTION_HEADER = 56.f;
 
 @interface MEPersonalRootProfile () <UITableViewDelegate, UITableViewDataSource>
@@ -39,26 +37,13 @@ static CGFloat const SECTION_HEADER = 56.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableHeader addSubview: self.header];
-    [self.tableHeader addSubview: self.historyVideo];
+
     [self.view addSubview: self.tableView];
     
     //layout
-    [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.mas_equalTo(self.tableHeader);
-        make.width.mas_equalTo(MESCREEN_WIDTH);
-        make.height.mas_equalTo(HEADER_HEIGHT);
-    }];
-    
-    [self.historyVideo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.tableHeader);
-        make.top.mas_equalTo(self.header.mas_bottom);
-        make.width.mas_equalTo(MESCREEN_WIDTH);
-        make.height.mas_equalTo(HISTORY_HEIGHT);
-    }];
-    
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.view);
+        make.left.right.top.mas_equalTo(self.view);
+        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR);
     }];
 }
 
@@ -69,12 +54,12 @@ static CGFloat const SECTION_HEADER = 56.f;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.dataArr.count;
 }
 
 - (UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
-    
+    MEPersonalCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
+    [cell setData: [self.dataArr objectAtIndex: indexPath.row]];
     return cell;
 }
 
@@ -96,13 +81,6 @@ static CGFloat const SECTION_HEADER = 56.f;
 }
 
 #pragma mark - lazyloading
-- (MEPersonalHeader *)header {
-    if (!_header) {
-        _header = [[MEPersonalHeader alloc] init];
-    }
-    return _header;
-}
-
 - (MEHistoryVideo *)historyVideo {
     if (!_historyVideo) {
         _historyVideo = [[MEHistoryVideo alloc] init];
@@ -112,7 +90,7 @@ static CGFloat const SECTION_HEADER = 56.f;
 
 - (MEBaseScene *)tableHeader {
     if (!_tableHeader) {
-        _tableHeader = [[MEBaseScene alloc] init];
+        _tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, HEADER_HEIGHT + HISTORY_HEIGHT)];
         _tableHeader.backgroundColor = [UIColor whiteColor];
     }
     return _tableHeader;
@@ -124,9 +102,30 @@ static CGFloat const SECTION_HEADER = 56.f;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
-        _tableView.tableHeaderView = self.tableHeader;
         
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
+        
+        self.header = [[NSBundle mainBundle] loadNibNamed: @"MEPersonalHeader" owner: self options: nil].firstObject;
+        [self.tableHeader addSubview: self.header];
+        [self.tableHeader addSubview: self.historyVideo];
+        
+        //layout
+        [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.top.mas_equalTo(self.tableHeader);
+            make.width.mas_equalTo(MESCREEN_WIDTH);
+            make.height.mas_equalTo(HEADER_HEIGHT);
+        }];
+        
+        [self.historyVideo mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.tableHeader);
+            make.top.mas_equalTo(self.header.mas_bottom);
+            make.width.mas_equalTo(MESCREEN_WIDTH);
+            make.height.mas_equalTo(HISTORY_HEIGHT);
+        }];
+        
+        _tableView.tableHeaderView = self.tableHeader;
+
+
     }
     return _tableView;
 }

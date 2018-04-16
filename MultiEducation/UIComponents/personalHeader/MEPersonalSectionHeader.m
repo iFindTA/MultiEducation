@@ -33,10 +33,9 @@
         
         [self.sep mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(self);
-            make.width.mas_equalTo(MESCREEN_WIDTH);
+            make.bottom.mas_equalTo(self);
             make.height.mas_equalTo(1);
         }];
-        
     }
     return self;
 }
@@ -45,7 +44,7 @@
 - (MEBaseLabel *)textLabel {
     if (!_textLabel) {
         _textLabel = [[MEBaseLabel alloc] init];
-        _textLabel.text = @"sectionText";
+        _textLabel.text = @"历史记录";
         _textLabel.font = UIFontPingFangSC(15);
         _textLabel.textAlignment = NSTextAlignmentLeft;
         _textLabel.textColor = [UIColor blackColor];

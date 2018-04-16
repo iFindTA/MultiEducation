@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,37 +17,61 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8aC-vR-YUg">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
+                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zrI-g9-4Ve">
                     <rect key="frame" x="19" y="82" width="58" height="58"/>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="58" id="F3Z-YE-vqK"/>
                         <constraint firstAttribute="width" constant="58" id="xx1-xL-SBd"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornorRadius" value="29"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtU-8z-8Vv" customClass="MEBaseLabel">
                     <rect key="frame" x="90" y="91" width="180" height="20"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="9I6-RM-CXo"/>
                         <constraint firstAttribute="width" constant="180" id="deC-3I-s11"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="userName"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                            <real key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeE-91-RO4" customClass="MEBaseLabel">
                     <rect key="frame" x="90" y="115" width="120" height="15"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="120" id="CSy-qL-ohj"/>
                         <constraint firstAttribute="height" constant="15" id="EmQ-YW-vp7"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                            <real key="value" value="12"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="个性签名"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-8h-cbB" customClass="MEBaseButton">
-                    <rect key="frame" x="335" y="102.5" width="17" height="17"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-8h-cbB" customClass="MEBaseButton">
+                    <rect key="frame" x="335" y="103" width="17" height="17"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="17" id="AlN-0j-F9B"/>
                         <constraint firstAttribute="height" constant="17" id="FQs-Hu-WZ3"/>
                     </constraints>
-                    <state key="normal" title="Button"/>
+                    <state key="normal" title="Button" image="baby_header_setting"/>
                     <connections>
                         <action selector="settingTouchEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="9AX-MW-M37"/>
                     </connections>
@@ -56,21 +79,20 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="8aC-vR-YUg" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="7sW-Ng-EGM"/>
-                <constraint firstItem="zrI-g9-4Ve" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="19" id="9Yo-Lj-tBo"/>
-                <constraint firstItem="8aC-vR-YUg" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Bzz-uW-M26"/>
+                <constraint firstItem="8aC-vR-YUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7sW-Ng-EGM"/>
+                <constraint firstItem="zrI-g9-4Ve" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="9Yo-Lj-tBo"/>
+                <constraint firstItem="8aC-vR-YUg" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Bzz-uW-M26"/>
                 <constraint firstItem="dtU-8z-8Vv" firstAttribute="leading" secondItem="zrI-g9-4Ve" secondAttribute="trailing" constant="13" id="HNP-s7-AVq"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ter-8h-cbB" secondAttribute="trailing" constant="23" id="LoK-Oy-Tc2"/>
-                <constraint firstItem="8aC-vR-YUg" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="V05-aE-01v"/>
-                <constraint firstItem="8aC-vR-YUg" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Xfv-mK-8Th"/>
+                <constraint firstAttribute="trailing" secondItem="ter-8h-cbB" secondAttribute="trailing" constant="23" id="LoK-Oy-Tc2"/>
+                <constraint firstItem="8aC-vR-YUg" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="V05-aE-01v"/>
+                <constraint firstItem="8aC-vR-YUg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Xfv-mK-8Th"/>
                 <constraint firstItem="ter-8h-cbB" firstAttribute="centerY" secondItem="zrI-g9-4Ve" secondAttribute="centerY" id="ndb-eD-f3V"/>
                 <constraint firstItem="zeE-91-RO4" firstAttribute="top" secondItem="dtU-8z-8Vv" secondAttribute="bottom" constant="4" id="tda-2D-IcG"/>
                 <constraint firstItem="zeE-91-RO4" firstAttribute="leading" secondItem="dtU-8z-8Vv" secondAttribute="leading" id="tkK-LA-Kam"/>
                 <constraint firstItem="dtU-8z-8Vv" firstAttribute="top" secondItem="zrI-g9-4Ve" secondAttribute="top" constant="9" id="xfe-RD-orG"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="zrI-g9-4Ve" secondAttribute="bottom" constant="30" id="z5p-pU-G0V"/>
+                <constraint firstAttribute="bottom" secondItem="zrI-g9-4Ve" secondAttribute="bottom" constant="30" id="z5p-pU-G0V"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="backImageView" destination="8aC-vR-YUg" id="Be2-Aj-zIG"/>
                 <outlet property="settingButton" destination="ter-8h-cbB" id="QWJ-4X-8Bh"/>
@@ -81,4 +103,7 @@
             <point key="canvasLocation" x="48" y="-515"/>
         </view>
     </objects>
+    <resources>
+        <image name="baby_header_setting" width="17" height="17"/>
+    </resources>
 </document>

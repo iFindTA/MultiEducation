@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,6 +28,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JO-vW-FlJ" customClass="MEBaseLabel">
                         <rect key="frame" x="0.0" y="72" width="130" height="28"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="28" id="xKp-xb-LHr"/>
+                        </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="text" value="text"/>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -48,15 +50,13 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="9JO-vW-FlJ" firstAttribute="top" secondItem="4if-Cs-9DD" secondAttribute="bottom" id="C7z-7S-m9G"/>
-                <constraint firstAttribute="bottom" secondItem="9JO-vW-FlJ" secondAttribute="bottom" id="Ova-mM-9iY"/>
-                <constraint firstAttribute="trailing" secondItem="9JO-vW-FlJ" secondAttribute="trailing" id="QfL-mj-R13"/>
+                <constraint firstItem="9JO-vW-FlJ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="TAo-pT-0wb"/>
                 <constraint firstItem="4if-Cs-9DD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="VHn-Wi-Ja6"/>
+                <constraint firstAttribute="trailing" secondItem="9JO-vW-FlJ" secondAttribute="trailing" id="fUE-wy-lst"/>
                 <constraint firstAttribute="trailing" secondItem="4if-Cs-9DD" secondAttribute="trailing" id="fVj-YN-zpW"/>
-                <constraint firstItem="9JO-vW-FlJ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="pyd-eT-LHu"/>
+                <constraint firstItem="9JO-vW-FlJ" firstAttribute="top" secondItem="4if-Cs-9DD" secondAttribute="bottom" id="hDv-39-LyS"/>
                 <constraint firstItem="4if-Cs-9DD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="qD9-ru-ReP"/>
             </constraints>
-            <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
             <connections>
                 <outlet property="videoIcon" destination="4if-Cs-9DD" id="4xN-57-DKf"/>
                 <outlet property="videoName" destination="9JO-vW-FlJ" id="s3l-d2-68G"/>

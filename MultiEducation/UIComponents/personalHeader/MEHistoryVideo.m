@@ -8,7 +8,7 @@
 
 #import "MEHistoryVideo.h"
 
-#define CELL_ITEM_SIZE CGSizeMake(130.f, 72.f)
+#define CELL_ITEM_SIZE CGSizeMake(130.f, 100.f)
 
 static CGFloat const HEADER_HEIGHT = 52.f;
 static CGFloat const MIN_ITEM_SPACE = 5.f;
@@ -41,11 +41,11 @@ static NSString * const CELL_IDEF = @"cell_idef";
         
         [self.historyVideo mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.mas_left).mas_offset(5.f);
-            make.top.bottom.right.mas_equalTo(self);
+            make.bottom.right.mas_equalTo(self);
+            make.top.mas_equalTo(self.header.mas_bottom);
         }];
         
         [self customHistoryVideoHeader];
-        
     }
     return self;
 }
@@ -82,7 +82,7 @@ static NSString * const CELL_IDEF = @"cell_idef";
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.videos.count;
+    return 10;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -115,7 +115,7 @@ static NSString * const CELL_IDEF = @"cell_idef";
 - (UICollectionView *)historyVideo {
     if (!_historyVideo) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        [layout setScrollDirection: UICollectionViewScrollDirectionVertical];
+        [layout setScrollDirection: UICollectionViewScrollDirectionHorizontal];
         layout.minimumInteritemSpacing = MIN_ITEM_SPACE;
         layout.minimumLineSpacing = MIN_ITEM_SPACE;
         

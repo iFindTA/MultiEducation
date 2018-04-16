@@ -12,5 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *textLab;
 
+- (void)setData:(NSString *)text;
 
 @end

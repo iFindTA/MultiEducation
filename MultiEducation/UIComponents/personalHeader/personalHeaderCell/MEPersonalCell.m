@@ -21,4 +21,8 @@
     // Configure the view for the selected state
 }
 
+- (void)setData:(NSString *)text {
+    self.textLab.text = text;
+}
+
 @end
