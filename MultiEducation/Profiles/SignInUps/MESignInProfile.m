@@ -375,10 +375,10 @@
     //goto signin
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
-    [vm postData:pbdata hudEnable:true success:^(id  _Nullable resObj) {
-        NSLog(@"response:%@", resObj);
+    [vm postData:pbdata cmdCode:@"SESSION_POST" operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
+        
     } failure:^(NSError * _Nonnull error) {
-        NSLog(@"error:%@", error);
+        
     }];
     
 }

@@ -7,7 +7,6 @@
 //
 
 #import "MEVM.h"
-#import "MetransPort.pbobjc.h"
 #import <PBService/PBService.h>
 
 @implementation MEVM
@@ -26,19 +25,40 @@
     return data;
 }
 
-- (void)postData:(NSData *)data hudEnable:(BOOL)hud success:(void (^)(id _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
-    NSString *uuidToken = [MEVM createUUID];
-    CmdSignPb *transPort = [[CmdSignPb alloc] init];
-    [transPort setCmdCode:@"SESSION_POST"];
-    [transPort setToken:uuidToken];
-    [transPort setSource:data];
+- (void)postData:(NSData *)data cmdCode:(NSString *)cmdCode operationCode:(NSString *)opCode hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
     
-    NSData *carrier = [transPort data];
     
-    [[PBService shared] POSTData:carrier classIdentifier:self.class hudEnable:hud success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable resObj) {
-        NSLog(@"res:%@", resObj);
+    CmdSignPb *carrier = [[CmdSignPb alloc] init];
+    /**
+     *  uuid for unique request
+     */
+//    NSString *uuidToken = [MEVM createUUID];
+//    [carrier setToken:uuidToken];
+    //[carrier setCmdCode:@"SESSION_POST"];
+    [carrier setCmdCode:cmdCode];
+    [carrier setReqCode:opCode];
+    [carrier setSource:data];
+    
+    NSData *signedData = [carrier data];
+    [[PBService shared] POSTData:signedData classIdentifier:self.class hudEnable:hud success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable resObj) {
+        if (resObj) {
+            if ([resObj isKindOfClass:[NSData class]]||[resObj isMemberOfClass:[NSData class]]) {
+                NSData *responseData = (NSData *)resObj;
+                NSError *err;
+                CmdSignPb *responseCarrier = [CmdSignPb parseFromData:responseData error:&err];
+                if (err && failure) {
+                    failure(err);
+                } else {
+                    if (success) {
+                        success((responseCarrier.source));
+                    }
+                }
+            }
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error:%@", error.description);
+        if (failure) {
+            failure(error);
+        }
     }];
 }
 

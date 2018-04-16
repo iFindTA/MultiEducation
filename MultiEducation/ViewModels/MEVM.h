@@ -6,6 +6,9 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MECmdCodes.h"
+#import "MEReqCodes.h"
+#import "Mecarrier.pbobjc.h"
 #import <Foundation/Foundation.h>
 #import <WHC_ModelSqliteKit/WHC_ModelSqlite.h>
 
@@ -33,11 +36,13 @@
 /**
  fetch or sync data with remote process
 
- @param data binary data
- @param hud whether show hud while request
+ @param data real pb-data
+ @param cmdCode for cmd
+ @param opCode for operation
+ @param hud whether show or not
  @param success callback
  @param failure callback
  */
-- (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(id _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+- (void)postData:(NSData * _Nonnull)data cmdCode:(NSString * _Nullable)cmdCode operationCode:(NSString * _Nullable)opCode hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
 @end
