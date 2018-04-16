@@ -22,10 +22,14 @@
 
 #define TABLEVIEW_ROW_HEIGHT 102.f
 #define TABLEVIEW_SECTION_HEIGHT 44.f
+#define BABY_CONTENT_HEADER_HEIGHT 230.f
 
 #define TABLEVIEW_TOTAL_HEIGHT TABLEVIEW_ROW_HEIGHT * 10 +
 
-@interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource>
+@interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
+    CGFloat _lastContentOffset;
+    BOOL show;  //did contentOffsetY already > BABY_CONTENT_HEADER_HEIGHT
+}
 
 @property (nonatomic, strong) MEBabyHeader *headerView;
 
@@ -90,7 +94,7 @@
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(self.scrollView);
         make.width.mas_equalTo(MESCREEN_WIDTH);
-        make.height.mas_equalTo(230.f);
+        make.height.mas_equalTo(BABY_CONTENT_HEADER_HEIGHT);
     }];
     
     [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -213,11 +217,43 @@
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
 }
 
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _lastContentOffset = scrollView.contentOffset.y;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.babyContentScrollCallBack) {
+        
+        MEScrollViewDirection direction;
+        if (scrollView.contentOffset.y < _lastContentOffset) {
+            //up scroll
+            direction = MEScrollViewDirectionnUp;
+        } else {
+            //down scroll
+            direction = MEScrollViewDirectionDown;
+        }
+        if (!show) {
+            if (scrollView.contentOffset.y >= BABY_CONTENT_HEADER_HEIGHT) {
+                self.babyContentScrollCallBack(self.scrollView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
+                show = YES;
+            }
+        } else {
+            if (scrollView.contentOffset.y < BABY_CONTENT_HEADER_HEIGHT) {
+                self.babyContentScrollCallBack(self.scrollView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
+                show = NO;
+            }
+        }
+        
+    }
+}
+
 #pragma mark - lazyloading
 - (UIScrollView *)scrollView {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] init];
         _scrollView.backgroundColor = [UIColor whiteColor];
+        _scrollView.delegate = self;
     }
     return _scrollView;
 }

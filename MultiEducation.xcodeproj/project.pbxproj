@@ -49,6 +49,9 @@
 		72A76C03C53299A35616AAEF76D9717F /* MEPersonalListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 64D3659526B225936E648C14D846E7EE /* MEPersonalListModel.m */; };
 		741EF0821C66AB72DF5E86A2B6BB756E /* MEIndexSubClassProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		760DDDBB2084398E0075BACD /* MEPhotoSelectProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDBA2084398E0075BACD /* MEPhotoSelectProfile.m */; };
+		760DDDBE208439C40075BACD /* MEPhotoProgressProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDBD208439C40075BACD /* MEPhotoProgressProfile.m */; };
+		760DDDC120844AA30075BACD /* MEBabyNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDC020844AA30075BACD /* MEBabyNavigation.m */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
 		7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EAA5E1E600BCEE92B868AAE3668E9F /* MESignInputField.m */; };
@@ -215,6 +218,12 @@
 		755A6E7C23FB3E9CAB9E49738DB08131 /* MEPersonalVipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPersonalVipCell.m; sourceTree = "<group>"; };
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
 		75C9A9F922FD651336871B37B2AE752D /* MEPersonalListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEPersonalListModel.h; sourceTree = "<group>"; };
+		760DDDB92084398E0075BACD /* MEPhotoSelectProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPhotoSelectProfile.h; sourceTree = "<group>"; };
+		760DDDBA2084398E0075BACD /* MEPhotoSelectProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPhotoSelectProfile.m; sourceTree = "<group>"; };
+		760DDDBC208439C40075BACD /* MEPhotoProgressProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPhotoProgressProfile.h; sourceTree = "<group>"; };
+		760DDDBD208439C40075BACD /* MEPhotoProgressProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPhotoProgressProfile.m; sourceTree = "<group>"; };
+		760DDDBF20844AA30075BACD /* MEBabyNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyNavigation.h; sourceTree = "<group>"; };
+		760DDDC020844AA30075BACD /* MEBabyNavigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyNavigation.m; sourceTree = "<group>"; };
 		781307DB8A28E3756A2D9DBE247F1480 /* MEIndexHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIndexHeader.m; sourceTree = "<group>"; };
 		7D2CB0EA796F52D1A32F817FF3A9BC10 /* MEContentSubcategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEContentSubcategory.h; sourceTree = "<group>"; };
 		83D0AC2F6FD6236BCCE60EC21516DCA3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -391,7 +400,6 @@
 			children = (
 				2470414544B59C6A3ABC1BDAADE8C456 /* babyContent */,
 				A080E4FF8C37B57D9931407304498AEE /* babyHeader */,
-				FCEDA81856D43B2B4E728DCF53BFC17C /* browserProgressLine */,
 				B27E3A033E012D99DEAA46B74822EDF8 /* gardenHeader */,
 				014D76DED363FEB70225E105B1A06051 /* indexContent */,
 				8A18E0034877F4F93AE4668500123037 /* indexHeader */,
@@ -433,6 +441,8 @@
 				F6FF618C1A6AF1BC8FFD40AC5744226B /* MEBabyBaseInfoCard.m */,
 				F30397047BEA357EF04CA5A7F30B8E1C /* MEBabyContent.h */,
 				B5E18F767947E147FF72E8AA9D82B915 /* MEBabyContent.m */,
+				760DDDBF20844AA30075BACD /* MEBabyNavigation.h */,
+				760DDDC020844AA30075BACD /* MEBabyNavigation.m */,
 				3BBB649904FEEE8285C896D383CCA12C /* MEBabyFillBaseLabel.h */,
 				D7C9E5A2E279875C366127D355E10344 /* MEBabyFillBaseLabel.m */,
 				6BDFB25BF4A7002292C9B0674E14D548 /* MEBabyOtherInfoCard.h */,
@@ -504,6 +514,10 @@
 				1C736E862024450528606909D2A6CAFB /* MEEvaluateProfile.m */,
 				510B870A93A19C2CFC3A0DD18DF7B931 /* MEGrowRecordProfile.h */,
 				EBD3E771F41309BE7B37933E55DD12E0 /* MEGrowRecordProfile.m */,
+				760DDDB92084398E0075BACD /* MEPhotoSelectProfile.h */,
+				760DDDBA2084398E0075BACD /* MEPhotoSelectProfile.m */,
+				760DDDBC208439C40075BACD /* MEPhotoProgressProfile.h */,
+				760DDDBD208439C40075BACD /* MEPhotoProgressProfile.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -864,13 +878,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		FCEDA81856D43B2B4E728DCF53BFC17C /* browserProgressLine */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = browserProgressLine;
-			sourceTree = "<group>";
-		};
 		FFF07DD434FE55009C631D42E56EF569 /* Bases */ = {
 			isa = PBXGroup;
 			children = (
@@ -1080,7 +1087,6 @@
 				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer",
 				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
-				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
 				"${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle",
 				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
 			);
@@ -1095,7 +1101,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_dev.cer",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_test.cer",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YJBannerView.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 			);
@@ -1164,6 +1169,7 @@
 				F4358B4EB70DD84B557CC9D1DBC43C18 /* MEGrowRecordProfile.m in Sources */,
 				BA2BEA35E5D0FE1257BC5212F97D430F /* MEIndexClassesScene.m in Sources */,
 				D8ABFA89E4DD7D4FC622A0D08EC449C8 /* MEIndexContentScene.m in Sources */,
+				760DDDBE208439C40075BACD /* MEPhotoProgressProfile.m in Sources */,
 				0C228EE3B4D2FBBFDD7E93385B7A500B /* MEIndexHeader.m in Sources */,
 				8F6BE204BE63A1CCFABCB4D21E2DE97C /* MEIndexRootProfile.m in Sources */,
 				FE6F03E67FACC710B51A525C83FED63A /* MEIndexSearchBar.m in Sources */,
@@ -1178,6 +1184,7 @@
 				BF068E4C9E6FF9E293D3BAE922673499 /* MEPersonalListCell.m in Sources */,
 				72A76C03C53299A35616AAEF76D9717F /* MEPersonalListModel.m in Sources */,
 				C89B84437BAD4B37B0B17CACB2B7DBA0 /* MEPersonalRecordCell.m in Sources */,
+				760DDDBB2084398E0075BACD /* MEPhotoSelectProfile.m in Sources */,
 				3B474F160919595D28D369AFD0784364 /* MEPersonalRootProfile.m in Sources */,
 				4ED97BB1821A667F6FD42D9FA2CEC0DB /* MEPersonalVipCell.m in Sources */,
 				C24339DF43292AC51A1EE1FA45683C94 /* MEPlayerControl.m in Sources */,
@@ -1187,6 +1194,7 @@
 				97513C50EBE68A736AB564DD25AAD696 /* MESignInProfile.m in Sources */,
 				7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */,
 				E0D84C2A464E3E6D5963D26D50F2BB62 /* MESignUpProfile.m in Sources */,
+				760DDDC120844AA30075BACD /* MEBabyNavigation.m in Sources */,
 				6F73BF6C2FA8DBC1AE5677F0355DB451 /* MEUser.m in Sources */,
 				B7657D63A0213F12AB98DAAFDA819161 /* MEUserVM.m in Sources */,
 				9397FA3C534B6A887C1D79800EB9E934 /* MEVM.m in Sources */,

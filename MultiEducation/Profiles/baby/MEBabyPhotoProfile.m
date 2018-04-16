@@ -9,6 +9,7 @@
 #import "MEBabyPhotoProfile.h"
 #import "MEBabyPhotoHeader.h"
 #import <MWPhotoBrowser.h>
+#import "MEPhotoSelectProfile.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -41,6 +42,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
+@property (nonatomic, strong) MEPhotoSelectProfile *photoSelectBrowser;
+@property (nonatomic, strong) NSMutableArray *selectedStatusArr;    //user selected status for each
+
 @end
 
 @implementation MEBabyPhotoProfile
@@ -71,7 +75,14 @@ static CGFloat const ITEM_LEADING = 10.f;
     UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
+    item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStyleDone target: self action: @selector(uploadTouchEvent)];
     [self.navigationBar pushNavigationItem:item animated:true];
+}
+
+- (void)uploadTouchEvent {
+    [self.navigationController pushViewController: self.photoSelectBrowser animated: YES];
+    //MWBrowser can't reuser!!! need set nil;
+    _photoSelectBrowser = nil;
 }
 
 - (void)layoutView {
@@ -121,6 +132,13 @@ static CGFloat const ITEM_LEADING = 10.f;
     
 }
 
+- (void)addTestPhtoSelctedStatus {
+    for (int i = 0; i< 10; i++) {
+        NSNumber *status = [NSNumber numberWithBool: NO];
+        [_selectedStatusArr addObject: status];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
@@ -128,12 +146,37 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - MWPhotoBrowser
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    if (photoBrowser == self.photoBrowser) {
+        
+    } else {
+        
+    }
     return 10;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    
+    if (photoBrowser == self.photoBrowser) {
+        
+    } else {
+        
+    }
+    
     MWPhoto *photo = [MWPhoto photoWithImage: [UIImage imageNamed: @"baby_content_photo"]];
     return photo;
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
+    MWPhoto *photo = [MWPhoto photoWithImage: [UIImage imageNamed: @"baby_content_photo"]];
+    return photo;
+}
+
+- (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
+    return [[self.selectedStatusArr objectAtIndex: index] boolValue];
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
+    [self.selectedStatusArr replaceObjectAtIndex: index withObject: [NSNumber numberWithBool: selected]];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -152,7 +195,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         return 5;
     }
 }
-
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -303,6 +345,25 @@ static CGFloat const ITEM_LEADING = 10.f;
     return _photoBrowser;
 }
 
+- (MEPhotoSelectProfile *)photoSelectBrowser {
+    if (!_photoSelectBrowser) {
+        //初始化
+        _photoSelectBrowser = [[MEPhotoSelectProfile alloc] initWithDelegate: self];
+        //set options
+        [_photoSelectBrowser setCurrentPhotoIndex:0];
+        _photoSelectBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
+        _photoSelectBrowser.displayNavArrows = NO; //显示左右划动
+        _photoSelectBrowser.displaySelectionButtons = YES; //是否显示选择图片按钮
+        _photoSelectBrowser.alwaysShowControls = NO; //控制条始终显示
+        _photoSelectBrowser.zoomPhotosToFill = YES; //是否自适应大小
+        _photoSelectBrowser.enableGrid = YES;//是否允许网络查看图片
+        _photoSelectBrowser.startOnGrid = NO; //是否以网格开始;
+        _photoSelectBrowser.enableSwipeToDismiss = YES;
+        _photoSelectBrowser.autoPlayOnAppear = NO;//是否自动播放视频
+    }
+    return _photoSelectBrowser;
+}
+
 - (NSMutableArray *)photos {
     if (!_photos) {
         _photos = [NSMutableArray array];
@@ -315,6 +376,14 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineArr = [NSMutableArray array];
     }
     return _timeLineArr;
+}
+
+- (NSMutableArray *)selectedStatusArr {
+    if (!_selectedStatusArr) {
+        _selectedStatusArr = [NSMutableArray array];
+        [self addTestPhtoSelctedStatus];
+    }
+    return _selectedStatusArr;
 }
 
 @end
