@@ -15,6 +15,11 @@
 @interface MEVM : NSObject
 
 /**
+ 命令版本号 默认 1
+ */
+- (NSString *)cmdVersion;
+
+/**
  角色
  */
 @property (nonatomic, assign) MEUserRole userRole;

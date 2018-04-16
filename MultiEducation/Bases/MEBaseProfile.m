@@ -4,7 +4,6 @@
 //
 
 #import "MEUserVM.h"
-#import "AppDelegate.h"
 #import <objc/message.h>
 #import "MEBaseProfile.h"
 #import "PBBaseTabBarProfile+Hidden.h"
@@ -146,12 +145,12 @@
     return profile;
 }
 
-- (MEUserRole)currentUserRole {
-    return [[self appDelegate].curUser userRole];
+- (MEPBUser * _Nullable)currentUser; {
+    return [self appDelegate].curUser;
 }
 
 - (BOOL)userDidSignIn {
-    return self.currentUserRole != MEUserRoleVisitor;
+    return self.currentUser.userType != MEUserRoleVisitor;
 }
 
 - (void)handleTransitionError:(NSError *)error {

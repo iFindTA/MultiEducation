@@ -4,6 +4,7 @@
 //
 
 #import "MEKits.h"
+#import "AppDelegate.h"
 #import "MEBaseScene.h"
 #import "MEDispatcher.h"
 #import "MEUIBaseHeader.h"
@@ -50,10 +51,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (UIViewController *)topestProfile;
 
+- (AppDelegate *)appDelegate;
+
 /**
- 当前用户角色
+ getter current user
  */
-- (MEUserRole)currentUserRole;
+- (MEPBUser * _Nullable)currentUser;
 
 /**
  whether user did sign-in

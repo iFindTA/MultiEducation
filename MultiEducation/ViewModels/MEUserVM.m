@@ -10,7 +10,7 @@
 
 @interface MEUserVM ()
 
-@property (nonatomic, strong, readwrite) MEUser *usr;
+@property (nonatomic, strong, readwrite) MEPBUser *usr;
 
 @property (nonatomic, strong) MEPBSignIn *siginPb;
 
@@ -18,12 +18,18 @@
 
 @implementation MEUserVM
 
-+ (instancetype)vmWithModel:(MEUser *)usr {
+#pragma mark --- Override
+
+- (NSString *)cmdVersion {
+    return @"2";
+}
+
++ (instancetype)vmWithModel:(MEPBUser *)usr {
     NSAssert(usr != nil, @" could not initialized by nil!");
     return [[MEUserVM alloc] initWithUsr:usr];
 }
 
-- (id)initWithUsr:(MEUser *)usr {
+- (id)initWithUsr:(MEPBUser *)usr {
     self = [super init];
     if (self) {
         _usr = usr;
@@ -44,9 +50,9 @@
     return self;
 }
 
-+ (MEUser * _Nullable)fetchLatestSignedInUser {
++ (MEPBUser * _Nullable)fetchLatestSignedInUser {
     //TODO:处理已登录用户相关逻辑
-    NSArray <MEUser*> *usrs = [WHCSqlite query:MEUser.class order:@"signtimestamp by desc" limit:@"1"];
+    NSArray <MEPBUser*> *usrs = [WHCSqlite query:MEPBUser.class order:@"signtimestamp by desc" limit:@"1"];
     if (usrs.count > 0) {
         return [usrs lastObject];
     }
@@ -56,7 +62,7 @@
 + (BOOL)whetherExistValidSignedInUser {
     BOOL ret = false;
     //TODO:处理已登录用户相关逻辑
-    NSArray <MEUser*> *usrs = [WHCSqlite query:MEUser.class];
+    NSArray <MEPBUser*> *usrs = [WHCSqlite query:MEPBUser.class];
     
     return ret;
 }
@@ -64,7 +70,7 @@
 #pragma mark --- setter & getter
 
 - (MEUserRole)userRole {
-    return self.usr.role;
+    return self.usr.userType;
 }
 
 @end

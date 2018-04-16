@@ -7,7 +7,7 @@
 //
 
 #import "MEVM.h"
-#import "MEUser.h"
+#import "Meuser.pbobjc.h"
 #import "MesignIn.pbobjc.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,14 +17,14 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  create instance
  */
-+ (instancetype)vmWithModel:(MEUser *)usr;
++ (instancetype)vmWithModel:(MEPBUser *)usr;
 
 + (instancetype)vmWithPB:(MEPBSignIn *)pb;
 
 /**
  fetch user who signed-in latest
  */
-+ (MEUser * _Nullable)fetchLatestSignedInUser;
++ (MEPBUser * _Nullable)fetchLatestSignedInUser;
 
 /**
  whether there is exist a valid user who did signed-in, and its token is avaliable!

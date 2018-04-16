@@ -25,7 +25,7 @@
 
 @property (nonatomic, strong, readwrite) MEBaseNavigationProfile *winProfile;
 
-@property (nonatomic, strong, readwrite) MEUserVM *curUser;
+@property (nonatomic, strong, readwrite) MEPBUser *curUser;
 
 @end
 
@@ -42,8 +42,7 @@
     //create user
     //init root navigation profile
     BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
-    MEUser *usr = [[MEUser alloc] init];
-    self.curUser = [MEUserVM vmWithModel:usr];
+    self.curUser = [MEUserVM fetchLatestSignedInUser];
     UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:signedin?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];
@@ -148,7 +147,7 @@
         indexNavi.tabBarItem.image = image;
         indexNavi.tabBarItem.selectedImage = selectImg;
         //宝宝成长
-        title = ((self.curUser.userRole == MEUserRoleTeacher)?@"班级":@"宝宝成长");
+        title = ((self.curUser.userType == 1)?@"班级":@"宝宝成长");
         image = [UIImage imageNamed:@"bar_baby"];
         //selectImg = [UIImage imageNamed:@"bar_baby_select"];
         selectImg = [image pb_darkColor:color lightLevel:1.f];
@@ -206,6 +205,12 @@
         UIViewController *authorProfile = [self assembleRootProfileWhileUserChangeState:style];
         [self.winProfile setViewControllers:@[authorProfile] animated:true];
     }
+}
+
+#pragma mark --- User abouts
+
+- (void)updateCurrentSignedInUser:(MEPBUser *)usr {
+    self.curUser = usr;
 }
 
 @end

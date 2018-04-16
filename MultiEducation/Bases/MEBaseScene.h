@@ -7,14 +7,15 @@
 //
 
 #import "PBView.h"
+#import "Meuser.pbobjc.h"
 #import "MEUIBaseHeader.h"
 
 @interface MEBaseScene : PBView
 
 /**
- getter user role
+ getter user
  */
-- (MEUserRole)currentUserRole;
+- (MEPBUser * _Nullable)currentUser;
 
 /**
  handle error
