@@ -16,4 +16,5 @@ pod 'NSURL+QueryDictionary', '~> 1.2.0'
 pod 'JVFloatLabeledTextField', '~> 1.2.1'
 pod 'WHC_ModelSqliteKit/SQLCipher', '~> 1.3.0'
 pod 'MWPhotoBrowser', '~> 2.1.2'
+pod 'Qiniu', '~> 7.2.3'
 end
