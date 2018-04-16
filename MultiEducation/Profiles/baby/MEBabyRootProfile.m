@@ -25,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     //隐藏导航条
     [self hiddenNavigationBar];
     
@@ -49,7 +51,7 @@
 }
 
 - (void)navigationAnimation:(CGFloat)offset direction:(MEScrollViewDirection)direction {
-        if (direction == MEScrollViewDirectionnUp) {
+        if (direction == MEScrollViewDirectionUp) {
             [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
                 self.babyNavigation.alpha = 0;
             }];

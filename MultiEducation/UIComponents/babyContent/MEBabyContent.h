@@ -12,7 +12,7 @@
  scrollview scroll direction
  */
 typedef NS_ENUM(NSUInteger, MEScrollViewDirection) {
-    MEScrollViewDirectionnUp                                    =   1   <<  0,//up direction
+    MEScrollViewDirectionUp                                    =   1   <<  0,//up direction
     MEScrollViewDirectionDown                                  =   1   <<  1,//down direction
     
 };

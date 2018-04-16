@@ -73,14 +73,7 @@
     [self.scrollContentView addSubview: self.tableView];
     
     //layoutBackContentView
-    
-    //in iOS11  scrollView's Y will down scroll 20pt!
-    CGFloat toTop;
-    if (@available(iOS 11.0, *)) {
-        toTop = -20;
-    } else {
-        toTop = 0;
-    }
+    CGFloat toTop = -20.f;  //???
     
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(self);
@@ -218,21 +211,18 @@
 }
 
 #pragma mark - UIScrollViewDelegate
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    _lastContentOffset = scrollView.contentOffset.y;
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (self.babyContentScrollCallBack) {
-        
         MEScrollViewDirection direction;
-        if (scrollView.contentOffset.y < _lastContentOffset) {
-            //up scroll
-            direction = MEScrollViewDirectionnUp;
-        } else {
-            //down scroll
+        int currentPostion = scrollView.contentOffset.y;
+        if (currentPostion - _lastContentOffset > 1) {
+            _lastContentOffset = currentPostion;
             direction = MEScrollViewDirectionDown;
+        } else if (_lastContentOffset - currentPostion > 1) {
+            _lastContentOffset = currentPostion;
+            direction = MEScrollViewDirectionUp;
         }
+        
         if (!show) {
             if (scrollView.contentOffset.y >= BABY_CONTENT_HEADER_HEIGHT) {
                 self.babyContentScrollCallBack(self.scrollView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
@@ -244,7 +234,6 @@
                 show = NO;
             }
         }
-        
     }
 }
 
