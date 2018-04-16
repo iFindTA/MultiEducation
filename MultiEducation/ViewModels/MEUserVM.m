@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong, readwrite) MEUser *usr;
 
+@property (nonatomic, strong) LoginPb *siginPb;
+
 @end
 
 @implementation MEUserVM
@@ -25,6 +27,19 @@
     self = [super init];
     if (self) {
         _usr = usr;
+    }
+    return self;
+}
+
++ (instancetype)vmWithPB:(LoginPb *)pb {
+    NSAssert(pb != nil, @" could not initialized by nil!");
+    return [[MEUserVM alloc] initWithPB:pb];
+}
+
+- (id)initWithPB:(LoginPb *)pb {
+    self = [super init];
+    if (self) {
+        _siginPb = pb;
     }
     return self;
 }

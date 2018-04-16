@@ -4,7 +4,7 @@ target 'MultiEducation' do
 pod 'PBKits', '~> 1.2.2'
 pod 'ZFPlayer', '~> 2.1.6'
 pod 'Protobuf', '~> 3.5.0'
-pod 'PBService', '~> 4.2.0'
+pod 'PBService', '~> 4.3.0'
 pod 'MJRefresh', '~> 3.1.15.3'
 pod 'BEMCheckBox', '~> 1.4.1'
 pod 'YJBannerView', '~> 2.3.8'

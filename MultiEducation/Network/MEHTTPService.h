@@ -1,14 +1,12 @@
 //
-//  PBService.h
-//  PBNetService
+//  MEHTTPService.h
+//  MultiEducation
 //
-//  Created by nanhu on 2018/4/5.
-//  Copyright © 2018年 nanhujiaju. All rights reserved.
+//  Created by nanhu on 2018/4/16.
+//  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import "AFHTTPSessionManager.h"
 
 /**
  network state enumerator
@@ -20,7 +18,9 @@ typedef NS_ENUM(NSUInteger, PBNetState) {
     PBNetStateViaWiFi                      =   1   <<  3
 };
 
-@interface PBService : AFHTTPSessionManager
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MEHTTPService : AFHTTPSessionManager
 
 /**
  current net state
@@ -42,13 +42,13 @@ typedef NS_ENUM(NSUInteger, PBNetState) {
 
 /**
  Post protobuf data
-
+ 
  @param data binary
  @param hud whether show hud while request
  @param success callback
  @param failure callback
  */
-- (void)POSTData:(NSData *)data classIdentifier:(Class)cls hudEnable:(BOOL)hud success:(void(^_Nullable)(NSURLSessionDataTask *_Nullable task, id _Nullable resObj))success failure:(void(^_Nullable)(NSURLSessionDataTask * _Nullable task, NSError *error))failure;
+- (void)POSTData:(NSData *)data classIdentifier:(Class)cls hudEnable:(BOOL)hud success:(void(^_Nullable)(NSURLSessionDataTask *task, id _Nullable resObj))success failure:(void(^_Nullable)(NSURLSessionDataTask * _Nullable task, NSError *error))failure;
 
 @end
 

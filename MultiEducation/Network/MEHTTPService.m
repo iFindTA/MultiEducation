@@ -1,13 +1,12 @@
 //
-//  PBService.m
-//  PBNetService
+//  MEHTTPService.m
+//  MultiEducation
 //
-//  Created by nanhu on 2018/4/5.
-//  Copyright © 2018年 nanhujiaju. All rights reserved.
+//  Created by nanhu on 2018/4/16.
+//  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "PBService.h"
-#import "NSURLSessionTask+PBHelper.h"
+#import "MEHTTPService.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 /**
@@ -15,7 +14,7 @@
  
  @param block to be excuted
  */
-static void excuteInMainThread(void(^block)()) {
+static void excuteInMainThread(void(^block)(void)) {
     if ([NSThread isMainThread]) {
         block();
     } else {
@@ -23,13 +22,13 @@ static void excuteInMainThread(void(^block)()) {
     }
 }
 
-@interface PBService ()
+@interface MEHTTPService ()
 
 @property (nonatomic, assign, readwrite) PBNetState netState;
 
 @end
 
-static PBService * instance = nil;
+static MEHTTPService * instance = nil;
 
 static NSString *globalHostString = nil;
 //正常响应的情况下的code
@@ -39,7 +38,7 @@ static NSString *kNetworkPingHost                   =       @"www.baidu.com";
 static NSString *kNetworkDisable                    =       @"当前网络不可用，请检查网络设置！";
 static NSString *kNetworkWorking                    =       @"请稍后...";
 
-@implementation PBService
+@implementation MEHTTPService
 
 + (void)configBaseURL:(NSString *)url {
     NSAssert(url.length != 0, @"base url can not be nil!");
@@ -66,7 +65,7 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (instance == nil) {
-            instance = [[PBService alloc] initWithBaseURL:[NSURL URLWithString:globalHostString]];
+            instance = [[MEHTTPService alloc] initWithBaseURL:[NSURL URLWithString:globalHostString]];
         }
     });
     return instance;
@@ -173,6 +172,7 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
     if (tasks.count == 0) {
         return;
     }
+    /*
     NSString *classString = NSStringFromClass(aClass);
     for (NSURLSessionDataTask *task in tasks) {
         NSString *taskDesc = task.pb_taskIdentifier;
@@ -180,6 +180,7 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
             [task cancel];
         }
     }
+    //*/
 }
 
 #pragma mark -- handle request pre start
@@ -247,10 +248,9 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
         
     }];
     [task resume];
-    
 }
 
-- (void)POSTData:(NSData *)data classIdentifier:(nonnull Class)cls hudEnable:(BOOL)hud success:(void (^ _Nullable)(NSURLSessionDataTask * _Nullable, id _Nullable))success failure:(void (^ _Nullable)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure {
+- (void)POSTData:(NSData *)data classIdentifier:(nonnull Class)cls hudEnable:(BOOL)hud success:(void (^ _Nullable)(NSURLSessionDataTask * _Nonnull, id _Nullable))success failure:(void (^ _Nullable)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure {
     //step 1: check the network state
     if (![self whetherRequestShouldContinueWithHudEnable:hud]) {
         //408 request time out!
@@ -261,7 +261,7 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
         return;
     }
     //step2 send request
-    void (^successResponse)(NSURLSessionDataTask * _Nullable, id _Nullable) = [self successOnRequestWithSuccess:success andFailure:failure hudEnable:hud];
+    void (^successResponse)(NSURLSessionDataTask * _Nonnull, id _Nullable) = [self successOnRequestWithSuccess:success andFailure:failure hudEnable:hud];
     void (^failureReponse)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull) = [self failureOnRequestWithFailure:failure hudEnable:hud];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/api/app", self.baseURL.absoluteString]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
@@ -270,32 +270,28 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
     [request setHTTPBody:data];
     //_manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     
-    NSURLSessionDataTask *dataTask = [self dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
+    NSURLSessionDataTask *task = [self dataTaskWithRequest:request uploadProgress:^(NSProgress * _Nonnull uploadProgress) {
         
     } downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
         
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-#if DEBUG
         NSLog(@"http resp %@----error:%@", responseObject, error.description);
-#endif
-        if (error) {
-            failureReponse(nil, error);
-        } else {
-            successResponse(nil, responseObject);
-        }
     }];
     //step 5: store the vcr's class charator for canceling action some where.
-    if (cls != nil) {
-        dataTask.pb_taskIdentifier = [NSString stringWithFormat:@"class_%@_request", NSStringFromClass(cls)];
-    }
-    [dataTask resume];
+//    if (cls != nil) {
+//        task.pb_taskIdentifier = [NSString stringWithFormat:@"class_%@_request", NSStringFromClass(cls)];
+//    }
+    [task resume];
+    
+    //NSURLSessionDataTask *dataTask = [super POST:@"api/app" parameters:data progress:nil success:successResponse failure:failureReponse];
+    
 }
 
 #pragma mark -- handle request response block
 
-- (void (^)(NSURLSessionDataTask * _Nullable task, id  _Nullable responseObject))successOnRequestWithSuccess:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success andFailure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure hudEnable:(BOOL)hud {
+- (void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject))successOnRequestWithSuccess:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success andFailure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure hudEnable:(BOOL)hud {
     
-    void (^response)(NSURLSessionDataTask * _Nullable, id _Nullable) = ^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject){
+    void (^response)(NSURLSessionDataTask * _Nonnull, id _Nullable) = ^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject){
         
         //dismiss the hud
         if (hud) {

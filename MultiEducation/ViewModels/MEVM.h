@@ -6,7 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <PBService/PBService.h>
+#import <Foundation/Foundation.h>
 #import <WHC_ModelSqliteKit/WHC_ModelSqlite.h>
 
 @interface MEVM : NSObject
@@ -15,6 +15,8 @@
  角色
  */
 @property (nonatomic, assign) MEUserRole userRole;
+
+
 
 /**
  fetch token for current valid user

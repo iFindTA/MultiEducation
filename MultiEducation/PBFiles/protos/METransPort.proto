@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message CmdSignPb {
+    string cmdCode = 1; //命令code
+    string reqCode = 2; //请求code
+    string respCode = 3; //响应code
+    string msg = 4; //消息
+    bytes source = 5; //二进制数据
+    string token = 6; //token
+    bool openTransaction = 7; //是否开启事务
+    bool isAcross = 8; //是否跨节点请求
+    string cmdVersion = 9; //命令版本
+    string sessionToken = 10; //会话token
+
+}
