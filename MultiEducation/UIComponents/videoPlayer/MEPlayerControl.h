@@ -39,6 +39,11 @@ typedef NS_ENUM(NSUInteger, MEVideoPlayUserAction) {
 - (void)updateVideoPlayerState:(BOOL)fullscreen;
 
 /**
+ user do like or not
+ */
+- (void)updateUserLikeItemState:(BOOL)like;
+
+/**
  next play item when did end play
  */
 - (void)showNextPlayItem:(NSString *)title;

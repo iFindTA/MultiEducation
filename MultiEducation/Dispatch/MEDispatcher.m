@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "VKMsgSend.h"
 #import "MEDispatcher.h"
 #import <objc/runtime.h>
 #import "AppDelegate.h"
@@ -14,6 +15,8 @@
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
 #import <NSURL+QueryDictionary/NSURL+QueryDictionary.h>
+
+static NSMutableDictionary *cachedTarget;
 
 @implementation MEDispatcher
 
@@ -162,7 +165,9 @@
             
             if (clsString && initMethod) {
                 NSError *error = nil;
-                id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams.copy];
+                //id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams.copy];
+                id aDester = [self performTarget:clsString action:initMethod params:params shouldCacheTarget:false];
+                //id aDester = [clsString VKCallClassAllocInitSelectorName:initMethod error:&error, passParams, nil];
                 if (!error && aDester != nil) {
                     if ([aDester isKindOfClass:[UIViewController class]]) {
                         profile = (UIViewController *)aDester;
@@ -204,6 +209,82 @@ error_occour:{
     return nil;
 }
 
++ (NSError *)openURL:(NSURL *)url withCallback:(void (^)())block {
+    NSError *err = nil;
+    if (url.absoluteString.length == 0) {
+        err = [self errorWirhInfo:@"url route params error!"];
+        return err;
+    }
+    //pre deal with params
+    /**
+     * profile://(alert:// or do://)root(cur代表当前显示的profile)@className/initMethod,?p=v&p=v#code(xib/sb)
+     */
+    //parser url
+    NSString *scheme = [url scheme];
+    if ([scheme isEqualToString:@"profile"]) {
+        //呈现新的页面
+        
+        //step1 解析class
+        NSString *clsString = [url host];
+        if (clsString.length == 0) {
+            err = [self errorWirhInfo:@"url route host error!"];
+            goto error_occour;
+        }
+        
+        //step3 查询创建方式 code/xib/sb 默认code 创建实例
+        NSString *createType = [url fragment];
+        UIViewController *profile = nil;
+        if ([createType isEqualToString:@"xib"]) {
+            
+        } else if ([createType isEqualToString:@"sb"]) {
+            
+        } else {
+            // 代码创建实例
+            NSString *queryMethod = [self fetchInitializedMethod4Class:NSClassFromString(clsString)];
+            if (clsString && queryMethod) {
+                NSError *error = nil;
+                //id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams.copy];
+                //id aDester = [self performTarget:clsString action:initMethod params:params shouldCacheTarget:false];
+                id aDester = [clsString VKCallClassAllocInitSelectorName:queryMethod error:&error, block];
+                if (!error && aDester != nil) {
+                    if ([aDester isKindOfClass:[UIViewController class]]) {
+                        profile = (UIViewController *)aDester;
+                    }
+                }else{
+                    NSLog(@"error:%@",error.localizedDescription);
+                    err = [self errorWirhInfo:@"url route params error!"];
+                    goto error_occour;
+                }
+            }
+        }
+        if (!profile) {
+            profile = [self generateNotFoundProfile];
+        }
+        //step4 display
+        NSString *root = [url user];
+        UIViewController *startTarget = [self fetchStartNavigationProfile4Type:root];
+        Class naviClass = [UINavigationController class];
+        if ([startTarget isKindOfClass:naviClass] || [startTarget isMemberOfClass:naviClass]) {
+            UINavigationController *naviTarget = (UINavigationController *)startTarget;
+            [naviTarget pushViewController:profile animated:true];
+        } else if (startTarget.navigationController) {
+            [startTarget.navigationController pushViewController:profile animated:true];
+        } else {
+            [startTarget presentViewController:profile animated:true completion:nil];
+        }
+    } else if ([scheme isEqualToString:@"alert"]) {
+        //弹框
+    } else if ([scheme isEqualToString:@"do"]) {
+        //静默做一些事情
+    } else {
+        //TODO:上报error
+    }
+    
+error_occour:{
+    return err;
+}
+}
+
 #pragma mark --- Util Kit Methods
 
 + (NSString * _Nullable)convertMap2QueryString:(NSDictionary *)map sort:(BOOL)sort {
@@ -242,6 +323,106 @@ error_occour:{
     url = [NSURL URLWithString:urlString];
     
     return url;
+}
+
+#pragma mark
+
+
++ (id)performTarget:(NSString *)targetName action:(NSString *)actionName params:(NSDictionary *)params shouldCacheTarget:(BOOL)shouldCacheTarget {
+    
+    NSString *targetClassString = targetName.copy;
+    NSString *actionString = actionName.copy;
+    Class targetClass;
+    
+    //NSObject *target = self.cachedTarget[targetClassString];
+    NSObject *target = nil;
+    if (target == nil) {
+        targetClass = NSClassFromString(targetClassString);
+        target = [targetClass alloc];
+    }
+    
+    SEL action = NSSelectorFromString(actionString);
+    
+    if (target == nil) {
+        // 这里是处理无响应请求的地方之一，这个demo做得比较简单，如果没有可以响应的target，就直接return了。实际开发过程中是可以事先给一个固定的target专门用于在这个时候顶上，然后处理这种请求的
+        return nil;
+    }
+    
+    if ([target respondsToSelector:action]) {
+        return [self safePerformAction:action target:target params:params];
+    } else {
+        NSLog(@"error for call");
+    }
+    return nil;
+}
+
+#pragma mark - private methods
++ (id)safePerformAction:(SEL)action target:(NSObject *)target params:(NSDictionary *)params
+{
+    
+    NSMethodSignature* methodSig = [target methodSignatureForSelector:action];
+    if(methodSig == nil) {
+        return nil;
+    }
+    const char* retType = [methodSig methodReturnType];
+    
+    if (strcmp(retType, @encode(void)) == 0) {
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+        [invocation setArgument:&params atIndex:2];
+        [invocation setSelector:action];
+        [invocation setTarget:target];
+        [invocation invoke];
+        return nil;
+    }
+    
+    if (strcmp(retType, @encode(NSInteger)) == 0) {
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+        [invocation setArgument:&params atIndex:2];
+        [invocation setSelector:action];
+        [invocation setTarget:target];
+        [invocation invoke];
+        NSInteger result = 0;
+        [invocation getReturnValue:&result];
+        return @(result);
+    }
+    
+    if (strcmp(retType, @encode(BOOL)) == 0) {
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+        [invocation setArgument:&params atIndex:2];
+        [invocation setSelector:action];
+        [invocation setTarget:target];
+        [invocation invoke];
+        BOOL result = 0;
+        [invocation getReturnValue:&result];
+        return @(result);
+    }
+    
+    if (strcmp(retType, @encode(CGFloat)) == 0) {
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+        [invocation setArgument:&params atIndex:2];
+        [invocation setSelector:action];
+        [invocation setTarget:target];
+        [invocation invoke];
+        CGFloat result = 0;
+        [invocation getReturnValue:&result];
+        return @(result);
+    }
+    
+    if (strcmp(retType, @encode(NSUInteger)) == 0) {
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSig];
+        [invocation setArgument:&params atIndex:2];
+        [invocation setSelector:action];
+        [invocation setTarget:target];
+        [invocation invoke];
+        NSUInteger result = 0;
+        [invocation getReturnValue:&result];
+        return @(result);
+    }
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    return [target performSelector:action withObject:params];
+#pragma clang diagnostic pop
 }
 
 @end

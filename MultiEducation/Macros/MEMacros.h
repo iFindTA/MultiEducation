@@ -52,9 +52,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))
 
-static NSString * const ME_DISPATCH_KEY_CALLBACK                            =   @"ME_DISPATCH_KEY_CALLBACK";
+#define ME_DISPATCH_KEY_CALLBACK                                            @"ME_DISPATCH_KEY_CALLBACK"
 //tabbar item image size
-static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                              =   30.f;
+#define ME_TABBAR_ITEM_IMAGE_SIZE                                           30.f
 
 #define ME_INDEX_STORY_ITEM_NUMBER_PER_LINE                                 2
 #define ME_INDEX_STORY_ITEM_HEIGHT                                          120
@@ -68,7 +68,7 @@ static const CGFloat ME_TABBAR_ITEM_IMAGE_SIZE                              =   
 #define ME_REGULAR_CODE_LEN_MAX                                             8
 #define ME_REGULAR_CLASSNO_LEN_MIX                                          5
 #define ME_REGULAR_CLASSNO_LEN_MAX                                          10
-static NSString * const ME_REGULAR_MOBILE                                   =   @"^1+[3578]+\\d{9}";
+#define ME_REGULAR_MOBILE                                                   @"^1+[3578]+\\d{9}"
 
 #pragma mark --- Type enums
 
