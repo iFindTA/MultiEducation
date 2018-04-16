@@ -8,10 +8,27 @@
 
 #import "MEVM.h"
 
-@interface MEVideoRelateVM : MEVM <UITableViewDataSource>
+@class MEPlayInfoTitlePanel;
+@interface MEVideoRelateVM : MEVM
 
+/**
+ video relative touch callback
+ */
+@property (nonatomic, copy) void(^videoRelativeCallback)(NSString *vid);
+
+/**
+ class method for instance
+ */
 + (instancetype)vmWithRelateVideoID:(NSString *)vid table:(UITableView *)table;
 
+/**
+ load
+ */
 - (void)loadRelateVideos;
+
+/**
+ update relate datas;
+ */
+- (void)updateRelativeDatas;
 
 @end

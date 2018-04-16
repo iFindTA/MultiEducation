@@ -36,10 +36,20 @@
 
 @implementation MESignInProfile
 
+- (id)__initCallback:(void(^)())block {
+    self = [super init];
+    if (self) {
+        if (block) {
+            block();
+        }
+    }
+    return self;
+}
+
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        _params = params;
+        _params = [NSDictionary dictionaryWithDictionary:params];
         //NSLog(@"收到的参数:%@", params);
     }
     return self;
@@ -301,12 +311,13 @@
 - (void)loginTouchEvent {
     
 #if DEBUG
-    //whether exist callback
+    //*whether exist callback
     void(^callbackExcute)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
     if (callbackExcute) {
         callbackExcute();
         return;
     }
+    //*/
     [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
     
     return;

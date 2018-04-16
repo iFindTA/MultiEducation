@@ -36,6 +36,8 @@
  */
 + (NSError * _Nullable)openURL:(NSURL * _Nonnull)url withParams:(NSDictionary * _Nullable)params;
 
++ (NSError * _Nullable)openURL:(NSURL * _Nonnull)url withCallback:(void(^)())block;
+
 
 
 @end

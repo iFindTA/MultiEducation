@@ -11,7 +11,7 @@
 #import "MEPlayerControl.h"
 #import "MEVideoRelateVM.h"
 #import <ZFPlayer/ZFPlayer.h>
-#import "MEPlayerInfoScene.h"
+#import "MEPlayInfoTitlePanel.h"
 #import <MediaPlayer/MediaPlayer.h>
 
 static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   16.f/9;
@@ -26,6 +26,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 @property (nonatomic, strong) ZFPlayerView *player;
 @property (nonatomic, strong) MEBaseScene *playerScene;
 @property (nonatomic, strong) MEPlayerControl *playerControl;
+@property (nonatomic, strong) MEPlayInfoTitlePanel *titlePanel;
 //点赞面板
 //@property (nonatomic, strong) MEPlayerLike *likeScene;
 //推荐列表
@@ -43,7 +44,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     [self.player removeObserver:self forKeyPath:@"isFullScreen"];
 }
 
-- (instancetype)__initWithParams:(NSDictionary *)params {
+- (id)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
         self.videoInfo = params;
@@ -65,16 +66,20 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(height);
     }];
+    //title panel
+    [self.view addSubview:self.titlePanel];
+    [self.titlePanel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.playerScene.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(ME_HEIGHT_TABBAR);
+    }];
     
     //推荐列表
     [self.view addSubview:self.table];
     [self.table makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.playerScene.mas_bottom);
+        make.top.equalTo(self.titlePanel.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
     }];
-    //table header
-    MEPlayerInfoScene *infoHeader = [MEPlayerInfoScene configreInfoDescriptionPanelWithInfo:self.videoInfo];
-    self.table.tableHeaderView = infoHeader;
     
     //observes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -91,10 +96,12 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
      ];
     //*/
     
-    [self.player autoPlayTheVideo];
+    //[self.player autoPlayTheVideo];
     
     //下载相关视频列表
     [self.tableVM loadRelateVideos];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -155,6 +162,14 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     return _playerControl;
 }
 
+- (MEPlayInfoTitlePanel *)titlePanel {
+    if (!_titlePanel) {
+        _titlePanel = [[MEPlayInfoTitlePanel alloc] initWithFrame:CGRectZero];
+        _titlePanel.backgroundColor = [UIColor whiteColor];
+    }
+    return _titlePanel;
+}
+
 - (ZFPlayerView *)player {
     if (!_player) {
         _player = [[ZFPlayerView alloc] initWithFrame:CGRectZero];
@@ -172,7 +187,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     model.title = @"小黄人大战";
     model.fatherView = self.playerScene;
     model.placeholderImage = [UIImage imageNamed:@"playerBg"];
-    model.videoURL = [NSURL URLWithString:@"http://120.25.226.186:32812/resources/videos/minion_01.mp4"];
+    model.videoURL = [NSURL URLWithString:@"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"];
     
     return model;
 }
@@ -188,7 +203,9 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (UITableView *)table {
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        _table.delegate = self;
+        _table.showsHorizontalScrollIndicator = false;
+        _table.showsVerticalScrollIndicator = false;
+        //_table.delegate = self;
         //_table.backgroundColor = [UIColor blueColor];
     }
     return _table;
@@ -256,16 +273,31 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
     if (action & MEVideoPlayUserActionLike) {
         //收藏callback
+        weakify(self)
         void(^likeCallback)(void) = ^(){
             NSString *uid = @"fetch user's id";
             
             //收藏动作
-            NSLog(@"sigin after excute block with user:%@", uid);
+            //NSLog(@"sigin after excute block with user:%@", uid);
+            
+            PBMAINDelay(ME_ANIMATION_DURATION, ^{
+                strongify(self)
+                [self defaultGoBackStack];
+                [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
+                [self.playerControl updateUserLikeItemState:true];
+            });
         };
         if (![self userDidSignIn]) {
-            NSDictionary *params =@{ME_DISPATCH_KEY_CALLBACK:[likeCallback copy]};
-            NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
-            NSError *err = [MEDispatcher openURL:signInUrl withParams:nil];
+//            NSString *urlString = @"profile://root@MESignInProfile/__initCallback:#code";
+//            NSError *err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withCallback:Block_copy(likeCallback)];
+//            [self handleTransitionError:err];
+//            return;
+            
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+//            NSDictionary *params =@{ME_DISPATCH_KEY_CALLBACK:[likeCallback copy]};
+            [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
+            NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params.copy instanceType:MEProfileTypeCODE];
+            NSError *err = [MEDispatcher openURL:signInUrl withParams:params];
             [self handleTransitionError:err];
             return;
         }
@@ -301,6 +333,20 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         
     }];
     [sheet addAction:cancel];
+}
+
+#pragma mark --- Network & User Interactive
+
+- (NSArray *)generateTestData {
+    NSUInteger count = 9;
+    NSMutableArray *tmp = [NSMutableArray arrayWithCapacity:0];
+    for (int i = 0; i < count; i++) {
+        NSString *str = [NSString stringWithFormat:@"捉泥鳅---:%d", i];
+        NSString *image = @"http://img01.taopic.com/180205/267831-1P20523202431.jpg";
+        NSDictionary *item = @{@"title":str, @"image":image};
+        [tmp addObject:item];
+    }
+    return tmp.copy;
 }
 
 /*

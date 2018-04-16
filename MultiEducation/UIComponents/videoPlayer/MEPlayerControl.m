@@ -183,6 +183,11 @@
     [self.volume setHidden:false];
 }
 
+- (void)updateUserLikeItemState:(BOOL)like {
+    UIImage *image = [UIImage imageNamed:like?@"video_play_dolike":@"video_play_like"];
+    [self.likeBtn setImage:image forState:UIControlStateNormal];
+}
+
 - (void)showNextPlayItem:(NSString *)title {
     NSString * text = [NSString stringWithFormat:@"下一个：%@", title.copy];
     [self.nextItemBtn setTitle:text forState:UIControlStateNormal];
