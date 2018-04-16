@@ -17,6 +17,7 @@
 #import "MEPersonalRootProfile.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <UINavigationController+SJVideoPlayerAdd.h>
+#import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
 
 @interface AppDelegate ()
 
@@ -54,6 +55,9 @@
     [self.window makeKeyAndVisible];
     //for input
     [IQKeyboardManager sharedManager].enable = true;
+    //for umeng
+    UMConfigInstance.appKey = ME_UMENG_APPKEY;
+    [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
 
     return YES;
 }
