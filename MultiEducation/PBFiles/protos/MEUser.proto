@@ -35,13 +35,14 @@ message MEPBUser {
     string rcToken = 30; //融云token
     int32 isUserCharge = 31; //判断用户是否需要进入收费页面
     string code = 32; //验证码
+    int64 signinstamp = 33;//登录时间戳
 }
 
 enum MEPBUserRole {
-    Visitor = 1; //游客
+    Visitor = 0; //游客
+    Teacher = 1;//老师
     Parent = 2;//家长
-    Teacher = 4;//老师
-    Gardener = 8;//园务
+    Gardener = 3;//园务
 }
 
 message SchoolPb {

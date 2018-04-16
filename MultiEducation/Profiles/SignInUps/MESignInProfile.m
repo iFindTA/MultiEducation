@@ -364,6 +364,7 @@
         if (err) {
             [self handleTransitionError:err];
         } else {
+            [MEUserVM saveUser:user];
             [self.appDelegate updateCurrentSignedInUser:user];
             //登录成功之后的操作
             void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];

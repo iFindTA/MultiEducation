@@ -14,6 +14,8 @@
  */
 @interface MEKits : NSObject
 
++ (NSString *)sandboxPath;
+
 /**
  获取文件大小
  */

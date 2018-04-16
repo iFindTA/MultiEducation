@@ -11,6 +11,12 @@
 
 @implementation MEKits
 
++ (NSString *)sandboxPath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
+    NSString *documentPath = paths.firstObject;
+    return documentPath;
+}
+
 + (CGFloat)fileSizeWithPath:(NSString *)path {
     NSAssert(path.length != 0, @"empty file path");
     const char *filename = path.UTF8String;

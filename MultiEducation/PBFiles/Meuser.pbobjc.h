@@ -38,6 +38,36 @@ CF_EXTERN_C_BEGIN
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - Enum MEPBUserRole
+
+typedef GPB_ENUM(MEPBUserRole) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  MEPBUserRole_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 游客 */
+  MEPBUserRole_Visitor = 0,
+
+  /** 老师 */
+  MEPBUserRole_Teacher = 1,
+
+  /** 家长 */
+  MEPBUserRole_Parent = 2,
+
+  /** 园务 */
+  MEPBUserRole_Gardener = 3,
+};
+
+GPBEnumDescriptor *MEPBUserRole_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL MEPBUserRole_IsValidValue(int32_t value);
+
 #pragma mark - MeuserRoot
 
 /**
@@ -88,6 +118,7 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
   MEPBUser_FieldNumber_RcToken = 30,
   MEPBUser_FieldNumber_IsUserCharge = 31,
   MEPBUser_FieldNumber_Code = 32,
+  MEPBUser_FieldNumber_Signinstamp = 33,
 };
 
 @interface MEPBUser : GPBMessage
@@ -111,7 +142,7 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** 用户类型(1老师;2学生;3家长;4教务) */
-@property(nonatomic, readwrite) int32_t userType;
+@property(nonatomic, readwrite) MEPBUserRole userType;
 
 /** 学段id */
 @property(nonatomic, readwrite) int64_t phaseId;
@@ -194,7 +225,22 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 /** 验证码 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *code;
 
+/** 登录时间戳 */
+@property(nonatomic, readwrite) int64_t signinstamp;
+
 @end
+
+/**
+ * Fetches the raw value of a @c MEPBUser's @c userType property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t MEPBUser_UserType_RawValue(MEPBUser *message);
+/**
+ * Sets the raw value of an @c MEPBUser's @c userType property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetMEPBUser_UserType_RawValue(MEPBUser *message, int32_t value);
 
 #pragma mark - SchoolPb
 

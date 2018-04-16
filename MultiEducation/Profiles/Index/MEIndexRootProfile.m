@@ -52,7 +52,7 @@
         make.height.equalTo(offsetHeight);
     }];
     [self.headerTopConstraint deactivate];
-    //搜索 工具条
+    /*搜索 工具条
     CGFloat normalHeight = ME_LAYOUT_SUBBAR_HEIGHT; CGFloat activeHeight = normalHeight + ME_HEIGHT_STATUSBAR;
     nibs = [[NSBundle mainBundle] loadNibNamed:@"MEIndexSearchBar" owner:self options:nil];
     self.searchBar = nibs.firstObject;
@@ -93,14 +93,17 @@
         strongify(self)
         make.top.equalTo(self.searchBar.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
-    }];
+    }];//*/
     
+    weakify(self)
     //内容呈现
     __weak MEIndexHeader *weakHeader = self.header;
     self.classesScene = [MEIndexClassesScene classesSceneWithSubNavigationBar:weakHeader];
-    [self.view insertSubview:self.classesScene belowSubview:self.searchScene];
+    [self.view addSubview:self.classesScene];
+    //[self.view insertSubview:self.classesScene belowSubview:self.searchScene];
     [self.classesScene makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.searchBar.mas_bottom);
+        //make.top.equalTo(self.searchBar.mas_bottom);
+        make.top.equalTo(self.header.mas_bottom);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.view.mas_bottom).offset(-ME_HEIGHT_TABBAR);
     }];

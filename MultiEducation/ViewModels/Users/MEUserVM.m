@@ -16,6 +16,9 @@
 
 @end
 
+static NSString * userPath = @"user/signin";
+static NSString * userFile = @"signedin.bat";
+
 @implementation MEUserVM
 
 #pragma mark --- Override
@@ -56,21 +59,51 @@
     return self;
 }
 
++ (BOOL)saveUser:(MEPBUser *)user {
+    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
+    user.signinstamp = timestamp;
+    return [WHCSqlite insert:user];
+    
+    /*
+    NSString *rootPath = [MEKits sandboxPath];
+    NSString *dir = [rootPath stringByAppendingPathComponent:userPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:dir]) {
+        [fileManager createDirectoryAtPath:dir withIntermediateDirectories:true attributes:nil error:nil];
+    }
+    NSString *filePath = [dir stringByAppendingPathComponent:userFile];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        [fileManager removeItemAtPath:filePath error:nil];
+    }
+    
+    NSData *userData = [user data];
+    return [userData writeToFile:filePath atomically:true];
+    //*/
+}
+
 + (MEPBUser * _Nullable)fetchLatestSignedInUser {
-    //TODO:处理已登录用户相关逻辑
-    NSArray <MEPBUser*> *usrs = [WHCSqlite query:MEPBUser.class order:@"signtimestamp by desc" limit:@"1"];
+    //*TODO:处理已登录用户相关逻辑
+    NSArray <MEPBUser*> *usrs = [WHCSqlite query:[MEPBUser class] order:@"by signinstamp desc" limit:@"1"];
     if (usrs.count > 0) {
         return [usrs lastObject];
     }
-    return nil;
-}
-
-+ (BOOL)whetherExistValidSignedInUser {
-    BOOL ret = false;
-    //TODO:处理已登录用户相关逻辑
-    NSArray <MEPBUser*> *usrs = [WHCSqlite query:MEPBUser.class];
+    return nil;//*/
     
-    return ret;
+    /*
+    NSString *rootPath = [MEKits sandboxPath];
+    NSString *dir = [rootPath stringByAppendingPathComponent:userPath];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [dir stringByAppendingPathComponent:userFile];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        NSData *userData = [NSData dataWithContentsOfFile:filePath];
+        NSError *error;
+        MEPBUser *user = [MEPBUser parseFromData:userData error:&error];
+        if (!error) {
+            return user;
+        }
+    }
+    return nil;
+    //*/
 }
 
 #pragma mark --- setter & getter
