@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MEProgressCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RFN-nD-D6z">
+                        <rect key="frame" x="8" y="8" width="44" height="44"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="44" id="fVk-el-4pU"/>
+                            <constraint firstAttribute="height" constant="44" id="vC4-hT-lag"/>
+                        </constraints>
+                    </imageView>
+                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cJf-Xp-R4B">
+                        <rect key="frame" x="62" y="50" width="200" height="2"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="AHf-8Y-ctC"/>
+                            <constraint firstAttribute="width" constant="200" id="DqA-ok-o8M"/>
+                        </constraints>
+                    </progressView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MTo-dY-QYq" customClass="MEBaseLabel">
+                        <rect key="frame" x="62" y="8" width="200" height="20"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="Pzo-qF-1G8"/>
+                            <constraint firstAttribute="height" constant="20" id="X9F-Jw-V1V"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="图片名称"/>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="RFN-nD-D6z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Ci6-ws-uzB"/>
+                    <constraint firstItem="MTo-dY-QYq" firstAttribute="top" secondItem="RFN-nD-D6z" secondAttribute="top" id="HL5-Na-0ZN"/>
+                    <constraint firstItem="cJf-Xp-R4B" firstAttribute="bottom" secondItem="RFN-nD-D6z" secondAttribute="bottom" id="SSW-5F-9GX"/>
+                    <constraint firstItem="MTo-dY-QYq" firstAttribute="leading" secondItem="RFN-nD-D6z" secondAttribute="trailing" constant="10" id="XdZ-EE-w34"/>
+                    <constraint firstItem="RFN-nD-D6z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="fPA-1S-1rm"/>
+                    <constraint firstItem="cJf-Xp-R4B" firstAttribute="leading" secondItem="MTo-dY-QYq" secondAttribute="leading" id="mWb-tX-zDa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <point key="canvasLocation" x="40.5" y="45"/>
+        </tableViewCell>
+    </objects>
+</document>

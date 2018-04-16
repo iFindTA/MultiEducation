@@ -52,6 +52,8 @@
 		760DDDBB2084398E0075BACD /* MEPhotoSelectProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDBA2084398E0075BACD /* MEPhotoSelectProfile.m */; };
 		760DDDBE208439C40075BACD /* MEPhotoProgressProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDBD208439C40075BACD /* MEPhotoProgressProfile.m */; };
 		760DDDC120844AA30075BACD /* MEBabyNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDC020844AA30075BACD /* MEBabyNavigation.m */; };
+		760DDDC5208456CC0075BACD /* MEProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 760DDDC3208456CC0075BACD /* MEProgressCell.m */; };
+		760DDDC6208456CC0075BACD /* MEProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 760DDDC4208456CC0075BACD /* MEProgressCell.xib */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
 		7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */ = {isa = PBXBuildFile; fileRef = 30EAA5E1E600BCEE92B868AAE3668E9F /* MESignInputField.m */; };
@@ -224,6 +226,9 @@
 		760DDDBD208439C40075BACD /* MEPhotoProgressProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPhotoProgressProfile.m; sourceTree = "<group>"; };
 		760DDDBF20844AA30075BACD /* MEBabyNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyNavigation.h; sourceTree = "<group>"; };
 		760DDDC020844AA30075BACD /* MEBabyNavigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyNavigation.m; sourceTree = "<group>"; };
+		760DDDC2208456CC0075BACD /* MEProgressCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEProgressCell.h; sourceTree = "<group>"; };
+		760DDDC3208456CC0075BACD /* MEProgressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEProgressCell.m; sourceTree = "<group>"; };
+		760DDDC4208456CC0075BACD /* MEProgressCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEProgressCell.xib; sourceTree = "<group>"; };
 		781307DB8A28E3756A2D9DBE247F1480 /* MEIndexHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIndexHeader.m; sourceTree = "<group>"; };
 		7D2CB0EA796F52D1A32F817FF3A9BC10 /* MEContentSubcategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEContentSubcategory.h; sourceTree = "<group>"; };
 		83D0AC2F6FD6236BCCE60EC21516DCA3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -636,6 +641,9 @@
 				FC10E3AE929A10246A6605B9D131570B /* MEBabyPhotoCell.h */,
 				3DA4F29EEE28A2919C84A9D78B613355 /* MEBabyPhotoCell.m */,
 				A8A680DF2D2F3DE58F75D09040D04160 /* MEBabyPhotoCell.xib */,
+				760DDDC2208456CC0075BACD /* MEProgressCell.h */,
+				760DDDC3208456CC0075BACD /* MEProgressCell.m */,
+				760DDDC4208456CC0075BACD /* MEProgressCell.xib */,
 			);
 			path = babyContentCell;
 			sourceTree = "<group>";
@@ -1028,6 +1036,7 @@
 				309A30B69F2693D54CD6FE4B47011A68 /* MEBabyInfoCell.xib in Resources */,
 				17F302F2BDD50A0D3D1C6DDFB61065F8 /* MEBabyPhotoCell.xib in Resources */,
 				286F57B6B0641E24B5D3B92F520B80AA /* MEIndexHeader.xib in Resources */,
+				760DDDC6208456CC0075BACD /* MEProgressCell.xib in Resources */,
 				1EA0B6D868B175E36FC1E2F104617AF9 /* MEIndexSearchBar.xib in Resources */,
 				912ECFFBFFED15FC3476C832441E40AD /* MEVideoRecorder.bundle in Resources */,
 				E42F2B87A822FB45E382EE9BFAC9B2A7 /* Main.storyboard in Resources */,
@@ -1150,6 +1159,7 @@
 				5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */,
 				1075CA0F265C0BC72013D54D83E913F7 /* MEBabyRootProfile.m in Sources */,
 				1D3797D0047644E24C3A1FAAA4A68992 /* MEBaseButton.m in Sources */,
+				760DDDC5208456CC0075BACD /* MEProgressCell.m in Sources */,
 				88EECBF97112DB5A22A7967BD5DCE407 /* MEBaseCell.m in Sources */,
 				15A9B34E0BCE9B00A87FD825445AB818 /* MEBaseCollectionCell.m in Sources */,
 				6501096D801BA4E64C292E024CA2BE36 /* MEBaseImageView.m in Sources */,
@@ -1343,7 +1353,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1417,7 +1427,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
