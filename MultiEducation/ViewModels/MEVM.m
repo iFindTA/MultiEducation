@@ -49,11 +49,16 @@
                 NSData *responseData = (NSData *)resObj;
                 NSError *err;
                 MECarrierPB *responseCarrier = [MECarrierPB parseFromData:responseData error:&err];
-                if (err && failure) {
-                    failure(err);
-                } else {
+                if ([responseCarrier.respCode isEqualToString:@"SUCCESS"]) {
                     if (success) {
                         success((responseCarrier.source));
+                    }
+                } else {
+                    if (responseCarrier.msg.length > 0) {
+                        err = [NSError errorWithDomain:responseCarrier.msg code:-1 userInfo:nil];
+                    }
+                    if (failure) {
+                        failure(err);
                     }
                 }
             }
@@ -68,6 +73,14 @@
 #pragma mark --- 需要被override的methods
 - (NSString *)cmdVersion {
     return @"1";
+}
+
+- (NSString * _Nullable)cmdCode {
+    return @"";
+}
+
+- (NSString * _Nullable)operationCode {
+    return @"";
 }
 
 @end

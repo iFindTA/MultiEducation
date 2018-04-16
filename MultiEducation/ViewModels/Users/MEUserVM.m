@@ -24,9 +24,15 @@
     return @"2";
 }
 
+- (NSString *)cmdCode {
+    return SESSION_POST;
+}
+
+#pragma mark --- Class Methods for instance
+
 + (instancetype)vmWithModel:(MEPBUser *)usr {
     NSAssert(usr != nil, @" could not initialized by nil!");
-    return [[MEUserVM alloc] initWithUsr:usr];
+    return [[self alloc] initWithUsr:usr];
 }
 
 - (id)initWithUsr:(MEPBUser *)usr {
@@ -39,7 +45,7 @@
 
 + (instancetype)vmWithPB:(MEPBSignIn *)pb {
     NSAssert(pb != nil, @" could not initialized by nil!");
-    return [[MEUserVM alloc] initWithPB:pb];
+    return [[self alloc] initWithPB:pb];
 }
 
 - (id)initWithPB:(MEPBSignIn *)pb {

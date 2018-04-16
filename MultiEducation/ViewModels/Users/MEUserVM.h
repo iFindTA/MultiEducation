@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)vmWithModel:(MEPBUser *)usr;
 
+/**
+ create instance
+ */
 + (instancetype)vmWithPB:(MEPBSignIn *)pb;
 
 /**
