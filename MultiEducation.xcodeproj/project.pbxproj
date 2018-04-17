@@ -47,6 +47,7 @@
 		5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */; };
 		5F49A7F3974D7CD2B0215185EBAB1DD5 /* MEVideoRelateVM.m in Sources */ = {isa = PBXBuildFile; fileRef = D56C3FD0F5B7FDFDC9BD0E49E2654847 /* MEVideoRelateVM.m */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
+		609F728A2085A54C008CE75B /* MEIndexNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 609F72892085A54C008CE75B /* MEIndexNavigationBar.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
 		62E34B73EB6A539FAC7B704018CF630D /* MEIndexStoryItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D81ADB41A15781040F77E304DB12C /* MEIndexStoryItemCell.m */; };
@@ -217,6 +218,8 @@
 		5B3B577323EE2B65DD02746CB358EF9F /* MEEvaluateSelectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateSelectItem.m; sourceTree = "<group>"; };
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
+		609F72882085A54C008CE75B /* MEIndexNavigationBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEIndexNavigationBar.h; sourceTree = "<group>"; };
+		609F72892085A54C008CE75B /* MEIndexNavigationBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexNavigationBar.m; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		612249B004BA9DA7A98C9F83991C3B54 /* MEChatSessionProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEChatSessionProfile.m; sourceTree = "<group>"; };
@@ -761,6 +764,8 @@
 				EF499E12D3CE72651F559129108664D8 /* MEIndexHeader.h */,
 				781307DB8A28E3756A2D9DBE247F1480 /* MEIndexHeader.m */,
 				18A0D48C6152E6379212DFA472991405 /* MEIndexHeader.xib */,
+				609F72882085A54C008CE75B /* MEIndexNavigationBar.h */,
+				609F72892085A54C008CE75B /* MEIndexNavigationBar.m */,
 			);
 			path = indexHeader;
 			sourceTree = "<group>";
@@ -1352,6 +1357,7 @@
 				ED0D090076CEE017686C906F12AFFD4E /* UIView+Frame.m in Sources */,
 				610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */,
 				3BA17528E222ADE896DD047E031F336A /* UIViewController+Utils.m in Sources */,
+				609F728A2085A54C008CE75B /* MEIndexNavigationBar.m in Sources */,
 				797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */,
 				D765CD59C9230516BB5010AF734E38B3 /* ViewController.m in Sources */,
 				6EB3738482C49C6B43DB2E7FF2FF88B6 /* main.m in Sources */,
@@ -1487,7 +1493,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1561,7 +1567,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
