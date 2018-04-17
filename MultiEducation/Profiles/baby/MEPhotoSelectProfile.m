@@ -9,12 +9,6 @@
 #import "MEPhotoSelectProfile.h"
 #import "MEPhotoProgressProfile.h"
 
-@interface MEPhotoSelectProfile ()
-
-@property (nonatomic, strong) MEPhotoProgressProfile *progressProfile;
-
-@end
-
 @implementation MEPhotoSelectProfile
 
 - (void)viewDidLoad {
@@ -22,6 +16,7 @@
     // Do any additional setup after loading the view.
     
     [self customNavigation];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,15 +30,9 @@
 }
 
 - (void)uploadTouchEvent {
-    [self.navigationController pushViewController: self.progressProfile animated: YES];
-}
-
-#pragma mark - lazyloading
-- (MEPhotoProgressProfile *)progressProfile {
-    if (!_progressProfile) {
-        _progressProfile = [[MEPhotoProgressProfile alloc] initWithImages: nil];
+    if (self.uploadImagesHandler) {
+        self.uploadImagesHandler();
     }
-    return _progressProfile;
 }
 
 @end

@@ -8,6 +8,10 @@
 
 #import "MWPhotoBrowser.h"
 
+typedef void(^UploadImagesHandler)(void);
+
 @interface MEPhotoSelectProfile : MWPhotoBrowser
+
+@property (nonatomic, copy) UploadImagesHandler uploadImagesHandler;
 
 @end

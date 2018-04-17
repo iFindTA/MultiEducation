@@ -10,6 +10,4 @@
 
 @interface MEPhotoProgressProfile : MEBaseProfile
 
-- (instancetype)initWithImages:(NSArray *)images;
-
 @end

@@ -19,5 +19,5 @@ pod 'WHC_ModelSqliteKit/SQLCipher', '~> 1.3.0'
 pod 'MWPhotoBrowser', '~> 2.1.2'
 pod 'Qiniu', '~> 7.2.3'
 pod 'UMengAnalytics-NO-IDFA', '~> 4.2.5'
-
+pod 'RongCloudIM', '~> 2.8.30'
 end
