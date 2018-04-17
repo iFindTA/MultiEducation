@@ -17,6 +17,9 @@
 
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent index:(NSInteger)index;
 
+//whether success or fail
+- (void)uploadOver;
+
 @end
 
 @interface MEQiniuUtils : NSObject

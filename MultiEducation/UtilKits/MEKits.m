@@ -42,10 +42,10 @@
     
     CGFloat max = 1;
     CGFloat min = 0;
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 8; ++i) {
         compression = (max + min) / 2;
         data = UIImageJPEGRepresentation(image, compression);
-        if (data.length < maxLength * 0.9) {
+        if (data.length < maxLength * 0.7) {
             min = compression;
         } else if (data.length > maxLength) {
             max = compression;

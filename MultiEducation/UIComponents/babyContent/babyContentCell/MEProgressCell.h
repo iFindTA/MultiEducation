@@ -17,6 +17,9 @@
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progress;
 
+@property (weak, nonatomic) IBOutlet MEBaseLabel *retryLabel;
+
+
 - (void)setData:(MEPhoto *)photo;
 
 - (void)setProg:(float)prog;
