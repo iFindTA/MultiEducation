@@ -12,6 +12,7 @@
 
 static double const MAX_IMAGE_LENGTH = 2 * 1024 * 1024; //压缩图片 <= 2MB
 static QNUploadManager *qnUploadManager;
+static MEQiniuUtils *qnUtils;
 
 @interface MEQiniuUtils ()
 
@@ -21,12 +22,13 @@ static QNUploadManager *qnUploadManager;
 
 @implementation MEQiniuUtils
 
-+ (QNUploadManager *)sharedQNUploadManager {
++ (instancetype)sharedQNUploadManager {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        qnUtils = [[MEQiniuUtils alloc] init];
         qnUploadManager = [[QNUploadManager alloc] init];
     });
-    return qnUploadManager;
+    return qnUtils;
 }
 
 - (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token uploadManager:(QNUploadManager *)uploadManager keys:(NSMutableArray *)keys {

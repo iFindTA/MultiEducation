@@ -19,7 +19,7 @@ typedef void(^UploadImageOptionHandler)(NSString *key, float percent);
 
 @property (nonatomic, copy) UploadImageOptionHandler uploadImageOptionHandler;
 
-+ (QNUploadManager *)sharedQNUploadManager;
++ (instancetype)sharedQNUploadManager;
 
 - (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token uploadManager:(QNUploadManager *)uploadManager keys:(NSMutableArray *)keys;
 

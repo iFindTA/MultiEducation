@@ -10,6 +10,7 @@
 #import "MEBabyPhotoHeader.h"
 #import <MWPhotoBrowser.h>
 #import "MEPhotoSelectProfile.h"
+#import "MEPhoto.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -35,7 +36,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MEBaseScene *scrollContent;
 
 @property (nonatomic, strong) UICollectionView *photoView;  //photo
-@property (nonatomic, strong) NSMutableArray *photos;   //photo's dataArr
+@property (nonatomic, strong) NSMutableArray <MEPhoto *> *photos;   //photo's dataArr
 
 @property (nonatomic, strong) UICollectionView *timeLineView;   //时间轴
 @property (nonatomic, strong) NSMutableArray *timeLineArr;  //timeline's dataArr
@@ -43,7 +44,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
 @property (nonatomic, strong) MEPhotoSelectProfile *photoSelectBrowser;
-@property (nonatomic, strong) NSMutableArray *selectedStatusArr;    //user selected status for each
+
 
 @end
 
@@ -135,23 +136,30 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)addTest {
-    for (int i = 0; i< 10; i++) {
-        NSNumber *status = [NSNumber numberWithBool: NO];
-        [self.selectedStatusArr addObject: status];
-    }
-    
+    BOOL isSelect = NO;
     NSString *urlStr = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523940434362&di=eacdf369b05055d3c0f5acb38fabfc86&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F8601a18b87d6277f0d5c7a0a2e381f30e924fcb2.jpg";
     NSURL *url = [NSURL URLWithString: urlStr];
-    for (int i = 0; i < 10; i++) {
-        MWPhoto *photo = [MWPhoto photoWithURL: url];
+    MWPhoto *mwPhoto = [MWPhoto photoWithURL: url];
+    
+    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: url]];
+
+    for (int i = 0; i< 10; i++) {
+        
+        MEPhoto *photo = [[MEPhoto alloc] init];
+        photo.isSelect = isSelect;
+        photo.urlStr = urlStr;
+        photo.photo = mwPhoto;
+        photo.image = image;
+        
         [self.photos addObject: photo];
     }
 }
 
-- (NSArray *)selectedForUploadingPhotos {
+- (NSArray <MEPhoto *> *)selectedForUploadingPhotos {
     NSMutableArray *selectedPhotos = [NSMutableArray array];
+    
     for (int i = 0; i < self.photos.count; i++) {
-        if ([[self.selectedStatusArr objectAtIndex: i] boolValue]) {
+        if ([self.photos objectAtIndex: i].isSelect) {
             [selectedPhotos addObject: [self.photos objectAtIndex: i]];
         }
     }
@@ -180,19 +188,19 @@ static CGFloat const ITEM_LEADING = 10.f;
         
     }
     
-    return [self.photos objectAtIndex: index];
+    return [self.photos objectAtIndex: index].photo;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    return [self.photos objectAtIndex: index];
+    return [self.photos objectAtIndex: index].photo;
 }
 
 - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
-    return [[self.selectedStatusArr objectAtIndex: index] boolValue];
+    return [self.photos objectAtIndex: index].isSelect;
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
-    [self.selectedStatusArr replaceObjectAtIndex: index withObject: [NSNumber numberWithBool: selected]];
+    [self.photos objectAtIndex: index].isSelect = selected;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -403,13 +411,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineArr = [NSMutableArray array];
     }
     return _timeLineArr;
-}
-
-- (NSMutableArray *)selectedStatusArr {
-    if (!_selectedStatusArr) {
-        _selectedStatusArr = [NSMutableArray array];
-    }
-    return _selectedStatusArr;
 }
 
 @end

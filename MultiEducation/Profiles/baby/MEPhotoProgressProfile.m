@@ -7,7 +7,8 @@
 //
 
 #import "MEPhotoProgressProfile.h"
-#import <QiniuSDK.h>
+#import "MEQiniuUtils.h"
+#import "MEPhoto.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 44.f;
@@ -15,8 +16,8 @@ static CGFloat const ROW_HEIGHT = 44.f;
 @interface MEPhotoProgressProfile () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *images;   //user choosed images for uploading
-@property (nonatomic, strong) QNUploadManager *qnManager;
+@property (nonatomic, strong) NSMutableArray <MEPhoto *> *images;   //user choosed images for uploading
+@property (nonatomic, strong) MEQiniuUtils *qnUtils;
 
 @end
 
@@ -25,7 +26,7 @@ static CGFloat const ROW_HEIGHT = 44.f;
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        _images = [params objectForKey: @"images"];
+        _images = [NSMutableArray arrayWithArray: [params objectForKey: @"images"]];
     }
     return self;
 }
@@ -47,6 +48,16 @@ static CGFloat const ROW_HEIGHT = 44.f;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)upload {
+    
+    NSMutableArray *images = [NSMutableArray array];
+    for (MEPhoto *photo in _images) {
+        [images addObject: photo.image];
+    }
+    
+    [self.qnUtils uploadImages:images atIndex:0 token:  uploadManager:<#(QNUploadManager *)#> keys:<#(NSMutableArray *)#>]
 }
 
 #pragma mark - UITableViewDataSource
@@ -76,15 +87,22 @@ static CGFloat const ROW_HEIGHT = 44.f;
     return _tableView;
 }
 
-- (QNUploadManager *)qnManager {
-    if (!_qnManager) {
-        QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
-//            builder.zone = [QNFixedZone zoneNa0];
-//            builder.useHttps = YES;
-        }];
-        _qnManager = [QNUploadManager sharedInstanceWithConfiguration: config];
+//- (QNUploadManager *)qnManager {
+//    if (!_qnManager) {
+//        QNConfiguration *config = [QNConfiguration build:^(QNConfigurationBuilder *builder) {
+////            builder.zone = [QNFixedZone zoneNa0];
+////            builder.useHttps = YES;
+//        }];
+//        _qnManager = [QNUploadManager sharedInstanceWithConfiguration: config];
+//    }
+//    return _qnManager;
+//}
+
+- (MEQiniuUtils *)qnUtils {
+    if (!_qnUtils) {
+        _qnUtils = [MEQiniuUtils sharedQNUploadManager];
     }
-    return _qnManager;
+    return _qnUtils;
 }
 
 @end
