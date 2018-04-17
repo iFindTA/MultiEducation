@@ -360,7 +360,7 @@
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
     weakify(self)
-    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+    [vm postData:pbdata cmdCode:nil operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
         if (err) {

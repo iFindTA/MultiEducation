@@ -1,2 +1,5 @@
 syntax = "proto3";
 
+import "MEVideo.proto";
+
+message MEPBIndex
