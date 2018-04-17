@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEVerifyCodeVM.h"
 #import "MESignUpProfile.h"
 #import "MESignInputField.h"
 #import "UITextField+MaxLength.h"
@@ -175,10 +176,12 @@
         make.width.equalTo(adoptValue(ME_HEIGHT_NAVIGATIONBAR*3));
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT * 0.75);
     }];
+    weakify(self)
     [countDown countDownButtonHandler:^(JKCountDownButton *countDownButton, NSInteger tag) {
         countDownButton.enabled = NO;
         [countDownButton startCountDownWithSecond:59];
-        
+        strongify(self)
+        [self sendRegisterVerifyCodeEvent];
         [countDownButton countDownChanging:^NSString *(JKCountDownButton *countDownButton,NSUInteger second) {
             NSString *title = [NSString stringWithFormat:@"剩余%zd秒",second];
             return title;
@@ -230,7 +233,7 @@
     NSString *protocolString = @"点击立即注册及代表您同意多元幼教用户服务条款";
     NSRange protocolRange = [protocolString rangeOfString:protocol];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:protocolString];
-    weakify(self)
+
     [text setTextHighlightRange:protocolRange color:themeColor backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
         strongify(self)
         [self displayUserRegisterProtocol];
@@ -292,6 +295,36 @@
 
 - (void)exchangeSplash2Sign {
     [self defaultGoBackStack];
+}
+
+/**
+ 发送验证码
+ */
+- (void)sendRegisterVerifyCodeEvent {
+    //check mobile
+    NSString *mobile = self.inputMobile.text;
+    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        return;
+    }
+    //assemble pb file
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+#if DEBUG
+    [pb setLoginName:@"13023622337"];
+#else
+    [pb setLoginName:mobile];
+#endif
+    //goto signin
+    MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
+    NSData *pbdata = [pb data];
+    weakify(self)
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+        //strongify(self)
+        [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
 }
 
 - (void)registerTouchEvent {

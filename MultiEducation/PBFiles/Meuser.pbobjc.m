@@ -43,6 +43,46 @@ static GPBFileDescriptor *MeuserRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - Enum MEPBUserRole
+
+GPBEnumDescriptor *MEPBUserRole_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Visitor\000Teacher\000Parent\000Gardener\000";
+    static const int32_t values[] = {
+        MEPBUserRole_Visitor,
+        MEPBUserRole_Teacher,
+        MEPBUserRole_Parent,
+        MEPBUserRole_Gardener,
+    };
+    static const char *extraTextFormatInfo = "\004\000\007\000\001\007\000\002\006\000\003\010\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(MEPBUserRole)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:MEPBUserRole_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL MEPBUserRole_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case MEPBUserRole_Visitor:
+    case MEPBUserRole_Teacher:
+    case MEPBUserRole_Parent:
+    case MEPBUserRole_Gardener:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - MEPBUser
 
 @implementation MEPBUser
@@ -79,10 +119,11 @@ static GPBFileDescriptor *MeuserRoot_FileDescriptor(void) {
 @dynamic rcToken;
 @dynamic isUserCharge;
 @dynamic code;
+@dynamic signinstamp;
 
 typedef struct MEPBUser__storage_ {
   uint32_t _has_storage_[1];
-  int32_t userType;
+  MEPBUserRole userType;
   int32_t gender;
   int32_t hasInitPwd;
   int32_t groupStatus;
@@ -114,6 +155,7 @@ typedef struct MEPBUser__storage_ {
   int64_t phaseId;
   int64_t deadline;
   int64_t diskCap;
+  int64_t signinstamp;
 } MEPBUser__storage_;
 
 // This method is threadsafe because it is initially called
@@ -178,12 +220,12 @@ typedef struct MEPBUser__storage_ {
       },
       {
         .name = "userType",
-        .dataTypeSpecific.className = NULL,
+        .dataTypeSpecific.enumDescFunc = MEPBUserRole_EnumDescriptor,
         .number = MEPBUser_FieldNumber_UserType,
         .hasIndex = 6,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, userType),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeInt32,
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
       },
       {
         .name = "phaseId",
@@ -410,6 +452,15 @@ typedef struct MEPBUser__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "signinstamp",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBUser_FieldNumber_Signinstamp,
+        .hasIndex = 31,
+        .offset = (uint32_t)offsetof(MEPBUser__storage_, signinstamp),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEPBUser class]
@@ -432,6 +483,18 @@ typedef struct MEPBUser__storage_ {
 }
 
 @end
+
+int32_t MEPBUser_UserType_RawValue(MEPBUser *message) {
+  GPBDescriptor *descriptor = [MEPBUser descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:MEPBUser_FieldNumber_UserType];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetMEPBUser_UserType_RawValue(MEPBUser *message, int32_t value) {
+  GPBDescriptor *descriptor = [MEPBUser descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:MEPBUser_FieldNumber_UserType];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - SchoolPb
 

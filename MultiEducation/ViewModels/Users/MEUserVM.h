@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)vmWithModel:(MEPBUser *)usr;
 
+/**
+ create instance
+ */
 + (instancetype)vmWithPB:(MEPBSignIn *)pb;
 
 /**
@@ -27,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (MEPBUser * _Nullable)fetchLatestSignedInUser;
 
 /**
- whether there is exist a valid user who did signed-in, and its token is avaliable!
+ save user into local db
  */
-+ (BOOL)whetherExistValidSignedInUser;
++ (BOOL)saveUser:(MEPBUser *)user;
 
 /**
  getter user role

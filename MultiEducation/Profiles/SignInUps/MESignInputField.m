@@ -11,7 +11,7 @@
 @implementation MESignInputField
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-    if (NSStringFromSelector(action) == @"paste:") {
+    if ([NSStringFromSelector(action) isEqualToString:@"paste:"]) {
         return false;
     }
     return [super canPerformAction:action withSender:sender];

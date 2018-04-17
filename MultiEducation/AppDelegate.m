@@ -41,9 +41,9 @@
 #endif
     //create user
     //init root navigation profile
-    BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
+    //BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
     self.curUser = [MEUserVM fetchLatestSignedInUser];
-    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:signedin?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
+    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:(self.curUser!=nil)?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];
     self.winProfile.sj_gestureType = SJFullscreenPopGestureType_Full;

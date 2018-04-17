@@ -7,6 +7,7 @@
 //
 
 #import "MEUserVM.h"
+#import "MEVerifyCodeVM.h"
 #import "MESignInProfile.h"
 #import "MESignInputField.h"
 #import "UITextField+MaxLength.h"
@@ -182,10 +183,12 @@
         make.width.equalTo(adoptValue(ME_HEIGHT_NAVIGATIONBAR*3));
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT * 0.75);
     }];
+    weakify(self)
     [countDown countDownButtonHandler:^(JKCountDownButton *countDownButton, NSInteger tag) {
         countDownButton.enabled = NO;
         [countDownButton startCountDownWithSecond:59];
-        
+        strongify(self)
+        [self sendSignInVerifyCodeEvent];
         [countDownButton countDownChanging:^NSString *(JKCountDownButton *countDownButton,NSUInteger second) {
             NSString *title = [NSString stringWithFormat:@"剩余%zd秒",second];
             return title;
@@ -249,7 +252,7 @@
         make.left.equalTo(btn);
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
     }];
-    //register user
+    /*register user
     MEBaseButton *registerBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     registerBtn.titleLabel.font = font;
     [registerBtn setTitle:@"注册账号" forState:UIControlStateNormal];
@@ -260,7 +263,7 @@
         make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
         make.right.equalTo(btn);
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
-    }];
+    }];//*/
     //游客模式
     font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
     btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -321,36 +324,15 @@
 }
 
 - (void)loginTouchEvent {
-    /*
-#if DEBUG
-    //*whether exist callback
-    void(^callbackExcute)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
-    if (callbackExcute) {
-        callbackExcute();
-        return;
-    }
-    //
-    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
     
-    return;
-#endif
     //check mobile
     NSString *mobile = self.inputMobile.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
         [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
         return;
     }
-    //*/
-    
-    
     //assemble pb file
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
-    //check mobile
-    NSString *mobile = self.inputMobile.text;
-    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
-        return;
-    }
     [pb setLoginName:mobile];
     //登录方式
     BOOL whetherPwdSignInMode = !self.modeChangeBtn.selected;
@@ -376,25 +358,59 @@
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
     weakify(self)
-    [vm postData:pbdata cmdCode:SESSION_POST operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
         if (err) {
             [self handleTransitionError:err];
         } else {
+            [MEUserVM saveUser:user];
             [self.appDelegate updateCurrentSignedInUser:user];
-            PBMAINDelay(ME_ANIMATION_DURATION, ^{
-                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
-            });
+            //登录成功之后的操作
+            void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
+            if (signInCallback) {
+                signInCallback();
+            } else {
+                PBMAINDelay(ME_ANIMATION_DURATION, ^{
+                    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+                });
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
         [self handleTransitionError:error];
     }];
-    
 }
 
-
+/**
+ 发送验证码
+ */
+- (void)sendSignInVerifyCodeEvent {
+    //check mobile
+    NSString *mobile = self.inputMobile.text;
+    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        return;
+    }
+    //assemble pb file
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+#if DEBUG
+    [pb setLoginName:@"13023622337"];
+#else
+    [pb setLoginName:mobile];
+#endif
+    //goto signin
+    MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
+    NSData *pbdata = [pb data];
+    weakify(self)
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+        //strongify(self)
+        [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
+}
 
 - (void)browserEvent {
     [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];

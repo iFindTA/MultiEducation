@@ -68,6 +68,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)handleTransitionError:(NSError *_Nullable)error;
 
+/**
+ handle success
+ */
+- (void)showSuccessHUD:(NSString *)hudString;
+
 @end
 
 NS_ASSUME_NONNULL_END

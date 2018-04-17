@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEKits.h"
 #import "MECmdCodes.h"
 #import "MEReqCodes.h"
 #import "Mecarrier.pbobjc.h"
@@ -17,7 +18,17 @@
 /**
  命令版本号 默认 1
  */
-- (NSString *)cmdVersion;
+- (NSString * _Nonnull)cmdVersion;
+
+/**
+ cmd code 参考：MECmdCodes.h 文件
+ */
+- (NSString * _Nullable)cmdCode;
+
+/**
+ req code 参考：MEReqCodes.h 文件
+ */
+- (NSString * _Nullable)operationCode;
 
 /**
  角色
@@ -42,12 +53,10 @@
  fetch or sync data with remote process
 
  @param data real pb-data
- @param cmdCode for cmd
- @param opCode for operation
  @param hud whether show or not
  @param success callback
  @param failure callback
  */
-- (void)postData:(NSData * _Nonnull)data cmdCode:(NSString * _Nullable)cmdCode operationCode:(NSString * _Nullable)opCode hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+- (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
 @end

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message MEPBVideo {
+	int64 id = 1;//视频id
+	int64 gradeId = 2;//班级id
+	int32 semester = 3;//
+	int64 topicId = 5;主题id
+	int64 typeId = 5;//类型id
+	string title = 6;//标题
+	string coverImg = 7;//图片
+	string videoPath = 8;//视频url
+	string desc = 9;//视频描述
+	repeated MEPBVideo relevantList = 10;//相关视频列表
+}
+
+message MEPBVideoList {
+	repeated MEPBVideo courseVideo = 1;//课程视频列表
+}
