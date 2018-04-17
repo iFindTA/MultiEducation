@@ -35,7 +35,7 @@ static MEQiniuUtils *qnUtils;
 - (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token keys:(NSMutableArray *)keys {
     UIImage *image = images[index];
     __block NSInteger imageIndex = index;
-    float uploadLimit = [[MEKits limitUpload] floatValue];
+    float uploadLimit = 0;
     NSData *data = UIImagePNGRepresentation([MEKits compressImage: image toByte: uploadLimit]);
     NSString *filename = [NSString stringWithFormat:@"%@.jpg", [data md5String]];
     __weak typeof(self) weakSelf = self;
