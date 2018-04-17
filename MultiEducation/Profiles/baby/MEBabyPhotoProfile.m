@@ -64,6 +64,8 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     self.sj_fadeAreaViews = @[self.scrollView];
     
+    [self addTest];
+    
     [self customNavigation];
     
     [self layoutView];
@@ -132,16 +134,32 @@ static CGFloat const ITEM_LEADING = 10.f;
     
 }
 
-- (void)addTestPhtoSelctedStatus {
+- (void)addTest {
     for (int i = 0; i< 10; i++) {
         NSNumber *status = [NSNumber numberWithBool: NO];
-        [_selectedStatusArr addObject: status];
+        [self.selectedStatusArr addObject: status];
     }
+    
+    NSString *urlStr = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523940434362&di=eacdf369b05055d3c0f5acb38fabfc86&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F8601a18b87d6277f0d5c7a0a2e381f30e924fcb2.jpg";
+    NSURL *url = [NSURL URLWithString: urlStr];
+    for (int i = 0; i < 10; i++) {
+        MWPhoto *photo = [MWPhoto photoWithURL: url];
+        [self.photos addObject: photo];
+    }
+}
+
+- (NSArray *)selectedForUploadingPhotos {
+    NSMutableArray *selectedPhotos = [NSMutableArray array];
+    for (int i = 0; i < self.photos.count; i++) {
+        if ([[self.selectedStatusArr objectAtIndex: i] boolValue]) {
+            [selectedPhotos addObject: [self.photos objectAtIndex: i]];
+        }
+    }
+    return selectedPhotos;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 #pragma mark - MWPhotoBrowser
@@ -151,7 +169,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     } else {
         
     }
-    return 10;
+    return self.photos.count;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
@@ -162,13 +180,11 @@ static CGFloat const ITEM_LEADING = 10.f;
         
     }
     
-    MWPhoto *photo = [MWPhoto photoWithImage: [UIImage imageNamed: @"baby_content_photo"]];
-    return photo;
+    return [self.photos objectAtIndex: index];
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    MWPhoto *photo = [MWPhoto photoWithImage: [UIImage imageNamed: @"baby_content_photo"]];
-    return photo;
+    return [self.photos objectAtIndex: index];
 }
 
 - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
@@ -190,9 +206,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if ([collectionView isEqual: self.photoView]) {
-        return 10;
+        return self.photos.count;
     } else {
-        return 5;
+        return self.photos.count;
     }
 }
 
@@ -349,6 +365,17 @@ static CGFloat const ITEM_LEADING = 10.f;
     if (!_photoSelectBrowser) {
         //初始化
         _photoSelectBrowser = [[MEPhotoSelectProfile alloc] initWithDelegate: self];
+        
+        __weak typeof(self) weakSelf = self;
+        _photoSelectBrowser.uploadImagesHandler = ^{
+            
+            NSDictionary *params = @{@"images": [weakSelf selectedForUploadingPhotos]};
+            
+            NSString *urlString = @"profile://root@MEPhotoProgressProfile/";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
+            [weakSelf handleTransitionError: err];
+        };
+        
         //set options
         [_photoSelectBrowser setCurrentPhotoIndex:0];
         _photoSelectBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
@@ -381,7 +408,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (NSMutableArray *)selectedStatusArr {
     if (!_selectedStatusArr) {
         _selectedStatusArr = [NSMutableArray array];
-        [self addTestPhtoSelctedStatus];
     }
     return _selectedStatusArr;
 }

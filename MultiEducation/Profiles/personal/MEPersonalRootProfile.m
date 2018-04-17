@@ -7,7 +7,6 @@
 //
 
 #import "MEPersonalRootProfile.h"
-#import "MEGrowRecordProfile.h"
 #import "MEPersonalHeader.h"
 #import "MEHistoryVideo.h"
 #import "MEPersonalSectionHeader.h"

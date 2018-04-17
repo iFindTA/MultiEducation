@@ -12,8 +12,6 @@
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 44.f;
 
-static double const MAX_IMAGE_LENGTH = 2 * 1024 * 1024; //压缩图片 <= 2MB
-
 @interface MEPhotoProgressProfile () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -24,9 +22,10 @@ static double const MAX_IMAGE_LENGTH = 2 * 1024 * 1024; //压缩图片 <= 2MB
 
 @implementation MEPhotoProgressProfile
 
-- (instancetype)initWithImages:(NSArray *)images {
-    if (self = [super init]) {
-        self.images = [NSMutableArray arrayWithArray: images];
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        _images = [params objectForKey: @"images"];
     }
     return self;
 }
@@ -50,34 +49,9 @@ static double const MAX_IMAGE_LENGTH = 2 * 1024 * 1024; //压缩图片 <= 2MB
     // Dispose of any resources that can be recreated.
 }
 
--(void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token uploadManager:(QNUploadManager *)uploadManager keys:(NSMutableArray *)keys{
-    UIImage *image = images[index];
-    __block NSInteger imageIndex = index;
-    NSData *data = UIImagePNGRepresentation([MEKits compressImage: image toByte: MAX_IMAGE_LENGTH]);
-    NSTimeInterval time= [[NSDate new] timeIntervalSince1970];
-    NSString *filename = [NSString stringWithFormat:@"%@_%ld_%.f.%@",@"status",686734963504054272,time,@"jpg"];
-    [uploadManager putData:data key:filename token:token
-                  complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-                      if (info.isOK) {
-                          [keys addObject:key];
-                          NSLog(@"idInex %ld,OK",index);
-                          imageIndex++;
-                          if (imageIndex >= images.count) {
-                              NSLog(@"上传完成");
-                              for (NSString *imgKey in keys) {
-                                  NSLog(@"%@",imgKey);
-                              }
-                              return ;
-                          }
-                          [self uploadImages:images atIndex:imageIndex token:token uploadManager:uploadManager keys:keys];
-                      }
-                      
-                  } option:nil];
-}
-
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _images.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
