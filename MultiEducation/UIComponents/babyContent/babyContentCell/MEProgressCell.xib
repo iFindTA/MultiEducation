@@ -56,6 +56,11 @@
                     <constraint firstItem="cJf-Xp-R4B" firstAttribute="leading" secondItem="MTo-dY-QYq" secondAttribute="leading" id="mWb-tX-zDa"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="image" destination="RFN-nD-D6z" id="QlR-YC-Rhq"/>
+                <outlet property="nameLabel" destination="MTo-dY-QYq" id="DCU-Ws-jeO"/>
+                <outlet property="progress" destination="cJf-Xp-R4B" id="0be-yq-p5H"/>
+            </connections>
             <point key="canvasLocation" x="40.5" y="45"/>
         </tableViewCell>
     </objects>

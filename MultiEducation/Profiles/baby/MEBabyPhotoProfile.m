@@ -27,7 +27,6 @@ static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
-
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate>
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
@@ -44,7 +43,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
 @property (nonatomic, strong) MEPhotoSelectProfile *photoSelectBrowser;
-
 
 @end
 
@@ -124,7 +122,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
     [self.timeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.scrollContent);
-        make.left.mas_equalTo(self.photoView.mas_right).mas_offset(ITEM_LEADING * 2);
+    make.left.mas_equalTo(self.photoView.mas_right).mas_offset(ITEM_LEADING * 2);
         make.width.mas_equalTo(MESCREEN_WIDTH - 2 * ITEM_LEADING);
         make.height.mas_equalTo(height);
     }];
@@ -137,13 +135,13 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (void)addTest {
     BOOL isSelect = NO;
-    NSString *urlStr = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523940434362&di=eacdf369b05055d3c0f5acb38fabfc86&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F8601a18b87d6277f0d5c7a0a2e381f30e924fcb2.jpg";
+    NSString *urlStr = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523954495226&di=e9c5f86401052e2ba36dd3efca88e5c1&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201402%2F21%2F120044k1dgtgc4dg2dm5tw.jpg";
     NSURL *url = [NSURL URLWithString: urlStr];
     MWPhoto *mwPhoto = [MWPhoto photoWithURL: url];
     
     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: url]];
 
-    for (int i = 0; i< 10; i++) {
+    for (int i = 0; i< 30; i++) {
         
         MEPhoto *photo = [[MEPhoto alloc] init];
         photo.isSelect = isSelect;

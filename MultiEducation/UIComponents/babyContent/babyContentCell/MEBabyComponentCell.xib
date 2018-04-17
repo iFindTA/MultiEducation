@@ -22,11 +22,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="175" height="82"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9YK-YG-bx5" customClass="MEBaseLabel">
-                                <rect key="frame" x="14" y="38" width="80" height="20"/>
+                                <rect key="frame" x="14" y="38" width="90" height="35"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="CSu-cH-zUE"/>
-                                    <constraint firstAttribute="height" constant="20" id="FBj-JA-pUg"/>
+                                    <constraint firstAttribute="width" constant="90" id="CSu-cH-zUE"/>
+                                    <constraint firstAttribute="height" constant="35" id="FBj-JA-pUg"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
@@ -35,6 +35,9 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="subtitle"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                         <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="numberOfLines">
+                                        <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -93,7 +96,7 @@
                 <outlet property="subtitleLabel" destination="9YK-YG-bx5" id="AQQ-Zc-ofx"/>
                 <outlet property="titleLabel" destination="4Zg-lZ-jai" id="oC2-LR-SWa"/>
             </connections>
-            <point key="canvasLocation" x="-215" y="164"/>
+            <point key="canvasLocation" x="84" y="155"/>
         </collectionViewCell>
     </objects>
 </document>
