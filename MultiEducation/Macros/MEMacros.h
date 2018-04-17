@@ -9,12 +9,17 @@
 #ifndef MEMacros_h
 #define MEMacros_h
 
-#define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
-
 #if DEBUG
 #define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
+#define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
+#define ME_RONGIM_APPKEY                                                @"c9kqb3rdcoywj"
+#define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
 #define ME_APP_BASE_HOST                                                @"http://192.168.1.199"
+#define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
+#define ME_RONGIM_APPKEY                                                @"6tnym1br64577"
+#define ME_AMAP_APPKEY                                                  @"6507a4c9c1d533612e9ec728ffa0a4b1"
+
 #endif
 
 #define UIColorFromRGB(rgbValue) [UIColor \
@@ -60,7 +65,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))
 
-#define ME_DISPATCH_KEY_CALLBACK                                            @"ME_DISPATCH_KEY_CALLBACK"
+#define ME_DISPATCH_KEY_CALLBEFORE                                          @"ME_DISPATCH_KEY_CALLBEFORE"//登录前执行
+#define ME_DISPATCH_KEY_CALLBACK                                            @"ME_DISPATCH_KEY_CALLBACK"//登录后执行
 //tabbar item image size
 #define ME_TABBAR_ITEM_IMAGE_SIZE                                           30.f
 

@@ -16,6 +16,7 @@
 @interface MESignInProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
+@property (nonatomic, assign) BOOL whetherDidExcuteBlockBefore;
 
 /**
  mobile & pwd
@@ -38,7 +39,7 @@
 
 @implementation MESignInProfile
 
-- (id)__initCallback:(void(^)())block {
+- (id)__initCallback:(void(^)(void))block {
     self = [super init];
     if (self) {
         if (block) {
@@ -298,6 +299,7 @@
     [super viewWillAppear:animated];
     //[self setNeedsStatusBarAppearanceUpdate];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [self runCallbackBeforeSignin];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -414,6 +416,16 @@
 
 - (void)browserEvent {
     [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
+}
+
+- (void)runCallbackBeforeSignin {
+    if (!self.whetherDidExcuteBlockBefore) {
+        void(^callBefore)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBEFORE];
+        if (callBefore) {
+            callBefore();
+            self.whetherDidExcuteBlockBefore = true;
+        }
+    }
 }
 
 /*
