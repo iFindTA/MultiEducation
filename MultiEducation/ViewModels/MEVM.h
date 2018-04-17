@@ -57,6 +57,6 @@
  @param success callback
  @param failure callback
  */
-- (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+- (void)postData:(NSData * _Nonnull)data cmdCode:(NSString *_Nullable)cmdCode operationCode:(NSString *_Nullable)reqCode hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
 @end
