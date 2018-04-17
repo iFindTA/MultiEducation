@@ -14,6 +14,15 @@
  */
 @interface MEKits : NSObject
 
+/**
+ uuid
+ */
++ (NSString *)createUUID;
+
+
+/**
+ sandbox path
+ */
 + (NSString *)sandboxPath;
 
 /**

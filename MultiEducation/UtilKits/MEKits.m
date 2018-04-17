@@ -11,6 +11,12 @@
 
 @implementation MEKits
 
++ (NSString *)createUUID {
+    CFUUIDRef udid = CFUUIDCreate(NULL);
+    NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
+    return udidString;
+}
+
 + (NSString *)sandboxPath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
     NSString *documentPath = paths.firstObject;
