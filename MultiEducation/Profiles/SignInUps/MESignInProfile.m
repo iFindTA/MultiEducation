@@ -397,7 +397,7 @@
     //assemble pb file
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
 #if DEBUG
-    [pb setLoginName:@"13023622337"];
+    [pb setLoginName:@"2"];
 #else
     [pb setLoginName:mobile];
 #endif
