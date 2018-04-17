@@ -22,6 +22,7 @@
     return [[self alloc] initWithPb: qnPb];
 }
 
+
 - (instancetype)initWithPb:(MEPBQNFile *)pb {
     self = [super init];
     if (self) {
