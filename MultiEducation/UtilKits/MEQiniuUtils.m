@@ -10,7 +10,6 @@
 #import <YYKit.h>
 #import "MEKits.h"
 
-static double const MAX_IMAGE_LENGTH = 20 * 1024 * 1024; //压缩图片 <= 2MB
 static QNUploadManager *qnUploadManager;
 static MEQiniuUtils *qnUtils;
 
@@ -36,12 +35,12 @@ static MEQiniuUtils *qnUtils;
 - (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token keys:(NSMutableArray *)keys {
     UIImage *image = images[index];
     __block NSInteger imageIndex = index;
-    NSData *data = UIImagePNGRepresentation([MEKits compressImage: image toByte: MAX_IMAGE_LENGTH]);
+    float uploadLimit = [[MEKits limitUpload] floatValue];
+    NSData *data = UIImagePNGRepresentation([MEKits compressImage: image toByte: uploadLimit]);
     NSString *filename = [NSString stringWithFormat:@"%@.jpg", [data md5String]];
     __weak typeof(self) weakSelf = self;
     [qnUploadManager putData:data key:filename token:token
                   complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-                      
                       _index = index;
                       if (info.isOK) {
                           if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:index:)]) {

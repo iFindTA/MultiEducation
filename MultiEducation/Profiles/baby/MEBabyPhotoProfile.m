@@ -11,6 +11,7 @@
 #import <MWPhotoBrowser.h>
 #import "MEPhotoSelectProfile.h"
 #import "MEPhoto.h"
+#import <Photos/Photos.h>
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -43,6 +44,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
 @property (nonatomic, strong) MEPhotoSelectProfile *photoSelectBrowser;
+@property (nonatomic, strong) NSMutableArray <MEPhoto *> *sysPhotos;  //手机相册里的图片
 
 @end
 
@@ -68,6 +70,8 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self customNavigation];
     
     [self layoutView];
+    
+    [self getOriginalImages];
 }
 
 - (void)customNavigation {
@@ -78,6 +82,55 @@ static CGFloat const ITEM_LEADING = 10.f;
     item.leftBarButtonItems = @[spacer, backItem];
     item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStyleDone target: self action: @selector(uploadTouchEvent)];
     [self.navigationBar pushNavigationItem:item animated:true];
+}
+
+- (void)getOriginalImages {
+    // 获得所有的自定义相簿
+    PHFetchResult<PHAssetCollection *> *assetCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    // 遍历所有的自定义相簿
+    for (PHAssetCollection *assetCollection in assetCollections) {
+        [self enumerateAssetsInAssetCollection:assetCollection original:YES];
+    }
+    
+    // 获得相机胶卷
+    PHAssetCollection *cameraRoll = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
+    // 遍历相机胶卷,获取大图
+    [self enumerateAssetsInAssetCollection:cameraRoll original:YES];
+}
+
+/**
+ *  遍历相簿中的所有图片
+ *  @param assetCollection 相簿
+ *  @param original        是否要原图
+ */
+- (void)enumerateAssetsInAssetCollection:(PHAssetCollection *)assetCollection original:(BOOL)original {
+    NSLog(@"相簿名:%@", assetCollection.localizedTitle);
+    
+    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+    // 同步获得图片, 只会返回1张图片
+    options.synchronous = YES;
+    
+    // 获得某个相簿中的所有PHAsset对象
+    PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
+    for (PHAsset *asset in assets) {
+        // 是否要原图
+        CGSize size = original ? CGSizeMake(asset.pixelWidth, asset.pixelHeight) : CGSizeZero;
+        
+        // 从asset中获得图片
+        weakify(self);
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            strongify(self);
+            
+            MWPhoto *mwPhoto = [MWPhoto photoWithImage: result];
+            
+            MEPhoto *photo = [[MEPhoto alloc] init];
+            photo.image = result;
+            photo.isSelect = NO;
+            photo.photo = mwPhoto;
+            
+            [self.sysPhotos addObject: photo];
+        }];
+    }
 }
 
 - (void)uploadTouchEvent {
@@ -130,7 +183,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self.scrollContent mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(2 * MESCREEN_WIDTH);
     }];
-    
 }
 
 - (void)addTest {
@@ -142,7 +194,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: url]];
 
     for (int i = 0; i< 30; i++) {
-        
         MEPhoto *photo = [[MEPhoto alloc] init];
         photo.isSelect = isSelect;
         photo.urlStr = urlStr;
@@ -156,9 +207,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (NSArray <MEPhoto *> *)selectedForUploadingPhotos {
     NSMutableArray *selectedPhotos = [NSMutableArray array];
     
-    for (int i = 0; i < self.photos.count; i++) {
-        if ([self.photos objectAtIndex: i].isSelect) {
-            [selectedPhotos addObject: [self.photos objectAtIndex: i]];
+    for (int i = 0; i < self.sysPhotos.count; i++) {
+        if ([self.sysPhotos objectAtIndex: i].isSelect) {
+            [selectedPhotos addObject: [self.sysPhotos objectAtIndex: i]];
         }
     }
     return selectedPhotos;
@@ -171,34 +222,34 @@ static CGFloat const ITEM_LEADING = 10.f;
 #pragma mark - MWPhotoBrowser
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
     if (photoBrowser == self.photoBrowser) {
-        
+        return self.photos.count;
     } else {
-        
+        return self.sysPhotos.count;
     }
-    return self.photos.count;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    
     if (photoBrowser == self.photoBrowser) {
-        
+        return [self.photos objectAtIndex: index].photo;
     } else {
-        
+        return [self.sysPhotos objectAtIndex: index].photo;
     }
-    
-    return [self.photos objectAtIndex: index].photo;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    return [self.photos objectAtIndex: index].photo;
+    if (photoBrowser == self.photoBrowser) {
+        return [self.photos objectAtIndex: index].photo;
+    } else {
+        return [self.sysPhotos objectAtIndex: index].photo;
+    }
 }
 
 - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
-    return [self.photos objectAtIndex: index].isSelect;
+        return [self.sysPhotos objectAtIndex: index].isSelect;
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
-    [self.photos objectAtIndex: index].isSelect = selected;
+    [self.sysPhotos objectAtIndex: index].isSelect = selected;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -409,6 +460,13 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineArr = [NSMutableArray array];
     }
     return _timeLineArr;
+}
+
+- (NSMutableArray<MEPhoto *> *)sysPhotos {
+    if (!_sysPhotos) {
+        _sysPhotos = [NSMutableArray array];
+    }
+    return _sysPhotos;
 }
 
 @end

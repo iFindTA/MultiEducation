@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message MEPBQNFile {
+    string fileIdStr = 1;
+    string fileMd5Str = 2;
+}

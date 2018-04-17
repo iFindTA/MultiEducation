@@ -40,4 +40,5 @@
  */
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength;
 
+
 @end

@@ -10,6 +10,8 @@
 #import "MEQiniuUtils.h"
 #import "MEPhoto.h"
 #import "MEProgressCell.h"
+#import "MEQNUploadVM.h"
+#import "Meqnfile.pbobjc.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 60.f;
@@ -18,9 +20,15 @@ static CGFloat const ROW_HEIGHT = 60.f;
     NSInteger _failCount;
 }
 
+@property (nonatomic, strong) NSMutableString *fileName;
+
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray <MEPhoto *> *images;   //user choosed images for uploading
 @property (nonatomic, strong) MEQiniuUtils *qnUtils;
+
+@property (nonatomic, strong) MEPBQNFile *qnPb;
+@property (nonatomic, strong) MEQNUploadVM *qnVM;
+
 
 @end
 
@@ -88,6 +96,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UploadImagesCallBack
 - (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp index:(NSInteger)index {
+    
     [_images removeObjectAtIndex: _failCount];
     [self.tableView reloadData];
 }
@@ -121,6 +130,13 @@ static CGFloat const ROW_HEIGHT = 60.f;
         _qnUtils.delegate = self;
     }
     return _qnUtils;
+}
+
+- (MEPBQNFile *)qnPb {
+    if (!_qnPb) {
+        _qnPb = [[MEPBQNFile alloc] init];
+    }
+    return _qnPb;
 }
 
 @end

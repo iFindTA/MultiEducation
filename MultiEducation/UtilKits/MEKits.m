@@ -8,6 +8,8 @@
 
 #import "MEKits.h"
 #import <sys/stat.h>
+#import "AppDelegate.h"
+#import "Meuser.pbobjc.h"
 
 @implementation MEKits
 

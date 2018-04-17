@@ -65,6 +65,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))
 
+#define LIMIT_UPLOAD_KEY @"limit_upload_key"
+
 #define ME_DISPATCH_KEY_CALLBEFORE                                          @"ME_DISPATCH_KEY_CALLBEFORE"//登录前执行
 #define ME_DISPATCH_KEY_CALLBACK                                            @"ME_DISPATCH_KEY_CALLBACK"//登录后执行
 //tabbar item image size
