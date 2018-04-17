@@ -7,7 +7,18 @@
 //
 
 #import "MEBaseCell.h"
+#import "MEPhoto.h"
 
 @interface MEProgressCell : MEBaseCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *image;
+
+@property (weak, nonatomic) IBOutlet MEBaseLabel *nameLabel;
+
+@property (weak, nonatomic) IBOutlet UIProgressView *progress;
+
+- (void)setData:(MEPhoto *)photo;
+
+- (void)setProg:(float)prog;
 
 @end

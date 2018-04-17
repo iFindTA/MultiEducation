@@ -9,18 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <QiniuSDK.h>
 
-typedef void(^UploadImageSuccCallBack)(QNResponseInfo *info, NSString *key, NSDictionary *resp);
+@protocol UploadImagesCallBack <NSObject>
 
-typedef void(^UploadImageOptionHandler)(NSString *key, float percent);
+- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp index:(NSInteger)index;
+
+- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp index:(NSInteger)index;
+
+- (void)uploadImageProgress:(NSString *)key percent:(float)percent index:(NSInteger)index;
+
+@end
 
 @interface MEQiniuUtils : NSObject
 
-@property (nonatomic, copy) UploadImageSuccCallBack uploadImageSuccCallBack;
+@property (nonatomic, weak) id<UploadImagesCallBack> delegate;
 
-@property (nonatomic, copy) UploadImageOptionHandler uploadImageOptionHandler;
++ (instancetype)sharedQNUploadUtils;
 
-+ (instancetype)sharedQNUploadManager;
-
-- (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token uploadManager:(QNUploadManager *)uploadManager keys:(NSMutableArray *)keys;
+- (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token keys:(NSMutableArray *)keys;
 
 @end
