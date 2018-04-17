@@ -42,7 +42,11 @@
     //create user
     //init root navigation profile
     //BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
-    self.curUser = [MEUserVM fetchLatestSignedInUser];
+    NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL whetherDidSignout = [usrDefaults boolForKey:ME_USER_DID_INITIATIVE_LOGOUT];
+    if (!whetherDidSignout) {
+        self.curUser = [MEUserVM fetchLatestSignedInUser];
+    }
     UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:(self.curUser!=nil)?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];
@@ -56,7 +60,12 @@
     [IQKeyboardManager sharedManager].enable = true;
     //for umeng
     UMConfigInstance.appKey = ME_UMENG_APPKEY;
-    [MobClick startWithConfigure:UMConfigInstance];//配置以上参数后调用此方法初始化SDK！
+    [MobClick startWithConfigure:UMConfigInstance];
+    //for chinese-policy
+    [PBService configBaseURL:ME_APP_BASE_HOST];
+    [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
+        
+    }];
 
     return YES;
 }

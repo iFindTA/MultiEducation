@@ -16,6 +16,11 @@
 @interface MEVM : NSObject
 
 /**
+ session token
+ */
+@property (nonatomic, copy, readonly) NSString *sessionToken;
+
+/**
  命令版本号 默认 1
  */
 - (NSString * _Nonnull)cmdVersion;
@@ -34,8 +39,6 @@
  角色
  */
 @property (nonatomic, assign) MEUserRole userRole;
-
-
 
 /**
  fetch token for current valid user

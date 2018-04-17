@@ -7,7 +7,15 @@
 //
 
 #import "MEVM.h"
+#import "AppDelegate.h"
+#import "Meuser.pbobjc.h"
 #import <PBService/PBService.h>
+
+@interface MEVM ()
+
+@property (nonatomic, copy, readwrite) NSString *sessionToken;
+
+@end
 
 @implementation MEVM
 
@@ -25,6 +33,11 @@
     return data;
 }
 
+- (AppDelegate *)app {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    return app;
+}
+
 - (void)postData:(NSData *)data cmdCode:(NSString *_Nullable)cmdCode operationCode:(NSString *_Nullable)reqCode hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
     
     
@@ -34,6 +47,11 @@
      */
 //    NSString *uuidToken = [MEVM createUUID];
 //    [carrier setToken:uuidToken];
+    /**
+     * sessionToken
+     */
+    NSString *sessionToken = self.app.curUser.token;
+    [carrier setSessionToken:sessionToken];
     /**
      *  cmdCode
      */
@@ -52,7 +70,9 @@
      *  real binary data
      */
     [carrier setSource:data];
-    //cmd version
+    /**
+     *  cmd version
+     */
     NSString *cmdVersion = [self cmdVersion];
     [carrier setCmdVersion:cmdVersion];
     
@@ -64,6 +84,9 @@
                 NSError *err;
                 MECarrierPB *responseCarrier = [MECarrierPB parseFromData:responseData error:&err];
                 if ([responseCarrier.respCode isEqualToString:@"SUCCESS"]) {
+                    if (responseCarrier.sessionToken.length > 0) {
+                        self.sessionToken = responseCarrier.sessionToken;
+                    }
                     if (success) {
                         success((responseCarrier.source));
                     }

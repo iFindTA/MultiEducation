@@ -284,11 +284,6 @@
     self.inputMobile.text = @"18751732219";
     self.inputPwd.text = @"123456";
 #endif
-    
-    [PBService configBaseURL:ME_APP_BASE_HOST];
-    [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
-        
-    }];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -366,6 +361,8 @@
         if (err) {
             [self handleTransitionError:err];
         } else {
+            //设置用户会话session
+            [user setToken:vm.sessionToken];
             [MEUserVM saveUser:user];
             [self.appDelegate updateCurrentSignedInUser:user];
             //登录成功之后的操作
