@@ -159,4 +159,10 @@
     }
 }
 
+- (void)showSuccessHUD:(NSString *)hudString {
+    if (hudString.length) {
+        [SVProgressHUD showSuccessWithStatus:hudString];
+    }
+}
+
 @end
