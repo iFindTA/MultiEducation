@@ -1,30 +1,32 @@
 syntax = "proto3";
 
-message MEPBVideo {
-	int64 id = 1;//视频id
-	int64 gradeId = 2;//年级id
-	int32 semester = 3;//学期
-	int64 topicId = 5;主题id
-	int64 typeId = 5;//类型id
-	string title = 6;//标题
-	string coverImg = 7;//图片
-	string videoPath = 8;//视频url
-	string desc = 9;//视频描述
-	repeated MEPBVideo relevantList = 10;//相关视频列表
+message MEPBCourseVideoListPb {
+    repeated MEPBCourseVideo courseVideoPb = 1;
 }
 
-message MEPBVideoList {
-	repeated MEPBVideo courseVideo = 1;//课程视频列表
+message MEPBCourseVideo {
+     int64 id = 1;//视频ID
+     int64 gradeId = 2;//年级
+     int32 semester = 3;//学期
+     int64 topicId = 4;//主题ID
+     int64 typeId = 5;//类型ID
+     string title = 6;//标题
+     string coverImg = 7;//封面图片
+     string videoPath = 8;//视频地址
+     string desc = 9;//视频描述
+     repeated MEPBCourseVideoLabel courseVideoLabelPb=11;//视频标签
 }
 
-message MEPBVideoClass {
-	int64 id = 1;//分类ID
-	string catName = 2;//分类名称
-	string iconPath = 3;//分类icon
-	repeated MEPBVideo courseVideoPb = 4;//视频课程
+
+
+message MEPBCourseVideoClass {
+     int64 id = 1;//类型ID
+     string catName = 2;//类别名称
+     string iconPath = 3;//类别icon
+     repeated MEPBCourseVideo courseVideoPb=4;//类别视频列表 nullable
 }
 
-message MEPBVideoLabel {
-	int64 id = 1;//标签ID
-	string title = 2;//标签标题
+message MEPBCourseVideoLabel {
+     int64 id = 1;//标签ID
+     string title = 2;//标签名称
 }

@@ -2,4 +2,15 @@ syntax = "proto3";
 
 import "MEVideo.proto";
 
-message MEPBIndex
+message MEPBIndexItem {
+	repeated MEPBCourseVideo topList = 1;//首页轮播视频
+	repeated MEPBCourseVideoClass courseVideoCatPb = 2;//子分类
+	repeated MEPBCourseVideoClass recommendCat = 3;//推荐列表
+}
+
+message MEPBIndexClass {
+	MEPBIndexItem  indexOnePb=1; //首页tab1
+   	MEPBIndexItem  indexTwoPb=2; //首页tab2
+   	MEPBIndexItem  indexThreePb=3; //首页tab3
+   	MEPBIndexItem  indexFourPb=4; //首页tab4
+}

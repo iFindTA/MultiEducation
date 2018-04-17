@@ -69,6 +69,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define ME_DISPATCH_KEY_CALLBEFORE                                          @"ME_DISPATCH_KEY_CALLBEFORE"//登录前执行
 #define ME_DISPATCH_KEY_CALLBACK                                            @"ME_DISPATCH_KEY_CALLBACK"//登录后执行
+#define ME_USER_DID_INITIATIVE_LOGOUT                                       @"ME_USER_DID_INITIATIVE_LOGOUT"//用户是否主动登出
+
 //tabbar item image size
 #define ME_TABBAR_ITEM_IMAGE_SIZE                                           30.f
 

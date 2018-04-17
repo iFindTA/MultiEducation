@@ -6,6 +6,7 @@
 //  Copyright © 2018年 laborc. All rights reserved.
 //
 
+#import "MEIndexVM.h"
 #import "MEIndexRootProfile.h"
 #import "MEIndexHeader.h"
 #import "MEIndexSearchBar.h"
@@ -146,7 +147,20 @@
 }
 
 - (void)didTouchVisitorHistory4indexHeader:(MEIndexHeader *)header {
-    
+    MEIndexVM *vm = [[MEIndexVM alloc] init];
+    weakify(self)
+    [vm postData:[NSData data] cmdCode:nil operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBIndexClass *classes = [MEPBIndexClass parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            NSLog(@"index:%@", classes.indexOnePb);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
 }
 
 - (void)indexHeader:(MEIndexHeader *)header didTouchNavigationPage:(NSUInteger)page {
