@@ -8,6 +8,7 @@
 
 #import "MEVM.h"
 #import "AppDelegate.h"
+#import <sys/utsname.h>
 #import "Meuser.pbobjc.h"
 #import <PBService/PBService.h>
 
@@ -29,6 +30,27 @@
 
 + (NSData *)assembleRequestWithData:(NSData *)data {
     return data;
+}
+
++ (MEPBPhoneInfo *)getDeviceInfo {
+    
+    NSDictionary *dicInfo = [[NSBundle mainBundle] infoDictionary];
+    NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    NSString *subscruberId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *model =  [NSString stringWithCString:systemInfo.machine
+                                          encoding:NSUTF8StringEncoding];
+    NSString *appVersion = [dicInfo objectForKey:@"CFBundleShortVersionString"];
+    NSString *osVersion = [[UIDevice currentDevice] systemVersion];
+    MEPBPhoneInfo *info = [[MEPBPhoneInfo alloc] init];
+    [info setDeviceId:deviceId];
+    [info setSubscriberId:subscruberId];
+    [info setModel:model];
+    [info setAppVersion:appVersion];
+    [info setOsVersion:osVersion];
+    [info setBrand:@"iPhone"];
+    return info;
 }
 
 - (AppDelegate *)app {

@@ -253,7 +253,7 @@
         make.left.equalTo(btn);
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
     }];
-    /*register user
+    //register user
     MEBaseButton *registerBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     registerBtn.titleLabel.font = font;
     [registerBtn setTitle:@"注册账号" forState:UIControlStateNormal];
@@ -264,7 +264,7 @@
         make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
         make.right.equalTo(btn);
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
-    }];//*/
+    }];
     //游客模式
     font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
     btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -372,7 +372,7 @@
         if (err) {
             [self handleTransitionError:err];
         } else {
-            [self handleMulticastUserIddentitySwitchEvent:userList];
+            [self handleMulticastUserIdentitySwitchEvent:userList];
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
@@ -426,8 +426,8 @@
 
 #pragma mark --- 处理多用户登录身份选择
 
-- (void)handleMulticastUserIddentitySwitchEvent:(MEPBUserList*)list {
-    if (list.userListArray.count == 1) {
+- (void)handleMulticastUserIdentitySwitchEvent:(MEPBUserList*)list {
+    if (list.userListArray.count <= 1) {
         //只有一个用户登录
         MEPBUser *user = list.userListArray.firstObject;
         [MEUserVM saveUser:user];

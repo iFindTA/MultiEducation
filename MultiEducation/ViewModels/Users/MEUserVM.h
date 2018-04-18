@@ -9,7 +9,6 @@
 #import "MEVM.h"
 #import "Meuser.pbobjc.h"
 #import "MesignIn.pbobjc.h"
-#import "MephoneInfo.pbobjc.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,11 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
  save user into local db
  */
 + (BOOL)saveUser:(MEPBUser *)user;
-
-/**
- fetch device info
- */
-+ (MEPBPhoneInfo *)getDeviceInfo;
 
 /**
  getter user role

@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MERegisterVM.h"
 #import "MEVerifyCodeVM.h"
 #import "MESignUpProfile.h"
 #import "MESignInputField.h"
@@ -356,6 +357,11 @@
         return;
     }
     //TODO:// sigin-in action
+    MEPBUser *user = [[MEPBUser alloc] init];
+    [user setMobile:mobile];
+    [user setPassword:pwd];
+    //user
+    MERegisterVM *vm = [[MERegisterVM alloc] init];
     
 }
 

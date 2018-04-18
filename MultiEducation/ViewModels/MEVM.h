@@ -10,6 +10,7 @@
 #import "MECmdCodes.h"
 #import "MEReqCodes.h"
 #import "Mecarrier.pbobjc.h"
+#import "MephoneInfo.pbobjc.h"
 #import <Foundation/Foundation.h>
 #import <WHC_ModelSqliteKit/WHC_ModelSqlite.h>
 
@@ -39,6 +40,11 @@
  reqeust or response msg
  */
 @property(nonatomic, copy, nullable) NSString * msg;
+
+/**
+ fetch device info
+ */
++ (MEPBPhoneInfo * _Nonnull)getDeviceInfo;
 
 /**
  fetch token for current valid user

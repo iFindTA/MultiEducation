@@ -167,7 +167,11 @@
     
     //goto signin
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
-    [pb setLoginName:user.username];
+    NSString *name = user.username;
+    if (name.length == 0) {
+        name = user.name.copy;
+    }
+    [pb setLoginName:name];
     //apns token
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
