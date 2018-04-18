@@ -14,7 +14,7 @@
 #endif
 
  #import "Meindex.pbobjc.h"
- #import "Mevideo.pbobjc.h"
+ #import "Meres.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
 #pragma clang diagnostic push
@@ -48,14 +48,14 @@ static GPBFileDescriptor *MeindexRoot_FileDescriptor(void) {
 @implementation MEPBIndexItem
 
 @dynamic topListArray, topListArray_Count;
-@dynamic courseVideoCatPbArray, courseVideoCatPbArray_Count;
-@dynamic recommendCatArray, recommendCatArray_Count;
+@dynamic resTypeListArray, resTypeListArray_Count;
+@dynamic recommendTypeListArray, recommendTypeListArray_Count;
 
 typedef struct MEPBIndexItem__storage_ {
   uint32_t _has_storage_[1];
   NSMutableArray *topListArray;
-  NSMutableArray *courseVideoCatPbArray;
-  NSMutableArray *recommendCatArray;
+  NSMutableArray *resTypeListArray;
+  NSMutableArray *recommendTypeListArray;
 } MEPBIndexItem__storage_;
 
 // This method is threadsafe because it is initially called
@@ -66,7 +66,7 @@ typedef struct MEPBIndexItem__storage_ {
     static GPBMessageFieldDescription fields[] = {
       {
         .name = "topListArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBCourseVideo),
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBRes),
         .number = MEPBIndexItem_FieldNumber_TopListArray,
         .hasIndex = GPBNoHasBit,
         .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, topListArray),
@@ -74,20 +74,20 @@ typedef struct MEPBIndexItem__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "courseVideoCatPbArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBCourseVideoClass),
-        .number = MEPBIndexItem_FieldNumber_CourseVideoCatPbArray,
+        .name = "resTypeListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBResType),
+        .number = MEPBIndexItem_FieldNumber_ResTypeListArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, courseVideoCatPbArray),
+        .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, resTypeListArray),
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "recommendCatArray",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBCourseVideoClass),
-        .number = MEPBIndexItem_FieldNumber_RecommendCatArray,
+        .name = "recommendTypeListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBResType),
+        .number = MEPBIndexItem_FieldNumber_RecommendTypeListArray,
         .hasIndex = GPBNoHasBit,
-        .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, recommendCatArray),
+        .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, recommendTypeListArray),
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
       },
@@ -102,8 +102,8 @@ typedef struct MEPBIndexItem__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\000topList\000\002\000courseVideoCatPb\000\003\000recommen"
-        "dCat\000";
+        "\003\001\000topList\000\002\000resTypeList\000\003\000recommendType"
+        "List\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -119,9 +119,11 @@ typedef struct MEPBIndexItem__storage_ {
 @implementation MEPBIndexClass
 
 @dynamic catsArray, catsArray_Count;
+@dynamic index;
 
 typedef struct MEPBIndexClass__storage_ {
   uint32_t _has_storage_[1];
+  int32_t index;
   NSMutableArray *catsArray;
 } MEPBIndexClass__storage_;
 
@@ -139,6 +141,15 @@ typedef struct MEPBIndexClass__storage_ {
         .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, catsArray),
         .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "index",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBIndexClass_FieldNumber_Index,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, index),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =

@@ -16,11 +16,6 @@
 @property (nonatomic, copy) void(^subClassesCallback)(NSUInteger tag);
 
 /**
- 点击某个子分类的回调
- */
-@property (nonatomic, copy) void(^subcategoryCallback)(NSString *cls);
-
-/**
  类方法 子类化子分类面板
  */
 + (instancetype)subcategoryWithClasses:(NSArray *)cls;

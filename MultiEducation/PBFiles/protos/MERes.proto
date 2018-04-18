@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message MEPBRes {
+	int64 resId = 1;//资源ID
+	string title = 2;//资源标题
+	string coverImg = 3;//资源封面
+	string url = 4;//资源地址
+	int32 type = 5;//1课程视频 2 绘本音频 3科学探索
+}
+
+message MEPBResType {
+	int64 id = 1;//类型ID
+	string title = 2;//类型标题
+	string iconPath = 3;//类型图标
+	repeated MEPBRes resPb = 4;//类型相关推荐列表
+}
+
+message MEPBResList {
+	repeated MEPBRes resPb = 1;//列表类型
+}
