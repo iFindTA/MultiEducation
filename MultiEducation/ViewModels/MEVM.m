@@ -38,7 +38,7 @@
     return app;
 }
 
-- (void)postData:(NSData *)data cmdCode:(NSString *_Nullable)cmdCode operationCode:(NSString *_Nullable)reqCode hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
+- (void)postData:(NSData *)data hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
     
     
     MECarrierPB *carrier = [[MECarrierPB alloc] init];
@@ -55,17 +55,18 @@
     /**
      *  cmdCode
      */
-    if (cmdCode.length == 0) {
-        cmdCode = [self cmdCode];
-    }
+    NSString *cmdCode = [self cmdCode];
     [carrier setCmdCode:cmdCode];
     /**
      *  reqCode
      */
-    if (reqCode.length == 0) {
-        reqCode = [self operationCode];
-    }
+    NSString *reqCode = [self operationCode];
     [carrier setReqCode:reqCode];
+    /**
+     *  msg
+     */
+    NSString *msg = [self msg];
+    [carrier setMsg:msg];
     /**
      *  real binary data
      */
@@ -117,6 +118,10 @@
 }
 
 - (NSString * _Nullable)operationCode {
+    return @"";
+}
+
+- (NSString * _Nullable)msg {
     return @"";
 }
 

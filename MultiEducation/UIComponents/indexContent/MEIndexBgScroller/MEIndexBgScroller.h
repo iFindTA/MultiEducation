@@ -7,7 +7,25 @@
 //
 
 #import "MEBaseScene.h"
+#import "MEIndexNavigationBar.h"
 
 @interface MEIndexBgScroller : MEBaseScene
+
+/**
+ 类方法 init
+ 
+ @param bar 弱引用navigationBar
+ */
++ (instancetype)sceneWithSubNavigationBar:(MEIndexNavigationBar *)bar;
+
+/**
+ 切换当前类别
+ */
+- (void)changeNavigationClass4Page:(NSUInteger)page;
+
+/**
+ 默认显示默认分类
+ */
+- (void)displayDefaultClass;
 
 @end

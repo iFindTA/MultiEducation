@@ -78,33 +78,15 @@ typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
 #pragma mark - MEPBIndexClass
 
 typedef GPB_ENUM(MEPBIndexClass_FieldNumber) {
-  MEPBIndexClass_FieldNumber_IndexOnePb = 1,
-  MEPBIndexClass_FieldNumber_IndexTwoPb = 2,
-  MEPBIndexClass_FieldNumber_IndexThreePb = 3,
-  MEPBIndexClass_FieldNumber_IndexFourPb = 4,
+  MEPBIndexClass_FieldNumber_CatsArray = 1,
 };
 
 @interface MEPBIndexClass : GPBMessage
 
-/** 首页tab1 */
-@property(nonatomic, readwrite, strong, null_resettable) MEPBIndexItem *indexOnePb;
-/** Test to see if @c indexOnePb has been set. */
-@property(nonatomic, readwrite) BOOL hasIndexOnePb;
-
-/** 首页tab2 */
-@property(nonatomic, readwrite, strong, null_resettable) MEPBIndexItem *indexTwoPb;
-/** Test to see if @c indexTwoPb has been set. */
-@property(nonatomic, readwrite) BOOL hasIndexTwoPb;
-
-/** 首页tab3 */
-@property(nonatomic, readwrite, strong, null_resettable) MEPBIndexItem *indexThreePb;
-/** Test to see if @c indexThreePb has been set. */
-@property(nonatomic, readwrite) BOOL hasIndexThreePb;
-
-/** 首页tab4 */
-@property(nonatomic, readwrite, strong, null_resettable) MEPBIndexItem *indexFourPb;
-/** Test to see if @c indexFourPb has been set. */
-@property(nonatomic, readwrite) BOOL hasIndexFourPb;
+/** 类别 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBIndexItem*> *catsArray;
+/** The number of items in @c catsArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger catsArray_Count;
 
 @end
 

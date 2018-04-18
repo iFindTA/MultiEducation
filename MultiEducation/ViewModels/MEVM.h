@@ -18,27 +18,27 @@
 /**
  session token
  */
-@property (nonatomic, copy, readonly) NSString *sessionToken;
+@property (nonatomic, copy, readonly, nullable) NSString *sessionToken;
 
 /**
  命令版本号 默认 1
  */
-- (NSString * _Nonnull)cmdVersion;
+@property(nonatomic, copy, nullable) NSString * cmdVersion;
 
 /**
  cmd code 参考：MECmdCodes.h 文件
  */
-- (NSString * _Nullable)cmdCode;
+@property(nonatomic, copy, nullable) NSString * cmdCode;
 
 /**
  req code 参考：MEReqCodes.h 文件
  */
-- (NSString * _Nullable)operationCode;
+@property(nonatomic, copy, nullable) NSString * operationCode;
 
 /**
- 角色
+ reqeust or response msg
  */
-@property (nonatomic, assign) MEUserRole userRole;
+@property(nonatomic, copy, nullable) NSString * msg;
 
 /**
  fetch token for current valid user
@@ -60,6 +60,6 @@
  @param success callback
  @param failure callback
  */
-- (void)postData:(NSData * _Nonnull)data cmdCode:(NSString *_Nullable)cmdCode operationCode:(NSString *_Nullable)reqCode hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+- (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
 @end

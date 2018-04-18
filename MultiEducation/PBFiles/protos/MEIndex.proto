@@ -9,8 +9,5 @@ message MEPBIndexItem {
 }
 
 message MEPBIndexClass {
-	MEPBIndexItem  indexOnePb=1; //首页tab1
-   	MEPBIndexItem  indexTwoPb=2; //首页tab2
-   	MEPBIndexItem  indexThreePb=3; //首页tab3
-   	MEPBIndexItem  indexFourPb=4; //首页tab4
+	repeated MEPBIndexItem cats = 1;//类别
 }

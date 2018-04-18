@@ -118,17 +118,11 @@ typedef struct MEPBIndexItem__storage_ {
 
 @implementation MEPBIndexClass
 
-@dynamic hasIndexOnePb, indexOnePb;
-@dynamic hasIndexTwoPb, indexTwoPb;
-@dynamic hasIndexThreePb, indexThreePb;
-@dynamic hasIndexFourPb, indexFourPb;
+@dynamic catsArray, catsArray_Count;
 
 typedef struct MEPBIndexClass__storage_ {
   uint32_t _has_storage_[1];
-  MEPBIndexItem *indexOnePb;
-  MEPBIndexItem *indexTwoPb;
-  MEPBIndexItem *indexThreePb;
-  MEPBIndexItem *indexFourPb;
+  NSMutableArray *catsArray;
 } MEPBIndexClass__storage_;
 
 // This method is threadsafe because it is initially called
@@ -138,39 +132,12 @@ typedef struct MEPBIndexClass__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "indexOnePb",
+        .name = "catsArray",
         .dataTypeSpecific.className = GPBStringifySymbol(MEPBIndexItem),
-        .number = MEPBIndexClass_FieldNumber_IndexOnePb,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, indexOnePb),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "indexTwoPb",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBIndexItem),
-        .number = MEPBIndexClass_FieldNumber_IndexTwoPb,
-        .hasIndex = 1,
-        .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, indexTwoPb),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "indexThreePb",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBIndexItem),
-        .number = MEPBIndexClass_FieldNumber_IndexThreePb,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, indexThreePb),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
-      {
-        .name = "indexFourPb",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBIndexItem),
-        .number = MEPBIndexClass_FieldNumber_IndexFourPb,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, indexFourPb),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .number = MEPBIndexClass_FieldNumber_CatsArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(MEPBIndexClass__storage_, catsArray),
+        .flags = GPBFieldRepeated,
         .dataType = GPBDataTypeMessage,
       },
     };
@@ -182,11 +149,6 @@ typedef struct MEPBIndexClass__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(MEPBIndexClass__storage_)
                                          flags:GPBDescriptorInitializationFlag_None];
-#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
-    static const char *extraTextFormatInfo =
-        "\004\001\n\000\002\n\000\003\014\000\004\013\000";
-    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
-#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }

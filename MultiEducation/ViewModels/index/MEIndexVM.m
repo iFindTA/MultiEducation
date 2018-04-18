@@ -16,4 +16,8 @@
     return @"FSC_INDEX";
 }
 
+- (NSString *)operationCode {
+    return @"REQ_FSC_INDEX_UPDATE";
+}
+
 @end

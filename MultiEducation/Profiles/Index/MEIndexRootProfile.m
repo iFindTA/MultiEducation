@@ -8,14 +8,16 @@
 
 #import "MEIndexVM.h"
 #import "MEIndexRootProfile.h"
-#import "MEIndexHeader.h"
 #import "MEIndexSearchBar.h"
 #import "MEIndexSearchScene.h"
-#import "MEIndexClassesScene.h"
+//#import "MEIndexClassesScene.h"
 
-@interface MEIndexRootProfile () <MEIndexHeaderDelegate>
+#import "MEIndexBgScroller.h"
+#import "MEIndexNavigationBar.h"
 
-@property (nonatomic, strong) MEIndexHeader *header;
+@interface MEIndexRootProfile ()
+
+//@property (nonatomic, strong) MEIndexHeader *header;
 //搜索控件
 @property (nonatomic, strong) MEIndexSearchBar *searchBar;
 @property (nonatomic, strong) MASConstraint *headerTopConstraint;
@@ -26,8 +28,10 @@
 /**
  分类内容
  */
-@property (nonatomic, strong) MEIndexClassesScene *classesScene;
-//精选 大中小班
+
+
+@property (nonatomic, strong) MEIndexNavigationBar *indexNavigationBar;
+@property (nonatomic, strong) MEIndexBgScroller *bgScroller;
 
 @end
 
@@ -38,7 +42,8 @@
     // Do any additional setup after loading the view.
     //隐藏导航条
     [self hiddenNavigationBar];
-    //加载头部
+    
+    /*加载头部
     NSArray *nibs = [[NSBundle mainBundle] loadNibNamed:@"MEIndexHeader" owner:self options:nil];
     self.header = [nibs firstObject];
     [self.view addSubview:self.header];
@@ -53,7 +58,7 @@
         make.height.equalTo(offsetHeight);
     }];
     [self.headerTopConstraint deactivate];
-    /*搜索 工具条
+    //搜索 工具条
     CGFloat normalHeight = ME_LAYOUT_SUBBAR_HEIGHT; CGFloat activeHeight = normalHeight + ME_HEIGHT_STATUSBAR;
     nibs = [[NSBundle mainBundle] loadNibNamed:@"MEIndexSearchBar" owner:self options:nil];
     self.searchBar = nibs.firstObject;
@@ -94,7 +99,7 @@
         strongify(self)
         make.top.equalTo(self.searchBar.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
-    }];//*/
+    }];
     
     weakify(self)
     //内容呈现
@@ -120,16 +125,42 @@
         //TODO://游客模式 引导登录
         //MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     }
+    //*/
     
-}
-
-- (void)hiddenOrShowSearchBar:(UIButton *)btn {
-    btn.selected = !btn.selected;
-    
+    //code layout
+    //头部导航条 第一版先写死
+    NSArray *items = @[@"精选", @"小班", @"中班", @"大班"];
+    self.indexNavigationBar = [MEIndexNavigationBar indexNavigationBarWithTitles:items];
+    [self.view addSubview:self.indexNavigationBar];
+    [self.indexNavigationBar makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self.view);
+        make.height.equalTo(ME_HEIGHT_STATUSBAR+ME_HEIGHT_NAVIGATIONBAR);
+    }];
+    //背景滚动scroller
+    self.bgScroller = [MEIndexBgScroller sceneWithSubNavigationBar:self.indexNavigationBar];
+    [self.view addSubview:self.bgScroller];
+    [self.bgScroller makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.indexNavigationBar.mas_bottom);
+        make.left.bottom.right.equalTo(self.view);
+    }];
+    //event
+    weakify(self)
+    self.indexNavigationBar.indexNavigationBarItemCallback = ^(NSUInteger index){
+        strongify(self)
+        [self.bgScroller changeNavigationClass4Page:index];
+    };
+    self.indexNavigationBar.indexNavigationBarOtherCallback = ^(MEIndexNavigationType type){
+        strongify(self)
+        if (type & MEIndexNavigationTypeHistory) {
+            [self displayUserWarthingHistory];
+        }
+    };
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //显示默认加载
+    [self.bgScroller displayDefaultClass];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -137,34 +168,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark --- Getter-lazy
+#pragma mark --- History & Notice
 
-
-#pragma mark --- Index Header Delegate
-
-- (void)didTouchGardenNotice4indexHeader:(MEIndexHeader *)header {
+- (void)displayUserWarthingHistory {
     
-}
-
-- (void)didTouchVisitorHistory4indexHeader:(MEIndexHeader *)header {
-    MEIndexVM *vm = [[MEIndexVM alloc] init];
-    weakify(self)
-    [vm postData:[NSData data] cmdCode:nil operationCode:nil hudEnable:true success:^(NSData * _Nullable resObj) {
-        NSError *err;strongify(self)
-        MEPBIndexClass *classes = [MEPBIndexClass parseFromData:resObj error:&err];
-        if (err) {
-            [self handleTransitionError:err];
-        } else {
-            NSLog(@"index:%@", classes.indexOnePb);
-        }
-    } failure:^(NSError * _Nonnull error) {
-        strongify(self)
-        [self handleTransitionError:error];
-    }];
-}
-
-- (void)indexHeader:(MEIndexHeader *)header didTouchNavigationPage:(NSUInteger)page {
-    [self.classesScene changeNavigationClass4Page:page];
 }
 
 /*

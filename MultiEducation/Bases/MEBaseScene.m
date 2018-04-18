@@ -11,7 +11,22 @@
 #import "AppDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
+@interface MEBaseScene ()
+
+@property (nonatomic, strong) UIActivityIndicatorView *indecator;
+
+@end
+
 @implementation MEBaseScene
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.exclusiveTouch = true;
+        self.backgroundColor = [UIColor whiteColor];
+    }
+    return self;
+}
 
 - (AppDelegate *)appDelegate {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -29,7 +44,29 @@
     }
 }
 
+- (UIActivityIndicatorView *)indecator {
+    if (!_indecator) {
+        _indecator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _indecator.hidesWhenStopped = true;
+    }
+    return _indecator;
+}
 
+- (void)showIndecator {
+    [self addSubview:self.indecator];
+    [self bringSubviewToFront:self.indecator];
+    [self.indecator makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mas_centerX);
+        make.centerY.equalTo(self.mas_centerY);
+    }];
+    [self.indecator startAnimating];
+}
+
+- (void)hiddenIndecator {
+    [self.indecator stopAnimating];
+    [self.indecator removeFromSuperview];
+    _indecator = nil;
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

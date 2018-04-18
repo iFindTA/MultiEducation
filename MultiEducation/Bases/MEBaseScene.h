@@ -22,4 +22,8 @@
  */
 - (void)handleTransitionError:(NSError *_Nullable)error;
 
+- (void)showIndecator;
+
+- (void)hiddenIndecator;
+
 @end

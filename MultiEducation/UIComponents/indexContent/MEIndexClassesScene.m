@@ -7,7 +7,6 @@
 //
 
 #import "MEIndexClassesScene.h"
-#import "MEIndexHeader.h"
 #import "MEIndexContentScene.h"
 
 @interface MEIndexClassesScene () <UIScrollViewDelegate>
