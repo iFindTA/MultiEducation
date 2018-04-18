@@ -8,6 +8,7 @@
 
 #import "MEVM.h"
 #import "MebabyAlbum.pbobjc.h"
+#import <WHC_ModelSqlite.h>
 
 @interface MEBabyAlbumVM : MEVM
  
