@@ -66,6 +66,10 @@
     [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
         
     }];
+    
+    //notification-apns
+    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+    [application registerForRemoteNotifications];
 
     return YES;
 }
@@ -95,6 +99,27 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#pragma mark --- apns
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString * token = [[[[deviceToken description]
+                          stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                         stringByReplacingOccurrencesOfString: @">" withString: @""]
+                        stringByReplacingOccurrencesOfString: @" " withString: @""];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:token forKey:ME_APPLICATION_APNE_TOKEN];
+    [defaults synchronize];
+    NSLog(@"apns: %@", deviceToken);
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"注册失败，无法获取设备ID, 具体错误: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // 处理推送消息
 }
 
 #pragma mark -- handle root profile

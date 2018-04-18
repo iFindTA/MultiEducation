@@ -30,6 +30,7 @@ CF_EXTERN_C_BEGIN
 @class DeanPb;
 @class FuncCtrlPb;
 @class MEPBClass;
+@class MEPBUser;
 @class ParentsPb;
 @class SchoolPb;
 @class StudentPb;
@@ -83,6 +84,21 @@ BOOL MEPBUserRole_IsValidValue(int32_t value);
 @interface MeuserRoot : GPBRootObject
 @end
 
+#pragma mark - MEPBUserList
+
+typedef GPB_ENUM(MEPBUserList_FieldNumber) {
+  MEPBUserList_FieldNumber_UserListArray = 1,
+};
+
+@interface MEPBUserList : GPBMessage
+
+/** 用户列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBUser*> *userListArray;
+/** The number of items in @c userListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger userListArray_Count;
+
+@end
+
 #pragma mark - MEPBUser
 
 typedef GPB_ENUM(MEPBUser_FieldNumber) {
@@ -118,7 +134,8 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
   MEPBUser_FieldNumber_RcToken = 30,
   MEPBUser_FieldNumber_IsUserCharge = 31,
   MEPBUser_FieldNumber_Code = 32,
-  MEPBUser_FieldNumber_Signinstamp = 33,
+  MEPBUser_FieldNumber_SessionToken = 33,
+  MEPBUser_FieldNumber_Signinstamp = 34,
 };
 
 @interface MEPBUser : GPBMessage
@@ -224,6 +241,9 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 
 /** 验证码 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *code;
+
+/** 用户登录后授权token */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *sessionToken;
 
 /** 登录时间戳 */
 @property(nonatomic, readwrite) int64_t signinstamp;

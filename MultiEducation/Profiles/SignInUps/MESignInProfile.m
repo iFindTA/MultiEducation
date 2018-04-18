@@ -355,29 +355,24 @@
             return;
         }
     }
+    //apns token
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
+    [pb setAppleToken:token];
+    //device info
+    MEPBPhoneInfo *info = [MEUserVM getDeviceInfo];
+    pb.phoneInfo = info;
     //goto signin
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
     weakify(self)
     [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
-        MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
+        MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
         if (err) {
             [self handleTransitionError:err];
         } else {
-            //设置用户会话session
-            [user setToken:vm.sessionToken];
-            [MEUserVM saveUser:user];
-            [self.appDelegate updateCurrentSignedInUser:user];
-            //登录成功之后的操作
-            void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
-            if (signInCallback) {
-                signInCallback();
-            } else {
-                PBMAINDelay(ME_ANIMATION_DURATION, ^{
-                    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
-                });
-            }
+            [self handleMulticastUserIddentitySwitchEvent:userList];
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
@@ -426,6 +421,35 @@
             callBefore();
             self.whetherDidExcuteBlockBefore = true;
         }
+    }
+}
+
+#pragma mark --- 处理多用户登录身份选择
+
+- (void)handleMulticastUserIddentitySwitchEvent:(MEPBUserList*)list {
+    if (list.userListArray.count == 1) {
+        //只有一个用户登录
+        MEPBUser *user = list.userListArray.firstObject;
+        [MEUserVM saveUser:user];
+        [self.appDelegate updateCurrentSignedInUser:user];
+        //登录成功之后的操作
+        void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
+        if (signInCallback) {
+            signInCallback();
+        } else {
+            PBMAINDelay(ME_ANIMATION_DURATION, ^{
+                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+            });
+        }
+    } else {
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+        [params setObject:list forKey:@"userList"];
+        if (self.params) {
+            [params addEntriesFromDictionary:self.params];
+        }
+        NSURL *url = [MEDispatcher profileUrlWithClass:@"MEUserIdentitySwitchProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+        NSError *err = [MEDispatcher openURL:url withParams:params.copy];
+        [self handleTransitionError:err];
     }
 }
 
