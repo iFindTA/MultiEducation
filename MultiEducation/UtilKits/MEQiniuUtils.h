@@ -8,17 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import <QiniuSDK.h>
+@class MEPhoto;
 
 @protocol UploadImagesCallBack <NSObject>
 
-- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp index:(NSInteger)index;
+- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp;
 
-- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp index:(NSInteger)index;
+- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp;
 
-- (void)uploadImageProgress:(NSString *)key percent:(float)percent index:(NSInteger)index;
+- (void)uploadImageProgress:(NSString *)key percent:(float)percent;
 
-//whether success or fail
-- (void)uploadOver;
+//if success only one and other's are total fail, also did this func
+- (void)uploadOver:(NSArray *)keys;
 
 @end
 
@@ -28,6 +29,6 @@
 
 + (instancetype)sharedQNUploadUtils;
 
-- (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token keys:(NSMutableArray *)keys;
+- (void)uploadImages:(NSArray <MEPhoto *> *)images token:(NSString *)token keys:(NSMutableArray *)keys ;
 
 @end

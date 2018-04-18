@@ -199,6 +199,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         photo.urlStr = urlStr;
         photo.photo = mwPhoto;
         photo.image = image;
+        photo.status = Uploading;
         
         [self.photos addObject: photo];
     }
