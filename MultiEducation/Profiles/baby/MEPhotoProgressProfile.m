@@ -100,7 +100,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     NSData *data = [self.qnPb data];
     
     weakify(self);
-    [uploadVM postData: data cmdCode:nil operationCode:nil hudEnable: YES success:^(NSData * _Nullable resObj) {
+    [uploadVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
         
         NSLog(@"success upload total");
