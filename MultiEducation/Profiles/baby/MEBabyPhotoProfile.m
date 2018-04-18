@@ -12,6 +12,8 @@
 #import "MEPhotoSelectProfile.h"
 #import "MEPhoto.h"
 #import <Photos/Photos.h>
+#import "MEBabyAlbumVM.h"
+#import "Meclass.pbobjc.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -67,11 +69,38 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     [self addTest];
     
+    [self getClassId];
+    
     [self customNavigation];
     
     [self layoutView];
     
     [self getOriginalImages];
+    
+}
+
+- (void)getClassId {
+    
+    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+    MEBabyAlbumVM *babyVm = [MEBabyAlbumVM vmWithPb: pb];
+    
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+    } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        if (self.currentUser.teacherPb.classPbArray.count != 0) {
+            MEPBClass *classPb = [self.currentUser.teacherPb.classPbArray objectAtIndex: 0];
+            pb.classId = classPb.id_p;
+        }
+    }
+    
+    NSData *data = [pb data];
+    
+    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        
+        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
+
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
 }
 
 - (void)customNavigation {

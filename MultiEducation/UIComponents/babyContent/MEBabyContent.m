@@ -45,6 +45,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *tableDataArr; //table dataArr
 
+@property (nonatomic, strong) StudentPb *studentPb;
+
 @end
 
 @implementation MEBabyContent
@@ -52,9 +54,21 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        [self loadData];
         [self createSubviews];
     }
     return self;
+}
+
+- (void)loadData {
+    MEPBUserRole role = self.currentUser.userType;
+    if (role == MEPBUserRole_Parent) {
+        if (self.currentUser.parentsPb.studentPbArray > 0) {
+            self.studentPb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
+        } else {
+            NSLog(@"未绑定任何孩子");
+        }
+    }
 }
 
 - (void)createSubviews {

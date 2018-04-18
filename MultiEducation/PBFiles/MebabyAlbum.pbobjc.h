@@ -27,6 +27,8 @@
 
 CF_EXTERN_C_BEGIN
 
+@class ClassAlbumPb;
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - MebabyAlbumRoot
@@ -42,6 +44,20 @@ NS_ASSUME_NONNULL_BEGIN
  * this file and all files that it depends on.
  **/
 @interface MebabyAlbumRoot : GPBRootObject
+@end
+
+#pragma mark - ClassAlbumListPb
+
+typedef GPB_ENUM(ClassAlbumListPb_FieldNumber) {
+  ClassAlbumListPb_FieldNumber_ClassAlbumArray = 1,
+};
+
+@interface ClassAlbumListPb : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<ClassAlbumPb*> *classAlbumArray;
+/** The number of items in @c classAlbumArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger classAlbumArray_Count;
+
 @end
 
 #pragma mark - ClassAlbumPb

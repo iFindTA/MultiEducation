@@ -25,7 +25,7 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
+        
     //隐藏导航条
     [self hiddenNavigationBar];
     
@@ -41,6 +41,7 @@
         make.left.top.right.mas_equalTo(self.view);
         make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR + ME_HEIGHT_STATUSBAR);
     }];
+    
 
 }
 
@@ -64,7 +65,7 @@
 #pragma mark - lazyloading
 - (MEBabyContent *)babyView {
     if (!_babyView) {
-        _babyView = [[MEBabyContent alloc] init];
+        _babyView = [[MEBabyContent alloc] initWithFrame: CGRectZero];
         weakify(self);
         _babyView.babyContentScrollCallBack = ^(CGFloat contentOffsetY, MEScrollViewDirection direction) {
             strongify(self);
@@ -76,7 +77,7 @@
 
 - (MEBabyNavigation *)babyNavigation {
     if (!_babyNavigation) {
-        _babyNavigation = [[MEBabyNavigation alloc] initWithFrame: CGRectZero urlStr: @"" title: @"某某某家长，您好！"];
+        _babyNavigation = [[MEBabyNavigation alloc] initWithFrame: CGRectZero urlStr: @"" title: [NSString stringWithFormat: @"%@，您好！", @"某某某家长"]];
         _babyNavigation.alpha = 0;
     }
     return _babyNavigation;
