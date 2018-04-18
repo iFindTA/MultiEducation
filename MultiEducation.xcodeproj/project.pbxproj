@@ -587,6 +587,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		3F19600E76A006DC1E9F27ED5B554080 /* LiveRoom */ = {
+			isa = PBXGroup;
+			children = (
+				9B33E1FEAD51792AEBFD57B5A850D082 /* MELiveRoomRootProfile.h */,
+				5B2E9CC048604D1CE95118B19AF17A00 /* MELiveRoomRootProfile.m */,
+			);
+			path = LiveRoom;
+			sourceTree = "<group>";
+		};
 		3F31A10941E93B949F4BB948D65B2DC4 /* baby */ = {
 			isa = PBXGroup;
 			children = (
@@ -659,15 +668,6 @@
 				EF9CFAFB8B2ED22CC428156ABC829E08 /* MEIndexVM.m */,
 			);
 			path = index;
-			sourceTree = "<group>";
-		};
-		3F19600E76A006DC1E9F27ED5B554080 /* LiveRoom */ = {
-			isa = PBXGroup;
-			children = (
-				9B33E1FEAD51792AEBFD57B5A850D082 /* MELiveRoomRootProfile.h */,
-				5B2E9CC048604D1CE95118B19AF17A00 /* MELiveRoomRootProfile.m */,
-			);
-			path = LiveRoom;
 			sourceTree = "<group>";
 		};
 		6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */ = {
@@ -1266,6 +1266,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-resources.sh",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_amatorka.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_miss_etikate.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_1.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle",
@@ -1289,9 +1294,15 @@
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle",
 				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
+				"${PODS_ROOT}/libksygpulive/resource/KSYGPUResource.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_amatorka.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_miss_etikate.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_1.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_2.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MWPhotoBrowser.bundle",
@@ -1311,6 +1322,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YJBannerView.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KSYGPUResource.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1572,7 +1584,7 @@
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1647,7 +1659,7 @@
 				DEVELOPMENT_TEAM = M8K6A7692X;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

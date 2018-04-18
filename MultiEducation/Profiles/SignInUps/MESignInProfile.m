@@ -281,7 +281,11 @@
     }];
     
 #if DEBUG
-    self.inputMobile.text = @"18751732219";
+    //teacher
+    //self.inputMobile.text = @"18751732219";
+    //self.inputPwd.text = @"123456";
+    //parent
+    self.inputMobile.text = @"15005788070";
     self.inputPwd.text = @"123456";
 #endif
 }

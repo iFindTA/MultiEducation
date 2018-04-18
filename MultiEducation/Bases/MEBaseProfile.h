@@ -44,6 +44,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setBadgeValue:(NSInteger)value atIndex:(NSUInteger)idx;
 - (void)clearBadgeAtIndex:(NSUInteger)idx;
 
+/**
+ generate barbuttonitem with iconfont
+
+ @param backTitle back title
+ @param code back icon code
+ @param color back icon color
+ @return bar item
+ */
+- (UIBarButtonItem *)backBarButtonItemWithIconUnicode:(NSString * _Nullable)code color:(UIColor *)color;
+
 #pragma mark --- user relatives
 
 /**
