@@ -58,7 +58,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
         };
     }];
     
-    PBMAINDelay(ME_ANIMATION_DURATION, ^{[self layoutIfNeeded];});
+    [self layoutIfNeeded];
 }
 
 - (NSMutableArray<MEVerticalItem*>*)subItems {
@@ -91,7 +91,8 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
     if (itemCountPerLine == ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE) {
         margin = ME_LAYOUT_MARGIN;
     }
-    NSUInteger itemWidth = ceil((MESCREEN_WIDTH-margin*2-(itemDistance*(itemCountPerLine-1))/(itemCountPerLine)));
+    
+    NSUInteger itemWidth = ceil((MESCREEN_WIDTH-margin*2-(itemCountPerLine-1)*itemDistance)/itemCountPerLine);
     for ( MEVerticalItem *btn in self.subItems) {
         NSUInteger idx = btn.tag;
         NSUInteger offset_x = margin + (idx % itemCountPerLine) * (itemWidth+itemDistance);

@@ -242,12 +242,12 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     }];
     CGFloat subClassHeight = [MEContentSubcategory subcategoryClassPanelHeight4Classes:classes];
     MEContentSubcategory *subClasses = [MEContentSubcategory subcategoryWithClasses:cats.copy];
-    subClasses.backgroundColor = [UIColor pb_randomColor];
+    //subClasses.backgroundColor = [UIColor pb_randomColor];
     [self.layout addSubview:subClasses];
     [subClasses makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.banner.mas_bottom).offset(ME_LAYOUT_MARGIN);
-        make.left.equalTo(self.layout).offset(ME_LAYOUT_MARGIN);
-        make.right.equalTo(self.layout).offset(-ME_LAYOUT_MARGIN);
+        make.left.equalTo(self.layout);
+        make.right.equalTo(self.layout);
         make.height.equalTo(subClassHeight);
     }];
     weakify(self)
@@ -256,8 +256,8 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         [self indexLayoutStoryClassDidTouchEvent:tag];
     };
     
-    //推荐视频小分类
-    NSArray <MEPBResType*>*recommand = self.dataItem.resTypeListArray;
+    //*推荐视频小分类
+    NSArray <MEPBResType*>*recommand = self.dataItem.recommendTypeListArray;
     NSLog(@"recommand:%@", recommand);
     __block MEBaseScene *lastSection = nil;__block MEBaseScene *lastItem = nil;
     NSUInteger sectionHeight = ME_LAYOUT_ICON_HEIGHT;
@@ -268,11 +268,10 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
     NSUInteger itemMargin = ME_LAYOUT_MARGIN;NSUInteger itemDistance = ME_LAYOUT_MARGIN * 2;
     NSUInteger itemWidth = (MESCREEN_WIDTH-itemMargin*2-itemDistance*(numPerLine-1))/numPerLine;NSUInteger itemHeight = adoptValue(ME_INDEX_STORY_ITEM_HEIGHT);
-    [recommand enumerateObjectsUsingBlock:^(MEPBResType * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    for (MEPBResType * type in recommand) {
         MEBaseScene *sectTitleScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-        sectTitleScene.backgroundColor = [UIColor pb_randomColor];
+        //sectTitleScene.backgroundColor = [UIColor pb_randomColor];
         [self.layout addSubview:sectTitleScene];
-        lastSection = sectTitleScene;
         [sectTitleScene makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo((lastItem == nil)?subClasses.mas_bottom:lastItem.mas_bottom).offset(ME_LAYOUT_MARGIN);
             make.left.right.equalTo(self.layout);
@@ -281,56 +280,63 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         MEBaseLabel *sectTitleLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
         sectTitleLab.font = sectFont;
         sectTitleLab.textColor = fontColor;
-        sectTitleLab.text = obj.title;
+        sectTitleLab.text = type.title;
         [sectTitleScene addSubview:sectTitleLab];
         [sectTitleLab makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN));
         }];
+        lastSection = sectTitleScene;
         //items
-        NSArray <MEPBRes*>*courseItems = [obj resPbArray].copy;
-        [courseItems enumerateObjectsUsingBlock:^(MEPBRes * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSUInteger __row_idx = idx % numPerLine;NSUInteger __col_idx = idx / numPerLine;
+        NSArray <MEPBRes*>*courseItems = [type resPbArray].copy;
+        NSLog(@"section:%@-----item counts:%d", type.title, courseItems.count);
+        
+        for (int i = 0;i < courseItems.count;i++) {
+            MEPBRes *item = courseItems[i];
+            NSUInteger __row_idx = i / numPerLine;NSUInteger __col_idx = i % numPerLine;
             NSUInteger offset_x = itemMargin + (itemWidth+itemDistance)*__col_idx;
             NSUInteger offset_y = itemMargin + (itemHeight+ME_LAYOUT_MARGIN)*__row_idx;
+            //NSLog(@"row:%d-------col:%d-=====offset_x:%zd======offset_y:%zd", __row_idx, __col_idx, offset_x, offset_y);
             MEBaseScene *itemScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-            itemScene.backgroundColor = [UIColor pb_randomColor];
+            //itemScene.backgroundColor = [UIColor pb_randomColor];
             [self.layout addSubview:itemScene];
             [itemScene makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(lastSection.mas_bottom).offset(offset_x);
-                make.left.equalTo(self.layout).offset(offset_y);
+                make.top.equalTo(lastSection.mas_bottom).offset(offset_y);
+                make.left.equalTo(self.layout).offset(offset_x);
                 make.size.equalTo(CGSizeMake(itemWidth, itemHeight));
             }];
-            MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
-            label.font = itemFont;
-            label.textColor = fontColor;
-            label.textAlignment = NSTextAlignmentCenter;
-            label.text = obj.title.copy;
-            [itemScene addSubview:label];
-            [label makeConstraints:^(MASConstraintMaker *make) {
-                make.left.bottom.right.equalTo(itemScene);
-                make.height.equalTo(adoptValue(ME_LAYOUT_ICON_HEIGHT));
-            }];
-            NSString *url = [MEKits imageFullPath:obj.coverImg];
-            MEBaseImageView *image = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
-            [image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
-            [itemScene addSubview:image];
-            [image makeConstraints:^(MASConstraintMaker *make) {
-                make.top.left.right.equalTo(itemScene);
-                make.bottom.equalTo(label.mas_top);
-            }];
+            //*
+             MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+             label.font = itemFont;
+             label.textColor = fontColor;
+             label.textAlignment = NSTextAlignmentCenter;
+             label.text = item.title.copy;
+             [itemScene addSubview:label];
+             [label makeConstraints:^(MASConstraintMaker *make) {
+                 make.left.bottom.right.equalTo(itemScene);
+                 make.height.equalTo(adoptValue(ME_LAYOUT_ICON_HEIGHT));
+             }];
+             NSString *url = [MEKits imageFullPath:item.coverImg];
+             MEBaseImageView *image = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+             [image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
+             [itemScene addSubview:image];
+             [image makeConstraints:^(MASConstraintMaker *make) {
+                 make.top.left.right.equalTo(itemScene);
+                 make.bottom.equalTo(label.mas_top);
+             }];//*/
             //add gesture
             UITapGestureRecognizer *tapGestuer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(indexLayoutStoryItemDidTouchEvent:)];
             tapGestuer.numberOfTapsRequired = 1;
             tapGestuer.numberOfTouchesRequired = 1;
             [itemScene addGestureRecognizer:tapGestuer];
             lastItem = itemScene;
-        }];
-    }];
+        }
+    }
     
     //adjust scroll layout
     [self.layout makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo((lastItem==nil)?lastSection.mas_bottom:lastItem.mas_bottom).offset(-ME_LAYOUT_MARGIN);
     }];
+    //*/
 }
 
 - (void)indexLayoutStoryItemDidTouchEvent:(MEBaseScene *)scene {
