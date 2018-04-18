@@ -42,6 +42,54 @@ static GPBFileDescriptor *MebabyAlbumRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - ClassAlbumListPb
+
+@implementation ClassAlbumListPb
+
+@dynamic classAlbumArray, classAlbumArray_Count;
+
+typedef struct ClassAlbumListPb__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *classAlbumArray;
+} ClassAlbumListPb__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "classAlbumArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(ClassAlbumPb),
+        .number = ClassAlbumListPb_FieldNumber_ClassAlbumArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(ClassAlbumListPb__storage_, classAlbumArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[ClassAlbumListPb class]
+                                     rootClass:[MebabyAlbumRoot class]
+                                          file:MebabyAlbumRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(ClassAlbumListPb__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000classAlbum\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - ClassAlbumPb
 
 @implementation ClassAlbumPb

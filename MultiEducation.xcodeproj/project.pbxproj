@@ -60,6 +60,7 @@
 		741EF0821C66AB72DF5E86A2B6BB756E /* MEIndexSubClassProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
 		76C56FF9208711D700F44C7C /* MebabyAlbum.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C56FF8208711D700F44C7C /* MebabyAlbum.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76C56FFD20871A5800F44C7C /* MEBabyAlbumVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C56FFC20871A5800F44C7C /* MEBabyAlbumVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
@@ -261,6 +262,8 @@
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		76C56FF7208711D600F44C7C /* MebabyAlbum.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyAlbum.pbobjc.h; sourceTree = "<group>"; };
 		76C56FF8208711D700F44C7C /* MebabyAlbum.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MebabyAlbum.pbobjc.m; sourceTree = "<group>"; };
+		76C56FFB20871A5800F44C7C /* MEBabyAlbumVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyAlbumVM.h; sourceTree = "<group>"; };
+		76C56FFC20871A5800F44C7C /* MEBabyAlbumVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyAlbumVM.m; sourceTree = "<group>"; };
 		794132D107A5C4C538F9F6B98E1786BA /* MesignIn.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesignIn.pbobjc.h; sourceTree = "<group>"; };
 		7C1198DD98CB742BB11DB00E25358824 /* MEPersonalHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEPersonalHeader.xib; sourceTree = "<group>"; };
 		7D2CB0EA796F52D1A32F817FF3A9BC10 /* MEContentSubcategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEContentSubcategory.h; sourceTree = "<group>"; };
@@ -693,6 +696,7 @@
 		755D760DBEAA32AFA5A71A39C3CF0AB2 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				76C56FFA20871A4300F44C7C /* baby */,
 				95114088337A198D90ADB4E59DB4B4AE /* Users */,
 				5B23389D8B409442E6B9AF0F84633AF0 /* index */,
 				D0E1F04EF3F8E9B271B325F3397DD24A /* qnUpload */,
@@ -702,6 +706,15 @@
 				D56C3FD0F5B7FDFDC9BD0E49E2654847 /* MEVideoRelateVM.m */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		76C56FFA20871A4300F44C7C /* baby */ = {
+			isa = PBXGroup;
+			children = (
+				76C56FFB20871A5800F44C7C /* MEBabyAlbumVM.h */,
+				76C56FFC20871A5800F44C7C /* MEBabyAlbumVM.m */,
+			);
+			path = baby;
 			sourceTree = "<group>";
 		};
 		77BC15F8E686F754390D69C2852A438F /* MultiEducation */ = {
@@ -1382,6 +1395,7 @@
 				F604E3932B48DDEB2D9B531B1E876863 /* MEPBUser+MEStore.m in Sources */,
 				842CC392A03B7C3BFC48679B6BEBE1A7 /* MEPersonalCell.m in Sources */,
 				404D030D977EB8FE76430468F136498A /* MEPersonalHeader.m in Sources */,
+				76C56FFD20871A5800F44C7C /* MEBabyAlbumVM.m in Sources */,
 				3B474F160919595D28D369AFD0784364 /* MEPersonalRootProfile.m in Sources */,
 				882F1F2DE84334EA4D27E15AFFA50565 /* MEPersonalSectionHeader.m in Sources */,
 				B7EC156B8D33E7A78A6F5B27B9F3C81D /* MEPhoto.m in Sources */,

@@ -224,7 +224,7 @@
                 <outlet property="userHeadIcon" destination="zPf-2i-wTv" id="Nme-af-YHY"/>
                 <outlet property="userNameLab" destination="R4S-SC-21q" id="2oz-9G-Lxt"/>
             </connections>
-            <point key="canvasLocation" x="106" y="55"/>
+            <point key="canvasLocation" x="19" y="33"/>
         </view>
     </objects>
     <resources>
