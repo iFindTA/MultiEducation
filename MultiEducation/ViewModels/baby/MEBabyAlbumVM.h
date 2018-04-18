@@ -10,7 +10,7 @@
 #import "MebabyAlbum.pbobjc.h"
 
 @interface MEBabyAlbumVM : MEVM
-
+ 
 + (instancetype)vmWithPb:(ClassAlbumPb *)qnPb;
 
 @end
