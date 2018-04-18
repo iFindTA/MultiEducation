@@ -172,6 +172,10 @@
         //scrollContentView collectionView cell
         
         NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
+        NSURL *urlString = nil;
+        if (MEBabyContentTypeLive & (1 << indexPath.item)) {
+            urlString = @"";
+        }
     }
 }
 
