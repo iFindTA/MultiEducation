@@ -20,7 +20,7 @@
     self.image.image = photo.image;
     self.nameLabel.text = @"图片";
     self.progress.progress = photo.progress;
-    if (photo.uploadSucc) {
+    if (photo.status != UploadFail) {
         self.retryLabel.hidden = YES;
     } else {
         self.retryLabel.hidden = NO;
