@@ -48,6 +48,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MEPhotoSelectProfile *photoSelectBrowser;
 @property (nonatomic, strong) NSMutableArray <MEPhoto *> *sysPhotos;  //手机相册里的图片
 
+@property (nonatomic, strong) NSArray <ClassAlbumPb *> *classAlbums;
+
 @end
 
 @implementation MEBabyPhotoProfile
@@ -80,11 +82,10 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)getClassId {
-    
     ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
     MEBabyAlbumVM *babyVm = [MEBabyAlbumVM vmWithPb: pb];
-    
     if (self.currentUser.userType == MEPBUserRole_Parent) {
+        
     } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
         if (self.currentUser.teacherPb.classPbArray.count != 0) {
             MEPBClass *classPb = [self.currentUser.teacherPb.classPbArray objectAtIndex: 0];
@@ -94,10 +95,13 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     NSData *data = [pb data];
     
+    weakify(self);
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        
+        strongify(self);
         ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-
+        
+        self.classAlbums = albumListPb.classAlbumArray;
+        
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
@@ -275,7 +279,11 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
+    if (photoBrowser == _photoSelectBrowser) {
         return [self.sysPhotos objectAtIndex: index].isSelect;
+    } else {
+        return NO;
+    }
 }
 
 - (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {

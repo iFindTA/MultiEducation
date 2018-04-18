@@ -21,7 +21,6 @@
     return [[self alloc] initWithPb: babyAlbumPb];
 }
 
-
 - (instancetype)initWithPb:(ClassAlbumPb *)pb {
     self = [super init];
     if (self) {
@@ -33,6 +32,7 @@
 - (NSString *)cmdCode {
     return FSC_CLASS_ALBUM_LIST;
 }
+
 
 
 @end
