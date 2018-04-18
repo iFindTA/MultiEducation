@@ -16,9 +16,7 @@
 
 + (NSArray *)whc_IgnorePropertys {
     return @[@"hasParentsPb",
-             @"teacherPb",
              @"hasTeacherPb",
-             @"schoolPb",
              @"hasSchoolPb",
              @"funcCtrlPbArray",
              @"funcCtrlPbArray_Count",
@@ -27,7 +25,6 @@
              @"systemConfigPb",
              @"hasSystemConfigPb",
              @"diskCap",
-             @"deanPb",
              @"hasDeanPb",
              @"isUserCharge",
              @"code"];

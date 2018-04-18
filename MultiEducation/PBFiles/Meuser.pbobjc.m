@@ -83,6 +83,54 @@ BOOL MEPBUserRole_IsValidValue(int32_t value__) {
   }
 }
 
+#pragma mark - MEPBUserList
+
+@implementation MEPBUserList
+
+@dynamic userListArray, userListArray_Count;
+
+typedef struct MEPBUserList__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *userListArray;
+} MEPBUserList__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "userListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBUser),
+        .number = MEPBUserList_FieldNumber_UserListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(MEPBUserList__storage_, userListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[MEPBUserList class]
+                                     rootClass:[MeuserRoot class]
+                                          file:MeuserRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(MEPBUserList__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000userList\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - MEPBUser
 
 @implementation MEPBUser
@@ -119,10 +167,11 @@ BOOL MEPBUserRole_IsValidValue(int32_t value__) {
 @dynamic rcToken;
 @dynamic isUserCharge;
 @dynamic code;
+@dynamic sessionToken;
 @dynamic signinstamp;
 
 typedef struct MEPBUser__storage_ {
-  uint32_t _has_storage_[1];
+  uint32_t _has_storage_[2];
   MEPBUserRole userType;
   int32_t gender;
   int32_t hasInitPwd;
@@ -150,6 +199,7 @@ typedef struct MEPBUser__storage_ {
   DeanPb *deanPb;
   NSString *rcToken;
   NSString *code;
+  NSString *sessionToken;
   int64_t id_p;
   int64_t schoolId;
   int64_t phaseId;
@@ -453,10 +503,19 @@ typedef struct MEPBUser__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
+        .name = "sessionToken",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBUser_FieldNumber_SessionToken,
+        .hasIndex = 31,
+        .offset = (uint32_t)offsetof(MEPBUser__storage_, sessionToken),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
         .name = "signinstamp",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_Signinstamp,
-        .hasIndex = 31,
+        .hasIndex = 32,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, signinstamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -472,8 +531,8 @@ typedef struct MEPBUser__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\022\002\010\000\007\010\000\010\007\000\016\n\000\020\t\000\021\t\000\022\010\000\023\000funcCtrlPb\000\024\n\000\025\014"
-        "\000\027\013\000\030\010\000\032\016\000\033\007\000\034\006\000\035\t\000\036\007\000\037\014\000";
+        "\023\002\010\000\007\010\000\010\007\000\016\n\000\020\t\000\021\t\000\022\010\000\023\000funcCtrlPb\000\024\n\000\025\014"
+        "\000\027\013\000\030\010\000\032\016\000\033\007\000\034\006\000\035\t\000\036\007\000\037\014\000!\014\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

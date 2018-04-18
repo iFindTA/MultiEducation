@@ -2,6 +2,10 @@ syntax = "proto3";
 
 import "MEClass.proto";
 
+message MEPBUserList {
+    repeated MEPBUser userList = 1;//用户列表
+}
+
 message MEPBUser {
     int64 id = 1; //用户id
     int64 schoolId = 2; //学校id
@@ -35,7 +39,8 @@ message MEPBUser {
     string rcToken = 30; //融云token
     int32 isUserCharge = 31; //判断用户是否需要进入收费页面
     string code = 32; //验证码
-    int64 signinstamp = 33;//登录时间戳
+    string sessionToken = 33;//用户登录后授权token
+    int64 signinstamp = 34;//登录时间戳
 }
 
 enum MEPBUserRole {

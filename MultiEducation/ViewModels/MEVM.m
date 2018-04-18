@@ -50,7 +50,7 @@
     /**
      * sessionToken
      */
-    NSString *sessionToken = self.app.curUser.token;
+    NSString *sessionToken = self.app.curUser.sessionToken;
     [carrier setSessionToken:sessionToken];
     /**
      *  cmdCode
