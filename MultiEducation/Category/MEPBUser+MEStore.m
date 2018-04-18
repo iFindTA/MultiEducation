@@ -29,7 +29,6 @@
              @"diskCap",
              @"deanPb",
              @"hasDeanPb",
-             @"isTourist",
              @"isUserCharge",
              @"code"];
 }

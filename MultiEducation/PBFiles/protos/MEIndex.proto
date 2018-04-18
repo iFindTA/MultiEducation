@@ -1,13 +1,14 @@
 syntax = "proto3";
 
-import "MEVideo.proto";
+import "MERes.proto";
 
 message MEPBIndexItem {
-	repeated MEPBCourseVideo topList = 1;//首页轮播视频
-	repeated MEPBCourseVideoClass courseVideoCatPb = 2;//子分类
-	repeated MEPBCourseVideoClass recommendCat = 3;//推荐列表
+	repeated MEPBRes topList = 1;//首页轮播视频
+	repeated MEPBResType resTypeList = 2;//子分类
+	repeated MEPBResType recommendTypeList = 3;//推荐列表
 }
 
 message MEPBIndexClass {
 	repeated MEPBIndexItem cats = 1;//类别
+	int32 index = 2;//tab的index
 }

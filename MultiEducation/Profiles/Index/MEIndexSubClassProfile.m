@@ -8,6 +8,7 @@
 
 #import "MEIndexSubClassProfile.h"
 #import "MEIndexStoryItemCell.h"
+#import <MJRefresh/MJRefresh.h>
 
 @interface MEIndexSubClassProfile ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -44,6 +45,11 @@
         make.top.equalTo(self.navigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
         make.left.bottom.right.equalTo(self.view);
     }];
+    weakify(self)
+    self.table.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        strongify(self)
+        [self autoLoadMoreRelevantItems];
+    }];
     
     //TODO://reload data
     self.dataSource = [NSMutableArray arrayWithArray:[self generateTestData]];
@@ -54,6 +60,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark --- load data
 
 - (NSArray *)generateTestData {
     NSUInteger count = 9;
@@ -66,6 +74,12 @@
     }
     return tmp.copy;
 }
+
+- (void)autoLoadMoreRelevantItems {
+    
+}
+
+#pragma mark --- lazy getter
 
 - (UITableView *)table {
     if (!_table) {

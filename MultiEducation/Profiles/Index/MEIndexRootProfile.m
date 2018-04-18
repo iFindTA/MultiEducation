@@ -171,7 +171,17 @@
 #pragma mark --- History & Notice
 
 - (void)displayUserWarthingHistory {
+    /*
+    NSDictionary *params = @{@"id":@(2), @"title":@"科学探索"};
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:params];
+    [self handleTransitionError:err];
+    //*/
     
+    NSDictionary *params = @{@"title":@"蚂蚁先生搬家", @"desc":@"这是对爸爸妈妈说的话，要记牢！"};
+    NSString *urlString = @"profile://root@MEVideoPlayProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    [self handleTransitionError:err];
 }
 
 /*

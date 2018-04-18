@@ -34,6 +34,15 @@
     return st.st_size;
 }
 
++ (NSString *)imageFullPath:(NSString *)absPath {
+    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    if (app.curUser) {
+        return PBFormat(@"%@/%@", app.curUser.bucketDomain, absPath);
+    }
+    //
+    return nil;
+}
+
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength {
     // Compress by quality
     CGFloat compression = 1;

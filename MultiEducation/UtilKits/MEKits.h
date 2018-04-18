@@ -30,6 +30,10 @@
  */
 + (CGFloat)fileSizeWithPath:(NSString *)path;
 
+/**
+ assemble full image path
+ */
++ (NSString *)imageFullPath:(NSString *)absPath;
 
 /**
  压缩image到制定大小以下

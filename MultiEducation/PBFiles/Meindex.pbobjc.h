@@ -27,9 +27,9 @@
 
 CF_EXTERN_C_BEGIN
 
-@class MEPBCourseVideo;
-@class MEPBCourseVideoClass;
 @class MEPBIndexItem;
+@class MEPBRes;
+@class MEPBResType;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,26 +52,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
   MEPBIndexItem_FieldNumber_TopListArray = 1,
-  MEPBIndexItem_FieldNumber_CourseVideoCatPbArray = 2,
-  MEPBIndexItem_FieldNumber_RecommendCatArray = 3,
+  MEPBIndexItem_FieldNumber_ResTypeListArray = 2,
+  MEPBIndexItem_FieldNumber_RecommendTypeListArray = 3,
 };
 
 @interface MEPBIndexItem : GPBMessage
 
 /** 首页轮播视频 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBCourseVideo*> *topListArray;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBRes*> *topListArray;
 /** The number of items in @c topListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger topListArray_Count;
 
 /** 子分类 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBCourseVideoClass*> *courseVideoCatPbArray;
-/** The number of items in @c courseVideoCatPbArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger courseVideoCatPbArray_Count;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBResType*> *resTypeListArray;
+/** The number of items in @c resTypeListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger resTypeListArray_Count;
 
 /** 推荐列表 */
-@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBCourseVideoClass*> *recommendCatArray;
-/** The number of items in @c recommendCatArray without causing the array to be created. */
-@property(nonatomic, readonly) NSUInteger recommendCatArray_Count;
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBResType*> *recommendTypeListArray;
+/** The number of items in @c recommendTypeListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger recommendTypeListArray_Count;
 
 @end
 
@@ -79,6 +79,7 @@ typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
 
 typedef GPB_ENUM(MEPBIndexClass_FieldNumber) {
   MEPBIndexClass_FieldNumber_CatsArray = 1,
+  MEPBIndexClass_FieldNumber_Index = 2,
 };
 
 @interface MEPBIndexClass : GPBMessage
@@ -87,6 +88,9 @@ typedef GPB_ENUM(MEPBIndexClass_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBIndexItem*> *catsArray;
 /** The number of items in @c catsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger catsArray_Count;
+
+/** tab的index */
+@property(nonatomic, readwrite) int32_t index;
 
 @end
 
