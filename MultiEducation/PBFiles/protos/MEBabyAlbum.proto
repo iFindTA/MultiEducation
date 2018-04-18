@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message ClassAlbumPb {
+    int64 id = 1;
+    int64 classId = 2; //班级id
+    int32 isParent = 3; //是否为父节点1是0否
+    int64 parentId = 4; //父节点id
+    int64 fileId = 5; //节点id
+    string fileName = 6; //文件名称
+    string fileType = 7; //文件类型值
+    int64 fileSize = 8; //文件大小单位字节
+    string filePath = 9; //文件路径
+    int32 dataStatus = 10; //数据状态
+    int64 createdDate = 11;
+    int64 modifiedDate = 12;
+    string md5 = 13; //文件md5
+}
