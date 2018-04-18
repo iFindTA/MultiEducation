@@ -92,6 +92,11 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_amatorka.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_miss_etikate.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_1.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png"
   install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle"
@@ -115,8 +120,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
   install_resource "${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle"
   install_resource "${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle"
+  install_resource "${PODS_ROOT}/libksygpulive/resource/KSYGPUResource.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_amatorka.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_miss_etikate.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_1.png"
+  install_resource "${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png"
   install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle"
@@ -140,6 +151,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
   install_resource "${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle"
   install_resource "${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle"
+  install_resource "${PODS_ROOT}/libksygpulive/resource/KSYGPUResource.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

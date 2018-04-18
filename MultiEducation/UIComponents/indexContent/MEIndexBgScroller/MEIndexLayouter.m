@@ -51,7 +51,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     if (self.dataItem != nil) {
         return;
     }
-    [self showIndecator];
+    
     [self loadLocalStorage];
 }
 
@@ -179,6 +179,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 }
 
 - (void)reloadIndexItemData {
+    [self showIndecator];
     MEPBIndexClass *indexTab = [[MEPBIndexClass alloc] init];
     indexTab.index = self.indexCode;
     MEIndexVM *vm = [[MEIndexVM alloc] init];

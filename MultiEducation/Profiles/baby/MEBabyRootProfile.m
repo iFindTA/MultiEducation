@@ -9,7 +9,6 @@
 #import "MEBabyRootProfile.h"
 #import "MEBabyContent.h"
 #import "MEBrowserProfile.h"
-#import "MEDispatcher.h"
 #import "MEBabyNavigation.h"
 
 @interface MEBabyRootProfile ()

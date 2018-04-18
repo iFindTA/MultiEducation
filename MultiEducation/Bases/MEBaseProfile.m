@@ -111,6 +111,24 @@
     [tabBarCtr clearBadgeAtIndex:idx];
 }
 
+- (UIBarButtonItem *)backBarButtonItemWithIconUnicode:(NSString *)code color:(UIColor *)color {
+    CGFloat itemSize = 28;
+    CGFloat fontSize = PBFontTitleSize;
+    NSString *fontName = @"iconfont";
+    UIFont *font = [UIFont fontWithName:fontName size:fontSize * 2];
+    //    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, itemSize, itemSize);
+    btn.exclusiveTouch = true;
+    btn.titleLabel.font = font;
+    [btn setTitle:code forState:UIControlStateNormal];
+    [btn setTitleColor:color forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(defaultGoBackStack) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    [barItem setTintColor:color];
+    return barItem;
+}
+
 #pragma mark --- user relatives
 
 - (UIViewController *)fetchTopProfile4Window:(UIWindow *)window {

@@ -186,6 +186,12 @@
         //scrollContentView collectionView cell
         
         NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
+        NSURL *url = nil; NSDictionary *params = nil;
+        if (MEBabyContentTypeLive & (1 << (NSUInteger)indexPath.item)) {
+            url = [MEDispatcher profileUrlWithClass:@"MELiveRoomRootProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+        }
+        NSError *err = [MEDispatcher openURL:url withParams:params];
+        [self handleTransitionError:err];
     }
 }
 
