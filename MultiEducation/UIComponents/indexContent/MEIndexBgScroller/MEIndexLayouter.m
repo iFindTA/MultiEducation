@@ -158,7 +158,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 - (void)bannerView:(YJBannerView *)bannerView didSelectItemAtIndex:(NSInteger)index {
     NSArray <MEPBRes *>*items = self.dataItem.topListArray;
     MEPBRes *video = [items objectAtIndex:index];
-    NSDictionary *params = @{@"id":@(video.resId), @"url":video.URL};
+    NSDictionary *params = @{@"id":@(video.resId), @"url":video.filePath};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEVideoPlayProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [self handleTransitionError:err];
