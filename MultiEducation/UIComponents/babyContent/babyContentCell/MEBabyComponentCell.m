@@ -10,6 +10,10 @@
 
 @implementation MEBabyComponentCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+}
+
 - (void)setItemWithType:(MEBabyContentType)type {
     [self setComponentValueWithType: type];
 }
@@ -59,7 +63,6 @@
             backgroundColor = UIColorFromRGB(0xb1d899);
             iconImage = [UIImage imageNamed: @"baby_content_recipes"];
             size = CGSizeMake(26, 23);
-
         }
             break;
         case MEBabyContentTypeLive: {
@@ -79,8 +82,11 @@
     self.backView.backgroundColor = backgroundColor;
     self.icon.image = iconImage;
     
-    [self.icon mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(size);
+    [self.icon mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.backView.mas_right).mas_offset(-12.f);
+        make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-12.f);
+        make.width.mas_equalTo(size.width);
+        make.height.mas_equalTo(size.height);
     }];
 }
 
