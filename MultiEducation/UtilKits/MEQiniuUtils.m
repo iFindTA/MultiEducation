@@ -9,6 +9,8 @@
 #import "MEQiniuUtils.h"
 #import <YYKit.h>
 #import "MEKits.h"
+#import "AppDelegate.h"
+#import "Meuser.pbobjc.h"
 
 static QNUploadManager *qnUploadManager;
 static MEQiniuUtils *qnUtils;
@@ -33,10 +35,20 @@ static MEQiniuUtils *qnUtils;
 }
 
 - (void)uploadImages:(NSArray *)images atIndex:(NSInteger)index token:(NSString *)token keys:(NSMutableArray *)keys {
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    float limit = delegate.curUser.systemConfigPb.uploadLimit.floatValue;
     UIImage *image = images[index];
     __block NSInteger imageIndex = index;
-    float uploadLimit = 0;
-    NSData *data = UIImagePNGRepresentation([MEKits compressImage: image toByte: uploadLimit]);
+    float uploadLimit = (limit == 0 ? 2 * 1024 * 1024 : limit * 1024 * 1024);
+    NSData *data = UIImageJPEGRepresentation([MEKits compressImage: image toByte: uploadLimit], 0.7);
+    
+    if (data.length > uploadLimit) {
+        NSLog(@"image length:(%ld) too big",data.length);
+        imageIndex++;
+        [self uploadImages:images atIndex:imageIndex token:token keys:keys];
+        return;
+    }
+    
     NSString *filename = [NSString stringWithFormat:@"%@.jpg", [data md5String]];
     __weak typeof(self) weakSelf = self;
     [qnUploadManager putData:data key:filename token:token
@@ -62,6 +74,9 @@ static MEQiniuUtils *qnUtils;
                       
                       [keys addObject:key];
                       if (imageIndex >= images.count) {
+                          if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
+                              [self.delegate uploadOver];
+                          }
                           NSLog(@"上传完成");
                           for (NSString *imgKey in keys) {
                               NSLog(@"%@",imgKey);
@@ -74,6 +89,7 @@ static MEQiniuUtils *qnUtils;
                   } option: self.option];
 }
 
+#pragma mark - lazyloading
 - (QNUploadOption *)option {
     if (!_option) {
         __weak typeof(self) weakSelf = self;

@@ -13,16 +13,18 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.retryLabel.hidden = YES;
 }
 
 - (void)setData:(MEPhoto *)photo {
     self.image.image = photo.image;
     self.nameLabel.text = @"图片";
-    self.progress.progress = 0;
-}
-
-- (void)setProg:(float)prog {
-    self.progress.progress = prog;
+    self.progress.progress = photo.progress;
+    if (photo.uploadSucc) {
+        self.retryLabel.hidden = YES;
+    } else {
+        self.retryLabel.hidden = NO;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

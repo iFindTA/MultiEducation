@@ -15,5 +15,9 @@
 @property (nonatomic, assign) BOOL isSelect;
 @property (nonatomic, strong) NSString *urlStr;
 @property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) NSString *md5FileName;
+
+@property (nonatomic, assign) BOOL uploadSucc;
+@property (nonatomic, assign) float progress;
 
 @end

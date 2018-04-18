@@ -26,17 +26,17 @@
                         </constraints>
                     </imageView>
                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cJf-Xp-R4B">
-                        <rect key="frame" x="62" y="50" width="200" height="2"/>
+                        <rect key="frame" x="62" y="50" width="180" height="2"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="2" id="AHf-8Y-ctC"/>
-                            <constraint firstAttribute="width" constant="200" id="DqA-ok-o8M"/>
+                            <constraint firstAttribute="width" constant="180" id="DqA-ok-o8M"/>
                         </constraints>
                     </progressView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MTo-dY-QYq" customClass="MEBaseLabel">
-                        <rect key="frame" x="62" y="8" width="200" height="20"/>
+                        <rect key="frame" x="62" y="8" width="160" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="200" id="Pzo-qF-1G8"/>
+                            <constraint firstAttribute="width" constant="160" id="Pzo-qF-1G8"/>
                             <constraint firstAttribute="height" constant="20" id="X9F-Jw-V1V"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -46,12 +46,31 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vU4-JT-QVJ" customClass="MEBaseLabel">
+                        <rect key="frame" x="207" y="17" width="160" height="25"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="160" id="48T-tp-ESi"/>
+                            <constraint firstAttribute="height" constant="25" id="9b4-TC-m58"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="上传失败，点击重试"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                                <real key="value" value="14"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="RFN-nD-D6z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Ci6-ws-uzB"/>
                     <constraint firstItem="MTo-dY-QYq" firstAttribute="top" secondItem="RFN-nD-D6z" secondAttribute="top" id="HL5-Na-0ZN"/>
+                    <constraint firstAttribute="trailing" secondItem="vU4-JT-QVJ" secondAttribute="trailing" constant="8" id="OFi-jg-2uU"/>
                     <constraint firstItem="cJf-Xp-R4B" firstAttribute="bottom" secondItem="RFN-nD-D6z" secondAttribute="bottom" id="SSW-5F-9GX"/>
                     <constraint firstItem="MTo-dY-QYq" firstAttribute="leading" secondItem="RFN-nD-D6z" secondAttribute="trailing" constant="10" id="XdZ-EE-w34"/>
+                    <constraint firstItem="vU4-JT-QVJ" firstAttribute="centerY" secondItem="RFN-nD-D6z" secondAttribute="centerY" id="eRq-j2-Olw"/>
                     <constraint firstItem="RFN-nD-D6z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="fPA-1S-1rm"/>
                     <constraint firstItem="cJf-Xp-R4B" firstAttribute="leading" secondItem="MTo-dY-QYq" secondAttribute="leading" id="mWb-tX-zDa"/>
                 </constraints>
@@ -60,8 +79,9 @@
                 <outlet property="image" destination="RFN-nD-D6z" id="QlR-YC-Rhq"/>
                 <outlet property="nameLabel" destination="MTo-dY-QYq" id="DCU-Ws-jeO"/>
                 <outlet property="progress" destination="cJf-Xp-R4B" id="0be-yq-p5H"/>
+                <outlet property="retryLabel" destination="vU4-JT-QVJ" id="rpx-VK-FN8"/>
             </connections>
-            <point key="canvasLocation" x="40.5" y="45"/>
+            <point key="canvasLocation" x="-2" y="60"/>
         </tableViewCell>
     </objects>
 </document>
