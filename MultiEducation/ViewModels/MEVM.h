@@ -18,7 +18,7 @@
 /**
  session token
  */
-@property (nonatomic, copy, readonly, nullable) NSString *sessionToken;
+@property (nonatomic, copy, nullable) NSString *sessionToken;
 
 /**
  命令版本号 默认 1

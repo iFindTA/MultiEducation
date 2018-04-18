@@ -355,6 +355,13 @@
             return;
         }
     }
+    //apns token
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
+    [pb setAppleToken:token];
+    //device info
+    MEPBPhoneInfo *info = [MEUserVM getDeviceInfo];
+    pb.phoneInfo = info;
     //goto signin
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
@@ -442,6 +449,7 @@
         }
         NSURL *url = [MEDispatcher profileUrlWithClass:@"MEUserIdentitySwitchProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
         NSError *err = [MEDispatcher openURL:url withParams:params.copy];
+        [self handleTransitionError:err];
     }
 }
 

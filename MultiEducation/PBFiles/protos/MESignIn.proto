@@ -1,9 +1,12 @@
 syntax = "proto3";
 
+import "MEPhoneInfo.proto";
+
 message MEPBSignIn {
     string loginName = 1; //用户名
     string password = 2; //密码
     string token = 3; //token,用于记住密码
+    MEPBPhoneInfo phoneInfo = 4;//设备信息
     string name = 5; //姓名
     string appleToken = 6; //苹果deviceToken
     string code = 7; //手机验证码

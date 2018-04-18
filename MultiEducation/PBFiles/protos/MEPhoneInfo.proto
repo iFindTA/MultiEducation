@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message MEPBPhoneInfo {
+	string deviceId = 1; //设备id
+    string subscriberId = 2; //用户识别id
+    string model = 3; //手机型号
+    string brand = 4; //手机品牌
+    string number = 5; //手机号码 有的可得，有的不可得
+    string appVersion = 6; //app版本
+    string osVersion = 7; //os版本
+}

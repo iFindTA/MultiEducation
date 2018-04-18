@@ -13,8 +13,6 @@
 
 @interface MEVM ()
 
-@property (nonatomic, copy, readwrite) NSString *sessionToken;
-
 @end
 
 @implementation MEVM
