@@ -9,12 +9,16 @@
 #import "MEBabyPhotoProfile.h"
 #import "MEBabyPhotoHeader.h"
 #import <MWPhotoBrowser.h>
-#import "MEPhotoSelectProfile.h"
 #import "MEPhoto.h"
 #import <Photos/Photos.h>
 #import "MEBabyAlbumVM.h"
 #import "Meclass.pbobjc.h"
 #import "MebabyAlbum.pbobjc.h"
+#import <TZImagePickerController.h>
+#import <TZImageManager.h>
+#import <YYKit.h>
+#import "MEPhotoProgressProfile.h"
+#import "MEVideo.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -31,7 +35,7 @@ static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
-@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate>
+@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate, TZImagePickerControllerDelegate>
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
 
@@ -47,6 +51,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
 @property (nonatomic, strong) NSArray <ClassAlbumPb *> *classAlbums;
+
+@property (nonatomic, strong) TZImagePickerController *pickerProfile;
 
 @end
 
@@ -74,7 +80,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self customNavigation];
     
     [self layoutView];
-    
 }
 
 - (void)getClassId {
@@ -92,24 +97,24 @@ static CGFloat const ITEM_LEADING = 10.f;
     NSData *data = [pb data];
     
     weakify(self);
-    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        strongify(self);
-        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        self.classAlbums = albumListPb.classAlbumArray;
-        
-        NSString *urlHead = self.currentUser.bucketDomain;
-        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
-            MEPhoto *photo = [[MEPhoto alloc] init];
-            photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.fileName];
-            MWPhoto *mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
-            photo.photo = mwPhoto;
-            photo.albumPb = pb;
-            [self.photos addObject: photo];
-        }
-        
-    } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
-    }];
+//    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+//        strongify(self);
+//        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
+//        self.classAlbums = albumListPb.classAlbumArray;
+//
+//        NSString *urlHead = self.currentUser.bucketDomain;
+//        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
+//            MEPhoto *photo = [[MEPhoto alloc] init];
+//            photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.fileName];
+//            MWPhoto *mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
+//            photo.photo = mwPhoto;
+//            photo.albumPb = pb;
+//            [self.photos addObject: photo];
+//        }
+//
+//    } failure:^(NSError * _Nonnull error) {
+//        [self handleTransitionError: error];
+//    }];
 }
 
 - (void)setUserPhotosInQNCloud {
@@ -127,7 +132,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)uploadTouchEvent {
-    
+    [self.navigationController presentViewController: self.pickerProfile animated: YES completion: nil];
 }
 
 - (void)layoutView {
@@ -186,7 +191,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 
     for (int i = 0; i< 30; i++) {
         MEPhoto *photo = [[MEPhoto alloc] init];
-        photo.isSelect = isSelect;
         photo.urlStr = urlStr;
         photo.photo = mwPhoto;
         photo.image = image;
@@ -196,17 +200,84 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
 }
 
+- (void)pushToUploadProgressProfile:(NSDictionary *)params {
+    [SVProgressHUD showWithStatus: @"正在压缩视频..."];
+    NSString *urlString = @"profile://root@MEPhotoProgressProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    [self handleTransitionError:err];
+    [SVProgressHUD dismiss];
+}
+
+- (NSString *)md5StringToImage:(UIImage *)image {
+    NSData *data = UIImagePNGRepresentation([self compressImage: image]);
+    NSString *fileName = [data md5String];
+    return fileName;
+}
+
+- (UIImage *)compressImage:(UIImage *)image {
+    float limit = self.currentUser.systemConfigPb.uploadLimit.floatValue;
+    float uploadLimit = (limit == 0 ? 2 * 1024 * 1024 : limit * 1024 * 1024);
+    NSData *data = UIImageJPEGRepresentation([MEKits compressImage: image toByte: uploadLimit], 0.5);
+    UIImage *compressImage = [UIImage imageWithData: data];
+    return compressImage;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - MWPhotoBrowser
+#pragma mark - MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
         return self.photos.count;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
     return [self.photos objectAtIndex: index].photo;
+}
+
+#pragma mark - TZImagePickerControllerDelegate
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto infos:(NSArray<NSDictionary *> *)infos {
+    
+    NSMutableArray *images = [NSMutableArray array];
+    for (int i = 0; i < photos.count; i++) {
+        MEPhoto *photo = [[MEPhoto alloc] init];
+        MWPhoto *mwPhoto = [[MWPhoto alloc] initWithImage: [photos objectAtIndex: i]];
+        photo.image = [photos objectAtIndex: i];
+        photo.md5FileName = [self md5StringToImage: [self compressImage: photo.image]];
+        photo.photo = mwPhoto;
+        photo.status = Uploading;
+
+        [images addObject: photo];
+    }
+    
+    NSDictionary *params = @{@"images": images, @"type": [NSNumber numberWithInteger: MEUploadTypeImage]};
+    [self pushToUploadProgressProfile: params];
+    
+    
+    NSLog(@"photo");
+}
+
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset {
+    
+    [[TZImageManager manager] getVideoOutputPathWithAsset:asset presetName:AVAssetExportPreset640x480 success:^(NSString *outputPath) {
+        NSLog(@"视频导出到本地完成,沙盒路径为:%@",outputPath);
+
+        NSData *data = [NSData dataWithContentsOfFile: outputPath];
+        
+        MEVideo *video = [[MEVideo alloc] init];
+        video.image = coverImage;
+        video.md5FileName = [data md5String];
+        video.video = data;
+        video.status = Uploading;
+        video.progress = 0;
+        
+        NSDictionary *params = @{@"video": video, @"type": [NSNumber numberWithInteger: MEUploadTypeVideo]};
+        [self pushToUploadProgressProfile: params];
+
+    } failure:^(NSString *errorMessage, NSError *error) {
+        NSLog(@"视频导出失败:%@,error:%@",errorMessage, error);
+    }];
+    
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -387,6 +458,15 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineArr = [NSMutableArray array];
     }
     return _timeLineArr;
+}
+
+- (TZImagePickerController *)pickerProfile {
+    if (!_pickerProfile) {
+        _pickerProfile = [[TZImagePickerController alloc] initWithMaxImagesCount: 9 delegate: self];
+        _pickerProfile.allowPickingOriginalPhoto = NO;
+        _pickerProfile.allowPickingVideo = YES;
+    }
+    return _pickerProfile;
 }
 
 @end

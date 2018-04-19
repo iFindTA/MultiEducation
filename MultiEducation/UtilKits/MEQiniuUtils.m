@@ -22,6 +22,8 @@ static MEQiniuUtils *qnUtils;
 
 @property (nonatomic, strong) QNUploadOption *option;
 
+@property (nonatomic, strong) NSString *qnToken;
+
 @end
 
 @implementation MEQiniuUtils
@@ -35,7 +37,7 @@ static MEQiniuUtils *qnUtils;
     return qnUtils;
 }
 
-- (void)uploadImages:(NSArray <MEPhoto *> *)images token:(NSString *)token keys:(NSMutableArray *)keys {
+- (void)uploadImages:(NSArray <MEPhoto *> *)images keys:(NSMutableArray *)keys {
     
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     float limit = delegate.curUser.systemConfigPb.uploadLimit.floatValue;
@@ -54,7 +56,7 @@ static MEQiniuUtils *qnUtils;
 //    }
     
     __weak typeof(self) weakSelf = self;
-    [qnUploadManager putData:data key:[images objectAtIndex: _index].md5FileName token:token
+    [qnUploadManager putData:data key:[images objectAtIndex: _index].md5FileName token:self.qnToken
                   complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                       if (info.isOK) {
                           if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
@@ -88,9 +90,29 @@ static MEQiniuUtils *qnUtils;
                       }
                       
                       _index++;
-                      [weakSelf uploadImages:images token:token keys:keys];
+                      [weakSelf uploadImages:images keys:keys];
                       
                   } option: self.option];
+}
+
+- (void)uploadVideo:(NSData *)data key:(NSString *)key {
+    __weak typeof(self) weakSelf = self;
+    
+    [qnUploadManager putData:data key: [data md5String] token: self.qnToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+        if (info.isOK) {
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
+                dispatch_async_on_main_queue(^{
+                    [self.delegate uploadImageSuccess: info key: key resp: resp];
+                });
+            }
+        } else {
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageFail:key:resp:)]) {
+                dispatch_async_on_main_queue(^{
+                    [self.delegate uploadImageFail: info key: key resp: resp];
+                });
+            }
+        }
+    } option: self.option];
 }
 
 #pragma mark - lazyloading
@@ -107,6 +129,14 @@ static MEQiniuUtils *qnUtils;
         } params: nil checkCrc: NO cancellationSignal: nil];
     }
     return _option;
+}
+
+- (NSString *)qnToken {
+    if (!_qnToken) {
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        _qnToken = delegate.curUser.uptoken;
+    }
+    return _qnToken;
 }
 
 @end

@@ -16,11 +16,22 @@
     self.retryLabel.hidden = YES;
 }
 
-- (void)setData:(MEPhoto *)photo {
+- (void)setImageData:(MEPhoto *)photo {
     self.image.image = photo.image;
     self.nameLabel.text = @"图片";
     self.progress.progress = photo.progress;
     if (photo.status != UploadFail) {
+        self.retryLabel.hidden = YES;
+    } else {
+        self.retryLabel.hidden = NO;
+    }
+}
+
+- (void)setVideoData:(MEVideo *)video {
+    self.image.image = video.image;
+    self.nameLabel.text = @"图片";
+    self.progress.progress = video.progress;
+    if (video.status != UploadFail) {
         self.retryLabel.hidden = YES;
     } else {
         self.retryLabel.hidden = NO;

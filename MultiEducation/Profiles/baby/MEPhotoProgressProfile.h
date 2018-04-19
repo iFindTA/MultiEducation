@@ -8,6 +8,11 @@
 
 #import "MEBaseProfile.h"
 
+typedef enum : NSUInteger {
+    MEUploadTypeImage,
+    MEUploadTypeVideo,
+} MEUploadType;
+
 @interface MEPhotoProgressProfile : MEBaseProfile
 
 @end

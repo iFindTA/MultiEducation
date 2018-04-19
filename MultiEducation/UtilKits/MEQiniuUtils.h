@@ -29,6 +29,9 @@
 
 + (instancetype)sharedQNUploadUtils;
 
-- (void)uploadImages:(NSArray <MEPhoto *> *)images token:(NSString *)token keys:(NSMutableArray *)keys ;
+- (void)uploadImages:(NSArray <MEPhoto *> *)images keys:(NSMutableArray *)keys;
+
+- (void)uploadVideo:(NSData *)data key:(NSString *)key;
+
 
 @end

@@ -13,6 +13,7 @@
 #import "MEQNUploadVM.h"
 #import "Meqnfile.pbobjc.h"
 #import <YYKit.h>
+#import "MEVideo.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 60.f;
@@ -20,6 +21,8 @@ static CGFloat const ROW_HEIGHT = 60.f;
 @interface MEPhotoProgressProfile () <UITableViewDelegate, UITableViewDataSource, UploadImagesCallBack> {
     BOOL _isUploadOver; //本次上传是否结束
     BOOL _isSetMd5FileName;
+    
+    MEUploadType _type;
 }
 
 @property (nonatomic, strong) NSMutableString *fileName;
@@ -27,12 +30,15 @@ static CGFloat const ROW_HEIGHT = 60.f;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray <MEPhoto *> *totalImages;
 @property (nonatomic, strong) NSMutableArray <MEPhoto *> *images;   //user choosed images for uploading
+
+@property (nonatomic, strong) NSMutableArray <MEVideo *> *videos;    //upload video only can select one!
+
 @property (nonatomic, strong) MEQiniuUtils *qnUtils;
 
 @property (nonatomic, strong) MEPBQNFile *qnPb;
 @property (nonatomic, strong) MEQNUploadVM *qnVM;
 
-@property (nonatomic, strong) NSMutableArray *statusArr;
+@property (nonatomic, strong) NSMutableArray <MEVideo *> *statusArr;
 
 @end
 
@@ -41,7 +47,13 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
+        _type = [[params objectForKey: @"type"] integerValue];
         _totalImages = [params objectForKey: @"images"];
+        if ([params objectForKey: @"video"]) {
+            _videos = [NSMutableArray array];
+            [_videos addObject: [params objectForKey: @"video"]];
+        }
+        
     }
     return self;
 }
@@ -66,8 +78,13 @@ static CGFloat const ROW_HEIGHT = 60.f;
     _isUploadOver = YES;
     
     [self customNavigation];
-    [self.images addObjectsFromArray: _totalImages];
-    [self uploadImagesToQNServer: self.images];
+    
+    if (_type == MEUploadTypeImage) {
+        [self.images addObjectsFromArray: _totalImages];
+        [self uploadImagesToQNServer: self.images];
+    } else {
+        [self uploadVideo];
+    }
     
     [self.view addSubview: self.tableView];
     
@@ -81,6 +98,16 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)uploadVideo {
+    if (!_isUploadOver) {
+        //if the last uplaod is continue, can't upload this time
+        return;
+    }
+    _isUploadOver = NO;
+    
+    [self.qnUtils uploadVideo: self.videos[0].video key: self.videos[0].md5FileName];
 }
 
 - (void)uploadImagesToQNServer:(NSArray *)imageArr {
@@ -106,7 +133,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     [images addObjectsFromArray: imageArr];
     
     NSMutableArray *tmpArr = [NSMutableArray array];
-    [self.qnUtils uploadImages:images token: [self appDelegate].curUser.uptoken keys: tmpArr];
+    [self.qnUtils uploadImages:images keys: tmpArr];
 }
 
 - (NSString *)md5StringToImage:(UIImage *)image {
@@ -167,12 +194,20 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.images.count;
+    if (_type == MEUploadTypeImage) {
+        return self.images.count;
+    } else {
+        return self.videos.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEProgressCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
-    [cell setData: [self.images objectAtIndex: indexPath.row]];
+    if (_type == MEUploadTypeImage) {
+        [cell setImageData: [self.images objectAtIndex: indexPath.row]];
+    } else {
+        [cell setVideoData: [self.videos objectAtIndex: indexPath.row]];
+    }
     return cell;
 }
 
@@ -182,38 +217,58 @@ static CGFloat const ROW_HEIGHT = 60.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([_images objectAtIndex: indexPath.row].status == UploadFail) {
-        //only upload fail can select cell to retry
-        NSLog(@"did select course of upload fail");
-        [self.tableView deselectRowAtIndexPath: indexPath animated: NO];
-        [self uploadImagesToQNServer: @[_images[indexPath.row]]];
+    [self.tableView deselectRowAtIndexPath: indexPath animated: NO];
+    if (_type == MEUploadTypeImage) {
+        if ([_images objectAtIndex: indexPath.row].status == UploadFail) {
+            //only upload fail can select cell to retry
+            NSLog(@"did select course of upload fail");
+            
+            [self uploadImagesToQNServer: @[_images[indexPath.row]]];
+        }
+    } else {
+        if (_isUploadOver) {
+            [self uploadVideo];
+        }
     }
+    
 }
 
 #pragma mark - UploadImagesCallBack
 - (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
-
-    MEPhoto *succPhoto;
-    for (MEPhoto *photo in _images) {
-        if ([photo.md5FileName isEqualToString: key]) {
-            photo.status = UploadSucc;
-            photo.progress = 1;
-            succPhoto = photo;
-            break;
+    if (_type == MEUploadTypeImage) {
+        MEPhoto *succPhoto;
+        for (MEPhoto *photo in _images) {
+            if ([photo.md5FileName isEqualToString: key]) {
+                photo.status = UploadSucc;
+                photo.progress = 1;
+                succPhoto = photo;
+                break;
+            }
         }
+        
+        [_images removeObject: succPhoto];
+    } else  {
+        _isUploadOver = YES;
+        [_videos removeAllObjects];
+        [self sendPostToServer: @[key]];
     }
-    
-    [_images removeObject: succPhoto];
-    
     [self.tableView reloadData];
 }
 
 - (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
-    for (MEPhoto *photo in _images) {
-        if ([photo.md5FileName isEqual: key]) {
-            photo.progress = 0;
-            photo.status = UploadFail;
-            break;
+    if (_type == MEUploadTypeImage) {
+        for (MEPhoto *photo in _images) {
+            if ([photo.md5FileName isEqual: key]) {
+                photo.progress = 0;
+                photo.status = UploadFail;
+                break;
+            }
+        }
+    } else {
+        for (MEVideo *video in _videos) {
+            _isUploadOver = YES;
+            video.progress = 0;
+            video.status = UploadFail;
         }
     }
     [self.tableView reloadData];
@@ -221,11 +276,16 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent {
     NSLog(@"percent === %.2f", percent);
-    for (MEPhoto *photo in _images) {
-        if ([photo.md5FileName isEqualToString: key]) {
-            photo.progress = percent;
+    if (_type == MEUploadTypeImage) {
+        for (MEPhoto *photo in _images) {
+            if ([photo.md5FileName isEqualToString: key]) {
+                photo.progress = percent;
+            }
         }
+    } else {
+        _videos[0].progress = percent;
     }
+    
     [self.tableView reloadData];
 }
 
