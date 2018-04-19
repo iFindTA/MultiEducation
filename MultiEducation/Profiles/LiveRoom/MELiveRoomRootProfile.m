@@ -92,11 +92,36 @@
 
 #pragma mark --- fetch network data
 
+- (uint64_t)fetchCurrentClassID {
+    __block uint64_t class_id = 0;
+    if (self.currentUser.userType == 1) {//老师
+        TeacherPb *teacher = self.currentUser.teacherPb;
+        NSArray <MEPBClass*>*classes = teacher.classPbArray.copy;
+        //老师 目前策略直接取第一个class
+        MEPBClass *cls = classes.firstObject;
+        class_id = cls.id_p;
+    } else if (self.currentUser.userType == 3) {
+        //家长
+        ParentsPb *parent = self.currentUser.parentsPb;
+        NSArray<StudentPb*>*studdents = parent.studentPbArray.copy;
+        uint64_t currentStudnetID = parent.cutStudenId;
+        [studdents enumerateObjectsUsingBlock:^(StudentPb * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.id_p == currentStudnetID) {
+                class_id = obj.classId;
+            }
+        }];
+    }
+    return class_id;
+}
+
 - (void)loadLiveClassRoomData {
-    
+    //当前class_id
+    uint64_t class_id = [self fetchCurrentClassID];
     MELiveClassVM *vm = [[MELiveClassVM alloc] init];
+    MEPBClassLive *live = [[MEPBClassLive alloc] init];
+    [live setClassId:class_id];
     weakify(self)
-    [vm postData:[NSData data] hudEnable:true success:^(NSData * _Nullable resObj) {
+    [vm postData:[live data] hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         MEPBClassLive *liveRoom = [MEPBClassLive parseFromData:resObj error:&err];
         if (err) {

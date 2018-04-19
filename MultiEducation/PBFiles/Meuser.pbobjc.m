@@ -757,12 +757,14 @@ typedef struct FuncCtrlPb__storage_ {
 @dynamic mobile;
 @dynamic studentPbArray, studentPbArray_Count;
 @dynamic classPbArray, classPbArray_Count;
+@dynamic cutStudenId;
 
 typedef struct ParentsPb__storage_ {
   uint32_t _has_storage_[1];
   NSString *mobile;
   NSMutableArray *studentPbArray;
   NSMutableArray *classPbArray;
+  int64_t cutStudenId;
 } ParentsPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -798,6 +800,15 @@ typedef struct ParentsPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "cutStudenId",
+        .dataTypeSpecific.className = NULL,
+        .number = ParentsPb_FieldNumber_CutStudenId,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(ParentsPb__storage_, cutStudenId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ParentsPb class]
@@ -809,7 +820,7 @@ typedef struct ParentsPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\002\000studentPb\000\003\000classPb\000";
+        "\003\002\000studentPb\000\003\000classPb\000\004\013\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

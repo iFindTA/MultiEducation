@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "Meclass.pbobjc.h"
 #import "MeclassLive.pbobjc.h"
 
 @interface MELiveClassVM : MEVM

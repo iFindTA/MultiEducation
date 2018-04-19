@@ -3,7 +3,7 @@ syntax = "proto3";
 message MEPBClassLive {
 	int64 id = 1;//ID
 	int64 teacherId = 2;//直播老师ID
-	int64 classId = 3;//班级ID
+	int64 classId = 3;//班级ID 必传
 	string streamUrl = 4;//直播流
 	int32 status = 5;//直播状态0未开始 1直播中
 	string videoUrl = 6;//往期视频uri
