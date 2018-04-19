@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MELiveClassVM.h"
 #import <MJRefresh/MJRefresh.h>
 #import "MELiveRoomRootProfile.h"
 
@@ -17,6 +18,7 @@
 @property (nonatomic, assign) BOOL whetherTeacherRole;
 
 @property (nonatomic, strong) UITableView *table;
+@property (nonatomic, strong) MEPBClassLive *dataLive;
 
 @end
 
@@ -67,6 +69,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    if (!self.dataLive) {
+        [self loadLiveClassRoomData];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -82,6 +87,30 @@
 #pragma mark --- initiazlized subviews
 
 - (void)__initLiveRoomSubviews {
+    
+}
+
+#pragma mark --- fetch network data
+
+- (void)loadLiveClassRoomData {
+    
+    MELiveClassVM *vm = [[MELiveClassVM alloc] init];
+    weakify(self)
+    [vm postData:[NSData data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBClassLive *liveRoom = [MEPBClassLive parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            self.dataLive = liveRoom;
+        }
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
+}
+
+- (void)rebuildLiveRoomSubviews {
     
 }
 
