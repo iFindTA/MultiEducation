@@ -258,7 +258,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     
     //*推荐视频小分类
     NSArray <MEPBResType*>*recommand = self.dataItem.recommendTypeListArray;
-    NSLog(@"recommand:%@", recommand);
+    //NSLog(@"recommand:%@", recommand);
     __block MEBaseScene *lastSection = nil;__block MEBaseScene *lastItem = nil;
     NSUInteger sectionHeight = ME_LAYOUT_ICON_HEIGHT;
     UIFont *sectFont = UIFontPingFangSCBold(METHEME_FONT_TITLE);
@@ -268,7 +268,8 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
     NSUInteger itemMargin = ME_LAYOUT_MARGIN;NSUInteger itemDistance = ME_LAYOUT_MARGIN * 2;
     NSUInteger itemWidth = (MESCREEN_WIDTH-itemMargin*2-itemDistance*(numPerLine-1))/numPerLine;NSUInteger itemHeight = adoptValue(ME_INDEX_STORY_ITEM_HEIGHT);
-    for (MEPBResType * type in recommand) {
+    for (int i = 0;i < recommand.count;i++) {
+        MEPBResType *type = recommand[i];
         MEBaseScene *sectTitleScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
         //sectTitleScene.backgroundColor = [UIColor pb_randomColor];
         [self.layout addSubview:sectTitleScene];
@@ -288,9 +289,9 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         lastSection = sectTitleScene;
         //items
         NSArray <MEPBRes*>*courseItems = [type resPbArray].copy;
-        NSLog(@"section:%@-----item counts:%d", type.title, courseItems.count);
+        //NSLog(@"section:%@-----item counts:%d", type.title, courseItems.count);
         
-        for (int i = 0;i < courseItems.count;i++) {
+        for (int j = 0;j < courseItems.count;j++) {
             MEPBRes *item = courseItems[i];
             NSUInteger __row_idx = i / numPerLine;NSUInteger __col_idx = i % numPerLine;
             NSUInteger offset_x = itemMargin + (itemWidth+itemDistance)*__col_idx;

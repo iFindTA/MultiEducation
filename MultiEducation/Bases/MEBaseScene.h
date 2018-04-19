@@ -15,6 +15,11 @@
 @interface MEBaseScene : PBView
 
 /**
+ section tag for label
+ */
+@property (nonatomic, assign) NSUInteger sectionTag;
+
+/**
  getter user
  */
 - (MEPBUser * _Nullable)currentUser;
