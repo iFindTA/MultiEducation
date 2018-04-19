@@ -331,7 +331,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             [labels addObject:obj.labelName];
         }
     }];
-    NSDictionary *titleParams = @{@"title":title, @"tags":labels.copy};
+    NSDictionary *titleParams = @{@"title":PBAvailableString(title), @"tags":labels.copy};
     [self.titlePanel updatePlayInfoTitlePanel4Info:titleParams];
     
     //sub description panel
