@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MWPhotoBrowser.h>
+#import "MebabyAlbum.pbobjc.h"
 
 typedef enum : NSUInteger {
     UploadSucc,
@@ -25,5 +26,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, assign) UploadStatus status;
 @property (nonatomic, assign) float progress;
+
+@property (nonatomic, assign) ClassAlbumPb *albumPb;
 
 @end
