@@ -292,7 +292,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         //NSLog(@"section:%@-----item counts:%d", type.title, courseItems.count);
         
         for (int j = 0;j < courseItems.count;j++) {
-            MEPBRes *item = courseItems[i];
+            MEPBRes *item = courseItems[j];
             NSUInteger __row_idx = i / numPerLine;NSUInteger __col_idx = i % numPerLine;
             NSUInteger offset_x = itemMargin + (itemWidth+itemDistance)*__col_idx;
             NSUInteger offset_y = itemMargin + (itemHeight+ME_LAYOUT_MARGIN)*__row_idx;
