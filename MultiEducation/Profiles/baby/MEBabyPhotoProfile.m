@@ -46,9 +46,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 
-@property (nonatomic, strong) MEPhotoSelectProfile *photoSelectBrowser;
-@property (nonatomic, strong) NSMutableArray <MEPhoto *> *sysPhotos;  //手机相册里的图片
-
 @property (nonatomic, strong) NSArray <ClassAlbumPb *> *classAlbums;
 
 @end
@@ -77,8 +74,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self customNavigation];
     
     [self layoutView];
-    
-    [self getOriginalImages];
     
 }
 
@@ -131,59 +126,8 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
-- (void)getOriginalImages {
-    // 获得所有的自定义相簿
-    PHFetchResult<PHAssetCollection *> *assetCollections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    // 遍历所有的自定义相簿
-    for (PHAssetCollection *assetCollection in assetCollections) {
-        [self enumerateAssetsInAssetCollection:assetCollection original:YES];
-    }
-    
-    // 获得相机胶卷
-    PHAssetCollection *cameraRoll = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
-    // 遍历相机胶卷,获取大图
-    [self enumerateAssetsInAssetCollection:cameraRoll original: NO];
-}
-
-/**
- *  遍历相簿中的所有图片
- *  @param assetCollection 相簿
- *  @param original        是否要原图
- */
-- (void)enumerateAssetsInAssetCollection:(PHAssetCollection *)assetCollection original:(BOOL)original {
-    NSLog(@"相簿名:%@", assetCollection.localizedTitle);
-    
-    PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-    // 同步获得图片, 只会返回1张图片
-    options.synchronous = NO;
-    
-    // 获得某个相簿中的所有PHAsset对象
-    PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
-    for (PHAsset *asset in assets) {
-        // 是否要原图
-        CGSize size = original ? CGSizeMake(asset.pixelWidth, asset.pixelHeight) : CGSizeZero;
-        
-        // 从asset中获得图片
-        weakify(self);
-        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:options resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            strongify(self);
-            
-            MWPhoto *mwPhoto = [MWPhoto photoWithImage: result];
-            
-            MEPhoto *photo = [[MEPhoto alloc] init];
-            photo.image = result;
-            photo.isSelect = NO;
-            photo.photo = mwPhoto;
-            
-            [self.sysPhotos addObject: photo];
-        }];
-    }
-}
-
 - (void)uploadTouchEvent {
-    [self.navigationController pushViewController: self.photoSelectBrowser animated: YES];
-    //MWBrowser can't reuser!!! need set nil;
-    _photoSelectBrowser = nil;
+    
 }
 
 - (void)layoutView {
@@ -252,56 +196,17 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
 }
 
-- (NSArray <MEPhoto *> *)selectedForUploadingPhotos {
-    NSMutableArray *selectedPhotos = [NSMutableArray array];
-    
-    for (int i = 0; i < self.sysPhotos.count; i++) {
-        if ([self.sysPhotos objectAtIndex: i].isSelect) {
-            [selectedPhotos addObject: [self.sysPhotos objectAtIndex: i]];
-        }
-    }
-    return selectedPhotos;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 #pragma mark - MWPhotoBrowser
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
-    if (photoBrowser == self.photoBrowser) {
         return self.photos.count;
-    } else {
-        return self.sysPhotos.count;
-    }
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    if (photoBrowser == self.photoBrowser) {
-        return [self.photos objectAtIndex: index].photo;
-    } else {
-        return [self.sysPhotos objectAtIndex: index].photo;
-    }
-}
-
-- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser thumbPhotoAtIndex:(NSUInteger)index {
-    if (photoBrowser == self.photoBrowser) {
-        return [self.photos objectAtIndex: index].photo;
-    } else {
-        return [self.sysPhotos objectAtIndex: index].photo;
-    }
-}
-
-- (BOOL)photoBrowser:(MWPhotoBrowser *)photoBrowser isPhotoSelectedAtIndex:(NSUInteger)index {
-    if (photoBrowser == _photoSelectBrowser) {
-        return [self.sysPhotos objectAtIndex: index].isSelect;
-    } else {
-        return NO;
-    }
-}
-
-- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index selectedChanged:(BOOL)selected {
-    [self.sysPhotos objectAtIndex: index].isSelect = selected;
+    return [self.photos objectAtIndex: index].photo;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -470,36 +375,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     return _photoBrowser;
 }
 
-- (MEPhotoSelectProfile *)photoSelectBrowser {
-    if (!_photoSelectBrowser) {
-        //初始化
-        _photoSelectBrowser = [[MEPhotoSelectProfile alloc] initWithDelegate: self];
-        
-        __weak typeof(self) weakSelf = self;
-        _photoSelectBrowser.uploadImagesHandler = ^{
-            
-            NSDictionary *params = @{@"images": [weakSelf selectedForUploadingPhotos]};
-            
-            NSString *urlString = @"profile://root@MEPhotoProgressProfile/";
-            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
-            [weakSelf handleTransitionError: err];
-        };
-        
-        //set options
-        [_photoSelectBrowser setCurrentPhotoIndex:0];
-        _photoSelectBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
-        _photoSelectBrowser.displayNavArrows = NO; //显示左右划动
-        _photoSelectBrowser.displaySelectionButtons = YES; //是否显示选择图片按钮
-        _photoSelectBrowser.alwaysShowControls = NO; //控制条始终显示
-        _photoSelectBrowser.zoomPhotosToFill = YES; //是否自适应大小
-        _photoSelectBrowser.enableGrid = YES;//是否允许网络查看图片
-        _photoSelectBrowser.startOnGrid = NO; //是否以网格开始;
-        _photoSelectBrowser.enableSwipeToDismiss = YES;
-        _photoSelectBrowser.autoPlayOnAppear = NO;//是否自动播放视频
-    }
-    return _photoSelectBrowser;
-}
-
 - (NSMutableArray *)photos {
     if (!_photos) {
         _photos = [NSMutableArray array];
@@ -512,13 +387,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineArr = [NSMutableArray array];
     }
     return _timeLineArr;
-}
-
-- (NSMutableArray<MEPhoto *> *)sysPhotos {
-    if (!_sysPhotos) {
-        _sysPhotos = [NSMutableArray array];
-    }
-    return _sysPhotos;
 }
 
 @end
