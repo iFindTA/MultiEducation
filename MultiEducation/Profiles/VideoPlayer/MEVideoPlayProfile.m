@@ -19,7 +19,7 @@
 
 static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   16.f/9;
 
-@interface MEVideoPlayProfile () <ZFPlayerDelegate, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface MEVideoPlayProfile () <ZFPlayerDelegate, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 /**
  video info that received
@@ -108,7 +108,6 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     
     //下载视频相关信息
     self.whetherDidLoadData = false;
-    [self loadVideoRelevantData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -211,6 +210,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         _table.emptyDataSetSource = self;
         _table.emptyDataSetDelegate = self;
         _table.tableFooterView = [UIView new];
+        _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
 }
@@ -227,122 +227,6 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)zf_playerControlViewWillHidden:(UIView *)controlView isFullscreen:(BOOL)fullscreen {
     [self.playerControl updateUserActionItemState4Hidden:true];
-}
-
-#pragma mark --- Observes Events
-
-- (void)__applicationDidEnterBackground {
-    [self.player pause];
-}
-
-- (void)__applicationDidEnterForeground {
-    if (self.player.state != ZFPlayerStateStopped && self.player.state != ZFPlayerStateFailed) {
-        [self.player play];
-    }
-}
-
-- (void)onDeviceOrientationChange {
-    BOOL fullValue = [[self.player valueForKeyPath:@"isFullScreen"] boolValue];
-    if (fullValue) {
-        NSLog(@"2 full");
-    } else {
-        NSLog(@"exit full");
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"isFullScreen"]) {
-        BOOL isFullScreen = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-        NSLog(@"变成%@", isFullScreen?@"全屏":@"小屏");
-        [self.playerControl updateVideoPlayerState:isFullScreen];
-        
-        [self.view layoutIfNeeded];
-    } else if ([keyPath isEqualToString:@"state"]) {
-        NSInteger state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
-        if (state == ZFPlayerStateStopped) {
-            //自动提示播放下一个视频
-            MEPBRes *nextItem = [self fetchNextRecommandResource];
-            if (nextItem) {
-                self.nextRes = nextItem;
-                [self.playerControl showNextPlayItem:nextItem.title];
-            }
-        } else {
-            [self.playerControl closeNextRecommandItemEvent];
-        }
-        
-    }
-}
-
-#pragma mark --- user touch action
-
-/**
- 收藏 & 分享
- */
-- (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
-    if (action & MEVideoPlayUserActionBack) {
-        [self defaultGoBackStack];
-    } else if (action & MEVideoPlayUserActionLike) {
-        //收藏callback
-        weakify(self)
-        void(^likeCallback)(void) = ^(){
-            NSString *uid = @"fetch user's id";
-            
-            //收藏动作
-            //NSLog(@"sigin after excute block with user:%@", uid);
-            
-            PBMAINDelay(ME_ANIMATION_DURATION, ^{
-                strongify(self)
-                [self defaultGoBackStack];
-                [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
-                [self.playerControl updateUserLikeItemState:true];
-            });
-        };
-        if (self.currentUser.isTourist) {
-            
-            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-            [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
-            [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
-            NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params.copy instanceType:MEProfileTypeCODE];
-            NSError *err = [MEDispatcher openURL:signInUrl withParams:params];
-            [self handleTransitionError:err];
-            return;
-        } else {
-            
-        }
-        //收藏动作
-        if (likeCallback) {
-            likeCallback();
-        }
-    } else if (action & MEVideoPlayUserActionShare) {
-        NSString *textToShare = @"多元幼教_V2.0新版从火星回来了！";
-        UIImage *imageToShare = [UIImage imageNamed:@"playerBg"];
-        NSURL *urlToShare = [NSURL URLWithString:@"https://github.com/iFindTA"];
-        NSArray *activityItems = @[urlToShare,textToShare,imageToShare];
-        //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
-        MEActivity *active = [[MEActivity alloc] initWithTitie:@"多元幼教V2.0" withActivityImage:[UIImage imageNamed:@"AppIcon"] withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
-        NSArray *activities = @[active];
-        UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:activities];
-        shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
-            NSLog(@"activityType :%@", activityType);
-            if (completed) {
-                NSLog(@"completed");
-            } else {
-                NSLog(@"cancel");
-            }
-        };
-        //关闭系统的一些activity类型
-        shareProfile.excludedActivityTypes = @[];
-        [self presentViewController:shareProfile animated:true completion:nil];
-    } else if (action & MEVideoPlayUserActionNextItem) {
-        self.previewRes = self.nextRes;
-        _nextRes = nil;
-        [self resetAllUIResources4NextPlayItem];
-    }
-    UIAlertController *sheet  = [UIAlertController alertControllerWithTitle:@"标题二" message:@"这里是要显示的信息" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [sheet addAction:cancel];
 }
 
 #pragma mark --- Load Relevant && User Interactive
@@ -527,7 +411,6 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 #pragma mark --- UITableView Delegate && DataSource
 
-#pragma mark --- UITableView Deleagte & DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSUInteger counts = self.currentRes.relevantListArray.count;
     NSUInteger rows = counts / ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
@@ -596,6 +479,122 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     MEPBRes *res = resources[row];
     self.previewRes = res;
     [self resetAllUIResources4NextPlayItem];
+}
+
+#pragma mark --- Observes Events
+
+- (void)__applicationDidEnterBackground {
+    [self.player pause];
+}
+
+- (void)__applicationDidEnterForeground {
+    if (self.player.state != ZFPlayerStateStopped && self.player.state != ZFPlayerStateFailed) {
+        [self.player play];
+    }
+}
+
+- (void)onDeviceOrientationChange {
+    BOOL fullValue = [[self.player valueForKeyPath:@"isFullScreen"] boolValue];
+    if (fullValue) {
+        NSLog(@"2 full");
+    } else {
+        NSLog(@"exit full");
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"isFullScreen"]) {
+        BOOL isFullScreen = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+        NSLog(@"变成%@", isFullScreen?@"全屏":@"小屏");
+        [self.playerControl updateVideoPlayerState:isFullScreen];
+        
+        [self.view layoutIfNeeded];
+    } else if ([keyPath isEqualToString:@"state"]) {
+        NSInteger state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+        if (state == ZFPlayerStateStopped) {
+            //自动提示播放下一个视频
+            MEPBRes *nextItem = [self fetchNextRecommandResource];
+            if (nextItem) {
+                self.nextRes = nextItem;
+                [self.playerControl showNextPlayItem:nextItem.title];
+            }
+        } else {
+            [self.playerControl closeNextRecommandItemEvent];
+        }
+        
+    }
+}
+
+#pragma mark --- user touch action
+
+/**
+ 收藏 & 分享
+ */
+- (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
+    if (action & MEVideoPlayUserActionBack) {
+        [self defaultGoBackStack];
+    } else if (action & MEVideoPlayUserActionLike) {
+        //收藏callback
+        weakify(self)
+        void(^likeCallback)(void) = ^(){
+            NSString *uid = @"fetch user's id";
+            
+            //收藏动作
+            //NSLog(@"sigin after excute block with user:%@", uid);
+            
+            PBMAINDelay(ME_ANIMATION_DURATION, ^{
+                strongify(self)
+                [self defaultGoBackStack];
+                [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
+                [self.playerControl updateUserLikeItemState:true];
+            });
+        };
+        if (self.currentUser.isTourist) {
+            
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+            [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
+            [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
+            NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params.copy instanceType:MEProfileTypeCODE];
+            NSError *err = [MEDispatcher openURL:signInUrl withParams:params];
+            [self handleTransitionError:err];
+            return;
+        } else {
+            
+        }
+        //收藏动作
+        if (likeCallback) {
+            likeCallback();
+        }
+    } else if (action & MEVideoPlayUserActionShare) {
+        NSString *textToShare = @"多元幼教_V2.0新版从火星回来了！";
+        UIImage *imageToShare = [UIImage imageNamed:@"playerBg"];
+        NSURL *urlToShare = [NSURL URLWithString:@"https://github.com/iFindTA"];
+        NSArray *activityItems = @[urlToShare,textToShare,imageToShare];
+        //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
+        MEActivity *active = [[MEActivity alloc] initWithTitie:@"多元幼教V2.0" withActivityImage:[UIImage imageNamed:@"AppIcon"] withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
+        NSArray *activities = @[active];
+        UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:activities];
+        shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
+            NSLog(@"activityType :%@", activityType);
+            if (completed) {
+                NSLog(@"completed");
+            } else {
+                NSLog(@"cancel");
+            }
+        };
+        //关闭系统的一些activity类型
+        shareProfile.excludedActivityTypes = @[];
+        [self presentViewController:shareProfile animated:true completion:nil];
+    } else if (action & MEVideoPlayUserActionNextItem) {
+        self.previewRes = self.nextRes;
+        _nextRes = nil;
+        [self resetAllUIResources4NextPlayItem];
+    }
+    UIAlertController *sheet  = [UIAlertController alertControllerWithTitle:@"标题二" message:@"这里是要显示的信息" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [sheet addAction:cancel];
 }
 
 /*
