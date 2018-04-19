@@ -14,6 +14,7 @@
 #import <Photos/Photos.h>
 #import "MEBabyAlbumVM.h"
 #import "Meclass.pbobjc.h"
+#import "MebabyAlbum.pbobjc.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -99,12 +100,25 @@ static CGFloat const ITEM_LEADING = 10.f;
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
         ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        
         self.classAlbums = albumListPb.classAlbumArray;
+        
+        NSString *urlHead = self.currentUser.bucketDomain;
+        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
+            MEPhoto *photo = [[MEPhoto alloc] init];
+            photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.fileName];
+            MWPhoto *mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
+            photo.photo = mwPhoto;
+            photo.albumPb = pb;
+            [self.photos addObject: photo];
+        }
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
+}
+
+- (void)setUserPhotosInQNCloud {
+    
 }
 
 - (void)customNavigation {
@@ -128,7 +142,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     // 获得相机胶卷
     PHAssetCollection *cameraRoll = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil].lastObject;
     // 遍历相机胶卷,获取大图
-    [self enumerateAssetsInAssetCollection:cameraRoll original:YES];
+    [self enumerateAssetsInAssetCollection:cameraRoll original: NO];
 }
 
 /**
@@ -141,7 +155,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     // 同步获得图片, 只会返回1张图片
-    options.synchronous = YES;
+    options.synchronous = NO;
     
     // 获得某个相簿中的所有PHAsset对象
     PHFetchResult<PHAsset *> *assets = [PHAsset fetchAssetsInAssetCollection:assetCollection options:nil];
@@ -448,7 +462,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         _photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮
         _photoBrowser.alwaysShowControls = NO; //控制条始终显示
         _photoBrowser.zoomPhotosToFill = YES; //是否自适应大小
-        _photoBrowser.enableGrid = YES;//是否允许网络查看图片
+        _photoBrowser.enableGrid = NO;//是否允许网络查看图片
         _photoBrowser.startOnGrid = NO; //是否以网格开始;
         _photoBrowser.enableSwipeToDismiss = YES;
         _photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
