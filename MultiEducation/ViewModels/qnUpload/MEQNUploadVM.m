@@ -7,23 +7,22 @@
 //
 
 #import "MEQNUploadVM.h"
-#import "Meqnfile.pbobjc.h"
 
 @interface MEQNUploadVM ()
 
-@property (nonatomic, strong) MEPBQNFile *qnPb;
+@property (nonatomic, strong) ClassAlbumListPb *qnPb;
 
 @end
 
 @implementation MEQNUploadVM
 
-+ (instancetype)vmWithPb:(MEPBQNFile *)qnPb {
++ (instancetype)vmWithPb:(ClassAlbumListPb *)qnPb {
     NSAssert(qnPb != nil, @" could not initialized by nil!");
     return [[self alloc] initWithPb: qnPb];
 }
 
 
-- (instancetype)initWithPb:(MEPBQNFile *)pb {
+- (instancetype)initWithPb:(ClassAlbumListPb *)pb {
     self = [super init];
     if (self) {
         _qnPb = pb;
@@ -32,7 +31,7 @@
 }
 
 - (NSString *)cmdCode {
-    return FSC_QN_FILE_GET;
+    return FSC_CLASS_ALBUM_BATCH_POST;
 }
 
 @end

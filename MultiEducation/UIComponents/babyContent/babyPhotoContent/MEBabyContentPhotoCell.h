@@ -7,11 +7,14 @@
 //
 
 #import "MEBaseCollectionCell.h"
+#import "MEPhoto.h"
 
 @interface MEBabyContentPhotoCell : MEBaseCollectionCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *photoIcon;
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *floderNameLabel;
+
+- (void)setData:(MEPhoto *)photo;
 
 @end

@@ -10,8 +10,8 @@
 #import "MebabyAlbum.pbobjc.h"
 #import <WHC_ModelSqlite.h>
 
-@interface MEBabyAlbumVM : MEVM
+@interface MEBabyAlbumListVM : MEVM
  
-+ (instancetype)vmWithPb:(ClassAlbumPb *)qnPb;
++ (instancetype)vmWithPb:(ClassAlbumPb *)pb;
 
 @end

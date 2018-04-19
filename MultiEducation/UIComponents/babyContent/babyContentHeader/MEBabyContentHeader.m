@@ -7,6 +7,8 @@
 //
 
 #import "MEBabyContentHeader.h"
+#import "Meclass.pbobjc.h"
+
 
 @implementation MEBabyContentHeader
 
@@ -29,12 +31,25 @@
     [self addGestureRecognizer: tapGes];
 }
 
+//if userRole == teacher && user.teacherPb.classArray > 1 , push to select class profile , else push to babyPhotoProfile
 - (void)babyContentHeaderTapEvent {
-    NSLog(@"did touch babyphoto header");
-    
-    NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
-    [self handleTransitionError:err];
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        if (self.currentUser.teacherPb.classPbArray.count > 1) {
+            
+            NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+            [self handleTransitionError:err];
+            
+        } else {
+            NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.teacherPb.classPbArray[0].id_p];
+            NSDictionary *params = @{@"classId": classId};
+            NSString *urlString =@"profile://root@MEBabyPhotoPorfile";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+            [self handleTransitionError:err];
+        }
+    } else {
+        
+    }
 }
 
 @end

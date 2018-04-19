@@ -7,10 +7,11 @@
 //
 
 #import "MEVM.h"
-#import "Meqnfile.pbobjc.h"
+#import "MebabyAlbum.pbobjc.h"
+
 
 @interface MEQNUploadVM : MEVM
 
-+ (instancetype)vmWithPb:(MEPBQNFile *)qnPb;
++ (instancetype)vmWithPb:(ClassAlbumListPb *)qnPb;
 
 @end

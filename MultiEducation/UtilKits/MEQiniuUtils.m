@@ -48,12 +48,12 @@ static MEQiniuUtils *qnUtils;
 
     NSData *data = UIImagePNGRepresentation(image);
     
-//    if (data.length > uploadLimit) {
-//        NSLog(@"image length:(%ld) too big",data.length);
-//        imageIndex++;
-//        [self uploadImages: images token: token keys: keys];
-//        return;
-//    }
+    if (data.length > uploadLimit) {
+        NSLog(@"image length:(%ld) too big",data.length);
+        imageIndex++;
+        [self uploadImages: images keys: keys];
+        return;
+    }
     
     __weak typeof(self) weakSelf = self;
     [qnUploadManager putData:data key:[images objectAtIndex: _index].md5FileName token:self.qnToken

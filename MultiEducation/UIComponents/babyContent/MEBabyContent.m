@@ -68,6 +68,12 @@
         } else {
             NSLog(@"未绑定任何孩子");
         }
+    } else if(role == MEPBUserRole_Teacher) {
+        if (self.currentUser.teacherPb.classPbArray.count > 1) {
+            
+        } else {
+            
+        }
     }
 }
 

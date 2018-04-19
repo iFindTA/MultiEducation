@@ -16,4 +16,16 @@
 //    self.floderNameLabel.hidden = YES;
 }
 
+- (void)setData:(MEPhoto *)photo {
+    
+    [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: photo.urlStr]];
+    self.floderNameLabel.text = photo.albumPb.fileName;
+    if (photo.albumPb.isParent) {
+        self.floderNameLabel.hidden = NO;
+    } else {
+        self.floderNameLabel.hidden = YES;
+    }
+    
+}
+
 @end

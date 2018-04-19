@@ -11,7 +11,7 @@
 #import <MWPhotoBrowser.h>
 #import "MEPhoto.h"
 #import <Photos/Photos.h>
-#import "MEBabyAlbumVM.h"
+#import "MEBabyAlbumListVM.h"
 #import "Meclass.pbobjc.h"
 #import "MebabyAlbum.pbobjc.h"
 #import <TZImagePickerController.h>
@@ -19,6 +19,7 @@
 #import <YYKit.h>
 #import "MEPhotoProgressProfile.h"
 #import "MEVideo.h"
+#import "MEBabyContentPhotoCell.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -35,7 +36,10 @@ static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
-@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate, TZImagePickerControllerDelegate>
+@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate, TZImagePickerControllerDelegate> {
+    NSInteger _classId;
+    NSInteger _parentId;
+}
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
 
@@ -61,7 +65,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (instancetype)__initWithParmas:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        
+        _classId = [[params objectForKey: @"classId"] integerValue];
+        _parentId = [[params objectForKey: @"parentId"] integerValue];
     }
     return self;
 }
@@ -73,52 +78,42 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     self.sj_fadeAreaViews = @[self.scrollView];
     
-    [self addTest];
-    
-    [self getClassId];
+    [self loadDataSource];
     
     [self customNavigation];
     
     [self layoutView];
 }
 
-- (void)getClassId {
+- (void)loadDataSource {
     ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-    MEBabyAlbumVM *babyVm = [MEBabyAlbumVM vmWithPb: pb];
-    if (self.currentUser.userType == MEPBUserRole_Parent) {
-        
-    } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
-        if (self.currentUser.teacherPb.classPbArray.count != 0) {
-            MEPBClass *classPb = [self.currentUser.teacherPb.classPbArray objectAtIndex: 0];
-            pb.classId = classPb.id_p;
-        }
-    }
+    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
+
+    pb.classId = _classId;
+    pb.parentId = _parentId;
     
     NSData *data = [pb data];
     
     weakify(self);
-//    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-//        strongify(self);
-//        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-//        self.classAlbums = albumListPb.classAlbumArray;
-//
-//        NSString *urlHead = self.currentUser.bucketDomain;
-//        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
-//            MEPhoto *photo = [[MEPhoto alloc] init];
-//            photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.fileName];
-//            MWPhoto *mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
-//            photo.photo = mwPhoto;
-//            photo.albumPb = pb;
-//            [self.photos addObject: photo];
-//        }
-//
-//    } failure:^(NSError * _Nonnull error) {
-//        [self handleTransitionError: error];
-//    }];
-}
+    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
+        self.classAlbums = albumListPb.classAlbumArray;
 
-- (void)setUserPhotosInQNCloud {
-    
+        NSString *urlHead = self.currentUser.bucketDomain;
+        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
+            MEPhoto *photo = [[MEPhoto alloc] init];
+            photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.filePath];
+            MWPhoto *mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
+            photo.photo = mwPhoto;
+            photo.albumPb = pb;
+            [self.photos addObject: photo];
+        }
+        [self.photoView reloadData];
+
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
 }
 
 - (void)customNavigation {
@@ -127,7 +122,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
-    item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStyleDone target: self action: @selector(uploadTouchEvent)];
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
+            item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStyleDone target: self action: @selector(uploadTouchEvent)];
+    }
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
@@ -181,25 +178,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     }];
 }
 
-- (void)addTest {
-    BOOL isSelect = NO;
-    NSString *urlStr = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523954495226&di=e9c5f86401052e2ba36dd3efca88e5c1&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201402%2F21%2F120044k1dgtgc4dg2dm5tw.jpg";
-    NSURL *url = [NSURL URLWithString: urlStr];
-    MWPhoto *mwPhoto = [MWPhoto photoWithURL: url];
-    
-    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL: url]];
-
-    for (int i = 0; i< 30; i++) {
-        MEPhoto *photo = [[MEPhoto alloc] init];
-        photo.urlStr = urlStr;
-        photo.photo = mwPhoto;
-        photo.image = image;
-        photo.status = Uploading;
-        
-        [self.photos addObject: photo];
-    }
-}
-
 - (void)pushToUploadProgressProfile:(NSDictionary *)params {
     [SVProgressHUD showWithStatus: @"正在压缩视频..."];
     NSString *urlString = @"profile://root@MEPhotoProgressProfile/";
@@ -246,11 +224,12 @@ static CGFloat const ITEM_LEADING = 10.f;
         photo.md5FileName = [self md5StringToImage: [self compressImage: photo.image]];
         photo.photo = mwPhoto;
         photo.status = Uploading;
+        photo.fileSize = UIImageJPEGRepresentation([self compressImage: photo.image], 1).length;
 
         [images addObject: photo];
     }
     
-    NSDictionary *params = @{@"images": images, @"type": [NSNumber numberWithInteger: MEUploadTypeImage]};
+    NSDictionary *params = @{@"images": images, @"type": [NSNumber numberWithInteger: MEUploadTypeImage], @"classId": [NSNumber numberWithInteger: _classId]};
     [self pushToUploadProgressProfile: params];
     
     
@@ -271,7 +250,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         video.status = Uploading;
         video.progress = 0;
         
-        NSDictionary *params = @{@"video": video, @"type": [NSNumber numberWithInteger: MEUploadTypeVideo]};
+        NSDictionary *params = @{@"video": video, @"type": [NSNumber numberWithInteger: MEUploadTypeVideo], @"classId": [NSNumber numberWithInteger: _classId]};
         [self pushToUploadProgressProfile: params];
 
     } failure:^(NSString *errorMessage, NSError *error) {
@@ -299,9 +278,10 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell;
+    MEBabyContentPhotoCell *cell;
     if ([collectionView isEqual: self.photoView]) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
+        [cell setData: [self.photos objectAtIndex: indexPath.row]];
         return cell;
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];
@@ -340,11 +320,23 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did selected item section:%ld, item:%ld", (unsigned long)indexPath.section, (unsigned long)indexPath.item);
+
+    if ([self.photos objectAtIndex: indexPath.item].albumPb.isParent) {
+        
+        NSNumber *parentId = [NSNumber numberWithInteger: [self.photos objectAtIndex: indexPath.item].albumPb.id_p];
+        NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"parentId": parentId};
+        NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
+        NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+        [self handleTransitionError:err];
+        
+    } else {
+        [self.navigationController pushViewController: self.photoBrowser animated: YES];
+        [_photoBrowser setCurrentPhotoIndex: indexPath.item];
+        //MWBrowser can't reuser!!! need set nil;
+        _photoBrowser = nil;
+    }
     
-    [self.navigationController pushViewController: self.photoBrowser animated: YES];
-    //MWBrowser can't reuser!!! need set nil;
-    _photoBrowser = nil;
+
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -432,7 +424,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         //初始化
         _photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
         //set options
-        [_photoBrowser setCurrentPhotoIndex:0];
         _photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
         _photoBrowser.displayNavArrows = NO; //显示左右划动
         _photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮

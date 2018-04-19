@@ -14,6 +14,7 @@
 #import "Meqnfile.pbobjc.h"
 #import <YYKit.h>
 #import "MEVideo.h"
+#import "MebabyAlbum.pbobjc.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 60.f;
@@ -23,6 +24,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     BOOL _isSetMd5FileName;
     
     MEUploadType _type;
+    NSInteger _classId;
 }
 
 @property (nonatomic, strong) NSMutableString *fileName;
@@ -38,7 +40,9 @@ static CGFloat const ROW_HEIGHT = 60.f;
 @property (nonatomic, strong) MEPBQNFile *qnPb;
 @property (nonatomic, strong) MEQNUploadVM *qnVM;
 
-@property (nonatomic, strong) NSMutableArray <MEVideo *> *statusArr;
+@property (nonatomic, strong) NSMutableArray *statusArr;
+
+@property (nonatomic, strong) ClassAlbumListPb *albumListPb;
 
 @end
 
@@ -53,7 +57,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
             _videos = [NSMutableArray array];
             [_videos addObject: [params objectForKey: @"video"]];
         }
-        
+        _classId = [[params objectForKey: @"classId"] integerValue];
     }
     return self;
 }
@@ -120,7 +124,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     NSMutableArray *images = [NSMutableArray array];
     if (!_isSetMd5FileName) {
         for (MEPhoto *photo in imageArr) {
-            photo.md5FileName = [self md5StringToImage: photo.image];
+            photo.md5FileName = [NSString stringWithFormat: @"%@.jpg", [self md5StringToImage: photo.image]];
             photo.image = [self compressImage: photo.image];
         }
         _isSetMd5FileName = YES;
@@ -154,25 +158,38 @@ static CGFloat const ROW_HEIGHT = 60.f;
 //if retry = YES , means user did select retry button to upload image
 - (void)sendPostToServer:(NSArray *)keys {
     
-    MEQNUploadVM *uploadVM = [MEQNUploadVM vmWithPb: self.qnPb];
+    NSMutableArray <ClassAlbumPb *> *albumList = [NSMutableArray array];
+    for (int i = 0; i < keys.count; i++) {
+        ClassAlbumPb *albumPb = [[ClassAlbumPb alloc] init];
+        
+        if (_type == MEUploadTypeImage) {
+            albumPb.fileType = @"jpg";
+        } else {
+            albumPb.fileType = @"mp4";
+        }
+        
+        albumPb.classId = _classId;
+        albumPb.isParent = 0;
+        albumPb.parentId = 0;
+        albumPb.fileName = [keys objectAtIndex: i];
+        albumPb.filePath = [NSString stringWithFormat: @"%@.%@", [self.totalImages objectAtIndex: i].md5FileName, albumPb.fileType];
+        albumPb.fileSize = [self.totalImages objectAtIndex: i].fileSize;
 
-    for (NSString *key in keys) {
-        [self.fileName appendFormat: @"%@,", key];
+        [albumList addObject: albumPb];
     }
+    self.albumListPb.classAlbumArray = [NSMutableArray arrayWithArray: albumList];
+    MEQNUploadVM *uploadVM = [MEQNUploadVM vmWithPb: self.albumListPb];
     
-    NSData *data = [self.qnPb data];
+    NSData *data = [self.albumListPb data];
     
     weakify(self);
     [uploadVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
-        
         NSLog(@"success upload total");
-        
     } failure:^(NSError * _Nonnull error) {
         strongify(self);
         [self handleTransitionError:error];
     }];
-    
 }
 
 - (void)uploadTotalSuccAlert {
@@ -331,6 +348,13 @@ static CGFloat const ROW_HEIGHT = 60.f;
     return _images;
 }
 
+- (NSMutableString *)fileName {
+    if (!_fileName) {
+        _fileName = [NSMutableString string];
+    }
+    return _fileName;
+}
+
 - (NSMutableArray *)statusArr {
     if (!_statusArr) {
         _statusArr = [NSMutableArray array];
@@ -340,4 +364,12 @@ static CGFloat const ROW_HEIGHT = 60.f;
     }
     return _statusArr;
 }
+
+- (ClassAlbumListPb *)albumListPb {
+    if (!_albumListPb) {
+        _albumListPb = [[ClassAlbumListPb alloc] init];
+    }
+    return _albumListPb;
+}
+
 @end
