@@ -31,7 +31,7 @@
         [self addSubview:self.titleLab];
         
         //label tags
-        NSArray *tags = @[@"大班上",@"故事",@"亲子"];
+        //NSArray *tags = @[@"大班上",@"故事",@"亲子"];
         UIFont *tagFont = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
         TTGTextTagConfig *cfg = [[TTGTextTagConfig alloc] init];
         cfg.tagTextFont = tagFont;
@@ -48,7 +48,7 @@
         tagScene.alignment = TTGTagCollectionAlignmentRight;
         [self addSubview:tagScene];
         self.tagScene = tagScene;
-        [tagScene addTags:tags];
+        //[tagScene addTags:tags];
     }
     return self;
 }
