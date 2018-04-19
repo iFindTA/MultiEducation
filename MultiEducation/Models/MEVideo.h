@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MebabyAlbum.pbobjc.h"
 #import "MEPhoto.h"
-
+ 
 @interface MEVideo : NSObject
 
 @property (nonatomic, strong) UIImage *image;
