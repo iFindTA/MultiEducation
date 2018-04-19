@@ -7,6 +7,7 @@
 //
 
 #import "MEActivity.h"
+#import "MEWatchItem.h"
 #import "MEVideoInfoVM.h"
 #import "MEPlayerControl.h"
 #import <ZFPlayer/ZFPlayer.h>
@@ -520,8 +521,32 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             }
         } else {
             [self.playerControl closeNextRecommandItemEvent];
+            if (state == ZFPlayerStatePlaying) {
+                //正在播放 则将视频信息存入数据库 用户观看历史
+                [self saveCurrentPlayItemIntoUserWatchHistory];
+            }
         }
         
+    }
+}
+
+- (void)saveCurrentPlayItemIntoUserWatchHistory {
+    MEPBRes *res = self.currentRes;
+    if (res) {
+        PBBACK( ^{
+            MEWatchItem *item = [[MEWatchItem alloc] init];
+            item.userID = self.currentUser.id_p;
+            item.resId = res.resId;
+            item.type = res.type;
+            item.resTypeId = res.resTypeId;
+            item.watchTimestamp = [MEKits currentTimeInterval];
+            item.title = res.title.copy;
+            item.desc = res.desc.copy;
+            item.intro = res.intro.copy;
+            item.coverImg = res.coverImg.copy;
+            item.filePath = res.filePath.copy;
+            [WHCSqlite insert:item];
+        });
     }
 }
 
@@ -539,7 +564,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         void(^likeCallback)(void) = ^(){
             NSString *uid = @"fetch user's id";
             
-            //收藏动作
+            //TODO:收藏动作
             //NSLog(@"sigin after excute block with user:%@", uid);
             
             PBMAINDelay(ME_ANIMATION_DURATION, ^{

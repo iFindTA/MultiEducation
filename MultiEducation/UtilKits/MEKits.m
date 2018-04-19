@@ -19,6 +19,10 @@
     return udidString;
 }
 
++ (NSTimeInterval)currentTimeInterval {
+    return [[NSDate date] timeIntervalSince1970];
+}
+
 + (NSString *)sandboxPath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
     NSString *documentPath = paths.firstObject;

@@ -10,4 +10,8 @@
 
 @implementation MEWatchItem
 
++ (NSString *)whc_SqliteMainkey {
+    return @"userID";
+}
+
 @end

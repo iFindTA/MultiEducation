@@ -19,6 +19,11 @@
  */
 + (NSString *)createUUID;
 
+/**
+ current timeinterval
+ */
++ (NSTimeInterval)currentTimeInterval;
+
 
 /**
  sandbox path
