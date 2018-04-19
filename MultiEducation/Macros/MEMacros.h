@@ -103,21 +103,6 @@ typedef NS_ENUM(NSUInteger, MEDisplayStyle) {
     MEDisplayStyleMainSence                     =   1   <<  2//显示主页面
 };
 
-typedef NS_ENUM(NSUInteger, MEUserRole) {
-    MEUserRoleVisitor                       =   1   <<  0,  //游客
-    MEUserRoleParent                        =   1   <<  1,  //家长
-    MEUserRoleTeacher                       =   1   <<  2,  //老师
-    MEUserRoleGardener                      =   1   <<  3   //园务
-};
-/**
- user state
- */
-typedef NS_ENUM(NSUInteger, MEUserState) {
-    MEUserStateOffline                      =   1   <<  0,
-    MEUserStateBusy                         =   1   <<  1,
-    MEUserStateOnline                       =   1   <<  2
-};
-
 typedef NS_ENUM(NSUInteger, MEProfileType) {
     MEProfileTypeSB                         =   1   <<  0,
     MEProfileTypeXIB                        =   1   <<  1,//xib创建

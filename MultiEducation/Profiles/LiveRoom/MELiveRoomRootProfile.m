@@ -94,13 +94,14 @@
 
 - (uint64_t)fetchCurrentClassID {
     __block uint64_t class_id = 0;
-    if (self.currentUser.userType == 1) {//老师
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        //老师
         TeacherPb *teacher = self.currentUser.teacherPb;
         NSArray <MEPBClass*>*classes = teacher.classPbArray.copy;
         //老师 目前策略直接取第一个class
         MEPBClass *cls = classes.firstObject;
         class_id = cls.id_p;
-    } else if (self.currentUser.userType == 3) {
+    } else if (self.currentUser.userType == MEPBUserRole_Parent) {
         //家长
         ParentsPb *parent = self.currentUser.parentsPb;
         NSArray<StudentPb*>*studdents = parent.studentPbArray.copy;

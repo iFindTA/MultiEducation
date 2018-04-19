@@ -167,10 +167,6 @@
     return [self appDelegate].curUser;
 }
 
-- (BOOL)userDidSignIn {
-    return self.currentUser.userType != MEUserRoleVisitor;
-}
-
 - (void)handleTransitionError:(NSError *)error {
     if (error) {
         [SVProgressHUD showErrorWithStatus:error.domain];
