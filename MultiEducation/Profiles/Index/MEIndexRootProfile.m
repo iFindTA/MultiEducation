@@ -137,11 +137,13 @@
         make.height.equalTo(ME_HEIGHT_STATUSBAR+ME_HEIGHT_NAVIGATIONBAR);
     }];
     //背景滚动scroller
+    BOOL whetherTourist = self.currentUser.isTourist;
     self.bgScroller = [MEIndexBgScroller sceneWithSubNavigationBar:self.indexNavigationBar];
     [self.view addSubview:self.bgScroller];
     [self.bgScroller makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.indexNavigationBar.mas_bottom);
-        make.left.bottom.right.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset((whetherTourist?0:-ME_HEIGHT_TABBAR));
     }];
     //event
     weakify(self)

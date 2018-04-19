@@ -266,19 +266,25 @@
         make.height.equalTo(ME_HEIGHT_STATUSBAR);
     }];
     //游客模式
-    font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
-    btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
-    btn.titleLabel.font = font;
-    [btn setTitle:@"随便逛逛 >>" forState:UIControlStateNormal];
-    [btn setTitleColor:textColor forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(browserEvent) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
-    [btn makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view.mas_centerX);
-        make.bottom.equalTo(self.view).offset(-ME_LAYOUT_MARGIN);
-        make.width.equalTo(ME_HEIGHT_TABBAR * 2);
-        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
-    }];
+    BOOL showVisitorMode = true;
+    if ([[self.params allKeys] containsObject:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC]) {
+        showVisitorMode = [self.params pb_boolForKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
+    }
+    if (showVisitorMode) {
+        font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
+        btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        btn.titleLabel.font = font;
+        [btn setTitle:@"随便逛逛 >>" forState:UIControlStateNormal];
+        [btn setTitleColor:textColor forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(signedInAsTouristTouchEvent) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:btn];
+        [btn makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.bottom.equalTo(self.view).offset(-ME_LAYOUT_MARGIN);
+            make.width.equalTo(ME_HEIGHT_TABBAR * 2);
+            make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+        }];
+    }
     
 #if DEBUG
     //teacher
@@ -410,10 +416,6 @@
     }];
 }
 
-- (void)browserEvent {
-    [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
-}
-
 - (void)runCallbackBeforeSignin {
     if (!self.whetherDidExcuteBlockBefore) {
         void(^callBefore)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBEFORE];
@@ -437,9 +439,7 @@
         if (signInCallback) {
             signInCallback();
         } else {
-            PBMAINDelay(ME_ANIMATION_DURATION, ^{
-                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
-            });
+            [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
         }
     } else {
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -451,6 +451,41 @@
         NSError *err = [MEDispatcher openURL:url withParams:params.copy];
         [self handleTransitionError:err];
     }
+}
+
+#pragma mark --- 游客登录模式
+- (void)signedInAsTouristTouchEvent {
+    //assemble pb file
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+    //apns token
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
+    [pb setAppleToken:token];
+    //device info
+    MEPBPhoneInfo *info = [MEUserVM getDeviceInfo];
+    pb.phoneInfo = info;
+    //goto signin
+    MEUserVM *vm = [MEUserVM vmWithPB:pb];
+    NSData *pbdata = [pb data];
+    weakify(self)
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            MEPBUser *user = userList.userListArray.firstObject;
+            [MEUserVM saveUser:user];
+            [self.appDelegate updateCurrentSignedInUser:user];
+            //登录成功之后的操作
+            [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
+    
+    //[self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
 }
 
 /*

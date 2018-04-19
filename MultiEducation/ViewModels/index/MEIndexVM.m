@@ -13,7 +13,7 @@
 #pragma mark --- Override
 
 - (NSString *)cmdCode {
-    return @"FSC_INDEX";
+    return @"OSR_INDEX";
 }
 
 - (NSString *)operationCode {

@@ -11,9 +11,10 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 typedef NS_ENUM(NSUInteger, MEVideoPlayUserAction) {
-    MEVideoPlayUserActionLike                               =   1   <<  0,  //收藏
-    MEVideoPlayUserActionShare                              =   1   <<  1,  //分享
-    MEVideoPlayUserActionNextItem                           =   1   <<  2,  //用户点击下一个视频
+    MEVideoPlayUserActionBack                               =   1   <<  0,  //返回
+    MEVideoPlayUserActionLike                               =   1   <<  1,  //收藏
+    MEVideoPlayUserActionShare                              =   1   <<  2,  //分享
+    MEVideoPlayUserActionNextItem                           =   1   <<  3,  //用户点击下一个视频
 };
 
 @interface MEPlayerControl : ZFPlayerControlView

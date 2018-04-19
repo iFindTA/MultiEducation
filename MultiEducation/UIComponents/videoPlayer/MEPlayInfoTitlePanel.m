@@ -24,10 +24,9 @@
     if (self) {
         //title
         UIFont *font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
-        NSString *title = @"蚂蚁先生搬家";
         self.titleLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
         self.titleLab.font = font;
-        self.titleLab.text = title;
+        //self.titleLab.text = title;
         self.titleLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
         [self addSubview:self.titleLab];
         

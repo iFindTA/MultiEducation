@@ -27,6 +27,8 @@
 
 CF_EXTERN_C_BEGIN
 
+@class MEPBPage;
+
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - MecarrierRoot
@@ -57,6 +59,7 @@ typedef GPB_ENUM(MECarrierPB_FieldNumber) {
   MECarrierPB_FieldNumber_IsAcross = 8,
   MECarrierPB_FieldNumber_CmdVersion = 9,
   MECarrierPB_FieldNumber_SessionToken = 10,
+  MECarrierPB_FieldNumber_Page = 11,
 };
 
 @interface MECarrierPB : GPBMessage
@@ -90,6 +93,32 @@ typedef GPB_ENUM(MECarrierPB_FieldNumber) {
 
 /** 会话token */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *sessionToken;
+
+/** 分页信息 */
+@property(nonatomic, readwrite, strong, null_resettable) MEPBPage *page;
+/** Test to see if @c page has been set. */
+@property(nonatomic, readwrite) BOOL hasPage;
+
+@end
+
+#pragma mark - MEPBPage
+
+typedef GPB_ENUM(MEPBPage_FieldNumber) {
+  MEPBPage_FieldNumber_CurrentPage = 1,
+  MEPBPage_FieldNumber_PageSize = 2,
+  MEPBPage_FieldNumber_TotalPages = 3,
+};
+
+@interface MEPBPage : GPBMessage
+
+/** 当前页 */
+@property(nonatomic, readwrite) int32_t currentPage;
+
+/** 分页大小 */
+@property(nonatomic, readwrite) int32_t pageSize;
+
+/** 总页数 */
+@property(nonatomic, readwrite) int32_t totalPages;
 
 @end
 

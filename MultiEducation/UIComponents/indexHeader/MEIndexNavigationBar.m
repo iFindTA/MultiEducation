@@ -101,8 +101,9 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (void)updateFontStateExcept:(MEBaseButton *)sender {
     [UIView animateWithDuration:ME_ANIMATION_DURATION delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         [self.barItems enumerateObjectsUsingBlock:^(MEBaseButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [[obj titleLabel] setFont:obj == sender?self.selectFont:self.normalFont];
-            [[obj titleLabel] setTextColor:obj == sender?self.selectColor:self.normalColor];
+            [[obj titleLabel] setFont:((obj.tag == sender.tag)?self.selectFont:self.normalFont)];
+            [[obj titleLabel] setTextColor:((obj.tag == sender.tag)?self.selectColor:self.normalColor)];
+            [obj setTitleColor:((obj.tag == sender.tag)?self.selectColor:self.normalColor) forState:UIControlStateNormal];
             if (obj == sender) {
                 self.currentSelectIndex = idx;
             }
@@ -120,12 +121,11 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         return;
     }
     self.currentSelectIndex = page;
-    [UIView animateWithDuration:ME_ANIMATION_DURATION delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        [self.barItems enumerateObjectsUsingBlock:^(MEBaseButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [[obj titleLabel] setFont:idx == page?self.selectFont:self.normalFont];
-            [[obj titleLabel] setTextColor:idx == page?self.selectColor:self.normalColor];
-        }];
-    } completion:nil];
+    for (MEBaseButton *btn in self.barItems) {
+        [[btn titleLabel] setFont:((btn.tag == page)?self.selectFont:self.normalFont)];
+        [[btn titleLabel] setTextColor:((btn.tag == page)?self.selectColor:self.normalColor)];
+        [btn setTitleColor:((btn.tag == page)?self.selectColor:self.normalColor) forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark --- Touch Event

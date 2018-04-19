@@ -11,5 +11,11 @@ message MECarrierPB {
     bool isAcross = 8; //是否跨节点请求
     string cmdVersion = 9; //命令版本
     string sessionToken = 10; //会话token
+    MEPBPage page = 11;//分页信息
+}
 
+message MEPBPage {
+    int32 currentPage = 1;//当前页
+    int32 pageSize = 2;//分页大小
+    int32 totalPages = 3;//总页数
 }
