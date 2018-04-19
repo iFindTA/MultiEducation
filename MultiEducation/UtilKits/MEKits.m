@@ -19,6 +19,10 @@
     return udidString;
 }
 
++ (NSTimeInterval)currentTimeInterval {
+    return [[NSDate date] timeIntervalSince1970];
+}
+
 + (NSString *)sandboxPath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
     NSString *documentPath = paths.firstObject;
@@ -35,6 +39,15 @@
 }
 
 + (NSString *)imageFullPath:(NSString *)absPath {
+    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    if (app.curUser) {
+        return PBFormat(@"%@/%@", app.curUser.bucketDomain, absPath);
+    }
+    //
+    return nil;
+}
+
++ (NSString *)mediaFullPath:(NSString *)absPath {
     AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     if (app.curUser) {
         return PBFormat(@"%@/%@", app.curUser.bucketDomain, absPath);

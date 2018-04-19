@@ -65,9 +65,6 @@ static NSString *constDesc = @"1、介绍视频内容\n2、知道家长如何带
     self.contentLab.text = constDesc;
     self.contentLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
     [self addSubview:self.contentLab];
-    
-    //for test data
-    
 }
 
 - (void)layoutSubviews {

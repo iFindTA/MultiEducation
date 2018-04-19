@@ -15,4 +15,9 @@
  */
 - (void)updatePlayInfoTitlePanel4Info:(NSDictionary *)titleMap;
 
+/**
+ clear all ui subviews
+ */
+- (void)clean;
+
 @end

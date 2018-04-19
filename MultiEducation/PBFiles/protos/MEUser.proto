@@ -70,8 +70,9 @@ message FuncCtrlPb {
 
 message ParentsPb {
     string mobile = 1; //手机
-    repeated StudentPb studentPb = 2; //学生
+    repeated StudentPb studentPb = 2; //学生列表
     repeated MEPBClass classPb = 3; //学生班级
+    int64 cutStudenId = 4;//当前学生ID
 }
 
 message TeacherPb {

@@ -180,9 +180,8 @@
     [self handleTransitionError:err];
     //*/
     
-    NSDictionary *params = @{@"title":@"蚂蚁先生搬家", @"desc":@"这是对爸爸妈妈说的话，要记牢！"};
-    NSString *urlString = @"profile://root@MEVideoPlayProfile/";
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    NSString *urlString = @"profile://root@MEWatchHistoryProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
     [self handleTransitionError:err];
 }
 

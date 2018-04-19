@@ -19,6 +19,11 @@
  */
 + (NSString *)createUUID;
 
+/**
+ current timeinterval
+ */
++ (NSTimeInterval)currentTimeInterval;
+
 
 /**
  sandbox path
@@ -34,6 +39,11 @@
  assemble full image path
  */
 + (NSString *)imageFullPath:(NSString *)absPath;
+
+/**
+ media absolute path
+ */
++ (NSString *)mediaFullPath:(NSString *)absPath;
 
 /**
  压缩image到制定大小以下

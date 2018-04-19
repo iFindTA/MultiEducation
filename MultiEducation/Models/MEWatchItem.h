@@ -7,21 +7,27 @@
 //
 
 #import "MEM.h"
+#import <WHC_ModelSqliteKit/WHC_ModelSqlite.h>
 
 /**
  用户观看资源 用以存到本地数据库
  */
-@interface MEWatchItem : MEM
+@interface MEWatchItem : MEM <WHC_SqliteInfo>
+
+/**
+ 当前用户ID
+ */
+@property (nonatomic, assign) int64_t userID;
 
 /**
  资源ID
  */
-@property (nonatomic, assign) NSUInteger resId;
+@property (nonatomic, assign) int64_t resId;
 
 /**
  资源类型ID
  */
-@property (nonatomic, assign) NSUInteger resTypeId;
+@property (nonatomic, assign) int64_t resTypeId;
 
 /**
  资源类型 数据类型 如课程视频 绘本音频 其他视频等

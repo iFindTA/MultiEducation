@@ -22,9 +22,22 @@
 
 @property (nonatomic, assign) BOOL isFullScreen;
 
+@property (nonatomic, strong) UIProgressView *progress;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) CGFloat floatValue;
+
 @end
 
 @implementation MEPlayerControl
+
+- (void)dealloc {
+    if (self.timer) {
+        if ([self.timer isValid]) {
+            [self.timer invalidate];
+        }
+        _timer = nil;
+    }
+}
 
 - (id)init {
     self = [super init];
@@ -94,6 +107,14 @@
             make.right.equalTo(self.nextItemPanel).offset(-ME_LAYOUT_BOUNDARY-ME_LAYOUT_MARGIN);
             make.left.equalTo(btn.mas_right).offset(ME_LAYOUT_MARGIN);
             make.height.equalTo(closeBtn.mas_width);
+        }];
+        UIProgressView *progress = [[UIProgressView alloc] initWithFrame:CGRectZero];
+        progress.tintColor = UIColorFromRGB(0xE15256);
+        [self.nextItemPanel addSubview:progress];
+        self.progress = progress;
+        [progress makeConstraints:^(MASConstraintMaker *make) {
+            make.left.bottom.right.equalTo(self.nextItemPanel);
+            make.height.equalTo(ME_LAYOUT_LINE_HEIGHT * 2);
         }];
         
         [self updateUserActionItemState4Hidden:true];
@@ -217,16 +238,62 @@
     NSString * text = [NSString stringWithFormat:@"下一个：%@", title.copy];
     [self.nextItemBtn setTitle:text forState:UIControlStateNormal];
     self.nextItemPanel.hidden = false;
+    [self startTimer];
 }
 
 - (void)closeNextRecommandItemEvent {
     self.nextItemPanel.hidden = true;
+    if (self.timer) {
+        if ([self.timer isValid]) {
+            [self.timer invalidate];
+        }
+        _timer = nil;
+    }
+    [self stopTimer];
 }
 
 - (void)userDidTouchNextItemEvent {
+    [self stopTimer];
     if (self.videoPlayControlCallback) {
         self.videoPlayControlCallback(MEVideoPlayUserActionNextItem);
     }
+}
+
+#define ME_COUNTDOWN_MAX_SECONDS                10
+
+- (void)startTimer {
+    self.floatValue = 0.f;self.progress.progress = 0.f;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.f target:self selector:@selector(timeFired) userInfo:nil repeats:true];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+}
+
+- (void)timeFired {
+    self.floatValue += 1.f/ME_COUNTDOWN_MAX_SECONDS;
+    if (self.floatValue >= 1.f) {
+        self.progress.progress = 1.f;
+        [self.timer invalidate];
+        _timer = nil;
+        
+        if (self.videoPlayControlCallback) {
+            self.videoPlayControlCallback(MEVideoPlayUserActionNextItem);
+        }
+        return;
+    }
+    self.progress.progress = self.floatValue;
+}
+
+- (void)stopTimer {
+    if (self.timer) {
+        if ([self.timer isValid]) {
+            [self.timer invalidate];
+        }
+        _timer = nil;
+    }
+}
+
+- (void)clean {
+    [self stopTimer];
+    self.floatValue = 0.f;self.progress.progress = 0.f;
 }
 
 /*

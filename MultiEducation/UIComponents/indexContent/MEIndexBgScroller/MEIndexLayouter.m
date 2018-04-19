@@ -106,16 +106,16 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 }
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = @"哎呀！";
+    NSString *text = ME_EMPTY_PROMPT_TITLE;
     NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSCBold(METHEME_FONT_TITLE),
                                  NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = @"服务器貌似在偷懒，您稍等我去揍它...";
+    NSString *text = ME_EMPTY_PROMPT_DESC;
     if ([[PBService shared] netState] == PBNetStateUnavaliable) {
-        text = @"您貌似断开了互联网链接，请检查网络稍后重试！";
+        text = ME_EMPTY_PROMPT_NETWORK;
     }
     NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSC(METHEME_FONT_SUBTITLE),
                                  NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
@@ -413,8 +413,9 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         return;
     }
     MEPBRes *item = items[rowTag];
-    NSNumber *vid = @(item.resId);
-    NSDictionary *params = @{@"vid":vid};
+    NSNumber *vid = @(item.resId);NSNumber *resType = @(item.type);
+    NSString *title = item.title; NSString *coverImg = item.coverImg;
+    NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];

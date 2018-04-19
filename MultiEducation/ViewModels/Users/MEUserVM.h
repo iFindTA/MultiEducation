@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  getter user role
  */
-- (MEUserRole)userRole;
+//- (MEUserRole)userRole;
 
 @end
 

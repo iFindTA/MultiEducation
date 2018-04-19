@@ -180,16 +180,16 @@
 }
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = @"哎呀！";
+    NSString *text = ME_EMPTY_PROMPT_TITLE;
     NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSCBold(METHEME_FONT_TITLE),
                                  NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = @"服务器貌似在偷懒，您稍等我去揍它...";
+    NSString *text = ME_EMPTY_PROMPT_DESC;
     if ([[PBService shared] netState] == PBNetStateUnavaliable) {
-        text = @"您貌似断开了互联网链接，请检查网络稍后重试！";
+        text = ME_EMPTY_PROMPT_NETWORK;
     }
     NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSC(METHEME_FONT_SUBTITLE),
                                  NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
@@ -248,7 +248,7 @@
             (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
             (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
             
-            NSString *imgUrl = res.coverImg;
+            NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
             UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
             if (i % numPerLine == 0) {
                 [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
@@ -277,8 +277,9 @@
         return;
     }
     MEPBRes *res = list[index];
-    NSNumber *vid = @(res.resId);
-    NSDictionary *params = @{@"vid":vid};
+    NSNumber *vid = @(res.resId);NSNumber *resType = @(res.type);
+    NSString *title = res.title; NSString *coverImg = res.coverImg;
+    NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];

@@ -83,8 +83,8 @@ static NSString * userFile = @"signedin.bat";
 
 + (MEPBUser * _Nullable)fetchLatestSignedInUser {
     //*TODO:处理已登录用户相关逻辑
-    NSArray <MEPBUser*> *signedinUsers = [WHCSqlite query:[MEPBUser class]];
-    NSLog(@"当前已经有 %zd 位登录用户！", signedinUsers.count);
+    //NSArray <MEPBUser*> *signedinUsers = [WHCSqlite query:[MEPBUser class]];
+    //NSLog(@"当前已经有 %zd 位登录用户！", signedinUsers.count);
     NSArray <MEPBUser*> *usrs = [WHCSqlite query:[MEPBUser class] order:@"by signinstamp desc" limit:@"1"];
     if (usrs.count > 0) {
         return [usrs lastObject];
@@ -109,9 +109,5 @@ static NSString * userFile = @"signedin.bat";
 }
 
 #pragma mark --- setter & getter
-
-- (MEUserRole)userRole {
-    return self.usr.userType;
-}
 
 @end

@@ -330,6 +330,7 @@ typedef GPB_ENUM(ParentsPb_FieldNumber) {
   ParentsPb_FieldNumber_Mobile = 1,
   ParentsPb_FieldNumber_StudentPbArray = 2,
   ParentsPb_FieldNumber_ClassPbArray = 3,
+  ParentsPb_FieldNumber_CutStudenId = 4,
 };
 
 @interface ParentsPb : GPBMessage
@@ -337,7 +338,7 @@ typedef GPB_ENUM(ParentsPb_FieldNumber) {
 /** 手机 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *mobile;
 
-/** 学生 */
+/** 学生列表 */
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<StudentPb*> *studentPbArray;
 /** The number of items in @c studentPbArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger studentPbArray_Count;
@@ -346,6 +347,9 @@ typedef GPB_ENUM(ParentsPb_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBClass*> *classPbArray;
 /** The number of items in @c classPbArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger classPbArray_Count;
+
+/** 当前学生ID */
+@property(nonatomic, readwrite) int64_t cutStudenId;
 
 @end
 
