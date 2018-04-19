@@ -49,15 +49,19 @@ static GPBFileDescriptor *MeresRoot_FileDescriptor(void) {
 @dynamic resId;
 @dynamic title;
 @dynamic coverImg;
-@dynamic URL;
 @dynamic type;
+@dynamic intro;
+@dynamic desc;
+@dynamic filePath;
 
 typedef struct MEPBRes__storage_ {
   uint32_t _has_storage_[1];
   int32_t type;
   NSString *title;
   NSString *coverImg;
-  NSString *URL;
+  NSString *intro;
+  NSString *desc;
+  NSString *filePath;
   int64_t resId;
 } MEPBRes__storage_;
 
@@ -95,22 +99,40 @@ typedef struct MEPBRes__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "URL",
-        .dataTypeSpecific.className = NULL,
-        .number = MEPBRes_FieldNumber_URL,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(MEPBRes__storage_, URL),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
-      },
-      {
         .name = "type",
         .dataTypeSpecific.className = NULL,
         .number = MEPBRes_FieldNumber_Type,
-        .hasIndex = 4,
+        .hasIndex = 3,
         .offset = (uint32_t)offsetof(MEPBRes__storage_, type),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "intro",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBRes_FieldNumber_Intro,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, intro),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "desc",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBRes_FieldNumber_Desc,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, desc),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "filePath",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBRes_FieldNumber_FilePath,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, filePath),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -123,7 +145,7 @@ typedef struct MEPBRes__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\005\000\003\010\000\004!!!\000";
+        "\003\001\005\000\003\010\000\007\010\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

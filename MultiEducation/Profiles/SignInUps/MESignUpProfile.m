@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEUserVM.h"
 #import "MERegisterVM.h"
 #import "MEVerifyCodeVM.h"
 #import "MESignUpProfile.h"
@@ -23,6 +24,8 @@
 @property (nonatomic, strong) MESignInputField *inputPwd;
 @property (nonatomic, strong) MESignInputField *inputClassno;
 @property (nonatomic, strong) MESignInputField *inputCode;
+
+@property (nonatomic, copy) NSString *userPwd;
 
 @end
 
@@ -115,7 +118,7 @@
         make.right.equalTo(self.view);
         make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
     }];
-    //class no
+    /*class no
     icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
     icon.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:icon];
@@ -148,7 +151,7 @@
         make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
         make.right.equalTo(self.view);
         make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
-    }];
+    }];//*/
     //code
     icon = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
     icon.contentMode = UIViewContentModeScaleAspectFill;
@@ -199,6 +202,7 @@
     input.maxLength = ME_REGULAR_CODE_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:input];//input.backgroundColor = [UIColor pb_randomColor];
+    self.inputCode = input;
     [input makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(icon).offset(-ME_LAYOUT_MARGIN);
         make.bottom.equalTo(icon).offset(ME_LAYOUT_MARGIN);
@@ -230,16 +234,16 @@
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
     }];
     //protocol
-    NSString *protocol = @"多元幼教用户服务条款";
-    NSString *protocolString = @"点击立即注册及代表您同意多元幼教用户服务条款";
+    NSString *protocol = @"《多元幼教用户服务条款》";
+    NSString *protocolString = @"点击立即注册及代表您同意《多元幼教用户服务条款》";
     NSRange protocolRange = [protocolString rangeOfString:protocol];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:protocolString];
-
     [text setTextHighlightRange:protocolRange color:themeColor backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {
         strongify(self)
         [self displayUserRegisterProtocol];
     }];
     MEBaseLabel *protocolLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    protocolLabel.numberOfLines = 2;
     protocolLabel.font = UIFontPingFangSCBold(METHEME_FONT_SUBTITLE-2);
     [protocolLabel setAttributedText:text];
     
@@ -342,13 +346,14 @@
         [SVProgressHUD showErrorWithStatus:errString];
         return;
     }
-    //check classno
+    self.userPwd = pwd.copy;
+    /*check classno
     NSString *classno = self.inputClassno.text;
     if (classno.length < ME_REGULAR_CLASSNO_LEN_MIX) {
         NSString *errString = PBFormat(@"请输入%zd~%zd位班级码！", ME_REGULAR_CLASSNO_LEN_MIX, ME_REGULAR_CLASSNO_LEN_MAX);
         [SVProgressHUD showErrorWithStatus:errString];
         return;
-    }
+    }//*/
     //check code
     NSString *code = self.inputCode.text;
     if (code.length < ME_REGULAR_CODE_LEN_MIN) {
@@ -360,9 +365,58 @@
     MEPBUser *user = [[MEPBUser alloc] init];
     [user setMobile:mobile];
     [user setPassword:pwd];
+    [user setCode:code];
     //user
     MERegisterVM *vm = [[MERegisterVM alloc] init];
+    weakify(self)
+    [vm postData:[user data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            [self autoSignInWhileDidRegisterSuccessfullWithUser:user];
+        }
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
+}
+
+- (void)autoSignInWhileDidRegisterSuccessfullWithUser:(MEPBUser *)user {
+    //auto goto signin
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+    [pb setLoginName:user.username];
+    [pb setPassword:self.userPwd.copy];
+    //apns token
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
+    [pb setAppleToken:token];
+    //device info
+    MEPBPhoneInfo *info = [MEUserVM getDeviceInfo];
+    pb.phoneInfo = info;
     
+    MEUserVM *vm = [MEUserVM vmWithPB:pb];
+    vm.sessionToken = user.sessionToken;
+    NSData *pbdata = [pb data];
+    weakify(self)
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            [MEUserVM saveUser:user];
+            [self.appDelegate updateCurrentSignedInUser:user];
+            //登录成功之后的操作
+            PBMAINDelay(ME_ANIMATION_DURATION, ^{
+                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+            });
+        }
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
 }
 
 /*

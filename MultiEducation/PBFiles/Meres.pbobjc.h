@@ -52,8 +52,10 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
   MEPBRes_FieldNumber_ResId = 1,
   MEPBRes_FieldNumber_Title = 2,
   MEPBRes_FieldNumber_CoverImg = 3,
-  MEPBRes_FieldNumber_URL = 4,
-  MEPBRes_FieldNumber_Type = 5,
+  MEPBRes_FieldNumber_Type = 4,
+  MEPBRes_FieldNumber_Intro = 5,
+  MEPBRes_FieldNumber_Desc = 6,
+  MEPBRes_FieldNumber_FilePath = 7,
 };
 
 @interface MEPBRes : GPBMessage
@@ -68,10 +70,16 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *coverImg;
 
 /** 资源地址 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *URL;
-
-/** 1课程视频 2 绘本音频 3科学探索 */
 @property(nonatomic, readwrite) int32_t type;
+
+/** 资源简介 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *intro;
+
+/** 资源描述 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *desc;
+
+/** 资源路径 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *filePath;
 
 @end
 

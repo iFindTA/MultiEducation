@@ -4,8 +4,10 @@ message MEPBRes {
 	int64 resId = 1;//资源ID
 	string title = 2;//资源标题
 	string coverImg = 3;//资源封面
-	string url = 4;//资源地址
-	int32 type = 5;//1课程视频 2 绘本音频 3科学探索
+	int32 type = 4;//资源地址
+	string intro = 5;//资源简介
+	string desc = 6;//资源描述
+	string filePath = 7;//资源路径
 }
 
 message MEPBResType {
