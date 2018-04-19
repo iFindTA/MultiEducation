@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong, readwrite) MEBaseButton *likeBtn;
 @property (nonatomic, strong, readwrite) MEBaseButton *shareBtn;
+@property (nonatomic, strong, readwrite) MEBaseButton *backItem;
 
 @property (nonatomic, strong) MEBaseScene *nextItemPanel;
 @property (nonatomic, strong) MEBaseButton *nextItemBtn;
@@ -33,6 +34,7 @@
         [self setValue:hiddenValue forKeyPath:@"self.backBtn.hidden"];
         [self setValue:hiddenValue forKeyPath:@"self.titleLabel.hidden"];
         
+        [self addSubview:self.backItem];
         [self addSubview:self.likeBtn];
         [self addSubview:self.volume];
         [self addSubview:self.shareBtn];
@@ -43,7 +45,12 @@
         CGFloat scale = 1.5;
         [self.volume makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(ME_LAYOUT_BOUNDARY);
-            make.right.equalTo(self).offset(-ME_LAYOUT_BOUNDARY);
+            make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN*2);
+            make.width.height.equalTo(ME_LAYOUT_BOUNDARY * scale);
+        }];
+        [self.backItem makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self).offset(ME_LAYOUT_BOUNDARY);
+            make.left.equalTo(self).offset(ME_LAYOUT_MARGIN*2);
             make.width.height.equalTo(ME_LAYOUT_BOUNDARY * scale);
         }];
         [self.shareBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -113,6 +120,17 @@
     return _volume;
 }
 
+- (MEBaseButton *)backItem {
+    if (!_backItem) {
+        UIImage *image = [UIImage imageNamed:@"video_play_back"];
+        _backItem = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+//        _backItem.backgroundColor = [UIColor pb_randomColor];
+        [_backItem setImage:image forState:UIControlStateNormal];
+        [_backItem addTarget:self action:@selector(userDidTouchVideoBackEvent) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _backItem;
+}
+
 - (MEBaseButton *)likeBtn {
     if (!_likeBtn) {
         UIImage *image = [UIImage imageNamed:@"video_play_like"];
@@ -154,6 +172,12 @@
 
 #pragma mark --- Touch Event
 
+- (void)userDidTouchVideoBackEvent {
+    if (self.videoPlayControlCallback) {
+        self.videoPlayControlCallback(MEVideoPlayUserActionBack);
+    }
+}
+
 - (void)userDidTouchVideoLikeEvent {
     if (self.videoPlayControlCallback) {
         self.videoPlayControlCallback(MEVideoPlayUserActionLike);
@@ -170,6 +194,7 @@
 
 - (void)updateUserActionItemState4Hidden:(BOOL)hide {
     [self.volume setHidden:hide];
+    [self.backItem setHidden:hide];
     if (!self.isFullScreen) {
         [self.likeBtn setHidden:hide];
         [self.shareBtn setHidden:hide];

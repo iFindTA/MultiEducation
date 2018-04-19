@@ -4,14 +4,17 @@ message MEPBRes {
 	int64 resId = 1;//资源ID
 	string title = 2;//资源标题
 	string coverImg = 3;//资源封面
-	int32 type = 4;//资源地址
+	int32 type = 4;//资源类型 数据类型 如课程视频 绘本音频 其他视频等
 	string intro = 5;//资源简介
 	string desc = 6;//资源描述
 	string filePath = 7;//资源路径
+	repeated MEPBResLabel resLabelPb = 8;//标签列表
+	repeated MEPBRes relevantList = 9;//相关视频
+	int64 resTypeId = 10;//资源类型ID
 }
 
 message MEPBResType {
-	int64 id = 1;//类型ID
+	int64 id = 1;//类型ID 对应MEPBRes中的resTypeId字段
 	string title = 2;//类型标题
 	string iconPath = 3;//类型图标
 	repeated MEPBRes resPb = 4;//类型相关推荐列表
@@ -19,4 +22,9 @@ message MEPBResType {
 
 message MEPBResList {
 	repeated MEPBRes resPb = 1;//列表类型
+}
+
+message MEPBResLabel {
+	int64 id = 1;//标签ID
+	string labelName = 2;//标签名称
 }

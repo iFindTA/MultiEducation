@@ -53,6 +53,9 @@ static GPBFileDescriptor *MeresRoot_FileDescriptor(void) {
 @dynamic intro;
 @dynamic desc;
 @dynamic filePath;
+@dynamic resLabelPbArray, resLabelPbArray_Count;
+@dynamic relevantListArray, relevantListArray_Count;
+@dynamic resTypeId;
 
 typedef struct MEPBRes__storage_ {
   uint32_t _has_storage_[1];
@@ -62,7 +65,10 @@ typedef struct MEPBRes__storage_ {
   NSString *intro;
   NSString *desc;
   NSString *filePath;
+  NSMutableArray *resLabelPbArray;
+  NSMutableArray *relevantListArray;
   int64_t resId;
+  int64_t resTypeId;
 } MEPBRes__storage_;
 
 // This method is threadsafe because it is initially called
@@ -134,6 +140,33 @@ typedef struct MEPBRes__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "resLabelPbArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBResLabel),
+        .number = MEPBRes_FieldNumber_ResLabelPbArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, resLabelPbArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "relevantListArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBRes),
+        .number = MEPBRes_FieldNumber_RelevantListArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, relevantListArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "resTypeId",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBRes_FieldNumber_ResTypeId,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, resTypeId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEPBRes class]
@@ -145,7 +178,8 @@ typedef struct MEPBRes__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\005\000\003\010\000\007\010\000";
+        "\006\001\005\000\003\010\000\007\010\000\010\000resLabelPb\000\t\000relevantList\000\n\t"
+        "\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -275,6 +309,65 @@ typedef struct MEPBResList__storage_ {
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
         "\001\001\000resPb\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - MEPBResLabel
+
+@implementation MEPBResLabel
+
+@dynamic id_p;
+@dynamic labelName;
+
+typedef struct MEPBResLabel__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *labelName;
+  int64_t id_p;
+} MEPBResLabel__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "id_p",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBResLabel_FieldNumber_Id_p,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(MEPBResLabel__storage_, id_p),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "labelName",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBResLabel_FieldNumber_LabelName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(MEPBResLabel__storage_, labelName),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[MEPBResLabel class]
+                                     rootClass:[MeresRoot class]
+                                          file:MeresRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(MEPBResLabel__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\002\t\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

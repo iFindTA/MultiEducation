@@ -56,6 +56,7 @@ static GPBFileDescriptor *MecarrierRoot_FileDescriptor(void) {
 @dynamic isAcross;
 @dynamic cmdVersion;
 @dynamic sessionToken;
+@dynamic hasPage, page;
 
 typedef struct MECarrierPB__storage_ {
   uint32_t _has_storage_[1];
@@ -67,6 +68,7 @@ typedef struct MECarrierPB__storage_ {
   NSString *token;
   NSString *cmdVersion;
   NSString *sessionToken;
+  MEPBPage *page;
 } MECarrierPB__storage_;
 
 // This method is threadsafe because it is initially called
@@ -165,6 +167,15 @@ typedef struct MECarrierPB__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "page",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBPage),
+        .number = MECarrierPB_FieldNumber_Page,
+        .hasIndex = 12,
+        .offset = (uint32_t)offsetof(MECarrierPB__storage_, page),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MECarrierPB class]
@@ -177,6 +188,76 @@ typedef struct MECarrierPB__storage_ {
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
         "\007\001\007\000\002\007\000\003\010\000\007\017\000\010\010\000\t\n\000\n\014\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - MEPBPage
+
+@implementation MEPBPage
+
+@dynamic currentPage;
+@dynamic pageSize;
+@dynamic totalPages;
+
+typedef struct MEPBPage__storage_ {
+  uint32_t _has_storage_[1];
+  int32_t currentPage;
+  int32_t pageSize;
+  int32_t totalPages;
+} MEPBPage__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "currentPage",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBPage_FieldNumber_CurrentPage,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(MEPBPage__storage_, currentPage),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "pageSize",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBPage_FieldNumber_PageSize,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(MEPBPage__storage_, pageSize),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "totalPages",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBPage_FieldNumber_TotalPages,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(MEPBPage__storage_, totalPages),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[MEPBPage class]
+                                     rootClass:[MecarrierRoot class]
+                                          file:MecarrierRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(MEPBPage__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\003\001\013\000\002\010\000\003\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

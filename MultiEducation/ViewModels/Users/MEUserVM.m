@@ -24,7 +24,7 @@ static NSString * userFile = @"signedin.bat";
 #pragma mark --- Override
 
 - (NSString *)cmdVersion {
-    return @"2";
+    return @"3";
 }
 
 - (NSString *)cmdCode {

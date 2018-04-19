@@ -90,6 +90,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_REGULAR_CLASSNO_LEN_MAX                                          10
 #define ME_REGULAR_MOBILE                                                   @"^1+[3578]+\\d{9}"
 
+#define ME_PAGING_SIZE                                                      20//默认分页20
+
 #pragma mark --- Type enums
 
 typedef NS_ENUM(NSUInteger, MEDisplayStyle) {

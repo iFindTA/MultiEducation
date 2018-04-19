@@ -6,15 +6,19 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEVideoClassVM.h"
 #import "MEIndexSubClassProfile.h"
 #import "MEIndexStoryItemCell.h"
 #import <MJRefresh/MJRefresh.h>
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface MEIndexSubClassProfile ()<UITableViewDelegate, UITableViewDataSource>
+@interface MEIndexSubClassProfile ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, strong) NSDictionary *mapInfo;
 
-@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, assign) NSUInteger totalPages, currentPageIndex;
+@property (nonatomic, assign) BOOL whetherDidLoadData;
+@property (nonatomic, strong) NSMutableArray <MEPBRes*>*dataSource;
 @property (nonatomic, strong) UITableView *table;
 
 @end
@@ -48,17 +52,31 @@
     weakify(self)
     self.table.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         strongify(self)
-        [self autoLoadMoreRelevantItems];
+        if (self.totalPages == 0 || self.currentPageIndex == 0) {
+            return;
+        }
+        if (self.currentPageIndex >= self.totalPages || (self.dataSource.count % 2 != 0)) {
+            [self.table.mj_footer endRefreshingWithNoMoreData];
+            return;
+        }
+        [self autoLoadMoreRelevantItems4PageIndex:self.currentPageIndex+1];
     }];
-    
-    //TODO://reload data
-    self.dataSource = [NSMutableArray arrayWithArray:[self generateTestData]];
-    [self.table reloadData];
+    self.table.mj_footer.hidden = true;
+    self.whetherDidLoadData = false;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (self.dataSource.count == 0) {
+        self.totalPages = 0;self.currentPageIndex = 0;
+        [self autoLoadMoreRelevantItems4PageIndex:1];
+    }
 }
 
 #pragma mark --- load data
@@ -75,8 +93,63 @@
     return tmp.copy;
 }
 
-- (void)autoLoadMoreRelevantItems {
+- (NSMutableArray<MEPBRes*>*)dataSource {
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _dataSource;
+}
+
+/**
+ 加载数据
+ */
+- (void)autoLoadMoreRelevantItems4PageIndex:(NSUInteger)index {
+    NSNumber *typeId = [self.mapInfo objectForKey:@"typeId"];
+    MEVideoClassVM *vm = [[MEVideoClassVM alloc] init];
+    MEPBRes *res = [[MEPBRes alloc] init];
+    [res setResTypeId:typeId.unsignedIntegerValue];
+    weakify(self)
+    [vm postData:[res data] pageSize:ME_PAGING_SIZE pageIndex:index hudEnable:true success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
+        NSError *err;strongify(self)
+        MEPBResList *list = [MEPBResList parseFromData:resObj error:&err];
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            if (index == 1) {
+                [self.dataSource removeAllObjects];
+            }
+            NSLog(@"total pages:%zd", totalPages);
+            self.totalPages = totalPages;
+            self.currentPageIndex = index;
+            [self.dataSource addObjectsFromArray:list.resPbArray.copy];
+            [self.table reloadData];
+        }
+        [self adjustRefreshFooterState];
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+        [self adjustRefreshFooterState];
+    }];
+}
+
+- (void)adjustRefreshFooterState {
+    self.whetherDidLoadData = true;
+    [self.table.mj_footer endRefreshing];
+    if (self.dataSource.count == 0) {
+        [self.table reloadEmptyDataSet];
+    }
+    if (self.totalPages == 0 || self.currentPageIndex == 0) {
+        self.table.mj_footer.hidden = true;
+        return;
+    }
+    if (self.currentPageIndex >= self.totalPages || (self.dataSource.count % 2 != 0)) {
+        [self.table.mj_footer endRefreshingWithNoMoreData];
+        return;
+    }
     
+    if (self.table.contentSize.height >= self.table.bounds.size.height) {
+        [self.table.mj_footer resetNoMoreData];
+    }
 }
 
 #pragma mark --- lazy getter
@@ -86,9 +159,53 @@
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.delegate = self;
         _table.dataSource = self;
+        _table.emptyDataSetSource = self;
+        _table.emptyDataSetDelegate = self;
+        _table.tableFooterView = [UIView new];
         _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
+}
+
+#pragma mark --- DZNEmpty DataSource & Deleagte
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return self.dataSource.count == 0 && self.whetherDidLoadData;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    UIColor *imgColor =UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    UIImage *image = [UIImage pb_iconFont:nil withName:@"\U0000e673" withSize:ME_LAYOUT_ICON_HEIGHT withColor:imgColor];
+    return image;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"哎呀！";
+    NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSCBold(METHEME_FONT_TITLE),
+                                 NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"服务器貌似在偷懒，您稍等我去揍它...";
+    if ([[PBService shared] netState] == PBNetStateUnavaliable) {
+        text = @"您貌似断开了互联网链接，请检查网络稍后重试！";
+    }
+    NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSC(METHEME_FONT_SUBTITLE),
+                                 NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return 0;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return true;
+}
+
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+    [self autoLoadMoreRelevantItems4PageIndex:1];
 }
 
 #pragma mark --- UITableView Deleagte & DataSource
@@ -126,12 +243,12 @@
     for (int i = 0; i < numPerLine; i ++) {
         NSUInteger real_item_index = __row * numPerLine + i;
         if (real_item_index < allCounts) {
-            NSDictionary *info = self.dataSource[real_item_index];
-            NSString *title = info[@"title"];
+            MEPBRes *res = self.dataSource[real_item_index];
+            NSString *title = res.title.copy;
             (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
             (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
             
-            NSString *imgUrl = info[@"image"];
+            NSString *imgUrl = res.coverImg;
             UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
             if (i % numPerLine == 0) {
                 [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
@@ -155,8 +272,15 @@
 #pragma mark --- story item touch event
 
 - (void)subClassesStoryItemDidTouchRowIndex:(NSUInteger)index {
+    NSArray<MEPBRes*>*list = self.dataSource.copy;
+    if (index >= list.count) {
+        return;
+    }
+    MEPBRes *res = list[index];
+    NSNumber *vid = @(res.resId);
+    NSDictionary *params = @{@"vid":vid};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];
 }
 

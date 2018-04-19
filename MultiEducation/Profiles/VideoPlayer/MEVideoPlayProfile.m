@@ -7,31 +7,31 @@
 //
 
 #import "MEActivity.h"
-#import "MEVideoPlayProfile.h"
+#import "MEVideoInfoVM.h"
 #import "MEPlayerControl.h"
-#import "MEVideoRelateVM.h"
 #import <ZFPlayer/ZFPlayer.h>
+#import "MEVideoPlayProfile.h"
 #import "MEPlayInfoTitlePanel.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
 static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   16.f/9;
 
-@interface MEVideoPlayProfile () <ZFPlayerDelegate, UITableViewDelegate>
+@interface MEVideoPlayProfile () <ZFPlayerDelegate, UITableViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 /**
  video info that received
  */
-@property (nonatomic, strong) NSDictionary *videoInfo;
+@property (nonatomic, strong) NSDictionary *params;
 
 @property (nonatomic, strong) ZFPlayerView *player;
 @property (nonatomic, strong) MEBaseScene *playerScene;
 @property (nonatomic, strong) MEPlayerControl *playerControl;
 @property (nonatomic, strong) MEPlayInfoTitlePanel *titlePanel;
-//点赞面板
-//@property (nonatomic, strong) MEPlayerLike *likeScene;
+//video model
+@property (nonatomic, strong) MEPBRes *currentRes;
 //推荐列表
 @property (nonatomic, strong) UITableView *table;
-@property (nonatomic, strong) MEVideoRelateVM *tableVM;
 
 @end
 
@@ -47,7 +47,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (id)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        self.videoInfo = params;
+        _params = [NSDictionary dictionaryWithDictionary:params];
     }
     return self;
 }
@@ -98,10 +98,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     
     //[self.player autoPlayTheVideo];
     
-    //下载相关视频列表
-    [self.tableVM loadRelateVideos];
-    
-    
+    //下载视频相关信息
+    [self loadVideoRelevantData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -192,21 +190,13 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     return model;
 }
 
-- (MEVideoRelateVM *)tableVM {
-    if (!_tableVM) {
-        NSString *currentVideoID = @"";
-        _tableVM = [MEVideoRelateVM vmWithRelateVideoID:currentVideoID table:self.table];
-    }
-    return _tableVM;
-}
-
 - (UITableView *)table {
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.showsHorizontalScrollIndicator = false;
         _table.showsVerticalScrollIndicator = false;
         //_table.delegate = self;
-        //_table.backgroundColor = [UIColor blueColor];
+        _table.tableFooterView = [UIView new];
     }
     return _table;
 }
@@ -271,7 +261,9 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
  收藏 & 分享
  */
 - (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
-    if (action & MEVideoPlayUserActionLike) {
+    if (action & MEVideoPlayUserActionBack) {
+        [self defaultGoBackStack];
+    } else if (action & MEVideoPlayUserActionLike) {
         //收藏callback
         weakify(self)
         void(^likeCallback)(void) = ^(){
@@ -337,6 +329,13 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 }
 
 #pragma mark --- Network & User Interactive
+
+/**
+ 加载视频相关资源
+ */
+- (void)loadVideoRelevantData {
+    
+}
 
 - (NSArray *)generateTestData {
     NSUInteger count = 9;

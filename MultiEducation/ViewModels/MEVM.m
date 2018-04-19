@@ -128,6 +128,81 @@
     }];
 }
 
+- (void)postData:(NSData *)data pageSize:(NSUInteger)size pageIndex:(NSUInteger)index hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable, NSUInteger))success failure:(void (^)(NSError * _Nonnull))failure {
+    MECarrierPB *carrier = [[MECarrierPB alloc] init];
+    /**
+     *  uuid for unique request
+     */
+    //    NSString *uuidToken = [MEVM createUUID];
+    //    [carrier setToken:uuidToken];
+    /**
+     * sessionToken
+     */
+    NSString *sessionToken = self.app.curUser.sessionToken;
+    [carrier setSessionToken:sessionToken];
+    /**
+     *  cmdCode
+     */
+    NSString *cmdCode = [self cmdCode];
+    [carrier setCmdCode:cmdCode];
+    /**
+     *  reqCode
+     */
+    NSString *reqCode = [self operationCode];
+    [carrier setReqCode:reqCode];
+    /**
+     *  msg
+     */
+    NSString *msg = [self msg];
+    [carrier setMsg:msg];
+    /**
+     *  pageSize & index
+     */
+    MEPBPage *page = [[MEPBPage alloc] init];
+    [page setPageSize:size];
+    [page setCurrentPage:index];
+    [carrier setPage:page];
+    /**
+     *  real binary data
+     */
+    [carrier setSource:data];
+    /**
+     *  cmd version
+     */
+    NSString *cmdVersion = [self cmdVersion];
+    [carrier setCmdVersion:cmdVersion];
+    
+    NSData *signedData = [carrier data];
+    [[PBService shared] POSTData:signedData classIdentifier:self.class hudEnable:hud success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable resObj) {
+        if (resObj) {
+            if ([resObj isKindOfClass:[NSData class]]||[resObj isMemberOfClass:[NSData class]]) {
+                NSData *responseData = (NSData *)resObj;
+                NSError *err;
+                MECarrierPB *responseCarrier = [MECarrierPB parseFromData:responseData error:&err];
+                if ([responseCarrier.respCode isEqualToString:@"SUCCESS"]) {
+                    if (responseCarrier.sessionToken.length > 0) {
+                        self.sessionToken = responseCarrier.sessionToken;
+                    }
+                    if (success) {
+                        success((responseCarrier.source), responseCarrier.page.totalPages);
+                    }
+                } else {
+                    if (responseCarrier.msg.length > 0) {
+                        err = [NSError errorWithDomain:responseCarrier.msg code:-1 userInfo:nil];
+                    }
+                    if (failure) {
+                        failure(err);
+                    }
+                }
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
+
 #pragma mark --- 需要被override的methods
 - (NSString *)cmdVersion {
     return @"1";

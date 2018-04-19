@@ -28,6 +28,7 @@
 CF_EXTERN_C_BEGIN
 
 @class MEPBRes;
+@class MEPBResLabel;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -56,6 +57,9 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
   MEPBRes_FieldNumber_Intro = 5,
   MEPBRes_FieldNumber_Desc = 6,
   MEPBRes_FieldNumber_FilePath = 7,
+  MEPBRes_FieldNumber_ResLabelPbArray = 8,
+  MEPBRes_FieldNumber_RelevantListArray = 9,
+  MEPBRes_FieldNumber_ResTypeId = 10,
 };
 
 @interface MEPBRes : GPBMessage
@@ -69,7 +73,7 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 /** 资源封面 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *coverImg;
 
-/** 资源地址 */
+/** 资源类型 数据类型 如课程视频 绘本音频 其他视频等 */
 @property(nonatomic, readwrite) int32_t type;
 
 /** 资源简介 */
@@ -80,6 +84,19 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 
 /** 资源路径 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *filePath;
+
+/** 标签列表 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBResLabel*> *resLabelPbArray;
+/** The number of items in @c resLabelPbArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger resLabelPbArray_Count;
+
+/** 相关视频 */
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBRes*> *relevantListArray;
+/** The number of items in @c relevantListArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger relevantListArray_Count;
+
+/** 资源类型ID */
+@property(nonatomic, readwrite) int64_t resTypeId;
 
 @end
 
@@ -94,7 +111,7 @@ typedef GPB_ENUM(MEPBResType_FieldNumber) {
 
 @interface MEPBResType : GPBMessage
 
-/** 类型ID */
+/** 类型ID 对应MEPBRes中的resTypeId字段 */
 @property(nonatomic, readwrite) int64_t id_p;
 
 /** 类型标题 */
@@ -122,6 +139,23 @@ typedef GPB_ENUM(MEPBResList_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBRes*> *resPbArray;
 /** The number of items in @c resPbArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger resPbArray_Count;
+
+@end
+
+#pragma mark - MEPBResLabel
+
+typedef GPB_ENUM(MEPBResLabel_FieldNumber) {
+  MEPBResLabel_FieldNumber_Id_p = 1,
+  MEPBResLabel_FieldNumber_LabelName = 2,
+};
+
+@interface MEPBResLabel : GPBMessage
+
+/** 标签ID */
+@property(nonatomic, readwrite) int64_t id_p;
+
+/** 标签名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *labelName;
 
 @end
 

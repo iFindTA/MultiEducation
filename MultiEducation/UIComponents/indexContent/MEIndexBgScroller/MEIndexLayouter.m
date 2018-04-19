@@ -413,10 +413,8 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         return;
     }
     MEPBRes *item = items[rowTag];
-    NSString *title = PBAvailableString(item.title);
-    NSString *desc = PBAvailableString(item.desc);
-    NSString *uri = PBAvailableString(item.filePath);
-    NSDictionary *params = _NSDictionaryOfVariableBindings(title, desc, uri);
+    NSNumber *vid = @(item.resId);
+    NSDictionary *params = @{@"vid":vid};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];
@@ -425,7 +423,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 - (void)indexLayoutStoryClassDidTouchEvent:(NSUInteger)tag {
     NSArray <MEPBResType*>*classes = self.dataItem.resTypeListArray.copy;
     MEPBResType *type = classes[tag];
-    NSDictionary *params = @{@"id":@(type.id_p), @"title":type.title};
+    NSDictionary *params = @{@"typeId":@(type.id_p), @"title":type.title};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [self handleTransitionError:err];

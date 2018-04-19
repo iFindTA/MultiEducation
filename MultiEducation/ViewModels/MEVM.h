@@ -68,4 +68,16 @@
  */
 - (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
+/**
+ fetch paging data according to index and size
+
+ @param data binary data
+ @param size page size
+ @param index page index
+ @param hud whether show
+ @param success callback
+ @param failure callback
+ */
+- (void)postData:(NSData *_Nonnull)data pageSize:(NSUInteger)size pageIndex:(NSUInteger)index hudEnable:(BOOL)hud success:(void (^_Nullable)(NSData * _Nullable resObj, NSUInteger totalPages))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+
 @end
