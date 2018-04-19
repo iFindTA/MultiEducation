@@ -575,7 +575,6 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             });
         };
         if (self.currentUser.isTourist) {
-            
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
             [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
             [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
@@ -608,7 +607,18 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             }
         };
         //关闭系统的一些activity类型
-        shareProfile.excludedActivityTypes = @[];
+        shareProfile.excludedActivityTypes = @[UIActivityTypePostToTwitter,
+                                               UIActivityTypeMessage,
+                                               UIActivityTypeMail,
+                                               UIActivityTypePrint,
+                                               UIActivityTypeCopyToPasteboard,
+                                               UIActivityTypeAssignToContact,
+                                               UIActivityTypeSaveToCameraRoll,
+                                               UIActivityTypeAddToReadingList,
+                                               UIActivityTypePostToFlickr,
+                                               UIActivityTypePostToVimeo,
+                                               UIActivityTypePostToTencentWeibo,
+                                               UIActivityTypeAirDrop];
         [self presentViewController:shareProfile animated:true completion:nil];
     } else if (action & MEVideoPlayUserActionNextItem) {
         self.previewRes = self.nextRes;
