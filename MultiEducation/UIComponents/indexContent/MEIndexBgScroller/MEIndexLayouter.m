@@ -75,7 +75,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 - (MEBaseScene *)layout {
     if (!_layout) {
         _layout = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-        _layout.backgroundColor = [UIColor redColor];
+        //_layout.backgroundColor = [UIColor redColor];
         _layout.translatesAutoresizingMaskIntoConstraints = false;
     }
     return _layout;
@@ -164,6 +164,47 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     [self handleTransitionError:err];
 }
 
+#pragma mark --- Data Load & Storage relevant
+
+#define ME_INDEX_TAB_CACHE_PATH             @"cache/index"
+
+- (NSString *)storageFileName {
+    return PBFormat(@"indexLayout_%zd.bat", self.indexCode);
+}
+
+- (NSData *_Nullable)fetchIndexCacheLocalStorage {
+    NSString *rootPath = [MEKits sandboxPath];
+    NSString *fileName = [self storageFileName];
+    NSString *dir = [rootPath stringByAppendingPathComponent:ME_INDEX_TAB_CACHE_PATH];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [dir stringByAppendingPathComponent:fileName];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        NSData *data = [NSData dataWithContentsOfFile:filePath];
+        return data;
+    }
+    return nil;
+}
+
+- (BOOL)saveIndexCacheData2LocalStorage:(NSData *)data {
+    if (!data) {
+        NSLog(@"got an empty data!");
+        return false;
+    }
+    NSString *rootPath = [MEKits sandboxPath];
+    NSString *dir = [rootPath stringByAppendingPathComponent:ME_INDEX_TAB_CACHE_PATH];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:dir]) {
+        [fileManager createDirectoryAtPath:dir withIntermediateDirectories:true attributes:nil error:nil];
+    }
+    NSString *fileName = [self storageFileName];
+    NSString *filePath = [dir stringByAppendingPathComponent:fileName];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        [fileManager removeItemAtPath:filePath error:nil];
+    }
+    
+    return [data writeToFile:filePath atomically:true];
+}
+
 /**
  app首次启动首先加载本地缓存
  */
@@ -174,12 +215,23 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
      *  1.2 数据库如果没有就显示bundle打包资源并刷新
      *  1.3 加载线上资源
      */
+    NSData *localData = [self fetchIndexCacheLocalStorage];
+    if (localData != nil) {
+        NSError *err;
+        MEPBIndexItem *item = [MEPBIndexItem parseFromData:localData error:&err];
+        if (item && !err) {
+            self.dataItem = item;
+            [self rebuildIndexLayoutUI];
+            return;
+        }
+        //[self handleTransitionError:err];
+    }
     
-    [self reloadIndexItemData];
+    [self.scroller.mj_header beginRefreshing];
 }
 
 - (void)reloadIndexItemData {
-    [self showIndecator];
+    //[self showIndecator];
     MEPBIndexClass *indexTab = [[MEPBIndexClass alloc] init];
     indexTab.index = self.indexCode;
     MEIndexVM *vm = [[MEIndexVM alloc] init];
@@ -191,14 +243,20 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
             [self handleTransitionError:err];
             [self displayErrorWhhileDataEmpty];
         } else {
-            self.dataItem = classes.catsArray[self.indexCode];
+            MEPBIndexItem *item = classes.catsArray[self.indexCode];
+            self.dataItem = item;
             [self rebuildIndexLayoutUI];
+            //save to local storage
+            NSData *binary = [item data];
+            [self saveIndexCacheData2LocalStorage:binary];
         }
-        [self hiddenIndecator];
+        //[self hiddenIndecator];
+        [self.scroller.mj_header endRefreshing];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
         [self handleTransitionError:error];
-        [self hiddenIndecator];
+        //[self hiddenIndecator];
+        [self.scroller.mj_header endRefreshing];
         [self displayErrorWhhileDataEmpty];
     }];
 }
@@ -257,7 +315,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     };
     
     //*推荐视频小分类
-    NSArray <MEPBResType*>*recommand = self.dataItem.recommendTypeListArray;
+    NSArray <MEPBResType*>*recommand = self.dataItem.recommendTypeListArray.copy;
     //NSLog(@"recommand:%@", recommand);
     __block MEBaseScene *lastSection = nil;__block MEBaseScene *lastItem = nil;
     NSUInteger sectionHeight = ME_LAYOUT_ICON_HEIGHT;
@@ -284,7 +342,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         sectTitleLab.text = type.title;
         [sectTitleScene addSubview:sectTitleLab];
         [sectTitleLab makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN));
+            make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN*2, 0, ME_LAYOUT_MARGIN*2));
         }];
         lastSection = sectTitleScene;
         //items
@@ -293,11 +351,12 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         
         for (int j = 0;j < courseItems.count;j++) {
             MEPBRes *item = courseItems[j];
-            NSUInteger __row_idx = i / numPerLine;NSUInteger __col_idx = i % numPerLine;
+            NSUInteger __row_idx = j / numPerLine;NSUInteger __col_idx = j % numPerLine;
             NSUInteger offset_x = itemMargin + (itemWidth+itemDistance)*__col_idx;
             NSUInteger offset_y = itemMargin + (itemHeight+ME_LAYOUT_MARGIN)*__row_idx;
             //NSLog(@"row:%d-------col:%d-=====offset_x:%zd======offset_y:%zd", __row_idx, __col_idx, offset_x, offset_y);
             MEBaseScene *itemScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+            itemScene.sectionTag = i;itemScene.tag = j;
             //itemScene.backgroundColor = [UIColor pb_randomColor];
             [self.layout addSubview:itemScene];
             [itemScene makeConstraints:^(MASConstraintMaker *make) {
@@ -318,6 +377,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
              }];
              NSString *url = [MEKits imageFullPath:item.coverImg];
              MEBaseImageView *image = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+             //image.backgroundColor = [UIColor blueColor];
              [image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
              [itemScene addSubview:image];
              [image makeConstraints:^(MASConstraintMaker *make) {
@@ -340,8 +400,23 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     //*/
 }
 
-- (void)indexLayoutStoryItemDidTouchEvent:(MEBaseScene *)scene {
-    NSDictionary *params = @{@"title":@"蚂蚁先生搬家", @"desc":@"这是对爸爸妈妈说的话，要记牢！"};
+- (void)indexLayoutStoryItemDidTouchEvent:(UITapGestureRecognizer *)tap {
+    MEBaseScene *tapView = (MEBaseScene *)[tap view];
+    NSUInteger sectionTag = tapView.sectionTag;NSUInteger rowTag = tapView.tag;
+    NSArray <MEPBResType*>*recommand = self.dataItem.recommendTypeListArray.copy;
+    if (sectionTag >= recommand.count) {
+        return;
+    }
+    MEPBResType *type = recommand[sectionTag];
+    NSArray <MEPBRes*>*items = type.resPbArray.copy;
+    if (rowTag >= items.count) {
+        return;
+    }
+    MEPBRes *item = items[rowTag];
+    NSString *title = PBAvailableString(item.title);
+    NSString *desc = PBAvailableString(item.desc);
+    NSString *uri = PBAvailableString(item.filePath);
+    NSDictionary *params = _NSDictionaryOfVariableBindings(title, desc, uri);
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];

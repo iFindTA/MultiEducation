@@ -287,7 +287,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
                 [self.playerControl updateUserLikeItemState:true];
             });
         };
-        if (![self userDidSignIn]) {
+        if (self.currentUser.isTourist) {
 //            NSString *urlString = @"profile://root@MESignInProfile/__initCallback:#code";
 //            NSError *err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withCallback:Block_copy(likeCallback)];
 //            [self handleTransitionError:err];
@@ -296,6 +296,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
 //            NSDictionary *params =@{ME_DISPATCH_KEY_CALLBACK:[likeCallback copy]};
             [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
+            [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
             NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params.copy instanceType:MEProfileTypeCODE];
             NSError *err = [MEDispatcher openURL:signInUrl withParams:params];
             [self handleTransitionError:err];

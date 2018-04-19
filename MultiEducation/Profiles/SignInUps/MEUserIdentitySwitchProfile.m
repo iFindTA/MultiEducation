@@ -193,9 +193,7 @@
             if (signInCallback) {
                 signInCallback();
             } else {
-                PBMAINDelay(ME_ANIMATION_DURATION, ^{
-                    [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
-                });
+                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
             }
         }
     } failure:^(NSError * _Nonnull error) {

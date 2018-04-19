@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  whether user did sign-in
  */
-- (BOOL)userDidSignIn;
+//- (BOOL)userDidSignIn;
 
 /**
  handle error

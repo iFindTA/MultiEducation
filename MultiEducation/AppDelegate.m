@@ -47,7 +47,13 @@
     if (!whetherDidSignout) {
         self.curUser = [MEUserVM fetchLatestSignedInUser];
     }
-    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:(self.curUser!=nil)?MEDisplayStyleMainSence:MEDisplayStyleAuthor];
+    MEDisplayStyle style ;
+    if (!self.curUser) {
+        style = MEDisplayStyleAuthor;
+    } else {
+        style = (self.curUser.isTourist)?MEDisplayStyleVisitor:MEDisplayStyleMainSence;
+    }
+    UIViewController *rootProfile = [self assembleRootProfileWhileUserChangeState:style];
     self.winProfile = [[MEBaseNavigationProfile alloc] initWithRootViewController:rootProfile];
     [self.winProfile setNavigationBarHidden:true animated:true];
     self.winProfile.sj_gestureType = SJFullscreenPopGestureType_Full;
