@@ -74,7 +74,15 @@
 - (void)updatePlayInfoTitlePanel4Info:(NSDictionary *)titleMap {
     //TODO://更新UI
     [self.tagScene removeAllTags];
-    
+    NSString *title = [titleMap pb_stringForKey:@"title"];
+    self.titleLab.text = title.copy;
+    NSArray<NSString *>*tags = [titleMap pb_arrayForKey:@"tags"];
+    [self.tagScene addTags:tags];
+}
+
+- (void)clean {
+    self.titleLab.text = nil;
+    [self.tagScene removeAllTags];
 }
 
 /*

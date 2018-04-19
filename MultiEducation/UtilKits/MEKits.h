@@ -36,6 +36,11 @@
 + (NSString *)imageFullPath:(NSString *)absPath;
 
 /**
+ media absolute path
+ */
++ (NSString *)mediaFullPath:(NSString *)absPath;
+
+/**
  压缩image到制定大小以下
 
  @param image original image

@@ -51,4 +51,9 @@ typedef NS_ENUM(NSUInteger, MEVideoPlayUserAction) {
 
 - (void)closeNextRecommandItemEvent;
 
+/**
+ 用户点击新的item
+ */
+- (void)clean;
+
 @end

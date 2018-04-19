@@ -91,6 +91,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_REGULAR_MOBILE                                                   @"^1+[3578]+\\d{9}"
 
 #define ME_PAGING_SIZE                                                      20//默认分页20
+#define ME_EMPTY_PROMPT_TITLE                                               @"哎呀！"
+#define ME_EMPTY_PROMPT_DESC                                                @"服务器貌似在偷懒，您稍等我去揍它..."
+#define ME_EMPTY_PROMPT_NETWORK                                             @"您貌似断开了互联网链接，请检查网络稍后重试！"
 
 #pragma mark --- Type enums
 
