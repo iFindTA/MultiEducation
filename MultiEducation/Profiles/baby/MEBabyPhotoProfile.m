@@ -107,7 +107,12 @@ static CGFloat const ITEM_LEADING = 10.f;
         for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
             MEPhoto *photo = [[MEPhoto alloc] init];
             photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.filePath];
-            MWPhoto *mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
+            MWPhoto *mwPhoto;
+            if ([photo.albumPb.fileType isEqualToString: @"jpg"]) {
+                mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: photo.urlStr]];
+            } else {
+                mwPhoto = [MWPhoto videoWithURL: [NSURL URLWithString: photo.urlStr]];
+            }
             photo.photo = mwPhoto;
             photo.albumPb = pb;
             [self.photos addObject: photo];
@@ -117,6 +122,10 @@ static CGFloat const ITEM_LEADING = 10.f;
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
+}
+
+- (void)sortPhotoWithTimeLine {
+    
 }
 
 - (void)customNavigation {
@@ -343,6 +352,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self handleTransitionError:err];
         
     } else {
+        NSLog(@"%@", [self.photos objectAtIndex: indexPath.item].albumPb);
         [self.navigationController pushViewController: self.photoBrowser animated: YES];
         [_photoBrowser setCurrentPhotoIndex: indexPath.item];
         //MWBrowser can't reuser!!! need set nil;

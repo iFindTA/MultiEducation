@@ -56,7 +56,8 @@ static MEQiniuUtils *qnUtils;
     }
     
     __weak typeof(self) weakSelf = self;
-    [qnUploadManager putData:data key:[images objectAtIndex: _index].md5FileName token:self.qnToken
+    NSString *key = [NSString stringWithFormat: @"%@.jpg", [images objectAtIndex: _index].md5FileName];
+    [qnUploadManager putData:data key: key token:self.qnToken
                   complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                       if (info.isOK) {
                           if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
@@ -98,7 +99,7 @@ static MEQiniuUtils *qnUtils;
 - (void)uploadVideo:(NSData *)data key:(NSString *)key {
     __weak typeof(self) weakSelf = self;
     
-    [qnUploadManager putData:data key: [data md5String] token: self.qnToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+    [qnUploadManager putData:data key: key token: self.qnToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
         if (info.isOK) {
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
                 dispatch_async_on_main_queue(^{
