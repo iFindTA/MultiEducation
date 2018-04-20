@@ -26,11 +26,9 @@ typedef void(^settingCallBack)(void);
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *ageLab;
 
-
 @property (weak, nonatomic) IBOutlet MEBaseLabel *babyHeightTipLabel;
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *babyHeightLab;
-
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *babyWeightTipLabel;
 
