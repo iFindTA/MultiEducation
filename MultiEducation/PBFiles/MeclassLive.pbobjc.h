@@ -56,6 +56,7 @@ typedef GPB_ENUM(MEPBClassLive_FieldNumber) {
   MEPBClassLive_FieldNumber_Status = 5,
   MEPBClassLive_FieldNumber_VideoURL = 6,
   MEPBClassLive_FieldNumber_RecorderListArray = 7,
+  MEPBClassLive_FieldNumber_Title = 8,
 };
 
 @interface MEPBClassLive : GPBMessage
@@ -66,7 +67,7 @@ typedef GPB_ENUM(MEPBClassLive_FieldNumber) {
 /** 直播老师ID */
 @property(nonatomic, readwrite) int64_t teacherId;
 
-/** 班级ID */
+/** 班级ID 必传 */
 @property(nonatomic, readwrite) int64_t classId;
 
 /** 直播流 */
@@ -82,6 +83,9 @@ typedef GPB_ENUM(MEPBClassLive_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<MEPBClassLive*> *recorderListArray;
 /** The number of items in @c recorderListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger recorderListArray_Count;
+
+/** 视频标题 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
 
 @end
 

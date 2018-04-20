@@ -53,6 +53,7 @@ static GPBFileDescriptor *MeclassLiveRoot_FileDescriptor(void) {
 @dynamic status;
 @dynamic videoURL;
 @dynamic recorderListArray, recorderListArray_Count;
+@dynamic title;
 
 typedef struct MEPBClassLive__storage_ {
   uint32_t _has_storage_[1];
@@ -60,6 +61,7 @@ typedef struct MEPBClassLive__storage_ {
   NSString *streamURL;
   NSString *videoURL;
   NSMutableArray *recorderListArray;
+  NSString *title;
   int64_t id_p;
   int64_t teacherId;
   int64_t classId;
@@ -133,6 +135,15 @@ typedef struct MEPBClassLive__storage_ {
         .offset = (uint32_t)offsetof(MEPBClassLive__storage_, recorderListArray),
         .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
+      },
+      {
+        .name = "title",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBClassLive_FieldNumber_Title,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(MEPBClassLive__storage_, title),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
       },
     };
     GPBDescriptor *localDescriptor =

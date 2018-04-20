@@ -8,4 +8,5 @@ message MEPBClassLive {
 	int32 status = 5;//直播状态0未开始 1直播中
 	string videoUrl = 6;//往期视频uri
 	repeated MEPBClassLive recorderList = 7;//往期视频
+	string title = 8;//视频标题
 }

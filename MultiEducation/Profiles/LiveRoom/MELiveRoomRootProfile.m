@@ -38,7 +38,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 
 @property (nonatomic, strong) MEBaseButton *startLiveBtn;
 @property (nonatomic, strong) MEBaseScene *liveScene;
-@property (nonatomic, strong) MEBaseLabel *liveMaskLab;
+@property (nonatomic, strong) MEBaseScene *liveMaskScene;
 
 @end
 
@@ -89,21 +89,39 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         make.height.equalTo(adoptValue(ME_LIVE_PLAY_SCENE_HEIGHT));
     }];
     //mask
-    [self.liveScene addSubview:self.liveMaskLab];
-    [self.liveMaskLab makeConstraints:^(MASConstraintMaker *make) {
+    [self.liveScene addSubview:self.liveMaskScene];
+    [self.liveMaskScene makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.liveScene);
+    }];
+    UIImage *playIcon = [UIImage imageNamed:@"live_class_play"];
+    MEBaseImageView *imageView = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    imageView.image = playIcon;
+    [self.liveMaskScene addSubview:imageView];
+    [imageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.liveMaskScene.mas_centerX);
+        make.centerY.equalTo(self.liveMaskScene.mas_centerY);
+        make.size.equalTo(CGSizeMake(ME_HEIGHT_TABBAR, ME_HEIGHT_TABBAR));
+    }];
+    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = UIFontPingFangSCMedium(METHEME_FONT_LARGETITLE);
+    label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    label.text = @"当前没有老师开播！";
+    [self.liveMaskScene addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.liveMaskScene);
     }];
     
     //title
     MEBaseScene *scene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-    scene.backgroundColor = [UIColor pb_randomColor];
+    //scene.backgroundColor = [UIColor pb_randomColor];
     [self.view addSubview:scene];
     [scene makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.liveScene.mas_bottom);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
-    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     label.font = UIFontPingFangSCBold(METHEME_FONT_TITLE);
     label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     label.text = @"往期视频";
@@ -155,29 +173,28 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 - (MEBaseScene *)liveScene {
     if (!_liveScene) {
         _liveScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-        _liveScene.backgroundColor = [UIColor pb_randomColor];
+        //_liveScene.backgroundColor = [UIColor pb_randomColor];
     }
     return _liveScene;
 }
 
-- (MEBaseLabel *)liveMaskLab {
-    if (!_liveMaskLab) {
-        _liveMaskLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
-        _liveMaskLab.textAlignment = NSTextAlignmentCenter;
-        _liveMaskLab.font = UIFontPingFangSCMedium(METHEME_FONT_LARGETITLE);
-        _liveMaskLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
-        _liveMaskLab.text = @"当前没有老师开播！";
-        _liveMaskLab.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+- (MEBaseScene *)liveMaskScene {
+    if (!_liveMaskScene) {
+        _liveMaskScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _liveMaskScene.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     }
-    return _liveMaskLab;
+    return _liveMaskScene;
 }
 
 - (MEBaseTableView *)table {
     if (!_table) {
         _table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _table.delegate = self;
+        _table.dataSource = self;
         _table.emptyDataSetSource = self;
         _table.emptyDataSetDelegate = self;
         _table.tableFooterView = [UIView new];
+        _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
 }
@@ -263,7 +280,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     NSUInteger __row = [indexPath row];
     NSArray<MEPBClassLive*>*classItems = self.dataLive.recorderListArray.copy;
     NSUInteger allCounts = classItems.count;
-    [cell configureStoryItem4RowIndex:__row];
+    [cell configureStoryItem4RowIndex:1];
     //item
     NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
     for (int i = 0; i < numPerLine; i ++) {
@@ -273,13 +290,13 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
             NSString *title = res.title.copy;
             (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
             (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
-            
-            NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
+            //TODO:此处需要写一个扩展
+            //NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
             UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
             if (i % numPerLine == 0) {
-                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:res.videoURL] placeholder:image];
             } else {
-                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:res.videoURL] placeholder:image];
             }
         } else {
             cell.rightItemScene.hidden = true;
@@ -289,10 +306,14 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     weakify(self)
     cell.indexContentItemCallback = ^(NSUInteger section, NSUInteger index){
         strongify(self)
-        [self subClassesStoryItemDidTouchRowIndex:index];
+        [self liveRoomForwardItemDidTouchRowIndex:index];
     };
     
     return cell;
+}
+
+- (void)liveRoomForwardItemDidTouchRowIndex:(NSUInteger)index {
+    
 }
 
 #pragma mark --- 用户角色没有关联任何班级 显示没有班级 并引导用户去关联班级
@@ -461,6 +482,8 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     self.whetherDidLoadData = true;
     
     
+    [self.table reloadData];
+    [self.table reloadEmptyDataSet];
 }
 
 #pragma mark --- User Interface Action
