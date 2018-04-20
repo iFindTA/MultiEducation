@@ -12,6 +12,8 @@
 #import "MEBabyContentHeader.h"
 #import "MEBabyComponentCell.h"
 #import "MEBabyInfoCell.h"
+#import "MEStudentVM.h"
+#import "MebabyIndex.pbobjc.h"
 
 #define MAX_BABY_PHOTO 10
 #define COMPONENT_COUNT 6
@@ -61,6 +63,50 @@
 }
 
 - (void)loadData {
+    
+    if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
+        
+        
+        StudentPb *pb;
+        if ([MEStudentVM fetchSelectBaby] != nil) {
+            pb = [MEStudentVM fetchSelectBaby];
+        } else {
+            pb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
+            [MEStudentVM saveSelectBaby: pb];
+        }
+        
+        MEStudentVM *studentVM = [MEStudentVM vmWithPb: pb];
+        studentVM.cmdCode = @"GU_INDEX";
+        
+        NSData *data = [pb data];
+        [studentVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+            
+            GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
+            
+            NSLog(@"%@", pb);
+            
+        } failure:^(NSError * _Nonnull error) {
+            
+            [self handleTransitionError: error];
+            
+        }];
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     MEPBUserRole role = self.currentUser.userType;
     if (role == MEPBUserRole_Parent) {
         if (self.currentUser.parentsPb.studentPbArray.count > 0) {
@@ -87,6 +133,9 @@
     [self.scrollView addSubview: self.scrollContentView];
     
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyHeader" owner:self options:nil] lastObject];
+    self.headerView.selectCallBack = ^(StudentPb *pb) {
+        
+    };
     [self.scrollContentView addSubview: self.headerView];
     
     if (!(self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
@@ -94,7 +143,6 @@
         [self.scrollContentView addSubview: self.photoHeader];
         [self.scrollContentView addSubview: self.babyPhtoView];
         [self.scrollContentView addSubview: self.componentView];
-        
     }
     
     [self.scrollContentView addSubview: self.tableView];

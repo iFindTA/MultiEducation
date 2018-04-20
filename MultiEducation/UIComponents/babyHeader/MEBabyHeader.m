@@ -56,9 +56,24 @@
     }
 }
 
+- (void)setData:(GuStudentArchivesPb *)growthPb {
+    self.ageLab.text = [NSString stringWithFormat: @"%d岁", growthPb.age];
+    self.babyHeightLab.text = [NSString stringWithFormat: @"%d", growthPb.height];
+    self.babyWeightLab.text = [NSString stringWithFormat: @"%d", growthPb.weight];
+}
+
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
+    
     NSString *urlString = @"profile://root@MEBabySelectProfile/";
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+    
+    void(^callBack)(StudentPb *pb) = ^(StudentPb *pb){
+        if (self.selectCallBack) {
+            self.selectCallBack(pb);
+        }
+    };
+    
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: callBack};
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
     [self handleTransitionError:err];
 }
 

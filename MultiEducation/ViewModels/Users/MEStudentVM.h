@@ -8,13 +8,25 @@
 
 #import "MEVM.h"
 #import "Meuser.pbobjc.h"
-#import <WHC_ModelSqlite.h>
+#import "Meuser.pbobjc.h"
 
 @interface MEStudentVM : MEVM
  
 + (instancetype)vmWithPb:(StudentPb *)pb;
 
-+ (void)saveSelectBaby:(StudentPb *)student;
+
+
+/**
+ 为当前用户 save 选中的宝宝
+
+ */
++ (void)saveSelectBaby:(StudentPb *)baby;
+
+
+/**
+ 获取当前用户保存的  选中的宝宝
+ */
++ (StudentPb *)fetchSelectBaby;
 
 
 

@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+
+message GuStudyEvaluateListPb {
+    GuStudyEvaluatePb studyEvaluatePb = 1;
+}
+
+message GuStudyEvaluatePb {
+       int64 id = 1;
+       int64 gradeId = 2;
+       int64 semester = 3;
+       int64 studentId = 4;
+       int32 month = 5;
+       string title = 6;
+       GuStudyEvaluateQuesPb studyEvaluateQuesPb = 7;
+       GuStudyEvaluateAnswerPb answerListPb  = 8;
+}
+
+
+message GuStudyEvaluateQuesPb {
+       int64 id = 1;
+       int64 evaluateId = 2;
+       string title = 3;
+       int32 type = 4; //'1在幼儿园2在家里'
+       int32 checkType = 5; //'1单选2多选'
+       GuStudyEvaluateAnswerPb answerPb=6;
+       GuStudyEvaluateQuesItemPb itemListPb = 7;
+}
+
+
+message GuStudyEvaluateAnswerPb {
+         int64 studentId = 1;
+         int64 evaluateId = 2;
+         int64 quesId = 3;
+         int64 itemId = 4;
+         string answer = 5;
+}
+
+
+message GuStudyEvaluateQuesItemPb {
+       int64 id = 1;
+       int64 evaluateId = 2;
+       int64 evaluateQuesId = 3;
+       string title = 4;
+       int64 checkCount = 5;
+}
+
+
