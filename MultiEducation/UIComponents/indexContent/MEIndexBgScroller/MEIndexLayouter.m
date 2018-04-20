@@ -279,7 +279,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     //banner
     CGFloat bannerHeight = adoptValue(ME_CONTENT_HEADER_BANNER_HEIGHT);
     CGRect bounds = CGRectMake(ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN, MESCREEN_WIDTH - ME_LAYOUT_MARGIN * 2, bannerHeight);
-    UIImage *img = [UIImage imageNamed:@"index_content_header_placeholder"];
+    UIImage *img = [UIImage imageNamed:@"index_content_placeholder"];
     self.banner = [YJBannerView bannerViewWithFrame:bounds dataSource:self delegate:self emptyImage:img placeholderImage:img selectorString:@"sd_setImageWithURL:placeholderImage:"];
     self.banner.pageControlStyle = PageControlHollow;
     self.banner.pageControlAliment = PageControlAlimentRight;

@@ -46,6 +46,11 @@
 + (NSString *)mediaFullPath:(NSString *)absPath;
 
 /**
+ assmble resource share uri
+ */
++ (NSString *)shareResourceUri:(ino64_t)resId type:(int32_t)type;
+
+/**
  压缩image到制定大小以下
 
  @param image original image

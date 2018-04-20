@@ -56,6 +56,10 @@
     return nil;
 }
 
++ (NSString *)shareResourceUri:(ino64_t)resId type:(int32_t)type {
+    return PBFormat(@"%@/?type=%d&resId=%lld", ME_WEB_SERVER_HOST, type, resId);
+}
+
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength {
     // Compress by quality
     CGFloat compression = 1;
