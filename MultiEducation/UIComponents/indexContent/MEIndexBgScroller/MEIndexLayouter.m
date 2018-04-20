@@ -123,7 +123,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 }
 
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
-    return 0;
+    return adoptValue(ME_EMPTY_PROMPT_OFFSET);
 }
 
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {

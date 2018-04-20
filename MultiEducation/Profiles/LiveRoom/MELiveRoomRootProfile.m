@@ -107,6 +107,7 @@
         _table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.emptyDataSetSource = self;
         _table.emptyDataSetDelegate = self;
+        _table.tableFooterView = [UIView new];
     }
     return _table;
 }
@@ -124,14 +125,14 @@
 }
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = ME_EMPTY_PROMPT_TITLE;
+    NSString *text = PBAvailableString(self.emptyTitle);
     NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSCBold(METHEME_FONT_TITLE),
                                  NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = ME_EMPTY_PROMPT_DESC;
+    NSString *text = PBAvailableString(self.emptyDesc);
     if ([[PBService shared] netState] == PBNetStateUnavaliable) {
         text = ME_EMPTY_PROMPT_NETWORK;
     }
@@ -141,7 +142,7 @@
 }
 
 - (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
-    return 0;
+    return adoptValue(ME_EMPTY_PROMPT_OFFSET);
 }
 
 - (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
