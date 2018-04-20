@@ -585,6 +585,8 @@
 		2AD300EA3F3262E916351C1BB9DA9AF5 /* babyPhotoContent */ = {
 			isa = PBXGroup;
 			children = (
+				765A2C972089B257009F9A2A /* METimeLineSectionView.h */,
+				765A2C982089B257009F9A2A /* METimeLineSectionView.m */,
 				01438EA76A6328FD7B6A345883776372 /* MEBabyContentPhotoCell.h */,
 				756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */,
 				CE2231AA69ED2034486F0E17455E20A7 /* MEBabyContentPhotoCell.xib */,
@@ -1122,8 +1124,6 @@
 			children = (
 				D90885B8C19869B35804E16243026E43 /* MEBabyPhotoHeader.h */,
 				3CE90C3059284F4BD176EA74FC62AFB4 /* MEBabyPhotoHeader.m */,
-				765A2C972089B257009F9A2A /* METimeLineSectionView.h */,
-				765A2C982089B257009F9A2A /* METimeLineSectionView.m */,
 			);
 			path = babyPhotoHeader;
 			sourceTree = "<group>";

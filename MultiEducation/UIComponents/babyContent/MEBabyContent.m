@@ -66,7 +66,7 @@
         if (self.currentUser.parentsPb.studentPbArray.count > 0) {
             self.studentPb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
         } else {
-            NSLog(@"未绑定任何孩子");
+            
         }
     } else if(role == MEPBUserRole_Teacher) {
         if (self.currentUser.teacherPb.classPbArray.count > 1) {
@@ -74,6 +74,10 @@
         } else {
             
         }
+    } else if (role == MEPBUserRole_Gardener) {
+        
+    } else if (role == MEPBUserRole_Visitor) {
+        
     }
 }
 
