@@ -64,7 +64,7 @@ typedef GPB_ENUM(MEPBClassList_FieldNumber) {
 
 typedef GPB_ENUM(MEPBClass_FieldNumber) {
   MEPBClass_FieldNumber_Id_p = 1,
-  MEPBClass_FieldNumber_ClassName = 2,
+  MEPBClass_FieldNumber_Name = 2,
   MEPBClass_FieldNumber_GradeId = 3,
   MEPBClass_FieldNumber_GradeName = 4,
   MEPBClass_FieldNumber_MonitorURL = 5,
@@ -78,7 +78,7 @@ typedef GPB_ENUM(MEPBClass_FieldNumber) {
 @property(nonatomic, readwrite) int64_t id_p;
 
 /** 班级名称 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *className;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
 
 /** 年级id */
 @property(nonatomic, readwrite) int64_t gradeId;

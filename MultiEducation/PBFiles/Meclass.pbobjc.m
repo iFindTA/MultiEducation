@@ -95,7 +95,7 @@ typedef struct MEPBClassList__storage_ {
 @implementation MEPBClass
 
 @dynamic id_p;
-@dynamic className;
+@dynamic name;
 @dynamic gradeId;
 @dynamic gradeName;
 @dynamic monitorURL;
@@ -105,7 +105,7 @@ typedef struct MEPBClassList__storage_ {
 typedef struct MEPBClass__storage_ {
   uint32_t _has_storage_[1];
   int32_t semester;
-  NSString *className;
+  NSString *name;
   NSString *gradeName;
   NSString *monitorURL;
   int64_t id_p;
@@ -129,12 +129,12 @@ typedef struct MEPBClass__storage_ {
         .dataType = GPBDataTypeInt64,
       },
       {
-        .name = "className",
+        .name = "name",
         .dataTypeSpecific.className = NULL,
-        .number = MEPBClass_FieldNumber_ClassName,
+        .number = MEPBClass_FieldNumber_Name,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(MEPBClass__storage_, className),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .offset = (uint32_t)offsetof(MEPBClass__storage_, name),
+        .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
@@ -193,7 +193,7 @@ typedef struct MEPBClass__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\004\002\t\000\003\007\000\004\t\000\005\010!!\000";
+        "\003\003\007\000\004\t\000\005\010!!\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
