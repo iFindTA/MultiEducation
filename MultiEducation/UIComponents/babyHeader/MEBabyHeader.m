@@ -25,17 +25,27 @@
         make.left.right.top.bottom.mas_equalTo(0);
     }];
     
-    if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-        self.ageLab.hidden = YES;
-        self.ageTipLabel.hidden = YES;
-        self.babyHeightLab.hidden = YES;
-        self.babyHeightTipLabel.hidden = YES;
-        self.babyWeightLab.hidden = YES;
-        self.babyWeightTipLabel.hidden = YES;
-    }
-    
-    
-    
+//    self.currentUser.
+//
+//    if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
+//        self.ageLab.hidden = YES;
+//        self.ageTipLabel.hidden = YES;
+//        self.babyHeightLab.hidden = YES;
+//        self.babyHeightTipLabel.hidden = YES;
+//        self.babyWeightLab.hidden = YES;
+//        self.babyWeightTipLabel.hidden = YES;
+//
+//        self.userNameLab.text = [NSString stringWithFormat: @"欢迎来到%@", self.currentUser.schoolName];
+//
+//
+//    }
+//
+//    if (self.currentUser.userType == MEPBUserRole_Visitor) {
+//        self.ageLab.text = @"--";
+//        self.babyHeightLab.text = @"--";
+//        self.babyWeightLab.text = @"--";
+//    }
+
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
