@@ -175,7 +175,7 @@
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
     UIColor *imgColor =UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
-    UIImage *image = [UIImage pb_iconFont:nil withName:@"\U0000e673" withSize:ME_LAYOUT_ICON_HEIGHT withColor:imgColor];
+    UIImage *image = [UIImage pb_iconFont:nil withName:ME_ICONFONT_EMPTY_HOLDER withSize:ME_LAYOUT_ICON_HEIGHT withColor:imgColor];
     return image;
 }
 

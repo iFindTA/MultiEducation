@@ -9,16 +9,25 @@
 #import "MELiveClassVM.h"
 #import <MJRefresh/MJRefresh.h>
 #import "MELiveRoomRootProfile.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface MELiveRoomRootProfile ()
+@interface MELiveRoomRootProfile () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 /**
  当前用户是否是老师
  */
 @property (nonatomic, assign) BOOL whetherTeacherRole;
 
+/**
+ 当前用户选择的班级
+ */
+@property (nonatomic, strong, nullable) MEPBClass *currentClass;
+
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, strong) MEPBClassLive *dataLive;
+
+@property (nonatomic, assign) BOOL whetherDidLoadData;
+@property (nonatomic, copy, nullable) NSString *emptyTitle, *emptyDesc;
 
 @end
 
@@ -60,9 +69,14 @@
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"直播课堂"];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];
-    //角色判断
-    self.whetherTeacherRole = ((self.currentUser.userType == 1) && (!self.currentUser.isTourist));
+    // add table
+    [self.view addSubview:self.table];
+    [self.table makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
+        make.left.right.bottom.equalTo(self.view);
+    }];
     
+    self.whetherDidLoadData = false;
     [self __initLiveRoomSubviews];
 }
 
@@ -84,10 +98,109 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark --- lazy getter
+
+- (UITableView *)table {
+    if (!_table) {
+        _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _table.emptyDataSetSource = self;
+        _table.emptyDataSetDelegate = self;
+    }
+    return _table;
+}
+
+#pragma mark --- DZNEmpty DataSource & Deleagte
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return self.whetherDidLoadData;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    UIColor *imgColor =UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    UIImage *image = [UIImage pb_iconFont:nil withName:ME_ICONFONT_EMPTY_HOLDER withSize:ME_LAYOUT_ICON_HEIGHT withColor:imgColor];
+    return image;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = ME_EMPTY_PROMPT_TITLE;
+    NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSCBold(METHEME_FONT_TITLE),
+                                 NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = ME_EMPTY_PROMPT_DESC;
+    if ([[PBService shared] netState] == PBNetStateUnavaliable) {
+        text = ME_EMPTY_PROMPT_NETWORK;
+    }
+    NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSC(METHEME_FONT_SUBTITLE),
+                                 NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return 0;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return true;
+}
+
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+    [self autoLoadMoreRelevantItems4PageIndex:1];
+}
+
 #pragma mark --- initiazlized subviews
 
 - (void)__initLiveRoomSubviews {
-    
+    //是否是老师
+    self.whetherTeacherRole = (self.currentUser.userType == MEPBUserRole_Teacher && !self.currentUser.isTourist);
+}
+
+#pragma mark --- 用户角色没有关联任何班级 显示没有班级 并引导用户去关联班级
+
+/**
+ 当前用户是否已经关联班级
+ 否则显示未关联 是则下一步
+ */
+- (BOOL)whetherCurrentUserDidRelatedClass {
+    __block BOOL didRelated = false;
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        //老师
+        TeacherPb *teacher = self.currentUser.teacherPb;
+        didRelated = (teacher.classPbArray.count > 0);
+    } else if (self.currentUser.userType == MEPBUserRole_Parent) {
+        //家长
+        ParentsPb *parent = self.currentUser.parentsPb;
+        didRelated = (parent.classPbArray.count > 0);
+    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        //园务
+        DeanPb *dean = self.currentUser.deanPb;
+        didRelated = (dean.classPbArray.count > 0);
+    }
+    return didRelated;
+}
+
+/**
+ 当前用户是否有多个班级
+ 是则选择班级 否则下一步
+ */
+- (BOOL)whetherCurrentUserHaveMulticastClass {
+    __block BOOL didRelated = false;
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        //老师
+        TeacherPb *teacher = self.currentUser.teacherPb;
+        didRelated = (teacher.classPbArray.count > 1);
+    } else if (self.currentUser.userType == MEPBUserRole_Parent) {
+        //家长
+        ParentsPb *parent = self.currentUser.parentsPb;
+        didRelated = (parent.classPbArray.count > 1);
+    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        //园务
+        DeanPb *dean = self.currentUser.deanPb;
+        didRelated = (dean.classPbArray.count > 1);
+    }
+    return didRelated;
 }
 
 #pragma mark --- fetch network data
