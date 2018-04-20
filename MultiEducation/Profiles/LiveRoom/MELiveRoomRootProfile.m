@@ -198,36 +198,6 @@
     return classes.copy;
 }
 
-- (uint64_t)fetchCurrentClassID {
-    __block uint64_t class_id = 0;
-    if (self.currentUser.userType == MEPBUserRole_Teacher) {
-        //老师
-        TeacherPb *teacher = self.currentUser.teacherPb;
-        NSArray <MEPBClass*>*classes = teacher.classPbArray.copy;
-        //目前策略直接取第一个class
-        MEPBClass *cls = classes.firstObject;
-        class_id = cls.id_p;
-    } else if (self.currentUser.userType == MEPBUserRole_Parent) {
-        //家长
-        ParentsPb *parent = self.currentUser.parentsPb;
-        NSArray<StudentPb*>*studdents = parent.studentPbArray.copy;
-        uint64_t currentStudnetID = parent.cutStudenId;
-        [studdents enumerateObjectsUsingBlock:^(StudentPb * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.id_p == currentStudnetID) {
-                class_id = obj.classId;
-            }
-        }];
-    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
-        //园务
-        DeanPb *dean = self.currentUser.deanPb;
-        NSArray <MEPBClass*>*classes = dean.classPbArray.copy;
-        //目前策略直接取第一个class
-        MEPBClass *cls = classes.firstObject;
-        class_id = cls.id_p;
-    }
-    return class_id;
-}
-
 #pragma mark --- initiazlized subviews
 
 - (void)__initLiveRoomSubviews {
@@ -251,6 +221,26 @@
 #pragma mark --- fetch network data
 
 /**
+ 预处理多个班级的情况
+ */
+- (void)preDealWithMulticastClasses {
+    if (self.classes.count == 0) {
+        self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
+        self.emptyDesc = PBFormat(@"您还没有与任何班级关联，请先关联班级！");
+        self.whetherDidLoadData = true;
+        [self.table reloadEmptyDataSet];
+        return;
+    } else if (self.classes.count == 1) {
+        self.currentClass = self.classes.firstObject;
+        [self loadLiveClassRoomData];
+    }
+    //有多个班级 弹框让用户选择班级
+    PBMAINDelay(ME_ANIMATION_DURATION, ^{
+        [self makeUserChooseClasses];
+    });
+}
+
+/**
  让用户选择班级
  */
 - (void)makeUserChooseClasses {
@@ -258,19 +248,16 @@
     if (classes.count <= 1) {
         return;
     }
-    for (MEPBClass *cls in classes) {
-        NSLog(@"name :%@", cls.name);
-    }
-    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您有多个关联班级，请选择一个进行查看！" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您关联了多个班级，请选择一个进行查看！" preferredStyle:UIAlertControllerStyleActionSheet];
     weakify(self)
-    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *clsName = PBAvailableString(obj.name);
-        NSLog(@"class name:%@", clsName);
+    for (MEPBClass *cls in classes) {
+        NSString *clsName = PBAvailableString(cls.name);
         UIAlertAction *action = [UIAlertAction actionWithTitle:clsName style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
+            strongify(self)
+            [self userDidChooseClass4Name:action.title];
         }];
         [alertProfile addAction:action];
-    }];
+    }
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         strongify(self)
         [self defaultGoBackStack];
@@ -283,25 +270,25 @@
 }
 
 /**
- 预处理多个班级的情况
+ 用户选择了某一个班级 则拉取数据
  */
-- (void)preDealWithMulticastClasses {
-    if (self.classes.count == 0) {
-        self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
-        self.emptyDesc = PBFormat(@"您还没有与任何班级关联，请先关联班级！");
-        self.whetherDidLoadData = true;
-        [self.table reloadEmptyDataSet];
-        return;
+- (void)userDidChooseClass4Name:(NSString *)clsName {
+    for (MEPBClass *cls in self.classes) {
+        if ([cls.name isEqualToString:clsName]) {
+            self.currentClass = cls;
+            break;
+        }
     }
-    //有多个班级 弹框让用户选择班级
-    PBMAINDelay(ME_ANIMATION_DURATION, ^{
-        [self makeUserChooseClasses];
-    });
+    [self loadLiveClassRoomData];
 }
 
 - (void)loadLiveClassRoomData {
+    if (!self.currentClass) {
+        NSLog(@"还未选择班级class!");
+        return;
+    }
     //当前class_id
-    uint64_t class_id = [self fetchCurrentClassID];
+    uint64_t class_id = self.currentClass.id_p;
     MELiveClassVM *vm = [[MELiveClassVM alloc] init];
     MEPBClassLive *live = [[MEPBClassLive alloc] init];
     [live setClassId:class_id];
@@ -321,6 +308,7 @@
 }
 
 - (void)rebuildLiveRoomSubviews {
+    
     
 }
 
