@@ -11,11 +11,13 @@
 
 #if DEBUG
 #define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
+#define ME_WEB_SERVER_HOST                                              @"http://192.168.1.199:8070/coeos"
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
 #define ME_RONGIM_APPKEY                                                @"c9kqb3rdcoywj"
 #define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
 #define ME_APP_BASE_HOST                                                @"http://192.168.1.199"
+#define ME_WEB_SERVER_HOST                                              @"http://www.chinaxqjy.com"
 #define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
 #define ME_RONGIM_APPKEY                                                @"6tnym1br64577"
 #define ME_AMAP_APPKEY                                                  @"6507a4c9c1d533612e9ec728ffa0a4b1"

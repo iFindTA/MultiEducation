@@ -11,6 +11,7 @@ message MEPBRes {
 	repeated MEPBResLabel resLabelPb = 8;//标签列表
 	repeated MEPBRes relevantList = 9;//相关视频
 	int64 resTypeId = 10;//资源类型ID
+	bool isFavor = 11;//是否收藏
 }
 
 message MEPBResType {

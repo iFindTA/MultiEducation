@@ -56,6 +56,7 @@ static GPBFileDescriptor *MeresRoot_FileDescriptor(void) {
 @dynamic resLabelPbArray, resLabelPbArray_Count;
 @dynamic relevantListArray, relevantListArray_Count;
 @dynamic resTypeId;
+@dynamic isFavor;
 
 typedef struct MEPBRes__storage_ {
   uint32_t _has_storage_[1];
@@ -167,6 +168,15 @@ typedef struct MEPBRes__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "isFavor",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBRes_FieldNumber_IsFavor,
+        .hasIndex = 8,
+        .offset = 9,  // Stored in _has_storage_ to save space.
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBool,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEPBRes class]
@@ -178,8 +188,8 @@ typedef struct MEPBRes__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\006\001\005\000\003\010\000\007\010\000\010\000resLabelPb\000\t\000relevantList\000\n\t"
-        "\000";
+        "\007\001\005\000\003\010\000\007\010\000\010\000resLabelPb\000\t\000relevantList\000\n\t"
+        "\000\013\007\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

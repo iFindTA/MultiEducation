@@ -15,6 +15,7 @@
 #import "MEBabyRootProfile.h"
 #import "MEIndexRootProfile.h"
 #import "MEPersonalRootProfile.h"
+#import "MEChatSessionRootProfile.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <UINavigationController+SJVideoPlayerAdd.h>
 #import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
@@ -186,8 +187,21 @@
         selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         indexNavi.tabBarItem.image = image;
         indexNavi.tabBarItem.selectedImage = selectImg;
+        //聊天
+        title = @"聊天";
+        image = [UIImage imageNamed:@"bar_chat"];
+        selectImg = [image pb_darkColor:color lightLevel:1.f];
+        MEChatSessionRootProfile *chat = [[MEChatSessionRootProfile alloc] init];
+        MEBaseNavigationProfile *chatNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:chat];
+        chatNavi.navigationBarHidden = true;
+        chatNavi.tabBarItem.title = title;
+        chatNavi.tabBarItem.image = image;
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        chatNavi.tabBarItem.image = image;
+        chatNavi.tabBarItem.selectedImage = selectImg;
         //宝宝成长
-        title = ((self.curUser.userType == 1)?@"班级":@"宝宝成长");
+        title = ((self.curUser.userType == MEPBUserRole_Teacher)?@"班级":@"宝宝成长");
         image = [UIImage imageNamed:@"bar_baby"];
         //selectImg = [UIImage imageNamed:@"bar_baby_select"];
         selectImg = [image pb_darkColor:color lightLevel:1.f];
@@ -216,7 +230,7 @@
         //root tabbar
         [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
         MEBaseTabBarProfile *profile = [[MEBaseTabBarProfile alloc] init];
-        profile.viewControllers = @[indexNavi, babyNavi, personalNavi];
+        profile.viewControllers = @[indexNavi, chatNavi, babyNavi, personalNavi];
         
         destProfile = profile;
     } else if (style & MEDisplayStyleVisitor) {

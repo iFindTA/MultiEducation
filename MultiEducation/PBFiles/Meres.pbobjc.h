@@ -60,6 +60,7 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
   MEPBRes_FieldNumber_ResLabelPbArray = 8,
   MEPBRes_FieldNumber_RelevantListArray = 9,
   MEPBRes_FieldNumber_ResTypeId = 10,
+  MEPBRes_FieldNumber_IsFavor = 11,
 };
 
 @interface MEPBRes : GPBMessage
@@ -97,6 +98,9 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 
 /** 资源类型ID */
 @property(nonatomic, readwrite) int64_t resTypeId;
+
+/** 是否收藏 */
+@property(nonatomic, readwrite) BOOL isFavor;
 
 @end
 

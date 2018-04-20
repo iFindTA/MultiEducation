@@ -1,34 +1,22 @@
 //
-//  MEChatSessionProfile.m
+//  MEChatSessionRootProfile.m
 //  MultiEducation
 //
-//  Created by nanhu on 2018/4/5.
+//  Created by nanhu on 2018/4/20.
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MEChatSessionProfile.h"
+#import "MEChatSessionRootProfile.h"
 
-@interface MEChatSessionProfile ()
+@interface MEChatSessionRootProfile ()
 
 @end
 
-@implementation MEChatSessionProfile
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        //self.navigationController.title = @"大会";
-        [[self tabBarItem] setTitle:@"聊天"];
-    }
-    return self;
-}
+@implementation MEChatSessionRootProfile
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
