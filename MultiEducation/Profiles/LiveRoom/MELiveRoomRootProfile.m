@@ -146,9 +146,9 @@
     return true;
 }
 
-- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
-    [self autoLoadMoreRelevantItems4PageIndex:1];
-}
+//- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+//    [self autoLoadMoreRelevantItems4PageIndex:1];
+//}
 
 #pragma mark --- initiazlized subviews
 
