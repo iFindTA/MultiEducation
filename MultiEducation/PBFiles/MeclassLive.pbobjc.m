@@ -54,6 +54,7 @@ static GPBFileDescriptor *MeclassLiveRoot_FileDescriptor(void) {
 @dynamic videoURL;
 @dynamic recorderListArray, recorderListArray_Count;
 @dynamic title;
+@dynamic coverImg;
 
 typedef struct MEPBClassLive__storage_ {
   uint32_t _has_storage_[1];
@@ -62,6 +63,7 @@ typedef struct MEPBClassLive__storage_ {
   NSString *videoURL;
   NSMutableArray *recorderListArray;
   NSString *title;
+  NSString *coverImg;
   int64_t id_p;
   int64_t teacherId;
   int64_t classId;
@@ -145,6 +147,15 @@ typedef struct MEPBClassLive__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "coverImg",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBClassLive_FieldNumber_CoverImg,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(MEPBClassLive__storage_, coverImg),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEPBClassLive class]
@@ -156,7 +167,7 @@ typedef struct MEPBClassLive__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\005\002\t\000\003\007\000\004\007!!\000\006\006!!\000\007\000recorderList\000";
+        "\006\002\t\000\003\007\000\004\007!!\000\006\006!!\000\007\000recorderList\000\t\010\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

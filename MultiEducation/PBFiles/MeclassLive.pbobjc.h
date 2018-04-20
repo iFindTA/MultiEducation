@@ -57,6 +57,7 @@ typedef GPB_ENUM(MEPBClassLive_FieldNumber) {
   MEPBClassLive_FieldNumber_VideoURL = 6,
   MEPBClassLive_FieldNumber_RecorderListArray = 7,
   MEPBClassLive_FieldNumber_Title = 8,
+  MEPBClassLive_FieldNumber_CoverImg = 9,
 };
 
 @interface MEPBClassLive : GPBMessage
@@ -86,6 +87,9 @@ typedef GPB_ENUM(MEPBClassLive_FieldNumber) {
 
 /** 视频标题 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 占位placeholder */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *coverImg;
 
 @end
 

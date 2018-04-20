@@ -6,7 +6,9 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "VKMsgSend.h"
 #import "MELiveClassVM.h"
+#import "MELiveVodProfile.h"
 #import <MJRefresh/MJRefresh.h>
 #import "MEIndexStoryItemCell.h"
 #import "MELiveRoomRootProfile.h"
@@ -84,20 +86,16 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     [self.navigationBar pushNavigationItem:item animated:true];
     
     //live scene
+    CGFloat adjustHeight = adoptValue(ME_LIVE_PLAY_SCENE_HEIGHT);
     [self.view addSubview:self.liveScene];
     [self.liveScene makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.navigationBar.mas_bottom);
         make.left.right.equalTo(self.view);
-        make.height.equalTo(adoptValue(ME_LIVE_PLAY_SCENE_HEIGHT));
-    }];
-    //player
-    [self.liveScene addSubview:self.playProfile.view];
-    [self.playProfile.view makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.liveScene);
+        make.height.equalTo(adjustHeight);
     }];
     //mask
     [self.liveScene addSubview:self.liveMaskScene];
-    self.liveScene.hidden = true;
+    //self.liveMaskScene.hidden = true;
     [self.liveMaskScene makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.liveScene);
     }];
@@ -129,7 +127,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     [self.view addSubview:scene];
     [scene makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
-        make.top.equalTo(self.liveScene.mas_bottom);
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(adjustHeight);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
@@ -155,8 +153,12 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         make.right.bottom.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
         make.size.equalTo(CGSizeMake(liveBtnSize, liveBtnSize));
     }];
+    //observes
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__applicationDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__applicationDidEnterForeground) name:UIApplicationDidBecomeActiveNotification object:nil];
     //init state
     self.whetherDidLoadData = false;
+    self.sj_fadeAreaViews = @[self.liveScene];
     //init subviews
     [self __initLiveRoomSubviews];
 }
@@ -166,12 +168,15 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     if (!self.currentClass && !self.whetherDidLoadData) {
         [self preDealWithMulticastClasses];
+    } else {
+        [self restartPlay];
     }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    [self stopPlay];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -185,22 +190,30 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     if (!_liveScene) {
         _liveScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
         //_liveScene.backgroundColor = [UIColor pb_randomColor];
+        _liveScene.autoresizesSubviews = true;
     }
     return _liveScene;
 }
 
 - (KSYMoviePlayerController *)playProfile {
     if (!_playProfile) {
-        _playProfile = [[KSYMoviePlayerController alloc] initWithContentURL:nil];
-        _playProfile.controlStyle = MPMovieControlStyleDefault;
+        NSArray<MEPBClassLive*>*classItems = self.dataLive.recorderListArray.copy;
+        MEPBClassLive *liveItem = classItems.firstObject;
+        NSString *urlString = liveItem.streamURL;
+        urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+        //urlString = self.dataLive.videoURL;
+        NSURL *url = [NSURL URLWithString:urlString];
+        _playProfile = [[KSYMoviePlayerController alloc] initWithContentURL:url];
+        _playProfile.controlStyle = 0;
         _playProfile.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _playProfile.shouldAutoplay = TRUE;
         _playProfile.shouldEnableVideoPostProcessing = TRUE;
-        _playProfile.scalingMode = MPMovieScalingModeAspectFit;
+        _playProfile.scalingMode = 1;
         _playProfile.videoDecoderMode = MPMovieVideoDecoderMode_AUTO;
         _playProfile.shouldLoop = NO;
         _playProfile.bufferTimeMax = 5;
         [_playProfile setTimeout:5 readTimeout:30];
+        [_playProfile prepareToPlay];
     }
     return _playProfile;
 }
@@ -318,13 +331,12 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
             NSString *title = res.title.copy;
             (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
             (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
-            //TODO:此处需要写一个扩展
-            //NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
+            NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
             UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
             if (i % numPerLine == 0) {
-                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:res.videoURL] placeholder:image];
+                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
             } else {
-                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:res.videoURL] placeholder:image];
+                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
             }
         } else {
             cell.rightItemScene.hidden = true;
@@ -341,7 +353,23 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 }
 
 - (void)liveRoomForwardItemDidTouchRowIndex:(NSUInteger)index {
-    
+    NSArray<MEPBClassLive*>*classItems = self.dataLive.recorderListArray.copy;
+    if (index >= classItems.count) {
+        return;
+    }
+    MEPBClassLive *liveVod = classItems[index];
+    NSString *title = PBAvailableString(liveVod.title);
+    NSString *videoUrl = PBAvailableString(liveVod.videoURL);
+    NSDictionary *params =@{@"title":title, @"url":videoUrl};
+    NSString *destProfile = @"MELiveVodProfile";NSString *method = @"__initWithParams:";
+    NSError *err;
+    id ret = [destProfile VKCallClassAllocInitSelectorName:method error:&err, params, nil];
+    if ([ret isKindOfClass:[MEBaseProfile class]] && ret && !err) {
+        UIViewController *profile =(UIViewController *)ret;
+        [self presentViewController:profile animated:true completion:nil];
+    } else {
+        NSLog(@"err for :%@", err.localizedDescription);
+    }
 }
 
 #pragma mark --- 用户角色没有关联任何班级 显示没有班级 并引导用户去关联班级
@@ -394,7 +422,6 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 - (void)__initLiveRoomSubviews {
     //是否是老师
     self.whetherTeacherRole = (self.currentUser.userType == MEPBUserRole_Teacher && !self.currentUser.isTourist);
-    //self.startLiveBtn.hidden = !self.whetherTeacherRole;
     //当前用户是否已绑定class
     BOOL didRelatedClass = [self whetherCurrentUserDidRelatedClass];
     if (!didRelatedClass) {
@@ -508,16 +535,119 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
  */
 - (void)rebuildLiveRoomSubviews {
     self.whetherDidLoadData = true;
-    
+    //mask event
+    if (self.dataLive /*&& self.dataLive.status == 1//*/) {
+        //正在直播
+        self.liveMaskScene.hidden = true;
+        //reset current play item
+        [self.playProfile.view setFrame:self.liveScene.bounds];
+        [self.liveScene addSubview:self.playProfile.view];
+    }
     
     [self.table reloadData];
     [self.table reloadEmptyDataSet];
+    
+    //start live action
+#if DEBUG
+    self.startLiveBtn.hidden = false;
+#else
+    self.startLiveBtn.hidden = !self.whetherTeacherRole;
+#endif
+}
+
+#pragma mark --- Observes
+
+- (void)__applicationDidEnterBackground {
+    [self stopPlay];
+}
+
+- (void)__applicationDidEnterForeground {
+    [self restartPlay];
+}
+
+- (void)stopPlay {
+    if (self.playProfile.isPlaying) {
+        [self.playProfile pause];
+    }
+}
+
+- (void)restartPlay {
+    if (/*self.dataLive.status == 1 &&*/ self.playProfile) {
+        [self.playProfile play];
+    }
 }
 
 #pragma mark --- User Interface Action
 
+/**
+ 用户点击开启直播按钮
+ */
 - (void)startLiveRoomTouchEvent {
+    if (!self.whetherTeacherRole) {
+        [SVProgressHUD showInfoWithStatus:@"该功能只能老师才能使用！"];
+        return;
+    }
+    //首先判断该老师是否有多个班级
+    NSArray<MEPBClass*>*classes = self.classes;
+    if (classes.count == 0) {
+        [SVProgressHUD showInfoWithStatus:@"您还没有关联班级，请先关联班级再开播！"];
+        return;
+    } else if (classes.count == 1) {
+        [self realStartLiveAction4Class:classes.firstObject];
+    } else {
+        [self makeUserChooseClass2StartLiveEvent];
+    }
+}
+
+- (void)makeUserChooseClass2StartLiveEvent {
+    NSArray<MEPBClass*>*classes = self.classes;
+    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您关联了多个班级，请选择一个进行直播！" preferredStyle:UIAlertControllerStyleActionSheet];
+    weakify(self)
+    for (MEPBClass *cls in classes) {
+        NSString *clsName = PBAvailableString(cls.name);
+        UIAlertAction *action = [UIAlertAction actionWithTitle:clsName style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            strongify(self)
+            [self userDidChooseClassName2LiveAction:action.title];
+        }];
+        [alertProfile addAction:action];
+    }
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self)
+        [self defaultGoBackStack];
+    }];
+    [alertProfile addAction:action];
     
+    [self presentViewController:alertProfile animated:true completion:^{
+        
+    }];
+}
+
+- (void)userDidChooseClassName2LiveAction:(NSString *)clsName {
+    MEPBClass *destClass;
+    for (MEPBClass *cls in self.classes) {
+        if ([cls.name isEqualToString:clsName]) {
+            destClass = cls;
+            break;
+        }
+    }
+    [self realStartLiveAction4Class:destClass];
+}
+
+/**
+ 开启直播
+ */
+- (void)realStartLiveAction4Class:(MEPBClass *)cls {
+    if (!cls) {
+        NSLog(@"直播开播的班级有问题!");
+        return;
+    }
+    [self stopPlay];
+    
+    NSNumber *cid = @(cls.id_p);
+    NSDictionary *params = @{@"classID":cid};
+    NSString *urlString = @"profile://root@MELiveProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    [self handleTransitionError:err];
 }
 
 /*

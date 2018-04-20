@@ -9,4 +9,5 @@ message MEPBClassLive {
 	string videoUrl = 6;//往期视频uri
 	repeated MEPBClassLive recorderList = 7;//往期视频
 	string title = 8;//视频标题
+	string coverImg = 9;//占位placeholder
 }
