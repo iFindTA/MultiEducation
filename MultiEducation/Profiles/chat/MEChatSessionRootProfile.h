@@ -6,8 +6,8 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MEBaseProfile.h"
+#import <RongIMKit/RongIMKit.h>
 
-@interface MEChatSessionRootProfile : MEBaseProfile
+@interface MEChatSessionRootProfile : RCConversationListViewController
 
 @end

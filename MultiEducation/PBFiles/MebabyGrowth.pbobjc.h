@@ -57,7 +57,7 @@ typedef GPB_ENUM(GuStudentArchivesListPb_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GuStudentArchivesPb*> *studentArchivesPbArray;
 /** The number of items in @c studentArchivesPbArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger studentArchivesPbArray_Count;
-
+ 
 @end
 
 #pragma mark - GuStudentArchivesPb

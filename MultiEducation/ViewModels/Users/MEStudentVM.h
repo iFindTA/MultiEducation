@@ -11,7 +11,7 @@
 #import <WHC_ModelSqlite.h>
 
 @interface MEStudentVM : MEVM
-
+ 
 + (instancetype)vmWithPb:(StudentPb *)pb;
 
 + (void)saveSelectBaby:(StudentPb *)student;

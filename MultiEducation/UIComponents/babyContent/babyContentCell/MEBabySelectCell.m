@@ -19,7 +19,7 @@
 - (void)setData:(StudentPb *)student {
     
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    
+     
     NSString *urlStr = [NSString stringWithFormat: @"%@%@", delegate.curUser.bucketDomain, student.portrait];
     [self.icon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed:@"appicon_placeholder"]];
     

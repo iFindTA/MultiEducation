@@ -38,7 +38,7 @@
                             <constraint firstAttribute="width" constant="200" id="ZuI-lI-xzr"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="宝宝名字"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="宝宝名字a "/>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                 <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>

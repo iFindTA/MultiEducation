@@ -10,6 +10,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import "MEIndexStoryItemCell.h"
 #import "MELiveRoomRootProfile.h"
+#import <libksygpulive/KSYMoviePlayerController.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
 /**
@@ -38,6 +39,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 
 @property (nonatomic, strong) MEBaseButton *startLiveBtn;
 @property (nonatomic, strong) MEBaseScene *liveScene;
+@property (nonatomic, strong) KSYMoviePlayerController *playProfile;
 @property (nonatomic, strong) MEBaseScene *liveMaskScene;
 
 @end
@@ -88,13 +90,20 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         make.left.right.equalTo(self.view);
         make.height.equalTo(adoptValue(ME_LIVE_PLAY_SCENE_HEIGHT));
     }];
+    //player
+    [self.liveScene addSubview:self.playProfile.view];
+    [self.playProfile.view makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.liveScene);
+    }];
     //mask
     [self.liveScene addSubview:self.liveMaskScene];
+    self.liveScene.hidden = true;
     [self.liveMaskScene makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.liveScene);
     }];
     UIImage *playIcon = [UIImage imageNamed:@"live_class_play"];
     MEBaseImageView *imageView = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    imageView.backgroundColor = [UIColor clearColor];
     imageView.image = playIcon;
     [self.liveMaskScene addSubview:imageView];
     [imageView makeConstraints:^(MASConstraintMaker *make) {
@@ -107,9 +116,11 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     label.font = UIFontPingFangSCMedium(METHEME_FONT_LARGETITLE);
     label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
     label.text = @"当前没有老师开播！";
+    label.backgroundColor = [UIColor clearColor];
     [self.liveMaskScene addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.liveMaskScene);
+        make.top.equalTo(imageView.mas_bottom);
+        make.left.bottom.right.equalTo(self.liveMaskScene);
     }];
     
     //title
@@ -144,9 +155,9 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         make.right.bottom.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
         make.size.equalTo(CGSizeMake(liveBtnSize, liveBtnSize));
     }];
-    
+    //init state
     self.whetherDidLoadData = false;
-    
+    //init subviews
     [self __initLiveRoomSubviews];
 }
 
@@ -178,6 +189,22 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     return _liveScene;
 }
 
+- (KSYMoviePlayerController *)playProfile {
+    if (!_playProfile) {
+        _playProfile = [[KSYMoviePlayerController alloc] initWithContentURL:nil];
+        _playProfile.controlStyle = MPMovieControlStyleDefault;
+        _playProfile.view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        _playProfile.shouldAutoplay = TRUE;
+        _playProfile.shouldEnableVideoPostProcessing = TRUE;
+        _playProfile.scalingMode = MPMovieScalingModeAspectFit;
+        _playProfile.videoDecoderMode = MPMovieVideoDecoderMode_AUTO;
+        _playProfile.shouldLoop = NO;
+        _playProfile.bufferTimeMax = 5;
+        [_playProfile setTimeout:5 readTimeout:30];
+    }
+    return _playProfile;
+}
+
 - (MEBaseScene *)liveMaskScene {
     if (!_liveMaskScene) {
         _liveMaskScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
@@ -203,6 +230,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     if (!_startLiveBtn) {
         UIImage *image = [UIImage imageNamed:@"live_class_preStart"];
         _startLiveBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        _startLiveBtn.hidden = true;
         [_startLiveBtn setImage:image forState:UIControlStateNormal];
         [_startLiveBtn addTarget:self action:@selector(startLiveRoomTouchEvent) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -366,7 +394,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 - (void)__initLiveRoomSubviews {
     //是否是老师
     self.whetherTeacherRole = (self.currentUser.userType == MEPBUserRole_Teacher && !self.currentUser.isTourist);
-    
+    //self.startLiveBtn.hidden = !self.whetherTeacherRole;
     //当前用户是否已绑定class
     BOOL didRelatedClass = [self whetherCurrentUserDidRelatedClass];
     if (!didRelatedClass) {
