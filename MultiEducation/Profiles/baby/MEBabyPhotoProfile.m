@@ -20,6 +20,7 @@
 #import "MEPhotoProgressProfile.h"
 #import "MEVideo.h"
 #import "MEBabyContentPhotoCell.h"
+#import "METimeLineSectionView.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -38,6 +39,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate, TZImagePickerControllerDelegate> {
     NSInteger _classId;
+    NSInteger _parendId;
+    
+    BOOL _isSelectPhotoView;    // YES == 点击照片页面图片   NO == 时间轴
 }
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
@@ -46,6 +50,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MEBaseScene *scrollContent;
 
 @property (nonatomic, strong) UICollectionView *photoView;  //photo
+@property (nonatomic, strong) NSArray <MEPhoto *> *totalPhotos;
 @property (nonatomic, strong) NSMutableArray <MEPhoto *> *photos;   //photo's dataArr
 
 @property (nonatomic, strong) UICollectionView *timeLineView;   //时间轴
@@ -65,9 +70,15 @@ static CGFloat const ITEM_LEADING = 10.f;
     self = [super init];
     if (self) {
         _classId = [[params objectForKey: @"classId"] integerValue];
-        
+
         if ([params objectForKey: @"photos"]) {
-            self.photos = [NSMutableArray arrayWithArray: [params objectForKey: @"photos"]];
+            self.totalPhotos = [params objectForKey: @"photos"];
+            [self sortPhotosWithFileParent];
+            [self sortPhotoWithTimeLine];
+        }
+        
+        if ([params objectForKey: @"parentId"]) {
+            _parendId = [[params objectForKey: @"parentId"] integerValue];
         }
     }
     return self;
@@ -104,6 +115,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         self.classAlbums = albumListPb.classAlbumArray;
 
         NSString *urlHead = self.currentUser.bucketDomain;
+        NSMutableArray *tmpArr = [NSMutableArray array];
         for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
             MEPhoto *photo = [[MEPhoto alloc] init];
             photo.urlStr = [NSString stringWithFormat: @"%@/%@", urlHead, pb.filePath];
@@ -113,10 +125,16 @@ static CGFloat const ITEM_LEADING = 10.f;
             } else {
                 mwPhoto = [MWPhoto videoWithURL: [NSURL URLWithString: photo.urlStr]];
             }
+            photo.dateStr = [self timeStampToDateString: pb.modifiedDate];
             photo.photo = mwPhoto;
             photo.albumPb = pb;
-            [self.photos addObject: photo];
+            [tmpArr addObject: photo];
         }
+        
+        self.totalPhotos = [NSArray arrayWithArray: tmpArr];
+        [self sortPhotosWithFileParent];
+        [self sortPhotoWithTimeLine];
+        
         [self setVideoCoverImage];
         [self.photoView reloadData];
 
@@ -151,33 +169,66 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
 }
 
-- (void)sortPhotoWithFileParent {
-    NSMutableArray *tmpArr = [NSMutableArray array];
-    
-    for (int i = 0; i < self.photos.count; i++) {
-        MEPhoto *photo = [self.photos objectAtIndex: i];
-        if (photo.albumPb.isParent) {
-            [tmpArr addObject: [self getChildArr: photo.albumPb.id_p]];
-        } else {
-//            [tmpArr addObject: ]
+- (void)sortPhotosWithFileParent {
+    for (int i = 0; i < self.totalPhotos.count; i++) {
+        MEPhoto *photo = [self.totalPhotos objectAtIndex: i];
+        if (photo.albumPb.parentId == _parendId) {
+            [self.photos addObject: photo];
         }
     }
-}
-
-- (NSDictionary *)getChildArr:(NSInteger)parentId {
-    NSMutableArray *tmpArr = [NSMutableArray array];
-    NSString *id_p = [NSString stringWithFormat: @"%ld", (long)parentId];
-    for (int i = 0; i < self.photos.count; i++) {
-        MEPhoto *photo = [self.photos objectAtIndex: i];
-        if (photo.albumPb.parentId == parentId) {
-            [tmpArr addObject: photo];
-        }
-    }
-    return @{id_p: tmpArr};
 }
 
 - (void)sortPhotoWithTimeLine {
+
+    NSMutableArray *dateArr = [NSMutableArray array];
+    for (MEPhoto *photo in self.photos) {
+        [dateArr addObject: photo.dateStr];
+    }
     
+    //去重
+    NSSet *set = [NSSet setWithArray: dateArr];
+    [dateArr removeAllObjects];
+    [dateArr addObjectsFromArray: [set allObjects]];
+    
+    //按日期升序排列
+    [dateArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM"];
+        NSDate *date1 = [formatter dateFromString:obj1];
+        NSDate *date2 = [formatter dateFromString:obj2];
+        NSComparisonResult result = [date1 compare:date2];
+        return result == NSOrderedAscending;
+    }];
+    
+    for (int i = 0; i < dateArr.count; i++) {
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject: dateArr[i] forKey: @"date"];
+
+        NSMutableArray *tmpArr = [NSMutableArray array];
+        for (MEPhoto *photo in self.photos) {
+            if ([photo.dateStr isEqualToString: dateArr[i]]) {
+                [tmpArr addObject: photo];
+            }
+        }
+        [dic setObject: tmpArr forKey: @"photos"];
+        
+        [self.timeLineArr addObject: dic];
+    }
+    [self.timeLineView reloadData];
+}
+
+
+- (NSString *)timeStampToDateString:(uint64_t)stamp {
+    NSTimeInterval time = stamp / 1000+28800;//因为时差问题要加8小时 == 28800 sec
+    NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
+    NSLog(@"date:%@",[detaildate description]);
+    //实例化一个NSDateFormatter对象
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //设定时间格式,这里可以设置成自己需要的格式
+    [dateFormatter setDateFormat:@"yyyy-MM"];
+    NSString *date = [dateFormatter stringFromDate: detaildate];
+    return date;
 }
 
 - (void)customNavigation {
@@ -278,11 +329,16 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - MWPhotoBrowserDelegate
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    
         return self.photos.count;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    return [self.photos objectAtIndex: index].photo;
+    if (_isSelectPhotoView) {
+        return [self.photos objectAtIndex: index].photo;
+    } else {
+        return [self.photos objectAtIndex: index].photo;
+    }
 }
 
 #pragma mark - TZImagePickerControllerDelegate
@@ -336,7 +392,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     if ([collectionView isEqual: self.photoView]) {
         return 1;
     } else {
-        return 2;
+        return self.timeLineArr.count;
     }
 }
 
@@ -344,7 +400,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     if ([collectionView isEqual: self.photoView]) {
         return self.photos.count;
     } else {
-        return self.photos.count;
+        NSDictionary *dic = [self.timeLineArr objectAtIndex: section];
+        NSArray *arr = [dic objectForKey: @"photos"];
+        return arr.count;
     }
 }
 
@@ -357,6 +415,10 @@ static CGFloat const ITEM_LEADING = 10.f;
         return cell;
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];
+        NSDictionary *dic = [self.timeLineArr objectAtIndex: indexPath.section];
+        NSArray *arr = [dic objectForKey: @"photos"];
+        MEPhoto *photo = [arr objectAtIndex: indexPath.item];
+        [cell setData: photo];
         return cell;
     }
 }
@@ -370,21 +432,17 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-        UICollectionReusableView *reusableView;
+        METimeLineSectionView *reusableView;
         if (kind == UICollectionElementKindSectionHeader) {
             reusableView = [collectionView dequeueReusableSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF forIndexPath: indexPath];
-            if (!reusableView) {
-                reusableView = [[UICollectionReusableView alloc] init];
-            }
+            reusableView.label.text = [(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"date"];
         }
-        
-        reusableView.backgroundColor=[UIColor cyanColor];
         return reusableView;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (collectionView == _timeLineView) {
-        return CGSizeMake(MESCREEN_HEIGHT - 20, 100);
+        return CGSizeMake(MESCREEN_HEIGHT - 20, 40);
     } else {
         return CGSizeZero;
     }
@@ -392,21 +450,38 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    if ([self.photos objectAtIndex: indexPath.item].albumPb.isParent) {
-        
-        NSNumber *parentId = [NSNumber numberWithInteger: [self.photos objectAtIndex: indexPath.item].albumPb.id_p];
-        NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"photos": [self getFilePhotosFromParentId: parentId.integerValue]};
-        NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
-        NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-        [self handleTransitionError:err];
-        
+    if (collectionView == self.photoView) {
+        if ([self.photos objectAtIndex: indexPath.item].albumPb.isParent) {
+            _isSelectPhotoView = YES;
+            NSNumber *parentId = [NSNumber numberWithInteger: [self.photos objectAtIndex: indexPath.item].albumPb.id_p];
+            NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"photos": [self getFilePhotosFromParentId: parentId.integerValue], @"parentId": parentId};
+            NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+            [self handleTransitionError:err];
+            
+        } else {
+            [self.navigationController pushViewController: self.photoBrowser animated: YES];
+            [_photoBrowser setCurrentPhotoIndex: indexPath.item];
+            //MWBrowser can't reuser!!! need set nil;
+            _photoBrowser = nil;
+        }
     } else {
-        NSLog(@"%@", [self.photos objectAtIndex: indexPath.item].albumPb);
-        [self.navigationController pushViewController: self.photoBrowser animated: YES];
-        [_photoBrowser setCurrentPhotoIndex: indexPath.item];
-        //MWBrowser can't reuser!!! need set nil;
-        _photoBrowser = nil;
+        _isSelectPhotoView = NO;
+        MEPhoto *photo = [[(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"] objectAtIndex: indexPath.row];
+        if (photo.albumPb.isParent) {
+            _isSelectPhotoView = YES;
+            NSInteger parentId = photo.albumPb.id_p;
+            NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"photos": [self getFilePhotosFromParentId: parentId], @"parentId": [NSNumber numberWithInteger: parentId]};
+            NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+            [self handleTransitionError:err];
+            
+        } else {
+            [self.navigationController pushViewController: self.photoBrowser animated: YES];
+            [_photoBrowser setCurrentPhotoIndex: indexPath.item];
+            //MWBrowser can't reuser!!! need set nil;
+            _photoBrowser = nil;
+        }
     }
 }
 
@@ -445,7 +520,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (MEBaseScene *)scrollContent {
     if (!_scrollContent) {
         _scrollContent = [[MEBaseScene alloc] init];
-        _scrollContent.backgroundColor = [UIColor grayColor];
+        _scrollContent.backgroundColor = [UIColor whiteColor];
     }
     return _scrollContent;
 }
@@ -479,12 +554,12 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
         _timeLineView.delegate = self;
         _timeLineView.dataSource = self;
-        _timeLineView.backgroundColor = [UIColor orangeColor];
+        _timeLineView.backgroundColor = [UIColor whiteColor];
         _timeLineView.showsVerticalScrollIndicator = NO;
         
         [_timeLineView registerNib: [UINib nibWithNibName: @"MEBabyContentPhotoCell" bundle: nil] forCellWithReuseIdentifier:  TIME_LINE_IDEF];
         
-        [_timeLineView registerClass: [UICollectionReusableView class] forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF];
+        [_timeLineView registerClass: [METimeLineSectionView class] forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF];
         
     }
     return _timeLineView;

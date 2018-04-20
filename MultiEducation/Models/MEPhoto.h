@@ -46,6 +46,11 @@ typedef enum : NSUInteger {
  上传进度
  */
 @property (nonatomic, assign) float progress;
+
+/**
+ yyyy-MM
+ */
+@property (nonatomic, strong) NSString *dateStr;
 /**
  对应的pb 文件
  */
