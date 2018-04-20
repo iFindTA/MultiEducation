@@ -21,9 +21,10 @@
 /**
  当前用户选择的班级
  */
+@property (nonatomic, strong, nullable) NSArray<MEPBClass*>*classes;
 @property (nonatomic, strong, nullable) MEPBClass *currentClass;
 
-@property (nonatomic, strong) UITableView *table;
+@property (nonatomic, strong) MEBaseTableView *table;
 @property (nonatomic, strong) MEPBClassLive *dataLive;
 
 @property (nonatomic, assign) BOOL whetherDidLoadData;
@@ -77,14 +78,15 @@
     }];
     
     self.whetherDidLoadData = false;
+    
     [self __initLiveRoomSubviews];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    if (!self.dataLive) {
-        [self loadLiveClassRoomData];
+    if (self.currentClass && !self.whetherDidLoadData) {
+        [self preDealWithMulticastClasses];
     }
 }
 
@@ -100,9 +102,9 @@
 
 #pragma mark --- lazy getter
 
-- (UITableView *)table {
+- (MEBaseTableView *)table {
     if (!_table) {
-        _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.emptyDataSetSource = self;
         _table.emptyDataSetDelegate = self;
     }
@@ -150,13 +152,6 @@
 //    [self autoLoadMoreRelevantItems4PageIndex:1];
 //}
 
-#pragma mark --- initiazlized subviews
-
-- (void)__initLiveRoomSubviews {
-    //是否是老师
-    self.whetherTeacherRole = (self.currentUser.userType == MEPBUserRole_Teacher && !self.currentUser.isTourist);
-}
-
 #pragma mark --- 用户角色没有关联任何班级 显示没有班级 并引导用户去关联班级
 
 /**
@@ -182,28 +177,25 @@
 }
 
 /**
- 当前用户是否有多个班级
- 是则选择班级 否则下一步
+ 当前用户关联的班级
  */
-- (BOOL)whetherCurrentUserHaveMulticastClass {
-    __block BOOL didRelated = false;
+- (NSArray<MEPBClass*>*)fetchMulticastClasses {
+    __block NSMutableArray<MEPBClass*> *classes = [NSMutableArray arrayWithCapacity:0];
     if (self.currentUser.userType == MEPBUserRole_Teacher) {
         //老师
         TeacherPb *teacher = self.currentUser.teacherPb;
-        didRelated = (teacher.classPbArray.count > 1);
+        [classes addObjectsFromArray:teacher.classPbArray.copy];
     } else if (self.currentUser.userType == MEPBUserRole_Parent) {
         //家长
         ParentsPb *parent = self.currentUser.parentsPb;
-        didRelated = (parent.classPbArray.count > 1);
+        [classes addObjectsFromArray:parent.classPbArray.copy];
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
         //园务
         DeanPb *dean = self.currentUser.deanPb;
-        didRelated = (dean.classPbArray.count > 1);
+        [classes addObjectsFromArray:dean.classPbArray.copy];
     }
-    return didRelated;
+    return classes.copy;
 }
-
-#pragma mark --- fetch network data
 
 - (uint64_t)fetchCurrentClassID {
     __block uint64_t class_id = 0;
@@ -233,6 +225,43 @@
         class_id = cls.id_p;
     }
     return class_id;
+}
+
+#pragma mark --- initiazlized subviews
+
+- (void)__initLiveRoomSubviews {
+    //是否是老师
+    self.whetherTeacherRole = (self.currentUser.userType == MEPBUserRole_Teacher && !self.currentUser.isTourist);
+    
+    //当前用户是否已绑定class
+    BOOL didRelatedClass = [self whetherCurrentUserDidRelatedClass];
+    if (!didRelatedClass) {
+        self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
+        self.emptyDesc = PBFormat(@"您还没有与任何班级关联，请先关联班级！");
+        self.whetherDidLoadData = true;
+        [self.table reloadEmptyDataSet];
+        return;
+    }
+    //当前用户所关联的所有班级
+    NSArray<MEPBClass*>*classes = [self fetchMulticastClasses];
+    self.classes = [NSArray arrayWithArray:classes];
+}
+
+#pragma mark --- fetch network data
+
+/**
+ 预处理多个班级的情况
+ */
+- (void)preDealWithMulticastClasses {
+    if (self.classes.count == 0) {
+        self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
+        self.emptyDesc = PBFormat(@"您还没有与任何班级关联，请先关联班级！");
+        self.whetherDidLoadData = true;
+        [self.table reloadEmptyDataSet];
+        return;
+    }
+    //TODO:弹框让用户选择班级
+    
 }
 
 - (void)loadLiveClassRoomData {

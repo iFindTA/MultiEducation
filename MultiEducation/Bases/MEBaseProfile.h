@@ -8,6 +8,7 @@
 #import "MEBaseScene.h"
 #import "MEDispatcher.h"
 #import "MEUIBaseHeader.h"
+#import "MEBaseTableView.h"
 #import <PBService/PBService.h>
 #import <PBBaseClasses/PBBaseProfile.h>
 #import <UIViewController+SJVideoPlayerAdd.h>
