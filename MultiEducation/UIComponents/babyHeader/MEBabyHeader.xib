@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MEBabyHeader"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MEBabyHeader">
             <rect key="frame" x="0.0" y="0.0" width="375" height="230"/>
@@ -217,14 +217,17 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="ageLab" destination="FXO-bQ-bUA" id="vbh-xD-Avn"/>
+                <outlet property="ageTipLabel" destination="fK5-yV-1dl" id="Kdx-BG-WEO"/>
                 <outlet property="babyHeightLab" destination="9f9-la-EZr" id="avz-Pc-lw2"/>
+                <outlet property="babyHeightTipLabel" destination="cRg-fT-nGh" id="tWW-lZ-xSU"/>
                 <outlet property="babyWeightLab" destination="jsf-UZ-X8T" id="caO-Su-qfQ"/>
+                <outlet property="babyWeightTipLabel" destination="VDf-4t-Bki" id="Gfe-Vf-Jfc"/>
                 <outlet property="backContentView" destination="Gz3-RS-sRz" id="7qH-Qq-0Bt"/>
                 <outlet property="settingBtn" destination="g3K-kb-cFc" id="zGF-Ft-FQM"/>
                 <outlet property="userHeadIcon" destination="zPf-2i-wTv" id="Nme-af-YHY"/>
                 <outlet property="userNameLab" destination="R4S-SC-21q" id="2oz-9G-Lxt"/>
             </connections>
-            <point key="canvasLocation" x="161" y="57"/>
+            <point key="canvasLocation" x="-153" y="35"/>
         </view>
     </objects>
     <resources>
