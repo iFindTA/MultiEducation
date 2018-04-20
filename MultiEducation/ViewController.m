@@ -44,7 +44,6 @@
 }
 
 - (void)pushEvent {
-    
     //NSString *urlString = @"profile://root@MEAuthorMainProfile/?b=7&msg=jjd#code";
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     void (^callBack)(void) = ^(){
