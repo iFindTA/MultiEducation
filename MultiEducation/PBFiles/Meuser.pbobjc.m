@@ -49,14 +49,15 @@ GPBEnumDescriptor *MEPBUserRole_EnumDescriptor(void) {
   static GPBEnumDescriptor *descriptor = NULL;
   if (!descriptor) {
     static const char *valueNames =
-        "Visitor\000Teacher\000Parent\000Gardener\000";
+        "Visitor\000Teacher\000Student\000Parent\000Gardener\000";
     static const int32_t values[] = {
         MEPBUserRole_Visitor,
         MEPBUserRole_Teacher,
+        MEPBUserRole_Student,
         MEPBUserRole_Parent,
         MEPBUserRole_Gardener,
     };
-    static const char *extraTextFormatInfo = "\004\000\007\000\001\007\000\002\006\000\003\010\000";
+    static const char *extraTextFormatInfo = "\005\000\007\000\001\007\000\002\007\000\003\006\000\004\010\000";
     GPBEnumDescriptor *worker =
         [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(MEPBUserRole)
                                        valueNames:valueNames
@@ -75,6 +76,7 @@ BOOL MEPBUserRole_IsValidValue(int32_t value__) {
   switch (value__) {
     case MEPBUserRole_Visitor:
     case MEPBUserRole_Teacher:
+    case MEPBUserRole_Student:
     case MEPBUserRole_Parent:
     case MEPBUserRole_Gardener:
       return YES;

@@ -47,12 +47,18 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  generate barbuttonitem with iconfont
 
- @param backTitle back title
  @param code back icon code
  @param color back icon color
  @return bar item
  */
 - (UIBarButtonItem *)backBarButtonItemWithIconUnicode:(NSString * _Nullable)code color:(UIColor *)color;
+
+/**
+ goback stack before some class
+
+ @param aClass dest class
+ */
+- (void)backStackBeforeClass:(Class)aClass;
 
 #pragma mark --- user relatives
 

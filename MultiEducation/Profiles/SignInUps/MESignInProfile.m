@@ -326,7 +326,7 @@
 
 - (void)registerAccountTouchEvent {
     NSURL *routeUrl = [MEDispatcher profileUrlWithClass:@"MESignUpProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
-    NSError *error = [MEDispatcher openURL:routeUrl withParams:nil];
+    NSError *error = [MEDispatcher openURL:routeUrl withParams:self.params];
     [self handleTransitionError:error];
 }
 
@@ -435,9 +435,14 @@
         [MEUserVM saveUser:user];
         [self.appDelegate updateCurrentSignedInUser:user];
         //登录成功之后的操作
+        //有 block 则先执行
         void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
         if (signInCallback) {
             signInCallback();
+        }
+        BOOL shouldGoback = [self.params pb_boolForKey:ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN];
+        if (shouldGoback) {
+            [self defaultGoBackStack];
         } else {
             [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
         }

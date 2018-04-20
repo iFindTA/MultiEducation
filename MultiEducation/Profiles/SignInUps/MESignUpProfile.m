@@ -17,6 +17,8 @@
 
 @interface MESignUpProfile ()
 
+@property (nonatomic, strong) NSDictionary *params;
+
 /**
  mobile & pwd
  */
@@ -30,6 +32,14 @@
 @end
 
 @implementation MESignUpProfile
+
+- (id)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        _params = params;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -409,7 +419,17 @@
             [MEUserVM saveUser:user];
             [self.appDelegate updateCurrentSignedInUser:user];
             //登录成功之后的操作
-            [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+            //有 block 则先执行
+            void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
+            if (signInCallback) {
+                signInCallback();
+            }
+            BOOL shouldGoback = [self.params pb_boolForKey:ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN];
+            if (shouldGoback) {
+                [self backStackBeforeClass:NSClassFromString(@"MESignInProfile")];
+            } else {
+                [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)

@@ -34,7 +34,7 @@ message MEPBUser {
     int64 deadline = 25; //会员截止日期
     SystemConfigPb systemConfigPb = 26; //系统配置
     int64 diskCap = 27; //当前网盘容量
-    DeanPb deanPb = 28;
+    DeanPb deanPb = 28; //园务 院长
     int32 isTourist = 29; //是否是游客
     string rcToken = 30; //融云token
     int32 isUserCharge = 31; //判断用户是否需要进入收费页面
@@ -46,8 +46,9 @@ message MEPBUser {
 enum MEPBUserRole {
     Visitor = 0; //游客
     Teacher = 1;//老师
-    Parent = 2;//家长
-    Gardener = 3;//园务
+    Student = 2;//学生
+    Parent = 3;//家长
+    Gardener = 4;//园务
 }
 
 message SchoolPb {

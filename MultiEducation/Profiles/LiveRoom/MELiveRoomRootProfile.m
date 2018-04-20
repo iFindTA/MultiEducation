@@ -98,7 +98,7 @@
         //老师
         TeacherPb *teacher = self.currentUser.teacherPb;
         NSArray <MEPBClass*>*classes = teacher.classPbArray.copy;
-        //老师 目前策略直接取第一个class
+        //目前策略直接取第一个class
         MEPBClass *cls = classes.firstObject;
         class_id = cls.id_p;
     } else if (self.currentUser.userType == MEPBUserRole_Parent) {
@@ -111,6 +111,13 @@
                 class_id = obj.classId;
             }
         }];
+    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        //园务
+        DeanPb *dean = self.currentUser.deanPb;
+        NSArray <MEPBClass*>*classes = dean.classPbArray.copy;
+        //目前策略直接取第一个class
+        MEPBClass *cls = classes.firstObject;
+        class_id = cls.id_p;
     }
     return class_id;
 }

@@ -54,11 +54,14 @@ typedef GPB_ENUM(MEPBUserRole) {
   /** 老师 */
   MEPBUserRole_Teacher = 1,
 
+  /** 学生 */
+  MEPBUserRole_Student = 2,
+
   /** 家长 */
-  MEPBUserRole_Parent = 2,
+  MEPBUserRole_Parent = 3,
 
   /** 园务 */
-  MEPBUserRole_Gardener = 3,
+  MEPBUserRole_Gardener = 4,
 };
 
 GPBEnumDescriptor *MEPBUserRole_EnumDescriptor(void);
@@ -226,6 +229,7 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 /** 当前网盘容量 */
 @property(nonatomic, readwrite) int64_t diskCap;
 
+/** 园务 院长 */
 @property(nonatomic, readwrite, strong, null_resettable) DeanPb *deanPb;
 /** Test to see if @c deanPb has been set. */
 @property(nonatomic, readwrite) BOOL hasDeanPb;
