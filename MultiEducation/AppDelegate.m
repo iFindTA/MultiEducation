@@ -63,6 +63,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.winProfile;
     [self.window makeKeyAndVisible];
+    
+    //notification-apns
+    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+    [application registerForRemoteNotifications];
     //start on background thread
     [self startServicesOnBackgroundThread];
 
@@ -262,10 +266,6 @@
  */
 - (void)startServicesOnBackgroundThread {
     PBBACKDelay(ME_ANIMATION_DURATION, ^{
-        //notification-apns
-        UIApplication *application = [UIApplication sharedApplication];
-        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-        [application registerForRemoteNotifications];
         //for input
         [IQKeyboardManager sharedManager].enable = true;
         //for chinese-policy
