@@ -7,6 +7,8 @@
 //
 
 #import <RongIMKit/RongIMKit.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface MEChatProfile : RCConversationViewController
 
