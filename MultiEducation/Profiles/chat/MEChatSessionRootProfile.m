@@ -8,8 +8,6 @@
 
 #import "MEChatSessionRootProfile.h"
 
-static CGFloat
-
 @interface MEChatSessionRootProfile ()<UITableViewDelegate, UITableViewDataSource>
 
 @end
