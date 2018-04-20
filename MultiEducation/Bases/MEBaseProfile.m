@@ -129,6 +129,24 @@
     return barItem;
 }
 
+- (void)backStackBeforeClass:(Class)aClass {
+    if (aClass == nil) {
+        return;
+    }
+    NSArray *tmps = self.navigationController.viewControllers;
+    __block NSMutableArray <UIViewController*>*__tmp = [NSMutableArray arrayWithCapacity:0];
+    [tmps enumerateObjectsUsingBlock:^(UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:aClass] ||
+            [obj isMemberOfClass:aClass] ||
+            obj.class == aClass) {
+            *stop = true;
+        } else {
+            [__tmp addObject:obj];
+        }
+    }];
+    [self.navigationController setViewControllers:__tmp.copy animated:true];
+}
+
 #pragma mark --- user relatives
 
 - (UIViewController *)fetchTopProfile4Window:(UIWindow *)window {

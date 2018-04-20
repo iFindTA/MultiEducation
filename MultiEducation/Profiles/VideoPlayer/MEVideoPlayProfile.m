@@ -586,21 +586,12 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
                 strongify(self)
                 [self handleTransitionError:error];
             }];
-            
-            //TODO:收藏动作
-            //NSLog(@"sigin after excute block with user:%@", uid);
-            
-            PBMAINDelay(ME_ANIMATION_DURATION, ^{
-                strongify(self)
-                [self defaultGoBackStack];
-                [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
-                [self.playerControl updateUserLikeItemState:true];
-            });
         };
         if (self.currentUser.isTourist) {
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
             [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
             [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
+            [params setObject:[NSNumber numberWithBool:true] forKey:@""];
             NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params.copy instanceType:MEProfileTypeCODE];
             NSError *err = [MEDispatcher openURL:signInUrl withParams:params];
             [self handleTransitionError:err];
@@ -612,12 +603,14 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             }
         }
     } else if (action & MEVideoPlayUserActionShare) {
-        NSString *textToShare = @"多元幼教_V2.0新版从火星回来了！";
-        UIImage *imageToShare = [UIImage imageNamed:@"playerBg"];
-        NSURL *urlToShare = [NSURL URLWithString:@"https://github.com/iFindTA"];
+        NSString *title = PBAvailableString(self.currentRes.title);
+        NSString *textToShare = PBAvailableString(self.currentRes.intro);
+        UIImage *imageToShare = [UIImage imageNamed:@"AppIcon"];
+        NSString *urlString = [MEKits shareResourceUri:self.currentRes.resId type:self.currentRes.type];
+        NSURL *urlToShare = [NSURL URLWithString:urlString];
         NSArray *activityItems = @[urlToShare,textToShare,imageToShare];
         //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
-        MEActivity *active = [[MEActivity alloc] initWithTitie:@"多元幼教V2.0" withActivityImage:[UIImage imageNamed:@"AppIcon"] withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
+        MEActivity *active = [[MEActivity alloc] initWithTitie:title withActivityImage:imageToShare withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
         NSArray *activities = @[active];
         UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:activities];
         shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
@@ -647,11 +640,6 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         _nextRes = nil;
         [self resetAllUIResources4NextPlayItem];
     }
-    UIAlertController *sheet  = [UIAlertController alertControllerWithTitle:@"标题二" message:@"这里是要显示的信息" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [sheet addAction:cancel];
 }
 
 /*
