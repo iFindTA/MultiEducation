@@ -278,7 +278,7 @@
     }
     MEPBRes *res = list[index];
     NSNumber *vid = @(res.resId);NSNumber *resType = @(res.type);
-    NSString *title = res.title; NSString *coverImg = res.coverImg;
+    NSString *title = PBAvailableString(res.title); NSString *coverImg = PBAvailableString(res.coverImg);
     NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];

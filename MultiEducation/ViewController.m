@@ -47,14 +47,12 @@
     
     //NSString *urlString = @"profile://root@MEAuthorMainProfile/?b=7&msg=jjd#code";
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
-    void (^callBack)() = ^(){
+    void (^callBack)(void) = ^(){
         NSLog(@"我是回调执行了");
     };
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callBack};
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    if (err) {
-        NSLog(err.description);
-    }
+    [self handleTransitionError:err];
     
     //[self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
 }
@@ -69,9 +67,7 @@
     NSString *urlString = @"profile://root@MEVideoRecordProfile/";
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callback};
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    if (err) {
-        NSLog(err.description);
-    }
+    [self handleTransitionError:err];
 }
 
 - (void)didReceiveMemoryWarning {

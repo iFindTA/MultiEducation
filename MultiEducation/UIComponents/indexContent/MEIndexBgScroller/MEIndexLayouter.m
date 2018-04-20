@@ -158,7 +158,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 - (void)bannerView:(YJBannerView *)bannerView didSelectItemAtIndex:(NSInteger)index {
     NSArray <MEPBRes *>*items = self.dataItem.topListArray;
     MEPBRes *video = [items objectAtIndex:index];
-    NSDictionary *params = @{@"id":@(video.resId), @"url":video.filePath};
+    NSDictionary *params = @{@"id":@(video.resId), @"url":PBAvailableString(video.filePath)};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEVideoPlayProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [self handleTransitionError:err];
@@ -414,7 +414,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     }
     MEPBRes *item = items[rowTag];
     NSNumber *vid = @(item.resId);NSNumber *resType = @(item.type);
-    NSString *title = item.title; NSString *coverImg = item.coverImg;
+    NSString *title = PBAvailableString(item.title); NSString *coverImg = PBAvailableString(item.coverImg);
     NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
@@ -424,7 +424,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 - (void)indexLayoutStoryClassDidTouchEvent:(NSUInteger)tag {
     NSArray <MEPBResType*>*classes = self.dataItem.resTypeListArray.copy;
     MEPBResType *type = classes[tag];
-    NSDictionary *params = @{@"typeId":@(type.id_p), @"title":type.title};
+    NSDictionary *params = @{@"typeId":@(type.id_p), @"title":PBAvailableString(type.title)};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [self handleTransitionError:err];
