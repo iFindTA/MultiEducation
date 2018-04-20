@@ -8,6 +8,7 @@
 
 #import "MEBabySelectProfile.h"
 #import "MEBabySelectCell.h"
+#import "MEStudentVM.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const CELL_HEIGHT = 54.f;
@@ -24,6 +25,12 @@ static CGFloat const CELL_HEIGHT = 54.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIBarButtonItem *spacer = [self barSpacer];
+    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: @"切换儿童"];
+    item.leftBarButtonItems = @[spacer, backItem];
+    [self.navigationBar pushNavigationItem:item animated:true];
+    
     [self.view addSubview: self.tableView];
     
     //layout
@@ -33,14 +40,21 @@ static CGFloat const CELL_HEIGHT = 54.f;
     }];
 }
 
-- (void)loadData {
-    
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 
 }
+
+- (void)sendSwitchBabyPostToServer:(StudentPb *)studenPb {
+    MEStudentVM *vm = [MEStudentVM vmWithPb: studenPb];
+    NSData *data = [studenPb data];
+    [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        NSLog(@"切换成功");
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+}
+
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return CELL_HEIGHT;
@@ -53,10 +67,15 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEBabySelectCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
-    
     [cell setData: [self.babys objectAtIndex: indexPath.row]];
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self sendSwitchBabyPostToServer: [self.babys objectAtIndex: indexPath.row]];;
+    if (self.selectBabyCallBack) {
+        self.selectBabyCallBack([self.babys objectAtIndex: indexPath.row]);
+    }
 }
 
 #pragma mark - lazyloading

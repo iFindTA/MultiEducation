@@ -7,7 +7,11 @@
 //
 
 #import "MEBaseProfile.h"
+
+typedef void(^SelectBabyCallBack)(StudentPb *studenPb);
  
 @interface MEBabySelectProfile : MEBaseProfile
+
+@property (nonatomic, copy) SelectBabyCallBack selectBabyCallBack;
 
 @end

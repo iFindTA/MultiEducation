@@ -70,8 +70,9 @@
 		765A2CB02089CBDE009F9A2A /* MEBabySelectProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 765A2CAF2089CBDD009F9A2A /* MEBabySelectProfile.m */; };
 		765A2CB42089CBF5009F9A2A /* MEBabySelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 765A2CB12089CBF5009F9A2A /* MEBabySelectCell.m */; };
 		765A2CB52089CBF5009F9A2A /* MEBabySelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765A2CB22089CBF5009F9A2A /* MEBabySelectCell.xib */; };
-		76EF787F2089E67B006A3980 /* MEStudentVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF787E2089E67B006A3980 /* MEStudentVM.m */; };
 		76EF78822089E783006A3980 /* MebabyGrowth.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF78802089E783006A3980 /* MebabyGrowth.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76EF78852089F0E0006A3980 /* MEStudentVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF78842089F0E0006A3980 /* MEStudentVM.m */; };
+		76EF78882089F71D006A3980 /* MEShowBaby.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF78872089F71D006A3980 /* MEShowBaby.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
@@ -304,10 +305,12 @@
 		765A2CB22089CBF5009F9A2A /* MEBabySelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEBabySelectCell.xib; sourceTree = "<group>"; };
 		765A2CB32089CBF5009F9A2A /* MEBabySelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBabySelectCell.h; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
-		76EF787D2089E67B006A3980 /* MEStudentVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentVM.h; sourceTree = "<group>"; };
-		76EF787E2089E67B006A3980 /* MEStudentVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStudentVM.m; sourceTree = "<group>"; };
 		76EF78802089E783006A3980 /* MebabyGrowth.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MebabyGrowth.pbobjc.m; sourceTree = "<group>"; };
 		76EF78812089E783006A3980 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
+		76EF78832089F0E0006A3980 /* MEStudentVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentVM.h; sourceTree = "<group>"; };
+		76EF78842089F0E0006A3980 /* MEStudentVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStudentVM.m; sourceTree = "<group>"; };
+		76EF78862089F71D006A3980 /* MEShowBaby.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEShowBaby.h; sourceTree = "<group>"; };
+		76EF78872089F71D006A3980 /* MEShowBaby.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEShowBaby.m; sourceTree = "<group>"; };
 		794132D107A5C4C538F9F6B98E1786BA /* MesignIn.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesignIn.pbobjc.h; sourceTree = "<group>"; };
 		7B1F090670F3AAF7A7253B5820D0EFBF /* MEVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEVideo.h; sourceTree = "<group>"; };
 		7C1198DD98CB742BB11DB00E25358824 /* MEPersonalHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEPersonalHeader.xib; sourceTree = "<group>"; };
@@ -879,8 +882,6 @@
 			children = (
 				D6DD6F93321465AEFDFED79E58244B4F /* MEBabyAlbumListVM.h */,
 				47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */,
-				76EF787D2089E67B006A3980 /* MEStudentVM.h */,
-				76EF787E2089E67B006A3980 /* MEStudentVM.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -942,6 +943,8 @@
 				261400A4A9E625CED46F92C01166A074 /* MEUserVM.m */,
 				D7F71A96AFF25BECAE2F2182D53AFBF3 /* MEVerifyCodeVM.h */,
 				DECD3B3CE067BE56D97D62A72CE4F766 /* MEVerifyCodeVM.m */,
+				76EF78832089F0E0006A3980 /* MEStudentVM.h */,
+				76EF78842089F0E0006A3980 /* MEStudentVM.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -1006,6 +1009,8 @@
 				5063A6DC9E30C87FF3DF74F7C1C88B89 /* MEVideo.m */,
 				D4142593B9244C83DA60FDAC72CE3550 /* MEWatchItem.h */,
 				E6ED304D07D9241B0E90929BD8FF55F9 /* MEWatchItem.m */,
+				76EF78862089F71D006A3980 /* MEShowBaby.h */,
+				76EF78872089F71D006A3980 /* MEShowBaby.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1491,7 +1496,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				446CB806887877986123034D0407DBA2 /* AppDelegate.m in Sources */,
-				76EF787F2089E67B006A3980 /* MEStudentVM.m in Sources */,
 				DAD64112B4F62AD0FDF9441CF3A3720D /* GardenHeader.m in Sources */,
 				B7406BA98CA6AF70C891C0F9F171E6F7 /* MEActivity.m in Sources */,
 				77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */,
@@ -1525,6 +1529,7 @@
 				7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */,
 				D603D0874DE565F25136C9C7A32F2993 /* MEContentSubcategory.m in Sources */,
 				172F457CA6732B0C82ABD79BC0E24FAC /* MEDispatcher.m in Sources */,
+				76EF78882089F71D006A3980 /* MEShowBaby.m in Sources */,
 				E76F49E94FAE0344452E3E7334A9AC06 /* MEEvaluateCell.m in Sources */,
 				BE3F6A5A337137A20A98B6E4BF5B2293 /* MEEvaluateProfile.m in Sources */,
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
@@ -1594,6 +1599,7 @@
 				DB7FEB815A21FC4B319C8A302FC364C5 /* Meindex.pbobjc.m in Sources */,
 				41009AB89C3EAC4C3ED6DF20D770A208 /* MephoneInfo.pbobjc.m in Sources */,
 				93A97E4C58E733C795631B02845676BC /* Meqnfile.pbobjc.m in Sources */,
+				76EF78852089F0E0006A3980 /* MEStudentVM.m in Sources */,
 				04214F55D37A803A5092BE05A7BAC8A4 /* Meres.pbobjc.m in Sources */,
 				2EFB9860A569C034AFF6848B38D8CC3E /* MesignIn.pbobjc.m in Sources */,
 				765A2CB02089CBDE009F9A2A /* MEBabySelectProfile.m in Sources */,
