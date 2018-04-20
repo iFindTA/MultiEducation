@@ -72,7 +72,7 @@ static CGFloat const ICON_HEIGHT = 20.f;
 - (UIImageView *)icon {
     if (!_icon) {
         _icon = [[UIImageView alloc] init];
-        _icon.backgroundColor = [UIColor redColor];
+        [_icon sd_setImageWithURL: [NSURL URLWithString: self.urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
     }
     return _icon;
 }

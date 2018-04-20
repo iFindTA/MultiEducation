@@ -8,6 +8,7 @@
 
 #import "MEBabyHeader.h"
 #import "UIView+BlurEffect.h"
+#import "MEBabySelectProfile.h"
 
 @implementation MEBabyHeader
 
@@ -25,7 +26,19 @@
         make.left.right.top.bottom.mas_equalTo(0);
     }];
     
+    NSString *urlStr = [NSString stringWithFormat: @"%@%@", self.currentUser.bucketDomain, self.currentUser.portrait];
+    
+    [self.userHeadIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+    
     if (self.currentUser.userType == MEPBUserRole_Parent) {
+        if (self.currentUser.parentsPb.studentPbArray.count < 2) {
+            self.settingBtn.hidden = YES;
+            if (self.currentUser.parentsPb.studentPbArray.count == 0) {
+                self.ageLab.text = @"--";
+                self.babyHeightLab.text = @"--";
+                self.babyWeightLab.text = @"--";
+            }
+        }
         self.userNameLab.text = [NSString stringWithFormat: @"%@，您好", self.currentUser.name];
     }
     
@@ -41,16 +54,12 @@
         
         self.settingBtn.hidden = YES;
     }
-
-    if (self.currentUser.userType == MEPBUserRole_Visitor) {
-        self.ageLab.text = @"--";
-        self.babyHeightLab.text = @"--";
-        self.babyWeightLab.text = @"--";
-    }
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
-    NSLog(@"click setting event");
+    NSString *urlString = @"profile://root@MEBabySelectProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+    [self handleTransitionError:err];
 }
 
 

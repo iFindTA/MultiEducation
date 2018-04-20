@@ -54,10 +54,12 @@
         if (direction == MEScrollViewDirectionUp) {
             [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
                 self.babyNavigation.alpha = 0;
+                [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
             }];
         } else {
             [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
                 self.babyNavigation.alpha = 1;
+                [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
             }];
         }
 }
@@ -77,7 +79,12 @@
 
 - (MEBabyNavigation *)babyNavigation {
     if (!_babyNavigation) {
-        _babyNavigation = [[MEBabyNavigation alloc] initWithFrame: CGRectZero urlStr: @"" title: [NSString stringWithFormat: @"%@，您好！", @"某某某家长"]];
+        
+        NSString *name = self.currentUser.name;
+        
+        NSString *urlStr = [NSString stringWithFormat: @"%@%@", self.currentUser.bucketDomain, self.currentUser.portrait];
+        
+        _babyNavigation = [[MEBabyNavigation alloc] initWithFrame: CGRectZero urlStr: urlStr title: name];
         _babyNavigation.alpha = 0;
     }
     return _babyNavigation;
