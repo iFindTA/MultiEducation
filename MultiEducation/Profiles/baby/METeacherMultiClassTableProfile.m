@@ -60,7 +60,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
         cell = [[UITableViewCell alloc] initWithStyle: UITableViewCellStyleDefault reuseIdentifier: CELL_IDEF];
     }
     
-    NSString *className = [self.classes objectAtIndex: indexPath.row].className;
+    NSString *className = [self.classes objectAtIndex: indexPath.row].name;
     NSString *gradeName =[self.classes objectAtIndex: indexPath.row].gradeName;
     cell.textLabel.text = [NSString stringWithFormat: @"%@--%@", className, gradeName];
     

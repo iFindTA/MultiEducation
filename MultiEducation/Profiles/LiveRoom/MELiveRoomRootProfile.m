@@ -85,7 +85,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    if (self.currentClass && !self.whetherDidLoadData) {
+    if (!self.currentClass && !self.whetherDidLoadData) {
         [self preDealWithMulticastClasses];
     }
 }
@@ -251,6 +251,38 @@
 #pragma mark --- fetch network data
 
 /**
+ 让用户选择班级
+ */
+- (void)makeUserChooseClasses {
+    NSArray <MEPBClass*>*classes = self.classes.copy;
+    if (classes.count <= 1) {
+        return;
+    }
+    for (MEPBClass *cls in classes) {
+        NSLog(@"name :%@", cls.name);
+    }
+    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您有多个关联班级，请选择一个进行查看！" preferredStyle:UIAlertControllerStyleActionSheet];
+    weakify(self)
+    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *clsName = PBAvailableString(obj.name);
+        NSLog(@"class name:%@", clsName);
+        UIAlertAction *action = [UIAlertAction actionWithTitle:clsName style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertProfile addAction:action];
+    }];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self)
+        [self defaultGoBackStack];
+    }];
+    [alertProfile addAction:action];
+    
+    [self presentViewController:alertProfile animated:true completion:^{
+        
+    }];
+}
+
+/**
  预处理多个班级的情况
  */
 - (void)preDealWithMulticastClasses {
@@ -261,8 +293,10 @@
         [self.table reloadEmptyDataSet];
         return;
     }
-    //TODO:弹框让用户选择班级
-    
+    //有多个班级 弹框让用户选择班级
+    PBMAINDelay(ME_ANIMATION_DURATION, ^{
+        [self makeUserChooseClasses];
+    });
 }
 
 - (void)loadLiveClassRoomData {
