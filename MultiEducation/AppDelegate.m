@@ -19,6 +19,7 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <UINavigationController+SJVideoPlayerAdd.h>
 #import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
+#import <RongIMKit/RongIMKit.h>
 
 @interface AppDelegate ()
 
@@ -70,6 +71,11 @@
     //start on background thread
     [self startServicesOnBackgroundThread];
 
+    if (!self.curUser || !self.curUser.isTourist) {
+        // 游客和退出登录状态不能接入IM
+        [self startRongIMServivesOnbgThread];
+    }
+    
     return YES;
 }
 
@@ -278,6 +284,34 @@
         [MobClick startWithConfigure:UMConfigInstance];
         
     });
+}
+
+
+/**
+ 初始化融云
+ */
+- (void)startRongIMServivesOnbgThread {
+    PBBACKDelay(ME_ANIMATION_DURATION, (^{
+//        [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
+        [[RCIM sharedRCIM] initWithAppKey:@"82hegw5u8yvqx"];
+        // @功能
+        [[RCIM sharedRCIM] setEnableMessageMentioned:YES];
+        // 消息撤回
+        [[RCIM sharedRCIM] setEnableMessageRecall:YES];
+        // 消息回执
+        NSArray *typeArray = @[@(ConversationType_PRIVATE), @(ConversationType_GROUP)];
+        [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:typeArray];
+        // 多端阅读消息数同步
+        [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];
+        
+        [[RCIM sharedRCIM] connectWithToken:@"H8TFnbp1yfFYnLYilXjk8AtHNNd/2ie4Gq4ONLhyoW154vpO8/FNTC8cBYI1jM7gnvuDYlELban6f0VhFzA9IQ==" success:^(NSString *userId) {
+            NSLog(@"登录成功...userId:%@", userId);
+        } error:^(RCConnectErrorCode status) {
+            NSLog(@"登录失败,error status=%ld", (long)status);
+        } tokenIncorrect:^{
+            NSLog(@"token错误...");
+        }];
+    }));
 }
 
 @end

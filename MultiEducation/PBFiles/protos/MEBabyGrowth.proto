@@ -1,34 +1,34 @@
 syntax = "proto3";
 
 message GuStudentArchivesListPb {
-    repeated GuStudentArchivesPb studentArchivesPb = 1;
+    GuStudentArchivesPb studentArchivesPb = 1;
 }
 
 message GuStudentArchivesPb {
-     int64 title = 1;
-     int64 studentId = 2;
-     int64 gradeId = 3;
-     int32 semester = 4;
-     string petName = 5; //小名
-     int32 gender = 6; //性别
-     int64 birthday = 7; //出生年月
-     int32 age = 8;   //年龄
-     string zodiac = 9; //生肖
-     int32 height = 10; //身高
-     int32 weight = 11; //体重
-     string leftVision = 12;//左眼视力
-     string rightVision =13;//右眼视力
-     string bloodType = 14;//血型
-     int32 hemoglobin = 15;//血色素
-     string nation = 16;//民族
-     string homeAddress = 17;//家庭住址
-     string contactNumber = 18;//联系电话
-     string warnItem = 19;//注意事项
-     string motherName = 20;//妈妈姓名
-     string motherMobile = 21;//妈妈手机号
-     string motherWorkUnit = 22;//妈妈工作单位
-     string fatherName = 23;//父亲姓名
-     string fatherMobile=24;//父亲手机号
-     string fatherWorkUnit=25;//父亲工作单位
-     string studentPortrait = 26;//头像
+    int64 title = 1;
+    int64 studentId = 2;
+    int64 gradeId = 3;
+    int32 semester = 4;
+    string petName = 5; //小名
+    int32 gender = 6; //性别
+    int64 birthday = 7; //出生年月
+    int32 age = 8;   //年龄
+    string zodiac = 9; //生肖
+    int32 height = 10; //身高
+    int32 weight = 11; //体重
+    string leftVision = 12;//左眼视力
+    string rightVision =13;//右眼视力
+    string bloodType = 14;//血型
+    int32 hemoglobin = 15;//血色素
+    string nation = 16;//民族
+    string homeAddress = 17;//家庭住址
+    string contactNumber = 18;//联系电话
+    string warnItem = 19;//注意事项
+    string motherName = 20;//妈妈姓名
+    string motherMobile = 21;//妈妈手机号
+    string motherWorkUnit = 22;//妈妈工作单位
+    string fatherName = 23;//父亲姓名
+    string fatherMobile=24;//父亲手机号
+    string fatherWorkUnit=25;//父亲工作单位
+    string studentPortrait = 26;//头像
 }

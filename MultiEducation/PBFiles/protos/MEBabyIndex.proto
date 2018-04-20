@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+message GuIndexPb {
+   int64 studentId=1;
+   GuStudentArchivesPb studentArchives=2; //生成档案
+   GuStudyEvaluatePb studyEvaluate=3;  //发展评价
+}
+
+message GuStudentArchivesListPb {
+    GuStudentArchivesPb studentArchivesPb = 1;
+}
+
+message GuStudentArchivesPb {
+    int64 title = 1;
+    int64 studentId = 2;
+    int64 gradeId = 3;
+    int32 semester = 4;
+    string petName = 5; //小名
+    int32 gender = 6; //性别
+    int64 birthday = 7; //出生年月
+    int32 age = 8;   //年龄
+    string zodiac = 9; //生肖
+    int32 height = 10; //身高
+    int32 weight = 11; //体重
+    string leftVision = 12;//左眼视力
+    string rightVision =13;//右眼视力
+    string bloodType = 14;//血型
+    int32 hemoglobin = 15;//血色素
+    string nation = 16;//民族
+    string homeAddress = 17;//家庭住址
+    string contactNumber = 18;//联系电话
+    string warnItem = 19;//注意事项
+    string motherName = 20;//妈妈姓名
+    string motherMobile = 21;//妈妈手机号
+    string motherWorkUnit = 22;//妈妈工作单位
+    string fatherName = 23;//父亲姓名
+    string fatherMobile=24;//父亲手机号
+    string fatherWorkUnit=25;//父亲工作单位
+    string studentPortrait = 26;//头像
+}
+
+message GuStudyEvaluateListPb {
+    GuStudyEvaluatePb studyEvaluatePb = 1;
+}
+
+message GuStudyEvaluatePb {
+       int64 id = 1;
+       int64 gradeId = 2;
+       int64 semester = 3;
+       int64 studentId = 4;
+       int32 month = 5;
+       string title = 6;
+       GuStudyEvaluateQuesPb studyEvaluateQuesPb = 7;
+       GuStudyEvaluateAnswerPb answerListPb  = 8;
+}
+
+
+message GuStudyEvaluateQuesPb {
+       int64 id = 1;
+       int64 evaluateId = 2;
+       string title = 3;
+       int32 type = 4; //'1在幼儿园2在家里'
+       int32 checkType = 5; //'1单选2多选'
+       GuStudyEvaluateAnswerPb answerPb=6;
+       GuStudyEvaluateQuesItemPb itemListPb = 7;
+}
+
+
+message GuStudyEvaluateAnswerPb {
+         int64 studentId = 1;
+         int64 evaluateId = 2;
+         int64 quesId = 3;
+         int64 itemId = 4;
+         string answer = 5;
+}
+
+
+message GuStudyEvaluateQuesItemPb {
+       int64 id = 1;
+       int64 evaluateId = 2;
+       int64 evaluateQuesId = 3;
+       string title = 4;
+       int64 checkCount = 5;
+}
+

@@ -7,9 +7,9 @@
 //
 
 #import "MEBaseScene.h"
+#import "MebabyIndex.pbobjc.h"
 
-
-typedef void(^settingCallBack)(void);
+typedef void(^SelectAnotherBabyCallBack)(StudentPb *pb);
 
 @interface MEBabyHeader : MEBaseScene
 
@@ -20,7 +20,6 @@ typedef void(^settingCallBack)(void);
 @property (weak, nonatomic) IBOutlet MEBaseLabel *userNameLab;
 
 @property (weak, nonatomic) IBOutlet MEBaseButton *settingBtn;
-
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *ageTipLabel;
 
@@ -34,8 +33,8 @@ typedef void(^settingCallBack)(void);
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *babyWeightLab;
 
+@property (nonatomic, copy) SelectAnotherBabyCallBack selectCallBack;
 
-
-
+- (void)setData:(GuStudentArchivesPb *)growPb;
 
 @end

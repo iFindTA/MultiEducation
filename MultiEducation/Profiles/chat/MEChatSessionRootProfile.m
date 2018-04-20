@@ -7,6 +7,7 @@
 //
 
 #import "MEChatSessionRootProfile.h"
+#import "MEChatProfile.h"
 
 @interface MEChatSessionRootProfile ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -22,6 +23,10 @@
     [self setRongIMProperty];
     
     [self layoutChileViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,6 +58,9 @@
 
 - (void)layoutChileViews {
     self.title = @"聊天";
+    
+    self.conversationListTableView.frame = CGRectMake(0, 64, self.conversationListTableView.frame.size.width, self.conversationListTableView.frame.size.height);
+    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(handleToAddressbookItem)];
     [barButtonItem setTitle:@"通讯录"];
     self.navigationItem.rightBarButtonItem = barButtonItem;
@@ -61,7 +69,14 @@
 
 #pragma mark --- 点击Cell回调 ---
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"进入回话界面");
+    
+    MEChatProfile *chatPro = [[MEChatProfile alloc] init];
+    chatPro.conversationType = model.conversationType;
+    chatPro.targetId = model.targetId;
+    chatPro.title = model.conversationTitle;
+    self.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:chatPro animated:YES];
+    
 }
 
 #pragma mark --- Handle Action ---

@@ -9,6 +9,7 @@
 #import "MEBabySelectProfile.h"
 #import "MEBabySelectCell.h"
 #import "MEStudentVM.h"
+#import "Meuser.pbobjc.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const CELL_HEIGHT = 54.f;
@@ -42,14 +43,17 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
- 
 }
 
-- (void)sendSwitchBabyPostToServer:(StudentPb *)studenPb {
-    MEStudentVM *vm = [MEStudentVM vmWithPb: studenPb];
-    NSData *data = [studenPb data];
+- (void)sendSwitchBabyPostToServer:(StudentPb *)studentPb {
+    MEStudentVM *vm = [MEStudentVM vmWithPb: studentPb];
+    NSData *data = [studentPb data];
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        NSLog(@"切换成功");
+        studentPb.uId = self.currentUser.id_p;
+        [MEStudentVM saveSelectBaby: studentPb];
+        if (self.selectBabyCallBack) {
+            self.selectBabyCallBack(studentPb);
+        }
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
