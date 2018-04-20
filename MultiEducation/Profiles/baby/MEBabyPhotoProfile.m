@@ -38,7 +38,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, MWPhotoBrowserDelegate, TZImagePickerControllerDelegate> {
     NSInteger _classId;
-    NSInteger _parentId;
 }
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
@@ -66,7 +65,10 @@ static CGFloat const ITEM_LEADING = 10.f;
     self = [super init];
     if (self) {
         _classId = [[params objectForKey: @"classId"] integerValue];
-        _parentId = [[params objectForKey: @"parentId"] integerValue];
+        
+        if ([params objectForKey: @"photos"]) {
+            self.photos = [NSMutableArray arrayWithArray: [params objectForKey: @"photos"]];
+        }
     }
     return self;
 }
@@ -78,7 +80,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     self.sj_fadeAreaViews = @[self.scrollView];
     
-    [self loadDataSource];
+    if (self.photos.count == 0) {
+        [self loadDataSource];
+    }
     
     [self customNavigation];
     
@@ -90,7 +94,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
 
     pb.classId = _classId;
-    pb.parentId = _parentId;
     
     NSData *data = [pb data];
     
@@ -198,6 +201,16 @@ static CGFloat const ITEM_LEADING = 10.f;
     NSData *data = UIImageJPEGRepresentation([MEKits compressImage: image toByte: uploadLimit], 0.5);
     UIImage *compressImage = [UIImage imageWithData: data];
     return compressImage;
+}
+
+- (NSArray *)getFilePhotosFromParentId:(NSInteger)parentId {
+    NSMutableArray *tmpArr = [NSMutableArray array];
+    for (MEPhoto *photo in self.photos) {
+        if (photo.albumPb.parentId == parentId) {
+            [tmpArr addObject: photo];
+        }
+    }
+    return tmpArr;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -324,7 +337,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     if ([self.photos objectAtIndex: indexPath.item].albumPb.isParent) {
         
         NSNumber *parentId = [NSNumber numberWithInteger: [self.photos objectAtIndex: indexPath.item].albumPb.id_p];
-        NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"parentId": parentId};
+        NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"photos": [self getFilePhotosFromParentId: parentId.integerValue]};
         NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
         NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
         [self handleTransitionError:err];
