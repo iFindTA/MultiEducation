@@ -10,4 +10,10 @@
 
 @interface MEBabySelectCell : MEBaseCell
 
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
+
+@property (weak, nonatomic) IBOutlet MEBaseLabel *nameLabel;
+
+- (void)setData:(StudentPb *)student;
+
 @end

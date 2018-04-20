@@ -170,6 +170,7 @@ typedef struct MEPBUserList__storage_ {
 @dynamic isUserCharge;
 @dynamic code;
 @dynamic sessionToken;
+@dynamic cutClassId;
 @dynamic signinstamp;
 
 typedef struct MEPBUser__storage_ {
@@ -207,6 +208,7 @@ typedef struct MEPBUser__storage_ {
   int64_t phaseId;
   int64_t deadline;
   int64_t diskCap;
+  int64_t cutClassId;
   int64_t signinstamp;
 } MEPBUser__storage_;
 
@@ -514,10 +516,19 @@ typedef struct MEPBUser__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
+        .name = "cutClassId",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBUser_FieldNumber_CutClassId,
+        .hasIndex = 32,
+        .offset = (uint32_t)offsetof(MEPBUser__storage_, cutClassId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
         .name = "signinstamp",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_Signinstamp,
-        .hasIndex = 32,
+        .hasIndex = 33,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, signinstamp),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -533,8 +544,8 @@ typedef struct MEPBUser__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\023\002\010\000\007\010\000\010\007\000\016\n\000\020\t\000\021\t\000\022\010\000\023\000funcCtrlPb\000\024\n\000\025\014"
-        "\000\027\013\000\030\010\000\032\016\000\033\007\000\034\006\000\035\t\000\036\007\000\037\014\000!\014\000";
+        "\024\002\010\000\007\010\000\010\007\000\016\n\000\020\t\000\021\t\000\022\010\000\023\000funcCtrlPb\000\024\n\000\025\014"
+        "\000\027\013\000\030\010\000\032\016\000\033\007\000\034\006\000\035\t\000\036\007\000\037\014\000!\014\000\"\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -953,6 +964,7 @@ typedef struct DeanPb__storage_ {
 @dynamic birthday;
 @dynamic parentType;
 @dynamic gender;
+@dynamic portrait;
 
 typedef struct StudentPb__storage_ {
   uint32_t _has_storage_[1];
@@ -961,6 +973,7 @@ typedef struct StudentPb__storage_ {
   NSString *uuid;
   NSString *name;
   NSString *classNo;
+  NSString *portrait;
   int64_t id_p;
   int64_t classId;
   int64_t gradeId;
@@ -1054,6 +1067,15 @@ typedef struct StudentPb__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "portrait",
+        .dataTypeSpecific.className = NULL,
+        .number = StudentPb_FieldNumber_Portrait,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(StudentPb__storage_, portrait),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[StudentPb class]
@@ -1082,11 +1104,13 @@ typedef struct StudentPb__storage_ {
 
 @dynamic diskCap;
 @dynamic uploadLimit;
+@dynamic hasClassPb, classPb;
 
 typedef struct SystemConfigPb__storage_ {
   uint32_t _has_storage_[1];
   NSString *diskCap;
   NSString *uploadLimit;
+  MEPBClass *classPb;
 } SystemConfigPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -1113,6 +1137,15 @@ typedef struct SystemConfigPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "classPb",
+        .dataTypeSpecific.className = GPBStringifySymbol(MEPBClass),
+        .number = SystemConfigPb_FieldNumber_ClassPb,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(SystemConfigPb__storage_, classPb),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[SystemConfigPb class]
@@ -1124,7 +1157,7 @@ typedef struct SystemConfigPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\001\007\000\002\013\000";
+        "\003\001\007\000\002\013\000\003\007\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

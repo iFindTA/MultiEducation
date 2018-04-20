@@ -40,7 +40,8 @@ message MEPBUser {
     int32 isUserCharge = 31; //判断用户是否需要进入收费页面
     string code = 32; //验证码
     string sessionToken = 33;//用户登录后授权token
-    int64 signinstamp = 34;//登录时间戳
+    int64 cutClassId = 34; //当前classId
+    int64 signinstamp = 35;//登录时间戳
 }
 
 enum MEPBUserRole {
@@ -96,11 +97,12 @@ message StudentPb {
     int64 birthday = 7; //出生日期
     int32 parentType = 8;//家长类型
     int32 gender = 9;//性别
-
+    string portrait = 10;//头像
 
 }
 
 message SystemConfigPb {
     string diskCap = 1; //网盘容量
     string uploadLimit = 2; //上传限制
+    MEPBClass classPb = 3; //班级
 }

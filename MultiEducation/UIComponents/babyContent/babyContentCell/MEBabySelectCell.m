@@ -15,6 +15,10 @@
     // Initialization code
 }
 
+- (void)setData:(StudentPb *)student {
+    
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
