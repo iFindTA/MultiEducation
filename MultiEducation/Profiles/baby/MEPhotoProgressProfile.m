@@ -33,6 +33,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 @property (nonatomic, strong) NSArray <MEPhoto *> *totalImages;
 @property (nonatomic, strong) NSMutableArray <MEPhoto *> *images;   //user choosed images for uploading
 
+@property (nonatomic, strong) NSArray <MEVideo *> *totalVideo;
 @property (nonatomic, strong) NSMutableArray <MEVideo *> *videos;    //upload video only can select one!
 
 @property (nonatomic, strong) MEQiniuUtils *qnUtils;
@@ -54,6 +55,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
         _type = [[params objectForKey: @"type"] integerValue];
         _totalImages = [params objectForKey: @"images"];
         if ([params objectForKey: @"video"]) {
+            _totalVideo = [NSArray arrayWithObject: [params objectForKey: @"video"]];
             _videos = [NSMutableArray array];
             [_videos addObject: [params objectForKey: @"video"]];
         }
@@ -111,7 +113,8 @@ static CGFloat const ROW_HEIGHT = 60.f;
     }
     _isUploadOver = NO;
     
-    [self.qnUtils uploadVideo: self.videos[0].video key: self.videos[0].md5FileName];
+    [self.qnUtils uploadVideo: self.videos[0].video key: [NSString stringWithFormat: @"%@.mp4", self.videos[0].md5FileName]];
+    
 }
 
 - (void)uploadImagesToQNServer:(NSArray *)imageArr {
@@ -164,16 +167,17 @@ static CGFloat const ROW_HEIGHT = 60.f;
         
         if (_type == MEUploadTypeImage) {
             albumPb.fileType = @"jpg";
+            albumPb.fileSize = [self.totalImages objectAtIndex: i].fileSize;
         } else {
             albumPb.fileType = @"mp4";
+            albumPb.fileSize = self.totalVideo[0].video.length;
         }
         
         albumPb.classId = _classId;
         albumPb.isParent = 0;
         albumPb.parentId = 0;
         albumPb.fileName = [keys objectAtIndex: i];
-        albumPb.filePath = [NSString stringWithFormat: @"%@.%@", [self.totalImages objectAtIndex: i].md5FileName, albumPb.fileType];
-        albumPb.fileSize = [self.totalImages objectAtIndex: i].fileSize;
+        albumPb.filePath = [NSString stringWithFormat: @"%@", albumPb.fileName];
 
         [albumList addObject: albumPb];
     }
