@@ -70,7 +70,7 @@
 		76EF788B2089F842006A3980 /* MEBabySelectProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF788A2089F841006A3980 /* MEBabySelectProfile.m */; };
 		76EF788E2089F84C006A3980 /* MEShowBaby.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF788D2089F84C006A3980 /* MEShowBaby.m */; };
 		76EF78912089F858006A3980 /* MEStudentVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF788F2089F858006A3980 /* MEStudentVM.m */; };
-		76EF78942089F878006A3980 /* MebabyGrowth.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF78922089F878006A3980 /* MebabyGrowth.pbobjc.m */; };
+		76EF78942089F878006A3980 /* MebabyGrowth.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF78922089F878006A3980 /* MebabyGrowth.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		76EF78982089F8A2006A3980 /* MEBabySelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EF78952089F8A1006A3980 /* MEBabySelectCell.m */; };
 		76EF78992089F8A2006A3980 /* MEBabySelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76EF78962089F8A2006A3980 /* MEBabySelectCell.xib */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
