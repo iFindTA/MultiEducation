@@ -63,20 +63,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.winProfile;
     [self.window makeKeyAndVisible];
-    //for input
-    [IQKeyboardManager sharedManager].enable = true;
-    //for umeng
-    UMConfigInstance.appKey = ME_UMENG_APPKEY;
-    [MobClick startWithConfigure:UMConfigInstance];
-    //for chinese-policy
-    [PBService configBaseURL:ME_APP_BASE_HOST];
-    [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
-        
-    }];
-    
-    //notification-apns
-    [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
-    [application registerForRemoteNotifications];
+    //start on background thread
+    [self startServicesOnBackgroundThread];
 
     return YES;
 }
@@ -265,6 +253,32 @@
 
 - (void)updateCurrentSignedInUser:(MEPBUser *)usr {
     self.curUser = usr;
+}
+
+#pragma mark --- start services background thread
+
+/**
+ start services on background-thread
+ */
+- (void)startServicesOnBackgroundThread {
+    PBBACKDelay(ME_ANIMATION_DURATION, ^{
+        //notification-apns
+        UIApplication *application = [UIApplication sharedApplication];
+        [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [application registerForRemoteNotifications];
+        //for input
+        [IQKeyboardManager sharedManager].enable = true;
+        //for chinese-policy
+        [PBService configBaseURL:ME_APP_BASE_HOST];
+        [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
+            
+        }];
+        //for umeng
+        UMConfigInstance.appKey = ME_UMENG_APPKEY;
+        [MobClick startWithConfigure:UMConfigInstance];
+        //for rong-cloud-im
+        
+    });
 }
 
 @end
