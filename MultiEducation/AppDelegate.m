@@ -276,7 +276,6 @@
         //for umeng
         UMConfigInstance.appKey = ME_UMENG_APPKEY;
         [MobClick startWithConfigure:UMConfigInstance];
-        //for rong-cloud-im
         
     });
 }

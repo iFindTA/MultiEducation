@@ -8,10 +8,16 @@
 
 #import "MELiveClassVM.h"
 #import <MJRefresh/MJRefresh.h>
+#import "MEIndexStoryItemCell.h"
 #import "MELiveRoomRootProfile.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface MELiveRoomRootProfile () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+/**
+ * 头部播放高度
+ */
+static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
+
+@interface MELiveRoomRootProfile () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UITableViewDelegate, UITableViewDataSource>
 
 /**
  当前用户是否是老师
@@ -29,6 +35,10 @@
 
 @property (nonatomic, assign) BOOL whetherDidLoadData;
 @property (nonatomic, copy, nullable) NSString *emptyTitle, *emptyDesc;
+
+@property (nonatomic, strong) MEBaseButton *startLiveBtn;
+@property (nonatomic, strong) MEBaseScene *liveScene;
+@property (nonatomic, strong) MEBaseLabel *liveMaskLab;
 
 @end
 
@@ -70,11 +80,51 @@
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"直播课堂"];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];
+    
+    //live scene
+    [self.view addSubview:self.liveScene];
+    [self.liveScene makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(adoptValue(ME_LIVE_PLAY_SCENE_HEIGHT));
+    }];
+    //mask
+    [self.liveScene addSubview:self.liveMaskLab];
+    [self.liveMaskLab makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.liveScene);
+    }];
+    
+    //title
+    MEBaseScene *scene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    scene.backgroundColor = [UIColor pb_randomColor];
+    [self.view addSubview:scene];
+    [scene makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.liveScene.mas_bottom);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
+    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.font = UIFontPingFangSCBold(METHEME_FONT_TITLE);
+    label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    label.text = @"往期视频";
+    [scene addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(scene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN*2, 0, ME_LAYOUT_MARGIN*2));
+    }];
+    
     // add table
     [self.view addSubview:self.table];
     [self.table makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.navigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
+        make.top.equalTo(label.mas_bottom);
         make.left.right.bottom.equalTo(self.view);
+    }];
+    
+    //add live button
+    NSUInteger liveBtnSize = ME_HEIGHT_TABBAR;
+    [self.view addSubview:self.startLiveBtn];
+    [self.startLiveBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.bottom.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+        make.size.equalTo(CGSizeMake(liveBtnSize, liveBtnSize));
     }];
     
     self.whetherDidLoadData = false;
@@ -102,6 +152,26 @@
 
 #pragma mark --- lazy getter
 
+- (MEBaseScene *)liveScene {
+    if (!_liveScene) {
+        _liveScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _liveScene.backgroundColor = [UIColor pb_randomColor];
+    }
+    return _liveScene;
+}
+
+- (MEBaseLabel *)liveMaskLab {
+    if (!_liveMaskLab) {
+        _liveMaskLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+        _liveMaskLab.textAlignment = NSTextAlignmentCenter;
+        _liveMaskLab.font = UIFontPingFangSCMedium(METHEME_FONT_LARGETITLE);
+        _liveMaskLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+        _liveMaskLab.text = @"当前没有老师开播！";
+        _liveMaskLab.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    }
+    return _liveMaskLab;
+}
+
 - (MEBaseTableView *)table {
     if (!_table) {
         _table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -110,6 +180,16 @@
         _table.tableFooterView = [UIView new];
     }
     return _table;
+}
+
+- (MEBaseButton *)startLiveBtn {
+    if (!_startLiveBtn) {
+        UIImage *image = [UIImage imageNamed:@"live_class_preStart"];
+        _startLiveBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        [_startLiveBtn setImage:image forState:UIControlStateNormal];
+        [_startLiveBtn addTarget:self action:@selector(startLiveRoomTouchEvent) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _startLiveBtn;
 }
 
 #pragma mark --- DZNEmpty DataSource & Deleagte
@@ -152,6 +232,68 @@
 //- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
 //    [self autoLoadMoreRelevantItems4PageIndex:1];
 //}
+
+#pragma mark --- UITableView Deleagte & DataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSUInteger counts = self.dataLive.recorderListArray.count;
+    NSUInteger rows = counts / ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
+    if (counts % ME_INDEX_STORY_ITEM_NUMBER_PER_LINE != 0) {
+        rows += 1;
+    }
+    return rows;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSUInteger __row = [indexPath row];
+    CGFloat row_height = ME_INDEX_STORY_ITEM_HEIGHT;
+    if (__row == 0) {
+        row_height = ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT;
+    }
+    return adoptValue(row_height);
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *identifier = @"live_lubo_item_cell";
+    MEIndexStoryItemCell *cell = (MEIndexStoryItemCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[MEIndexStoryItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSUInteger __row = [indexPath row];
+    NSArray<MEPBClassLive*>*classItems = self.dataLive.recorderListArray.copy;
+    NSUInteger allCounts = classItems.count;
+    [cell configureStoryItem4RowIndex:__row];
+    //item
+    NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
+    for (int i = 0; i < numPerLine; i ++) {
+        NSUInteger real_item_index = __row * numPerLine + i;
+        if (real_item_index < allCounts) {
+            MEPBClassLive *res = classItems[real_item_index];
+            NSString *title = res.title.copy;
+            (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
+            (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
+            
+            NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
+            UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
+            if (i % numPerLine == 0) {
+                [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+            } else {
+                [cell.rightItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
+            }
+        } else {
+            cell.rightItemScene.hidden = true;
+        }
+    }
+    //callback
+    weakify(self)
+    cell.indexContentItemCallback = ^(NSUInteger section, NSUInteger index){
+        strongify(self)
+        [self subClassesStoryItemDidTouchRowIndex:index];
+    };
+    
+    return cell;
+}
 
 #pragma mark --- 用户角色没有关联任何班级 显示没有班级 并引导用户去关联班级
 
@@ -301,14 +443,29 @@
         } else {
             self.dataLive = liveRoom;
         }
+        [self rebuildLiveRoomSubviews];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
         [self handleTransitionError:error];
+        self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
+        self.emptyDesc = ME_EMPTY_PROMPT_DESC;
+        self.whetherDidLoadData = true;
+        [self.table reloadEmptyDataSet];
     }];
 }
 
+/**
+ 依据用户角色不同 创建不同用户界面
+ */
 - (void)rebuildLiveRoomSubviews {
+    self.whetherDidLoadData = true;
     
+    
+}
+
+#pragma mark --- User Interface Action
+
+- (void)startLiveRoomTouchEvent {
     
 }
 
