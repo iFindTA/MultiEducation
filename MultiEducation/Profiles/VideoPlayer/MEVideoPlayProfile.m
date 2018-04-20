@@ -8,6 +8,7 @@
 
 #import "MEActivity.h"
 #import "MEWatchItem.h"
+#import "MEResFavorVM.h"
 #import "MEVideoInfoVM.h"
 #import "MEPlayerControl.h"
 #import <ZFPlayer/ZFPlayer.h>
@@ -334,6 +335,10 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     NSDictionary *titleParams = @{@"title":PBAvailableString(title), @"tags":labels.copy};
     [self.titlePanel updatePlayInfoTitlePanel4Info:titleParams];
     
+    //collection action
+    BOOL isFavor = self.currentRes.isFavor;
+    [self.playerControl updateUserLikeItemState:isFavor];
+    
     //sub description panel
     NSString *desc = self.currentRes.desc.copy;
     MEPlayInfoSubTitlePanel *subDescPanel = [MEPlayInfoSubTitlePanel configreInfoSubTitleDescriptionPanelWithInfo:desc];
@@ -560,9 +565,27 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         [self defaultGoBackStack];
     } else if (action & MEVideoPlayUserActionLike) {
         //收藏callback
+        //MEPBUserRole role = self.currentUser.userType;
         weakify(self)
         void(^likeCallback)(void) = ^(){
-            NSString *uid = @"fetch user's id";
+            strongify(self)
+            //资源原来收藏状态
+            BOOL initFavorState = self.currentRes.isFavor;
+            MEPBRes *res = [[MEPBRes alloc] init];
+            [res setType:self.currentRes.type];
+            [res setResId:self.currentRes.resId];
+            MEResFavorVM *vm = [[MEResFavorVM alloc] init];
+            weakify(self)
+            [vm postData:[res data] hudEnable:true success:^(NSData * _Nullable resObj) {
+                strongify(self)
+                [self showSuccessHUD:initFavorState?@"取消收藏成功！":@"收藏成功！"];
+                //update ui
+                self.currentRes.isFavor = !initFavorState;
+                [self.playerControl updateUserLikeItemState:!initFavorState];
+            } failure:^(NSError * _Nonnull error) {
+                strongify(self)
+                [self handleTransitionError:error];
+            }];
             
             //TODO:收藏动作
             //NSLog(@"sigin after excute block with user:%@", uid);
@@ -583,11 +606,10 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             [self handleTransitionError:err];
             return;
         } else {
-            
-        }
-        //收藏动作
-        if (likeCallback) {
-            likeCallback();
+            //收藏动作
+            if (likeCallback) {
+                likeCallback();
+            }
         }
     } else if (action & MEVideoPlayUserActionShare) {
         NSString *textToShare = @"多元幼教_V2.0新版从火星回来了！";

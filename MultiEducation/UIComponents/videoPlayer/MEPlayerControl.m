@@ -294,6 +294,7 @@
 - (void)clean {
     [self stopTimer];
     self.floatValue = 0.f;self.progress.progress = 0.f;
+    [self updateUserLikeItemState:false];
 }
 
 /*
