@@ -9,6 +9,7 @@
 #import "PBView.h"
 #import "Meuser.pbobjc.h"
 #import "MEUIBaseHeader.h"
+#import "MEBaseTableView.h"
 #import <PBService/PBService.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 

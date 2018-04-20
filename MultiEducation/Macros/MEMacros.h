@@ -47,6 +47,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define METHEME_FONT_SUBTITLE                                           13.f
 #define METHEME_FONT_NAVIGATION                                         22.f
 
+#define ME_ICONFONT_EMPTY_HOLDER                                        @"\U0000e673"
+
 #define SYSTEM_VERSION_GREATER_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)

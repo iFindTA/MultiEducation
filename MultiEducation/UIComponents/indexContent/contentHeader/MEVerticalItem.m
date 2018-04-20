@@ -30,7 +30,7 @@
         [self addSubview:self.icon];
         [self addSubview:self.label];
         self.label.text = title.copy;
-        [self.icon sd_setImageWithURL:[NSURL URLWithString:urlString]];
+        [self.icon sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"appicon_placeholder"]];
     }
     return self;
 }
