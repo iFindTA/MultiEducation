@@ -63,7 +63,7 @@
 - (void)loadData {
     MEPBUserRole role = self.currentUser.userType;
     if (role == MEPBUserRole_Parent) {
-        if (self.currentUser.parentsPb.studentPbArray > 0) {
+        if (self.currentUser.parentsPb.studentPbArray.count > 0) {
             self.studentPb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
         } else {
             NSLog(@"未绑定任何孩子");

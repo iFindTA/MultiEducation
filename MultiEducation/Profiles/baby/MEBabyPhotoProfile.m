@@ -117,11 +117,63 @@ static CGFloat const ITEM_LEADING = 10.f;
             photo.albumPb = pb;
             [self.photos addObject: photo];
         }
+        [self setVideoCoverImage];
         [self.photoView reloadData];
 
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
+}
+
+- (void)setVideoCoverImage {
+    NSInteger index = 0;
+    for (MEPhoto *photo in self.photos) {
+        if ([photo.albumPb.fileType isEqualToString: @"mp4"]) {
+            dispatch_queue_t queue = dispatch_queue_create([[NSString stringWithFormat: @"get_video_cover_image_%ld", index] UTF8String],  NULL);
+            dispatch_async(queue, ^{
+                AVURLAsset *asset = [[AVURLAsset alloc] initWithURL: [NSURL URLWithString: photo.urlStr] options:nil];
+                NSParameterAssert(asset);
+                AVAssetImageGenerator *assetImageGenerator =[[AVAssetImageGenerator alloc] initWithAsset:asset];
+                assetImageGenerator.appliesPreferredTrackTransform = YES;
+                assetImageGenerator.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
+                CGImageRef thumbnailImageRef = NULL;
+                CFTimeInterval thumbnailImageTime = 0.1;
+                NSError *thumbnailImageGenerationError = nil;
+                thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)actualTime:NULL error:&thumbnailImageGenerationError];
+                UIImage *thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
+                photo.image = thumbnailImage;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.photoView reloadItemsAtIndexPaths: @[[NSIndexPath indexPathForItem: index inSection: 0]]];
+                });
+            });
+        }
+        index++;
+    }
+}
+
+- (void)sortPhotoWithFileParent {
+    NSMutableArray *tmpArr = [NSMutableArray array];
+    
+    for (int i = 0; i < self.photos.count; i++) {
+        MEPhoto *photo = [self.photos objectAtIndex: i];
+        if (photo.albumPb.isParent) {
+            [tmpArr addObject: [self getChildArr: photo.albumPb.id_p]];
+        } else {
+//            [tmpArr addObject: ]
+        }
+    }
+}
+
+- (NSDictionary *)getChildArr:(NSInteger)parentId {
+    NSMutableArray *tmpArr = [NSMutableArray array];
+    NSString *id_p = [NSString stringWithFormat: @"%ld", (long)parentId];
+    for (int i = 0; i < self.photos.count; i++) {
+        MEPhoto *photo = [self.photos objectAtIndex: i];
+        if (photo.albumPb.parentId == parentId) {
+            [tmpArr addObject: photo];
+        }
+    }
+    return @{id_p: tmpArr};
 }
 
 - (void)sortPhotoWithTimeLine {
@@ -191,11 +243,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)pushToUploadProgressProfile:(NSDictionary *)params {
-    [SVProgressHUD showWithStatus: @"正在压缩视频..."];
     NSString *urlString = @"profile://root@MEPhotoProgressProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];
-    [SVProgressHUD dismiss];
 }
 
 - (NSString *)md5StringToImage:(UIImage *)image {
@@ -358,8 +408,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         //MWBrowser can't reuser!!! need set nil;
         _photoBrowser = nil;
     }
-    
-
 }
 
 #pragma mark - UIScrollViewDelegate
