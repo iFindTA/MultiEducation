@@ -243,7 +243,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     if (!_startLiveBtn) {
         UIImage *image = [UIImage imageNamed:@"live_class_preStart"];
         _startLiveBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
-        _startLiveBtn.hidden = true;
+        //_startLiveBtn.hidden = true;
         [_startLiveBtn setImage:image forState:UIControlStateNormal];
         [_startLiveBtn addTarget:self action:@selector(startLiveRoomTouchEvent) forControlEvents:UIControlEventTouchUpInside];
     }

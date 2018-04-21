@@ -278,18 +278,18 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     [self loadVideoRelevantData];
 }
 
-- (NSUInteger)fetchResourceID {
+- (int64_t)fetchResourceID {
     if (self.previewRes) {
         return (NSUInteger)self.previewRes.resId;
     }
     return [[self.params pb_numberForKey:@"vid"] unsignedIntegerValue];
 }
 
-- (NSUInteger)fetchResourceType {
+- (int32_t)fetchResourceType {
     if (self.previewRes) {
         return self.previewRes.type;
     }
-    return [[self.params pb_numberForKey:@"type"] unsignedIntegerValue];
+    return [[self.params pb_numberForKey:@"type"] unsignedIntValue];
 }
 
 /**
@@ -298,8 +298,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (void)loadVideoRelevantData {
     MEVideoInfoVM *vm = [[MEVideoInfoVM alloc] init];
     MEPBRes *res = [[MEPBRes alloc] init];
-    NSUInteger resId = [self fetchResourceID];
-    NSUInteger resType = [self fetchResourceType];
+    ino64_t resId = [self fetchResourceID];
+    int32_t resType = [self fetchResourceType];
     [res setResId:resId];
     [res setType:resType];
     weakify(self)
@@ -321,6 +321,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)rebuildVideoPlayScene {
     self.whetherDidLoadData = true;
+    
     //reset for empty set
     [self.table reloadEmptyDataSet];
     //title panel
@@ -349,6 +350,10 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     NSLog(@"此视频相关资源个数:%zd", relevants.count);
     [self.table reloadData];
     
+    //prepare query for network type
+    if ([PBService shared].netState != PBNetStateViaWiFi) {
+        [SVProgressHUD showInfoWithStatus:@"您当前处于非Wi-Fi环境，播放视频将会消耗流量！"];
+    }
     //play current item
     NSString *coverImg = self.currentRes.coverImg;
     NSString *videoUrlString = [MEKits mediaFullPath:self.currentRes.filePath];
