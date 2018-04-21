@@ -6,8 +6,8 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <PBBaseClasses/PBBaseNavigationProfile.h>
 
-@interface MEBaseNavigationProfile : UINavigationController
+@interface MEBaseNavigationProfile : PBBaseNavigationProfile
 
 @end

@@ -540,13 +540,15 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         } else {
             [self.playerControl closeNextRecommandItemEvent];
             if (state == ZFPlayerStatePlaying) {
-                //正在播放 则将视频信息存入数据库 用户观看历史
-                [self saveCurrentPlayItemIntoUserWatchHistory];
+                //正在播放 则将视频信息存入数据库 用户观看历史 confidure:目前后台保存
+                //[self saveCurrentPlayItemIntoUserWatchHistory];
             }
         }
         
     }
 }
+
+#pragma mark --- 保存观看历史
 
 - (void)saveCurrentPlayItemIntoUserWatchHistory {
     MEPBRes *res = self.currentRes;
@@ -563,6 +565,12 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             item.intro = res.intro.copy;
             item.coverImg = res.coverImg.copy;
             item.filePath = res.filePath.copy;
+            //查询原有的
+            NSString *sql = PBFormat(@"userID = %lld and resId = %lld", item.userID, item.resId);
+            NSArray<MEWatchItem*>*items = [WHCSqlite query:[MEWatchItem class] where:sql];
+            if (items.count) {
+                
+            }
             [WHCSqlite insert:item];
         });
     }

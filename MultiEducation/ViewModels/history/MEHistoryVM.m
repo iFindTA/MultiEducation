@@ -10,4 +10,8 @@
 
 @implementation MEHistoryVM
 
+- (NSString *)cmdCode {
+    return @"OSR_FOOTMARK_LIST";
+}
+
 @end

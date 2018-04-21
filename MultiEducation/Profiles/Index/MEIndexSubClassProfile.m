@@ -219,12 +219,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSUInteger __row = [indexPath row];
+//    NSUInteger __row = [indexPath row];
     CGFloat row_height = ME_INDEX_STORY_ITEM_HEIGHT;
-    if (__row == 0) {
-        row_height = ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT;
-    }
-    return adoptValue(row_height);
+    return row_height;
+//    if (__row == 0) {
+//        row_height = ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT;
+//    }
+//    return adoptValue(row_height);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
