@@ -4,7 +4,7 @@ message MEPBRes {
 	int64 resId = 1;//资源ID
 	string title = 2;//资源标题
 	string coverImg = 3;//资源封面
-	int32 type = 4;//资源类型 数据类型 如课程视频 绘本音频 其他视频等
+	MEPBResourceType type = 4;//资源类型 数据类型 如课程视频 绘本音频 其他视频等
 	string intro = 5;//资源简介
 	string desc = 6;//资源描述
 	string filePath = 7;//资源路径
@@ -12,6 +12,14 @@ message MEPBRes {
 	repeated MEPBRes relevantList = 9;//相关视频
 	int64 resTypeId = 10;//资源类型ID
 	bool isFavor = 11;//是否收藏
+}
+
+enum MEPBResourceType {
+	MEPBResourceTypeNone = 0;//未知分类
+    MEPBResourceTypeVideo = 1;//课程视频
+    MEPBResourceTypeDIY = 2;//手工DIY
+    MEPBResourceTypeOther = 3;//其他视频
+    MEPBResourceTypebookAudio = 4;//绘本音频
 }
 
 message MEPBResType {

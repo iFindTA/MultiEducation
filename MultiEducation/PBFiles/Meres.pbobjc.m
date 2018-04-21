@@ -42,6 +42,50 @@ static GPBFileDescriptor *MeresRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - Enum MEPBResourceType
+
+GPBEnumDescriptor *MEPBResourceType_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "MepbresourceTypeNone\000MepbresourceTypeVid"
+        "eo\000MepbresourceTypeDiy\000MepbresourceTypeO"
+        "ther\000MepbresourceTypebookAudio\000";
+    static const int32_t values[] = {
+        MEPBResourceType_MepbresourceTypeNone,
+        MEPBResourceType_MepbresourceTypeVideo,
+        MEPBResourceType_MepbresourceTypeDiy,
+        MEPBResourceType_MepbresourceTypeOther,
+        MEPBResourceType_MepbresourceTypebookAudio,
+    };
+    static const char *extraTextFormatInfo = "\005\000e\017\000\001e\020\000\002e\014b\000\003e\020\000\004e\024\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(MEPBResourceType)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:MEPBResourceType_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL MEPBResourceType_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case MEPBResourceType_MepbresourceTypeNone:
+    case MEPBResourceType_MepbresourceTypeVideo:
+    case MEPBResourceType_MepbresourceTypeDiy:
+    case MEPBResourceType_MepbresourceTypeOther:
+    case MEPBResourceType_MepbresourceTypebookAudio:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - MEPBRes
 
 @implementation MEPBRes
@@ -60,7 +104,7 @@ static GPBFileDescriptor *MeresRoot_FileDescriptor(void) {
 
 typedef struct MEPBRes__storage_ {
   uint32_t _has_storage_[1];
-  int32_t type;
+  MEPBResourceType type;
   NSString *title;
   NSString *coverImg;
   NSString *intro;
@@ -107,12 +151,12 @@ typedef struct MEPBRes__storage_ {
       },
       {
         .name = "type",
-        .dataTypeSpecific.className = NULL,
+        .dataTypeSpecific.enumDescFunc = MEPBResourceType_EnumDescriptor,
         .number = MEPBRes_FieldNumber_Type,
         .hasIndex = 3,
         .offset = (uint32_t)offsetof(MEPBRes__storage_, type),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
       },
       {
         .name = "intro",
@@ -199,6 +243,18 @@ typedef struct MEPBRes__storage_ {
 }
 
 @end
+
+int32_t MEPBRes_Type_RawValue(MEPBRes *message) {
+  GPBDescriptor *descriptor = [MEPBRes descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:MEPBRes_FieldNumber_Type];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetMEPBRes_Type_RawValue(MEPBRes *message, int32_t value) {
+  GPBDescriptor *descriptor = [MEPBRes descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:MEPBRes_FieldNumber_Type];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 #pragma mark - MEPBResType
 

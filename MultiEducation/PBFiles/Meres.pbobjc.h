@@ -32,6 +32,39 @@ CF_EXTERN_C_BEGIN
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - Enum MEPBResourceType
+
+typedef GPB_ENUM(MEPBResourceType) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  MEPBResourceType_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 未知分类 */
+  MEPBResourceType_MepbresourceTypeNone = 0,
+
+  /** 课程视频 */
+  MEPBResourceType_MepbresourceTypeVideo = 1,
+
+  /** 手工DIY */
+  MEPBResourceType_MepbresourceTypeDiy = 2,
+
+  /** 其他视频 */
+  MEPBResourceType_MepbresourceTypeOther = 3,
+
+  /** 绘本音频 */
+  MEPBResourceType_MepbresourceTypebookAudio = 4,
+};
+
+GPBEnumDescriptor *MEPBResourceType_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL MEPBResourceType_IsValidValue(int32_t value);
+
 #pragma mark - MeresRoot
 
 /**
@@ -75,7 +108,7 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *coverImg;
 
 /** 资源类型 数据类型 如课程视频 绘本音频 其他视频等 */
-@property(nonatomic, readwrite) int32_t type;
+@property(nonatomic, readwrite) MEPBResourceType type;
 
 /** 资源简介 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *intro;
@@ -103,6 +136,18 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 @property(nonatomic, readwrite) BOOL isFavor;
 
 @end
+
+/**
+ * Fetches the raw value of a @c MEPBRes's @c type property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t MEPBRes_Type_RawValue(MEPBRes *message);
+/**
+ * Sets the raw value of an @c MEPBRes's @c type property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetMEPBRes_Type_RawValue(MEPBRes *message, int32_t value);
 
 #pragma mark - MEPBResType
 

@@ -26,6 +26,11 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) CGFloat floatValue;
 
+/**
+ 播放音频时的封面
+ */
+@property (nonatomic, strong, readwrite) MEBaseImageView *audioMask;
+
 @end
 
 @implementation MEPlayerControl
@@ -47,6 +52,7 @@
         [self setValue:hiddenValue forKeyPath:@"self.backBtn.hidden"];
         [self setValue:hiddenValue forKeyPath:@"self.titleLabel.hidden"];
         
+        [self addSubview:self.audioMask];
         [self addSubview:self.backItem];
         [self addSubview:self.likeBtn];
         [self addSubview:self.volume];
@@ -54,6 +60,9 @@
         [self addSubview:self.nextItemPanel];
         
         self.isFullScreen = false;
+        [self.audioMask makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
         
         CGFloat scale = 1.5;
         [self.volume makeConstraints:^(MASConstraintMaker *make) {
@@ -141,6 +150,14 @@
     return _volume;
 }
 
+- (MEBaseImageView *)audioMask {
+    if (!_audioMask) {
+        _audioMask = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+        //_audioMask.backgroundColor = [UIColor pb_randomColor];
+    }
+    return _audioMask;
+}
+
 - (MEBaseButton *)backItem {
     if (!_backItem) {
         UIImage *image = [UIImage imageNamed:@"video_play_back"];
@@ -212,6 +229,10 @@
 }
 
 #pragma mark --- extern event
+
+- (void)updatePlayControlMask4ResourceType:(MEPBResourceType)type {
+    self.audioMask.hidden = (type != MEPBResourceType_MepbresourceTypebookAudio);
+}
 
 - (void)updateUserActionItemState4Hidden:(BOOL)hide {
     [self.volume setHidden:hide];
