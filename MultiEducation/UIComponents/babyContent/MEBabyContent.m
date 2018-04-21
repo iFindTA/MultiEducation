@@ -15,6 +15,8 @@
 #import "MEStudentVM.h"
 #import "MebabyIndex.pbobjc.h"
 #import "MEBabyIndexVM.h"
+#import "MebabyAlbum.pbobjc.h"
+#import "MEBabyAlbumListVM.h"
 
 #define MAX_BABY_PHOTO 10
 #define COMPONENT_COUNT 6
@@ -70,6 +72,7 @@
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby];
             [self.headerView setData: stuPb];
+            [self getBabyPhotos: stuPb.classId.integerValue];
             return;
         }
         
@@ -78,11 +81,26 @@
     }
 }
 
+- (void)getBabyPhotos:(NSInteger)classId {
+    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
+    pb.classId = classId;
+    NSData *data = [pb data];
+    weakify(self);
+    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
+        [self.babyPhotos addObjectsFromArray: albumListPb.classAlbumArray];
+        [self.babyPhtoView reloadData];
+        
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+}
+
 - (void)getBabyArchitecture:(NSInteger)studenId {
-    
     GuIndexPb *pb = [[GuIndexPb alloc] init];
     pb.studentId = studenId;
-    pb.studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
     MEBabyIndexVM *babyIndexVM = [MEBabyIndexVM vmWithPb: pb];
     NSData *data = [pb data];
     weakify(self);
@@ -94,6 +112,8 @@
         GuStudentArchivesPb *babyGrowthPb = pb.studentArchives;
         babyGrowthPb.userId = self.currentUser.id_p;
         [MEBabyIndexVM saveSelectBaby: pb.studentArchives];
+        
+        [self getBabyPhotos: babyGrowthPb.classId.integerValue];
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];

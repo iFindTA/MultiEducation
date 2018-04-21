@@ -63,12 +63,8 @@
     self.babyWeightLab.text = [NSString stringWithFormat: @"%dkg", growthPb.weight];
     
     NSString *text;
-    NSString *babyName = growthPb.petName;
-    if (self.currentUser.gender == 1) {
-        text = [NSString stringWithFormat: @"%@爸爸，您好！", babyName];
-    } else {
-        text = [NSString stringWithFormat: @"%@妈妈，您好！", babyName];
-    }
+    NSString *babyName = growthPb.studentName;
+    text = [NSString stringWithFormat: @"%@家长，您好！", babyName];
     self.userNameLab.text = text;
 }
 
