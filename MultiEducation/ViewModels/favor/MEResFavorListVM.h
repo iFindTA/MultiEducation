@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "Meres.pbobjc.h"
 
 @interface MEResFavorListVM : MEVM
 

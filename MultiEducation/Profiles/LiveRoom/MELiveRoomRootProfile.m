@@ -592,7 +592,11 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     if (classes.count == 0) {
         [SVProgressHUD showInfoWithStatus:@"您还没有关联班级，请先关联班级再开播！"];
         return;
-    } else if (classes.count == 1) {
+    }
+    
+    //关闭正在观看的直播
+    [self stopPlay];
+    if (classes.count == 1) {
         [self realStartLiveAction4Class:classes.firstObject];
     } else {
         [self makeUserChooseClass2StartLiveEvent];

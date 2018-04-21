@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseScene.h"
+#import "Meres.pbobjc.h"
 #import "ZFPlayerControlView.h"
 #import <MediaPlayer/MediaPlayer.h>
 
@@ -24,10 +25,17 @@ typedef NS_ENUM(NSUInteger, MEVideoPlayUserAction) {
 @property (nonatomic, strong, readonly) MEBaseButton *likeBtn;
 @property (nonatomic, strong, readonly) MEBaseButton *shareBtn;
 
+@property (nonatomic, strong, readonly) MEBaseImageView *audioMask;
+
 /**
  user touch event
  */
 @property (nonatomic, copy) void(^videoPlayControlCallback)(MEVideoPlayUserAction action);
+
+/**
+ update control mask for audio/video
+ */
+- (void)updatePlayControlMask4ResourceType:(MEPBResourceType)type;
 
 /**
  whether show or display user action item

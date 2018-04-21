@@ -356,10 +356,15 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     }
     //play current item
     NSString *coverImg = self.currentRes.coverImg;
+    NSString *placeholderString = [MEKits imageFullPath:coverImg];
+    //player control mask for audio
+    [self.playerControl.audioMask sd_setImageWithURL:[NSURL URLWithString:placeholderString]];
+    [self.playerControl updatePlayControlMask4ResourceType:self.currentRes.type];
     NSString *videoUrlString = [MEKits mediaFullPath:self.currentRes.filePath];
+    //videoUrlString = @"http://other.web.rh01.sycdn.kuwo.cn/resource/n3/21/19/3413654131.mp3";
     ZFPlayerModel *model = [[ZFPlayerModel alloc] init];
     model.fatherView = self.playerScene;
-    model.placeholderImageURLString = [MEKits imageFullPath:coverImg];
+    model.placeholderImageURLString = placeholderString;
     model.videoURL = [NSURL URLWithString:videoUrlString];
     [self.player resetToPlayNewVideo:model];
     [self.player autoPlayTheVideo];

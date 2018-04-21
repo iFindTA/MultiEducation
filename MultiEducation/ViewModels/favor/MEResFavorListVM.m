@@ -10,4 +10,8 @@
 
 @implementation MEResFavorListVM
 
+- (NSString *)cmdCode {
+    return @"OSR_RES_FAVOR_LIST";
+}
+
 @end
