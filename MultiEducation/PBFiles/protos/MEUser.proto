@@ -99,8 +99,6 @@ message StudentPb {
     int32 gender = 9;//性别
     string portrait = 10;//头像
 
-    int64 u_id = 11;//用户id
-
 }
 
 message SystemConfigPb {

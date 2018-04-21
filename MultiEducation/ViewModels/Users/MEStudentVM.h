@@ -12,8 +12,7 @@
 
 @interface MEStudentVM : MEVM
  
-+ (instancetype)vmWithPb:(StudentPb *)pb;
-
++ (instancetype)vmWithPb:(StudentPb *)pb cmdCode:(NSString*)cmdCode;
 
 
 /**

@@ -9,6 +9,7 @@
 #import "MEBabyHeader.h"
 #import "UIView+BlurEffect.h"
 #import "MEBabySelectProfile.h"
+#import "MebabyGrowth.pbobjc.h"
 
 @implementation MEBabyHeader
 
