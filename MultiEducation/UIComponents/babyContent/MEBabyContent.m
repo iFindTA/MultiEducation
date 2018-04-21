@@ -14,6 +14,7 @@
 #import "MEBabyInfoCell.h"
 #import "MEStudentVM.h"
 #import "MebabyIndex.pbobjc.h"
+#import "MEBabyIndexVM.h"
 
 #define MAX_BABY_PHOTO 10
 #define COMPONENT_COUNT 6
@@ -63,63 +64,51 @@
 }
 
 - (void)loadData {
-    
     if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
         
-        
-        StudentPb *pb;
-        if ([MEStudentVM fetchSelectBaby] != nil) {
-            pb = [MEStudentVM fetchSelectBaby];
-        } else {
-            pb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
-//            pb.uId =  self.currentUser.id_p;
-            [MEStudentVM saveSelectBaby: pb];
+        GuStudentArchivesPb *stuPb;
+        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
+            stuPb = [MEBabyIndexVM fetchSelectBaby];
+            [self.headerView setData: stuPb];
+            return;
         }
         
-        MEStudentVM *studentVM = [MEStudentVM vmWithPb: pb cmdCode:@"GU_INDEX"];
-        
-        NSData *data = [pb data];
-        [studentVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-            
-            GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
-            
-            NSLog(@"%@", pb);
-            
-        } failure:^(NSError * _Nonnull error) {
-            
-            [self handleTransitionError: error];
-            
-        }];
-    }
-    
-    MEPBUserRole role = self.currentUser.userType;
-    if (role == MEPBUserRole_Parent) {
-        if (self.currentUser.parentsPb.studentPbArray.count > 0) {
-            self.studentPb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
-        } else {
-            
-        }
-    } else if(role == MEPBUserRole_Teacher) {
-        if (self.currentUser.teacherPb.classPbArray.count > 1) {
-            
-        } else {
-            
-        }
-    } else if (role == MEPBUserRole_Gardener) {
-        
-    } else if (role == MEPBUserRole_Visitor) {
-        
+        NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
+        [self getBabyArchitecture: studentId];
     }
 }
 
-- (void)createSubviews {
+- (void)getBabyArchitecture:(NSInteger)studenId {
     
+    GuIndexPb *pb = [[GuIndexPb alloc] init];
+    pb.studentId = studenId;
+    pb.studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
+    MEBabyIndexVM *babyIndexVM = [MEBabyIndexVM vmWithPb: pb];
+    NSData *data = [pb data];
+    weakify(self);
+    [babyIndexVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
+        [self.headerView setData: pb.studentArchives];
+        
+        GuStudentArchivesPb *babyGrowthPb = pb.studentArchives;
+        babyGrowthPb.userId = self.currentUser.id_p;
+        [MEBabyIndexVM saveSelectBaby: pb.studentArchives];
+        
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+}
+
+- (void)createSubviews {
     [self addSubview: self.scrollView];
     [self.scrollView addSubview: self.scrollContentView];
     
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyHeader" owner:self options:nil] lastObject];
+    weakify(self);
     self.headerView.selectCallBack = ^(StudentPb *pb) {
-        
+        strongify(self);
+        [self getBabyArchitecture: pb.id_p];
     };
     [self.scrollContentView addSubview: self.headerView];
     

@@ -31,4 +31,5 @@ message GuStudentArchivesPb {
     string fatherMobile=24;//父亲手机号
     string fatherWorkUnit=25;//父亲工作单位
     string studentPortrait = 26;//头像
+    int64 userId = 27;   //用户id
 }

@@ -14,19 +14,4 @@
  
 + (instancetype)vmWithPb:(StudentPb *)pb cmdCode:(NSString*)cmdCode;
 
-
-/**
- 为当前用户 save 选中的宝宝
-
- */
-+ (void)saveSelectBaby:(StudentPb *)baby;
-
-
-/**
- 获取当前用户保存的  选中的宝宝
- */
-+ (StudentPb *)fetchSelectBaby;
-
-
-
 @end

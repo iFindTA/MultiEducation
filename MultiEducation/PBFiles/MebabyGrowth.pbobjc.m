@@ -120,6 +120,7 @@ typedef struct GuStudentArchivesListPb__storage_ {
 @dynamic fatherMobile;
 @dynamic fatherWorkUnit;
 @dynamic studentPortrait;
+@dynamic userId;
 
 typedef struct GuStudentArchivesPb__storage_ {
   uint32_t _has_storage_[1];
@@ -149,6 +150,7 @@ typedef struct GuStudentArchivesPb__storage_ {
   int64_t studentId;
   int64_t gradeId;
   int64_t birthday;
+  int64_t userId;
 } GuStudentArchivesPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -391,6 +393,15 @@ typedef struct GuStudentArchivesPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "userId",
+        .dataTypeSpecific.className = NULL,
+        .number = GuStudentArchivesPb_FieldNumber_UserId,
+        .hasIndex = 26,
+        .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, userId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[GuStudentArchivesPb class]
@@ -402,8 +413,8 @@ typedef struct GuStudentArchivesPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\020\002\t\000\003\007\000\005\007\000\014\n\000\r\013\000\016\t\000\021\013\000\022\r\000\023\010\000\024\n\000\025\014\000\026\016\000\027\n\000"
-        "\030\014\000\031\016\000\032\017\000";
+        "\021\002\t\000\003\007\000\005\007\000\014\n\000\r\013\000\016\t\000\021\013\000\022\r\000\023\010\000\024\n\000\025\014\000\026\016\000\027\n\000"
+        "\030\014\000\031\016\000\032\017\000\033\006\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

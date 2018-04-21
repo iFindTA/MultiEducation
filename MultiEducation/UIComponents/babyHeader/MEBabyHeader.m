@@ -59,8 +59,17 @@
 
 - (void)setData:(GuStudentArchivesPb *)growthPb {
     self.ageLab.text = [NSString stringWithFormat: @"%d岁", growthPb.age];
-    self.babyHeightLab.text = [NSString stringWithFormat: @"%d", growthPb.height];
-    self.babyWeightLab.text = [NSString stringWithFormat: @"%d", growthPb.weight];
+    self.babyHeightLab.text = [NSString stringWithFormat: @"%dcm", growthPb.height];
+    self.babyWeightLab.text = [NSString stringWithFormat: @"%dkg", growthPb.weight];
+    
+    NSString *text;
+    NSString *babyName = growthPb.petName;
+    if (self.currentUser.gender == 1) {
+        text = [NSString stringWithFormat: @"%@爸爸，您好！", babyName];
+    } else {
+        text = [NSString stringWithFormat: @"%@妈妈，您好！", babyName];
+    }
+    self.userNameLab.text = text;
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
