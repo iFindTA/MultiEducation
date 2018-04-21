@@ -8,7 +8,9 @@
 
 #import "MEBaseNavigationProfile.h"
 
-@interface MEBaseNavigationProfile ()
+@interface MEBaseNavigationProfile () <UINavigationControllerDelegate>
+
+@property (nonatomic, assign) BOOL isPushing;
 
 @end
 
@@ -17,11 +19,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    __weak typeof(self) weakSelf = self;
+    self.delegate = weakSelf;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark --- override super methods
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if (animated) {
+        if (self.isPushing) {
+            return;
+        }
+        self.isPushing = YES;
+    }
+    
+    [super pushViewController:viewController animated:animated];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    self.isPushing = NO;
 }
 
 /*
