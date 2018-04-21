@@ -44,7 +44,7 @@
 - (MEBaseLabel *)textLabel {
     if (!_textLabel) {
         _textLabel = [[MEBaseLabel alloc] init];
-        _textLabel.text = @"历史记录";
+        _textLabel.text = @"基础功能";
         _textLabel.font = UIFontPingFangSC(15);
         _textLabel.textAlignment = NSTextAlignmentLeft;
         _textLabel.textColor = [UIColor blackColor];
@@ -59,7 +59,5 @@
     }
     return _sep;
 }
-
-
 
 @end

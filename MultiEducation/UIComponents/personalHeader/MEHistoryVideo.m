@@ -7,6 +7,9 @@
 //
 
 #import "MEHistoryVideo.h"
+#import <WHC_ModelSqlite.h>
+#import "MEWatchItem.h"
+#import "MEHistoryCell.h"
 
 #define CELL_ITEM_SIZE CGSizeMake(130.f, 100.f)
 
@@ -20,7 +23,7 @@ static NSString * const CELL_IDEF = @"cell_idef";
 
 @property (nonatomic, strong) UICollectionView *historyVideo;
 
-@property (nonatomic, strong) NSMutableArray *videos;   //dataSource
+@property (nonatomic, strong) NSMutableArray <MEWatchItem *> *videos;   //dataSource
 
 @end
 
@@ -29,6 +32,8 @@ static NSString * const CELL_IDEF = @"cell_idef";
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        
+        [self loadData];
         
         [self addSubview: self.header];
         [self addSubview: self.historyVideo];
@@ -48,6 +53,14 @@ static NSString * const CELL_IDEF = @"cell_idef";
         [self customHistoryVideoHeader];
     }
     return self;
+}
+
+- (void)loadData {
+    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.id_p];
+    if ([WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"].count > 0 ) {
+        [self.videos addObjectsFromArray: [WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"]];
+        [self.historyVideo reloadData];
+    }
 }
 
 - (void)customHistoryVideoHeader {
@@ -82,12 +95,12 @@ static NSString * const CELL_IDEF = @"cell_idef";
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 10;
+    return self.videos.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: CELL_IDEF forIndexPath: indexPath];
-    
+    MEHistoryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: CELL_IDEF forIndexPath: indexPath];
+    [cell setData: [self.videos objectAtIndex: indexPath.item]];
     return cell;
 }
 
@@ -132,7 +145,7 @@ static NSString * const CELL_IDEF = @"cell_idef";
 
 - (NSMutableArray *)videos {
     if (!_videos) {
-        _videos = [NSMutableArray arrayWithCapacity: 10];
+        _videos = [NSMutableArray array];
     }
     return _videos;
 }

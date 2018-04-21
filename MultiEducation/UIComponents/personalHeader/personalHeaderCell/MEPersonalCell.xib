@@ -51,9 +51,10 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="rightIcon" destination="jR7-t8-n38" id="vL1-oV-mxh"/>
                 <outlet property="textLab" destination="w9j-6B-D5K" id="j1G-OQ-kdQ"/>
             </connections>
-            <point key="canvasLocation" x="69" y="43"/>
+            <point key="canvasLocation" x="-168" y="84"/>
         </tableViewCell>
     </objects>
     <resources>

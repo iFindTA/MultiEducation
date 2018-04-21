@@ -12,6 +12,11 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *textLab;
 
+@property (weak, nonatomic) IBOutlet UIImageView *rightIcon;
+
+
 - (void)setData:(NSString *)text;
+
+- (void)setData:(NSString *)text hidden:(BOOL)hide;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseCollectionCell.h"
+#import "MEWatchItem.h"
 
 @interface MEHistoryCell : MEBaseCollectionCell
 
@@ -14,5 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *videoIcon;
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *videoName;
+
+- (void)setData:(MEWatchItem *)item;
 
 @end

@@ -25,4 +25,9 @@
     self.textLab.text = text;
 }
 
+- (void)setData:(NSString *)text hidden:(BOOL)hide {
+    [self setData: text];
+    self.rightIcon.hidden = hide;
+}
+
 @end

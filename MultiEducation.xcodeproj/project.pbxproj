@@ -73,6 +73,7 @@
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
 		76D3252B208ADB7B001A81EE /* MebabyEvaluate.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D32529208ADB7B001A81EE /* MebabyEvaluate.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		76D3252C208ADB7B001A81EE /* MebabyGrowth.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D3252A208ADB7B001A81EE /* MebabyGrowth.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76D3252F208AEA04001A81EE /* MEAccountSafeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D3252E208AEA04001A81EE /* MEAccountSafeProfile.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
@@ -317,6 +318,8 @@
 		76D32528208ADB7B001A81EE /* MebabyEvaluate.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyEvaluate.pbobjc.h; sourceTree = "<group>"; };
 		76D32529208ADB7B001A81EE /* MebabyEvaluate.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MebabyEvaluate.pbobjc.m; sourceTree = "<group>"; };
 		76D3252A208ADB7B001A81EE /* MebabyGrowth.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MebabyGrowth.pbobjc.m; sourceTree = "<group>"; };
+		76D3252D208AEA04001A81EE /* MEAccountSafeProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEAccountSafeProfile.h; sourceTree = "<group>"; };
+		76D3252E208AEA04001A81EE /* MEAccountSafeProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEAccountSafeProfile.m; sourceTree = "<group>"; };
 		794132D107A5C4C538F9F6B98E1786BA /* MesignIn.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesignIn.pbobjc.h; sourceTree = "<group>"; };
 		7B1F090670F3AAF7A7253B5820D0EFBF /* MEVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEVideo.h; sourceTree = "<group>"; };
 		7C1198DD98CB742BB11DB00E25358824 /* MEPersonalHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEPersonalHeader.xib; sourceTree = "<group>"; };
@@ -768,15 +771,6 @@
 			path = index;
 			sourceTree = "<group>";
 		};
-		A31B6CC726F92957CC2AF77AE594DF24 /* liveClass */ = {
-			isa = PBXGroup;
-			children = (
-				2BCB151F1B634BBD773FB1DD07B8FD88 /* MELiveMaskLayer.h */,
-				45385D82285E1D39163E29A2B4BBE445 /* MELiveMaskLayer.m */,
-			);
-			path = liveClass;
-			sourceTree = "<group>";
-		};
 		6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,6 +1062,15 @@
 			path = chat;
 			sourceTree = "<group>";
 		};
+		A31B6CC726F92957CC2AF77AE594DF24 /* liveClass */ = {
+			isa = PBXGroup;
+			children = (
+				2BCB151F1B634BBD773FB1DD07B8FD88 /* MELiveMaskLayer.h */,
+				45385D82285E1D39163E29A2B4BBE445 /* MELiveMaskLayer.m */,
+			);
+			path = liveClass;
+			sourceTree = "<group>";
+		};
 		A4E51ED08356D9BA4BD3FEB22E5DEAEE /* personal */ = {
 			isa = PBXGroup;
 			children = (
@@ -1075,6 +1078,8 @@
 				9453845D1177C16AD47F3DE2C801A1F8 /* MEPersonalRootProfile.m */,
 				C0373ABB38128191C5CE2C2B917F93FF /* MEWatchHistoryProfile.h */,
 				C0A6F3A320F717F331276E485C42F325 /* MEWatchHistoryProfile.m */,
+				76D3252D208AEA04001A81EE /* MEAccountSafeProfile.h */,
+				76D3252E208AEA04001A81EE /* MEAccountSafeProfile.m */,
 			);
 			path = personal;
 			sourceTree = "<group>";
@@ -1659,6 +1664,7 @@
 				3BA17528E222ADE896DD047E031F336A /* UIViewController+Utils.m in Sources */,
 				797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */,
 				D765CD59C9230516BB5010AF734E38B3 /* ViewController.m in Sources */,
+				76D3252F208AEA04001A81EE /* MEAccountSafeProfile.m in Sources */,
 				6EB3738482C49C6B43DB2E7FF2FF88B6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
