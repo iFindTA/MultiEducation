@@ -10,4 +10,8 @@
 
 @implementation MELiveHeartBeatVM
 
+- (NSString *)operationCode {
+    return @"CLASS_LIVE_HEARTBEAT";
+}
+
 @end

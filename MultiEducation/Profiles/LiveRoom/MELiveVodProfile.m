@@ -46,13 +46,14 @@
     
     //play back
     NSUInteger btnSize = ME_LAYOUT_ICON_HEIGHT;
+    CGFloat topOffset = ME_HEIGHT_STATUSBAR+ME_LAYOUT_MARGIN*2;
     UIImage *image = [UIImage pb_iconFont:nil withName:@"\U0000e6e2" withSize:btnSize withColor:[UIColor whiteColor]];
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:image forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(defaultGoBackStack) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     [btn makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.top.equalTo(self.view).offset(topOffset);
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2);
         make.size.equalTo(CGSizeMake(btnSize, btnSize));
     }];

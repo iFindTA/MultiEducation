@@ -10,4 +10,14 @@
 
 @implementation MEDoLiveVM
 
+#pragma mark --- @override methods
+
+- (NSString *)cmdCode {
+    return @"FSC_CLASS_LIVE_PUT";
+}
+
+- (NSString *)operationCode {
+    return @"CLASS_LIVE_POST";
+}
+
 @end

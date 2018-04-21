@@ -612,8 +612,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         [alertProfile addAction:action];
     }
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        strongify(self)
-        [self defaultGoBackStack];
+        
     }];
     [alertProfile addAction:action];
     

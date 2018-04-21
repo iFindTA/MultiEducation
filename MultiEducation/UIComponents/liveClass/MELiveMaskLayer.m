@@ -35,6 +35,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        
         _circlePathLayer = [CAShapeLayer layer];
         _circlePathLayer.frame = self.bounds;
         _circlePathLayer.lineWidth = 2;
