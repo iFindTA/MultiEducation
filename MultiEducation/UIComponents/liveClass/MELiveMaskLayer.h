@@ -10,4 +10,8 @@
 
 @interface MELiveMaskLayer : MEBaseScene
 
+- (void)reveal;
+
+@property (nonatomic, assign) CGFloat progress;
+
 @end

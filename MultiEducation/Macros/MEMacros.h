@@ -99,7 +99,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_EMPTY_PROMPT_TITLE                                               @"Oops！"
 #define ME_EMPTY_PROMPT_DESC                                                @"服务器貌似在偷懒，您稍等我去揍它..."
 #define ME_EMPTY_PROMPT_NETWORK                                             @"您貌似断开了互联网链接，请检查网络稍后重试！"
-#define ME_EMPTY_PROMPT_OFFSET                                              -50
+#define ME_EMPTY_PROMPT_OFFSET                                              -20
 
 #pragma mark --- Type enums
 

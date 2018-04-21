@@ -71,6 +71,9 @@
      * sessionToken
      */
     NSString *sessionToken = self.app.curUser.sessionToken;
+    if (sessionToken.length == 0) {
+        sessionToken = [self sessionToken];
+    }
     [carrier setSessionToken:sessionToken];
     /**
      *  cmdCode

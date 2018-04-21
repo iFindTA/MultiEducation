@@ -412,12 +412,13 @@
     weakify(self)
     [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
-        MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
-        if (err) {
+        MEPBUserList *userlist = [MEPBUserList parseFromData:resObj error:&err];
+        if (err || userlist.userListArray.count == 0) {
             [self handleTransitionError:err];
         } else {
-            [MEUserVM saveUser:user];
-            [self.appDelegate updateCurrentSignedInUser:user];
+            MEPBUser *curUser = userlist.userListArray.firstObject;
+            [MEUserVM saveUser:curUser];
+            [self.appDelegate updateCurrentSignedInUser:curUser];
             //登录成功之后的操作
             //有 block 则先执行
             void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
