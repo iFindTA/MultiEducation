@@ -90,7 +90,9 @@ static NSString * const CELL_IDEF = @"cell_idef";
 }
 
 - (void)videoHistoryTapEvent {
-    NSLog(@"did tap video history header!!!");
+    NSString *urlStr = @"profile://root@MECollectionProfile";
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+    [self handleTransitionError: error];
 }
 
 #pragma mark - UICollectionViewDataSource

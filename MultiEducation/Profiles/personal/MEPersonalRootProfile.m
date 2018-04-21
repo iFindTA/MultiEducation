@@ -69,7 +69,9 @@ static CGFloat const SECTION_HEADER = 56.f;
     
     switch (index) {
         case 0: {
-            
+            NSString *urlStr = @"profile://root@MECollectionProfile";
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+            [self handleTransitionError: error];
         }
             break;
         case 1: {
