@@ -16,17 +16,6 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    [self layoutIfNeeded];
-   
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle: UIBlurEffectStyleLight];
-    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect: effect];
-    [_backContentView addSubview: effectView];
-    
-    //layout;
-    [effectView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.mas_equalTo(0);
-    }];
-    
     NSString *urlStr = [NSString stringWithFormat: @"%@%@", self.currentUser.bucketDomain, self.currentUser.portrait];
     
     [self.userHeadIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
@@ -70,8 +59,6 @@
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
     
-    NSString *urlString = @"profile://root@MEBabySelectProfile/";
-    
     void(^callBack)(StudentPb *pb) = ^(StudentPb *pb){
         if (self.selectCallBack) {
             self.selectCallBack(pb);
@@ -79,8 +66,9 @@
     };
     
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: callBack};
-    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
-    [self handleTransitionError:err];
+    NSString *urlStr = @"profile://root@MEBabySelectProfile";
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+    [self handleTransitionError: error];
 }
 
 

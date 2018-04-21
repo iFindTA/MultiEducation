@@ -12,27 +12,25 @@
 @interface MEStudentVM ()
 
 @property (nonatomic, strong) StudentPb *pb;
-@property (nonatomic, strong) NSString *cmd;
 
 @end
 
 @implementation MEStudentVM
 
-+ (instancetype)vmWithPb:(StudentPb *)pb cmdCode:(NSString *)cmdCode{
-    return [[self alloc] initWithPb: pb cmdCode: cmdCode];
++ (instancetype)vmWithPb:(StudentPb *)pb {
+    return [[self alloc] initWithPb: pb];
 }
 
-- (instancetype)initWithPb:(StudentPb *)pb cmdCode:(NSString *)cmdCode {
+- (instancetype)initWithPb:(StudentPb *)pb {
     self = [super init];
     if (self) {
         _pb = pb;
-        self.cmd = cmdCode;
-    } 
+    }
     return self;
 }
 
 - (NSString *)cmdCode {
-    return self.cmd;
+    return @"GU_SWITCH_STUDENT";
 }
 
 @end

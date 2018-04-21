@@ -51,6 +51,11 @@ typedef enum : NSUInteger {
  yyyy-MM
  */
 @property (nonatomic, strong) NSString *dateStr;
+
+/**
+  jpg   mp4
+ */
+@property (nonatomic, strong) NSString *fileType;
 /**
  对应的pb 文件
  */

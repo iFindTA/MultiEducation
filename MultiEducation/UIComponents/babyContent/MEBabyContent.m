@@ -17,9 +17,11 @@
 #import "MEBabyIndexVM.h"
 #import "MebabyAlbum.pbobjc.h"
 #import "MEBabyAlbumListVM.h"
+#import "MEBabyPhotoCell.h"
+#import "MEPhoto.h"
 
-#define MAX_BABY_PHOTO 10
 #define COMPONENT_COUNT 6
+#define MAX_PHOTO_COUNT 10
 
 #define BABY_PHOTOVIEW_IDEF @"baby_photoView_idef"
 #define SCROLL_CONTENTVIEW_IDEF @"scroll_contentView_idef"
@@ -28,8 +30,7 @@
 #define TABLEVIEW_ROW_HEIGHT 102.f
 #define TABLEVIEW_SECTION_HEIGHT 44.f
 #define BABY_CONTENT_HEADER_HEIGHT 230.f
-
-#define TABLEVIEW_TOTAL_HEIGHT TABLEVIEW_ROW_HEIGHT * 10 +
+#define COMPONENT_HEIGHT 256.f
 
 @interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
     CGFloat _lastContentOffset;
@@ -43,7 +44,7 @@
 
 @property (nonatomic, strong) MEBabyContentHeader *photoHeader;
 @property (nonatomic, strong) UICollectionView *babyPhtoView;
-@property (nonatomic, strong) NSMutableArray *babyPhotos;   //babyPhoto
+@property (nonatomic, strong) NSMutableArray <MEPhoto *> *babyPhotos;   //babyPhoto
 
 @property (nonatomic, strong) UICollectionView *componentView;
 
@@ -68,13 +69,13 @@
 - (void)loadData {
     if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
         
-//        GuStudentArchivesPb *stuPb;
-//        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
-//            stuPb = [MEBabyIndexVM fetchSelectBaby];
-//            [self.headerView setData: stuPb];
-//            [self getBabyPhotos: stuPb.classId.integerValue];
-//            return;
-//        }
+        GuStudentArchivesPb *stuPb;
+        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
+            stuPb = [MEBabyIndexVM fetchSelectBaby];
+            [self.headerView setData: stuPb];
+            [self getBabyPhotos: stuPb.classId];
+            return;
+        }
         
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
         [self getBabyArchitecture: studentId];
@@ -90,12 +91,50 @@
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
         ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        [self.babyPhotos addObjectsFromArray: albumListPb.classAlbumArray];
+        
+        [self.babyPhotos removeAllObjects];
+        
+        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
+            MEPhoto *photo = [[MEPhoto alloc] init];
+            photo.fileType = pb.fileType;
+            photo.urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, pb.filePath];
+            NSLog(@"%@", pb.fileType);
+            [self.babyPhotos addObject: photo];
+        }
+        
         [self.babyPhtoView reloadData];
+        [self setVideoCoverImage];
+        [self updateViewsMasonry];
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
+}
+
+- (void)setVideoCoverImage {
+    NSInteger index = 0;
+    for (MEPhoto *photo in self.babyPhotos) {
+        if ([photo.fileType isEqualToString: @"mp4"]) {
+            dispatch_queue_t queue = dispatch_queue_create([[NSString stringWithFormat: @"get_video_cover_image_%ld", index] UTF8String],  NULL);
+            dispatch_async(queue, ^{
+                AVURLAsset *asset = [[AVURLAsset alloc] initWithURL: [NSURL URLWithString: photo.urlStr] options:nil];
+                NSParameterAssert(asset);
+                AVAssetImageGenerator *assetImageGenerator =[[AVAssetImageGenerator alloc] initWithAsset:asset];
+                assetImageGenerator.appliesPreferredTrackTransform = YES;
+                assetImageGenerator.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
+                CGImageRef thumbnailImageRef = NULL;
+                CFTimeInterval thumbnailImageTime = 0.1;
+                NSError *thumbnailImageGenerationError = nil;
+                thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)actualTime:NULL error:&thumbnailImageGenerationError];
+                UIImage *thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
+                photo.image = thumbnailImage;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.babyPhtoView reloadItemsAtIndexPaths: @[[NSIndexPath indexPathForItem: index inSection: 0]]];
+                });
+            });
+        }
+        index++;
+    }
 }
 
 - (void)getBabyArchitecture:(NSInteger)studenId {
@@ -113,7 +152,7 @@
         babyGrowthPb.userId = self.currentUser.id_p;
         [MEBabyIndexVM saveSelectBaby: pb.studentArchives];
         
-        [self getBabyPhotos: babyGrowthPb.classId.integerValue];
+        [self getBabyPhotos: babyGrowthPb.classId];
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
@@ -121,6 +160,7 @@
 }
 
 - (void)createSubviews {
+    
     [self addSubview: self.scrollView];
     [self.scrollView addSubview: self.scrollContentView];
     
@@ -131,13 +171,12 @@
         [self getBabyArchitecture: pb.id_p];
     };
     [self.scrollContentView addSubview: self.headerView];
+
+    self.photoHeader = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyContentHeader" owner:self options:nil] lastObject];
+    [self.scrollContentView addSubview: self.photoHeader];
+    [self.scrollContentView addSubview: self.babyPhtoView];
+    [self.scrollContentView addSubview: self.componentView];
     
-    if (!(self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
-        self.photoHeader = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyContentHeader" owner:self options:nil] lastObject];
-        [self.scrollContentView addSubview: self.photoHeader];
-        [self.scrollContentView addSubview: self.babyPhtoView];
-        [self.scrollContentView addSubview: self.componentView];
-    }
     
     [self.scrollContentView addSubview: self.tableView];
     
@@ -178,7 +217,7 @@
             make.width.mas_equalTo(MESCREEN_WIDTH - 20);
             make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
             make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
-            make.height.mas_equalTo(256.f);
+            make.height.mas_equalTo(COMPONENT_HEIGHT);
         }];
         
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -204,6 +243,75 @@
     }
 }
 
+- (void)updateViewsMasonry {
+
+    if (self.babyPhotos.count == 0)  {
+        
+        [self.photoHeader removeFromSuperview];
+        _photoHeader = nil;
+        
+        [self.babyPhtoView removeFromSuperview];
+        _babyPhtoView = nil;
+        
+        [self.componentView removeFromSuperview];
+        _componentView = nil;
+        
+        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.mas_equalTo(self.scrollContentView);
+            make.top.mas_equalTo(self.headerView.mas_bottom);
+            make.height.mas_equalTo([self tableviewHeight]);
+        }];
+        
+    } else {
+        
+        if (!self.photoHeader.superview) {
+            [self.scrollContentView addSubview: self.photoHeader];
+        }
+        
+        if (!self.babyPhtoView.superview) {
+            [self.scrollContentView addSubview: self.babyPhtoView];
+        }
+        
+        if (!self.componentView.superview) {
+            [self.scrollContentView addSubview: self.componentView];
+        }
+        
+        [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.scrollView);
+            make.width.mas_equalTo(MESCREEN_WIDTH);
+            make.top.mas_equalTo(self.headerView.mas_bottom);
+            make.height.mas_equalTo(54.f);
+        }];
+        
+        [self.babyPhtoView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
+            make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(-10);
+            make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(10.f);
+            make.height.mas_equalTo(78);
+        }];
+        
+        [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(MESCREEN_WIDTH - 20);
+            make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
+            make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
+            make.height.mas_equalTo(COMPONENT_HEIGHT);
+        }];
+        
+        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.mas_equalTo(self.scrollContentView);
+            make.top.mas_equalTo(self.componentView.mas_bottom);
+            make.height.mas_equalTo([self tableviewHeight]);
+        }];
+        
+    }
+    
+    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
+    }];
+    
+    
+}
+
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
 - (CGFloat)tableviewHeight {
     CGFloat height = 0;
@@ -217,7 +325,11 @@
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if ([collectionView isEqual: self.babyPhtoView]) {
-        return MAX_BABY_PHOTO;
+        if (self.babyPhotos.count <= MAX_PHOTO_COUNT) {
+            return self.babyPhotos.count;
+        } else  {
+            return MAX_PHOTO_COUNT;
+        }
     } else {
         return COMPONENT_COUNT;
     }
@@ -229,6 +341,7 @@
     if ([collectionView isEqual: self.babyPhtoView]) {
         //babyPhotoView collectionView cell
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: BABY_PHOTOVIEW_IDEF forIndexPath: indexPath];
+        [(MEBabyPhotoCell *)cell setData: [self.babyPhotos objectAtIndex: indexPath.item]];
     } else {
 //        scrollContentView collectionView cell
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
@@ -275,7 +388,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: BABY_INFO_IDEF];
-    
     
     return cell;
 }
@@ -389,6 +501,13 @@
         [_tableView registerNib: [UINib nibWithNibName: @"MEBabyInfoCell" bundle: nil] forCellReuseIdentifier: BABY_INFO_IDEF];
     }
     return _tableView;
+}
+
+- (NSMutableArray *)babyPhotos {
+    if (!_babyPhotos) {
+        _babyPhotos = [NSMutableArray array];
+    }
+    return _babyPhotos;
 }
 
 @end

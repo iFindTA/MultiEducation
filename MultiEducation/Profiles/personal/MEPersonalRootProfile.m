@@ -122,6 +122,7 @@ static CGFloat const SECTION_HEADER = 56.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: NO];
     [self pushToPersonSecondProfileWithIndex: indexPath.row];
 }
 
@@ -162,6 +163,7 @@ static CGFloat const SECTION_HEADER = 56.f;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.showsVerticalScrollIndicator = NO;
         
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
         

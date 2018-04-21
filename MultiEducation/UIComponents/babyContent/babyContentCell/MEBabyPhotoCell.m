@@ -7,7 +7,6 @@
 //
 
 #import "MEBabyPhotoCell.h"
-#import "MebabyAlbum.pbobjc.h"
 #import "AppDelegate.h"
 
 @implementation MEBabyPhotoCell
@@ -16,17 +15,12 @@
     [super awakeFromNib];
 }
 
-
-- (void)setData:(ClassAlbumPb *)pb {
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    MEPBUser *user = delegate.curUser;
-    
-    NSString *urlStr = [NSString stringWithFormat: @"%@%@", user.bucketDomain, pb.filePath];
-    if ([pb.fileType  isEqualToString: @"jpg"]) {
-        [_babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+- (void)setData:(MEPhoto *)photo {
+    if ([photo.fileType  isEqualToString: @"jpg"]) {
+        [_babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: photo.urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+    } else {
+        _babyPhotoImage.image = photo.image;
     }
-    
-    
 }
 
 @end

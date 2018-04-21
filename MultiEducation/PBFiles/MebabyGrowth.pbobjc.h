@@ -89,9 +89,9 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
   GuStudentArchivesPb_FieldNumber_FatherMobile = 24,
   GuStudentArchivesPb_FieldNumber_FatherWorkUnit = 25,
   GuStudentArchivesPb_FieldNumber_StudentPortrait = 26,
-  GuStudentArchivesPb_FieldNumber_UserId = 27,
-  GuStudentArchivesPb_FieldNumber_StudentName = 28,
-  GuStudentArchivesPb_FieldNumber_ClassId = 29,
+  GuStudentArchivesPb_FieldNumber_StudentName = 27,
+  GuStudentArchivesPb_FieldNumber_ClassId = 28,
+  GuStudentArchivesPb_FieldNumber_UserId = 29,
 };
 
 @interface GuStudentArchivesPb : GPBMessage
@@ -170,14 +170,14 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
 /** 头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *studentPortrait;
 
-/** 用户id */
-@property(nonatomic, readwrite) int64_t userId;
-
 /** 姓名 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *studentName;
 
 /** 所在班级id */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *classId;
+@property(nonatomic, readwrite) int64_t classId;
+
+/** 用户id */
+@property(nonatomic, readwrite) int64_t userId;
 
 @end
 

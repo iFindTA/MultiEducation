@@ -786,15 +786,6 @@
 			path = index;
 			sourceTree = "<group>";
 		};
-		CC78BFAFF5E5262DF642DE0D1E875A2F /* history */ = {
-			isa = PBXGroup;
-			children = (
-				DA2C977EBBE82116657591D1A97B2CC7 /* MEHistoryVM.h */,
-				AECB7EB9B505134D13A441C3223025A2 /* MEHistoryVM.m */,
-			);
-			path = history;
-			sourceTree = "<group>";
-		};
 		6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -1199,6 +1190,15 @@
 			path = Macros;
 			sourceTree = "<group>";
 		};
+		CC78BFAFF5E5262DF642DE0D1E875A2F /* history */ = {
+			isa = PBXGroup;
+			children = (
+				DA2C977EBBE82116657591D1A97B2CC7 /* MEHistoryVM.h */,
+				AECB7EB9B505134D13A441C3223025A2 /* MEHistoryVM.m */,
+			);
+			path = history;
+			sourceTree = "<group>";
+		};
 		CE0AB0A4477DD8D2AA918169371C0BE1 /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -1385,7 +1385,7 @@
 					};
 					C3A0B7953994CEFA6B24AD5BD1A9BE71 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -1836,7 +1836,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1847,8 +1847,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.x16.coe.prod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51626772-135e-4a2d-920f-7ba778c9a628";
-				PROVISIONING_PROFILE_SPECIFIER = coeProdDev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1916,7 +1916,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1927,8 +1927,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.x16.coe.prod;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51626772-135e-4a2d-920f-7ba778c9a628";
-				PROVISIONING_PROFILE_SPECIFIER = coeProdDev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

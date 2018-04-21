@@ -23,6 +23,13 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 @implementation MEBabySelectProfile
 
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    if (self = [super init]) {
+        _selectBabyCallBack = [params objectForKey: ME_DISPATCH_KEY_CALLBACK];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -46,14 +53,15 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)sendSwitchBabyPostToServer:(StudentPb *)studentPb {
-    MEStudentVM *vm = [MEStudentVM vmWithPb: studentPb cmdCode: @"GU_SWITCH_CLASS"];
+    MEStudentVM *vm = [MEStudentVM vmWithPb: studentPb];
     NSData *data = [studentPb data];
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        [self.navigationController popViewControllerAnimated: YES];
         if (self.selectBabyCallBack) {
             self.selectBabyCallBack(studentPb);
         }
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+
     }];
 }
 
