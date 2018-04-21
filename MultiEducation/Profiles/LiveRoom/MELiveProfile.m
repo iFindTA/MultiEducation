@@ -10,6 +10,7 @@
 #import "MELiveClassVM.h"
 #import "MELiveProfile.h"
 #import "MELiveMaskLayer.h"
+#import <CRToast/CRToast.h>
 #import "MELiveHeartBeatVM.h"
 #import <libksygpulive/KSYTypeDef.h>
 #import <libksygpulive/KSYStreamerBase.h>
@@ -32,7 +33,7 @@
  */
 @property (nonatomic, strong) KSYGPUStreamerKit *liveKit;
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;//滤镜
-
+@property (nonatomic, assign) BOOL userDidExist;
 
 @end
 
@@ -121,12 +122,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    PBBACK(^{
+        [self initializedLiveStreamKit];
+        [self createLiveRoomEvent];
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self initializedLiveStreamKit];
-    [self createLiveRoomEvent];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -253,23 +256,50 @@
     [self.liveKit setupFilter:self.filter];
     //预览
     [self.liveKit startPreview:self.liveScene];
+    
+    self.userDidExist = false;
 }
 
 - (void)doLiveStreamStateChangeEvent {
     KSYStreamState state = self.liveKit.streamerBase.streamState;
+    NSString *alertString = nil;
     switch (state) {
         case KSYStreamStateConnected:
-            
+        {
+            alertString = PBFormat(@"直播已建立，开始直播！");
+        }
             break;
         case KSYStreamStateDisconnecting:
-            
+        {
+            alertString = PBFormat(@"直播已断开，请检查网络！");
+        }
             break;
         case KSYStreamStateError:
-            
+        {
+            alertString = PBFormat(@"直播建立错误，请稍后重试！");
+        }
             break;
             
         default:
             break;
+    }
+    if (alertString.length > 0 && !self.userDidExist) {
+        NSDictionary *options = @{
+                                  kCRToastTextKey : alertString,
+                                  kCRToastFontKey : UIFontPingFangSCMedium(METHEME_FONT_TITLE),
+                                  kCRToastTextColorKey : UIColorFromRGB(ME_THEME_COLOR_TEXT),
+                                  kCRToastTextAlignmentKey : @(NSTextAlignmentCenter),
+                                  kCRToastBackgroundColorKey : [UIColor whiteColor],
+                                  kCRToastAnimationInTypeKey : @(CRToastAnimationTypeGravity),
+                                  kCRToastAnimationOutTypeKey : @(CRToastAnimationTypeGravity),
+                                  kCRToastNotificationTypeKey : @(CRToastTypeNavigationBar),
+                                  kCRToastAnimationInDirectionKey : @(CRToastAnimationDirectionTop),
+                                  kCRToastAnimationOutDirectionKey : @(CRToastAnimationDirectionTop)
+                                  };
+        [CRToastManager showNotificationWithOptions:options
+                                    completionBlock:^{
+                                        NSLog(@"Completed");
+                                    }];
     }
 }
 
@@ -309,12 +339,12 @@
     [live setClassId:classID.longLongValue];
     MELiveHeartBeatVM *liveHeartBeat = [[MELiveHeartBeatVM alloc] init];
     weakify(self)
-    [liveHeartBeat postData:[live data] hudEnable:true success:^(NSData * _Nullable resObj) {
-        NSError *err;strongify(self)
-        MEPBClassLive *liveKit = [MEPBClassLive parseFromData:resObj error:&err];
-        if (err) {
-            [self handleTransitionError:err];
-        }
+    [liveHeartBeat postData:[live data] hudEnable:false success:^(NSData * _Nullable resObj) {
+//        NSError *err;strongify(self)
+//        MEPBClassLive *liveKit = [MEPBClassLive parseFromData:resObj error:&err];
+//        if (err) {
+//            [self handleTransitionError:err];
+//        }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
         [self handleTransitionError:error];
@@ -327,8 +357,10 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
                                                                              message:@"确定退出直播吗？"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    
+    weakify(self)
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self)
+        self.userDidExist = true;
         [super defaultGoBackStack];
     }];
     [alertController addAction:action];
