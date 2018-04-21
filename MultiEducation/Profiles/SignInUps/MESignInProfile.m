@@ -13,6 +13,8 @@
 #import "UITextField+MaxLength.h"
 #import <JKCountDownButton/JKCountDownButton.h>
 
+#import "MELiveMaskLayer.h"
+
 @interface MESignInProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;

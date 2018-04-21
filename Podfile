@@ -4,6 +4,7 @@ target 'MultiEducation' do
 pod 'PBKits', '~> 1.2.2'
 pod 'FCUUID', '~> 1.3.1'
 pod 'ZFPlayer', '~> 2.1.6'
+pod 'CRToast', '~> 0.0.9'
 pod 'Protobuf', '~> 3.5.0'
 pod 'PBService', '~> 4.3.0'
 pod 'MJRefresh', '~> 3.1.15.3'

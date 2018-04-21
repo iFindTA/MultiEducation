@@ -10,6 +10,8 @@
 
 @implementation MELiveClassVM
 
+#pragma mark --- @override methods
+
 - (NSString *)cmdCode {
     return @"FSC_CLASS_LIVE_GET";
 }
