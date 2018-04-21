@@ -68,13 +68,13 @@
 - (void)loadData {
     if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
         
-        GuStudentArchivesPb *stuPb;
-        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
-            stuPb = [MEBabyIndexVM fetchSelectBaby];
-            [self.headerView setData: stuPb];
-            [self getBabyPhotos: stuPb.classId.integerValue];
-            return;
-        }
+//        GuStudentArchivesPb *stuPb;
+//        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
+//            stuPb = [MEBabyIndexVM fetchSelectBaby];
+//            [self.headerView setData: stuPb];
+//            [self getBabyPhotos: stuPb.classId.integerValue];
+//            return;
+//        }
         
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
         [self getBabyArchitecture: studentId];

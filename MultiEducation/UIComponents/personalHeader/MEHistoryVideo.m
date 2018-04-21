@@ -90,7 +90,7 @@ static NSString * const CELL_IDEF = @"cell_idef";
 }
 
 - (void)videoHistoryTapEvent {
-    NSString *urlStr = @"profile://root@MECollectionProfile";
+    NSString *urlStr = @"profile://root@MEWatchHistoryProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
     [self handleTransitionError: error];
 }
