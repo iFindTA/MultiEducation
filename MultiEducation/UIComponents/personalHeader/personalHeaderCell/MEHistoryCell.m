@@ -7,12 +7,21 @@
 //
 
 #import "MEHistoryCell.h"
+#import "AppDelegate.h"
 
 @implementation MEHistoryCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+}
+
+- (void)setData:(MEWatchItem *)item {
+    AppDelegate *delegate= (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *urlStr = [NSString stringWithFormat: @"%@%@", delegate.curUser.bucketDomain, item.filePath];
+    [self.videoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"index_content_placeholder"]];
+    
+    self.videoName.text = item.title;
 }
 
 @end

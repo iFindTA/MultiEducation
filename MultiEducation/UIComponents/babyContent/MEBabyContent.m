@@ -72,11 +72,11 @@
             pb = [MEStudentVM fetchSelectBaby];
         } else {
             pb = [self.currentUser.parentsPb.studentPbArray objectAtIndex: 0];
+//            pb.uId =  self.currentUser.id_p;
             [MEStudentVM saveSelectBaby: pb];
         }
         
-        MEStudentVM *studentVM = [MEStudentVM vmWithPb: pb];
-        studentVM.cmdCode = @"GU_INDEX";
+        MEStudentVM *studentVM = [MEStudentVM vmWithPb: pb cmdCode:@"GU_INDEX"];
         
         NSData *data = [pb data];
         [studentVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
@@ -90,22 +90,7 @@
             [self handleTransitionError: error];
             
         }];
-        
-        
-        
-        
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     MEPBUserRole role = self.currentUser.userType;
     if (role == MEPBUserRole_Parent) {

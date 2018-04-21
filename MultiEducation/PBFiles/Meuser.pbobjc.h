@@ -408,7 +408,6 @@ typedef GPB_ENUM(StudentPb_FieldNumber) {
   StudentPb_FieldNumber_ParentType = 8,
   StudentPb_FieldNumber_Gender = 9,
   StudentPb_FieldNumber_Portrait = 10,
-  StudentPb_FieldNumber_UId = 11,
 };
 
 @interface StudentPb : GPBMessage
@@ -441,9 +440,6 @@ typedef GPB_ENUM(StudentPb_FieldNumber) {
 
 /** 头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *portrait;
-
-/** 用户id */
-@property(nonatomic, readwrite) int64_t uId;
 
 @end
 

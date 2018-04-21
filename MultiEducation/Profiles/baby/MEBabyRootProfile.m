@@ -41,8 +41,6 @@
         make.left.top.right.mas_equalTo(self.view);
         make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR + ME_HEIGHT_STATUSBAR);
     }];
-    
-
 }
 
 - (void)didReceiveMemoryWarning {

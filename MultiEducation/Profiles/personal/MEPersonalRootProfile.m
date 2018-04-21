@@ -11,8 +11,11 @@
 #import "MEHistoryVideo.h"
 #import "MEPersonalSectionHeader.h"
 #import "MEPersonalCell.h"
+#import <WHC_ModelSqlite.h>
+#import "MEWatchItem.h"
 
-#define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户安全", @"帮助中心", @"反馈"]
+
+#define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户管理", @"帮助中心", @"反馈"]
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 44.f;
@@ -36,16 +39,65 @@ static CGFloat const SECTION_HEADER = 56.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor whiteColor];
 
     [self.view addSubview: self.tableView];
     
+    if (@available(iOS 11.0, *)) {
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
     //layout
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.mas_equalTo(self.view);
-        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR);
+        make.left.top.right.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view).mas_offset(-ME_HEIGHT_TABBAR);
     }];
 }
 
+- (BOOL)whetherHistoryCountGreaterThanZero {
+    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.id_p];
+    if ([WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"].count > 0 ) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (void)pushToPersonSecondProfileWithIndex:(NSInteger)index {
+    
+    switch (index) {
+        case 0: {
+            
+        }
+            break;
+        case 1: {
+            
+        }
+            break;
+            
+        case 2: {
+            NSString *urlStr = @"profile://root@MEAccountSafeProfile/";
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+            [self handleTransitionError: error];
+        }
+            break;
+            
+        case 3: {
+            
+        }
+            break;
+            
+        case 4: {
+            
+        }
+            break;
+        default:
+            break;
+    }
+    
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -68,7 +120,7 @@ static CGFloat const SECTION_HEADER = 56.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did selected at indexPath.row:%ld", indexPath.row);
+    [self pushToPersonSecondProfileWithIndex: indexPath.row];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -89,7 +141,14 @@ static CGFloat const SECTION_HEADER = 56.f;
 
 - (MEBaseScene *)tableHeader {
     if (!_tableHeader) {
-        _tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, HEADER_HEIGHT + HISTORY_HEIGHT)];
+        
+        CGFloat tableHeaderHeight;
+        if ([self whetherHistoryCountGreaterThanZero]) {
+            tableHeaderHeight = HEADER_HEIGHT + HISTORY_HEIGHT;
+        } else {
+            tableHeaderHeight = HEADER_HEIGHT;
+        }
+        _tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, tableHeaderHeight)];
         _tableHeader.backgroundColor = [UIColor whiteColor];
     }
     return _tableHeader;
@@ -105,8 +164,8 @@ static CGFloat const SECTION_HEADER = 56.f;
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
         
         self.header = [[NSBundle mainBundle] loadNibNamed: @"MEPersonalHeader" owner: self options: nil].firstObject;
+        
         [self.tableHeader addSubview: self.header];
-        [self.tableHeader addSubview: self.historyVideo];
         
         //layout
         [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -115,15 +174,18 @@ static CGFloat const SECTION_HEADER = 56.f;
             make.height.mas_equalTo(HEADER_HEIGHT);
         }];
         
-        [self.historyVideo mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.tableHeader);
-            make.top.mas_equalTo(self.header.mas_bottom);
-            make.width.mas_equalTo(MESCREEN_WIDTH);
-            make.height.mas_equalTo(HISTORY_HEIGHT);
-        }];
-        
-        _tableView.tableHeaderView = self.tableHeader;
+        if ([self whetherHistoryCountGreaterThanZero]) {
+            [self.tableHeader addSubview: self.historyVideo];
+            
+            [self.historyVideo mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(self.tableHeader);
+                make.top.mas_equalTo(self.header.mas_bottom);
+                make.width.mas_equalTo(MESCREEN_WIDTH);
+                make.height.mas_equalTo(HISTORY_HEIGHT);
+            }];
+        }
 
+        _tableView.tableHeaderView = self.tableHeader;
 
     }
     return _tableView;

@@ -46,10 +46,10 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)sendSwitchBabyPostToServer:(StudentPb *)studentPb {
-    MEStudentVM *vm = [MEStudentVM vmWithPb: studentPb];
+    MEStudentVM *vm = [MEStudentVM vmWithPb: studentPb cmdCode: @"GU_SWITCH_CLASS"];
     NSData *data = [studentPb data];
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        studentPb.uId = self.currentUser.id_p;
+//        studentPb.uId = self.currentUser.id_p;
         [MEStudentVM saveSelectBaby: studentPb];
         if (self.selectBabyCallBack) {
             self.selectBabyCallBack(studentPb);

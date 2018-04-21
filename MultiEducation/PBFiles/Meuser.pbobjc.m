@@ -965,7 +965,6 @@ typedef struct DeanPb__storage_ {
 @dynamic parentType;
 @dynamic gender;
 @dynamic portrait;
-@dynamic uId;
 
 typedef struct StudentPb__storage_ {
   uint32_t _has_storage_[1];
@@ -979,7 +978,6 @@ typedef struct StudentPb__storage_ {
   int64_t classId;
   int64_t gradeId;
   int64_t birthday;
-  int64_t uId;
 } StudentPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -1077,15 +1075,6 @@ typedef struct StudentPb__storage_ {
         .offset = (uint32_t)offsetof(StudentPb__storage_, portrait),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "uId",
-        .dataTypeSpecific.className = NULL,
-        .number = StudentPb_FieldNumber_UId,
-        .hasIndex = 10,
-        .offset = (uint32_t)offsetof(StudentPb__storage_, uId),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt64,
       },
     };
     GPBDescriptor *localDescriptor =
