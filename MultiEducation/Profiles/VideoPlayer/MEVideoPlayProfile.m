@@ -352,7 +352,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     
     //prepare query for network type
     if ([PBService shared].netState != PBNetStateViaWiFi) {
-        [SVProgressHUD showInfoWithStatus:@"您当前处于非Wi-Fi环境，播放视频将会消耗流量！"];
+        //[SVProgressHUD showInfoWithStatus:@"您当前处于非Wi-Fi环境，播放视频将会消耗流量！"];
     }
     //play current item
     NSString *coverImg = self.currentRes.coverImg;
@@ -495,10 +495,18 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 #pragma mark --- Observes Events
 
 - (void)__applicationDidEnterBackground {
-    [self.player pause];
+    [self disablePlayer];
 }
 
 - (void)__applicationDidEnterForeground {
+    [self enablePlayer];
+}
+
+- (void)disablePlayer {
+    [self.player pause];
+}
+
+- (void)enablePlayer {
     if (self.player.state != ZFPlayerStateStopped && self.player.state != ZFPlayerStateFailed) {
         [self.player play];
     }
@@ -608,23 +616,22 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             }
         }
     } else if (action & MEVideoPlayUserActionShare) {
-        NSString *title = PBAvailableString(self.currentRes.title);
-        NSString *textToShare = PBAvailableString(self.currentRes.intro);
+        [self disablePlayer];
+        NSString *title = [NSBundle pb_displayName];
+        NSString *textIntro = PBAvailableString(self.currentRes.intro);
+        NSString *textToShare = PBFormat(@"【%@】-- %@", PBAvailableString(title), textIntro);
         UIImage *imageToShare = [UIImage imageNamed:@"AppIcon"];
         NSString *urlString = [MEKits shareResourceUri:self.currentRes.resId type:self.currentRes.type];
         NSURL *urlToShare = [NSURL URLWithString:urlString];
         NSArray *activityItems = @[urlToShare,textToShare,imageToShare];
         //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
-        MEActivity *active = [[MEActivity alloc] initWithTitie:title withActivityImage:imageToShare withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
-        NSArray *activities = @[active];
-        UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:activities];
+//        MEActivity *active = [[MEActivity alloc] initWithTitie:title withActivityImage:imageToShare withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
+//        NSArray *activities = @[active];
+        UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+        weakify(self)
         shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
-            NSLog(@"activityType :%@", activityType);
-            if (completed) {
-                NSLog(@"completed");
-            } else {
-                NSLog(@"cancel");
-            }
+            strongify(self)
+            [self enablePlayer];
         };
         //关闭系统的一些activity类型
         shareProfile.excludedActivityTypes = @[UIActivityTypePostToTwitter,
