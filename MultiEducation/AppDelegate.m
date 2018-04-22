@@ -282,10 +282,10 @@
         //for umeng
         UMConfigInstance.appKey = ME_UMENG_APPKEY;
         [MobClick startWithConfigure:UMConfigInstance];
-        
+        //for Cordova
+        [MEKits UnzipCordovaResources];
     });
 }
-
 
 /**
  初始化融云

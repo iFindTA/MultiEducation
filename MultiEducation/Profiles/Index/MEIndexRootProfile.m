@@ -157,12 +157,18 @@
             [self displayUserWarthingHistory];
         }
     };
+    //更新Cordova资源包
+    [self updateOnlineCordovaResource];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //显示默认加载
     [self.bgScroller displayDefaultClass];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -185,6 +191,15 @@
     [self handleTransitionError:err];
 }
 
+#pragma mark --- 更新Cordova资源包
+/**
+ 更新Cordova在线资源
+ */
+- (void)updateOnlineCordovaResource {
+    PBMAINDelay(ME_ANIMATION_DURATION * 16, ^{
+        [MEKits updateCordovaResourcePacket];
+    });
+}
 /*
 #pragma mark - Navigation
 
