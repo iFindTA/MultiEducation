@@ -27,8 +27,7 @@
 
 @implementation CDVSplashScreen
 
-- (void)pluginInitialize
-{
+- (void)pluginInitialize {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoad) name:CDVPageDidLoadNotification object:nil];
 
     [self setVisible:YES];

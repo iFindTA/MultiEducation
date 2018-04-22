@@ -53,6 +53,11 @@
 #pragma mark --- Cordova abouts
 
 /**
+ 准备Cordova环境变量
+ */
++ (void)configureCordovaEnv;
+
+/**
  unzip Cordova resource to documents/www path
  */
 + (BOOL)UnzipCordovaResources;

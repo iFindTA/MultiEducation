@@ -10,14 +10,18 @@
 #define MEMacros_h
 
 #if DEBUG
+#define ME_APP_ENV                                                      @"dev"
 #define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
 #define ME_WEB_SERVER_HOST                                              @"http://192.168.1.199:8070/coeos"
+#define ME_DEFAULT_HTTP_SERVER_URL                                      @"http://192.168.1.199:8080"
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
 #define ME_RONGIM_APPKEY                                                @"c9kqb3rdcoywj"
 #define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
+#define ME_APP_ENV                                                      @"prod"
 #define ME_APP_BASE_HOST                                                @"http://192.168.1.199"
 #define ME_WEB_SERVER_HOST                                              @"http://www.chinaxqjy.com"
+#define ME_DEFAULT_HTTP_SERVER_URL                                      @"https://v2.api.chinaxqjy.com"
 #define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
 #define ME_RONGIM_APPKEY                                                @"6tnym1br64577"
 #define ME_AMAP_APPKEY                                                  @"6507a4c9c1d533612e9ec728ffa0a4b1"
@@ -77,6 +81,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_DISPATCH_KEY_CALLBACK                                            @"ME_DISPATCH_KEY_CALLBACK"//登录后执行
 #define ME_USER_DID_INITIATIVE_LOGOUT                                       @"ME_USER_DID_INITIATIVE_LOGOUT"//用户是否主动登出
 #define ME_APPLICATION_APNE_TOKEN                                           @"ME_APPLICATION_APNE_TOKEN"//用户token
+
+#define ME_CORDOVA_KEY_STARTPAGE                                            @"ME_CORDOVA_KEY_STARTPAGE"//cordova start page
 
 //tabbar item image size
 #define ME_TABBAR_ITEM_IMAGE_SIZE                                           30.f

@@ -263,6 +263,8 @@
 
 - (void)updateCurrentSignedInUser:(MEPBUser *)usr {
     self.curUser = usr;
+    //for Cordova
+    [MEKits configureCordovaEnv];
 }
 
 #pragma mark --- start services background thread
@@ -283,7 +285,9 @@
         UMConfigInstance.appKey = ME_UMENG_APPKEY;
         [MobClick startWithConfigure:UMConfigInstance];
         //for Cordova
+        [MEKits configureCordovaEnv];
         [MEKits UnzipCordovaResources];
+        
     });
 }
 

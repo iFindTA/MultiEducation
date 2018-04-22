@@ -7,6 +7,7 @@
 //
 
 #import "MEKits.h"
+#import "ValueEnv.h"
 #import <sys/stat.h>
 #import "MECordovaVM.h"
 #import "AppDelegate.h"
@@ -74,6 +75,17 @@
  *  1,启动app先解压bundle资源文件
  *  2,登录后Wi-Fi环境下在去更新资源包
  **/
+
+/**
+ 准备Cordova环境变量
+ */
++ (void)configureCordovaEnv {
+    [ValueEnv setKey:@"env" value:ME_APP_ENV];
+    [ValueEnv setKey:@"webServer" value:ME_DEFAULT_HTTP_SERVER_URL];
+    NSString *sessionToken = self.app.curUser.sessionToken;
+    [ValueEnv setKey:@"sessionToken" value:sessionToken];
+    NSLog(@"configure Cordova Env done.");
+}
 /**
  Cordova bundle 路径
  */

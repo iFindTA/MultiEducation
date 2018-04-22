@@ -20,6 +20,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 @property (nonatomic, strong) NSMutableArray <MEBaseButton*>*barItems;
 @property (nonatomic, assign) NSUInteger currentSelectIndex;
 
+@property (nonatomic, strong) MEBaseButton *noticeBtn;
 @property (nonatomic, strong) MEBaseButton *historyBtn;
 
 @end
@@ -66,6 +67,11 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     [btn setImage:icon forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(indexNavigationBarHistoryTouchEvent) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:btn];self.historyBtn = btn;
+    icon = [UIImage imageNamed:@"index_header_msg"];
+    btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    [btn setImage:icon forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(indexNavigationBarNoticeTouchEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:btn];self.noticeBtn = btn;
 }
 
 - (NSMutableArray<MEBaseButton*>*)barItems {
@@ -91,6 +97,11 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     
     [self.historyBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN*2);
+        make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
+        make.width.height.equalTo(30);
+    }];
+    [self.noticeBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.historyBtn.mas_left).offset(-ME_LAYOUT_MARGIN*2);
         make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
         make.width.height.equalTo(30);
     }];
@@ -140,6 +151,12 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (void)indexNavigationBarHistoryTouchEvent {
     if (self.indexNavigationBarOtherCallback) {
         self.indexNavigationBarOtherCallback(MEIndexNavigationTypeHistory);
+    }
+}
+
+- (void)indexNavigationBarNoticeTouchEvent {
+    if (self.indexNavigationBarOtherCallback) {
+        self.indexNavigationBarOtherCallback(MEIndexNavigationTypeNotice);
     }
 }
 

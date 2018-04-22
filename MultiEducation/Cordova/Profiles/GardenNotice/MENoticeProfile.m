@@ -14,11 +14,12 @@
 
 @implementation MENoticeProfile
 
-- (id)init {
+- (id)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
+        NSString *startPage = [params objectForKey:ME_CORDOVA_KEY_STARTPAGE];
         NSString *wwwPath = [self wwwFolderPath];
-        self.startPage = [wwwPath stringByAppendingPathComponent:@"notice.html"];
+        self.startPage = [wwwPath stringByAppendingPathComponent:startPage];
     }
     return self;
 }
@@ -27,8 +28,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"学校通知";
-    
+    UIBarButtonItem *spacer = [self barSpacer];
+    UIBarButtonItem *back = [self backBarWithColor:nil];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"学校通知"];
+    item.leftBarButtonItems = @[spacer, back];
+    [self.navigationBar pushNavigationItem:item animated:true];
     
 }
 

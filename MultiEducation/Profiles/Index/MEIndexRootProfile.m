@@ -155,6 +155,8 @@
         strongify(self)
         if (type & MEIndexNavigationTypeHistory) {
             [self displayUserWarthingHistory];
+        } else if (type & MEIndexNavigationTypeNotice) {
+            [self displayUserNoticeProfile];
         }
     };
     //更新Cordova资源包
@@ -188,6 +190,14 @@
     
     NSString *urlString = @"profile://root@MEWatchHistoryProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    [self handleTransitionError:err];
+}
+
+- (void)displayUserNoticeProfile {
+    NSString *urlString = @"profile://root@MENoticeProfile/__initWithParams:#code";
+    NSURL * routeUrl = [NSURL URLWithString:urlString];
+    NSDictionary *params = @{ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
+    NSError * err = [MEDispatcher openURL:routeUrl withParams:params];
     [self handleTransitionError:err];
 }
 
