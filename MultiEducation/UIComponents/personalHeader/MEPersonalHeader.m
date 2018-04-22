@@ -22,9 +22,9 @@
     self.userSign.text = @"个性签名";
 }
 
-
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
-    NSLog(@"did touch setting event");
-    
+    NSString *urlStr = @"profile://MEPersonalSettingProfile";
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+    [self handleTransitionError: error];
 }
 @end
