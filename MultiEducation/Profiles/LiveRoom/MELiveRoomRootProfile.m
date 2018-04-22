@@ -48,6 +48,13 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 
 @implementation MELiveRoomRootProfile
 
+- (void)dealloc {
+    if ([_playProfile isPlaying]) {
+        [_playProfile stop];
+    }
+    _playProfile = nil;
+}
+
 - (PBNavigationBar *)initializedNavigationBar {
     
     if (!self.navigationBar) {
@@ -566,9 +573,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 }
 
 - (void)stopPlay {
-    if (self.playProfile.isPlaying) {
-        [self.playProfile pause];
-    }
+    [self.playProfile pause];
 }
 
 - (void)restartPlay {
