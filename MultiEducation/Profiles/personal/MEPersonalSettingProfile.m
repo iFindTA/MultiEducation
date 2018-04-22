@@ -9,6 +9,11 @@
 #import "MEPersonalSettingProfile.h"
 #import "MEPersonalDataCell.h"
 #import "MEHeaderIconCell.h"
+#import "MEQiniuUtils.h"
+#import <YYKit.h>
+#import "Meuser.pbobjc.h"
+#import "MEUserVM.h"
+#import "MEEditUserDataProfile.h"
 
 #define TITLE_LIST @[@"头像管理", @"昵称", @"手机号", @"性别"]
 
@@ -16,7 +21,11 @@ static NSString * const USER_ICON_CELL_IDEF = @"user_icon_cell_idef";
 static NSString * const USER_DATA_CELL_IDEF = @"user_data_cell_idef";
 static CGFloat const CELL_HEIGHT = 54.f;
 
-@interface MEPersonalSettingProfile () <UITableViewDelegate, UITableViewDataSource>
+@interface MEPersonalSettingProfile () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UploadImagesCallBack>
+
+@property(nonatomic,strong) UIImagePickerController *imagePicker;
+
+@property (nonatomic, strong) MEQiniuUtils *qnUtils;
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArr;
@@ -53,7 +62,117 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 }
 
+- (void)pushToNextProfile:(NSInteger)index {
+    switch (index) {
+        case 0: {
+            //修改头像
+            [self getAlertToChangePhoto];
+        }
+            break;
+        case 1: {
+            //修改昵称
+            NSString *urlStr = @"profile://MEEditUserDataProfile";
+            NSDictionary *params = @{@"type": [NSNumber numberWithInteger: MEEditTypeNickName]};
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+            [self handleTransitionError: error];
+        }
+            break;
+        case 2: {
+            //修改手机号
+            NSString *urlStr = @"profile://MEEditUserDataProfile";
+            NSDictionary *params = @{@"type": [NSNumber numberWithInteger: MEEditTypePhone]};
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+            [self handleTransitionError: error];
+        }
+            break;
+        case 3: {
+            //修改性别
+            NSString *urlStr = @"profile://MEEditUserDataProfile";
+            NSDictionary *params = @{@"type": [NSNumber numberWithInteger: MEEditTypeGender]};
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+            [self handleTransitionError: error];
+        }
+            break;
+        default:
+            break;
+    }
+}
 
+- (void)getAlertToChangePhoto {
+    UIAlertController *aletController = [UIAlertController alertControllerWithTitle: @"提示" message: @"请选择上传方式" preferredStyle: UIAlertControllerStyleActionSheet];
+    
+    weakify(self);
+    UIAlertAction *ac1 = [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
+        [self gotoTakePhoto];
+    }];
+    
+    UIAlertAction *ac2 = [UIAlertAction actionWithTitle: @"从相册选择" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
+        [self gotoImagePickerContoller];
+    }];
+    
+    UIAlertAction *cancelAC = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+    
+    [aletController addAction: ac1];
+    [aletController addAction: ac2];
+    [aletController addAction: cancelAC];
+    
+    [self presentViewController: aletController animated: YES completion: nil];
+}
+
+//拍照上传
+- (void)gotoTakePhoto {
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [self presentViewController: _imagePicker animated:YES completion:nil];
+}
+
+//从相册选择
+- (void)gotoImagePickerContoller {
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController: _imagePicker animated:YES completion:nil];
+}
+
+- (void)uploadToQNServe:(UIImage *)image {
+    UIImage *compressImage = [self compressImage: image];
+    NSString *md5Str = [UIImagePNGRepresentation(compressImage) md5String];
+    NSString *key = [NSString stringWithFormat: @"%@.jpg", md5Str];
+    [self.qnUtils uploadVideo: UIImagePNGRepresentation([self compressImage: image]) key: key];
+}
+
+- (UIImage *)compressImage:(UIImage *)image {
+    float limit = self.currentUser.systemConfigPb.uploadLimit.floatValue;
+    float uploadLimit = (limit == 0 ? 2 * 1024 * 1024 : limit * 1024 * 1024);
+    NSData *data = UIImageJPEGRepresentation([MEKits compressImage: image toByte: uploadLimit], 0.5);
+    UIImage *compressImage = [UIImage imageWithData: data];
+    return compressImage;
+}
+
+- (void)sendChangeUserHeadToServer:(NSString *)portrait {
+    MEUserVM *userVM = [MEUserVM vmWithModel: self.currentUser];
+    
+    self.currentUser.portrait = portrait;
+    
+    NSData *data = [self.currentUser data];
+    
+    [userVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        MEPBUser *user = [MEPBUser parseFromData: resObj error: nil];
+        [self.tableView reloadData];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+    
+}
+
+
+#pragma mark - UploadImagesCallback
+- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
+    [self sendChangeUserHeadToServer: key];
+}
+
+- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
+    [SVProgressHUD showErrorWithStatus: @"上传头像失败"];
+}
 
 #pragma mark - UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -100,7 +219,13 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [self pushToNextProfile: indexPath.row];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    [self uploadToQNServe: image];
 }
 
 #pragma mark - lazyloading
@@ -122,6 +247,23 @@ static CGFloat const CELL_HEIGHT = 54.f;
         _dataArr = TITLE_LIST;
     }
     return _dataArr;
+}
+
+- (UIImagePickerController *)imagePicker {
+    if (!_imagePicker) {
+        _imagePicker = [[UIImagePickerController alloc] init];
+        _imagePicker.delegate = self;
+        _imagePicker.allowsEditing = YES;//是否可编辑
+    }
+    return _imagePicker;
+}
+
+- (MEQiniuUtils *)qnUtils {
+    if (!_qnUtils) {
+        _qnUtils = [[MEQiniuUtils alloc] init];
+        _qnUtils.delegate = self;
+    }
+    return _qnUtils;
 }
 
 @end

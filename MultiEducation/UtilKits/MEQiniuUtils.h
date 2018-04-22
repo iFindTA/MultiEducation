@@ -16,6 +16,7 @@
 
 - (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp;
 
+@optional
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent;
 
 //if success only one and other's are total fail, also did this func
