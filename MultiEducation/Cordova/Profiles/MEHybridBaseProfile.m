@@ -6,16 +6,18 @@
 //  Copyright © 2018年 nanhu. All rights reserved.
 //
 
+#import "MEWebProgress.h"
 #import "MEHybridBaseProfile.h"
 #import <Cordova/CDVWebViewEngineProtocol.h>
-#import <NJKWebViewProgress/NJKWebViewProgress.h>
 
-@interface MEHybridBaseProfile () <NJKWebViewProgressDelegate, UIWebViewDelegate>
+@interface MEHybridBaseProfile ()
 
 @property (nonatomic, strong) UIProgressView *progressView;
-@property (nonatomic, strong) NJKWebViewProgress *progressProxy;
+@property (nonatomic, strong) MEWebProgress *progressProxy;
 
 @property (nonatomic, strong, readwrite) PBNavigationBar *navigationBar;
+
+@property (nonatomic, strong, readwrite) ValueBack *backPlugin;
 
 @end
 
@@ -30,8 +32,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.sj_fadeAreaViews = @[self.webView];
+    
     [self.view addSubview:self.navigationBar];
-    self.progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
     [self.navigationBar addSubview:self.progressView];
     [self.progressView makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.navigationBar);
@@ -43,7 +46,7 @@
         make.top.equalTo(self.navigationBar.mas_bottom);
         make.left.right.bottom.equalTo(self.view);
     }];
-    
+    /*
     self.progressProxy = [[NJKWebViewProgress alloc] init];
     weakify(self)
     self.progressProxy.progressBlock = ^(CGFloat progress) {
@@ -56,6 +59,10 @@
         self.progressProxy.webViewProxyDelegate = self;
         self.progressProxy.progressDelegate = self;
     }
+    //*/
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cordovaWebViewDidStartLoad) name:CDVPluginResetNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cordovaWebViewDidFinishLoad) name:CDVPageDidLoadNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,6 +119,34 @@
     return _navigationBar;
 }
 
+- (MEWebProgress *)progressProxy {
+    if (!_progressProxy) {
+        _progressProxy = [[MEWebProgress alloc] init];
+        weakify(self)
+        _progressProxy.webProxyCallback = ^(CGFloat progress) {
+            strongify(self)
+            [self.progressView setProgress:progress animated:true];
+        };
+    }
+    return _progressProxy;
+}
+
+- (UIProgressView *)progressView {
+    if (!_progressView) {
+        _progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
+        _progressView.backgroundColor = [UIColor whiteColor];
+        _progressView.tintColor = UIColorFromRGB(0xE15256);
+    }
+    return _progressView;
+}
+
+- (ValueBack *)backPlugin {
+    if (!_backPlugin) {
+        _backPlugin = [[ValueBack alloc] init];
+    }
+    return _backPlugin;
+}
+
 - (UIBarButtonItem *)barSpacer {
     UIBarButtonItem *barSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     barSpacer.width = - ME_LAYOUT_MARGIN*3;
@@ -153,10 +188,25 @@
     [self.navigationController popViewControllerAnimated:true];
 }
 
-#pragma mark --- NJKProgressView Delegate
+- (void)cordovaNavigationBackEvent {
+    [self.backPlugin nativeBack2CordovaEvent];
+}
 
-- (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress {
-    [self.progressView setProgress:progress animated:false];
+#pragma mark --- MEWebProgress Delegate
+
+- (void)cordovaWebViewDidStartLoad {
+    [self.progressProxy reset];
+    
+    [self.progressProxy webviewDidStartLoad];
+}
+
+- (void)cordovaWebViewDidFinishLoad {
+    [self.progressProxy webViewDidFinishLoad];
+    weakify(self)
+    PBMAINDelay(ME_ANIMATION_DURATION, ^{
+        strongify(self)
+        [self.progressProxy reset];
+    });
 }
 
 /*

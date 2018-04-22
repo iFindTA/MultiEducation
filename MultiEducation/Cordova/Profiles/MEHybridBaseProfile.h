@@ -6,8 +6,10 @@
 //  Copyright © 2018年 nanhu. All rights reserved.
 //
 
+#import "ValueBack.h"
 #import "CDVViewController.h"
 #import <PBBaseClasses/PBNavigationBar.h>
+#import <UIViewController+SJVideoPlayerAdd.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  custom navigationBar
  */
 @property (nonatomic, strong, readonly, nullable) PBNavigationBar *navigationBar;
+
+@property (nonatomic, strong, readonly, nullable) ValueBack *backPlugin;
 
 /**
  root web folder
@@ -37,6 +41,11 @@ NS_ASSUME_NONNULL_BEGIN
  bar button item
  */
 - (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color eventSelector:(nullable SEL)selector;
+
+/**
+ 导航条返回事件 交予JavaScript
+ */
+- (void)cordovaNavigationBackEvent;
 
 @end
 

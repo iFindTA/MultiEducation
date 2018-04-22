@@ -10,4 +10,9 @@
 
 @implementation ValueBack
 
+- (void)nativeBack2CordovaEvent {
+    NSString *callback = [NSString stringWithFormat:@"back()"];
+    [self.commandDelegate evalJs:callback];
+}
+
 @end

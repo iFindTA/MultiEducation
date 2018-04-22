@@ -29,7 +29,7 @@
     // Do any additional setup after loading the view.
     
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *back = [self backBarWithColor:nil];
+    UIBarButtonItem *back = [self barWithIconUnicode:@"\U0000e6e2" color:[UIColor whiteColor] eventSelector:@selector(cordovaNavigationBackEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"学校通知"];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];

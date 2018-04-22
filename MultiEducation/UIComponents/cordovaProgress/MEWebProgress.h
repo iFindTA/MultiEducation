@@ -10,4 +10,14 @@
 
 @interface MEWebProgress : NSObject
 
+@property (nonatomic, copy) void(^webProxyCallback)(CGFloat progress);
+
+@property (nonatomic, readonly) float progress; // 0.0..1.0
+
+- (void)webviewDidStartLoad;
+
+- (void)webViewDidFinishLoad;
+
+- (void)reset;
+
 @end

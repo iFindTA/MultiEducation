@@ -10,4 +10,9 @@
 
 @interface ValueBack : CDVPlugin
 
+/**
+ 原生返回事件传递给Cordova js
+ */
+- (void)nativeBack2CordovaEvent;
+
 @end

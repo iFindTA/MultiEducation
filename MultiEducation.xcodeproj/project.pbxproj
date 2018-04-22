@@ -38,6 +38,8 @@
 		2EFB9860A569C034AFF6848B38D8CC3E /* MesignIn.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA9A369AF346E4442E08F236FA79DDE /* MesignIn.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		309A30B69F2693D54CD6FE4B47011A68 /* MEBabyInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7470997850CC32471ABAFBD02E1AC961 /* MEBabyInfoCell.xib */; };
 		36C68861BC27DFBA012EEE570E719941 /* MEHistoryVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D5CF4FABAA7549324E5C5F22DD61C2E /* MEHistoryVideo.m */; };
+		373BB47A053D10E7882361E3B66CF813 /* ValueBack.m in Sources */ = {isa = PBXBuildFile; fileRef = 761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */; };
+		377557F6B667B753B83CAC10E81EC41C /* MEWebProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = A3216EE2AA68A749EC2B4C5920C5306F /* MEWebProgress.m */; };
 		38D6E6090A037B85242AAF9F6DF574F2 /* ValueDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = 8159DE530E194B4DB55A78874C2AF132 /* ValueDisk.m */; };
 		3B474F160919595D28D369AFD0784364 /* MEPersonalRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9453845D1177C16AD47F3DE2C801A1F8 /* MEPersonalRootProfile.m */; };
 		3B58FD93F474F96C47E79F78D2AA48A6 /* MELiveClassVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 631BFA18E69429C424D684D6D882D8C3 /* MELiveClassVM.m */; };
@@ -303,6 +305,7 @@
 		3DA4F29EEE28A2919C84A9D78B613355 /* MEBabyPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyPhotoCell.m; sourceTree = "<group>"; };
 		3DFD6D1AC98FEAE652F19C3B87026E32 /* MEDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEDispatcher.m; sourceTree = "<group>"; };
 		3ECA2694F5F50B3828F37884BC449F61 /* MEChatProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEChatProfile.h; sourceTree = "<group>"; };
+		3F080019ED61B6F2E4DE2F0AD79335D7 /* ValueBack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValueBack.h; sourceTree = "<group>"; };
 		406CD774CC50C34DC95E02D2FF48FA3E /* MEProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEProgressCell.xib; sourceTree = "<group>"; };
 		40FC4F4D305C05813A8834892F7ED1F6 /* MECordovaVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECordovaVM.h; sourceTree = "<group>"; };
 		4175E50BFF48F434917035FCE6369ACB /* MEBabyContentHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEBabyContentHeader.xib; sourceTree = "<group>"; };
@@ -377,6 +380,7 @@
 		74FE17C32A32C3CB961362800EB84ED8 /* ValueSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueSync.m; sourceTree = "<group>"; };
 		753C6320F18EA7A83BEF055EC2A72CDC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
+		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		794132D107A5C4C538F9F6B98E1786BA /* MesignIn.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesignIn.pbobjc.h; sourceTree = "<group>"; };
@@ -433,9 +437,11 @@
 		9E685DEC260DC8A1D09586F719683544 /* MEContentSubcategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEContentSubcategory.m; sourceTree = "<group>"; };
 		A08D7D2A6DFBC4C3EC9EFB1D89A4B8D9 /* MEBrowserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBrowserProfile.m; sourceTree = "<group>"; };
 		A27BA73661DFF020F5DDBA0E89DF726F /* METimeLineSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = METimeLineSectionView.m; sourceTree = "<group>"; };
+		A3216EE2AA68A749EC2B4C5920C5306F /* MEWebProgress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEWebProgress.m; sourceTree = "<group>"; };
 		A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyRecordLabel.m; sourceTree = "<group>"; };
 		A44BA3FE7A5BFB23C8EE3FF1D53C95C4 /* MEBabyPhotoProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyPhotoProfile.h; sourceTree = "<group>"; };
 		A518A1AF76CD4CB6759FAAE04BF8E770 /* MEProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEProgressCell.h; sourceTree = "<group>"; };
+		A5333693CF31682D0C1AD3D2199E39F2 /* MEWebProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEWebProgress.h; sourceTree = "<group>"; };
 		A618FA329DDBB78A435FC950751B7DD7 /* ValueH5n.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueH5n.h; sourceTree = "<group>"; };
 		A7C1209FB6801A4B45EF13774E58A888 /* MESearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESearchBar.h; sourceTree = "<group>"; };
 		A843CB0A62D12AFE0B682F693C5AAE5B /* MEPersonalHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPersonalHeader.m; sourceTree = "<group>"; };
@@ -664,6 +670,7 @@
 			children = (
 				2470414544B59C6A3ABC1BDAADE8C456 /* babyContent */,
 				A080E4FF8C37B57D9931407304498AEE /* babyHeader */,
+				D17E83D3FF12C117D34A5F3384A6EEC2 /* cordovaProgress */,
 				B27E3A033E012D99DEAA46B74822EDF8 /* gardenHeader */,
 				014D76DED363FEB70225E105B1A06051 /* indexContent */,
 				8A18E0034877F4F93AE4668500123037 /* indexHeader */,
@@ -946,6 +953,7 @@
 				D3B0F16A1DFF9A1E4578D5E03EBC301B /* cordova-plugin-splashscreen */,
 				E9DBA5583882554ECA7C10F62F4951EF /* cordova-plugin-statusbar */,
 				EF2A36D8554E199150EABA344A0B9902 /* ionic-plugin-keyboard */,
+				200654D3908BC4E0343C0E80984B8D51 /* value-plugin-back */,
 				E5712D4BF9E441898666B7B40420F823 /* value-plugin-close */,
 				66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */,
 				32EACBF217104E98679286D54AECF552 /* value-plugin-env */,
@@ -961,22 +969,22 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		C0FDE776EF03ADF27BAC054FA7DE8FF5 /* cordova */ = {
+		D17E83D3FF12C117D34A5F3384A6EEC2 /* cordovaProgress */ = {
 			isa = PBXGroup;
 			children = (
-				40FC4F4D305C05813A8834892F7ED1F6 /* MECordovaVM.h */,
-				83E34AE70A1E6DF0C7491031B7A173A7 /* MECordovaVM.m */,
+				A5333693CF31682D0C1AD3D2199E39F2 /* MEWebProgress.h */,
+				A3216EE2AA68A749EC2B4C5920C5306F /* MEWebProgress.m */,
 			);
-			path = cordova;
+			path = cordovaProgress;
 			sourceTree = "<group>";
 		};
-		9DB6DC7C2AA6281B31B5F6BD526B0F69 /* GardenNotice */ = {
+		200654D3908BC4E0343C0E80984B8D51 /* value-plugin-back */ = {
 			isa = PBXGroup;
 			children = (
-				1A4C041921F1EDD5CFB1ED1B76DEC899 /* MENoticeProfile.h */,
-				8C2B9D58A4FC87BA6F625AD0CFD97AC7 /* MENoticeProfile.m */,
+				3F080019ED61B6F2E4DE2F0AD79335D7 /* ValueBack.h */,
+				761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */,
 			);
-			path = GardenNotice;
+			path = "value-plugin-back";
 			sourceTree = "<group>";
 		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
@@ -1276,6 +1284,15 @@
 			path = PBFiles;
 			sourceTree = "<group>";
 		};
+		9DB6DC7C2AA6281B31B5F6BD526B0F69 /* GardenNotice */ = {
+			isa = PBXGroup;
+			children = (
+				1A4C041921F1EDD5CFB1ED1B76DEC899 /* MENoticeProfile.h */,
+				8C2B9D58A4FC87BA6F625AD0CFD97AC7 /* MENoticeProfile.m */,
+			);
+			path = GardenNotice;
+			sourceTree = "<group>";
+		};
 		9EFD338F9D5B91940F00FD37FFB1B481 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1421,6 +1438,15 @@
 				3B15D6823CD577476B9B55909A9C2959 /* MESearchBar.m */,
 			);
 			path = indexSearch;
+			sourceTree = "<group>";
+		};
+		C0FDE776EF03ADF27BAC054FA7DE8FF5 /* cordova */ = {
+			isa = PBXGroup;
+			children = (
+				40FC4F4D305C05813A8834892F7ED1F6 /* MECordovaVM.h */,
+				83E34AE70A1E6DF0C7491031B7A173A7 /* MECordovaVM.m */,
+			);
+			path = cordova;
 			sourceTree = "<group>";
 		};
 		C97B17DE247B3A2144FB32D67FB23DFA /* chat */ = {
@@ -2009,6 +2035,7 @@
 				62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */,
 				027DE10F837D113662333411CBCD7C1C /* MEWatchHistoryProfile.m in Sources */,
 				192D3CE7F1B1C0628D1617C151003A0C /* MEWatchItem.m in Sources */,
+				377557F6B667B753B83CAC10E81EC41C /* MEWebProgress.m in Sources */,
 				C0F618FF86DEAFA5363D1C615388ECDD /* MebabyAlbum.pbobjc.m in Sources */,
 				BD1D7A6C74175AFB2C1CDBF8F03B8113 /* MebabyEvaluate.pbobjc.m in Sources */,
 				B0C81781B0DF30E3443B0A92C1C0F5C6 /* MebabyGrowth.pbobjc.m in Sources */,
@@ -2031,6 +2058,7 @@
 				3BA17528E222ADE896DD047E031F336A /* UIViewController+Utils.m in Sources */,
 				219A3B612D4E5674B61E865D77B73A43 /* UIWebViewExtension.m in Sources */,
 				797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */,
+				373BB47A053D10E7882361E3B66CF813 /* ValueBack.m in Sources */,
 				5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */,
 				38D6E6090A037B85242AAF9F6DF574F2 /* ValueDisk.m in Sources */,
 				CEA271402094FD7BFD21E151669A6681 /* ValueEnv.m in Sources */,
