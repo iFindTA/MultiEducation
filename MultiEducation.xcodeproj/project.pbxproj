@@ -56,6 +56,29 @@
 		585A6DB6E7D6D7D2B719BF124B5D9A3A /* MEPersonalHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C1198DD98CB742BB11DB00E25358824 /* MEPersonalHeader.xib */; };
 		5B4F0041FB63B9498C7C7778936DFD52 /* MERegisterVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */; };
 		5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */; };
+		60228C09208C3C710003A4EF /* Mecordova.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C08208C3C700003A4EF /* Mecordova.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		60228C49208C3CE60003A4EF /* MENoticeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C0E208C3CE60003A4EF /* MENoticeProfile.m */; };
+		60228C4A208C3CE60003A4EF /* MEHybridBaseProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C0F208C3CE60003A4EF /* MEHybridBaseProfile.m */; };
+		60228C4B208C3CE60003A4EF /* www.zip in Resources */ = {isa = PBXBuildFile; fileRef = 60228C11208C3CE60003A4EF /* www.zip */; };
+		60228C4C208C3CE60003A4EF /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 60228C12208C3CE60003A4EF /* config.xml */; };
+		60228C4D208C3CE60003A4EF /* ValueSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C15208C3CE60003A4EF /* ValueSync.m */; };
+		60228C4E208C3CE60003A4EF /* ValueLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C19208C3CE60003A4EF /* ValueLogin.m */; };
+		60228C4F208C3CE60003A4EF /* ValueImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C1B208C3CE60003A4EF /* ValueImg.m */; };
+		60228C50208C3CE60003A4EF /* ValueEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C1E208C3CE60003A4EF /* ValueEnv.m */; };
+		60228C51208C3CE60003A4EF /* ValueShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C22208C3CE60003A4EF /* ValueShare.m */; };
+		60228C52208C3CE60003A4EF /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C24208C3CE60003A4EF /* CDVDevice.m */; };
+		60228C53208C3CE60003A4EF /* ValueDisk.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C27208C3CE60003A4EF /* ValueDisk.m */; };
+		60228C54208C3CE60003A4EF /* ValuePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C2A208C3CE60003A4EF /* ValuePlayer.m */; };
+		60228C55208C3CE60003A4EF /* README in Resources */ = {isa = PBXBuildFile; fileRef = 60228C2C208C3CE60003A4EF /* README */; };
+		60228C57208C3CE60003A4EF /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C33208C3CE60003A4EF /* UIWebViewExtension.m */; };
+		60228C58208C3CE60003A4EF /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C34208C3CE60003A4EF /* IonicKeyboard.m */; };
+		60228C59208C3CE60003A4EF /* ValueToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C37208C3CE60003A4EF /* ValueToolbar.m */; };
+		60228C5A208C3CE60003A4EF /* ValueClose.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C39208C3CE60003A4EF /* ValueClose.m */; };
+		60228C5B208C3CE60003A4EF /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C3C208C3CE60003A4EF /* CDVStatusBar.m */; };
+		60228C5C208C3CE60003A4EF /* ValuePay.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C40208C3CE60003A4EF /* ValuePay.m */; };
+		60228C5D208C3CE60003A4EF /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C43208C3CE60003A4EF /* CDVViewController+SplashScreen.m */; };
+		60228C5E208C3CE60003A4EF /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C44208C3CE60003A4EF /* CDVSplashScreen.m */; };
+		60228C5F208C3CE60003A4EF /* ValueH5n.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C47208C3CE60003A4EF /* ValueH5n.m */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
@@ -295,6 +318,49 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
+		60228C07208C3C700003A4EF /* Mecordova.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mecordova.pbobjc.h; sourceTree = "<group>"; };
+		60228C08208C3C700003A4EF /* Mecordova.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mecordova.pbobjc.m; sourceTree = "<group>"; };
+		60228C0C208C3CE60003A4EF /* MEHybridBaseProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEHybridBaseProfile.h; sourceTree = "<group>"; };
+		60228C0D208C3CE60003A4EF /* MENoticeProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MENoticeProfile.h; sourceTree = "<group>"; };
+		60228C0E208C3CE60003A4EF /* MENoticeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MENoticeProfile.m; sourceTree = "<group>"; };
+		60228C0F208C3CE60003A4EF /* MEHybridBaseProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEHybridBaseProfile.m; sourceTree = "<group>"; };
+		60228C11208C3CE60003A4EF /* www.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = www.zip; sourceTree = "<group>"; };
+		60228C12208C3CE60003A4EF /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		60228C15208C3CE60003A4EF /* ValueSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueSync.m; sourceTree = "<group>"; };
+		60228C16208C3CE60003A4EF /* ValueSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueSync.h; sourceTree = "<group>"; };
+		60228C18208C3CE60003A4EF /* ValueLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueLogin.h; sourceTree = "<group>"; };
+		60228C19208C3CE60003A4EF /* ValueLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueLogin.m; sourceTree = "<group>"; };
+		60228C1B208C3CE60003A4EF /* ValueImg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueImg.m; sourceTree = "<group>"; };
+		60228C1C208C3CE60003A4EF /* ValueImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueImg.h; sourceTree = "<group>"; };
+		60228C1E208C3CE60003A4EF /* ValueEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueEnv.m; sourceTree = "<group>"; };
+		60228C1F208C3CE60003A4EF /* ValueEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueEnv.h; sourceTree = "<group>"; };
+		60228C21208C3CE60003A4EF /* ValueShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueShare.h; sourceTree = "<group>"; };
+		60228C22208C3CE60003A4EF /* ValueShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueShare.m; sourceTree = "<group>"; };
+		60228C24208C3CE60003A4EF /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
+		60228C25208C3CE60003A4EF /* CDVDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVDevice.h; sourceTree = "<group>"; };
+		60228C27208C3CE60003A4EF /* ValueDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueDisk.m; sourceTree = "<group>"; };
+		60228C28208C3CE60003A4EF /* ValueDisk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueDisk.h; sourceTree = "<group>"; };
+		60228C2A208C3CE60003A4EF /* ValuePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePlayer.m; sourceTree = "<group>"; };
+		60228C2B208C3CE60003A4EF /* ValuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuePlayer.h; sourceTree = "<group>"; };
+		60228C2C208C3CE60003A4EF /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		60228C31208C3CE60003A4EF /* IonicKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IonicKeyboard.h; sourceTree = "<group>"; };
+		60228C32208C3CE60003A4EF /* UIWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIWebViewExtension.h; sourceTree = "<group>"; };
+		60228C33208C3CE60003A4EF /* UIWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIWebViewExtension.m; sourceTree = "<group>"; };
+		60228C34208C3CE60003A4EF /* IonicKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IonicKeyboard.m; sourceTree = "<group>"; };
+		60228C36208C3CE60003A4EF /* ValueToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueToolbar.h; sourceTree = "<group>"; };
+		60228C37208C3CE60003A4EF /* ValueToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueToolbar.m; sourceTree = "<group>"; };
+		60228C39208C3CE60003A4EF /* ValueClose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueClose.m; sourceTree = "<group>"; };
+		60228C3A208C3CE60003A4EF /* ValueClose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueClose.h; sourceTree = "<group>"; };
+		60228C3C208C3CE60003A4EF /* CDVStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVStatusBar.m; sourceTree = "<group>"; };
+		60228C3D208C3CE60003A4EF /* CDVStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVStatusBar.h; sourceTree = "<group>"; };
+		60228C3F208C3CE60003A4EF /* ValuePay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuePay.h; sourceTree = "<group>"; };
+		60228C40208C3CE60003A4EF /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
+		60228C42208C3CE60003A4EF /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVSplashScreen.h; sourceTree = "<group>"; };
+		60228C43208C3CE60003A4EF /* CDVViewController+SplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDVViewController+SplashScreen.m"; sourceTree = "<group>"; };
+		60228C44208C3CE60003A4EF /* CDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVSplashScreen.m; sourceTree = "<group>"; };
+		60228C45208C3CE60003A4EF /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDVViewController+SplashScreen.h"; sourceTree = "<group>"; };
+		60228C47208C3CE60003A4EF /* ValueH5n.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueH5n.m; sourceTree = "<group>"; };
+		60228C48208C3CE60003A4EF /* ValueH5n.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueH5n.h; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -786,6 +852,206 @@
 			path = index;
 			sourceTree = "<group>";
 		};
+		60228C0A208C3CB10003A4EF /* Cordova */ = {
+			isa = PBXGroup;
+			children = (
+				60228C13208C3CE60003A4EF /* Plugins */,
+				60228C0B208C3CE60003A4EF /* Profiles */,
+				60228C10208C3CE60003A4EF /* Resources */,
+			);
+			path = Cordova;
+			sourceTree = "<group>";
+		};
+		60228C0B208C3CE60003A4EF /* Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				60228C0C208C3CE60003A4EF /* MEHybridBaseProfile.h */,
+				60228C0D208C3CE60003A4EF /* MENoticeProfile.h */,
+				60228C0E208C3CE60003A4EF /* MENoticeProfile.m */,
+				60228C0F208C3CE60003A4EF /* MEHybridBaseProfile.m */,
+			);
+			path = Profiles;
+			sourceTree = "<group>";
+		};
+		60228C10208C3CE60003A4EF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				60228C11208C3CE60003A4EF /* www.zip */,
+				60228C12208C3CE60003A4EF /* config.xml */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		60228C13208C3CE60003A4EF /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				60228C14208C3CE60003A4EF /* value-plugin-sync */,
+				60228C17208C3CE60003A4EF /* value-plugin-login */,
+				60228C1A208C3CE60003A4EF /* value-plugin-img */,
+				60228C1D208C3CE60003A4EF /* value-plugin-env */,
+				60228C20208C3CE60003A4EF /* value-plugin-share */,
+				60228C23208C3CE60003A4EF /* cordova-plugin-device */,
+				60228C26208C3CE60003A4EF /* value-plugin-disk */,
+				60228C29208C3CE60003A4EF /* value-plugin-player */,
+				60228C2C208C3CE60003A4EF /* README */,
+				60228C2D208C3CE60003A4EF /* cordova-plugin-console */,
+				60228C30208C3CE60003A4EF /* ionic-plugin-keyboard */,
+				60228C35208C3CE60003A4EF /* value-plugin-toolbar */,
+				60228C38208C3CE60003A4EF /* value-plugin-close */,
+				60228C3B208C3CE60003A4EF /* cordova-plugin-statusbar */,
+				60228C3E208C3CE60003A4EF /* value-plugin-pay */,
+				60228C41208C3CE60003A4EF /* cordova-plugin-splashscreen */,
+				60228C46208C3CE60003A4EF /* value-plugin-h5n */,
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
+		60228C14208C3CE60003A4EF /* value-plugin-sync */ = {
+			isa = PBXGroup;
+			children = (
+				60228C15208C3CE60003A4EF /* ValueSync.m */,
+				60228C16208C3CE60003A4EF /* ValueSync.h */,
+			);
+			path = "value-plugin-sync";
+			sourceTree = "<group>";
+		};
+		60228C17208C3CE60003A4EF /* value-plugin-login */ = {
+			isa = PBXGroup;
+			children = (
+				60228C18208C3CE60003A4EF /* ValueLogin.h */,
+				60228C19208C3CE60003A4EF /* ValueLogin.m */,
+			);
+			path = "value-plugin-login";
+			sourceTree = "<group>";
+		};
+		60228C1A208C3CE60003A4EF /* value-plugin-img */ = {
+			isa = PBXGroup;
+			children = (
+				60228C1B208C3CE60003A4EF /* ValueImg.m */,
+				60228C1C208C3CE60003A4EF /* ValueImg.h */,
+			);
+			path = "value-plugin-img";
+			sourceTree = "<group>";
+		};
+		60228C1D208C3CE60003A4EF /* value-plugin-env */ = {
+			isa = PBXGroup;
+			children = (
+				60228C1E208C3CE60003A4EF /* ValueEnv.m */,
+				60228C1F208C3CE60003A4EF /* ValueEnv.h */,
+			);
+			path = "value-plugin-env";
+			sourceTree = "<group>";
+		};
+		60228C20208C3CE60003A4EF /* value-plugin-share */ = {
+			isa = PBXGroup;
+			children = (
+				60228C21208C3CE60003A4EF /* ValueShare.h */,
+				60228C22208C3CE60003A4EF /* ValueShare.m */,
+			);
+			path = "value-plugin-share";
+			sourceTree = "<group>";
+		};
+		60228C23208C3CE60003A4EF /* cordova-plugin-device */ = {
+			isa = PBXGroup;
+			children = (
+				60228C24208C3CE60003A4EF /* CDVDevice.m */,
+				60228C25208C3CE60003A4EF /* CDVDevice.h */,
+			);
+			path = "cordova-plugin-device";
+			sourceTree = "<group>";
+		};
+		60228C26208C3CE60003A4EF /* value-plugin-disk */ = {
+			isa = PBXGroup;
+			children = (
+				60228C27208C3CE60003A4EF /* ValueDisk.m */,
+				60228C28208C3CE60003A4EF /* ValueDisk.h */,
+			);
+			path = "value-plugin-disk";
+			sourceTree = "<group>";
+		};
+		60228C29208C3CE60003A4EF /* value-plugin-player */ = {
+			isa = PBXGroup;
+			children = (
+				60228C2A208C3CE60003A4EF /* ValuePlayer.m */,
+				60228C2B208C3CE60003A4EF /* ValuePlayer.h */,
+			);
+			path = "value-plugin-player";
+			sourceTree = "<group>";
+		};
+		60228C2D208C3CE60003A4EF /* cordova-plugin-console */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "cordova-plugin-console";
+			sourceTree = "<group>";
+		};
+		60228C30208C3CE60003A4EF /* ionic-plugin-keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				60228C31208C3CE60003A4EF /* IonicKeyboard.h */,
+				60228C32208C3CE60003A4EF /* UIWebViewExtension.h */,
+				60228C33208C3CE60003A4EF /* UIWebViewExtension.m */,
+				60228C34208C3CE60003A4EF /* IonicKeyboard.m */,
+			);
+			path = "ionic-plugin-keyboard";
+			sourceTree = "<group>";
+		};
+		60228C35208C3CE60003A4EF /* value-plugin-toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				60228C36208C3CE60003A4EF /* ValueToolbar.h */,
+				60228C37208C3CE60003A4EF /* ValueToolbar.m */,
+			);
+			path = "value-plugin-toolbar";
+			sourceTree = "<group>";
+		};
+		60228C38208C3CE60003A4EF /* value-plugin-close */ = {
+			isa = PBXGroup;
+			children = (
+				60228C39208C3CE60003A4EF /* ValueClose.m */,
+				60228C3A208C3CE60003A4EF /* ValueClose.h */,
+			);
+			path = "value-plugin-close";
+			sourceTree = "<group>";
+		};
+		60228C3B208C3CE60003A4EF /* cordova-plugin-statusbar */ = {
+			isa = PBXGroup;
+			children = (
+				60228C3C208C3CE60003A4EF /* CDVStatusBar.m */,
+				60228C3D208C3CE60003A4EF /* CDVStatusBar.h */,
+			);
+			path = "cordova-plugin-statusbar";
+			sourceTree = "<group>";
+		};
+		60228C3E208C3CE60003A4EF /* value-plugin-pay */ = {
+			isa = PBXGroup;
+			children = (
+				60228C3F208C3CE60003A4EF /* ValuePay.h */,
+				60228C40208C3CE60003A4EF /* ValuePay.m */,
+			);
+			path = "value-plugin-pay";
+			sourceTree = "<group>";
+		};
+		60228C41208C3CE60003A4EF /* cordova-plugin-splashscreen */ = {
+			isa = PBXGroup;
+			children = (
+				60228C42208C3CE60003A4EF /* CDVSplashScreen.h */,
+				60228C43208C3CE60003A4EF /* CDVViewController+SplashScreen.m */,
+				60228C44208C3CE60003A4EF /* CDVSplashScreen.m */,
+				60228C45208C3CE60003A4EF /* CDVViewController+SplashScreen.h */,
+			);
+			path = "cordova-plugin-splashscreen";
+			sourceTree = "<group>";
+		};
+		60228C46208C3CE60003A4EF /* value-plugin-h5n */ = {
+			isa = PBXGroup;
+			children = (
+				60228C47208C3CE60003A4EF /* ValueH5n.m */,
+				60228C48208C3CE60003A4EF /* ValueH5n.h */,
+			);
+			path = "value-plugin-h5n";
+			sourceTree = "<group>";
+		};
 		6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -842,6 +1108,7 @@
 		77BC15F8E686F754390D69C2852A438F /* MultiEducation */ = {
 			isa = PBXGroup;
 			children = (
+				60228C0A208C3CB10003A4EF /* Cordova */,
 				FFF07DD434FE55009C631D42E56EF569 /* Bases */,
 				CE0AB0A4477DD8D2AA918169371C0BE1 /* Category */,
 				6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */,
@@ -1012,6 +1279,8 @@
 		9C1D73AA351B3E8485FC64D3B73CF608 /* PBFiles */ = {
 			isa = PBXGroup;
 			children = (
+				60228C07208C3C700003A4EF /* Mecordova.pbobjc.h */,
+				60228C08208C3C700003A4EF /* Mecordova.pbobjc.m */,
 				45D7F62E8F60E1B8895BB5B328C01113 /* MebabyAlbum.pbobjc.h */,
 				7E684F61A1F815D9C208979967FC9CB4 /* MebabyAlbum.pbobjc.m */,
 				D1F24D63BA52E9A478B70144F6D3E266 /* MebabyEvaluate.pbobjc.h */,
@@ -1431,11 +1700,14 @@
 				187831884199A563646659BED8437C23 /* MEBabyHeader.xib in Resources */,
 				309A30B69F2693D54CD6FE4B47011A68 /* MEBabyInfoCell.xib in Resources */,
 				17F302F2BDD50A0D3D1C6DDFB61065F8 /* MEBabyPhotoCell.xib in Resources */,
+				60228C4B208C3CE60003A4EF /* www.zip in Resources */,
 				7103E746997293508C5B24EE09F0EDE9 /* MEBabySelectCell.xib in Resources */,
 				0E1C41CF04954E72C407260D2E6E64BC /* MEHistoryCell.xib in Resources */,
+				60228C55208C3CE60003A4EF /* README in Resources */,
 				1EA0B6D868B175E36FC1E2F104617AF9 /* MEIndexSearchBar.xib in Resources */,
 				CD8F351EF217ACD7CAED9D9CD9054301 /* MEPersonalCell.xib in Resources */,
 				585A6DB6E7D6D7D2B719BF124B5D9A3A /* MEPersonalHeader.xib in Resources */,
+				60228C4C208C3CE60003A4EF /* config.xml in Resources */,
 				E13CC9C1787DC63652B71FD42B4C0A38 /* MEProgressCell.xib in Resources */,
 				912ECFFBFFED15FC3476C832441E40AD /* MEVideoRecorder.bundle in Resources */,
 				E42F2B87A822FB45E382EE9BFAC9B2A7 /* Main.storyboard in Resources */,
@@ -1587,35 +1859,43 @@
 				522E8BB83AC1CDA07B8A8ADDC6EDE0B4 /* MEBabyFillBaseLabel.m in Sources */,
 				D42B5F8D7FE3023BD070FAFE9AF22B40 /* MEBabyHeader.m in Sources */,
 				CCA57F5D28479F04ECD331A5303A72A2 /* MEBabyIndexVM.m in Sources */,
+				60228C58208C3CE60003A4EF /* IonicKeyboard.m in Sources */,
 				3B8094F2FBA1A02D321918AE9625790F /* MEBabyInfoCell.m in Sources */,
 				E9676BF8DDE66329A36BD8C94A9FEB7B /* MEBabyNavigation.m in Sources */,
 				605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */,
 				0A3709BB7039B49F18EF410C66F6FF0F /* MEBabyPhotoCell.m in Sources */,
 				037C60D0FE2401C3CC442A7D783CEF0F /* MEBabyPhotoHeader.m in Sources */,
+				60228C54208C3CE60003A4EF /* ValuePlayer.m in Sources */,
 				1A5675D4F633906ECEE1355469A5297A /* MEBabyPhotoProfile.m in Sources */,
 				5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */,
 				1075CA0F265C0BC72013D54D83E913F7 /* MEBabyRootProfile.m in Sources */,
 				64DB169A9116692A8BE60EA9A2DF7EE1 /* MEBabySelectCell.m in Sources */,
 				FDEA3B27B2A2023DB0B6AC39273375DF /* MEBabySelectProfile.m in Sources */,
+				60228C5D208C3CE60003A4EF /* CDVViewController+SplashScreen.m in Sources */,
 				1D3797D0047644E24C3A1FAAA4A68992 /* MEBaseButton.m in Sources */,
 				88EECBF97112DB5A22A7967BD5DCE407 /* MEBaseCell.m in Sources */,
 				15A9B34E0BCE9B00A87FD825445AB818 /* MEBaseCollectionCell.m in Sources */,
+				60228C53208C3CE60003A4EF /* ValueDisk.m in Sources */,
 				6501096D801BA4E64C292E024CA2BE36 /* MEBaseImageView.m in Sources */,
 				4783F5731225B8352459537E0D0D4B78 /* MEBaseLabel.m in Sources */,
 				65B8475B1BD90D4488923B7CB8D26B7D /* MEBaseNavigationProfile.m in Sources */,
 				031538E4F2F0D51468936913233116D4 /* MEBaseProfile.m in Sources */,
 				D018419E61B2E0073A92A14D6DB3CBE1 /* MEBaseScene.m in Sources */,
+				60228C59208C3CE60003A4EF /* ValueToolbar.m in Sources */,
 				DE728D505B819C1E53333132FD62723F /* MEBaseTabBarProfile.m in Sources */,
 				1480F2D9E07C01873913FA13196D3EF1 /* MEBaseTableView.m in Sources */,
 				EA7CFDFB9AD5472D5EBC4CC8C40F2D6A /* MEBrowserProfile.m in Sources */,
 				4992C6193C6813D4245943D3E0FD55A2 /* MEChatProfile.m in Sources */,
+				60228C51208C3CE60003A4EF /* ValueShare.m in Sources */,
 				9F7CC60599649BE3E8862482A36E8242 /* MEChatSessionRootProfile.m in Sources */,
 				6C38AB29B6726B9020E8D000ACA794D9 /* MEChatVM.m in Sources */,
+				60228C49208C3CE60003A4EF /* MENoticeProfile.m in Sources */,
 				A8D07D10E662B7B56C179325BF921677 /* MECollectionProfile.m in Sources */,
 				7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */,
 				D603D0874DE565F25136C9C7A32F2993 /* MEContentSubcategory.m in Sources */,
 				172F457CA6732B0C82ABD79BC0E24FAC /* MEDispatcher.m in Sources */,
 				EF64C492FCCDB6871CD90833A477285F /* MEDoLiveVM.m in Sources */,
+				60228C5C208C3CE60003A4EF /* ValuePay.m in Sources */,
 				E76F49E94FAE0344452E3E7334A9AC06 /* MEEvaluateCell.m in Sources */,
 				BE3F6A5A337137A20A98B6E4BF5B2293 /* MEEvaluateProfile.m in Sources */,
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
@@ -1624,6 +1904,7 @@
 				36C68861BC27DFBA012EEE570E719941 /* MEHistoryVideo.m in Sources */,
 				6AF57CB4F48F55F728CBF36DD43F9DE9 /* MEIndexBgScroller.m in Sources */,
 				D8ABFA89E4DD7D4FC622A0D08EC449C8 /* MEIndexContentScene.m in Sources */,
+				60228C09208C3C710003A4EF /* Mecordova.pbobjc.m in Sources */,
 				BB265923E0DC4884876D263C47AE36CF /* MEIndexLayouter.m in Sources */,
 				E6447F27131045527E8A977E3B9205AF /* MEIndexNavigationBar.m in Sources */,
 				8F6BE204BE63A1CCFABCB4D21E2DE97C /* MEIndexRootProfile.m in Sources */,
@@ -1637,6 +1918,7 @@
 				3B58FD93F474F96C47E79F78D2AA48A6 /* MELiveClassVM.m in Sources */,
 				19FB07077DCB559FAD4712E7C99C4AFB /* MELiveHeartBeatVM.m in Sources */,
 				0A887F34C7D00AF6BAFFC6FBCAB3F35E /* MELiveMaskLayer.m in Sources */,
+				60228C4E208C3CE60003A4EF /* ValueLogin.m in Sources */,
 				7DA7C9CE24B95F70E868594E4F314E80 /* MELiveProfile.m in Sources */,
 				451CD1D00F3CC5944E5AA05EF917599C /* MELiveRoomRootProfile.m in Sources */,
 				A2D2F2AF42FEBD2E0C8F7DBC3F72C8D3 /* MELiveVodProfile.m in Sources */,
@@ -1650,9 +1932,11 @@
 				882F1F2DE84334EA4D27E15AFFA50565 /* MEPersonalSectionHeader.m in Sources */,
 				B7EC156B8D33E7A78A6F5B27B9F3C81D /* MEPhoto.m in Sources */,
 				12382BEB2E603005E866E18E0EB3378A /* MEPhotoProgressProfile.m in Sources */,
+				60228C5B208C3CE60003A4EF /* CDVStatusBar.m in Sources */,
 				4AA6B8CA021C06A22C60FB35ABA9EF61 /* MEPlayInfoSubTitlePanel.m in Sources */,
 				7244124173944C9455BEBF3CC028431B /* MEPlayInfoTitlePanel.m in Sources */,
 				673E84E3EB538387F29A4E1E59EFEEC5 /* MEPlayerControl.m in Sources */,
+				60228C5F208C3CE60003A4EF /* ValueH5n.m in Sources */,
 				548F82CBF18192C9822541F015A7934A /* MEProgressCell.m in Sources */,
 				97E552ADFB3F5F7943BDDA12B6AA889B /* MEProgressView.m in Sources */,
 				4BDB16475CA499074288E09C5F6611BE /* MEQNUploadVM.m in Sources */,
@@ -1663,6 +1947,7 @@
 				08CB6B9ECBE3E0992D415627BA93613E /* MESearchBar.m in Sources */,
 				97513C50EBE68A736AB564DD25AAD696 /* MESignInProfile.m in Sources */,
 				7E111DB5EC8E1CE9CEBB50A5098D0DAE /* MESignInputField.m in Sources */,
+				60228C4A208C3CE60003A4EF /* MEHybridBaseProfile.m in Sources */,
 				E0D84C2A464E3E6D5963D26D50F2BB62 /* MESignUpProfile.m in Sources */,
 				7F531FF9EE37139EC8F4BEB3CD085135 /* MEStudentVM.m in Sources */,
 				816AE0BE2E49E7AAB98F173A37DBAA70 /* METCPService.m in Sources */,
@@ -1673,6 +1958,11 @@
 				9397FA3C534B6A887C1D79800EB9E934 /* MEVM.m in Sources */,
 				86E44343185A32725C9337E9B0863A5B /* MEVerifyCodeVM.m in Sources */,
 				C7FFAEEA16165BEA48AB846841C005DA /* MEVerticalItem.m in Sources */,
+				60228C52208C3CE60003A4EF /* CDVDevice.m in Sources */,
+				60228C4F208C3CE60003A4EF /* ValueImg.m in Sources */,
+				60228C5E208C3CE60003A4EF /* CDVSplashScreen.m in Sources */,
+				60228C57208C3CE60003A4EF /* UIWebViewExtension.m in Sources */,
+				60228C4D208C3CE60003A4EF /* ValueSync.m in Sources */,
 				F4DDD85DC36FAF29705255DAE08F6BD1 /* MEVideo.m in Sources */,
 				19906CEFDF802A6CF5590CDF81F9DFD6 /* MEVideoClassVM.m in Sources */,
 				F7E4762F48D3FD6455D202E0B54D3507 /* MEVideoInfoVM.m in Sources */,
@@ -1680,6 +1970,7 @@
 				DB7FA8348763A5CB6310D4BF591BC8AB /* MEVideoPreview.m in Sources */,
 				8BF5E12E2C27795DD92447A8CA867593 /* MEVideoRecordProfile.m in Sources */,
 				62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */,
+				60228C5A208C3CE60003A4EF /* ValueClose.m in Sources */,
 				027DE10F837D113662333411CBCD7C1C /* MEWatchHistoryProfile.m in Sources */,
 				192D3CE7F1B1C0628D1617C151003A0C /* MEWatchItem.m in Sources */,
 				C0F618FF86DEAFA5363D1C615388ECDD /* MebabyAlbum.pbobjc.m in Sources */,
@@ -1689,6 +1980,7 @@
 				2E2AE213D53BC4D5ADBBD4290FF970CD /* Mecarrier.pbobjc.m in Sources */,
 				9F65731AAC8C39409B0234F4C9EC092C /* Meclass.pbobjc.m in Sources */,
 				E69F751B2E64C0A0DEB822445293B73A /* MeclassLive.pbobjc.m in Sources */,
+				60228C50208C3CE60003A4EF /* ValueEnv.m in Sources */,
 				DB7FEB815A21FC4B319C8A302FC364C5 /* Meindex.pbobjc.m in Sources */,
 				41009AB89C3EAC4C3ED6DF20D770A208 /* MephoneInfo.pbobjc.m in Sources */,
 				93A97E4C58E733C795631B02845676BC /* Meqnfile.pbobjc.m in Sources */,

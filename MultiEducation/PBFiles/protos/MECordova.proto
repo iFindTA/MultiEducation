@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message MEPBCordova {
+	int64 version = 1;//资源包版本
+	string androidKey = 2;//安卓key
+	string iosKey = 3;//iOSkey
+	int64 createdDate = 4;//创建更新日期
+	string bucketDomain = 5;//下载资源uri
+}
