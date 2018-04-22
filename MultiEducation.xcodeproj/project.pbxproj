@@ -64,6 +64,8 @@
 		5B4F0041FB63B9498C7C7778936DFD52 /* MERegisterVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */; };
 		5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */; };
 		5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */; };
+		60228C63208C60CB0003A4EF /* MECordovaVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C62208C60CB0003A4EF /* MECordovaVM.m */; };
+		60228C67208C715D0003A4EF /* MENoticeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C66208C715D0003A4EF /* MENoticeProfile.m */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
@@ -175,7 +177,6 @@
 		EB98863D18B4D84491347C6987E4F7C3 /* MEHybridBaseProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = D1F17A1B1ABD98910CB700DA25B494F6 /* MEHybridBaseProfile.m */; };
 		ED0D090076CEE017686C906F12AFFD4E /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFE1072436159F5A702EAB33FE2C94 /* UIView+Frame.m */; };
 		EF64C492FCCDB6871CD90833A477285F /* MEDoLiveVM.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC8E2620292EDBB464672D16F9D3E15 /* MEDoLiveVM.m */; };
-		F0336CE5047535346F96CECAF7DD20E3 /* MENoticeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = DC311BDA1BF593D49D1F9DB924EADB37 /* MENoticeProfile.m */; };
 		F17F7942D34279CED04B2DFB8B283832 /* MultiEducationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D1AE9A713B20B40B74734633BA08681 /* MultiEducationTests.m */; };
 		F30B1CCC07348E57DAF930C6EB1B8751 /* MEBabyComponentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28DEF4D2B62DD3E1DE8F95557BB3E20F /* MEBabyComponentCell.xib */; };
 		F4DDD85DC36FAF29705255DAE08F6BD1 /* MEVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5063A6DC9E30C87FF3DF74F7C1C88B89 /* MEVideo.m */; };
@@ -336,6 +337,10 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
+		60228C61208C60CB0003A4EF /* MECordovaVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECordovaVM.h; sourceTree = "<group>"; };
+		60228C62208C60CB0003A4EF /* MECordovaVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECordovaVM.m; sourceTree = "<group>"; };
+		60228C65208C715D0003A4EF /* MENoticeProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MENoticeProfile.h; sourceTree = "<group>"; };
+		60228C66208C715D0003A4EF /* MENoticeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MENoticeProfile.m; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -465,7 +470,6 @@
 		C0A6F3A320F717F331276E485C42F325 /* MEWatchHistoryProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEWatchHistoryProfile.m; sourceTree = "<group>"; };
 		C2EBF9C277B1EA973BA5FB365F9F8044 /* MEBaseImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseImageView.m; sourceTree = "<group>"; };
 		C4E0CC5C10462E8DFD293D18E1564494 /* MELiveProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELiveProfile.h; sourceTree = "<group>"; };
-		C5E648359F6842B2B957C62E8CF03C2B /* MENoticeProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MENoticeProfile.h; sourceTree = "<group>"; };
 		C7E08BE4204469E68CA24C0A8C7CFAE7 /* MELiveHeartBeatVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MELiveHeartBeatVM.h; sourceTree = "<group>"; };
 		C8137B128068EAF6843B22BA67267409 /* MEBaseLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseLabel.h; sourceTree = "<group>"; };
 		C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyOtherInfoCard.m; sourceTree = "<group>"; };
@@ -499,7 +503,6 @@
 		D98D81ADB41A15781040F77E304DB12C /* MEIndexStoryItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexStoryItemCell.m; sourceTree = "<group>"; };
 		DA2C977EBBE82116657591D1A97B2CC7 /* MEHistoryVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEHistoryVM.h; sourceTree = "<group>"; };
 		DA7E14AF3EAC031CFDF596BFCD5054A2 /* ValuePay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuePay.h; sourceTree = "<group>"; };
-		DC311BDA1BF593D49D1F9DB924EADB37 /* MENoticeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MENoticeProfile.m; sourceTree = "<group>"; };
 		DCC401CA929D062641D56F5B493E3849 /* MEIndexContentScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexContentScene.h; sourceTree = "<group>"; };
 		DE51318B95ABB5E4954764162B8A1351 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
 		DE6AF7FE3DE98CF356F7B436B645AD27 /* MultiEducation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiEducation.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -598,6 +601,15 @@
 			path = indexContent;
 			sourceTree = "<group>";
 		};
+		06A8CA9F14D92390C05E5D27B9E7F94A /* value-plugin-img */ = {
+			isa = PBXGroup;
+			children = (
+				11BE8B08480170FD2BF15656B5D95C86 /* ValueImg.h */,
+				46D0AED1E0E9D220CEDCE8760AA83E8D /* ValueImg.m */,
+			);
+			path = "value-plugin-img";
+			sourceTree = "<group>";
+		};
 		1331982429FFB0F75F12B0C325D3ADD2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -623,6 +635,15 @@
 				1A33A4CF86BEC5500BD89020C5552CC4 /* webBrowser */,
 			);
 			path = Profiles;
+			sourceTree = "<group>";
+		};
+		153F8D1846B2DFA828BF7643F93CF08F /* value-plugin-share */ = {
+			isa = PBXGroup;
+			children = (
+				E2C1D7D088C097B2F7B810FA2CC68BFB /* ValueShare.h */,
+				68E81B5FD3FD430991441F6E1295C2B0 /* ValueShare.m */,
+			);
+			path = "value-plugin-share";
 			sourceTree = "<group>";
 		};
 		1804A2A43E7FD4BF1A04E6E1063DB372 /* UIComponents */ = {
@@ -725,6 +746,15 @@
 			path = favor;
 			sourceTree = "<group>";
 		};
+		32EACBF217104E98679286D54AECF552 /* value-plugin-env */ = {
+			isa = PBXGroup;
+			children = (
+				4D2B80E66051810820EA827D98E4C42B /* ValueEnv.h */,
+				683E8395D0E413F0AC0450E7FBCCE91E /* ValueEnv.m */,
+			);
+			path = "value-plugin-env";
+			sourceTree = "<group>";
+		};
 		33F231B1EA87BA853E5EE6CE701905B1 /* UtilKits */ = {
 			isa = PBXGroup;
 			children = (
@@ -734,6 +764,24 @@
 				6F941339C22F0F713AFDD400ABDE5353 /* MEQiniuUtils.m */,
 			);
 			path = UtilKits;
+			sourceTree = "<group>";
+		};
+		354D16498E6D25AD32630FC3D67876BC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C0520D6AEBF1CEC574CC9C50B6779EC0 /* config.xml */,
+				CD775497382364F83AF9CA101546688A /* www.zip */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3739D858358B0C55BEB536DCC70AA641 /* value-plugin-player */ = {
+			isa = PBXGroup;
+			children = (
+				1C10008B2F119E86812E31F03F34DC62 /* ValuePlayer.h */,
+				1E7321142B026AF84DF78192BCEF99DC /* ValuePlayer.m */,
+			);
+			path = "value-plugin-player";
 			sourceTree = "<group>";
 		};
 		39E91C324239C9C698969725B07D2A04 /* garden */ = {
@@ -817,6 +865,15 @@
 			path = contentCell;
 			sourceTree = "<group>";
 		};
+		47CD1251D5AF2D038086C0DC0352AE97 /* value-plugin-h5n */ = {
+			isa = PBXGroup;
+			children = (
+				A618FA329DDBB78A435FC950751B7DD7 /* ValueH5n.h */,
+				D0B6184A2C8F029313186C42E15C44FC /* ValueH5n.m */,
+			);
+			path = "value-plugin-h5n";
+			sourceTree = "<group>";
+		};
 		4C5DA22B307D25D1241389C9F4FA1A3E /* personalHeader */ = {
 			isa = PBXGroup;
 			children = (
@@ -843,6 +900,15 @@
 			path = Index;
 			sourceTree = "<group>";
 		};
+		4F44E28FE2D43A2DF5D73AF9AA33C464 /* cordova-plugin-device */ = {
+			isa = PBXGroup;
+			children = (
+				4F21A5C6834DED458506F0BE03219A84 /* CDVDevice.h */,
+				DE51318B95ABB5E4954764162B8A1351 /* CDVDevice.m */,
+			);
+			path = "cordova-plugin-device";
+			sourceTree = "<group>";
+		};
 		5B23389D8B409442E6B9AF0F84633AF0 /* index */ = {
 			isa = PBXGroup;
 			children = (
@@ -850,36 +916,6 @@
 				EF9CFAFB8B2ED22CC428156ABC829E08 /* MEIndexVM.m */,
 			);
 			path = index;
-			sourceTree = "<group>";
-		};
-		83E860229B5B79FCA962DD281A0D90E2 /* Cordova */ = {
-			isa = PBXGroup;
-			children = (
-				5DFF719085FED434D0EECA46DCFE4D35 /* Plugins */,
-				E1218E3634995F9350AD9331F051E1EB /* Profiles */,
-				354D16498E6D25AD32630FC3D67876BC /* Resources */,
-			);
-			path = Cordova;
-			sourceTree = "<group>";
-		};
-		E1218E3634995F9350AD9331F051E1EB /* Profiles */ = {
-			isa = PBXGroup;
-			children = (
-				23F9A73407B72567827341CBE1BA8D7D /* MEHybridBaseProfile.h */,
-				D1F17A1B1ABD98910CB700DA25B494F6 /* MEHybridBaseProfile.m */,
-				C5E648359F6842B2B957C62E8CF03C2B /* MENoticeProfile.h */,
-				DC311BDA1BF593D49D1F9DB924EADB37 /* MENoticeProfile.m */,
-			);
-			path = Profiles;
-			sourceTree = "<group>";
-		};
-		354D16498E6D25AD32630FC3D67876BC /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				C0520D6AEBF1CEC574CC9C50B6779EC0 /* config.xml */,
-				CD775497382364F83AF9CA101546688A /* www.zip */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		5DFF719085FED434D0EECA46DCFE4D35 /* Plugins */ = {
@@ -906,58 +942,22 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		D3793DFD5B399DF30BE05FE53C3EA51A /* value-plugin-sync */ = {
+		60228C60208C60B90003A4EF /* cordova */ = {
 			isa = PBXGroup;
 			children = (
-				48E2F025B5AE7B0E8B4D375D8FA0A7E3 /* ValueSync.h */,
-				74FE17C32A32C3CB961362800EB84ED8 /* ValueSync.m */,
+				60228C61208C60CB0003A4EF /* MECordovaVM.h */,
+				60228C62208C60CB0003A4EF /* MECordovaVM.m */,
 			);
-			path = "value-plugin-sync";
+			path = cordova;
 			sourceTree = "<group>";
 		};
-		AAE68D4E771C00BE242025007704F93E /* value-plugin-login */ = {
+		60228C64208C715D0003A4EF /* GardenNotice */ = {
 			isa = PBXGroup;
 			children = (
-				9E2942683C88CC5482DE17F3600A8EE7 /* ValueLogin.h */,
-				9CAF00456A194AF1DB04D30988CA4FE4 /* ValueLogin.m */,
+				60228C65208C715D0003A4EF /* MENoticeProfile.h */,
+				60228C66208C715D0003A4EF /* MENoticeProfile.m */,
 			);
-			path = "value-plugin-login";
-			sourceTree = "<group>";
-		};
-		06A8CA9F14D92390C05E5D27B9E7F94A /* value-plugin-img */ = {
-			isa = PBXGroup;
-			children = (
-				11BE8B08480170FD2BF15656B5D95C86 /* ValueImg.h */,
-				46D0AED1E0E9D220CEDCE8760AA83E8D /* ValueImg.m */,
-			);
-			path = "value-plugin-img";
-			sourceTree = "<group>";
-		};
-		32EACBF217104E98679286D54AECF552 /* value-plugin-env */ = {
-			isa = PBXGroup;
-			children = (
-				4D2B80E66051810820EA827D98E4C42B /* ValueEnv.h */,
-				683E8395D0E413F0AC0450E7FBCCE91E /* ValueEnv.m */,
-			);
-			path = "value-plugin-env";
-			sourceTree = "<group>";
-		};
-		153F8D1846B2DFA828BF7643F93CF08F /* value-plugin-share */ = {
-			isa = PBXGroup;
-			children = (
-				E2C1D7D088C097B2F7B810FA2CC68BFB /* ValueShare.h */,
-				68E81B5FD3FD430991441F6E1295C2B0 /* ValueShare.m */,
-			);
-			path = "value-plugin-share";
-			sourceTree = "<group>";
-		};
-		4F44E28FE2D43A2DF5D73AF9AA33C464 /* cordova-plugin-device */ = {
-			isa = PBXGroup;
-			children = (
-				4F21A5C6834DED458506F0BE03219A84 /* CDVDevice.h */,
-				DE51318B95ABB5E4954764162B8A1351 /* CDVDevice.m */,
-			);
-			path = "cordova-plugin-device";
+			path = GardenNotice;
 			sourceTree = "<group>";
 		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
@@ -967,89 +967,6 @@
 				8159DE530E194B4DB55A78874C2AF132 /* ValueDisk.m */,
 			);
 			path = "value-plugin-disk";
-			sourceTree = "<group>";
-		};
-		3739D858358B0C55BEB536DCC70AA641 /* value-plugin-player */ = {
-			isa = PBXGroup;
-			children = (
-				1C10008B2F119E86812E31F03F34DC62 /* ValuePlayer.h */,
-				1E7321142B026AF84DF78192BCEF99DC /* ValuePlayer.m */,
-			);
-			path = "value-plugin-player";
-			sourceTree = "<group>";
-		};
-		95F3BB8EC3FBA939D89128B813B30EE6 /* cordova-plugin-console */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "cordova-plugin-console";
-			sourceTree = "<group>";
-		};
-		EF2A36D8554E199150EABA344A0B9902 /* ionic-plugin-keyboard */ = {
-			isa = PBXGroup;
-			children = (
-				56A2D9DF22ACD31CDB8A9A8FFA65721F /* IonicKeyboard.h */,
-				3872E70BBDFBF208D08CBB36B9CBFFFD /* IonicKeyboard.m */,
-				1530FD65BCDEE73A0C802EC814331C0A /* UIWebViewExtension.h */,
-				36E802CDACD84BF2F646D2A9B36D3433 /* UIWebViewExtension.m */,
-			);
-			path = "ionic-plugin-keyboard";
-			sourceTree = "<group>";
-		};
-		7C1817EEDDCAC941EAD51AD2D050A2F3 /* value-plugin-toolbar */ = {
-			isa = PBXGroup;
-			children = (
-				524DF9A1F73EE98396F4F96FC6C79935 /* ValueToolbar.h */,
-				7CF7C2DAB9BBF3ECD05C9D2C1D17D292 /* ValueToolbar.m */,
-			);
-			path = "value-plugin-toolbar";
-			sourceTree = "<group>";
-		};
-		E5712D4BF9E441898666B7B40420F823 /* value-plugin-close */ = {
-			isa = PBXGroup;
-			children = (
-				A9669FC9523D0D8D32D1B983E8F452F0 /* ValueClose.h */,
-				DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */,
-			);
-			path = "value-plugin-close";
-			sourceTree = "<group>";
-		};
-		E9DBA5583882554ECA7C10F62F4951EF /* cordova-plugin-statusbar */ = {
-			isa = PBXGroup;
-			children = (
-				1D263496D20B4DEB403C8BC5FD4A7424 /* CDVStatusBar.h */,
-				AD2C277AADD33E0DF2372A2A73B52A9C /* CDVStatusBar.m */,
-			);
-			path = "cordova-plugin-statusbar";
-			sourceTree = "<group>";
-		};
-		ADAD4E3AECF4B130517650401444841A /* value-plugin-pay */ = {
-			isa = PBXGroup;
-			children = (
-				DA7E14AF3EAC031CFDF596BFCD5054A2 /* ValuePay.h */,
-				770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */,
-			);
-			path = "value-plugin-pay";
-			sourceTree = "<group>";
-		};
-		D3B0F16A1DFF9A1E4578D5E03EBC301B /* cordova-plugin-splashscreen */ = {
-			isa = PBXGroup;
-			children = (
-				1F5C4258EF8DF9AC6958A52EC0F9B363 /* CDVSplashScreen.h */,
-				205AA21ED33DA7A21FED48BD32A5F5A5 /* CDVSplashScreen.m */,
-				5D81B6FFA8613E469BBF0AE866A31006 /* CDVViewController+SplashScreen.h */,
-				F79B52A5147EBC0DE83FAF5857DEA45A /* CDVViewController+SplashScreen.m */,
-			);
-			path = "cordova-plugin-splashscreen";
-			sourceTree = "<group>";
-		};
-		47CD1251D5AF2D038086C0DC0352AE97 /* value-plugin-h5n */ = {
-			isa = PBXGroup;
-			children = (
-				A618FA329DDBB78A435FC950751B7DD7 /* ValueH5n.h */,
-				D0B6184A2C8F029313186C42E15C44FC /* ValueH5n.m */,
-			);
-			path = "value-plugin-h5n";
 			sourceTree = "<group>";
 		};
 		6866DA3DB7F0D55850365AEAAD6C5F79 /* Dispatch */ = {
@@ -1090,6 +1007,7 @@
 		755D760DBEAA32AFA5A71A39C3CF0AB2 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				60228C60208C60B90003A4EF /* cordova */,
 				95114088337A198D90ADB4E59DB4B4AE /* Users */,
 				811C145762238326A41A49D5F67C6AF2 /* baby */,
 				C97B17DE247B3A2144FB32D67FB23DFA /* chat */,
@@ -1153,6 +1071,15 @@
 			path = VideoRecorder;
 			sourceTree = "<group>";
 		};
+		7C1817EEDDCAC941EAD51AD2D050A2F3 /* value-plugin-toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				524DF9A1F73EE98396F4F96FC6C79935 /* ValueToolbar.h */,
+				7CF7C2DAB9BBF3ECD05C9D2C1D17D292 /* ValueToolbar.m */,
+			);
+			path = "value-plugin-toolbar";
+			sourceTree = "<group>";
+		};
 		7DD3170A9449E1C32A766C8C0F592367 /* babyContentCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1193,6 +1120,16 @@
 				86FB94E6F108A00B7F9347A1DC274C92 /* MEBabyIndexVM.m */,
 			);
 			path = baby;
+			sourceTree = "<group>";
+		};
+		83E860229B5B79FCA962DD281A0D90E2 /* Cordova */ = {
+			isa = PBXGroup;
+			children = (
+				5DFF719085FED434D0EECA46DCFE4D35 /* Plugins */,
+				E1218E3634995F9350AD9331F051E1EB /* Profiles */,
+				354D16498E6D25AD32630FC3D67876BC /* Resources */,
+			);
+			path = Cordova;
 			sourceTree = "<group>";
 		};
 		89B278E2048B964304AD0BBFAE909D46 /* NetService */ = {
@@ -1256,6 +1193,13 @@
 				DECD3B3CE067BE56D97D62A72CE4F766 /* MEVerifyCodeVM.m */,
 			);
 			path = Users;
+			sourceTree = "<group>";
+		};
+		95F3BB8EC3FBA939D89128B813B30EE6 /* cordova-plugin-console */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "cordova-plugin-console";
 			sourceTree = "<group>";
 		};
 		968A2ED6E41E301B9A269642FE175C70 /* MultiEducationUITests */ = {
@@ -1385,6 +1329,15 @@
 			);
 			sourceTree = "<group>";
 		};
+		AAE68D4E771C00BE242025007704F93E /* value-plugin-login */ = {
+			isa = PBXGroup;
+			children = (
+				9E2942683C88CC5482DE17F3600A8EE7 /* ValueLogin.h */,
+				9CAF00456A194AF1DB04D30988CA4FE4 /* ValueLogin.m */,
+			);
+			path = "value-plugin-login";
+			sourceTree = "<group>";
+		};
 		AD8DB100F4D42F9CC3BF49991F65C018 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1401,6 +1354,15 @@
 				09877A44D697C45E57642DD93C5C1836 /* libz.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ADAD4E3AECF4B130517650401444841A /* value-plugin-pay */ = {
+			isa = PBXGroup;
+			children = (
+				DA7E14AF3EAC031CFDF596BFCD5054A2 /* ValuePay.h */,
+				770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */,
+			);
+			path = "value-plugin-pay";
 			sourceTree = "<group>";
 		};
 		B00282D2C0549A2D60B60C92C238FAC0 /* contentHeader */ = {
@@ -1496,6 +1458,26 @@
 			path = qnUpload;
 			sourceTree = "<group>";
 		};
+		D3793DFD5B399DF30BE05FE53C3EA51A /* value-plugin-sync */ = {
+			isa = PBXGroup;
+			children = (
+				48E2F025B5AE7B0E8B4D375D8FA0A7E3 /* ValueSync.h */,
+				74FE17C32A32C3CB961362800EB84ED8 /* ValueSync.m */,
+			);
+			path = "value-plugin-sync";
+			sourceTree = "<group>";
+		};
+		D3B0F16A1DFF9A1E4578D5E03EBC301B /* cordova-plugin-splashscreen */ = {
+			isa = PBXGroup;
+			children = (
+				1F5C4258EF8DF9AC6958A52EC0F9B363 /* CDVSplashScreen.h */,
+				205AA21ED33DA7A21FED48BD32A5F5A5 /* CDVSplashScreen.m */,
+				5D81B6FFA8613E469BBF0AE866A31006 /* CDVViewController+SplashScreen.h */,
+				F79B52A5147EBC0DE83FAF5857DEA45A /* CDVViewController+SplashScreen.m */,
+			);
+			path = "cordova-plugin-splashscreen";
+			sourceTree = "<group>";
+		};
 		D413240D98C32AD45977E6E1593500F9 /* babyPhotoHeader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1514,6 +1496,25 @@
 				EEFD9DEC741114936C4C0161FD880031 /* MEVideoInfoVM.m */,
 			);
 			path = video;
+			sourceTree = "<group>";
+		};
+		E1218E3634995F9350AD9331F051E1EB /* Profiles */ = {
+			isa = PBXGroup;
+			children = (
+				60228C64208C715D0003A4EF /* GardenNotice */,
+				23F9A73407B72567827341CBE1BA8D7D /* MEHybridBaseProfile.h */,
+				D1F17A1B1ABD98910CB700DA25B494F6 /* MEHybridBaseProfile.m */,
+			);
+			path = Profiles;
+			sourceTree = "<group>";
+		};
+		E5712D4BF9E441898666B7B40420F823 /* value-plugin-close */ = {
+			isa = PBXGroup;
+			children = (
+				A9669FC9523D0D8D32D1B983E8F452F0 /* ValueClose.h */,
+				DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */,
+			);
+			path = "value-plugin-close";
 			sourceTree = "<group>";
 		};
 		E5AA5B61CF1F9B8D7F77E6DF39B5736F /* live */ = {
@@ -1535,6 +1536,26 @@
 				6B1645154751A354FC33471F6A94EE69 /* VKMsgSend */,
 			);
 			path = Vendors;
+			sourceTree = "<group>";
+		};
+		E9DBA5583882554ECA7C10F62F4951EF /* cordova-plugin-statusbar */ = {
+			isa = PBXGroup;
+			children = (
+				1D263496D20B4DEB403C8BC5FD4A7424 /* CDVStatusBar.h */,
+				AD2C277AADD33E0DF2372A2A73B52A9C /* CDVStatusBar.m */,
+			);
+			path = "cordova-plugin-statusbar";
+			sourceTree = "<group>";
+		};
+		EF2A36D8554E199150EABA344A0B9902 /* ionic-plugin-keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				56A2D9DF22ACD31CDB8A9A8FFA65721F /* IonicKeyboard.h */,
+				3872E70BBDFBF208D08CBB36B9CBFFFD /* IonicKeyboard.m */,
+				1530FD65BCDEE73A0C802EC814331C0A /* UIWebViewExtension.h */,
+				36E802CDACD84BF2F646D2A9B36D3433 /* UIWebViewExtension.m */,
+			);
+			path = "ionic-plugin-keyboard";
 			sourceTree = "<group>";
 		};
 		F32FE0075C39257717E2FCB43B8E4D6E /* Pods */ = {
@@ -1852,6 +1873,7 @@
 				D1CDA819ED22677E7709CF7D44458ABF /* CDVStatusBar.m in Sources */,
 				64F4A1A7C03FE46AB65E294057D29B6E /* CDVViewController+SplashScreen.m in Sources */,
 				DAD64112B4F62AD0FDF9441CF3A3720D /* GardenHeader.m in Sources */,
+				60228C63208C60CB0003A4EF /* MECordovaVM.m in Sources */,
 				F90CFE9DF41AA62079C936B193E82C1D /* IonicKeyboard.m in Sources */,
 				B854AB005236BD00909E64607B541E23 /* MEAccountSafeProfile.m in Sources */,
 				B7406BA98CA6AF70C891C0F9F171E6F7 /* MEActivity.m in Sources */,
@@ -1921,7 +1943,6 @@
 				C0CB885B5D1EEBE25675055CBF90B40B /* MELoginTextScene.m in Sources */,
 				CDF41485E2AD64C2C590DFC5054A07E7 /* MEM.m in Sources */,
 				8E161272A9C60B43EFE740F1BD6BCCA8 /* MENotFoundProfile.m in Sources */,
-				F0336CE5047535346F96CECAF7DD20E3 /* MENoticeProfile.m in Sources */,
 				F604E3932B48DDEB2D9B531B1E876863 /* MEPBUser+MEStore.m in Sources */,
 				842CC392A03B7C3BFC48679B6BEBE1A7 /* MEPersonalCell.m in Sources */,
 				404D030D977EB8FE76430468F136498A /* MEPersonalHeader.m in Sources */,
@@ -1974,6 +1995,7 @@
 				93A97E4C58E733C795631B02845676BC /* Meqnfile.pbobjc.m in Sources */,
 				04214F55D37A803A5092BE05A7BAC8A4 /* Meres.pbobjc.m in Sources */,
 				2EFB9860A569C034AFF6848B38D8CC3E /* MesignIn.pbobjc.m in Sources */,
+				60228C67208C715D0003A4EF /* MENoticeProfile.m in Sources */,
 				E4A224F378AF281D3851B5000D94B685 /* Meuser.pbobjc.m in Sources */,
 				827FABE58676B9D9F22DFFEBD35982EC /* Mevideo.pbobjc.m in Sources */,
 				7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */,

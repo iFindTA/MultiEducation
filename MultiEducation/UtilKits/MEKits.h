@@ -50,6 +50,18 @@
  */
 + (NSString *)shareResourceUri:(ino64_t)resId type:(int32_t)type;
 
+#pragma mark --- Cordova abouts
+
+/**
+ unzip Cordova resource to documents/www path
+ */
++ (BOOL)UnzipCordovaResources;
+
+/**
+ update Cordova resource packets
+ */
++ (void)updateCordovaResourcePacket;
+
 /**
  压缩image到制定大小以下
 
