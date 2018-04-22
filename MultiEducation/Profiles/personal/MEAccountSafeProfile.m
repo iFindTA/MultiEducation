@@ -82,7 +82,13 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did select");
+    if (indexPath.row == 0) {
+        NSString *urlStr = @"profile://root@MEUpdatePasswordProfile";
+        NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+        [self handleTransitionError: error];
+    } else {
+        
+    }
 }
 
 #pragma mark - lazyloading

@@ -98,8 +98,8 @@ static MEQiniuUtils *qnUtils;
 
 - (void)uploadVideo:(NSData *)data key:(NSString *)key {
     __weak typeof(self) weakSelf = self;
-    
     [qnUploadManager putData:data key: key token: self.qnToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+        NSLog(@"%@", info);
         if (info.isOK) {
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
                 dispatch_async_on_main_queue(^{
