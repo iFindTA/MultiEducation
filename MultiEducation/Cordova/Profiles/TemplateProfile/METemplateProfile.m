@@ -1,22 +1,25 @@
 //
-//  MENoticeProfile.m
-//  HybridProject
+//  METemplateProfile.m
+//  MultiEducation
 //
-//  Created by nanhu on 2018/4/21.
-//  Copyright © 2018年 nanhu. All rights reserved.
+//  Created by nanhu on 2018/4/22.
+//  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MENoticeProfile.h"
+#import "METemplateProfile.h"
 
-@interface MENoticeProfile ()
+@interface METemplateProfile ()
+
+@property (nonatomic, strong) NSDictionary *params;
 
 @end
 
-@implementation MENoticeProfile
+@implementation METemplateProfile
 
 - (id)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
+        _params = [NSDictionary dictionaryWithDictionary:params];
         NSString *startPage = [params objectForKey:ME_CORDOVA_KEY_STARTPAGE];
         NSString *wwwPath = [self wwwFolderPath];
         self.startPage = [wwwPath stringByAppendingPathComponent:startPage];
@@ -28,18 +31,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    NSString *title = [self.params pb_stringForKey:@"title"];
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *back = [self barWithIconUnicode:@"\U0000e6e2" color:[UIColor whiteColor] eventSelector:@selector(cordovaNavigationBackEvent)];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"学校通知"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];
     
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self.commandDelegate evalJs:@"viewWillAppear&&viewWillAppear()"];
 }
 
 - (void)didReceiveMemoryWarning {

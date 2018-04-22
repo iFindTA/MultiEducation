@@ -194,9 +194,9 @@
 }
 
 - (void)displayUserNoticeProfile {
-    NSString *urlString = @"profile://root@MENoticeProfile/__initWithParams:#code";
+    NSString *urlString = @"profile://root@METemplateProfile/__initWithParams:#code";
     NSURL * routeUrl = [NSURL URLWithString:urlString];
-    NSDictionary *params = @{ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
+    NSDictionary *params = @{@"title":@"园所公告", ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
     NSError * err = [MEDispatcher openURL:routeUrl withParams:params];
     [self handleTransitionError:err];
 }
@@ -206,7 +206,7 @@
  更新Cordova在线资源
  */
 - (void)updateOnlineCordovaResource {
-    PBMAINDelay(ME_ANIMATION_DURATION * 16, ^{
+    PBMAINDelay(ME_ANIMATION_DURATION * 10, ^{
         [MEKits updateCordovaResourcePacket];
     });
 }

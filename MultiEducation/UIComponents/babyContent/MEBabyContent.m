@@ -333,8 +333,23 @@
         
         NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
         NSURL *url = nil; NSDictionary *params = nil;
-        if (MEBabyContentTypeLive & (1 << (NSUInteger)indexPath.item)) {
+        NSUInteger __tag = (NSUInteger)indexPath.item;
+        if (MEBabyContentTypeLive & (1 << __tag)) {
             url = [MEDispatcher profileUrlWithClass:@"MELiveRoomRootProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+        } else {
+            //目前加载Cordova网页 后续替换为原生
+            url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
+            if (MEBabyContentTypeGrowth & (1 << __tag)) {
+                params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:@"gu-profile.html#/show"};
+            } else if (MEBabyContentTypeEvaluate & (1 << __tag)) {
+                params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:@"gu-study.html"};
+            } else if (MEBabyContentTypeAnnounce & (1 << __tag)) {
+                params = @{@"title":@"园所公告",ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
+            } else if (MEBabyContentTypeSurvey & (1 << __tag)) {
+                params = @{@"title":@"问卷调查",ME_CORDOVA_KEY_STARTPAGE:@"vote.html"};
+            } else if (MEBabyContentTypeRecipes & (1 << __tag)) {
+                params = @{@"title":@"每周食谱",ME_CORDOVA_KEY_STARTPAGE:@"cookbook.html"};
+            }
         }
         NSError *err = [MEDispatcher openURL:url withParams:params];
         [self handleTransitionError:err];

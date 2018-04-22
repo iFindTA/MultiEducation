@@ -14,7 +14,6 @@
 #endif
 
  #import "MebabyIndex.pbobjc.h"
- #import "MebabyEvaluate.pbobjc.h"
  #import "MebabyGrowth.pbobjc.h"
 // @@protoc_insertion_point(imports)
 
@@ -50,13 +49,17 @@ static GPBFileDescriptor *MebabyIndexRoot_FileDescriptor(void) {
 
 @dynamic studentId;
 @dynamic hasStudentArchives, studentArchives;
-@dynamic hasStudyEvaluate, studyEvaluate;
+@dynamic semester;
+@dynamic gradeId;
+@dynamic month;
 
 typedef struct GuIndexPb__storage_ {
   uint32_t _has_storage_[1];
+  int32_t semester;
+  int32_t month;
   GuStudentArchivesPb *studentArchives;
-  GuStudyEvaluatePb *studyEvaluate;
   int64_t studentId;
+  int64_t gradeId;
 } GuIndexPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -84,13 +87,31 @@ typedef struct GuIndexPb__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "studyEvaluate",
-        .dataTypeSpecific.className = GPBStringifySymbol(GuStudyEvaluatePb),
-        .number = GuIndexPb_FieldNumber_StudyEvaluate,
+        .name = "semester",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_Semester,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(GuIndexPb__storage_, studyEvaluate),
+        .offset = (uint32_t)offsetof(GuIndexPb__storage_, semester),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "gradeId",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_GradeId,
+        .hasIndex = 3,
+        .offset = (uint32_t)offsetof(GuIndexPb__storage_, gradeId),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "month",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_Month,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(GuIndexPb__storage_, month),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -103,7 +124,7 @@ typedef struct GuIndexPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\t\000\002\017\000\003\r\000";
+        "\003\001\t\000\002\017\000\004\007\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

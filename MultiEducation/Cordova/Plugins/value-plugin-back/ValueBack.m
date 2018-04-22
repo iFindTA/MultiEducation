@@ -11,7 +11,7 @@
 @implementation ValueBack
 
 - (void)nativeBack2CordovaEvent {
-    NSString *callback = [NSString stringWithFormat:@"back()"];
+    NSString *callback = [NSString stringWithFormat:@"alert()"];
     [self.commandDelegate evalJs:callback];
 }
 

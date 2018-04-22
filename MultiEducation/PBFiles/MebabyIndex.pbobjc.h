@@ -28,7 +28,6 @@
 CF_EXTERN_C_BEGIN
 
 @class GuStudentArchivesPb;
-@class GuStudyEvaluatePb;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,22 +51,28 @@ NS_ASSUME_NONNULL_BEGIN
 typedef GPB_ENUM(GuIndexPb_FieldNumber) {
   GuIndexPb_FieldNumber_StudentId = 1,
   GuIndexPb_FieldNumber_StudentArchives = 2,
-  GuIndexPb_FieldNumber_StudyEvaluate = 3,
+  GuIndexPb_FieldNumber_Semester = 3,
+  GuIndexPb_FieldNumber_GradeId = 4,
+  GuIndexPb_FieldNumber_Month = 5,
 };
 
 @interface GuIndexPb : GPBMessage
 
 @property(nonatomic, readwrite) int64_t studentId;
 
-/** 生成档案 */
+/** 学生档案 */
 @property(nonatomic, readwrite, strong, null_resettable) GuStudentArchivesPb *studentArchives;
 /** Test to see if @c studentArchives has been set. */
 @property(nonatomic, readwrite) BOOL hasStudentArchives;
 
-/** 发展评价 */
-@property(nonatomic, readwrite, strong, null_resettable) GuStudyEvaluatePb *studyEvaluate;
-/** Test to see if @c studyEvaluate has been set. */
-@property(nonatomic, readwrite) BOOL hasStudyEvaluate;
+/** 学期 */
+@property(nonatomic, readwrite) int32_t semester;
+
+/** 年级 */
+@property(nonatomic, readwrite) int64_t gradeId;
+
+/** 月份 */
+@property(nonatomic, readwrite) int32_t month;
 
 @end
 

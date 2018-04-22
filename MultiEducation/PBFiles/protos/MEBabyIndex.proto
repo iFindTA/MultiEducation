@@ -1,10 +1,11 @@
 syntax = "proto3";
 
-import "MEBabyEvaluate.proto";
 import "MEBabyGrowth.proto";
 
 message GuIndexPb {
    int64 studentId=1;
-   GuStudentArchivesPb studentArchives=2; //生成档案
-   GuStudyEvaluatePb studyEvaluate=3;  //发展评价
+   GuStudentArchivesPb studentArchives=2; //学生档案
+   int32 semester = 3;//学期
+   int64 gradeId = 4;//年级
+   int32 month = 5;//月份
 }

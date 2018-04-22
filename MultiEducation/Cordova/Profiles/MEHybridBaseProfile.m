@@ -32,13 +32,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.sj_fadeAreaViews = @[self.webView];
+    //self.sj_fadeAreaViews = @[self.webView];
     
     [self.view addSubview:self.navigationBar];
     [self.navigationBar addSubview:self.progressView];
     [self.progressView makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.navigationBar);
-        make.height.equalTo(ME_LAYOUT_LINE_HEIGHT);
+        make.height.equalTo(ME_LAYOUT_LINE_HEIGHT * 2);
     }];
     
     self.webView.backgroundColor = [UIColor pb_randomColor];
@@ -63,6 +63,11 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cordovaWebViewDidStartLoad) name:CDVPluginResetNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cordovaWebViewDidFinishLoad) name:CDVPageDidLoadNotification object:nil];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.commandDelegate evalJs:@"viewWillAppear&&viewWillAppear()"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -134,7 +139,7 @@
 - (UIProgressView *)progressView {
     if (!_progressView) {
         _progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
-        _progressView.backgroundColor = [UIColor whiteColor];
+        _progressView.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
         _progressView.tintColor = UIColorFromRGB(0xE15256);
     }
     return _progressView;
@@ -189,12 +194,18 @@
 }
 
 - (void)cordovaNavigationBackEvent {
-    [self.backPlugin nativeBack2CordovaEvent];
+    [self.commandDelegate evalJs:@"back()"];
+}
+
+- (void)cordovaNavigationEditEvent {
+    [self.commandDelegate evalJs:@"edit()"];
 }
 
 #pragma mark --- MEWebProgress Delegate
 
 - (void)cordovaWebViewDidStartLoad {
+    self.progressView.hidden = false;
+    
     [self.progressProxy reset];
     
     [self.progressProxy webviewDidStartLoad];
@@ -202,11 +213,10 @@
 
 - (void)cordovaWebViewDidFinishLoad {
     [self.progressProxy webViewDidFinishLoad];
-    weakify(self)
-    PBMAINDelay(ME_ANIMATION_DURATION, ^{
-        strongify(self)
-        [self.progressProxy reset];
-    });
+    
+    [self.progressProxy reset];
+    
+    self.progressView.hidden = true;
 }
 
 /*

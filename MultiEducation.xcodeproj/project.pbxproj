@@ -67,6 +67,7 @@
 		5B4F0041FB63B9498C7C7778936DFD52 /* MERegisterVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */; };
 		5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */; };
 		5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */; };
+		60228C73208CB5430003A4EF /* METemplateProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C72208CB5430003A4EF /* METemplateProfile.m */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
@@ -107,7 +108,6 @@
 		88EECBF97112DB5A22A7967BD5DCE407 /* MEBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B481AA68F429C178776A5A87738B2D4 /* MEBaseCell.m */; };
 		8BF5E12E2C27795DD92447A8CA867593 /* MEVideoRecordProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE62783E28FE67C0D35642A7621972B /* MEVideoRecordProfile.m */; };
 		8C0E195CFBF8D1F40BD44FD636C1340E /* MEKits.m in Sources */ = {isa = PBXBuildFile; fileRef = 25190448871181068B1923F95898834E /* MEKits.m */; };
-		8D08C3FA927875734A93C1AA4F1541B2 /* MENoticeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C2B9D58A4FC87BA6F625AD0CFD97AC7 /* MENoticeProfile.m */; };
 		8E161272A9C60B43EFE740F1BD6BCCA8 /* MENotFoundProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = EF77FFC3325EBFD1E6840DB3E5CBD07B /* MENotFoundProfile.m */; };
 		8F6BE204BE63A1CCFABCB4D21E2DE97C /* MEIndexRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 30ADE91C62294023ED64210DA976BBA9 /* MEIndexRootProfile.m */; };
 		9069829CAA0287AEC3EFA86431744B16 /* MEBabyContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E18F767947E147FF72E8AA9D82B915 /* MEBabyContent.m */; };
@@ -243,7 +243,6 @@
 		18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		195739A5097B6443C4CCA44885AE42A2 /* MEQiniuUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEQiniuUtils.h; sourceTree = "<group>"; };
 		19D183675D37617CCCC54C3234FB6DB2 /* MEUIBaseHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUIBaseHeader.h; sourceTree = "<group>"; };
-		1A4C041921F1EDD5CFB1ED1B76DEC899 /* MENoticeProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MENoticeProfile.h; sourceTree = "<group>"; };
 		1B1A9F782972A27F2B0E17C6ED55CFA6 /* MEVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVM.h; sourceTree = "<group>"; };
 		1C10008B2F119E86812E31F03F34DC62 /* ValuePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValuePlayer.h; sourceTree = "<group>"; };
 		1C736E862024450528606909D2A6CAFB /* MEEvaluateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEEvaluateProfile.m; sourceTree = "<group>"; };
@@ -351,6 +350,8 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
+		60228C71208CB5430003A4EF /* METemplateProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = METemplateProfile.h; sourceTree = "<group>"; };
+		60228C72208CB5430003A4EF /* METemplateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = METemplateProfile.m; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -405,7 +406,6 @@
 		87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		88157F8A883158A8B5AC8563AF131301 /* MEBabySelectProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBabySelectProfile.m; sourceTree = "<group>"; };
 		899448F5B16EC9B47DB8FE38D1C15E2F /* MEPlayInfoTitlePanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayInfoTitlePanel.h; sourceTree = "<group>"; };
-		8C2B9D58A4FC87BA6F625AD0CFD97AC7 /* MENoticeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MENoticeProfile.m; sourceTree = "<group>"; };
 		8C33D662974CF2095B6BE883B3862EFE /* MEVerticalItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEVerticalItem.h; sourceTree = "<group>"; };
 		8D4C0CEC23C069ABE7E9248B09399D1A /* MebabyGrowth.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MebabyGrowth.pbobjc.m; sourceTree = "<group>"; };
 		8D59AC263D557A287170282C7834A82C /* MEBaseTabBarProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseTabBarProfile.h; sourceTree = "<group>"; };
@@ -703,6 +703,15 @@
 			path = indexSearchMask;
 			sourceTree = "<group>";
 		};
+		200654D3908BC4E0343C0E80984B8D51 /* value-plugin-back */ = {
+			isa = PBXGroup;
+			children = (
+				3F080019ED61B6F2E4DE2F0AD79335D7 /* ValueBack.h */,
+				761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */,
+			);
+			path = "value-plugin-back";
+			sourceTree = "<group>";
+		};
 		2470414544B59C6A3ABC1BDAADE8C456 /* babyContent */ = {
 			isa = PBXGroup;
 			children = (
@@ -969,22 +978,13 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		D17E83D3FF12C117D34A5F3384A6EEC2 /* cordovaProgress */ = {
+		60228C70208CB52F0003A4EF /* TemplateProfile */ = {
 			isa = PBXGroup;
 			children = (
-				A5333693CF31682D0C1AD3D2199E39F2 /* MEWebProgress.h */,
-				A3216EE2AA68A749EC2B4C5920C5306F /* MEWebProgress.m */,
+				60228C71208CB5430003A4EF /* METemplateProfile.h */,
+				60228C72208CB5430003A4EF /* METemplateProfile.m */,
 			);
-			path = cordovaProgress;
-			sourceTree = "<group>";
-		};
-		200654D3908BC4E0343C0E80984B8D51 /* value-plugin-back */ = {
-			isa = PBXGroup;
-			children = (
-				3F080019ED61B6F2E4DE2F0AD79335D7 /* ValueBack.h */,
-				761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */,
-			);
-			path = "value-plugin-back";
+			path = TemplateProfile;
 			sourceTree = "<group>";
 		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
@@ -1284,15 +1284,6 @@
 			path = PBFiles;
 			sourceTree = "<group>";
 		};
-		9DB6DC7C2AA6281B31B5F6BD526B0F69 /* GardenNotice */ = {
-			isa = PBXGroup;
-			children = (
-				1A4C041921F1EDD5CFB1ED1B76DEC899 /* MENoticeProfile.h */,
-				8C2B9D58A4FC87BA6F625AD0CFD97AC7 /* MENoticeProfile.m */,
-			);
-			path = GardenNotice;
-			sourceTree = "<group>";
-		};
 		9EFD338F9D5B91940F00FD37FFB1B481 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1505,6 +1496,15 @@
 			path = qnUpload;
 			sourceTree = "<group>";
 		};
+		D17E83D3FF12C117D34A5F3384A6EEC2 /* cordovaProgress */ = {
+			isa = PBXGroup;
+			children = (
+				A5333693CF31682D0C1AD3D2199E39F2 /* MEWebProgress.h */,
+				A3216EE2AA68A749EC2B4C5920C5306F /* MEWebProgress.m */,
+			);
+			path = cordovaProgress;
+			sourceTree = "<group>";
+		};
 		D3793DFD5B399DF30BE05FE53C3EA51A /* value-plugin-sync */ = {
 			isa = PBXGroup;
 			children = (
@@ -1548,7 +1548,7 @@
 		E1218E3634995F9350AD9331F051E1EB /* Profiles */ = {
 			isa = PBXGroup;
 			children = (
-				9DB6DC7C2AA6281B31B5F6BD526B0F69 /* GardenNotice */,
+				60228C70208CB52F0003A4EF /* TemplateProfile */,
 				23F9A73407B72567827341CBE1BA8D7D /* MEHybridBaseProfile.h */,
 				D1F17A1B1ABD98910CB700DA25B494F6 /* MEHybridBaseProfile.m */,
 			);
@@ -1993,7 +1993,6 @@
 				C0CB885B5D1EEBE25675055CBF90B40B /* MELoginTextScene.m in Sources */,
 				CDF41485E2AD64C2C590DFC5054A07E7 /* MEM.m in Sources */,
 				8E161272A9C60B43EFE740F1BD6BCCA8 /* MENotFoundProfile.m in Sources */,
-				8D08C3FA927875734A93C1AA4F1541B2 /* MENoticeProfile.m in Sources */,
 				F604E3932B48DDEB2D9B531B1E876863 /* MEPBUser+MEStore.m in Sources */,
 				842CC392A03B7C3BFC48679B6BEBE1A7 /* MEPersonalCell.m in Sources */,
 				C953851F6C78FC4B2F7EBBEE639C9245 /* MEPersonalDataCell.m in Sources */,
@@ -2061,6 +2060,7 @@
 				373BB47A053D10E7882361E3B66CF813 /* ValueBack.m in Sources */,
 				5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */,
 				38D6E6090A037B85242AAF9F6DF574F2 /* ValueDisk.m in Sources */,
+				60228C73208CB5430003A4EF /* METemplateProfile.m in Sources */,
 				CEA271402094FD7BFD21E151669A6681 /* ValueEnv.m in Sources */,
 				EB8CF1F5D0E78B878E9C2439E72BE591 /* ValueH5n.m in Sources */,
 				96090DCEE27E4CB29207275B5B8CDA24 /* ValueImg.m in Sources */,

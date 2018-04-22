@@ -155,7 +155,6 @@ typedef struct MEPBUserList__storage_ {
 @dynamic hasParentsPb, parentsPb;
 @dynamic hasTeacherPb, teacherPb;
 @dynamic hasSchoolPb, schoolPb;
-@dynamic repassword;
 @dynamic funcCtrlPbArray, funcCtrlPbArray_Count;
 @dynamic hasInitPwd;
 @dynamic bucketDomain;
@@ -171,6 +170,7 @@ typedef struct MEPBUserList__storage_ {
 @dynamic isUserCharge;
 @dynamic code;
 @dynamic sessionToken;
+@dynamic repassword;
 @dynamic cutClassId;
 @dynamic signinstamp;
 
@@ -196,7 +196,6 @@ typedef struct MEPBUser__storage_ {
   ParentsPb *parentsPb;
   TeacherPb *teacherPb;
   SchoolPb *schoolPb;
-  NSString *repassword;
   NSMutableArray *funcCtrlPbArray;
   NSString *bucketDomain;
   NSString *uptoken;
@@ -205,6 +204,7 @@ typedef struct MEPBUser__storage_ {
   NSString *rcToken;
   NSString *code;
   NSString *sessionToken;
+  NSString *repassword;
   int64_t id_p;
   int64_t schoolId;
   int64_t phaseId;
@@ -383,15 +383,6 @@ typedef struct MEPBUser__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
-        .name = "repassword",
-        .dataTypeSpecific.className = NULL,
-        .number = MEPBUser_FieldNumber_Repassword,
-        .hasIndex = 18,
-        .offset = (uint32_t)offsetof(MEPBUser__storage_, repassword),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
         .name = "funcCtrlPbArray",
         .dataTypeSpecific.className = GPBStringifySymbol(FuncCtrlPb),
         .number = MEPBUser_FieldNumber_FuncCtrlPbArray,
@@ -404,7 +395,7 @@ typedef struct MEPBUser__storage_ {
         .name = "hasInitPwd",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_HasInitPwd,
-        .hasIndex = 19,
+        .hasIndex = 18,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, hasInitPwd),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
@@ -413,7 +404,7 @@ typedef struct MEPBUser__storage_ {
         .name = "bucketDomain",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_BucketDomain,
-        .hasIndex = 20,
+        .hasIndex = 19,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, bucketDomain),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
@@ -422,7 +413,7 @@ typedef struct MEPBUser__storage_ {
         .name = "uptoken",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_Uptoken,
-        .hasIndex = 21,
+        .hasIndex = 20,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, uptoken),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -431,7 +422,7 @@ typedef struct MEPBUser__storage_ {
         .name = "groupStatus",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_GroupStatus,
-        .hasIndex = 22,
+        .hasIndex = 21,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, groupStatus),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
@@ -440,7 +431,7 @@ typedef struct MEPBUser__storage_ {
         .name = "isMember",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_IsMember,
-        .hasIndex = 23,
+        .hasIndex = 22,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, isMember),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
@@ -449,7 +440,7 @@ typedef struct MEPBUser__storage_ {
         .name = "deadline",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_Deadline,
-        .hasIndex = 24,
+        .hasIndex = 23,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, deadline),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
@@ -458,7 +449,7 @@ typedef struct MEPBUser__storage_ {
         .name = "systemConfigPb",
         .dataTypeSpecific.className = GPBStringifySymbol(SystemConfigPb),
         .number = MEPBUser_FieldNumber_SystemConfigPb,
-        .hasIndex = 25,
+        .hasIndex = 24,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, systemConfigPb),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
@@ -467,7 +458,7 @@ typedef struct MEPBUser__storage_ {
         .name = "diskCap",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_DiskCap,
-        .hasIndex = 26,
+        .hasIndex = 25,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, diskCap),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
@@ -476,7 +467,7 @@ typedef struct MEPBUser__storage_ {
         .name = "deanPb",
         .dataTypeSpecific.className = GPBStringifySymbol(DeanPb),
         .number = MEPBUser_FieldNumber_DeanPb,
-        .hasIndex = 27,
+        .hasIndex = 26,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, deanPb),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeMessage,
@@ -485,7 +476,7 @@ typedef struct MEPBUser__storage_ {
         .name = "isTourist",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_IsTourist,
-        .hasIndex = 28,
+        .hasIndex = 27,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, isTourist),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
@@ -494,7 +485,7 @@ typedef struct MEPBUser__storage_ {
         .name = "rcToken",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_RcToken,
-        .hasIndex = 29,
+        .hasIndex = 28,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, rcToken),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
@@ -503,7 +494,7 @@ typedef struct MEPBUser__storage_ {
         .name = "isUserCharge",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_IsUserCharge,
-        .hasIndex = 30,
+        .hasIndex = 29,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, isUserCharge),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
@@ -512,7 +503,7 @@ typedef struct MEPBUser__storage_ {
         .name = "code",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_Code,
-        .hasIndex = 31,
+        .hasIndex = 30,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, code),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -521,9 +512,18 @@ typedef struct MEPBUser__storage_ {
         .name = "sessionToken",
         .dataTypeSpecific.className = NULL,
         .number = MEPBUser_FieldNumber_SessionToken,
-        .hasIndex = 32,
+        .hasIndex = 31,
         .offset = (uint32_t)offsetof(MEPBUser__storage_, sessionToken),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "repassword",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBUser_FieldNumber_Repassword,
+        .hasIndex = 32,
+        .offset = (uint32_t)offsetof(MEPBUser__storage_, repassword),
+        .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
@@ -555,8 +555,8 @@ typedef struct MEPBUser__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\024\002\010\000\007\010\000\010\007\000\016\n\000\020\t\000\021\t\000\022\010\000\024\000funcCtrlPb\000\025\n\000\026\014"
-        "\000\030\013\000\031\010\000\033\016\000\034\007\000\035\006\000\036\t\000\037\007\000 \014\000\"\014\000#\n\000";
+        "\024\002\010\000\007\010\000\010\007\000\016\n\000\020\t\000\021\t\000\022\010\000\023\000funcCtrlPb\000\024\n\000\025\014"
+        "\000\027\013\000\030\010\000\032\016\000\033\007\000\034\006\000\035\t\000\036\007\000\037\014\000!\014\000#\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

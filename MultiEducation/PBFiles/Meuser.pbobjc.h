@@ -123,22 +123,22 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
   MEPBUser_FieldNumber_ParentsPb = 16,
   MEPBUser_FieldNumber_TeacherPb = 17,
   MEPBUser_FieldNumber_SchoolPb = 18,
-  MEPBUser_FieldNumber_Repassword = 19,
-  MEPBUser_FieldNumber_FuncCtrlPbArray = 20,
-  MEPBUser_FieldNumber_HasInitPwd = 21,
-  MEPBUser_FieldNumber_BucketDomain = 22,
-  MEPBUser_FieldNumber_Uptoken = 23,
-  MEPBUser_FieldNumber_GroupStatus = 24,
-  MEPBUser_FieldNumber_IsMember = 25,
-  MEPBUser_FieldNumber_Deadline = 26,
-  MEPBUser_FieldNumber_SystemConfigPb = 27,
-  MEPBUser_FieldNumber_DiskCap = 28,
-  MEPBUser_FieldNumber_DeanPb = 29,
-  MEPBUser_FieldNumber_IsTourist = 30,
-  MEPBUser_FieldNumber_RcToken = 31,
-  MEPBUser_FieldNumber_IsUserCharge = 32,
-  MEPBUser_FieldNumber_Code = 33,
-  MEPBUser_FieldNumber_SessionToken = 34,
+  MEPBUser_FieldNumber_FuncCtrlPbArray = 19,
+  MEPBUser_FieldNumber_HasInitPwd = 20,
+  MEPBUser_FieldNumber_BucketDomain = 21,
+  MEPBUser_FieldNumber_Uptoken = 22,
+  MEPBUser_FieldNumber_GroupStatus = 23,
+  MEPBUser_FieldNumber_IsMember = 24,
+  MEPBUser_FieldNumber_Deadline = 25,
+  MEPBUser_FieldNumber_SystemConfigPb = 26,
+  MEPBUser_FieldNumber_DiskCap = 27,
+  MEPBUser_FieldNumber_DeanPb = 28,
+  MEPBUser_FieldNumber_IsTourist = 29,
+  MEPBUser_FieldNumber_RcToken = 30,
+  MEPBUser_FieldNumber_IsUserCharge = 31,
+  MEPBUser_FieldNumber_Code = 32,
+  MEPBUser_FieldNumber_SessionToken = 33,
+  MEPBUser_FieldNumber_Repassword = 34,
   MEPBUser_FieldNumber_CutClassId = 35,
   MEPBUser_FieldNumber_Signinstamp = 36,
 };
@@ -202,9 +202,6 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 /** Test to see if @c schoolPb has been set. */
 @property(nonatomic, readwrite) BOOL hasSchoolPb;
 
-/** 新密码 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *repassword;
-
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<FuncCtrlPb*> *funcCtrlPbArray;
 /** The number of items in @c funcCtrlPbArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger funcCtrlPbArray_Count;
@@ -253,6 +250,9 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 
 /** 用户登录后授权token */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *sessionToken;
+
+/** 新密码 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *repassword;
 
 /** 当前classId */
 @property(nonatomic, readwrite) int64_t cutClassId;
