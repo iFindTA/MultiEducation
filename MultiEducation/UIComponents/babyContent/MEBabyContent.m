@@ -247,69 +247,33 @@
 
     if (self.babyPhotos.count == 0)  {
         
-        [self.photoHeader removeFromSuperview];
-        _photoHeader = nil;
+        self.photoHeader.hidden = YES;
+        self.babyPhtoView.hidden = YES;
+        self.componentView.hidden = YES;
         
-        [self.babyPhtoView removeFromSuperview];
-        _babyPhtoView = nil;
-        
-        [self.componentView removeFromSuperview];
-        _componentView = nil;
-        
-        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self.scrollContentView);
+        [self.tableView updateConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.headerView.mas_bottom);
-            make.height.mas_equalTo([self tableviewHeight]);
         }];
-        
+
     } else {
         
-        if (!self.photoHeader.superview) {
-            [self.scrollContentView addSubview: self.photoHeader];
-        }
+        self.photoHeader.hidden = NO;
+        self.babyPhtoView.hidden = NO;
+        self.componentView.hidden = NO;
+        self.tableView.hidden = NO;
         
-        if (!self.babyPhtoView.superview) {
-            [self.scrollContentView addSubview: self.babyPhtoView];
-        }
-        
-        if (!self.componentView.superview) {
-            [self.scrollContentView addSubview: self.componentView];
-        }
-        
-        [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.scrollView);
-            make.width.mas_equalTo(MESCREEN_WIDTH);
-            make.top.mas_equalTo(self.headerView.mas_bottom);
-            make.height.mas_equalTo(54.f);
-        }];
-        
-        [self.babyPhtoView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
-            make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(-10);
-            make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(10.f);
-            make.height.mas_equalTo(78);
-        }];
-        
-        [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(MESCREEN_WIDTH - 20);
-            make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
-            make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
-            make.height.mas_equalTo(COMPONENT_HEIGHT);
-        }];
-        
-        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.tableView remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(self.scrollContentView);
-            make.top.mas_equalTo(self.componentView.mas_bottom);
             make.height.mas_equalTo([self tableviewHeight]);
+            make.top.mas_equalTo(self.componentView.mas_bottom);
         }];
-        
+    
     }
     
     [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
     }];
-    
-    
+
 }
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
