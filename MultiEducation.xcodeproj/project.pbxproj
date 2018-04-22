@@ -33,6 +33,7 @@
 		20D90A4C8E3DCEC97C8CE93998B0663A /* MEUserVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 261400A4A9E625CED46F92C01166A074 /* MEUserVM.m */; };
 		219A3B612D4E5674B61E865D77B73A43 /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E802CDACD84BF2F646D2A9B36D3433 /* UIWebViewExtension.m */; };
 		260DED6522EF309EA0A47F22A741F615 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 205AA21ED33DA7A21FED48BD32A5F5A5 /* CDVSplashScreen.m */; };
+		2A299B99826BCE387E40A34A4DC4DAFF /* METemplateProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 831D82747B993AF5829116D657C3E221 /* METemplateProfile.m */; };
 		2CC03C76B92C6E44E24FC81694861E99 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EC7DAE0CA7456FF6A8C3F51FC7F28F /* SystemConfiguration.framework */; };
 		2E2AE213D53BC4D5ADBBD4290FF970CD /* Mecarrier.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FAE3E0B1A90316E2D2BC81E1A1E6E82 /* Mecarrier.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		2EFB9860A569C034AFF6848B38D8CC3E /* MesignIn.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA9A369AF346E4442E08F236FA79DDE /* MesignIn.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -67,7 +68,6 @@
 		5B4F0041FB63B9498C7C7778936DFD52 /* MERegisterVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */; };
 		5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */; };
 		5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */; };
-		60228C73208CB5430003A4EF /* METemplateProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C72208CB5430003A4EF /* METemplateProfile.m */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
@@ -350,8 +350,6 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
-		60228C71208CB5430003A4EF /* METemplateProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = METemplateProfile.h; sourceTree = "<group>"; };
-		60228C72208CB5430003A4EF /* METemplateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = METemplateProfile.m; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -363,6 +361,7 @@
 		68E81B5FD3FD430991441F6E1295C2B0 /* ValueShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueShare.m; sourceTree = "<group>"; };
 		69EECFF4B01CC1CE49138EFE99463B51 /* Meindex.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meindex.pbobjc.h; sourceTree = "<group>"; };
 		69F9A75758D8EF209F01089D823595A8 /* Mevideo.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mevideo.pbobjc.h; sourceTree = "<group>"; };
+		6ACF53893678F1C3E12D21999B17B3B8 /* METemplateProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = METemplateProfile.h; sourceTree = "<group>"; };
 		6B911CE2605059B4F459C1218A73DF69 /* MEChatVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEChatVM.m; sourceTree = "<group>"; };
 		6BDFB25BF4A7002292C9B0674E14D548 /* MEBabyOtherInfoCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyOtherInfoCard.h; sourceTree = "<group>"; };
 		6C330F7E5B36263BD9CF2E2ABC71E5DD /* MEReqCodes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEReqCodes.h; sourceTree = "<group>"; };
@@ -395,6 +394,7 @@
 		7EB24A4F7D4A6D405042E98847DD91F2 /* MEResFavorListVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEResFavorListVM.m; sourceTree = "<group>"; };
 		7F45943A4A72EACE906D11F1624CB61D /* Meclass.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meclass.pbobjc.h; sourceTree = "<group>"; };
 		8159DE530E194B4DB55A78874C2AF132 /* ValueDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueDisk.m; sourceTree = "<group>"; };
+		831D82747B993AF5829116D657C3E221 /* METemplateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = METemplateProfile.m; sourceTree = "<group>"; };
 		833390A6F58646A13E8F0B4180B0D105 /* MEPBUser+MEStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MEPBUser+MEStore.m"; sourceTree = "<group>"; };
 		83D0AC2F6FD6236BCCE60EC21516DCA3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		83E34AE70A1E6DF0C7491031B7A173A7 /* MECordovaVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECordovaVM.m; sourceTree = "<group>"; };
@@ -978,11 +978,11 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		60228C70208CB52F0003A4EF /* TemplateProfile */ = {
+		8BF2F51D245461EA60713AE4817C0041 /* TemplateProfile */ = {
 			isa = PBXGroup;
 			children = (
-				60228C71208CB5430003A4EF /* METemplateProfile.h */,
-				60228C72208CB5430003A4EF /* METemplateProfile.m */,
+				6ACF53893678F1C3E12D21999B17B3B8 /* METemplateProfile.h */,
+				831D82747B993AF5829116D657C3E221 /* METemplateProfile.m */,
 			);
 			path = TemplateProfile;
 			sourceTree = "<group>";
@@ -1548,7 +1548,7 @@
 		E1218E3634995F9350AD9331F051E1EB /* Profiles */ = {
 			isa = PBXGroup;
 			children = (
-				60228C70208CB52F0003A4EF /* TemplateProfile */,
+				8BF2F51D245461EA60713AE4817C0041 /* TemplateProfile */,
 				23F9A73407B72567827341CBE1BA8D7D /* MEHybridBaseProfile.h */,
 				D1F17A1B1ABD98910CB700DA25B494F6 /* MEHybridBaseProfile.m */,
 			);
@@ -2019,6 +2019,7 @@
 				7F531FF9EE37139EC8F4BEB3CD085135 /* MEStudentVM.m in Sources */,
 				816AE0BE2E49E7AAB98F173A37DBAA70 /* METCPService.m in Sources */,
 				82E4F83CD3F809BB6E81DAAAB1A74777 /* METeacherMultiClassTableProfile.m in Sources */,
+				2A299B99826BCE387E40A34A4DC4DAFF /* METemplateProfile.m in Sources */,
 				674C0B8B5B41CFED6C70A4E42313D842 /* METimeLineSectionView.m in Sources */,
 				A501D164DB592319A29F78285091455C /* MEUserIdentitySwitchProfile.m in Sources */,
 				20D90A4C8E3DCEC97C8CE93998B0663A /* MEUserVM.m in Sources */,
@@ -2060,7 +2061,6 @@
 				373BB47A053D10E7882361E3B66CF813 /* ValueBack.m in Sources */,
 				5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */,
 				38D6E6090A037B85242AAF9F6DF574F2 /* ValueDisk.m in Sources */,
-				60228C73208CB5430003A4EF /* METemplateProfile.m in Sources */,
 				CEA271402094FD7BFD21E151669A6681 /* ValueEnv.m in Sources */,
 				EB8CF1F5D0E78B878E9C2439E72BE591 /* ValueH5n.m in Sources */,
 				96090DCEE27E4CB29207275B5B8CDA24 /* ValueImg.m in Sources */,
