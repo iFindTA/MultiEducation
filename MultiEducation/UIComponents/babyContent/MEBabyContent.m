@@ -71,7 +71,7 @@
         
         GuStudentArchivesPb *stuPb;
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
-            stuPb = [MEBabyIndexVM fetchSelectBaby];
+            stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
             [self.headerView setData: stuPb];
             [self getBabyPhotos: stuPb.classId];
             return;
@@ -150,7 +150,7 @@
         
         GuStudentArchivesPb *babyGrowthPb = pb.studentArchives;
         babyGrowthPb.userId = self.currentUser.id_p;
-        [MEBabyIndexVM saveSelectBaby: pb.studentArchives];
+        [MEBabyIndexVM saveSelectBaby: pb];
         
         [self getBabyPhotos: babyGrowthPb.classId];
         
