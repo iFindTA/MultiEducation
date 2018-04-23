@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "VKMsgSend.h"
 #import "MEQRScanProfile.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 
@@ -858,10 +859,45 @@
 }
 
 - (void)handleQRScanResult:(PBScanResult *)result {
-    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-    //Using Block
+//    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+//    [alert showWaiting:@"已处理" subTitle:@"loading" closeButtonTitle:nil duration:10];
     
-    [alert showWaiting:@"已处理" subTitle:@"loading" closeButtonTitle:nil duration:10];
+    NSString *info = PBAvailableString(result.codeInfo);
+    NSDictionary *params = nil;
+    NSString *urlString = nil;NSDictionary * jsonMap = nil;
+    NSData *data = [info dataUsingEncoding:NSUTF8StringEncoding];
+    if (data) {
+        jsonMap = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    }
+    UIViewController *profile;NSString *initMethod = @"__initWithParams:";NSString *destClassString;
+    if (jsonMap) {
+        NSString *type = [jsonMap pb_stringForKey:@"type"];
+        if ([type isEqualToString:@"user"]) {
+            
+        } else if ([type isEqualToString:@"CHILDREN_TRAIN"]
+                   ||[type isEqualToString:@"TEACHER_TRAIN"]
+                   ||[type isEqualToString:@"TEACH_VIDEO"]
+                   ||[type isEqualToString:@"ITEM"]) {
+            
+        } else if ([type isEqualToString:@"MEMBER"]) {
+            
+        } else {
+            params = @{@"info":info};
+            urlString = @"profile://root@MEQRResultProfile";
+        }
+    } else if ([info pb_isMatchRegexPattern:ME_REGULAR_URL]) {
+        //whether url
+        params = @{@"title":@"扫描结果", @"url":info};
+        destClassString = @"MEBrowserProfile";
+    }
+    NSError *err;
+    if (destClassString.length == 0) {
+        destClassString = @"MEQRResultProfile";
+        params = @{@"info":@"扫描结果不做处理！"};
+    }
+    profile = [destClassString VKCallClassAllocInitSelectorName:initMethod error:&err, params, nil];
+    //urlString = @"profile://root@MEBrowserProfile";
+    [self replaceStack4Instance:profile];
 }
 
 /*

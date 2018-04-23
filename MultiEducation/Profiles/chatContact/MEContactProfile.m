@@ -49,14 +49,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIImage *moreImage = [UIImage imageNamed:@"chat_contact_add"];
+    //UIImage *moreImage = [UIImage imageNamed:@"chat_contact_add"];
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
     UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
-    UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(navigationBarMoreTouchEvent)];
+    //UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(navigationBarMoreTouchEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"通讯录"];
     item.leftBarButtonItems = @[spacer, backItem];
-    item.rightBarButtonItems = @[spacer, moreItem];
+    //item.rightBarButtonItems = @[spacer, moreItem];
     [self.navigationBar pushNavigationItem:item animated:true];
     
 }

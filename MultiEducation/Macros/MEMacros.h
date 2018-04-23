@@ -104,6 +104,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_REGULAR_CLASSNO_LEN_MIX                                          5
 #define ME_REGULAR_CLASSNO_LEN_MAX                                          10
 #define ME_REGULAR_MOBILE                                                   @"^1+[3578]+\\d{9}"
+#define ME_REGULAR_URL                                                      @"((http[s]{0,1}|ftp)://[a-zA-Z0-9\\-.]+(?::(\\d+))?(?:(?:/[a-zA-Z0-9\\-._?,'+\\&%$=~*!():@\\\\]*)+)?)|(www.[a-zA-Z0-9\\.\\-]+\\.([a-zA-Z]{2,4})(:\\d+)?(/[a-zA-Z0-9\\.\\-~!@#$%^&*+?:_/=<>]*)?)"
 
 #define ME_PAGING_SIZE                                                      20//默认分页20
 #define ME_EMPTY_PROMPT_TITLE                                               @"Oops！"
