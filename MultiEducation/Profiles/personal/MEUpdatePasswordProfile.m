@@ -63,6 +63,15 @@ static CGFloat const ROW_HEIGHT = 54.f;
 
 }
 
+- (void)customNavigation {
+    NSString *title = @"修改密码";
+    UIBarButtonItem *spacer = [self barSpacer];
+    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
+    item.leftBarButtonItems = @[spacer, backItem];
+    [self.navigationBar pushNavigationItem:item animated:true];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -80,8 +89,8 @@ static CGFloat const ROW_HEIGHT = 54.f;
         return;
     }
     
-    self.currentUser.password = [[self.oldPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
-    self.currentUser.repassword = [[self.newPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
+    self.currentUser.repassword = [[self.oldPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
+    self.currentUser.password = [[self.newPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
 
     NSData *data = [self.currentUser data];
     
