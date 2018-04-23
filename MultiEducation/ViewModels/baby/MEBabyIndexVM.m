@@ -35,8 +35,6 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *curUser = delegate.curUser;
     
-    NSLog(@"curId ========= %lld", curUser.uid);
-    
     NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
     NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
     

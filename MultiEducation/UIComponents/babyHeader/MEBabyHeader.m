@@ -29,7 +29,6 @@
                 self.babyWeightLab.text = @"--";
             }
         }
-        self.userNameLab.text = [NSString stringWithFormat: @"%@，您好", self.currentUser.name];
     }
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
