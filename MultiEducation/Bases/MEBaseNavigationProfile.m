@@ -6,6 +6,8 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#define ME_ENABLED_PUSHING              0
+
 #import "MEBaseNavigationProfile.h"
 
 @interface MEBaseNavigationProfile () <UINavigationControllerDelegate>
@@ -19,9 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+#if ME_ENABLED_PUSHING
     __weak typeof(self) weakSelf = self;
     self.delegate = weakSelf;
+#endif
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,7 +33,7 @@
 }
 
 #pragma mark --- override super methods
-
+#if ME_ENABLED_PUSHING
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if (animated) {
         if (self.isPushing) {
@@ -47,6 +50,7 @@
         self.isPushing = NO;
     }
 }
+#endif
 
 /*
 #pragma mark - Navigation
