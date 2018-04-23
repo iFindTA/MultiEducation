@@ -15,7 +15,7 @@
 #import "MEWatchItem.h"
 
 
-#define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户管理", @"帮助中心", @"反馈"]
+#define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户管理", @"帮助中心", @"反馈", @"关于我们"]
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 44.f;
@@ -99,6 +99,12 @@ static CGFloat const SECTION_HEADER = 56.f;
             
         }
             break;
+        case 5: {
+            NSString *urlStr = @"profile://root@MEAboutMeProfile/";
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+            [self handleTransitionError: error];
+        }
+            break;
         default:
             break;
     }
@@ -148,7 +154,6 @@ static CGFloat const SECTION_HEADER = 56.f;
 
 - (MEBaseScene *)tableHeader {
     if (!_tableHeader) {
-        
         CGFloat tableHeaderHeight;
         if ([self whetherHistoryCountGreaterThanZero]) {
             tableHeaderHeight = HEADER_HEIGHT + HISTORY_HEIGHT;

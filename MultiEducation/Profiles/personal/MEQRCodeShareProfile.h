@@ -7,7 +7,8 @@
 //
 
 #import "MEBaseProfile.h"
+#import "MEQRCodeShareProfile.h"
 
-@interface MEQRCodeShare : MEBaseProfile
+@interface MEQRCodeShareProfile : MEBaseProfile
 
 @end

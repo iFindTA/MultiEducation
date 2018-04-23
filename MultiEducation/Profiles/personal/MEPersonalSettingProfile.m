@@ -13,7 +13,10 @@
 #import <YYKit.h>
 #import "Meuser.pbobjc.h"
 #import "MEUserVM.h"
+#import "MeuserData.pbobjc.h"
+#import "MEGenderVM.h"
 #import "MEEditUserDataProfile.h"
+#import "MEPortraitVM.h"
 
 #define TITLE_LIST @[@"头像管理", @"昵称", @"手机号", @"性别"]
 
@@ -38,7 +41,6 @@ static CGFloat const CELL_HEIGHT = 54.f;
     [super viewDidLoad];
     
     [self customNavigation];
-    
     [self.view addSubview: self.tableView];
     
     //layout
@@ -72,8 +74,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
         case 1: {
             //修改昵称
             NSString *urlStr = @"profile://MEEditUserDataProfile";
-            NSDictionary *params = @{@"type": [NSNumber numberWithInteger: MEEditTypeNickName]};
-            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
             [self handleTransitionError: error];
         }
             break;
@@ -86,15 +87,50 @@ static CGFloat const CELL_HEIGHT = 54.f;
             break;
         case 3: {
             //修改性别
-            NSString *urlStr = @"profile://MEEditUserDataProfile";
-            NSDictionary *params = @{@"type": [NSNumber numberWithInteger: MEEditTypeGender]};
-            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-            [self handleTransitionError: error];
+            [self getAlertToChangeGender];
         }
             break;
         default:
             break;
     }
+}
+
+- (void)getAlertToChangeGender {
+    UIAlertController *aletController = [UIAlertController alertControllerWithTitle: @"提示" message: @"请选择性别" preferredStyle: UIAlertControllerStyleActionSheet];
+    
+    weakify(self);
+    UIAlertAction *ac1 = [UIAlertAction actionWithTitle: @"男" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
+        [self sendGenderToServer: 1];
+    }];
+    
+    UIAlertAction *ac2 = [UIAlertAction actionWithTitle: @"女" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
+        [self sendGenderToServer: 2];
+    }];
+    
+    UIAlertAction *cancelAC = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+    
+    [aletController addAction: ac1];
+    [aletController addAction: ac2];
+    [aletController addAction: cancelAC];
+    
+    [self presentViewController: aletController animated: YES completion: nil];
+}
+
+- (void)sendGenderToServer:(int32_t)gender {
+    FscUserPb *userPb = [[FscUserPb alloc] init];
+    userPb.gender = gender;
+    MEGenderVM *vm = [MEGenderVM vmWithModel: userPb];
+    NSData *data = [userPb data];
+    weakify(self);
+    [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        //此处更新MEPBUser.currentUser的库字段
+        [self.tableView reloadData];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
 }
 
 - (void)getAlertToChangePhoto {
@@ -148,21 +184,20 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)sendChangeUserHeadToServer:(NSString *)portrait {
-    MEUserVM *userVM = [MEUserVM vmWithModel: self.currentUser];
-    
-    self.currentUser.portrait = portrait;
-    
+    FscUserPb *userPb = [[FscUserPb alloc] init];
+    userPb.portrait = portrait;
     NSData *data = [self.currentUser data];
+
+    MEPortraitVM *portraitVM = [MEPortraitVM vmWithModel: userPb];
     
-    [userVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+    [portraitVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         MEPBUser *user = [MEPBUser parseFromData: resObj error: nil];
+        //此处更新MEPBUser.currentUser的库字段
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
-    
 }
-
 
 #pragma mark - UploadImagesCallback
 - (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
@@ -224,8 +259,12 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    [self uploadToQNServe: image];
+    UIImage *image = [info objectForKey: UIImagePickerControllerOriginalImage];
+    weakify(self);
+    [self.navigationController dismissViewControllerAnimated: YES completion:^{
+        strongify(self);
+        [self uploadToQNServe: image];
+    }];
 }
 
 #pragma mark - lazyloading

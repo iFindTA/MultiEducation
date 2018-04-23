@@ -83,9 +83,6 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self sendSwitchBabyPostToServer: [self.babys objectAtIndex: indexPath.row]];;
-    if (self.selectBabyCallBack) {
-        self.selectBabyCallBack([self.babys objectAtIndex: indexPath.row]);
-    }
 }
 
 #pragma mark - lazyloading

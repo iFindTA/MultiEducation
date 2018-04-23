@@ -111,7 +111,6 @@ static CGFloat const ROW_HEIGHT = 54.f;
 }
 
 - (void)touchUpdateButtonEvent {
-    
     NSString *mobile = self.phone.textfield.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
         [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
@@ -127,11 +126,9 @@ static CGFloat const ROW_HEIGHT = 54.f;
     FscUserPb *pb = [[FscUserPb alloc] init];
     pb.mobile = newMobile;
     pb.code = self.code.textfield.text;
-
+    
     MEMobileVM *vm = [MEMobileVM vmWithModel: pb];
-    
     NSData *data = [pb data];
-    
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         [SVProgressHUD showWithStatus: @"修改手机号成功"];
         [self.navigationController popViewControllerAnimated: YES];

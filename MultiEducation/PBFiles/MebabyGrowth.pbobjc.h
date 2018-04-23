@@ -91,7 +91,6 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
   GuStudentArchivesPb_FieldNumber_StudentPortrait = 26,
   GuStudentArchivesPb_FieldNumber_StudentName = 27,
   GuStudentArchivesPb_FieldNumber_ClassId = 28,
-  GuStudentArchivesPb_FieldNumber_UserId = 29,
 };
 
 @interface GuStudentArchivesPb : GPBMessage
@@ -175,9 +174,6 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
 
 /** 所在班级id */
 @property(nonatomic, readwrite) int64_t classId;
-
-/** 用户id */
-@property(nonatomic, readwrite) int64_t userId;
 
 @end
 

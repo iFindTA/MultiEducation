@@ -7,11 +7,6 @@
 //
 
 #import "MEBaseProfile.h"
- 
-typedef NS_ENUM(NSUInteger, MEEditType) {
-    MEEditTypeNickName                                 =   1   <<  0,
-    MEEditTypeGender                                   =   1   <<  1
-};
 
 @interface MEEditUserDataProfile : MEBaseProfile
 

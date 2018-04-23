@@ -31,7 +31,7 @@
 }
 
 - (void)qrCodeTapEvent {
-    NSString *urlStr = @"profile://root@MEQRCodShare/";
+    NSString *urlStr = @"profile://root@MEQRCodeShareProfile/";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
     [self handleTransitionError: error];
 }

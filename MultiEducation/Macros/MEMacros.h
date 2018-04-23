@@ -75,6 +75,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define LIMIT_UPLOAD_KEY @"limit_upload_key"
 
+#define QRCODE_URL @"http://app.chinaxqjy.com"
+
+
 #define ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC                                  @"ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC"//登录界面不显示随便逛逛
 #define ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN                           @"ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN"//登录成功后是否返回 是则返回 否则跳转主界面
 #define ME_DISPATCH_KEY_CALLBEFORE                                          @"ME_DISPATCH_KEY_CALLBEFORE"//登录前执行
