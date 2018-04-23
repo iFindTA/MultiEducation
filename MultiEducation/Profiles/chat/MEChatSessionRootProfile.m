@@ -35,7 +35,7 @@
     UIBarButtonItem *spacer = [MEKits barSpacer];
     UIBarButtonItem *cotactItem = [MEKits barWithTitle:@"通讯录" color:[UIColor whiteColor] target:self eventSelector:@selector(userDidTouchContactTouchEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"聊天"];
-    item.rightBarButtonItems = @[cotactItem, spacer];
+    item.rightBarButtonItems = @[spacer, cotactItem];
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
@@ -106,7 +106,9 @@
 #pragma mark --- User Interface Actions
 
 - (void)userDidTouchContactTouchEvent {
-    
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEContactProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:nil];
+    [MEKits handleError:err];
 }
 
 #pragma mark --- User Chat Session Callback

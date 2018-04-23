@@ -75,6 +75,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIBarButtonItem *)backBarWithColor:(UIColor *)color target:(nullable id)target withSelector:(nullable SEL)selector;
 + (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color target:(nullable id)target eventSelector:(nullable SEL)selector;
 + (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color target:(nullable id)target eventSelector:(nullable SEL)selector ;
++ (UIBarButtonItem *)barWithImage:(UIImage *)image target:(id)target eventSelector:(SEL)selector;
+
+#pragma mark --- handle hud message
+
++ (void)handleError:(NSError *)err;
+
++ (void)handleSuccess:(NSString *)hud;
 
 /**
  压缩image到制定大小以下

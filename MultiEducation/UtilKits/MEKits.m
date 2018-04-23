@@ -14,6 +14,7 @@
 #import "Meuser.pbobjc.h"
 #import <PBService/PBService.h>
 #import <SSZipArchive/SSZipArchive.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 #import <AFNetworking/AFHTTPSessionManager.h>
 
 @implementation MEKits
@@ -274,7 +275,7 @@
 
 + (UIBarButtonItem *)barSpacer {
     UIBarButtonItem *barSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    barSpacer.width = - ME_LAYOUT_MARGIN*3;
+    barSpacer.width = - ME_LAYOUT_MARGIN*2;
     return barSpacer;
 }
 
@@ -330,6 +331,43 @@
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     [barItem setTintColor:fontColor];
     return barItem;
+}
+
++ (UIBarButtonItem *)barWithImage:(UIImage *)image target:(id)target eventSelector:(SEL)selector {
+    CGFloat itemSize = 28;
+//    CGFloat fontSize = METHEME_FONT_TITLE;
+//    UIFont *font = UIFontPingFangSC(fontSize);
+//    CGFloat itemWidth = [title pb_sizeThatFitsWithFont:font width:MESCREEN_WIDTH].width;
+//    UIColor *fontColor = (color == nil)?[UIColor whiteColor]:color;
+//    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //btn.backgroundColor = [UIColor pb_randomColor];
+    btn.frame = CGRectMake(0, 0, itemSize, itemSize);
+    btn.exclusiveTouch = true;
+//    btn.titleLabel.font = font;
+    //    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, spacing);
+    //    btn.titleEdgeInsets = UIEdgeInsetsMake(0, spacing, 0, 0);
+//    [btn setTitle:title forState:UIControlStateNormal];
+//    [btn setTitleColor:fontColor forState:UIControlStateNormal];
+    [btn setImage:image forState:UIControlStateNormal];
+    [btn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+//    [barItem setTintColor:fontColor];
+    return barItem;
+}
+
+#pragma mark --- handle hud
+
++ (void)handleError:(NSError *)err {
+    if (err) {
+        [SVProgressHUD showErrorWithStatus:err.domain];
+    }
+}
+
++ (void)handleSuccess:(NSString *)hud {
+    if (hud) {
+        [SVProgressHUD showSuccessWithStatus:hud];
+    }
 }
 
 #pragma mark --- 处理图片相关
