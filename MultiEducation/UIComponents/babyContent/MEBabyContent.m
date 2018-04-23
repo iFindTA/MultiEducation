@@ -354,10 +354,10 @@
                 [multiMap setObject:@(stuID) forKey:@"studentId"];
                 NSString *getParamsString = [multiMap.copy uq_URLQueryString];
                 if (MEBabyContentTypeGrowth & type) {
-                    NSString *startPage = PBFormat(@"gu-profile.html?%@#/show", getParamsString);
+                    NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
                     params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
                 } else if (MEBabyContentTypeEvaluate & type) {
-                    NSString *startPage = PBFormat(@"gu-study.html?%@", getParamsString);
+                    NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
                     params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
                 }
                 url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
@@ -452,10 +452,10 @@
     NSString *getParamsString = [multiMap.copy uq_URLQueryString];
     NSDictionary *params;
     if (MEBabyContentTypeGrowth & type) {
-        NSString *startPage = PBFormat(@"gu-profile.html?%@#/show", getParamsString);
+        NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
         params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
     } else if (MEBabyContentTypeEvaluate & type) {
-        NSString *startPage = PBFormat(@"gu-study.html?%@", getParamsString);
+        NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
         params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
     }
     NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
