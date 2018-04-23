@@ -9,9 +9,11 @@
 #import "VKMsgSend.h"
 #import "MELiveClassVM.h"
 #import "MELiveVodProfile.h"
+#import <ZFPlayer/ZFPlayer.h>
 #import <MJRefresh/MJRefresh.h>
 #import "MEIndexStoryItemCell.h"
 #import "MELiveRoomRootProfile.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <libksygpulive/KSYMoviePlayerController.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
@@ -43,6 +45,11 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 @property (nonatomic, strong) MEBaseScene *liveScene;
 @property (nonatomic, strong) KSYMoviePlayerController *playProfile;
 @property (nonatomic, strong) MEBaseScene *liveMaskScene;
+
+/**
+ 目前ZFPlayer不支持RTMP直播流
+ */
+@property (nonatomic, strong) ZFPlayerView *player;
 
 @end
 
@@ -257,6 +264,29 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     return _startLiveBtn;
 }
 
+- (ZFPlayerView *)player {
+    if (!_player) {
+        _player = [[ZFPlayerView alloc] initWithFrame:CGRectZero];
+        _player.fullScreenPlay = false;
+        [_player playerControlView:nil playerModel:[self fetchCurrentLivePlayModel]];
+    }
+    return _player;
+}
+
+- (ZFPlayerModel *)fetchCurrentLivePlayModel {
+    ZFPlayerModel *model;
+    if (self.dataLive) {
+        model = [[ZFPlayerModel alloc] init];
+        model.title = self.dataLive.title;
+        model.fatherView = self.liveScene;
+        model.placeholderImageURLString = [MEKits imageFullPath:self.dataLive.coverImg];
+        NSString *urlString = self.dataLive.streamURL;
+        urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+        model.videoURL = [NSURL URLWithString:urlString];
+    }
+    return model;
+}
+
 #pragma mark --- DZNEmpty DataSource & Deleagte
 
 - (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
@@ -461,7 +491,8 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     }
     //有多个班级 弹框让用户选择班级
     PBMAINDelay(ME_ANIMATION_DURATION, ^{
-        [self makeUserChooseClasses];
+        //[self makeUserChooseClasses];
+        [self multicastChooseClasses];
     });
 }
 
@@ -492,6 +523,26 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     [self presentViewController:alertProfile animated:true completion:^{
         
     }];
+}
+
+/**
+ 班级多选
+ */
+- (void)multicastChooseClasses {
+    NSArray <MEPBClass*>*classes = self.classes.copy;
+    if (classes.count <= 1) {
+        return;
+    }
+    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+    //Using Block
+    weakify(self)
+    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [alert addButton:obj.name actionBlock:^(void) {
+            strongify(self)
+            [self userDidChooseClass4Name:obj.name];
+        }];
+    }];
+    [alert showInfo:ME_ALERT_INFO_TITILE subTitle:@"您关联了多个班级，请选择班级进行查看！" closeButtonTitle:ME_ALERT_INFO_ITEM_CANCEL duration:0];
 }
 
 /**
@@ -549,6 +600,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         //reset current play item
         [self.playProfile.view setFrame:self.liveScene.bounds];
         [self.liveScene addSubview:self.playProfile.view];
+        
     }
     
     [self.table reloadData];
