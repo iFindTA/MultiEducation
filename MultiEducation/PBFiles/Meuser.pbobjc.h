@@ -105,7 +105,7 @@ typedef GPB_ENUM(MEPBUserList_FieldNumber) {
 #pragma mark - MEPBUser
 
 typedef GPB_ENUM(MEPBUser_FieldNumber) {
-  MEPBUser_FieldNumber_Id_p = 1,
+  MEPBUser_FieldNumber_Uid = 1,
   MEPBUser_FieldNumber_SchoolId = 2,
   MEPBUser_FieldNumber_Uuid = 3,
   MEPBUser_FieldNumber_Username = 4,
@@ -146,7 +146,7 @@ typedef GPB_ENUM(MEPBUser_FieldNumber) {
 @interface MEPBUser : GPBMessage
 
 /** 用户id */
-@property(nonatomic, readwrite) int64_t id_p;
+@property(nonatomic, readwrite) int64_t uid;
 
 /** 学校id */
 @property(nonatomic, readwrite) int64_t schoolId;

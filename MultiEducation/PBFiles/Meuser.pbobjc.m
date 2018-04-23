@@ -137,7 +137,7 @@ typedef struct MEPBUserList__storage_ {
 
 @implementation MEPBUser
 
-@dynamic id_p;
+@dynamic uid;
 @dynamic schoolId;
 @dynamic uuid;
 @dynamic username;
@@ -205,7 +205,7 @@ typedef struct MEPBUser__storage_ {
   NSString *code;
   NSString *sessionToken;
   NSString *repassword;
-  int64_t id_p;
+  int64_t uid;
   int64_t schoolId;
   int64_t phaseId;
   int64_t deadline;
@@ -221,11 +221,11 @@ typedef struct MEPBUser__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "id_p",
+        .name = "uid",
         .dataTypeSpecific.className = NULL,
-        .number = MEPBUser_FieldNumber_Id_p,
+        .number = MEPBUser_FieldNumber_Uid,
         .hasIndex = 0,
-        .offset = (uint32_t)offsetof(MEPBUser__storage_, id_p),
+        .offset = (uint32_t)offsetof(MEPBUser__storage_, uid),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt64,
       },

@@ -53,7 +53,7 @@
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
     UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
-    UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(userDidTouchQRCodeScanEvent)];
+    UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(navigationBarMoreTouchEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"通讯录"];
     item.leftBarButtonItems = @[spacer, backItem];
     item.rightBarButtonItems = @[spacer, moreItem];
@@ -84,7 +84,7 @@
         UIColor *iconColor = [UIColor whiteColor];
         NSString *title = @"发起群聊";
         UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000e618" withSize:iconSize withColor:iconColor];
-        YCXMenuItem *chatItem = [YCXMenuItem menuItem:title image:img tag:0 userInfo:nil];
+        YCXMenuItem *chatItem = [YCXMenuItem menuItem:title image:img target:self action:@selector(userDidTouchLanuchGroupChatEvent)];
         img = [UIImage pb_iconFont:nil withName:@"\U0000e62d" withSize:iconSize withColor:iconColor];
         title = @"扫一扫";
         YCXMenuItem *scanItem = [YCXMenuItem menuItem:title image:img target:self action:@selector(userDidTouchQRCodeScanEvent)];
@@ -103,8 +103,21 @@
     }];
 }
 
+/**
+ 扫一扫
+ */
 - (void)userDidTouchQRCodeScanEvent {
-    
+    [YCXMenu dismissMenu];
+    NSString *urlString = @"profile://root@MEQRScanProfile";
+    NSError *err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    [MEKits handleError:err];
+}
+
+/**
+ 发起群聊
+ */
+- (void)userDidTouchLanuchGroupChatEvent {
+    [YCXMenu dismissMenu];
 }
 
 /*

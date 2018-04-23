@@ -7,7 +7,7 @@ message MEPBUserList {
 }
 
 message MEPBUser {
-    int64 id = 1; //用户id
+    int64 uid = 1; //用户id
     int64 schoolId = 2; //学校id
     string uuid = 3; //唯一统一标示符
     string username = 4; //用户名
