@@ -212,12 +212,13 @@ static CGFloat const CELL_HEIGHT = 54.f;
     }
 }
 
-#pragma mark -UITableViewDelegate
+#pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return CELL_HEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: YES];
     [self pushToNextProfile: indexPath.row];
 }
 
@@ -234,6 +235,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 
         [_tableView registerNib: [UINib nibWithNibName: @"MEHeaderIconCell" bundle: nil] forCellReuseIdentifier: USER_ICON_CELL_IDEF];
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalDataCell" bundle: nil] forCellReuseIdentifier: USER_DATA_CELL_IDEF];
