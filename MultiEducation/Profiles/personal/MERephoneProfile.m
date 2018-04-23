@@ -13,7 +13,7 @@
 #import "MEMobileVM.h"
 #import "MeuserData.pbobjc.h"
 
-#define MAX_WAIT_TIME 60
+#define MAX_WAIT_TIME 5
 
 static CGFloat const ROW_HEIGHT = 54.f;
 
@@ -25,14 +25,10 @@ static CGFloat const ROW_HEIGHT = 54.f;
 @property (nonatomic, strong) MEEditScene *phone;
 @property (nonatomic, strong) MEEditScene *code;
 @property (nonatomic, strong) MEEditScene *newPhone;
-
 @property (nonatomic, strong) MEBaseButton *getCodeBtn;
-
 @property (nonatomic, strong) MEBaseButton *confirmBtn;
 
 @property (nonatomic, strong) NSTimer *timer;
-
-
 
 @end
 
@@ -98,8 +94,8 @@ static CGFloat const ROW_HEIGHT = 54.f;
 }
 
 - (void)timerRun {
-    if (_count <= 0) {
-        _count = 0;
+    if (_count <= 1) {
+        _count = MAX_WAIT_TIME;
         [self.getCodeBtn setTitle: @"验证码" forState: UIControlStateNormal];
         [self timerEnd];
     } else {
@@ -137,11 +133,11 @@ static CGFloat const ROW_HEIGHT = 54.f;
     NSData *data = [pb data];
     
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        
+        [SVProgressHUD showWithStatus: @"修改手机号成功"];
+        [self.navigationController popViewControllerAnimated: YES];
     } failure:^(NSError * _Nonnull error) {
-        
+        [self handleTransitionError: error];
     }];
-    
 }
 
 - (void)sendSignInVerifyCodeEvent {
