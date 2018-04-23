@@ -1025,15 +1025,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		A3CCCF52DDABF831F123B7ED33D6D321 /* chatContact */ = {
-			isa = PBXGroup;
-			children = (
-				D5ED59A971653D8EAFC02864BD2B5619 /* MEContactProfile.h */,
-				F4F644496D42EFCDAEC7F3C5B480AE59 /* MEContactProfile.m */,
-			);
-			path = chatContact;
-			sourceTree = "<group>";
-		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1397,6 +1388,15 @@
 				45385D82285E1D39163E29A2B4BBE445 /* MELiveMaskLayer.m */,
 			);
 			path = liveClass;
+			sourceTree = "<group>";
+		};
+		A3CCCF52DDABF831F123B7ED33D6D321 /* chatContact */ = {
+			isa = PBXGroup;
+			children = (
+				D5ED59A971653D8EAFC02864BD2B5619 /* MEContactProfile.h */,
+				F4F644496D42EFCDAEC7F3C5B480AE59 /* MEContactProfile.m */,
+			);
+			path = chatContact;
 			sourceTree = "<group>";
 		};
 		A4E51ED08356D9BA4BD3FEB22E5DEAEE /* personal */ = {
@@ -2320,7 +2320,7 @@
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2400,7 +2400,7 @@
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

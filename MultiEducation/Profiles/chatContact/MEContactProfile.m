@@ -6,9 +6,14 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "VKMsgSend.h"
+#import <YCXMenu/YCXMenu.h>
 #import "MEContactProfile.h"
+#import "MEBaseNavigationProfile.h"
 
 @interface MEContactProfile ()
+
+@property (nonatomic, strong) NSArray <YCXMenuItem*> *menuItems;
 
 @end
 
@@ -48,7 +53,7 @@
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
     UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
-    UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(navigationBarMoreTouchEvent)];
+    UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(userDidTouchQRCodeScanEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"通讯录"];
     item.leftBarButtonItems = @[spacer, backItem];
     item.rightBarButtonItems = @[spacer, moreItem];
@@ -71,9 +76,34 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark --- lazy loading
+
+- (NSArray<YCXMenuItem*>*)menuItems {
+    if (!_menuItems) {
+        NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
+        UIColor *iconColor = [UIColor whiteColor];
+        NSString *title = @"发起群聊";
+        UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000e618" withSize:iconSize withColor:iconColor];
+        YCXMenuItem *chatItem = [YCXMenuItem menuItem:title image:img tag:0 userInfo:nil];
+        img = [UIImage pb_iconFont:nil withName:@"\U0000e62d" withSize:iconSize withColor:iconColor];
+        title = @"扫一扫";
+        YCXMenuItem *scanItem = [YCXMenuItem menuItem:title image:img target:self action:@selector(userDidTouchQRCodeScanEvent)];
+        _menuItems = [NSArray arrayWithObjects:chatItem, scanItem, nil];
+    }
+    return _menuItems;
+}
+
 #pragma mark --- User Interface Touch Events
 
 - (void)navigationBarMoreTouchEvent {
+    NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
+    CGRect bounds = CGRectMake(MESCREEN_WIDTH-iconSize-ME_LAYOUT_MARGIN*2, ME_HEIGHT_NAVIGATIONBAR+ME_LAYOUT_MARGIN, iconSize, iconSize);
+    [YCXMenu showMenuInView:self.view fromRect:bounds menuItems:self.menuItems selected:^(NSInteger index, YCXMenuItem *item) {
+        
+    }];
+}
+
+- (void)userDidTouchQRCodeScanEvent {
     
 }
 
