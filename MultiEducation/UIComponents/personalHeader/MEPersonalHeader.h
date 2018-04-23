@@ -16,8 +16,6 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *userName;
 
-@property (weak, nonatomic) IBOutlet MEBaseLabel *userSign;
-
 @property (weak, nonatomic) IBOutlet MEBaseButton *settingButton;
 
 

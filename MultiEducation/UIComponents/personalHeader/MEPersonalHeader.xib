@@ -47,23 +47,6 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zeE-91-RO4" customClass="MEBaseLabel">
-                    <rect key="frame" x="90" y="115" width="120" height="15"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="120" id="CSy-qL-ohj"/>
-                        <constraint firstAttribute="height" constant="15" id="EmQ-YW-vp7"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="12"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="个性签名"/>
-                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                            <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-8h-cbB" customClass="MEBaseButton">
                     <rect key="frame" x="335" y="103" width="17" height="17"/>
                     <constraints>
@@ -86,8 +69,6 @@
                 <constraint firstItem="8aC-vR-YUg" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="V05-aE-01v"/>
                 <constraint firstItem="8aC-vR-YUg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Xfv-mK-8Th"/>
                 <constraint firstItem="ter-8h-cbB" firstAttribute="centerY" secondItem="zrI-g9-4Ve" secondAttribute="centerY" id="ndb-eD-f3V"/>
-                <constraint firstItem="zeE-91-RO4" firstAttribute="top" secondItem="dtU-8z-8Vv" secondAttribute="bottom" constant="4" id="tda-2D-IcG"/>
-                <constraint firstItem="zeE-91-RO4" firstAttribute="leading" secondItem="dtU-8z-8Vv" secondAttribute="leading" id="tkK-LA-Kam"/>
                 <constraint firstItem="dtU-8z-8Vv" firstAttribute="top" secondItem="zrI-g9-4Ve" secondAttribute="top" constant="9" id="xfe-RD-orG"/>
                 <constraint firstAttribute="bottom" secondItem="zrI-g9-4Ve" secondAttribute="bottom" constant="30" id="z5p-pU-G0V"/>
             </constraints>
@@ -97,9 +78,8 @@
                 <outlet property="settingButton" destination="ter-8h-cbB" id="QWJ-4X-8Bh"/>
                 <outlet property="userIcon" destination="zrI-g9-4Ve" id="Lyn-Vw-yvF"/>
                 <outlet property="userName" destination="dtU-8z-8Vv" id="BAm-zE-X99"/>
-                <outlet property="userSign" destination="zeE-91-RO4" id="hoU-Cd-bc1"/>
             </connections>
-            <point key="canvasLocation" x="48" y="-515"/>
+            <point key="canvasLocation" x="-46" y="-523"/>
         </view>
     </objects>
     <resources>

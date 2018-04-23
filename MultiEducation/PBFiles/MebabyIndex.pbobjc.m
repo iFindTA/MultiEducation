@@ -52,6 +52,7 @@ static GPBFileDescriptor *MebabyIndexRoot_FileDescriptor(void) {
 @dynamic semester;
 @dynamic gradeId;
 @dynamic month;
+@dynamic userId;
 
 typedef struct GuIndexPb__storage_ {
   uint32_t _has_storage_[1];
@@ -60,6 +61,7 @@ typedef struct GuIndexPb__storage_ {
   GuStudentArchivesPb *studentArchives;
   int64_t studentId;
   int64_t gradeId;
+  int64_t userId;
 } GuIndexPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -113,6 +115,15 @@ typedef struct GuIndexPb__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "userId",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_UserId,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(GuIndexPb__storage_, userId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[GuIndexPb class]
@@ -124,7 +135,7 @@ typedef struct GuIndexPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\t\000\002\017\000\004\007\000";
+        "\004\001\t\000\002\017\000\004\007\000\006\006\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

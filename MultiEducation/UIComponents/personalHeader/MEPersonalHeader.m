@@ -19,7 +19,6 @@
     NSString *urlStr = [NSString stringWithFormat: @"%@%@", self.currentUser.bucketDomain, self.currentUser.portrait];
     [self.userIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
     self.userName.text = self.currentUser.name;
-    self.userSign.text = @"个性签名";
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {

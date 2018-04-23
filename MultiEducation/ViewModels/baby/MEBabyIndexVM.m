@@ -32,28 +32,32 @@
 }
 
 + (void)saveSelectBaby:(GuIndexPb *)baby {
-
-        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        MEPBUser *curUser = delegate.curUser;
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *curUser = delegate.curUser;
     
-        NSArray *arr = [WHCSqlite query: [GuIndexPb class]  where: [NSString stringWithFormat: @"studentArchives.userId = %lld", curUser.id_p]];
+    NSLog(@"curId ========= %lld", curUser.id_p);
     
-        if (arr.count == 0) {
-            [WHCSqlite insert: baby];
-        } else {
-            GuIndexPb *oldBaby = arr.firstObject;
-            NSString *value = [NSString stringWithFormat: @"studentArchives.id = %lld", baby.studentArchives.studentId];
-            NSString *where = [NSString stringWithFormat: @"userId = %lld", oldBaby.studentArchives.userId];
-            [WHCSqlite update: [GuIndexPb class] value:value  where: where];
-        }
+    NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.id_p];
+    NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
+    
+    if (arr.count == 0) {
+        baby.userId = curUser.id_p;
+         [WHCSqlite insert: baby];
+    } else {
+        GuIndexPb *oldBaby = arr.firstObject;
+        NSString *where = [NSString stringWithFormat: @"userId = '%lld'", oldBaby.userId];
+        [WHCSqlite delete: [GuIndexPb class] where: where];
+        baby.userId = curUser.id_p;
+        [WHCSqlite insert: baby];
+    }
 }
 
 + (GuIndexPb *)fetchSelectBaby {
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         MEPBUser *curUser = delegate.curUser;
     
-        NSString *where = [NSString stringWithFormat: @"userId = %lld", curUser.id_p];
-        NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where limit: @"1"];
+        NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.id_p];
+        NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
     
         if (arr.count != 0) {
             return arr.firstObject;

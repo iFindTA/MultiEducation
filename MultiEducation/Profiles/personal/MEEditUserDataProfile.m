@@ -15,22 +15,13 @@
 #import "MEMobileVM.h"
 #import "MEUserNameVM.h"
 
-@interface MEEditUserDataProfile () <UITextFieldDelegate> {
-    MEEditType _type;
-}
+@interface MEEditUserDataProfile () <UITextFieldDelegate>
 
 @property (nonatomic, strong) MEEditScene *editScene;
 
 @end
 
 @implementation MEEditUserDataProfile
-
-- (instancetype)__initWithParams:(NSDictionary *)params {
-    if (params) {
-        _type = [[params objectForKey: @"type"] intValue];
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,17 +30,12 @@
     
     [self customNavigation];
     [self createSubViews];
-
 }
 
 - (void)customNavigation {
     NSString *title;
     
-    if (_type == MEEditTypeNickName) {
-        title = @"编辑昵称";
-    } else if (_type == MEEditTypeGender) {
-        title = @"编辑性别";
-    }
+    title = @"编辑昵称";
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
@@ -59,7 +45,6 @@
 }
 
 - (void)editTouchEvent {
-    if (_type == MEEditTypeGender) {
         int32_t gender = 0;
         if ([_editScene.textfield.text isEqualToString: @"男"]) {
             gender = 1;
@@ -76,14 +61,11 @@
         } else {
             [SVProgressHUD showErrorWithStatus: @"请输入正确的性别"];
         }
-    }
 
-    if (_type == MEEditTypeNickName) {
-        FscUserPb *user = [[FscUserPb alloc] init];
-        user.name = _editScene.textfield.text;
-        MEUserNameVM *nameVM = [MEUserNameVM vmWithModel: user];
-        [self postData: user vm: nameVM];
-    }
+//        FscUserPb *user = [[FscUserPb alloc] init];
+//        user.name = _editScene.textfield.text;
+//        MEUserNameVM *nameVM = [MEUserNameVM vmWithModel: user];
+//        [self postData: user vm: nameVM];
 }
 
 - (void)postData:(FscUserPb *)user vm:(MEUserEditVM *)vm {
@@ -99,12 +81,8 @@
 
 - (void)createSubViews {
         NSString *placeHolder;
-        if (_type == MEEditTypeNickName) {
-            placeHolder = @"请输入昵称";
-        } else {
-            placeHolder = @"请输入性别";
-        }
-        
+        placeHolder = @"请输入昵称";
+
         _editScene = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
         _editScene.textfield.placeholder = placeHolder;
         [self.view addSubview: _editScene];
