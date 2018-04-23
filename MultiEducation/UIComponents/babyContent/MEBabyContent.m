@@ -334,10 +334,12 @@
         NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
         NSURL *url = nil; NSDictionary *params = nil;
         NSUInteger __tag = (NSUInteger)indexPath.item;
-        if (MEBabyContentTypeLive & (1 << __tag)) {
+        MEBabyContentType type = (1 << __tag);
+        if (MEBabyContentTypeLive & type) {
             url = [MEDispatcher profileUrlWithClass:@"MELiveRoomRootProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
         } else {
             //目前加载Cordova网页 后续替换为原生
+            BOOL whetherRoleParent = (self.currentUser.userType == MEPBUserRole_Parent);
             url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
             if (MEBabyContentTypeGrowth & (1 << __tag)) {
                 params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:@"gu-profile.html#/show"};
@@ -355,6 +357,8 @@
         [self handleTransitionError:err];
     }
 }
+
+#pragma mark --- Logics
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
