@@ -79,9 +79,8 @@ static CGFloat const CELL_HEIGHT = 54.f;
             break;
         case 2: {
             //修改手机号
-            NSString *urlStr = @"profile://MEEditUserDataProfile";
-            NSDictionary *params = @{@"type": [NSNumber numberWithInteger: MEEditTypePhone]};
-            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+            NSString *urlStr = @"profile://MERephoneProfile";
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
             [self handleTransitionError: error];
         }
             break;

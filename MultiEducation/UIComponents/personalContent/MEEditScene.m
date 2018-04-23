@@ -12,6 +12,14 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    self.textfield.delegate = self;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.textfield resignFirstResponder];
+    return YES;
 }
 
 @end
