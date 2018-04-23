@@ -19,6 +19,9 @@
 #import "MEBabyAlbumListVM.h"
 #import "MEBabyPhotoCell.h"
 #import "MEPhoto.h"
+#import "Meclass.pbobjc.h"
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
+#import <NSURL+QueryDictionary/NSURL+QueryDictionary.h>
 
 #define COMPONENT_COUNT 6
 #define MAX_PHOTO_COUNT 10
@@ -335,30 +338,124 @@
         NSURL *url = nil; NSDictionary *params = nil;
         NSUInteger __tag = (NSUInteger)indexPath.item;
         MEBabyContentType type = (1 << __tag);
+        MEBabyContentType multiType = (MEBabyContentTypeGrowth|MEBabyContentTypeEvaluate);
         if (MEBabyContentTypeLive & type) {
             url = [MEDispatcher profileUrlWithClass:@"MELiveRoomRootProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
-        } else {
-            //目前加载Cordova网页 后续替换为原生
+        } else if (type & multiType){
+            //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
+            GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
+            NSMutableDictionary *multiMap = [NSMutableDictionary dictionaryWithCapacity:0];
+            [multiMap setObject:@(index.gradeId) forKey:@"gradeId"];
+            [multiMap setObject:@(index.semester) forKey:@"semester"];
+            [multiMap setObject:@(index.month) forKey:@"month"];
             BOOL whetherRoleParent = (self.currentUser.userType == MEPBUserRole_Parent);
-            url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
-            if (MEBabyContentTypeGrowth & (1 << __tag)) {
-                params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:@"gu-profile.html#/show"};
-            } else if (MEBabyContentTypeEvaluate & (1 << __tag)) {
-                params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:@"gu-study.html"};
-            } else if (MEBabyContentTypeAnnounce & (1 << __tag)) {
+            if (whetherRoleParent) {
+                int64_t stuID = self.studentPb.id_p;
+                [multiMap setObject:@(stuID) forKey:@"studentId"];
+                url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:multiMap.copy instanceType:MEProfileTypeCODE];
+            } else {
+                //是否有多个班级 有则选择 无则直接进入
+                NSArray <MEPBClass*>*classes = [self muticastClasses];
+                if (classes.count == 0) {
+                    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                    [alert showInfo:ME_ALERT_INFO_TITILE subTitle:ME_ALERT_INFO_NONE_CLASS closeButtonTitle:ME_ALERT_INFO_ITEM_OK duration:0];
+                    return;
+                } else if (classes.count == 1){
+                    MEPBClass *cls = classes.firstObject;
+                    [multiMap setObject:@(cls.id_p) forKey:@"classId"];
+                    url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:multiMap.copy instanceType:MEProfileTypeCODE];
+                } else {
+                    /*
+                    __block SCLAlertViewBuilder *builder = [SCLAlertViewBuilder new];
+                    weakify(self)
+                    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        builder.addButtonWithActionBlock(PBAvailableString(obj.name), ^ {
+                            strongify(self)
+                            [self muticastClassChoosenEvent4ClassName:obj.name watchType:type];
+                        });
+                    }];
+                    builder.addButtonWithActionBlock(ME_ALERT_INFO_ITEM_CANCEL, ^ {});
+                    SCLAlertViewShowBuilder *showBuilder = [SCLAlertViewShowBuilder new]
+                    .style(SCLAlertViewStyleInfo)
+                    .title(ME_ALERT_INFO_TITILE)
+                    .subTitle(@"您当前关联了多个班级，请选择班级进行查看！")
+                    .duration(0);
+                    showBuilder.show(builder.alertView, self.window.rootViewController);
+                    return;//*/
+                    
+                    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                    //Using Block
+                    weakify(self)
+                    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        [alert addButton:obj.name actionBlock:^(void) {
+                            strongify(self)
+                            [self muticastClassChoosenEvent4ClassName:obj.name watchType:type];
+                        }];
+                    }];
+                    
+                    [alert showInfo:ME_ALERT_INFO_TITILE subTitle:@"您当前关联了多个班级，请选择班级进行查看！" closeButtonTitle:ME_ALERT_INFO_ITEM_CANCEL duration:0];
+                }
+            }
+        } else {
+            if (MEBabyContentTypeAnnounce & type) {
                 params = @{@"title":@"园所公告",ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
-            } else if (MEBabyContentTypeSurvey & (1 << __tag)) {
+            } else if (MEBabyContentTypeSurvey & type) {
                 params = @{@"title":@"问卷调查",ME_CORDOVA_KEY_STARTPAGE:@"vote.html"};
-            } else if (MEBabyContentTypeRecipes & (1 << __tag)) {
+            } else if (MEBabyContentTypeRecipes & type) {
                 params = @{@"title":@"每周食谱",ME_CORDOVA_KEY_STARTPAGE:@"cookbook.html"};
             }
+            url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
         }
         NSError *err = [MEDispatcher openURL:url withParams:params];
         [self handleTransitionError:err];
     }
 }
 
-#pragma mark --- Logics
+#pragma mark --- Logics for 成长档案 发展评价
+
+- (NSArray<MEPBClass*>*)muticastClasses {
+    NSArray <MEPBClass*>*classes;
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        classes = self.currentUser.teacherPb.classPbArray.copy;
+    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        classes = self.currentUser.deanPb.classPbArray.copy;
+    }
+    return classes;
+}
+
+- (int64_t)convertClassName2ClassID:(NSString *)clsName {
+    __block int64_t clsID = 0;
+    NSArray <MEPBClass*>*classes = [self muticastClasses];
+    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.name isEqualToString:clsName]) {
+            clsID = obj.id_p;
+            *stop = true;
+        }
+    }];
+    return clsID;
+}
+
+- (void)muticastClassChoosenEvent4ClassName:(NSString *)clsName watchType:(MEBabyContentType)type {
+    int64_t class_id = [self convertClassName2ClassID:clsName];
+    GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
+    NSMutableDictionary *multiMap = [NSMutableDictionary dictionaryWithCapacity:0];
+    [multiMap setObject:@(index.gradeId) forKey:@"gradeId"];
+    [multiMap setObject:@(index.semester) forKey:@"semester"];
+    [multiMap setObject:@(index.month) forKey:@"month"];
+    [multiMap setObject:@(class_id) forKey:@"classId"];
+    NSString *getParamsString = [multiMap.copy uq_URLQueryString];
+    NSDictionary *params;
+    if (MEBabyContentTypeGrowth & type) {
+        NSString *startPage = PBFormat(@"gu-profile.html?%@#/show", getParamsString);
+        params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+    } else if (MEBabyContentTypeEvaluate & type) {
+        NSString *startPage = PBFormat(@"gu-study.html?%@", getParamsString);
+        params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+    }
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:params];
+    [self handleTransitionError:err];
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
