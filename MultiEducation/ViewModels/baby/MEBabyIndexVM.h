@@ -19,12 +19,12 @@
  为当前用户 save 选中的宝宝
  
  */
-+ (void)saveSelectBaby:(GuStudentArchivesPb *)baby;
++ (void)saveSelectBaby:(GuIndexPb *)baby;
 
 
 /**
  获取当前用户保存的  选中的宝宝
  */
-+ (GuStudentArchivesPb *)fetchSelectBaby;
++ (GuIndexPb *)fetchSelectBaby;
 
 @end

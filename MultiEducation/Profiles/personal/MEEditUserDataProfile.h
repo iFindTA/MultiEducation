@@ -7,7 +7,7 @@
 //
 
 #import "MEBaseProfile.h"
-
+ 
 typedef NS_ENUM(NSUInteger, MEEditType) {
     MEEditTypeNickName                                 =   1   <<  0,
     MEEditTypePhone                                    =   1   <<  1,
