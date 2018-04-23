@@ -32,7 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *title = [self.params pb_stringForKey:@"title"];
+    NSString *title = [self.params pb_stringForKey:ME_CORDOVA_KEY_TITLE];
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *back = [self barWithIconUnicode:@"\U0000e6e2" color:[UIColor whiteColor] eventSelector:@selector(cordovaNavigationBackEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];

@@ -355,10 +355,10 @@
                 NSString *getParamsString = [multiMap.copy uq_URLQueryString];
                 if (MEBabyContentTypeGrowth & type) {
                     NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
-                    params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+                    params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
                 } else if (MEBabyContentTypeEvaluate & type) {
                     NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
-                    params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+                    params = @{ME_CORDOVA_KEY_TITLE:@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
                 }
                 url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
             } else {
@@ -404,11 +404,11 @@
             }
         } else {
             if (MEBabyContentTypeAnnounce & type) {
-                params = @{@"title":@"园所公告",ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
+                params = @{ME_CORDOVA_KEY_TITLE:@"园所公告",ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
             } else if (MEBabyContentTypeSurvey & type) {
-                params = @{@"title":@"问卷调查",ME_CORDOVA_KEY_STARTPAGE:@"vote.html"};
+                params = @{ME_CORDOVA_KEY_TITLE:@"问卷调查",ME_CORDOVA_KEY_STARTPAGE:@"vote.html"};
             } else if (MEBabyContentTypeRecipes & type) {
-                params = @{@"title":@"每周食谱",ME_CORDOVA_KEY_STARTPAGE:@"cookbook.html"};
+                params = @{ME_CORDOVA_KEY_TITLE:@"每周食谱",ME_CORDOVA_KEY_STARTPAGE:@"cookbook.html"};
             }
             url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
         }
@@ -453,10 +453,10 @@
     NSDictionary *params;
     if (MEBabyContentTypeGrowth & type) {
         NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
-        params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
     } else if (MEBabyContentTypeEvaluate & type) {
         NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
-        params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        params = @{ME_CORDOVA_KEY_TITLE:@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
     }
     NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];

@@ -82,6 +82,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_USER_DID_INITIATIVE_LOGOUT                                       @"ME_USER_DID_INITIATIVE_LOGOUT"//用户是否主动登出
 #define ME_APPLICATION_APNE_TOKEN                                           @"ME_APPLICATION_APNE_TOKEN"//用户token
 
+#define ME_CORDOVA_KEY_TITLE                                                @"ME_CORDOVA_KEY_TITLE"//cordova title
 #define ME_CORDOVA_KEY_STARTPAGE                                            @"ME_CORDOVA_KEY_STARTPAGE"//cordova start page
 
 //tabbar item image size
