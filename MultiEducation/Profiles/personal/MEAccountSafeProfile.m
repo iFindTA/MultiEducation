@@ -59,6 +59,11 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 }
 
+- (void)logout {
+    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
+}
+
 #pragma mark -UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.array.count;
@@ -87,7 +92,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
         [self handleTransitionError: error];
     } else {
-        
+        [self logout];
     }
 }
 

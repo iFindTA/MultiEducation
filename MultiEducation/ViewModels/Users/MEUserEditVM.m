@@ -10,18 +10,18 @@
 
 @interface MEUserEditVM ()
 
-@property (nonatomic, strong) MEPBUser *usr;
+@property (nonatomic, strong) FscUserPb *usr;
 
 @end
 
 @implementation MEUserEditVM
 
-+ (instancetype)vmWithModel:(MEPBUser *)usr {
++ (instancetype)vmWithModel:(FscUserPb *)usr {
     NSAssert(usr != nil, @" could not initialized by nil!");
     return [[self alloc] initWithUsr:usr];
 }
 
-- (id)initWithUsr:(MEPBUser *)usr {
+- (id)initWithUsr:(FscUserPb *)usr {
     self = [super init];
     if (self) {
         _usr = usr;

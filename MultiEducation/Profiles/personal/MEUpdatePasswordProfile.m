@@ -105,7 +105,6 @@ static CGFloat const ROW_HEIGHT = 54.f;
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
-    
 }
 
 - (void)logout {
@@ -117,6 +116,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
 - (MEEditScene *)oldPwd {
     if (!_oldPwd) {
         _oldPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+        _oldPwd.textfield.secureTextEntry = YES;
         _oldPwd.textfield.placeholder = @"原密码";
     }
     return _oldPwd;
@@ -125,6 +125,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
 - (MEEditScene *)newPwd {
     if (!_newPwd) {
         _newPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+        _newPwd.textfield.secureTextEntry = YES;
         _newPwd.textfield.placeholder = @"新密码";
     }
     return _newPwd;
@@ -133,6 +134,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
 - (MEEditScene *)reNewPwd {
     if (!_reNewPwd) {
         _reNewPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+        _reNewPwd.textfield.secureTextEntry = YES;
         _reNewPwd.textfield.placeholder = @"确认新密码";
     }
     return _reNewPwd;

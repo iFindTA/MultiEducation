@@ -9,7 +9,7 @@
 #import "MEEditUserDataProfile.h"
 #import "MEEditScene.h"
 #import "MEUserEditVM.h"
-#import "Meuser.pbobjc.h"
+#import "MeuserData.pbobjc.h"
 #import "MEUserVM.h"
 #import "MEGenderVM.h"
 #import "MEMobileVM.h"
@@ -35,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = UIColorFromRGB(0xf8f8f8);
     
     [self customNavigation];
     [self createSubViews];
@@ -48,14 +49,12 @@
         title = @"编辑昵称";
     } else if (_type == MEEditTypeGender) {
         title = @"编辑性别";
-    } else {
-        title = @"更换手机号";
     }
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
-    item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStyleDone target: self action: @selector(editTouchEvent)];
+    item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"修改" style: UIBarButtonItemStyleDone target: self action: @selector(editTouchEvent)];
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
@@ -64,13 +63,13 @@
         int32_t gender = 0;
         if ([_editScene.textfield.text isEqualToString: @"男"]) {
             gender = 1;
-            MEPBUser *user = self.currentUser;
+            FscUserPb *user = [[FscUserPb alloc] init];
             user.gender = gender;
             MEGenderVM *genderVM = [MEGenderVM vmWithModel: user];
             [self postData: user vm: genderVM];
         } else if ([_editScene.textfield.text isEqualToString: @"女"]) {
             gender = 2;
-            MEPBUser *user = self.currentUser;
+            FscUserPb *user = [[FscUserPb alloc] init];
             user.gender = gender;
             MEGenderVM *genderVM = [MEGenderVM vmWithModel: user];
             [self postData: user vm: genderVM];
@@ -80,14 +79,14 @@
     }
 
     if (_type == MEEditTypeNickName) {
-        MEPBUser *user = self.currentUser;
+        FscUserPb *user = [[FscUserPb alloc] init];
         user.name = _editScene.textfield.text;
         MEUserNameVM *nameVM = [MEUserNameVM vmWithModel: user];
         [self postData: user vm: nameVM];
     }
 }
 
-- (void)postData:(MEPBUser *)user vm:(MEUserEditVM *)vm {
+- (void)postData:(FscUserPb *)user vm:(MEUserEditVM *)vm {
     NSData *data = [user data];
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         

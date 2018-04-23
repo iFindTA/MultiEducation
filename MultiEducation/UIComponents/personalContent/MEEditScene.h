@@ -8,7 +8,7 @@
 
 #import "MEBaseScene.h"
 
-@interface MEEditScene : MEBaseScene
+@interface MEEditScene : MEBaseScene <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textfield;
 
 @end
