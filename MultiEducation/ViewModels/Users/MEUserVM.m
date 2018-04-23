@@ -62,6 +62,13 @@ static NSString * userFile = @"signedin.bat";
 + (BOOL)saveUser:(MEPBUser *)user {
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
     user.signinstamp = timestamp;
+    //查询数据库有没有已存在
+    NSString *sql = PBFormat(@"uid = %lld", user.uid);
+    NSArray <MEPBUser*> *existSet = [WHCSqlite query:[MEPBUser class] where:sql];
+    if (existSet.count > 0) {
+        return [WHCSqlite update:user where:sql];
+    }
+    
     return [WHCSqlite insert:user];
     
     /*
@@ -83,7 +90,7 @@ static NSString * userFile = @"signedin.bat";
 
 + (MEPBUser * _Nullable)fetchLatestSignedInUser {
     //*TODO:处理已登录用户相关逻辑
-    NSArray <MEPBUser*> *signedinUsers = [WHCSqlite query:[MEPBUser class]];
+    //NSArray <MEPBUser*> *signedinUsers = [WHCSqlite query:[MEPBUser class]];
     //NSLog(@"当前已经有 %zd 位登录用户！", signedinUsers.count);
     NSArray <MEPBUser*> *usrs = [WHCSqlite query:[MEPBUser class] order:@"by signinstamp desc" limit:@"1"];
     if (usrs.count > 0) {
