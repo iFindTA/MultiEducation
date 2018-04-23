@@ -6,6 +6,7 @@
 //  Copyright © 2018年 nanhu. All rights reserved.
 //
 
+#import "MEKits.h"
 #import "CDVViewController.h"
 #import <PBBaseClasses/PBNavigationBar.h>
 #import <UIViewController+SJVideoPlayerAdd.h>
@@ -20,29 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly, nullable) PBNavigationBar *navigationBar;
 
 /**
- root web folder
+ run path
  */
 - (NSString *)wwwFolderPath;
-
-/**
- spacer for bar
- */
-- (UIBarButtonItem *)barSpacer;
-
-/**
- back bar
- */
-- (UIBarButtonItem *)backBarWithColor:(UIColor * _Nullable)color;
-
-/**
- bar button item
- */
-- (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color eventSelector:(nullable SEL)selector;
-
-/**
- bar button item
- */
-- (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color eventSelector:(nullable SEL)selector;
 
 /**
  导航条返回事件 交予JavaScript

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  公共基础类 主要类方法处理
  */
@@ -67,6 +69,13 @@
  */
 + (void)updateCordovaResourcePacket;
 
+#pragma mark --- UINavigationBar Items
+
++ (UIBarButtonItem *)barSpacer;
++ (UIBarButtonItem *)backBarWithColor:(UIColor *)color target:(nullable id)target withSelector:(nullable SEL)selector;
++ (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color target:(nullable id)target eventSelector:(nullable SEL)selector;
++ (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color target:(nullable id)target eventSelector:(nullable SEL)selector ;
+
 /**
  压缩image到制定大小以下
 
@@ -76,5 +85,6 @@
  */
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength;
 
-
 @end
+
+NS_ASSUME_NONNULL_END
