@@ -71,7 +71,6 @@
 		5B4F0041FB63B9498C7C7778936DFD52 /* MERegisterVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */; };
 		5BEA09DC628D303AB00B57673CA480CD /* MEBabyRecordLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E9A722B3EC98A5B1880996769346BF /* MEBabyRecordLabel.m */; };
 		5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */; };
-		60228C7B208D79FA0003A4EF /* ValueMore.m in Sources */ = {isa = PBXBuildFile; fileRef = 60228C7A208D79FA0003A4EF /* ValueMore.m */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		62536CED8DA6E924F3EE3E8F6348BBC7 /* MEVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A06AA0F2747B0B93D156B52916264E /* MEVideoRecorder.m */; };
@@ -149,6 +148,7 @@
 		B7406BA98CA6AF70C891C0F9F171E6F7 /* MEActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABD80A426A68A49A0836FB5CE9B6E2 /* MEActivity.m */; };
 		B7EC156B8D33E7A78A6F5B27B9F3C81D /* MEPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1852BE0EACD75E0C2FA5C12991BCA5 /* MEPhoto.m */; };
 		B854AB005236BD00909E64607B541E23 /* MEAccountSafeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 992737B2A5200441C0D27B709D2D86C6 /* MEAccountSafeProfile.m */; };
+		BAC64A5B21398594100F0395FA212F5A /* ValueMore.m in Sources */ = {isa = PBXBuildFile; fileRef = 57A48E1E7CBE8F45A4F9E4E82E8D6ACA /* ValueMore.m */; };
 		BB265923E0DC4884876D263C47AE36CF /* MEIndexLayouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 743FE8C0BA8E3CB8CA58AE2B281CD8FE /* MEIndexLayouter.m */; };
 		BD02BB0AA60A9FEE2DD33F5440DC912D /* Mecordova.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = A9A998C2CA9388C64C95191839525795 /* Mecordova.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BD1D7A6C74175AFB2C1CDBF8F03B8113 /* MebabyEvaluate.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 118CFE9686DC42317D28BCEF87843B5D /* MebabyEvaluate.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -314,6 +314,7 @@
 		35321B07CEA36FE81CE1DF23B13DB646 /* MEBabyHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEBabyHeader.xib; sourceTree = "<group>"; };
 		3627C1603F382E18DBC5760BE1D7DDFF /* NSString+Md5String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Md5String.m"; sourceTree = "<group>"; };
 		36E802CDACD84BF2F646D2A9B36D3433 /* UIWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIWebViewExtension.m; sourceTree = "<group>"; };
+		377B3F958BF8A9555C8D06F17DE96642 /* ValueMore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueMore.h; sourceTree = "<group>"; };
 		37C5362DA42A191FF5509710C751D6D7 /* MEVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVM.m; sourceTree = "<group>"; };
 		3872E70BBDFBF208D08CBB36B9CBFFFD /* IonicKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IonicKeyboard.m; sourceTree = "<group>"; };
 		3A772955071F3408FDF7115B2DF149A9 /* MEUpdatePasswordProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUpdatePasswordProfile.h; sourceTree = "<group>"; };
@@ -360,6 +361,7 @@
 		56A2D9DF22ACD31CDB8A9A8FFA65721F /* IonicKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IonicKeyboard.h; sourceTree = "<group>"; };
 		56ABB5DD717102A30AB1ABCE4DFFF921 /* MEChatVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEChatVM.h; sourceTree = "<group>"; };
 		57720A9BB7C4AA79E86BE6F58FF268E7 /* MEBabyInfoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyInfoCell.h; sourceTree = "<group>"; };
+		57A48E1E7CBE8F45A4F9E4E82E8D6ACA /* ValueMore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueMore.m; sourceTree = "<group>"; };
 		580EB77D8BA40B7398A8FD7A0C43FD16 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		58C249B46352B3E34B00C2CD8CF27C26 /* MEBaseNavigationProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseNavigationProfile.m; sourceTree = "<group>"; };
 		5950181CCD0E8C06A1D6453D17AD9E4B /* UIView+BlurEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+BlurEffect.h"; sourceTree = "<group>"; };
@@ -372,8 +374,6 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
-		60228C79208D79FA0003A4EF /* ValueMore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueMore.h; sourceTree = "<group>"; };
-		60228C7A208D79FA0003A4EF /* ValueMore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueMore.m; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -992,7 +992,6 @@
 		5DFF719085FED434D0EECA46DCFE4D35 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				60228C78208D79FA0003A4EF /* value-plugin-more */,
 				83E5C25B96E9C5BF89BA3B93290111ED /* README */,
 				95F3BB8EC3FBA939D89128B813B30EE6 /* cordova-plugin-console */,
 				4F44E28FE2D43A2DF5D73AF9AA33C464 /* cordova-plugin-device */,
@@ -1006,6 +1005,7 @@
 				47CD1251D5AF2D038086C0DC0352AE97 /* value-plugin-h5n */,
 				06A8CA9F14D92390C05E5D27B9E7F94A /* value-plugin-img */,
 				AAE68D4E771C00BE242025007704F93E /* value-plugin-login */,
+				B95FD7CAAED12CCFF437BBB0735A4DB3 /* value-plugin-more */,
 				ADAD4E3AECF4B130517650401444841A /* value-plugin-pay */,
 				3739D858358B0C55BEB536DCC70AA641 /* value-plugin-player */,
 				153F8D1846B2DFA828BF7643F93CF08F /* value-plugin-share */,
@@ -1015,11 +1015,11 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		60228C78208D79FA0003A4EF /* value-plugin-more */ = {
+		B95FD7CAAED12CCFF437BBB0735A4DB3 /* value-plugin-more */ = {
 			isa = PBXGroup;
 			children = (
-				60228C79208D79FA0003A4EF /* ValueMore.h */,
-				60228C7A208D79FA0003A4EF /* ValueMore.m */,
+				377B3F958BF8A9555C8D06F17DE96642 /* ValueMore.h */,
+				57A48E1E7CBE8F45A4F9E4E82E8D6ACA /* ValueMore.m */,
 			);
 			path = "value-plugin-more";
 			sourceTree = "<group>";
@@ -2044,7 +2044,6 @@
 				E76F49E94FAE0344452E3E7334A9AC06 /* MEEvaluateCell.m in Sources */,
 				BE3F6A5A337137A20A98B6E4BF5B2293 /* MEEvaluateProfile.m in Sources */,
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
-				60228C7B208D79FA0003A4EF /* ValueMore.m in Sources */,
 				B47B439AD08DC8B5D54A312F64EAC41C /* MEGenderVM.m in Sources */,
 				FB38A0844095733226FCE4F14089F278 /* MEHeaderIconCell.m in Sources */,
 				C99C1EC7292FE9175B378902DF204C3D /* MEHistoryCell.m in Sources */,
@@ -2151,6 +2150,7 @@
 				EB8CF1F5D0E78B878E9C2439E72BE591 /* ValueH5n.m in Sources */,
 				96090DCEE27E4CB29207275B5B8CDA24 /* ValueImg.m in Sources */,
 				3F7C2FF8934F9E03D7A0E9171AADF286 /* ValueLogin.m in Sources */,
+				BAC64A5B21398594100F0395FA212F5A /* ValueMore.m in Sources */,
 				6413A1DD216ADBD0B538B0967C0B2A8E /* ValuePay.m in Sources */,
 				CDB6675B56EC638470C380C8DE08D6A1 /* ValuePlayer.m in Sources */,
 				64785F8FC9721877FE32E6A2986AE47F /* ValueShare.m in Sources */,
