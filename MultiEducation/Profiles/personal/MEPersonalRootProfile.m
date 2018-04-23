@@ -164,7 +164,8 @@ static CGFloat const SECTION_HEADER = 56.f;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
-        
+        _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
         
         self.header = [[NSBundle mainBundle] loadNibNamed: @"MEPersonalHeader" owner: self options: nil].firstObject;

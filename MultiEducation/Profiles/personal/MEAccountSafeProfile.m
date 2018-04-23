@@ -87,6 +87,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath: indexPath animated: NO];
     if (indexPath.row == 0) {
         NSString *urlStr = @"profile://root@MEUpdatePasswordProfile";
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
@@ -103,7 +104,8 @@ static CGFloat const CELL_HEIGHT = 54.f;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        
+        _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
     }
     return _tableView;

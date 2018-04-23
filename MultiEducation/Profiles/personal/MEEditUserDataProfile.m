@@ -98,8 +98,6 @@
 }
 
 - (void)createSubViews {
-    if (_type == MEEditTypeGender || _type == MEEditTypeNickName) {
-        
         NSString *placeHolder;
         if (_type == MEEditTypeNickName) {
             placeHolder = @"请输入昵称";
@@ -116,18 +114,8 @@
             make.left.mas_equalTo(self.view);
             make.top.mas_equalTo(self.view.mas_top).mas_offset(ME_HEIGHT_STATUSBAR + ME_HEIGHT_NAVIGATIONBAR);
             make.height.mas_equalTo(54.f);
-            make.width.mas_equalTo(MESCREEN_WIDTH - 33.f);
+            make.width.mas_equalTo(MESCREEN_WIDTH);
         }];
-    } else {
-        
-        
-        
-        
-        
-        
-        
-        
-    }
 }
 
 @end
