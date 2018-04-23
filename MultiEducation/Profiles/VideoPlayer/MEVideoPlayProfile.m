@@ -556,29 +556,29 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 #pragma mark --- 保存观看历史
 
 - (void)saveCurrentPlayItemIntoUserWatchHistory {
-    MEPBRes *res = self.currentRes;
-    if (res) {
-        PBBACK( ^{
-            MEWatchItem *item = [[MEWatchItem alloc] init];
-            item.userID = self.currentUser.id_p;
-            item.resId = res.resId;
-            item.type = res.type;
-            item.resTypeId = res.resTypeId;
-            item.watchTimestamp = [MEKits currentTimeInterval];
-            item.title = res.title.copy;
-            item.desc = res.desc.copy;
-            item.intro = res.intro.copy;
-            item.coverImg = res.coverImg.copy;
-            item.filePath = res.filePath.copy;
-            //查询原有的
-            NSString *sql = PBFormat(@"userID = %lld and resId = %lld", item.userID, item.resId);
-            NSArray<MEWatchItem*>*items = [WHCSqlite query:[MEWatchItem class] where:sql];
-            if (items.count) {
-                
-            }
-            [WHCSqlite insert:item];
-        });
-    }
+//    MEPBRes *res = self.currentRes;
+//    if (res) {
+//        PBBACK( ^{
+//            MEWatchItem *item = [[MEWatchItem alloc] init];
+//            item.userID = self.currentUser.uid;
+//            item.resId = res.resId;
+//            item.type = res.type;
+//            item.resTypeId = res.resTypeId;
+//            item.watchTimestamp = [MEKits currentTimeInterval];
+//            item.title = res.title.copy;
+//            item.desc = res.desc.copy;
+//            item.intro = res.intro.copy;
+//            item.coverImg = res.coverImg.copy;
+//            item.filePath = res.filePath.copy;
+//            //查询原有的
+//            NSString *sql = PBFormat(@"userID = %lld and resId = %lld", item.userID, item.resId);
+//            NSArray<MEWatchItem*>*items = [WHCSqlite query:[MEWatchItem class] where:sql];
+//            if (items.count) {
+//
+//            }
+//            [WHCSqlite insert:item];
+//        });
+//    }
 }
 
 #pragma mark --- user touch action

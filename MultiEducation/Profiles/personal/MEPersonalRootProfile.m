@@ -57,7 +57,7 @@ static CGFloat const SECTION_HEADER = 56.f;
 }
 
 - (BOOL)whetherHistoryCountGreaterThanZero {
-    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.id_p];
+    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.uid];
     if ([WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"].count > 0 ) {
         return YES;
     } else {

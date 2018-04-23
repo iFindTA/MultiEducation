@@ -56,7 +56,7 @@ static NSString * const CELL_IDEF = @"cell_idef";
 }
 
 - (void)loadData {
-    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.id_p];
+    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.uid];
     if ([WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"].count > 0 ) {
         [self.videos addObjectsFromArray: [WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"]];
         [self.historyVideo reloadData];

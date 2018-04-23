@@ -35,19 +35,19 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *curUser = delegate.curUser;
     
-    NSLog(@"curId ========= %lld", curUser.id_p);
+    NSLog(@"curId ========= %lld", curUser.uid);
     
-    NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.id_p];
+    NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
     NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
     
     if (arr.count == 0) {
-        baby.userId = curUser.id_p;
+        baby.userId = curUser.uid;
          [WHCSqlite insert: baby];
     } else {
         GuIndexPb *oldBaby = arr.firstObject;
         NSString *where = [NSString stringWithFormat: @"userId = '%lld'", oldBaby.userId];
         [WHCSqlite delete: [GuIndexPb class] where: where];
-        baby.userId = curUser.id_p;
+        baby.userId = curUser.uid;
         [WHCSqlite insert: baby];
     }
 }
@@ -56,7 +56,7 @@
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         MEPBUser *curUser = delegate.curUser;
     
-        NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.id_p];
+        NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
         NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
     
         if (arr.count != 0) {

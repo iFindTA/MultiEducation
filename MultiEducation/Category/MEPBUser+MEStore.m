@@ -10,9 +10,9 @@
 
 @implementation MEPBUser (MEStore)
 
-+ (NSString *)whc_SqliteMainkey {
-    return @"uid";
-}
+//+ (NSString *)whc_SqliteMainkey {
+//    return @"uid";
+//}
 
 + (NSArray *)whc_IgnorePropertys {
     return @[@"hasParentsPb",
