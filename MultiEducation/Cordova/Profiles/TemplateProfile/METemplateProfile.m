@@ -23,6 +23,7 @@
         NSString *startPage = [params objectForKey:ME_CORDOVA_KEY_STARTPAGE];
         NSString *wwwPath = [self wwwFolderPath];
         self.startPage = [wwwPath stringByAppendingPathComponent:startPage];
+        NSLog(@"cordova start page:%@", startPage);
     }
     return self;
 }

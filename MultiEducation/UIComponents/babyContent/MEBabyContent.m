@@ -352,18 +352,24 @@
             if (whetherRoleParent) {
                 int64_t stuID = self.studentPb.id_p;
                 [multiMap setObject:@(stuID) forKey:@"studentId"];
-                url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:multiMap.copy instanceType:MEProfileTypeCODE];
+                NSString *getParamsString = [multiMap.copy uq_URLQueryString];
+                if (MEBabyContentTypeGrowth & type) {
+                    NSString *startPage = PBFormat(@"gu-profile.html?%@#/show", getParamsString);
+                    params = @{@"title":@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+                } else if (MEBabyContentTypeEvaluate & type) {
+                    NSString *startPage = PBFormat(@"gu-study.html?%@", getParamsString);
+                    params = @{@"title":@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+                }
+                url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
             } else {
                 //是否有多个班级 有则选择 无则直接进入
                 NSArray <MEPBClass*>*classes = [self muticastClasses];
                 if (classes.count == 0) {
                     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                     [alert showInfo:ME_ALERT_INFO_TITILE subTitle:ME_ALERT_INFO_NONE_CLASS closeButtonTitle:ME_ALERT_INFO_ITEM_OK duration:0];
-                    return;
                 } else if (classes.count == 1){
                     MEPBClass *cls = classes.firstObject;
-                    [multiMap setObject:@(cls.id_p) forKey:@"classId"];
-                    url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:multiMap.copy instanceType:MEProfileTypeCODE];
+                    [self muticastClassChoosenEvent4ClassName:cls.name watchType:type];
                 } else {
                     /*
                     __block SCLAlertViewBuilder *builder = [SCLAlertViewBuilder new];
@@ -392,9 +398,9 @@
                             [self muticastClassChoosenEvent4ClassName:obj.name watchType:type];
                         }];
                     }];
-                    
                     [alert showInfo:ME_ALERT_INFO_TITILE subTitle:@"您当前关联了多个班级，请选择班级进行查看！" closeButtonTitle:ME_ALERT_INFO_ITEM_CANCEL duration:0];
                 }
+                return;
             }
         } else {
             if (MEBabyContentTypeAnnounce & type) {
