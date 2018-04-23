@@ -6,6 +6,7 @@
 //  Copyright © 2018年 nanhu. All rights reserved.
 //
 
+#import "ValueMore.h"
 #import "MEWebProgress.h"
 #import "MEHybridBaseProfile.h"
 #import <Cordova/CDVWebViewEngineProtocol.h>
@@ -17,7 +18,8 @@
 
 @property (nonatomic, strong, readwrite) PBNavigationBar *navigationBar;
 
-@property (nonatomic, strong, readwrite) ValueBack *backPlugin;
+@property (nonatomic, strong, readwrite) ValueMore *morePlugin;
+@property (nonatomic, copy, nullable) NSString *moreAction;
 
 @end
 
@@ -26,6 +28,14 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CDVPluginResetNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:CDVPageDidLoadNotification object:nil];
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self registerPlugins];
+    }
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -145,11 +155,11 @@
     return _progressView;
 }
 
-- (ValueBack *)backPlugin {
-    if (!_backPlugin) {
-        _backPlugin = [[ValueBack alloc] init];
+- (ValueMore *)morePlugin {
+    if (!_morePlugin) {
+        _morePlugin = [[ValueMore alloc] init];
     }
-    return _backPlugin;
+    return _morePlugin;
 }
 
 - (UIBarButtonItem *)barSpacer {
@@ -189,6 +199,28 @@
     return barItem;
 }
 
+- (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color eventSelector:(SEL)selector {
+    CGFloat itemSize = 28;
+    CGFloat fontSize = METHEME_FONT_TITLE;
+    UIFont *font = UIFontPingFangSC(fontSize);
+    UIColor *fontColor = (color == nil)?[UIColor whiteColor]:color;
+    //    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //btn.backgroundColor = [UIColor pb_randomColor];
+    btn.frame = CGRectMake(0, 0, itemSize, itemSize);
+    btn.exclusiveTouch = true;
+    btn.titleLabel.font = font;
+    //    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, spacing);
+    //    btn.titleEdgeInsets = UIEdgeInsetsMake(0, spacing, 0, 0);
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:fontColor forState:UIControlStateNormal];
+    //[btn setImage:image forState:UIControlStateNormal];
+    [btn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+    [barItem setTintColor:fontColor];
+    return barItem;
+}
+
 - (void)cordovaGoBackEvent {
     [self.navigationController popViewControllerAnimated:true];
 }
@@ -197,8 +229,8 @@
     [self.commandDelegate evalJs:@"back()"];
 }
 
-- (void)cordovaNavigationEditEvent {
-    [self.commandDelegate evalJs:@"edit()"];
+- (void)cordovaNavigationMoreEvent {
+    [self.commandDelegate evalJs:PBAvailableString(self.moreAction)];
 }
 
 #pragma mark --- MEWebProgress Delegate
@@ -217,6 +249,30 @@
     [self.progressProxy reset];
     
     self.progressView.hidden = true;
+}
+
+#pragma mark --- Register plugins
+
+- (void)registerPlugins {
+    [self registerPlugin:self.morePlugin withClassName:@"ValueMore"];
+}
+
+#pragma mark --- outside user actions
+
+- (void)updateMoreActionTitle:(NSString *)title callbackMethod:(NSString *)callback {
+    NSArray<UINavigationItem*>*items = self.navigationBar.items;
+    if (title.length == 0 || callback.length == 0) {
+        [items enumerateObjectsUsingBlock:^(UINavigationItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.rightBarButtonItems = nil;
+        }];
+        return;
+    }
+    title = PBAvailableString(title);
+    UIBarButtonItem *spacer = [self barSpacer];
+    UIBarButtonItem *more = [self barWithTitle:title color:[UIColor whiteColor] eventSelector:@selector(cordovaNavigationMoreEvent)];
+    [items enumerateObjectsUsingBlock:^(UINavigationItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.rightBarButtonItems = @[more, spacer];
+    }];
 }
 
 /*
