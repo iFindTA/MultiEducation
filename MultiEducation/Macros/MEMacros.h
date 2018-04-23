@@ -107,6 +107,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_EMPTY_PROMPT_NETWORK                                             @"您貌似断开了互联网链接，请检查网络稍后重试！"
 #define ME_EMPTY_PROMPT_OFFSET                                              -20
 
+#define ME_ALERT_INFO_TITILE                                                @"提示"
+#define ME_ALERT_INFO_ITEM_OK                                               @"知道了"
+#define ME_ALERT_INFO_ITEM_CANCEL                                           @"取消"
+#define ME_ALERT_INFO_NONE_CLASS                                            @"您还没有关联班级，请先关联班级！"
+
 #pragma mark --- Type enums
 
 typedef NS_ENUM(NSUInteger, MEDisplayStyle) {
