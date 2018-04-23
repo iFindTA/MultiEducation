@@ -8,6 +8,9 @@
 
 #import "MEUpdatePasswordProfile.h"
 #import "MEEditScene.h"
+#import "MERePasswordVM.h"
+#import "NSString+Md5String.h"
+#import <YYKit.h>
 
 static CGFloat const ROW_HEIGHT = 54.f;
 
@@ -18,7 +21,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
 @property (nonatomic, strong) MEEditScene *reNewPwd;
 @property (nonatomic, strong) MEBaseButton *confirmBtn;
 
-@end
+@end 
 
 @implementation MEUpdatePasswordProfile
 
@@ -65,7 +68,36 @@ static CGFloat const ROW_HEIGHT = 54.f;
 }
 
 - (void)confirmButtonTouchEvent {
+    MERePasswordVM *vm = [MERePasswordVM vmWithModel: self.currentUser];
     
+    if (!(self.newPwd.textfield.text.length >= 6 && self.newPwd.textfield.text.length <= 12)) {
+        [SVProgressHUD showErrorWithStatus: @"请输入6-12位的密码！"];
+        return;
+    }
+    
+    if (![self.reNewPwd.textfield.text isEqualToString: self.newPwd.textfield.text]) {
+        [SVProgressHUD showErrorWithStatus: @"两次密码输入不一致！"];
+        return;
+    }
+    
+    self.currentUser.password = [[self.oldPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
+    self.currentUser.repassword = [[self.newPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
+
+    NSData *data = [self.currentUser data];
+    
+    weakify(self);
+    [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        [self logout];
+        [SVProgressHUD showErrorWithStatus: @"密码已修改，请重新登录"];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+    
+}
+
+- (void)logout {
+     [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
 }
 
 #pragma mark - lazyloading

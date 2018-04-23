@@ -31,24 +31,24 @@
     return self;
 }
 
-+ (void)saveSelectBaby:(GuStudentArchivesPb *)baby {
++ (void)saveSelectBaby:(GuIndexPb *)baby {
 
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         MEPBUser *curUser = delegate.curUser;
     
-        NSArray *arr = [WHCSqlite query: [GuStudentArchivesPb class]  where: [NSString stringWithFormat: @"userId = %lld", curUser.id_p]];
+        NSArray *arr = [WHCSqlite query: [GuIndexPb class]  where: [NSString stringWithFormat: @"studentArchives.userId = %lld", curUser.id_p]];
     
         if (arr.count == 0) {
             [WHCSqlite insert: baby];
         } else {
-            GuStudentArchivesPb *oldBaby = arr.firstObject;
-            NSString *value = [NSString stringWithFormat: @"userId = %lld, id = %lld", baby.studentId, baby.userId];
-            NSString *where = [NSString stringWithFormat: @"userId = %lld", oldBaby.userId];
-            [WHC_ModelSqlite update: [GuStudentArchivesPb class] value:value  where: where];
+            GuIndexPb *oldBaby = arr.firstObject;
+            NSString *value = [NSString stringWithFormat: @"studentArchives.id = %lld", baby.studentArchives.studentId];
+            NSString *where = [NSString stringWithFormat: @"userId = %lld", oldBaby.studentArchives.userId];
+            [WHCSqlite update: [GuStudentArchivesPb class] value:value  where: where];
         }
 }
 
-+ (GuStudentArchivesPb *)fetchSelectBaby {
++ (GuIndexPb *)fetchSelectBaby {
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         MEPBUser *curUser = delegate.curUser;
     
