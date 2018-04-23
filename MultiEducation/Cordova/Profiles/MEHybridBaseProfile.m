@@ -162,65 +162,6 @@
     return _morePlugin;
 }
 
-- (UIBarButtonItem *)barSpacer {
-    UIBarButtonItem *barSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    barSpacer.width = - ME_LAYOUT_MARGIN*3;
-    return barSpacer;
-}
-
-- (UIBarButtonItem *)backBarWithColor:(UIColor *)color {
-    return [self barWithIconUnicode:@"\U0000e6e2" color:color withTarget:self withSelector:@selector(cordovaGoBackEvent)];
-}
-
-- (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color eventSelector:(nullable SEL)selector {
-    return [self barWithIconUnicode:iconCode color:color withTarget:self withSelector:selector];
-}
-
-- (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color withTarget:(nullable id)target withSelector:(nullable SEL)selector {
-    CGFloat itemSize = 28;
-    CGFloat fontSize = METHEME_FONT_TITLE;
-    NSString *fontName = @"iconfont";
-    UIFont *font = [UIFont fontWithName:fontName size:fontSize * 2];
-    UIColor *fontColor = (color == nil)?[UIColor whiteColor]:color;
-    //    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //btn.backgroundColor = [UIColor pb_randomColor];
-    btn.frame = CGRectMake(0, 0, itemSize, itemSize);
-    btn.exclusiveTouch = true;
-    btn.titleLabel.font = font;
-    //    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, spacing);
-    //    btn.titleEdgeInsets = UIEdgeInsetsMake(0, spacing, 0, 0);
-    [btn setTitle:iconCode forState:UIControlStateNormal];
-    [btn setTitleColor:fontColor forState:UIControlStateNormal];
-    //[btn setImage:image forState:UIControlStateNormal];
-    [btn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    [barItem setTintColor:fontColor];
-    return barItem;
-}
-
-- (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color eventSelector:(SEL)selector {
-    CGFloat itemSize = 28;
-    CGFloat fontSize = METHEME_FONT_TITLE;
-    UIFont *font = UIFontPingFangSC(fontSize);
-    UIColor *fontColor = (color == nil)?[UIColor whiteColor]:color;
-    //    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //btn.backgroundColor = [UIColor pb_randomColor];
-    btn.frame = CGRectMake(0, 0, itemSize, itemSize);
-    btn.exclusiveTouch = true;
-    btn.titleLabel.font = font;
-    //    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, spacing);
-    //    btn.titleEdgeInsets = UIEdgeInsetsMake(0, spacing, 0, 0);
-    [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:fontColor forState:UIControlStateNormal];
-    //[btn setImage:image forState:UIControlStateNormal];
-    [btn addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    [barItem setTintColor:fontColor];
-    return barItem;
-}
-
 - (void)cordovaGoBackEvent {
     [self.navigationController popViewControllerAnimated:true];
 }
@@ -268,8 +209,8 @@
         return;
     }
     title = PBAvailableString(title);
-    UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *more = [self barWithTitle:title color:[UIColor whiteColor] eventSelector:@selector(cordovaNavigationMoreEvent)];
+    UIBarButtonItem *spacer = [MEKits barSpacer];
+    UIBarButtonItem *more = [MEKits barWithTitle:title color:[UIColor whiteColor] target:self eventSelector:@selector(cordovaNavigationMoreEvent)];
     [items enumerateObjectsUsingBlock:^(UINavigationItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.rightBarButtonItems = @[more, spacer];
     }];

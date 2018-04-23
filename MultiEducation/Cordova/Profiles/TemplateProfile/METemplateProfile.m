@@ -32,9 +32,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *title = [self.params pb_stringForKey:@"title"];
-    UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *back = [self barWithIconUnicode:@"\U0000e6e2" color:[UIColor whiteColor] eventSelector:@selector(cordovaNavigationBackEvent)];
+    NSString *title = [self.params pb_stringForKey:ME_CORDOVA_KEY_TITLE];
+    UIBarButtonItem *spacer = [MEKits barSpacer];
+    UIBarButtonItem *back = [MEKits barWithIconUnicode:@"\U0000e6e2" color:[UIColor whiteColor] target:self eventSelector:@selector(cordovaNavigationBackEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];

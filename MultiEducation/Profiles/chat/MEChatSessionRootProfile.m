@@ -6,10 +6,13 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MEChatSessionRootProfile.h"
 #import "MEChatProfile.h"
+#import "MEBaseProfile.h"
+#import "MEChatSessionRootProfile.h"
 
 @interface MEChatSessionRootProfile ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) PBNavigationBar *navigationBar;
 
 @end
 
@@ -20,9 +23,20 @@
     // Do any additional setup after loading the view.
     
     // 设置聊天列表基础属性
-    [self setRongIMProperty];
+    [self setupCustomRongIMUIs];
     
-    [self layoutChileViews];
+    //custom navigationBar
+    [self.view addSubview:self.navigationBar];
+    [self.conversationListTableView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom);
+        make.left.bottom.right.equalTo(self.view);
+    }];
+    
+    UIBarButtonItem *spacer = [MEKits barSpacer];
+    UIBarButtonItem *cotactItem = [MEKits barWithTitle:@"通讯录" color:[UIColor whiteColor] target:self eventSelector:@selector(userDidTouchContactTouchEvent)];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"聊天"];
+    item.rightBarButtonItems = @[cotactItem, spacer];
+    [self.navigationBar pushNavigationItem:item animated:true];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -34,7 +48,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setRongIMProperty {
+#pragma mark --- Custom RongIM UI
+
+- (void)setupCustomRongIMUIs {
     //是否显示网络状态
     self.isShowNetworkIndicatorView = YES;
     //是否显示连接状态
@@ -56,18 +72,45 @@
     self.topCellBackgroundColor = [UIColor whiteColor];
 }
 
-- (void)layoutChileViews {
-    self.title = @"聊天";
+#pragma mark --- lazy loader
+
+- (PBNavigationBar *)navigationBar {
+    if (!_navigationBar) {
+        //customize settings
+        UIColor *tintColor = pbColorMake(0xFFFFFF);
+        UIColor *barTintColor = pbColorMake(ME_THEME_COLOR_VALUE);//影响背景
+        UIFont *font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:tintColor, NSForegroundColorAttributeName,font,NSFontAttributeName, nil];
+        CGRect barBounds = CGRectZero;
+        PBNavigationBar *naviBar = [[PBNavigationBar alloc] initWithFrame:barBounds];
+        naviBar.barStyle  = UIBarStyleBlack;
+        //naviBar.backgroundColor = [UIColor redColor];
+        UIImage *bgImg = [UIImage pb_imageWithColor:barTintColor];
+        [naviBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];
+        UIImage *lineImg = [UIImage pb_imageWithColor:pbColorMake(0xE8E8E8)];
+        [naviBar setShadowImage:lineImg];// line
+        naviBar.barTintColor = barTintColor;
+        naviBar.tintColor = tintColor;//影响item字体
+        [naviBar setTranslucent:false];
+        [naviBar setTitleTextAttributes:attributes];//影响标题
+        //adjust frame
+        CGFloat height = [naviBar barHeight];
+        barBounds = CGRectMake(0, 0, MESCREEN_WIDTH, height);
+        [naviBar setFrame:barBounds];
+        _navigationBar = naviBar;
+    }
     
-    self.conversationListTableView.frame = CGRectMake(0, 64, self.conversationListTableView.frame.size.width, self.conversationListTableView.frame.size.height);
-    
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(handleToAddressbookItem)];
-    [barButtonItem setTitle:@"通讯录"];
-    self.navigationItem.rightBarButtonItem = barButtonItem;
+    return _navigationBar;
+}
+
+#pragma mark --- User Interface Actions
+
+- (void)userDidTouchContactTouchEvent {
     
 }
 
-#pragma mark --- 点击Cell回调 ---
+#pragma mark --- User Chat Session Callback
+
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath {
     
     MEChatProfile *chatPro = [[MEChatProfile alloc] init];
@@ -77,11 +120,6 @@
     self.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:chatPro animated:YES];
     
-}
-
-#pragma mark --- Handle Action ---
-- (void)handleToAddressbookItem {
-    NSLog(@"点击通讯录...");
 }
 
 @end

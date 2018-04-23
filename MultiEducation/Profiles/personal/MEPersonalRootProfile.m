@@ -75,7 +75,11 @@ static CGFloat const SECTION_HEADER = 56.f;
         }
             break;
         case 1: {
-            
+            //contact_us.html
+            NSString *urlStr = @"profile://root@METemplateProfile";
+            NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"联系我们", ME_CORDOVA_KEY_STARTPAGE:@"contact_us.html"};
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+            [self handleTransitionError: error];
         }
             break;
             
