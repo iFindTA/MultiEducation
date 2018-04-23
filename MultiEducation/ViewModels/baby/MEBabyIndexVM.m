@@ -44,7 +44,7 @@
             GuIndexPb *oldBaby = arr.firstObject;
             NSString *value = [NSString stringWithFormat: @"studentArchives.id = %lld", baby.studentArchives.studentId];
             NSString *where = [NSString stringWithFormat: @"userId = %lld", oldBaby.studentArchives.userId];
-            [WHCSqlite update: [GuStudentArchivesPb class] value:value  where: where];
+            [WHCSqlite update: [GuIndexPb class] value:value  where: where];
         }
 }
 
@@ -53,7 +53,7 @@
         MEPBUser *curUser = delegate.curUser;
     
         NSString *where = [NSString stringWithFormat: @"userId = %lld", curUser.id_p];
-        NSArray *arr = [WHCSqlite query: [GuStudentArchivesPb class] where: where limit: @"1"];
+        NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where limit: @"1"];
     
         if (arr.count != 0) {
             return arr.firstObject;

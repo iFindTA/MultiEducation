@@ -11,6 +11,7 @@
 #import "MERePasswordVM.h"
 #import "NSString+Md5String.h"
 #import <YYKit.h>
+#import "MeuserData.pbobjc.h"
 
 static CGFloat const ROW_HEIGHT = 54.f;
 
@@ -29,6 +30,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     [super viewDidLoad];
     
     self.view.backgroundColor = UIColorFromRGB(0xf8f8f8);
+    [self customNavigation];
     
     [self.view addSubview: self.oldPwd];
     [self.view addSubview: self.newPwd];
@@ -77,7 +79,8 @@ static CGFloat const ROW_HEIGHT = 54.f;
 }
 
 - (void)confirmButtonTouchEvent {
-    MERePasswordVM *vm = [MERePasswordVM vmWithModel: self.currentUser];
+    FscUserPb *userPb = [[FscUserPb alloc] init];
+    MERePasswordVM *vm = [MERePasswordVM vmWithModel: userPb];
     
     if (!(self.newPwd.textfield.text.length >= 6 && self.newPwd.textfield.text.length <= 12)) {
         [SVProgressHUD showErrorWithStatus: @"请输入6-12位的密码！"];
@@ -89,10 +92,10 @@ static CGFloat const ROW_HEIGHT = 54.f;
         return;
     }
     
-    self.currentUser.repassword = [[self.oldPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
-    self.currentUser.password = [[self.newPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
+    userPb.repassword = [[self.oldPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
+    userPb.password = [[self.newPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
 
-    NSData *data = [self.currentUser data];
+    NSData *data = [userPb data];
     
     weakify(self);
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
@@ -107,6 +110,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
 
 - (void)logout {
      [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
 }
 
 #pragma mark - lazyloading

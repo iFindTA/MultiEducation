@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+message FscUserPbList {
+    FscUserPb fscUserPb = 1;
+}
+
+message FscUserPb {
+    int64 id = 1; //用户id
+    string username = 2; //用户名
+    string password = 3; //密码
+    string name = 4; //中文名
+    int32 gender = 5; //性别1:男，2：女
+    string mobile = 6; //手机号
+    int32 userType = 7; //用户类型(1老师;2学生;3家长;4教务)
+    string portrait = 8; //头像
+    string schoolName = 9; //学校名称
+    string keyword = 10; //查询条件
+    int64 linkmanId = 11; //添加的联系人id
+    int32 addStatus = 12; //添加的联系人状态(1申请2同意3拒绝)
+    int64 classId = 13; //班级id
+    string code = 14;
+    string qqUid = 15;
+    string wxUid = 16;
+    int64 diskCap = 17; //当前网盘容量
+    string sessionToken = 18; //sessionToken
+    string repassword = 19;//旧密码
+}

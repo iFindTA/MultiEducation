@@ -7,10 +7,10 @@
 //
 
 #import "MEVM.h"
-#import "Meuser.pbobjc.h"
+#import "MeuserData.pbobjc.h"
 
 @interface MERePasswordVM : MEVM
 
-+ (instancetype)vmWithModel:(MEPBUser *)usr;
++ (instancetype)vmWithModel:(FscUserPb *)usr;
 
 @end
