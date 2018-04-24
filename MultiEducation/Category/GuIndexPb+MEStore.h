@@ -7,7 +7,8 @@
 //
 
 #import "MebabyIndex.pbobjc.h"
+#import <WHC_ModelSqliteKit/WHC_ModelSqlite.h>
 
-@interface GuIndexPb (MEStore)
+@interface GuIndexPb (MEStore)<WHC_SqliteInfo>
 
 @end

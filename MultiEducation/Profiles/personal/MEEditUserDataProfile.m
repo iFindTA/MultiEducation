@@ -85,6 +85,7 @@
 
         _editScene = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
         _editScene.textfield.placeholder = placeHolder;
+    [_editScene becomeFirstResponder];
         [self.view addSubview: _editScene];
         
 //        layout

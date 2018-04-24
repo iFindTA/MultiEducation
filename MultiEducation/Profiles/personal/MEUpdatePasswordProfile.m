@@ -117,6 +117,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     if (!_oldPwd) {
         _oldPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
         _oldPwd.textfield.secureTextEntry = YES;
+        [_oldPwd becomeFirstResponder];
         _oldPwd.textfield.placeholder = @"原密码";
     }
     return _oldPwd;

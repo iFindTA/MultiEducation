@@ -179,6 +179,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     if (!_phone) {
         _phone = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
         _phone.textfield.placeholder = @"请输入手机号";
+        [_phone becomeFirstResponder];
         _phone.textfield.text = self.currentUser.mobile;
     }
     return _phone;

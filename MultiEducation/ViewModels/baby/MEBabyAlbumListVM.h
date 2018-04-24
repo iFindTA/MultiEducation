@@ -13,4 +13,18 @@
  
 + (instancetype)vmWithPb:(ClassAlbumPb *)pb;
 
+/**
+ 保存请求到的album
+ 
+ */
++ (BOOL)saveAlbum:(ClassAlbumPb *)album;
+
+
+/**
+ 根据 appdelegate.currentUser 获取album
+ */
++ (NSArray *)fetchAlbum;
+
+
+
 @end

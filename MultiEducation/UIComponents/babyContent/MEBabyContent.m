@@ -83,6 +83,12 @@
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
         [self getBabyArchitecture: studentId];
     }
+    
+    if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
+        
+        [MEBabyAlbumListVM fetchAlbum];
+    }
+    
 }
 
 - (void)getBabyPhotos:(NSInteger)classId {
