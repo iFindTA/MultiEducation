@@ -491,8 +491,8 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     }
     //有多个班级 弹框让用户选择班级
     PBMAINDelay(ME_ANIMATION_DURATION, ^{
-        //[self makeUserChooseClasses];
-        [self multicastChooseClasses];
+        [self makeUserChooseClasses];
+        //[self multicastChooseClasses];
     });
 }
 

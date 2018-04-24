@@ -43,7 +43,7 @@
     // Do any additional setup after loading the view.
     
     //self.sj_fadeAreaViews = @[self.webView];
-    
+    /*
     [self.view addSubview:self.navigationBar];
     [self.navigationBar addSubview:self.progressView];
     [self.progressView makeConstraints:^(MASConstraintMaker *make) {
@@ -56,6 +56,8 @@
         make.top.equalTo(self.navigationBar.mas_bottom);
         make.left.right.bottom.equalTo(self.view);
     }];
+    //*/
+    
     /*
     self.progressProxy = [[NJKWebViewProgress alloc] init];
     weakify(self)

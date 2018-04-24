@@ -62,6 +62,12 @@
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"扫描结果"];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];
+    
+    [self.view addSubview:self.webContent];
+    [self.webContent makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
+        make.left.bottom.right.equalTo(self.view);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,7 +75,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadQRScanResult];
+}
+
+- (void)loadQRScanResult {
+    NSString *info = [self.params pb_stringForKey:@"info"];
+    [self.webContent loadHTMLString:info baseURL:nil];
+}
+
 #pragma mark --- lazy loading
+
+- (UIWebView *)webContent {
+    if (!_webContent) {
+        _webContent = [[UIWebView alloc] initWithFrame:CGRectZero];
+        _webContent.opaque = true;
+        _webContent.backgroundColor = [UIColor whiteColor];
+        _webContent.scalesPageToFit = true;
+    }
+    return _webContent;
+}
 
 /*
 #pragma mark - Navigation
