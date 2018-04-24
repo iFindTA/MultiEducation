@@ -8,7 +8,7 @@
 
 #import "MEBabyContentHeader.h"
 #import "Meclass.pbobjc.h"
-
+#import "MEBabyIndexVM.h"
 
 @implementation MEBabyContentHeader
 
@@ -39,16 +39,40 @@
             NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
             [self handleTransitionError:err];
-            
         } else {
             NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.teacherPb.classPbArray[0].id_p];
             NSDictionary *params = @{@"classId": classId};
-            NSString *urlString =@"profile://root@MEBabyPhotoPorfile";
+            NSString *urlString =@"profile://root@MEBabyPhotoProfile";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+            [self handleTransitionError:err];
+        }
+    } else if(self.currentUser.userType == MEPBUserRole_Gardener) {
+        if (self.currentUser.deanPb.classPbArray.count > 1) {
+            
+            NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
+            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+            [self handleTransitionError:err];
+            
+        } else {
+            NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.deanPb.classPbArray[0].id_p];
+            NSDictionary *params = @{@"classId": classId};
+            NSString *urlString =@"profile://root@MEBabyPhotoProfile";
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
             [self handleTransitionError:err];
         }
     } else {
         
+        GuIndexPb *indexPb = [MEBabyIndexVM fetchSelectBaby];
+        NSNumber *classId;
+        if (indexPb) {
+            classId = [NSNumber numberWithLongLong: indexPb.studentArchives.classId];
+        } else {
+            classId = [NSNumber numberWithInteger: self.currentUser.parentsPb.classPbArray[0].id_p];
+        }
+        NSDictionary *params = @{@"classId": classId};
+        NSString *urlString =@"profile://root@MEBabyPhotoProfile";
+        NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+        [self handleTransitionError:err];
     }
 }
 

@@ -20,14 +20,14 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VEc-Lr-AmT" customClass="MEBaseLabel">
                         <rect key="frame" x="10" y="14" width="231" height="44"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="VPY-8C-Vno"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bvv-IZ-rsJ" customClass="MEBaseLabel">
                         <rect key="frame" x="10" y="68" width="60" height="15"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="DJw-r5-2R8"/>
                             <constraint firstAttribute="height" constant="15" id="l0D-GF-arb"/>
@@ -42,7 +42,7 @@
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROL-c3-DEj" customClass="MEBaseLabel">
                         <rect key="frame" x="80" y="68" width="60" height="15"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="3gJ-pN-VEi"/>
                             <constraint firstAttribute="height" constant="15" id="pZo-FU-WFl"/>
@@ -61,7 +61,11 @@
                     <constraint firstItem="k5y-Wd-DHF" firstAttribute="leading" secondItem="VEc-Lr-AmT" secondAttribute="trailing" constant="26" id="xLZ-dA-lP1"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="16.5" y="-108"/>
+            <connections>
+                <outlet property="coverImage" destination="k5y-Wd-DHF" id="Y4g-tf-gyl"/>
+                <outlet property="titleLab" destination="VEc-Lr-AmT" id="Elf-fc-Pl6"/>
+            </connections>
+            <point key="canvasLocation" x="-146" y="-123"/>
         </tableViewCell>
     </objects>
 </document>
