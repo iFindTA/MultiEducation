@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message OsrInformationPbList {
+    repeated OsrInformationPb osrInformationPb = 1;
+}
+
+message OsrInformationPb {
+    int64 id = 1;
+    string title = 2;
+    string content = 3;
+    string intro = 4;
+    string coverImg = 5;
+}
