@@ -1046,17 +1046,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		F936C01D1C573798DC254089DE9629B1 /* QRCodeScaner */ = {
-			isa = PBXGroup;
-			children = (
-				67AA963AECB4A698A92CF7D54A553F78 /* MEQRResultProfile.h */,
-				59E327BC387E9DE862E142FACC8F631A /* MEQRResultProfile.m */,
-				EC3C78E0A6DCE52EBA16509FE236E245 /* MEQRScanProfile.h */,
-				7EA3BE2FEA2DCA4D00371808A87F99AD /* MEQRScanProfile.m */,
-			);
-			path = QRCodeScaner;
-			sourceTree = "<group>";
-		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1752,6 +1741,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		F936C01D1C573798DC254089DE9629B1 /* QRCodeScaner */ = {
+			isa = PBXGroup;
+			children = (
+				67AA963AECB4A698A92CF7D54A553F78 /* MEQRResultProfile.h */,
+				59E327BC387E9DE862E142FACC8F631A /* MEQRResultProfile.m */,
+				EC3C78E0A6DCE52EBA16509FE236E245 /* MEQRScanProfile.h */,
+				7EA3BE2FEA2DCA4D00371808A87F99AD /* MEQRScanProfile.m */,
+			);
+			path = QRCodeScaner;
+			sourceTree = "<group>";
+		};
 		FFF07DD434FE55009C631D42E56EF569 /* Bases */ = {
 			isa = PBXGroup;
 			children = (
@@ -1995,6 +1995,11 @@
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800-1.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/4_1366x768.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/5_1280x800.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/placeholder.jpeg",
 				"${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle",
 				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
 				"${PODS_ROOT}/libksygpulive/resource/KSYGPUResource.bundle",
@@ -2024,6 +2029,11 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800-1.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/4_1366x768.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/5_1280x800.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/placeholder.jpeg",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YJBannerView.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KSYGPUResource.bundle",
@@ -2368,7 +2378,7 @@
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2448,7 +2458,7 @@
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
