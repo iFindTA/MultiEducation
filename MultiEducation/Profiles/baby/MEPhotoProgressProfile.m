@@ -51,15 +51,6 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-//    [self.qnUtils uploadImages: _dataArr callback:^(NSArray *succKeys, NSArray *failKeys) {
-//
-//        NSLog(@"%", succKeys);
-//
-//    }];
-    
-    
-    
     [self customNavigation];
     
     [self checkWhereExistInServer];

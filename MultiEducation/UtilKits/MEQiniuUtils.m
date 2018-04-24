@@ -44,37 +44,42 @@ static MEQiniuUtils *qnUtils;
 }
 
 - (void)uploadImages:(NSArray <NSDictionary *> *)images {
-    NSData *data = [[images objectAtIndex: _index] objectForKey: @"data"];
-    NSString *key = [[images objectAtIndex: _index] objectForKey: @"filePath"];
-    __block NSInteger imageIndex = _index;
-    __weak typeof(self) weakSelf = self;
-    [qnUploadManager putData: data key: key token:self.qnToken
-                  complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-                      if (info.isOK) {
-                          if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
-                              dispatch_async_on_main_queue(^{
-                                  [self.delegate uploadImageSuccess: key ];
-                              });
-                          }
-                      } else {
-                          if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageFail:)]) {
-                              dispatch_async_on_main_queue(^{
-                                  [self.delegate uploadImageFail: key];
-                              });
-                          }
-                      }
-                      imageIndex++;
-                      if (imageIndex >= images.count) {
-                          _index = 0;
-                          if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
-                              [self.delegate uploadOver];
-                          }
-                          return ;
-                      }
-                      _index++;
-                      [weakSelf uploadImages:images];
-                      
-                  } option: self.option];
+    weakify(self);
+    [self checkWhereExistInServer: images checkCallback:^(NSArray<NSDictionary *> *noExistArr, NSArray<NSDictionary *> *existArr) {
+        strongify(self);
+        NSData *data = [[noExistArr objectAtIndex: _index] objectForKey: @"data"];
+        NSString *key = [[noExistArr objectAtIndex: _index] objectForKey: @"filePath"];
+        __block NSInteger imageIndex = _index;
+        weakify(self);
+        [qnUploadManager putData: data key: key token:self.qnToken
+                        complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                strongify(self);
+                if (info.isOK) {
+                    if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
+                        dispatch_async_on_main_queue(^{
+                            [self.delegate uploadImageSuccess: key ];
+                        });
+                    }
+                } else {
+                    if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageFail:)]) {
+                        dispatch_async_on_main_queue(^{
+                            [self.delegate uploadImageFail: key];
+                        });
+                    }
+                }
+                imageIndex++;
+                if (imageIndex >= noExistArr.count) {
+                    _index = 0;
+                    if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
+                        [self.delegate uploadOver];
+                    }
+                    return ;
+                }
+                _index++;
+                [self uploadImages: noExistArr];
+                
+            } option: self.option];
+    }];
 }
 
 - (void)uploadImages:(NSArray<NSDictionary *> *)images callback:(void (^)(NSArray *, NSArray *))callback {
@@ -93,7 +98,7 @@ static MEQiniuUtils *qnUtils;
                                 [self.failKeys addObject: key];
                             }
                             imageIndex++;
-                            if (imageIndex >= images.count) {
+                            if (imageIndex >= noExistArr.count) {
                                 callback(self.succKeys, self.failKeys);
                                 _index = 0;
                                 self.succKeys = nil;
@@ -102,7 +107,7 @@ static MEQiniuUtils *qnUtils;
                                 return;
                             }
                             _index++;
-                            [self uploadImages:images callback: callback];
+                            [self uploadImages:noExistArr callback: callback];
                             
                         } option: self.option];
     }];
