@@ -60,6 +60,10 @@ static NSString * userFile = @"signedin.bat";
 }
 
 + (BOOL)saveUser:(MEPBUser *)user {
+    if (user) {
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setBool:false forKey:ME_USER_DID_INITIATIVE_LOGOUT];
+    }
     NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
     user.signinstamp = timestamp;
     //查询数据库有没有已存在
