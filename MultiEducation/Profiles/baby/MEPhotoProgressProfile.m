@@ -13,15 +13,17 @@
 #import "Meqnfile.pbobjc.h"
 #import <YYKit.h>
 #import "MebabyAlbum.pbobjc.h"
+#import "MEFileQuryVM.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 60.f;
 
 @interface MEPhotoProgressProfile () <UITableViewDelegate, UITableViewDataSource, UploadImagesCallBack> {
     NSArray <NSDictionary *> *_dataArr;
+    NSInteger _classId;
 }
+@property (nonatomic, strong) NSMutableArray *albumArr;
 @property (nonatomic, strong) UITableView *tableView;
-
 @property (nonatomic, strong) MEQiniuUtils *qnUtils;
 
 @end
@@ -32,6 +34,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     self = [super init];
     if (self) {
         _dataArr = [params objectForKey: @"datas"];
+        _classId = [[params objectForKey: @"classId"] integerValue];
     }
     return self;
 }
@@ -48,8 +51,18 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+//    [self.qnUtils uploadImages: _dataArr callback:^(NSArray *succKeys, NSArray *failKeys) {
+//
+//        NSLog(@"%", succKeys);
+//
+//    }];
+    
+    
+    
     [self customNavigation];
-
+    
+    [self checkWhereExistInServer];
     
     [self.view addSubview: self.tableView];
     
@@ -60,7 +73,52 @@ static CGFloat const ROW_HEIGHT = 60.f;
     }];
 }
 
+//- (void)formatterImageOrVideoToAlbumPb {
+//    for (NSDictionary *dic in _dataArr) {
+//        ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+//        pb.md5 = [dic objectForKey: @"md5"];
+//        pb.fileName = [dic objectForKey: @"fileName"];
+//        pb.filePath = [dic objectForKey: @"filePath"];
+//        pb.fileType = [dic objectForKey: @"extension"];
+//        [self.albumArr addObject: pb];
+//    }
+//}
+
 - (void)checkWhereExistInServer {
+    MEPBQNFile *pb = [[MEPBQNFile alloc] init];
+    MEFileQuryVM *fileQuryVM = [MEFileQuryVM vmWithPb: pb];
+    
+    NSMutableString *md5Str = [NSMutableString string];
+    for (NSDictionary *dic in _dataArr) {
+        [md5Str appendString: [NSString stringWithFormat: @"%@,", [dic objectForKey: @"md5"]]];
+    }
+    [md5Str deleteCharactersInRange: NSMakeRange(md5Str.length - 1, 1)];
+    pb.fileMd5Str = md5Str;
+    weakify(self);
+    [fileQuryVM postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        MEPBQNFile *filePb = [MEPBQNFile parseFromData: resObj error: nil];
+        
+        NSArray *fileIdArr = [filePb.fileIdStr componentsSeparatedByString: @","];
+        int index = 0;
+        for (NSString *fileId in fileIdArr) {
+            NSMutableDictionary *tmpDic = [NSMutableDictionary dictionaryWithDictionary: [_dataArr objectAtIndex: index]];
+            [tmpDic setObject: @0 forKey: @"progress"];
+            [tmpDic setObject: fileId forKey: @"fileId"];
+            if (fileId.integerValue <= 0) {
+                [self.albumArr addObject: [_dataArr objectAtIndex: index]];
+            }
+            index++;
+        }
+        
+        [self.qnUtils uploadImages: self.albumArr];
+        
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+}
+
+- (void)upLoadToQnServer {
     
 }
 
@@ -137,6 +195,13 @@ static CGFloat const ROW_HEIGHT = 60.f;
         _qnUtils.delegate = self;
     }
     return _qnUtils;
+}
+
+- (NSMutableArray *)albumArr {
+    if (!_albumArr) {
+        _albumArr = [NSMutableArray array];
+    }
+    return _albumArr;
 }
 
 @end

@@ -12,9 +12,9 @@
 
 @protocol UploadImagesCallBack <NSObject>
 
-- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp;
+- (void)uploadImageSuccess:(NSString *)key;
 
-- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp;
+- (void)uploadImageFail:(NSString *)key;
 
 @optional
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent;

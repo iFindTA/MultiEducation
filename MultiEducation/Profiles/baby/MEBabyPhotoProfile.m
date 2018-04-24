@@ -208,22 +208,27 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - TZImagePickerControllerDelegate
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto infos:(NSArray<NSDictionary *> *)infos {
+    weakify(self);
     [MEKits handleUploadPhotos: photos assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
+        strongify(self);
         NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-        NSDictionary *params = @{@"datas": images};
+        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [self handleTransitionError: error];
     }];
 }
 
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset {
-    
+    weakify(self);
     [[TZImageManager manager] getVideoOutputPathWithAsset:asset presetName:AVAssetExportPreset640x480 success:^(NSString *outputPath) {
+        strongify(self);
         NSLog(@"视频导出到本地完成,沙盒路径为:%@",outputPath);
         NSData *data = [NSData dataWithContentsOfFile: outputPath];
+        weakify(self);
         [MEKits handleUploadVideos: @[data] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable videos) {
+            strongify(self);
             NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-            NSDictionary *params = @{@"datas": videos};
+            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [self handleTransitionError: error];
         }];
