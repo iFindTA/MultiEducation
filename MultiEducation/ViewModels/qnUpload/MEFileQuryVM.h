@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "Meqnfile.pbobjc.h"
 
 @interface MEFileQuryVM : MEVM
 

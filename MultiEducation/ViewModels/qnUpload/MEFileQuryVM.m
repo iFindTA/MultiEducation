@@ -10,4 +10,8 @@
 
 @implementation MEFileQuryVM
 
+- (NSString *)cmdCode {
+    return @"FSC_QN_FILE_GET";
+}
+
 @end
