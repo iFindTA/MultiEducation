@@ -68,9 +68,9 @@ static NSString * userFile = @"signedin.bat";
     user.signinstamp = timestamp;
     //查询数据库有没有已存在
     NSString *sql = PBFormat(@"uid = %lld", user.uid);
-    NSArray <MEPBUser*> *existSet = [WHCSqlite query:[MEPBUser class] where:sql];
+    NSArray <MEPBUser*> *existSet = [WHCSqlite query:MEPBUser.self where:sql];
     if (existSet.count > 0) {
-        return [WHCSqlite update:user where:sql];
+        [WHCSqlite delete:MEPBUser.self where:sql];
     }
     
     return [WHCSqlite insert:user];

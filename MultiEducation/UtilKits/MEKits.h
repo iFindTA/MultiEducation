@@ -17,6 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MEKits : NSObject
 
 /**
+ fetch status bar height
+ */
++ (NSUInteger)statusBarHeight;
+
+/**
  uuid
  */
 + (NSString *)createUUID;

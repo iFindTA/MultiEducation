@@ -302,10 +302,11 @@
 #pragma mark --- Touch Event
 
 - (void)displayUserRegisterProtocol {
-    NSDictionary *params = @{@"title":@"多元幼教用户条款", @"url":@"http://baidu.com/"};
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBrowserProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
-    NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    //注册协议
+    NSString *urlStr = @"profile://root@METemplateProfile";
+    NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"用户服务协议", ME_CORDOVA_KEY_STARTPAGE:@"register_agreement.html#/main"};
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+    [self handleTransitionError: error];
 }
 
 - (void)exchangeSplash2Sign {

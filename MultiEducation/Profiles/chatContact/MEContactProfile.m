@@ -7,13 +7,30 @@
 //
 
 #import "VKMsgSend.h"
+#import "MEContactCell.h"
+#import "MESearchPanel.h"
 #import <YCXMenu/YCXMenu.h>
 #import "MEContactProfile.h"
-#import "MEBaseNavigationProfile.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface MEContactProfile ()
+#define ME_CONTACT_MAP_KEY_VALUE                            @"value"
+#define ME_CONTACT_MAP_KEY_TITLE                            @"title"
+#define ME_CONTACT_MAP_KEY_ICON                             @"icon"
+
+@interface MEContactProfile () <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSArray <YCXMenuItem*> *menuItems;
+
+/**
+ 列表数据源, 班级列表数据源
+ */
+@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) MEBaseTableView *table;
+@property (nonatomic, assign) BOOL whetherDidLoadData;
+
+#pragma mark --- UI Components
+@property (nonatomic, strong) MESearchPanel *searchPanel;
+@property (nonatomic, strong) MASConstraint *searchBarTopConstraint, *searchHeightConstraint;
 
 @end
 
@@ -59,11 +76,54 @@
     //item.rightBarButtonItems = @[spacer, moreItem];
     [self.navigationBar pushNavigationItem:item animated:true];
     
+    //search panel
+    [self.view addSubview:self.searchPanel];
+    NSUInteger shrinkHeight = ME_LAYOUT_SUBBAR_HEIGHT;
+    NSUInteger expandHeight = ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight];
+    [self.searchPanel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(expandHeight).priority(UILayoutPriorityDefaultHigh);
+        if (!self.searchBarTopConstraint) {
+            self.searchBarTopConstraint = make.top.equalTo(self.view).priority(UILayoutPriorityRequired);;
+        }
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(shrinkHeight).priority(UILayoutPriorityDefaultHigh);
+        if (!self.searchHeightConstraint) {
+            self.searchHeightConstraint = make.height.equalTo(expandHeight).priority(UILayoutPriorityRequired);
+        }
+    }];
+    [self.searchBarTopConstraint deactivate];
+    [self.searchHeightConstraint deactivate];
+    weakify(self)
+    self.searchPanel.searchPanelFirstResponder = ^(BOOL first){
+        strongify(self)
+        [self updateSearchAndNavigationBarConstraints:first];
+    };
+    
+    //table
+    [self.view addSubview:self.table];
+    [self.table makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.view);
+        make.top.equalTo(self.searchPanel.mas_bottom);
+    }];
+    
+    self.whetherDidLoadData = false;
+}
+
+- (void)updateSearchAndNavigationBarConstraints:(BOOL)first {
+    first?[self.searchBarTopConstraint activate]:[self.searchBarTopConstraint deactivate];
+    first?[self.searchHeightConstraint activate]:[self.searchHeightConstraint deactivate];
+    [UIView animateWithDuration:ME_ANIMATION_DURATION animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    
+    if (!self.whetherDidLoadData || self.dataSource.count == 0) {
+        [self loadContactsFromServerOnline];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -93,6 +153,33 @@
     return _menuItems;
 }
 
+- (MESearchPanel *)searchPanel {
+    if (!_searchPanel) {
+        _searchPanel = [[MESearchPanel alloc] initWithFrame:CGRectZero];
+    }
+    return _searchPanel;
+}
+
+- (MEBaseTableView *)table {
+    if (!_table) {
+        _table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _table.delegate = self;
+        _table.dataSource = self;
+        _table.emptyDataSetSource = self;
+        _table.emptyDataSetDelegate = self;
+        _table.tableFooterView = [UIView new];
+        _table.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
+    return _table;
+}
+
+- (NSMutableArray *)dataSource {
+    if (!_dataSource) {
+        _dataSource = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _dataSource;
+}
+
 #pragma mark --- User Interface Touch Events
 
 - (void)navigationBarMoreTouchEvent {
@@ -118,6 +205,150 @@
  */
 - (void)userDidTouchLanuchGroupChatEvent {
     [YCXMenu dismissMenu];
+}
+
+#pragma mark --- DZNEmpty DataSource & Deleagte
+
+- (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
+    return self.dataSource.count == 0 && self.whetherDidLoadData;
+}
+
+- (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView {
+    UIColor *imgColor =UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    UIImage *image = [UIImage pb_iconFont:nil withName:ME_ICONFONT_EMPTY_HOLDER withSize:ME_LAYOUT_ICON_HEIGHT withColor:imgColor];
+    return image;
+}
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = ME_EMPTY_PROMPT_TITLE;
+    NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSCBold(METHEME_FONT_TITLE),
+                                 NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = ME_EMPTY_PROMPT_DESC;
+    if ([[PBService shared] netState] == PBNetStateUnavaliable) {
+        text = ME_EMPTY_PROMPT_NETWORK;
+    }
+    NSDictionary *attributes = @{NSFontAttributeName: UIFontPingFangSC(METHEME_FONT_SUBTITLE),
+                                 NSForegroundColorAttributeName: UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY)};
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return adoptValue(ME_EMPTY_PROMPT_OFFSET);
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView {
+    return true;
+}
+
+- (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
+    [self loadContactsFromServerOnline];
+}
+
+#pragma mark --- UITableView Delegate && DataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.dataSource.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return section;
+    }
+    return ME_LAYOUT_MARGIN;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return nil;
+    }
+    CGRect bounds = (CGRect){.origin = CGPointZero, .size = CGSizeMake(MESCREEN_WIDTH, ME_LAYOUT_MARGIN)};
+    MEBaseScene *scene = [[MEBaseScene alloc] initWithFrame:bounds];
+    scene.backgroundColor = UIColorFromRGB(0xF3F3F3);
+    return scene;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSDictionary *sectionMap = self.dataSource[section];
+    NSArray *sectionSets = [sectionMap pb_arrayForKey:ME_CONTACT_MAP_KEY_VALUE];
+    return sectionSets.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return ME_HEIGHT_TABBAR - 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *cellIdentifier = @"contactCell";
+    MEContactCell *cell = (MEContactCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[MEContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    //index for row/section
+    NSUInteger __row = [indexPath row];NSUInteger __section = [indexPath section];
+    NSDictionary *sectionMap = self.dataSource[__section];
+    NSArray *sectionSets = [sectionMap pb_arrayForKey:ME_CONTACT_MAP_KEY_VALUE];
+    if (__row == 0) {
+        NSString *title = [sectionMap pb_stringForKey:ME_CONTACT_MAP_KEY_TITLE];
+        cell.sectionLab.text = PBAvailableString(title);
+    } else {
+        cell.sectionLab.hidden = true;
+    }
+    NSDictionary *infoMap = [sectionSets objectAtIndex:__row];
+    NSString *title = [infoMap pb_stringForKey:ME_CONTACT_MAP_KEY_TITLE];
+    cell.infoLab.text = PBAvailableString(title);
+    NSString *iconString = [infoMap pb_stringForKey:ME_CONTACT_MAP_KEY_ICON];
+    if (__section == 0) {
+        UIImage *image = [UIImage imageNamed:iconString];
+        cell.icon.image = image;
+    } else {
+        UIImage *placehodler = [UIImage imageNamed:@"appicon_placeholder"];
+        NSURL *iconUrl = [NSURL URLWithString:PBAvailableString(iconString)];
+        [cell.icon sd_setImageWithURL:iconUrl placeholderImage:placehodler];
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+#pragma mark --- Load Data increasment
+
+/**
+ 生成班级相关的数据
+ */
+- (NSDictionary *)generateClassRelativeDatas {
+    NSMutableArray *classItems = [NSMutableArray arrayWithCapacity:0];
+    //如果角色是老师 或者园务 则可以看到教师组
+    MEPBUserRole role = self.currentUser.userType;
+    BOOL whetherHaveTeacherClass = (role & (MEPBUserRole_Teacher|MEPBUserRole_Gardener));
+    if (whetherHaveTeacherClass) {
+        //[self.classDataSource addObject:@"教师组"];
+        
+    }
+    //此版本先放一个组
+    NSDictionary *iconMap = @{ME_CONTACT_MAP_KEY_ICON:@"contact_icon_class_group", ME_CONTACT_MAP_KEY_TITLE:@"班聊"};
+    [classItems addObject:iconMap];
+    NSDictionary *classMap = [NSDictionary dictionaryWithObjectsAndKeys:classItems.copy, ME_CONTACT_MAP_KEY_VALUE, @"#", ME_CONTACT_MAP_KEY_TITLE, nil];
+    return classMap;
+}
+
+/**
+ 加载在线通讯录
+ */
+- (void)loadContactsFromServerOnline {
+    
+    
+    //插入班级相关数据
+    NSDictionary *classItem = [self generateClassRelativeDatas];
+    [self.dataSource insertObject:classItem atIndex:0];
+    
+    [self.table reloadData];
 }
 
 /*

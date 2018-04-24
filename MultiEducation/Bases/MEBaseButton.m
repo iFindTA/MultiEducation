@@ -13,6 +13,7 @@
 + (id)buttonWithType:(UIButtonType)buttonType {
     MEBaseButton *btn = [super buttonWithType:buttonType];
     btn.exclusiveTouch = true;
+    //btn.backgroundColor = [UIColor whiteColor];
     return btn;
 }
 
@@ -20,6 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.exclusiveTouch = true;
+        //self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }

@@ -18,12 +18,11 @@
     return @[@"hasParentsPb",
              @"hasTeacherPb",
              @"hasSchoolPb",
+             @"hasDeanPb",
+             @"hasSystemConfigPb",
              @"funcCtrlPbArray_Count",
              @"hasInitPwd",
              @"groupStatus",
-             @"hasSystemConfigPb",
-             @"diskCap",
-             @"hasDeanPb",
              @"isUserCharge",
              @"code"];
 }

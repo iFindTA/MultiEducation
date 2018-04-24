@@ -20,6 +20,13 @@
 
 @implementation MEKits
 
++ (NSUInteger)statusBarHeight {
+    if (@available(iOS 11, *)) {
+        return ME_LAYOUT_ICON_HEIGHT;
+    }
+    return ME_HEIGHT_STATUSBAR;
+}
+
 + (NSString *)createUUID {
     CFUUIDRef udid = CFUUIDCreate(NULL);
     NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
