@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+message MEClassMember {
+	int64 id = 1; //联系人id
+    int64 classId = 2; //班级id
+    string name = 3; //中文名
+    string portrait = 4; //头像
+    int32 userType = 5; //用户类型
+    int32 gender = 6; //性别
+    string schoolName = 7; //学校名称
+    int32 status = 8;//1正常 0期间离开
+    int64 timestamp = 9;
+    string studentName = 10; //学生名字
+}
+
+message MEClassMemberList {
+	repeated MEClassMember classUser = 1; //班级用户列表
+    string classIds = 2; //班级ids 不传则返回所有
+    int64 timestamp = 3; //上次更新时间戳
+}

@@ -93,6 +93,35 @@
     return PBFormat(@"%@/?type=%d&resId=%lld", ME_WEB_SERVER_HOST, type, resId);
 }
 
+#pragma mark --- User Abouts
+
+/**
+ 当前用户所关联的所有班级
+ */
++ (NSArray<MEPBClass*>*)fetchCurrentUserMultiClasses {
+    __block NSMutableArray<MEPBClass*> *classes = [NSMutableArray arrayWithCapacity:0];
+    MEPBUser *curUser = self.app.curUser;
+    if (curUser.userType == MEPBUserRole_Teacher) {
+        //老师
+        TeacherPb *teacher = curUser.teacherPb;
+        [classes addObjectsFromArray:teacher.classPbArray.copy];
+    } else if (curUser.userType == MEPBUserRole_Parent) {
+        //家长
+        ParentsPb *parent = curUser.parentsPb;
+        [classes addObjectsFromArray:parent.classPbArray.copy];
+    } else if (curUser.userType == MEPBUserRole_Gardener) {
+        //园务
+        DeanPb *dean = curUser.deanPb;
+        [classes addObjectsFromArray:dean.classPbArray.copy];
+    }
+    return classes.copy;
+}
+
++ (BOOL)whetherCurrentUserHaveMulticastClasses {
+    NSArray<MEPBClass*>*classes = [self fetchCurrentUserMultiClasses];
+    return classes.count > 1;
+}
+
 #pragma mark --- Cordova Resources && Hot Updating---
 /**
  *  Cordova策略：
@@ -312,9 +341,9 @@
 
 + (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color withTarget:(nullable id)target withSelector:(nullable SEL)selector {
     CGFloat itemSize = 28;
-    CGFloat fontSize = METHEME_FONT_TITLE;
+    CGFloat fontSize = METHEME_FONT_TITLE * 1.5;
     NSString *fontName = @"iconfont";
-    UIFont *font = [UIFont fontWithName:fontName size:fontSize * 2];
+    UIFont *font = [UIFont fontWithName:fontName size:fontSize];
     UIColor *fontColor = (color == nil)?[UIColor whiteColor]:color;
     //    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
