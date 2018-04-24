@@ -38,8 +38,8 @@
     }
 }
 
-+ (NSArray *)fetchAlbumWithClassId:(int64_t)classId {
-    NSString *where = [NSString stringWithFormat: @"classId = %lld", classId];
++ (NSArray *)fetchAlbum {
+    NSString *where = [NSString stringWithFormat: @""];
     NSArray *arr = [WHCSqlite query: [ClassAlbumListPb class] where: where];
     return arr;
 }

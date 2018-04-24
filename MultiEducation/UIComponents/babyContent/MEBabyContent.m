@@ -63,8 +63,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self loadData];
         [self createSubviews];
+        [self loadData];
     }
     return self;
 }
@@ -75,6 +75,7 @@
         GuStudentArchivesPb *stuPb;
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+            
             [self.headerView setData: stuPb];
             [self getBabyPhotos: stuPb.classId];
             return;
