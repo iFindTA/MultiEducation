@@ -11,7 +11,6 @@
 #import "MEKits.h"
 #import "AppDelegate.h"
 #import "Meuser.pbobjc.h"
-#import "MEPhoto.h"
 
 static QNUploadManager *qnUploadManager;
 static MEQiniuUtils *qnUtils;
@@ -21,8 +20,12 @@ static MEQiniuUtils *qnUtils;
 }
 
 @property (nonatomic, strong) QNUploadOption *option;
-
 @property (nonatomic, strong) NSString *qnToken;
+
+@property (nonatomic, strong) NSMutableArray *keys;
+
+@property (nonatomic, strong) NSMutableArray *succKeys;
+@property (nonatomic, strong) NSMutableArray *failKeys;
 
 @end
 
@@ -37,27 +40,12 @@ static MEQiniuUtils *qnUtils;
     return qnUtils;
 }
 
-- (void)uploadImages:(NSArray <MEPhoto *> *)images keys:(NSMutableArray *)keys {
-    
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    float limit = delegate.curUser.systemConfigPb.uploadLimit.floatValue;
-    float uploadLimit = (limit == 0 ? 2 * 1024 * 1024 : limit * 1024 * 1024);
-    
-    UIImage *image = images[_index].image;
+- (void)uploadImages:(NSArray <NSDictionary *> *)images {
+    NSData *data = [[images objectAtIndex: _index] objectForKey: @"data"];
+    NSString *key = [[images objectAtIndex: _index] objectForKey: @"filePath"];
     __block NSInteger imageIndex = _index;
-
-    NSData *data = UIImagePNGRepresentation(image);
-    
-    if (data.length > uploadLimit) {
-        NSLog(@"image length:(%ld) too big",data.length);
-        imageIndex++;
-        [self uploadImages: images keys: keys];
-        return;
-    }
-    
     __weak typeof(self) weakSelf = self;
-    NSString *key = [NSString stringWithFormat: @"%@.jpg", [images objectAtIndex: _index].md5FileName];
-    [qnUploadManager putData:data key: key token:self.qnToken
+    [qnUploadManager putData: data key: key token:self.qnToken
                   complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                       if (info.isOK) {
                           if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
@@ -65,55 +53,53 @@ static MEQiniuUtils *qnUtils;
                                   [self.delegate uploadImageSuccess: info key: key resp: resp];
                               });
                           }
-                          [keys addObject:key];
-                          NSLog(@"idInex %ld, success", _index);
                       } else {
                           if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageFail:key:resp:)]) {
                               dispatch_async_on_main_queue(^{
                                   [self.delegate uploadImageFail: info key: key resp: resp];
                               });
                           }
-                          NSLog(@"idInex %ld, fail", _index);
                       }
-                      
                       imageIndex++;
-                      
                       if (imageIndex >= images.count) {
-                          NSLog(@"上传完成");
                           _index = 0;
-                          for (NSString *imgKey in keys) {
-                              NSLog(@"%@",imgKey);
-                          }
-                          if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver:)]) {
-                              [self.delegate uploadOver: keys];
+                          if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
+                              [self.delegate uploadOver];
                           }
                           return ;
                       }
-                      
                       _index++;
-                      [weakSelf uploadImages:images keys:keys];
+                      [weakSelf uploadImages:images];
                       
                   } option: self.option];
 }
 
-- (void)uploadVideo:(NSData *)data key:(NSString *)key {
+- (void)uploadImages:(NSArray<NSDictionary *> *)images callback:(void (^)(NSArray *, NSArray *))callback {
+    NSData *data = [[images objectAtIndex: _index] objectForKey: @"data"];
+    NSString *key = [[images objectAtIndex: _index] objectForKey: @"filePath"];
+    __block NSInteger imageIndex = _index;
     __weak typeof(self) weakSelf = self;
-    [qnUploadManager putData:data key: key token: self.qnToken complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-        NSLog(@"%@", info);
-        if (info.isOK) {
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:key:resp:)]) {
-                dispatch_async_on_main_queue(^{
-                    [self.delegate uploadImageSuccess: info key: key resp: resp];
-                });
-            }
-        } else {
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageFail:key:resp:)]) {
-                dispatch_async_on_main_queue(^{
-                    [self.delegate uploadImageFail: info key: key resp: resp];
-                });
-            }
-        }
-    } option: self.option];
+    [qnUploadManager putData: data key: key token:self.qnToken
+                    complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                        if (info.isOK) {
+                            [self.succKeys addObject: key];
+                        } else {
+                            [self.failKeys addObject: key];
+                        }
+                        imageIndex++;
+                        if (imageIndex >= images.count) {
+                            callback(self.succKeys, self.failKeys);
+                            _index = 0;
+                            self.succKeys = nil;
+                            self.failKeys = nil;
+                            self.keys = nil;
+                            return;
+                        }
+                        _index++;
+                        [weakSelf uploadImages:images];
+                        
+                    } option: self.option];
+    
 }
 
 #pragma mark - lazyloading
@@ -121,7 +107,6 @@ static MEQiniuUtils *qnUtils;
     if (!_option) {
         __weak typeof(self) weakSelf = self;
         _option = [[QNUploadOption alloc] initWithMime: nil progressHandler:^(NSString *key, float percent) {
-            NSLog(@"%@ -- percent : %.2f", key, percent);
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(uploadImageProgress:percent:)]) {
                 dispatch_async_on_main_queue(^{
                     [weakSelf.delegate uploadImageProgress: key percent: percent];
@@ -138,6 +123,27 @@ static MEQiniuUtils *qnUtils;
         _qnToken = delegate.curUser.uptoken;
     }
     return _qnToken;
+}
+
+- (NSMutableArray *)keys {
+    if (!_keys) {
+        _keys = [NSMutableArray array];
+    }
+    return _keys;
+}
+
+- (NSMutableArray *)succKeys {
+    if (!_succKeys) {
+        _succKeys = [NSMutableArray array];
+    }
+    return _succKeys;
+}
+
+- (NSMutableArray *)failKeys {
+    if (!_failKeys) {
+        _failKeys = [NSMutableArray array];
+    }
+    return _failKeys;
 }
 
 @end

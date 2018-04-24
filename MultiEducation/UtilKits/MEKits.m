@@ -479,6 +479,54 @@
     }
 }
 
++ (void)handleUploadVideos:(NSArray <NSData *> *)videos checkDiskCap:(BOOL)checkCap completion:(void (^)(NSArray <NSDictionary*>* _Nullable))completion {
+    NSMutableArray *destAssets = [NSMutableArray array];
+    NSFileManager *fileHandler = [NSFileManager defaultManager];
+    NSString *userPrePath = [self currentUserDownloadPath];
+    for (int i = 0; i < videos.count; ++i) {
+        NSData *video = videos[i];
+        
+        NSMutableDictionary *infoMap = [NSMutableDictionary dictionary];
+        //后缀名
+        NSString *extension = @"mp4";
+        infoMap[@"extension"] = extension;
+        //md5和filePath
+        NSString *md5 = [video MD5String];
+        NSString *filePath = [NSString stringWithFormat:@"%@.%@", md5, extension];
+        infoMap[@"md5"] = md5;
+        infoMap[@"filePath"] = filePath;
+        infoMap[@"fileName"] = filePath;
+        infoMap[@"data"] = video;
+        
+        //检查文件大小
+        float size = (float) video.length / 1024.0f / 1024.0f;
+        float uploadLimit = [MEKits uploadMaxLimit];
+        if (size > uploadLimit) {
+            NSString *alertString = [NSString stringWithFormat:@"上传文件最大只能%fM", uploadLimit];
+            [SVProgressHUD showInfoWithStatus:alertString];
+            return;
+        }
+        if (checkCap) {
+            NSString *msg = [self checkUserDiskCap: video.length];
+            if (msg != nil) {
+                [SVProgressHUD showInfoWithStatus:msg];
+                return;
+            }
+        }
+        //写入文件 如果已经有了就不再写入
+        if (![fileHandler fileExistsAtPath:filePath]) {
+            NSString *absolutePath = [userPrePath stringByAppendingPathComponent:filePath];
+            [video writeToFile:absolutePath atomically:true];
+        }
+        
+        NSLog(@"File size is : %.2f MB", (float) video.length / 1024.0f / 1024.0f);
+        [destAssets addObject:infoMap.copy];
+    }
+    if (completion) {
+        completion(destAssets.copy);
+    }
+}
+
 #pragma mark --- 处理图片相关
 
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength {

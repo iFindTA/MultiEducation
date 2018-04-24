@@ -18,7 +18,6 @@
 #import "MebabyAlbum.pbobjc.h"
 #import "MEBabyAlbumListVM.h"
 #import "MEBabyPhotoCell.h"
-#import "MEPhoto.h"
 #import "Meclass.pbobjc.h"
 #import "MENewsInfoVM.h"
 #import "MenewsInfo.pbobjc.h"
@@ -50,7 +49,7 @@
 
 @property (nonatomic, strong) MEBabyContentHeader *photoHeader;
 @property (nonatomic, strong) UICollectionView *babyPhtoView;
-@property (nonatomic, strong) NSMutableArray <MEPhoto *> *babyPhotos;   //babyPhoto
+@property (nonatomic, strong) NSMutableArray *babyPhotos;   //babyPhoto
 
 @property (nonatomic, strong) UICollectionView *componentView;
 
@@ -67,9 +66,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self createSubviews];
-//        [self getBabyNewsInfo];
         [self loadData];
-        [self getBabyNewsInfo];
+//        [self getBabyNewsInfo];
     }
     return self;
 }
@@ -107,11 +105,11 @@
 - (void)getBabyNewsInfo {
     OsrInformationPb *pb = [[OsrInformationPb alloc] init];
     MENewsInfoVM *infoVM = [MENewsInfoVM vmWithPb: pb];
-    
     [infoVM postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
         OsrInformationPbList *listPb = [OsrInformationPbList parseFromData: resObj error: nil];
         _pageIndex +=  ME_PAGING_SIZE;
         [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];
+        
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
@@ -120,8 +118,17 @@
 
 //获取显示宝宝相册
 - (BOOL)getBabyPhotos {
-    NSArray *totalAlbums = [MEBabyAlbumListVM fetchUserAllAlbum];
-    
+    [self.babyPhotos removeAllObjects];
+    NSArray *totalAlbums;
+    if (self.currentUser.userType == (MEPBUserRole_Gardener | MEPBUserRole_Teacher)) {
+        totalAlbums = [MEBabyAlbumListVM fetchUserAllAlbum];
+    } else if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
+        GuStudentArchivesPb *pb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+       totalAlbums = [MEBabyAlbumListVM fetchAlbmsWithClassId: pb.classId];
+    } else {
+        [self updateViewsMasonry];
+        return NO;
+    }
     if (totalAlbums.count <= 0) {
         [self updateViewsMasonry];
         return NO;
@@ -133,71 +140,11 @@
     } else {
         albums = totalAlbums;
     }
-    [self.babyPhotos removeAllObjects];
-    for (ClassAlbumPb *pb in albums) {
-        MEPhoto *photo = [[MEPhoto alloc] init];
-        photo.fileType = pb.fileType;
-        photo.urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, pb.filePath];
-        [self.babyPhotos addObject: photo];
-    }
+    
+    [self.babyPhotos addObjectsFromArray: albums];
     [self updateViewsMasonry];
     [self.babyPhtoView reloadData];
     return YES;
-}
-
-//- (void)getBabyPhotos:(NSInteger)classId {
-//    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-//    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
-//    pb.classId = classId;
-//    NSData *data = [pb data];
-//    weakify(self);
-//    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-//        strongify(self);
-//        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-//
-//        [self.babyPhotos removeAllObjects];
-//
-//        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
-//            MEPhoto *photo = [[MEPhoto alloc] init];
-//            photo.fileType = pb.fileType;
-//            photo.urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, pb.filePath];
-//            NSLog(@"%@", pb.fileType);
-//            [self.babyPhotos addObject: photo];
-//        }
-//
-//        [self.babyPhtoView reloadData];
-//        [self setVideoCoverImage];
-//        [self updateViewsMasonry];
-//
-//    } failure:^(NSError * _Nonnull error) {
-//        [self handleTransitionError: error];
-//    }];
-//}
-
-- (void)setVideoCoverImage {
-    NSInteger index = 0;
-    for (MEPhoto *photo in self.babyPhotos) {
-        if ([photo.fileType isEqualToString: @"mp4"]) {
-            dispatch_queue_t queue = dispatch_queue_create([[NSString stringWithFormat: @"get_video_cover_image_%ld", index] UTF8String],  NULL);
-            dispatch_async(queue, ^{
-                AVURLAsset *asset = [[AVURLAsset alloc] initWithURL: [NSURL URLWithString: photo.urlStr] options:nil];
-                NSParameterAssert(asset);
-                AVAssetImageGenerator *assetImageGenerator =[[AVAssetImageGenerator alloc] initWithAsset:asset];
-                assetImageGenerator.appliesPreferredTrackTransform = YES;
-                assetImageGenerator.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
-                CGImageRef thumbnailImageRef = NULL;
-                CFTimeInterval thumbnailImageTime = 0.1;
-                NSError *thumbnailImageGenerationError = nil;
-                thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)actualTime:NULL error:&thumbnailImageGenerationError];
-                UIImage *thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
-                photo.image = thumbnailImage;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.babyPhtoView reloadItemsAtIndexPaths: @[[NSIndexPath indexPathForItem: index inSection: 0]]];
-                });
-            });
-        }
-        index++;
-    }
 }
 
 - (void)getBabyArchitecture:(NSInteger)studenId {
@@ -394,6 +341,8 @@
         make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
     }];
     
+    [self getBabyNewsInfo];
+    
 }
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
@@ -425,7 +374,7 @@
     if ([collectionView isEqual: self.babyPhtoView]) {
         //babyPhotoView collectionView cell
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: BABY_PHOTOVIEW_IDEF forIndexPath: indexPath];
-        [(MEBabyPhotoCell *)cell setData: [self.babyPhotos objectAtIndex: indexPath.item]];
+        [(MEBabyPhotoCell *)cell setData: [self.babyPhotos objectAtIndex: indexPath.row]];
     } else {
 //        scrollContentView collectionView cell
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
@@ -591,7 +540,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEBabyInfoCell *cell = [tableView dequeueReusableCellWithIdentifier: BABY_INFO_IDEF forIndexPath: indexPath];
-    [cell setData: [self.newsInfos objectAtIndex: indexPath.row]];
+    if (self.newsInfos.count != 0) {
+        [cell setData: [self.newsInfos objectAtIndex: 0]];
+    }
     return cell;
 }
 

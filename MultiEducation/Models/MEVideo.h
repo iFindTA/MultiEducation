@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "MebabyAlbum.pbobjc.h"
-#import "MEPhoto.h"
- 
+
 @interface MEVideo : NSObject
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSData *video;
 @property (nonatomic, strong) NSString *md5FileName;
 
-@property (nonatomic, assign) UploadStatus status;
 @property (nonatomic, assign) float progress;
 
 @property (nonatomic, assign) ClassAlbumPb *albumPb;

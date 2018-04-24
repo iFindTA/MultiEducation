@@ -76,6 +76,8 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
   ClassAlbumPb_FieldNumber_CreatedDate = 11,
   ClassAlbumPb_FieldNumber_ModifiedDate = 12,
   ClassAlbumPb_FieldNumber_Md5 = 13,
+  ClassAlbumPb_FieldNumber_UpPercent = 14,
+  ClassAlbumPb_FieldNumber_FormatterDate = 15,
 };
 
 @interface ClassAlbumPb : GPBMessage
@@ -115,6 +117,12 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
 
 /** 文件md5 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *md5;
+
+/** 上传进度 */
+@property(nonatomic, readwrite) int32_t upPercent;
+
+/** 格式化日期 yyyy-MM */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *formatterDate;
 
 @end
 

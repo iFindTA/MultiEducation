@@ -7,12 +7,13 @@
 //
 
 #import "MEBaseCollectionCell.h"
-#import "MEPhoto.h"
+#import "MebabyAlbum.pbobjc.h"
 
 @interface MEBabyPhotoCell : MEBaseCollectionCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *babyPhotoImage;
 
-- (void)setData:(MEPhoto *)photo;
+- (void)setData:(ClassAlbumPb *)pb;
+
 
 @end
