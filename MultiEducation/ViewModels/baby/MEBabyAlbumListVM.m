@@ -49,9 +49,9 @@
     if (user.userType == MEPBUserRole_Teacher) {
         classPbArr = user.teacherPb.classPbArray;
     } else if (user.userType == MEPBUserRole_Gardener) {
-        classPbArr = user.parentsPb.classPbArray;
-    } else if (user.userType == MEPBUserRole_Parent) {
         classPbArr = user.deanPb.classPbArray;
+    } else if (user.userType == MEPBUserRole_Parent) {
+        classPbArr = user.parentsPb.classPbArray;
     } else {
         return nil;
     }

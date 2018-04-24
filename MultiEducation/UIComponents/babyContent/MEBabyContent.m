@@ -92,7 +92,6 @@
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
             [self getBabyPhotos];
-            
             return;
         }
         [self getBabyArchitecture: 0];
@@ -290,47 +289,59 @@
 }
 
 - (void)updateViewsMasonry {
-    
-    if (self.currentUser.userType == MEPBUserRole_Visitor || (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
-        
-    }
-
-    if (self.babyPhotos.count == 0)  {
-        if (self.currentUser.userType == MEPBUserRole_Parent) {
-            self.photoHeader.hidden = YES;
-            [self.tableView updateConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.headerView.mas_bottom);
-            }];
-        } else {
-            self.photoHeader.hidden = NO;
-            [self.tableView updateConstraints:^(MASConstraintMaker *make) {
-                make.top.mas_equalTo(self.photoHeader.mas_bottom);
-            }];
-        }
-        self.babyPhtoView.hidden = YES;
-        self.componentView.hidden = YES;
-        
-        
-
-    } else {
-        
-        self.photoHeader.hidden = NO;
-        self.babyPhtoView.hidden = NO;
-        self.componentView.hidden = NO;
-        self.tableView.hidden = NO;
-        
-        [self.tableView remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self.scrollContentView);
-            make.height.mas_equalTo([self tableviewHeight]);
-            make.top.mas_equalTo(self.componentView.mas_bottom);
-        }];
-    
-    }
-    
-    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
-    }];
-
+//    if (self.currentUser.userType == MEPBUserRole_Visitor || (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
+//        self.componentView.hidden = YES;
+//    } else {
+//        self.componentView.hidden = NO;
+//    }
+//
+//    if (self.babyPhotos.count == 0)  {
+//        if (self.currentUser.userType == MEPBUserRole_Parent) {
+//            self.photoHeader.hidden = YES;
+//            if (self.componentView.hidden) {
+//                [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+//                    make.top.mas_equalTo(self.headerView.mas_bottom);
+//                }];
+//            } else {
+//                [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+//                    make.top.mas_equalTo(self.componentView.mas_bottom);
+//                }];
+//            }
+//
+//        } else {
+//            self.photoHeader.hidden = NO;
+//            if (self.componentView.hidden) {
+//                [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+//                    make.top.mas_equalTo(self.headerView.mas_bottom);
+//                }];
+//            } else {
+//                [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+//                    make.top.mas_equalTo(self.componentView.mas_bottom);
+//                }];
+//            }
+//        }
+//        self.babyPhtoView.hidden = YES;
+//    } else {
+//
+//        self.photoHeader.hidden = NO;
+//        self.babyPhtoView.hidden = NO;
+//        self.tableView.hidden = NO;
+//
+//        if (self.componentView.hidden) {
+//            [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+//                make.top.mas_equalTo(self.headerView.mas_bottom);
+//            }];
+//        } else {
+//            [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+//                make.top.mas_equalTo(self.componentView.mas_bottom);
+//            }];
+//        }
+//
+//    }
+//
+//    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
+//    }];
 }
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
