@@ -11,4 +11,6 @@
 
 @interface MEFileQuryVM : MEVM
 
++ (instancetype)vmWithPb:(MEPBQNFile *)qnPb;
+
 @end
