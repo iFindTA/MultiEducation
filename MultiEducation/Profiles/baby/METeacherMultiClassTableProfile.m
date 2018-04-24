@@ -93,7 +93,13 @@ static CGFloat const CELL_HEIGHT = 44.f;
 
 - (NSArray *)classes {
     if (!_classes) {
-        _classes = [NSArray arrayWithArray: self.currentUser.teacherPb.classPbArray];
+        NSArray *arr;
+        if (self.currentUser.userType == MEPBUserRole_Teacher) {
+            arr = self.currentUser.teacherPb.classPbArray;
+        } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
+            arr = self.currentUser.deanPb.classPbArray;
+        }
+        _classes = [NSArray arrayWithArray: arr];
     }
     return _classes;
 }

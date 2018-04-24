@@ -21,9 +21,20 @@
 
 
 /**
- 根据 appdelegate.currentUser 获取album
+ 获取当前用户所在班级所有照片信息
  */
-+ (NSArray *)fetchAlbum;
++ (NSArray *)fetchUserAllAlbum;
+
+
+
+/**
+ 根据classId查询数据库中数据
+
+ @param classId  classid
+ @return classAlbumsArray
+ */
++ (NSArray *)fetchAlbmsWithClassId:(int64_t)classId;
+
 
 
 

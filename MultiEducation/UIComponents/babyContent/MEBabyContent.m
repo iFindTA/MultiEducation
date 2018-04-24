@@ -77,7 +77,9 @@
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
             
             [self.headerView setData: stuPb];
-            [self getBabyPhotos: stuPb.classId];
+            
+            [self getBabyPhotos];
+
             return;
         }
         
@@ -86,40 +88,73 @@
     }
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-        
-        [MEBabyAlbumListVM fetchAlbum];
+        GuStudentArchivesPb *stuPb;
+        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
+            stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+            [self getBabyPhotos];
+            
+            return;
+        }
+        [self getBabyArchitecture: 0];
     }
     
 }
 
-- (void)getBabyPhotos:(NSInteger)classId {
-    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
-    pb.classId = classId;
-    NSData *data = [pb data];
-    weakify(self);
-    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        strongify(self);
-        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        
-        [self.babyPhotos removeAllObjects];
-        
-        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
-            MEPhoto *photo = [[MEPhoto alloc] init];
-            photo.fileType = pb.fileType;
-            photo.urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, pb.filePath];
-            NSLog(@"%@", pb.fileType);
-            [self.babyPhotos addObject: photo];
-        }
-        
-        [self.babyPhtoView reloadData];
-        [self setVideoCoverImage];
+//获取显示宝宝相册
+- (BOOL)getBabyPhotos {
+    NSArray *totalAlbums = [MEBabyAlbumListVM fetchUserAllAlbum];
+    
+    if (totalAlbums.count <= 0) {
         [self updateViewsMasonry];
-        
-    } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
-    }];
+        return NO;
+    }
+    
+    NSArray *albums;
+    if (albums.count >= 10) {
+        albums = [totalAlbums subarrayWithRange: NSMakeRange(0, 10)];
+    } else {
+        albums = totalAlbums;
+    }
+    [self.babyPhotos removeAllObjects];
+    for (ClassAlbumPb *pb in albums) {
+        MEPhoto *photo = [[MEPhoto alloc] init];
+        photo.fileType = pb.fileType;
+        photo.urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, pb.filePath];
+        [self.babyPhotos addObject: photo];
+    }
+    [self updateViewsMasonry];
+    [self.babyPhtoView reloadData];
+    return YES;
 }
+
+//- (void)getBabyPhotos:(NSInteger)classId {
+//    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+//    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
+//    pb.classId = classId;
+//    NSData *data = [pb data];
+//    weakify(self);
+//    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+//        strongify(self);
+//        ClassAlbumListPb *albumListPb = [ClassAlbumListPb parseFromData: resObj error: nil];
+//
+//        [self.babyPhotos removeAllObjects];
+//
+//        for (ClassAlbumPb *pb in albumListPb.classAlbumArray) {
+//            MEPhoto *photo = [[MEPhoto alloc] init];
+//            photo.fileType = pb.fileType;
+//            photo.urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, pb.filePath];
+//            NSLog(@"%@", pb.fileType);
+//            [self.babyPhotos addObject: photo];
+//        }
+//
+//        [self.babyPhtoView reloadData];
+//        [self setVideoCoverImage];
+//        [self updateViewsMasonry];
+//
+//    } failure:^(NSError * _Nonnull error) {
+//        [self handleTransitionError: error];
+//    }];
+//}
 
 - (void)setVideoCoverImage {
     NSInteger index = 0;
@@ -149,7 +184,9 @@
 
 - (void)getBabyArchitecture:(NSInteger)studenId {
     GuIndexPb *pb = [[GuIndexPb alloc] init];
-    pb.studentId = studenId;
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        pb.studentId = studenId;
+    }
     MEBabyIndexVM *babyIndexVM = [MEBabyIndexVM vmWithPb: pb];
     NSData *data = [pb data];
     weakify(self);
@@ -161,7 +198,7 @@
         GuStudentArchivesPb *babyGrowthPb = pb.studentArchives;
         [MEBabyIndexVM saveSelectBaby: pb];
         
-        [self getBabyPhotos: babyGrowthPb.classId];
+        [self getBabyPhotos];
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
@@ -253,16 +290,27 @@
 }
 
 - (void)updateViewsMasonry {
+    
+    if (self.currentUser.userType == MEPBUserRole_Visitor || (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
+        
+    }
 
     if (self.babyPhotos.count == 0)  {
-        
-        self.photoHeader.hidden = YES;
+        if (self.currentUser.userType == MEPBUserRole_Parent) {
+            self.photoHeader.hidden = YES;
+            [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.headerView.mas_bottom);
+            }];
+        } else {
+            self.photoHeader.hidden = NO;
+            [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(self.photoHeader.mas_bottom);
+            }];
+        }
         self.babyPhtoView.hidden = YES;
         self.componentView.hidden = YES;
         
-        [self.tableView updateConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.headerView.mas_bottom);
-        }];
+        
 
     } else {
         

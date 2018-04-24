@@ -7,6 +7,9 @@
 //
 
 #import "MEBabyAlbumListVM.h"
+#import "AppDelegate.h"
+#import "Meuser.pbobjc.h"
+#import "Meclass.pbobjc.h"
 
 @interface MEBabyAlbumListVM ()
 
@@ -38,8 +41,33 @@
     }
 }
 
-+ (NSArray *)fetchAlbum {
-    NSString *where = [NSString stringWithFormat: @""];
++ (NSArray *)fetchUserAllAlbum {
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *user = delegate.curUser;
+    
+    NSArray *classPbArr;
+    if (user.userType == MEPBUserRole_Teacher) {
+        classPbArr = user.teacherPb.classPbArray;
+    } else if (user.userType == MEPBUserRole_Gardener) {
+        classPbArr = user.parentsPb.classPbArray;
+    } else if (user.userType == MEPBUserRole_Parent) {
+        classPbArr = user.deanPb.classPbArray;
+    } else {
+        return nil;
+    }
+    
+    NSMutableString *where = [NSMutableString string];
+    for (MEPBClass *class in classPbArr) {
+        [where appendString: [NSString stringWithFormat: @"id_p = '%lld' OR ", class.id_p]];
+    }
+    //delete the last ','
+    [where deleteCharactersInRange: NSMakeRange(where.length - 3, 3)];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where];
+    return arr;
+}
+
++ (NSArray *)fetchAlbmsWithClassId:(int64_t)classId {
+    NSString *where = [NSString stringWithFormat: @"id_p = %lld", classId];
     NSArray *arr = [WHCSqlite query: [ClassAlbumListPb class] where: where];
     return arr;
 }

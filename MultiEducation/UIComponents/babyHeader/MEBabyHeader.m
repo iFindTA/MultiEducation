@@ -46,14 +46,17 @@
 }
 
 - (void)setData:(GuStudentArchivesPb *)growthPb {
-    self.ageLab.text = [NSString stringWithFormat: @"%d岁", growthPb.age];
-    self.babyHeightLab.text = [NSString stringWithFormat: @"%dcm", growthPb.height];
-    self.babyWeightLab.text = [NSString stringWithFormat: @"%dkg", growthPb.weight];
-    
-    NSString *text;
-    NSString *babyName = growthPb.studentName;
-    text = [NSString stringWithFormat: @"%@家长，您好！", babyName];
-    self.userNameLab.text = text;
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (delegate.curUser.userType == MEPBUserRole_Parent) {
+        self.ageLab.text = [NSString stringWithFormat: @"%d岁", growthPb.age];
+        self.babyHeightLab.text = [NSString stringWithFormat: @"%dcm", growthPb.height];
+        self.babyWeightLab.text = [NSString stringWithFormat: @"%dkg", growthPb.weight];
+        
+        NSString *text;
+        NSString *babyName = growthPb.studentName;
+        text = [NSString stringWithFormat: @"%@家长，您好！", babyName];
+        self.userNameLab.text = text;
+    }
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
