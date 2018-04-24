@@ -7,7 +7,7 @@
 //
 
 #import "MEBaseCollectionCell.h"
-#import "MEPhoto.h"
+#import "MebabyAlbum.pbobjc.h"
 
 @interface MEBabyContentPhotoCell : MEBaseCollectionCell
 
@@ -15,6 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *floderNameLabel;
 
-- (void)setData:(MEPhoto *)photo;
+- (void)setData:(ClassAlbumPb *)pb;
 
 @end

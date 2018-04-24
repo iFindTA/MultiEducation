@@ -172,7 +172,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
     UIImage *compressImage = [self compressImage: image];
     NSString *md5Str = [UIImagePNGRepresentation(compressImage) md5String];
     NSString *key = [NSString stringWithFormat: @"%@.jpg", md5Str];
-    [self.qnUtils uploadVideo: UIImagePNGRepresentation([self compressImage: image]) key: key];
+//    [self.qnUtils uploadWithData: UIImagePNGRepresentation([self compressImage: image]) key: key];
 }
 
 - (UIImage *)compressImage:(UIImage *)image {

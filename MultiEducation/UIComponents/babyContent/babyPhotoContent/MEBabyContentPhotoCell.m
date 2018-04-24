@@ -7,6 +7,8 @@
 //
 
 #import "MEBabyContentPhotoCell.h"
+#import "AppDelegate.h"
+#import "Meuser.pbobjc.h"
 
 @implementation MEBabyContentPhotoCell
 
@@ -16,20 +18,28 @@
 //    self.floderNameLabel.hidden = YES;
 }
 
-- (void)setData:(MEPhoto *)photo {
-    
 
-    self.floderNameLabel.text = photo.albumPb.fileName;
-    if (photo.albumPb.isParent) {
+- (void)setData:(ClassAlbumPb *)pb {
+    if (pb.isParent) {
         self.floderNameLabel.hidden = NO;
+        self.floderNameLabel.text = pb.fileName;
+        [self setCoverImage: pb];
     } else {
         self.floderNameLabel.hidden = YES;
+        self.floderNameLabel.text = @"";
+        [self setCoverImage: pb];
     }
-    
-    if ([photo.albumPb.fileType isEqualToString: @"mp4"]) {
-        self.photoIcon.image = photo.image;
+}
+
+- (void)setCoverImage:(ClassAlbumPb *)pb {
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *user = delegate.curUser;
+    if ([pb.fileType isEqualToString: @"mp4"]) {
+        NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
+        [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
     } else {
-       [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: photo.urlStr]];
+        NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
+        [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
     }
 }
 

@@ -107,15 +107,19 @@ typedef struct ClassAlbumListPb__storage_ {
 @dynamic createdDate;
 @dynamic modifiedDate;
 @dynamic md5;
+@dynamic upPercent;
+@dynamic formatterDate;
 
 typedef struct ClassAlbumPb__storage_ {
   uint32_t _has_storage_[1];
   int32_t isParent;
   int32_t dataStatus;
+  int32_t upPercent;
   NSString *fileName;
   NSString *fileType;
   NSString *filePath;
   NSString *md5;
+  NSString *formatterDate;
   int64_t id_p;
   int64_t classId;
   int64_t parentId;
@@ -248,6 +252,24 @@ typedef struct ClassAlbumPb__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "upPercent",
+        .dataTypeSpecific.className = NULL,
+        .number = ClassAlbumPb_FieldNumber_UpPercent,
+        .hasIndex = 13,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, upPercent),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "formatterDate",
+        .dataTypeSpecific.className = NULL,
+        .number = ClassAlbumPb_FieldNumber_FormatterDate,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, formatterDate),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ClassAlbumPb class]
@@ -259,7 +281,7 @@ typedef struct ClassAlbumPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\013\002\007\000\003\010\000\004\010\000\005\006\000\006\010\000\007\010\000\010\010\000\t\010\000\n\n\000\013\013\000\014\014\000";
+        "\r\002\007\000\003\010\000\004\010\000\005\006\000\006\010\000\007\010\000\010\010\000\t\010\000\n\n\000\013\013\000\014\014\000\016\t\000\017\r\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

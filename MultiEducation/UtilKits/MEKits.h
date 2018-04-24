@@ -105,6 +105,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)handleUploadPhotos:(NSArray *)photos assets:(NSArray *)assets checkDiskCap:(BOOL)checkCap completion:(void(^_Nullable)(NSArray <NSDictionary*>* _Nullable images))completion;
 
+
+/**
+ 处理上传视频
+
+ @param videos 视频data
+ @param checkCap 是否检测网盘剩余容量
+ @param completion callback回调
+ */
++ (void)handleUploadVideos:(NSArray <NSData *> *)videos checkDiskCap:(BOOL)checkCap completion:(void (^)(NSArray <NSDictionary*>* _Nullable videos))completion;
+
 /**
  压缩image到制定大小以下
 

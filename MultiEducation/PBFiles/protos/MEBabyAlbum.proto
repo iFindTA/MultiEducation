@@ -18,4 +18,6 @@ message ClassAlbumPb {
     int64 createdDate = 11;
     int64 modifiedDate = 12;
     string md5 = 13; //文件md5
+    int32 upPercent = 14;	//上传进度
+    string formatterDate = 15;  //格式化日期 yyyy-MM
 }

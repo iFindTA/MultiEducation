@@ -15,11 +15,17 @@
     [super awakeFromNib];
 }
 
-- (void)setData:(MEPhoto *)photo {
-    if ([photo.fileType  isEqualToString: @"jpg"]) {
-        [_babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: photo.urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+
+- (void)setData:(ClassAlbumPb *)pb {
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *user = delegate.curUser;
+    
+    if ([pb.fileType isEqualToString: @"mp4"]) {
+        NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
+        [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr]];
     } else {
-        _babyPhotoImage.image = photo.image;
+        NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
+        [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr]];
     }
 }
 

@@ -20,7 +20,7 @@
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent;
 
 //if success only one and other's are total fail, also did this func
-- (void)uploadOver:(NSArray *)keys;
+- (void)uploadOver;
 
 @end
 
@@ -30,9 +30,8 @@
 
 + (instancetype)sharedQNUploadUtils;
 
-- (void)uploadImages:(NSArray <MEPhoto *> *)images keys:(NSMutableArray *)keys;
+- (void)uploadImages:(NSArray <NSDictionary *> *)images;
 
-- (void)uploadVideo:(NSData *)data key:(NSString *)key;
-
+- (void)uploadImages:(NSArray <NSDictionary *> *)images callback:(void(^)(NSArray * succKeys, NSArray * failKeys))callback;
 
 @end

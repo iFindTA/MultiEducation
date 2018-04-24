@@ -7,7 +7,6 @@
 //
 
 #import "MEBaseCell.h"
-#import "MEPhoto.h"
 #import "MEVideo.h"
 
 @interface MEProgressCell : MEBaseCell
@@ -20,8 +19,6 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *retryLabel;
 
-- (void)setImageData:(MEPhoto *)photo;
 
-- (void)setVideoData:(MEVideo *)video;
 
 @end
