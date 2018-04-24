@@ -71,7 +71,7 @@
     [super prepareForReuse];
     
     self.sectionLab.hidden = false;
-    [self.icon sd_cancelCurrentImageLoad];
+    [self.icon sd_cancelCurrentAnimationImagesLoad];
 }
 
 #pragma mark --- lazy loading
