@@ -25,7 +25,9 @@
         
         [self.infoScene addSubview:self.icon];
         
-        [self.infoScene addSubview:self.infoLab];;
+        [self.infoScene addSubview:self.infoLab];
+        
+        [self layoutIfNeeded];
     }
     return self;
 }
@@ -43,26 +45,27 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    weakify(self)
     [self.infoScene makeConstraints:^(MASConstraintMaker *make) {
+        strongify(self)
         make.edges.equalTo(self.contentView);
     }];
-    weakify(self)
     [self.sectionLab makeConstraints:^(MASConstraintMaker *make) {
         strongify(self)
         make.top.left.bottom.equalTo(self.infoScene);
         make.width.equalTo(ME_HEIGHT_TABBAR);
     }];
     NSUInteger offset = ME_LAYOUT_MARGIN + ME_LAYOUT_OFFSET;
+    NSUInteger iconSize = ME_HEIGHT_TABBAR-offset*2;
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         strongify(self)
         make.left.equalTo(self.infoScene).offset(ME_HEIGHT_TABBAR);
-        make.top.equalTo(self.infoScene).offset(offset);
-        make.bottom.equalTo(self.infoScene).offset(-offset);
-        make.width.equalTo(self.icon.mas_height);
+        make.width.height.equalTo(iconSize);
+        make.centerY.equalTo(self.infoScene);
     }];
     [self.infoLab makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.equalTo(self.infoScene);
-        make.left.equalTo(self.icon.mas_right).offset(ME_LAYOUT_MARGIN*4);
+        make.left.equalTo(self.icon.mas_right).offset(ME_LAYOUT_MARGIN*2);
         make.right.equalTo(self.infoScene);
     }];
 }

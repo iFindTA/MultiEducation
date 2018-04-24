@@ -9,6 +9,7 @@
 #import "VKMsgSend.h"
 #import "MEContactCell.h"
 #import "MESearchPanel.h"
+#import "Meclass.pbobjc.h"
 #import <YCXMenu/YCXMenu.h>
 #import "MEContactProfile.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
@@ -31,6 +32,16 @@
 #pragma mark --- UI Components
 @property (nonatomic, strong) MESearchPanel *searchPanel;
 @property (nonatomic, strong) MASConstraint *searchBarTopConstraint, *searchHeightConstraint;
+
+/**
+ 空信息提示
+ */
+@property (nonatomic, copy, nullable) NSString *emptyTitle, *emptyDescription;
+
+@property (nonatomic, strong, nullable) MEPBClass *currentClass;
+@property (nonatomic, strong, nullable) NSArray<MEPBClass*>*classes;
+@property (nonatomic, strong, nullable) NSArray <YCXMenuItem *> *classItems;
+
 
 @end
 
@@ -70,10 +81,13 @@
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
     UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
-    //UIBarButtonItem *moreItem = [MEKits barWithImage:moreImage target:self eventSelector:@selector(navigationBarMoreTouchEvent)];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"通讯录"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"班级通讯录"];
     item.leftBarButtonItems = @[spacer, backItem];
-    //item.rightBarButtonItems = @[spacer, moreItem];
+    BOOL whetherMultiClasses = [MEKits whetherCurrentUserHaveMulticastClasses];
+    if (whetherMultiClasses) {
+        UIBarButtonItem *moreItem = [MEKits barWithIconUnicode:@"\U0000e7d7" color:backColor target:self eventSelector:@selector(exchangeClassTouchEvent)];
+        item.rightBarButtonItems = @[spacer, moreItem];
+    }
     [self.navigationBar pushNavigationItem:item animated:true];
     
     //search panel
@@ -122,7 +136,7 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     
     if (!self.whetherDidLoadData || self.dataSource.count == 0) {
-        [self loadContactsFromServerOnline];
+        [self prepareClassContactsInfo];
     }
 }
 
@@ -151,6 +165,23 @@
         _menuItems = [NSArray arrayWithObjects:chatItem, scanItem, nil];
     }
     return _menuItems;
+}
+
+- (NSArray<YCXMenuItem*>*)classItems {
+    if (!_classItems) {
+        NSArray <MEPBClass*>*classes = [MEKits fetchCurrentUserMultiClasses];
+        NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
+        UIColor *iconColor = [UIColor whiteColor];
+        __block NSMutableArray *items = [NSMutableArray arrayWithCapacity:0];
+        [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *title = obj.name;
+            YCXMenuItem *item = [YCXMenuItem menuItem:title image:nil target:self action:@selector(userDidTouchClass:)];
+            item.tag = idx;
+            [items addObject:item];
+        }];
+        _classItems = [NSArray arrayWithArray:items.copy];
+    }
+    return _classItems;
 }
 
 - (MESearchPanel *)searchPanel {
@@ -207,6 +238,21 @@
     [YCXMenu dismissMenu];
 }
 
+/**
+ 切换班级
+ */
+- (void)exchangeClassTouchEvent {
+    NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
+    CGRect bounds = CGRectMake(MESCREEN_WIDTH-iconSize-ME_LAYOUT_MARGIN*2, ME_HEIGHT_NAVIGATIONBAR+ME_LAYOUT_MARGIN, iconSize, iconSize);
+    [YCXMenu showMenuInView:self.view fromRect:bounds menuItems:self.menuItems selected:^(NSInteger index, YCXMenuItem *item) {
+        
+    }];
+}
+
+- (void)userDidTouchClass:(YCXMenuItem *)item {
+    
+}
+
 #pragma mark --- DZNEmpty DataSource & Deleagte
 
 - (BOOL)emptyDataSetShouldDisplay:(UIScrollView *)scrollView {
@@ -227,7 +273,7 @@
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = ME_EMPTY_PROMPT_DESC;
+    NSString *text = self.emptyDescription;
     if ([[PBService shared] netState] == PBNetStateUnavaliable) {
         text = ME_EMPTY_PROMPT_NETWORK;
     }
@@ -314,10 +360,84 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    //index for row/section
+    NSUInteger __row = [indexPath row];NSUInteger __section = [indexPath section];
 }
 
 #pragma mark --- Load Data increasment
+
+/**
+ 预处理班级信息
+ */
+- (void)prepareClassContactsInfo {
+    NSArray<MEPBClass*>*classes = [MEKits fetchCurrentUserMultiClasses];
+    if (classes.count == 0) {
+        self.whetherDidLoadData = true;
+        self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
+        self.emptyDescription = ME_ALERT_INFO_NONE_CLASS;
+        [self.table reloadEmptyDataSet];
+    } else if (classes.count == 1) {
+        self.currentClass = classes.firstObject;
+        [self loadClassContacts];
+    } else {
+        self.classes = classes;
+        [self makeUserChooseMulticastClasses];
+    }
+}
+
+/**
+ 让用户选择班级
+ */
+- (void)makeUserChooseMulticastClasses {
+    NSArray <MEPBClass*>*classes = self.classes;
+    if (classes.count <= 1) {
+        return;
+    }
+    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您关联了多个班级，请选择一个进行查看！" preferredStyle:UIAlertControllerStyleActionSheet];
+    weakify(self)
+    for (MEPBClass *cls in classes) {
+        NSString *clsName = PBAvailableString(cls.name);
+        UIAlertAction *action = [UIAlertAction actionWithTitle:clsName style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            strongify(self)
+            [self userDidSelectClass4Contact:action.title];
+        }];
+        [alertProfile addAction:action];
+    }
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self)
+        [self defaultGoBackStack];
+    }];
+    [alertProfile addAction:action];
+    
+    [self presentViewController:alertProfile animated:true completion:^{
+        
+    }];
+}
+
+- (void)userDidSelectClass4Contact:(NSString *)clsName {
+    for (MEPBClass *cls in self.classes) {
+        if ([cls.name isEqualToString:clsName]) {
+            self.currentClass = cls;
+            break;
+        }
+    }
+    [self loadClassContacts];
+}
+
+/**
+ 此处真正开始加载联系人数据
+ 1，先从本地加载
+ 2，再从网络刷新
+ */
+- (void)loadClassContacts {
+    //先清空之前数据
+    [self.dataSource removeAllObjects];
+    self.whetherDidLoadData = false;
+    [self.table reloadEmptyDataSet];
+    [self.table reloadData];
+    
+    
+}
 
 /**
  生成班级相关的数据

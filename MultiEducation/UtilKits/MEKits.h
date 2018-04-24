@@ -10,7 +10,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class MEPBClass;
 /**
  公共基础类 主要类方法处理
  */
@@ -56,6 +56,18 @@ NS_ASSUME_NONNULL_BEGIN
  assmble resource share uri
  */
 + (NSString *)shareResourceUri:(ino64_t)resId type:(int32_t)type;
+
+#pragma mark --- User Abouts
+
+/**
+ 当前用户所关联的所有班级
+ */
++ (NSArray<MEPBClass*>*)fetchCurrentUserMultiClasses;
+
+/**
+ 当前用户是否关联了多个班级
+ */
++ (BOOL)whetherCurrentUserHaveMulticastClasses;
 
 #pragma mark --- Cordova abouts
 
