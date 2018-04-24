@@ -30,8 +30,12 @@
 
 + (instancetype)sharedQNUploadUtils;
 
-- (void)uploadImages:(NSArray <NSDictionary *> *)images;
+- (void)uploadImagesWithCheck:(NSArray <NSDictionary *> *)images;
+
+- (void)uploadImagesWithUncheck:(NSArray <NSDictionary *> *)images;
 
 - (void)uploadImages:(NSArray <NSDictionary *> *)images callback:(void(^)(NSArray * succKeys, NSArray * failKeys))callback;
+
+- (void)checkWhetherExistInServer:(NSArray <NSDictionary *> *)images callback:(void (^)(NSDictionary *returnDic))callback;
 
 @end
