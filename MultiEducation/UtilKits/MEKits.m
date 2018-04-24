@@ -12,6 +12,7 @@
 #import "MECordovaVM.h"
 #import "AppDelegate.h"
 #import "Meuser.pbobjc.h"
+#import "NSData+NSHash.h"
 #import <PBService/PBService.h>
 #import <SSZipArchive/SSZipArchive.h>
 #import <SVProgressHUD/SVProgressHUD.h>
@@ -33,6 +34,21 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
     NSString *documentPath = paths.firstObject;
     return documentPath;
+}
+
++ (NSString *)currentUserDownloadPath {
+    NSString *documentPath = [self sandboxPath];
+    NSString *userDownloadRoot = [documentPath stringByAppendingPathComponent:self.app.curUser.uuid];
+    NSFileManager *fileHandler = [NSFileManager defaultManager];
+    NSError *err;
+    if (![fileHandler fileExistsAtPath:userDownloadRoot]) {
+        [fileHandler createDirectoryAtPath:userDownloadRoot withIntermediateDirectories:true attributes:nil error:&err];
+        if (err) {
+            NSLog(@"创建用户下载目录失败!------%@", err.description);
+            return nil;
+        }
+    }
+    return userDownloadRoot;
 }
 
 + (CGFloat)fileSizeWithPath:(NSString *)path {
@@ -367,6 +383,99 @@
 + (void)handleSuccess:(NSString *)hud {
     if (hud) {
         [SVProgressHUD showSuccessWithStatus:hud];
+    }
+}
+
+#pragma mark --- Max Upload Size
+#define MAX_FILE_UPLOAD 10 //10M
++ (float)uploadMaxLimit {
+    float uploadLimit = self.app.curUser.systemConfigPb.uploadLimit.floatValue;
+    uploadLimit = uploadLimit * 1024 * 1024;
+    if (uploadLimit < MAX_FILE_UPLOAD * 1024 * 1024) {
+        return MAX_FILE_UPLOAD;
+    } else {
+        return uploadLimit;
+    }
+}
+
++ (NSString *)formatFileSize:(id)value {
+    double convertedValue = [value doubleValue];
+    int multiplyFactor = 0;
+    NSArray *tokens = [NSArray arrayWithObjects:@"bytes", @"KB", @"MB", @"GB", @"TB", nil];
+    while (convertedValue > 1024) {
+        convertedValue /= 1024;
+        multiplyFactor++;
+    }
+    return [NSString stringWithFormat:@"%4.2f %@", convertedValue, [tokens objectAtIndex:multiplyFactor]];
+}
+
++ (NSString *)checkUserDiskCap:(SInt64)fileSize {
+    float curDickCap = self.app.curUser.diskCap;
+    float totalDiskCap = [self app].curUser.systemConfigPb.diskCap.floatValue * 1024 * 1024 * 1024;
+    if (curDickCap + fileSize > totalDiskCap) {
+        return [NSString stringWithFormat:@"网盘容量不够,您只剩下%@容量,当前文件大小%@",
+                [self formatFileSize:@(totalDiskCap - curDickCap)],
+                [self formatFileSize:@(fileSize)]];
+    } else {
+        return nil;
+    }
+}
+
++ (void)handleUploadPhotos:(NSArray *)photos assets:(NSArray *)assets checkDiskCap:(BOOL)checkCap completion:(void (^)(NSArray <NSDictionary*>* _Nullable))completion {
+    NSMutableArray *destAssets = [NSMutableArray array];
+    NSFileManager *fileHandler = [NSFileManager defaultManager];
+    NSString *userPrePath = [self currentUserDownloadPath];
+    for (int i = 0; i < photos.count; ++i) {
+        UIImage *photo = photos[i];
+        NSObject *asset = nil;
+        if (assets.count >= (i + 1)) {
+            asset = assets[i];
+        }
+        
+        NSMutableDictionary *infoMap = [NSMutableDictionary dictionary];
+        //后缀名
+        NSString *extension = @"jpg";
+        infoMap[@"extension"] = extension;
+        //md5和filePath
+        NSData *data;
+        if (asset == nil) {
+            data = UIImageJPEGRepresentation(photo, 0.3);
+        } else {
+            data = UIImageJPEGRepresentation(photo, 1);
+        }
+        NSString *md5 = [data MD5String];
+        NSString *filePath = [NSString stringWithFormat:@"%@.%@", md5, extension];
+        infoMap[@"md5"] = md5;
+        infoMap[@"filePath"] = filePath;
+        infoMap[@"fileName"] = filePath;
+        infoMap[@"data"] = data;
+        
+        //检查文件大小
+        float size = (float) data.length / 1024.0f / 1024.0f;
+        float uploadLimit = [MEKits uploadMaxLimit];
+        if (size > uploadLimit) {
+            NSString *alertString = [NSString stringWithFormat:@"上传文件最大只能%fM", uploadLimit];
+            [SVProgressHUD showInfoWithStatus:alertString];
+            return;
+        }
+        if (checkCap) {
+            NSString *msg = [self checkUserDiskCap:data.length];
+            if (msg != nil) {
+                [SVProgressHUD showInfoWithStatus:msg];
+                return;
+            }
+        }
+        //写入文件 如果已经有了就不再写入
+        if (![fileHandler fileExistsAtPath:filePath]) {
+            NSString *absolutePath = [userPrePath stringByAppendingPathComponent:filePath];
+            [data writeToFile:absolutePath atomically:true];
+        }
+        
+        NSLog(@"File size is : %.2f MB", (float) data.length / 1024.0f / 1024.0f);
+        [destAssets addObject:infoMap.copy];
+    }
+    if (completion) {
+        completion(destAssets.copy);
     }
 }
 

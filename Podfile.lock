@@ -112,6 +112,7 @@ PODS:
   - WHC_ModelSqliteKit/SQLCipher (1.3.0):
     - SQLCipher
   - WZLBadge (1.2.6)
+  - XHImageViewer (0.1.2)
   - YCXMenu (0.0.11)
   - YJBannerView (2.3.8)
   - YYKit (1.0.9):
@@ -148,6 +149,7 @@ DEPENDENCIES:
   - TZImagePickerController (~> 2.0.1)
   - UMengAnalytics-NO-IDFA (~> 4.2.5)
   - WHC_ModelSqliteKit/SQLCipher (~> 1.3.0)
+  - XHImageViewer (~> 0.1.2)
   - YCXMenu (~> 0.0.11)
   - YJBannerView (~> 2.3.8)
   - ZFPlayer (~> 2.1.6)
@@ -193,6 +195,7 @@ SPEC REPOS:
     - UMengAnalytics-NO-IDFA
     - WHC_ModelSqliteKit
     - WZLBadge
+    - XHImageViewer
     - YCXMenu
     - YJBannerView
     - YYKit
@@ -238,11 +241,12 @@ SPEC CHECKSUMS:
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
   WHC_ModelSqliteKit: dfafef3ee872dedd9823395291fc80bf37eac46d
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
+  XHImageViewer: 7b275d2aa829e56761c30303b9d51cae086a90b9
   YCXMenu: 6003bcd20d8ac72e3eb3c442c97ed21948c6dc1f
   YJBannerView: f69571aecb14a4305cfd9bdf62391a1657a2c7b3
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: c1d05de5698fba74574e1587e098d848b63578bf
+PODFILE CHECKSUM: b38d66553fc19254049bef504a544190f3579074
 
 COCOAPODS: 1.5.0

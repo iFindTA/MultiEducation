@@ -83,6 +83,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)handleSuccess:(NSString *)hud;
 
+#pragma mark --- Max Upload Size
+
+/**
+ 最大上传限制
+ */
++ (float)uploadMaxLimit;
+
+/**
+ 处理上传的图片
+
+ @param photos 元数据
+ @param assets 数据元信息
+ @param checkCap 是否检测网盘容量
+ @param completion callback回调
+ */
++ (void)handleUploadPhotos:(NSArray *)photos assets:(NSArray *)assets checkDiskCap:(BOOL)checkCap completion:(void(^_Nullable)(NSArray <NSDictionary*>* _Nullable images))completion;
+
 /**
  压缩image到制定大小以下
 
