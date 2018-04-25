@@ -9,8 +9,10 @@ message MEClassMember {
     int32 gender = 6; //性别
     string schoolName = 7; //学校名称
     int32 status = 8;//1正常 0期间离开
-    int64 timestamp = 9;
+    int64 timestamp = 9;//创建时间戳 拉取列表时取此字段最大值
     string studentName = 10; //学生名字
+    int64 ownerId = 11;// 成员所属用户ID
+    string indexAscii = 12;// 名字首字母
 }
 
 message MEClassMemberList {

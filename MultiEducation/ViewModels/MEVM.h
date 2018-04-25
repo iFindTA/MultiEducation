@@ -9,6 +9,7 @@
 #import "MEKits.h"
 #import "MECmdCodes.h"
 #import "MEReqCodes.h"
+#import "Meuser.pbobjc.h"
 #import "Mecarrier.pbobjc.h"
 #import "MephoneInfo.pbobjc.h"
 #import <Foundation/Foundation.h>
@@ -50,6 +51,8 @@
  fetch token for current valid user
  */
 + (NSString * _Nullable)fetchUserToken;
+
++ (MEPBUser *)currentUser;
 
 /**
  assemble request

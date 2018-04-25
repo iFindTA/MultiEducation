@@ -10,8 +10,11 @@
 #import "MEContactCell.h"
 #import "MESearchPanel.h"
 #import "Meclass.pbobjc.h"
+#import "MEClassMemberVM.h"
 #import <YCXMenu/YCXMenu.h>
 #import "MEContactProfile.h"
+#import <MJRefresh/MJRefresh.h>
+#import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
 #define ME_CONTACT_MAP_KEY_VALUE                            @"value"
@@ -91,11 +94,11 @@
     [self.navigationBar pushNavigationItem:item animated:true];
     
     //search panel
-    [self.view addSubview:self.searchPanel];
-    NSUInteger shrinkHeight = ME_LAYOUT_SUBBAR_HEIGHT;
+    [self.view insertSubview:self.searchPanel belowSubview:self.navigationBar];
+    //NSUInteger shrinkHeight = ME_LAYOUT_SUBBAR_HEIGHT;
     NSUInteger expandHeight = ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight];
     [self.searchPanel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(expandHeight).priority(UILayoutPriorityDefaultHigh);
+        /*make.top.equalTo(self.view).offset(expandHeight).priority(UILayoutPriorityDefaultHigh);
         if (!self.searchBarTopConstraint) {
             self.searchBarTopConstraint = make.top.equalTo(self.view).priority(UILayoutPriorityRequired);;
         }
@@ -103,7 +106,10 @@
         make.height.equalTo(shrinkHeight).priority(UILayoutPriorityDefaultHigh);
         if (!self.searchHeightConstraint) {
             self.searchHeightConstraint = make.height.equalTo(expandHeight).priority(UILayoutPriorityRequired);
-        }
+        }//*/
+        //先不显示搜索
+        make.top.left.right.equalTo(self.view);
+        make.height.equalTo(expandHeight);
     }];
     [self.searchBarTopConstraint deactivate];
     [self.searchHeightConstraint deactivate];
@@ -118,6 +124,11 @@
     [self.table makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.view);
         make.top.equalTo(self.searchPanel.mas_bottom);
+    }];
+    //down pull to refresh
+    self.table.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        strongify(self)
+        [self refreshCurrentClassContacs];
     }];
     
     self.whetherDidLoadData = false;
@@ -244,13 +255,14 @@
 - (void)exchangeClassTouchEvent {
     NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
     CGRect bounds = CGRectMake(MESCREEN_WIDTH-iconSize-ME_LAYOUT_MARGIN*2, ME_HEIGHT_NAVIGATIONBAR+ME_LAYOUT_MARGIN, iconSize, iconSize);
-    [YCXMenu showMenuInView:self.view fromRect:bounds menuItems:self.menuItems selected:^(NSInteger index, YCXMenuItem *item) {
+    [YCXMenu showMenuInView:self.view fromRect:bounds menuItems:self.classItems selected:^(NSInteger index, YCXMenuItem *item) {
         
     }];
 }
 
 - (void)userDidTouchClass:(YCXMenuItem *)item {
-    
+    [YCXMenu dismissMenu];
+    [self userDidSelectClass4Contact:item.title];
 }
 
 #pragma mark --- DZNEmpty DataSource & Deleagte
@@ -336,22 +348,26 @@
     //index for row/section
     NSUInteger __row = [indexPath row];NSUInteger __section = [indexPath section];
     NSDictionary *sectionMap = self.dataSource[__section];
-    NSArray *sectionSets = [sectionMap pb_arrayForKey:ME_CONTACT_MAP_KEY_VALUE];
     if (__row == 0) {
         NSString *title = [sectionMap pb_stringForKey:ME_CONTACT_MAP_KEY_TITLE];
         cell.sectionLab.text = PBAvailableString(title);
     } else {
         cell.sectionLab.hidden = true;
     }
-    NSDictionary *infoMap = [sectionSets objectAtIndex:__row];
-    NSString *title = [infoMap pb_stringForKey:ME_CONTACT_MAP_KEY_TITLE];
-    cell.infoLab.text = PBAvailableString(title);
-    NSString *iconString = [infoMap pb_stringForKey:ME_CONTACT_MAP_KEY_ICON];
+    //value array
+    NSArray *sectionSets = [sectionMap pb_arrayForKey:ME_CONTACT_MAP_KEY_VALUE];
     if (__section == 0) {
+        NSDictionary *infoMap = [sectionSets objectAtIndex:__row];
+        NSString *title = [infoMap pb_stringForKey:ME_CONTACT_MAP_KEY_TITLE];
+        cell.infoLab.text = PBAvailableString(title);
+        NSString *iconString = [infoMap pb_stringForKey:ME_CONTACT_MAP_KEY_ICON];
         UIImage *image = [UIImage imageNamed:iconString];
         cell.icon.image = image;
     } else {
+        MEClassMember *member = [sectionSets objectAtIndex:__row];
+        cell.infoLab.text = PBAvailableString(member.name);
         UIImage *placehodler = [UIImage imageNamed:@"appicon_placeholder"];
+        NSString *iconString = member.portrait;
         NSURL *iconUrl = [NSURL URLWithString:PBAvailableString(iconString)];
         [cell.icon sd_setImageWithURL:iconUrl placeholderImage:placehodler];
     }
@@ -362,6 +378,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //index for row/section
     NSUInteger __row = [indexPath row];NSUInteger __section = [indexPath section];
+    if (__section == 0) {
+        if (__row == 0) {
+            //班聊
+        }
+    }
 }
 
 #pragma mark --- Load Data increasment
@@ -415,12 +436,49 @@
 }
 
 - (void)userDidSelectClass4Contact:(NSString *)clsName {
+    if (self.currentClass != nil) {
+        //如果已有当前class 说明是切换class
+        [self.dataSource removeAllObjects];
+        self.whetherDidLoadData = false;
+        [self.table reloadEmptyDataSet];
+        [self.table reloadData];
+    }
     for (MEPBClass *cls in self.classes) {
         if ([cls.name isEqualToString:clsName]) {
             self.currentClass = cls;
             break;
         }
     }
+    //查询本地数据
+    //再次获取更新之后的数组
+    NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMembers4ClassID:self.currentClass.id_p];
+    if (members.count == 0) {
+        [self.table.mj_header beginRefreshing];
+    } else {
+        //[SVProgressHUD showInfoWithStatus:@"请稍后..."];
+        SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+        alert.showAnimationType = SCLAlertViewShowAnimationFadeIn;
+        alert.hideAnimationType = SCLAlertViewShowAnimationFadeIn;
+        [alert showWaiting:@"处理中..." subTitle:nil closeButtonTitle:nil duration:1];
+        [self prepareHandleClassMembers:members];
+    }
+}
+
+/**
+ 下拉刷新 班级成员列表
+ */
+- (void)refreshCurrentClassContacs {
+    if (!self.currentClass) {
+        [self.table.mj_header endRefreshing];
+        [SVProgressHUD showInfoWithStatus:ME_ALERT_INFO_NONE_CLASS];
+        return;
+    }
+    //状态重置
+    //[self.dataSource removeAllObjects];
+    self.whetherDidLoadData = false;
+    [self.table reloadEmptyDataSet];
+    [self.table reloadData];
+    
     [self loadClassContacts];
 }
 
@@ -430,13 +488,106 @@
  2，再从网络刷新
  */
 - (void)loadClassContacts {
-    //先清空之前数据
-    [self.dataSource removeAllObjects];
-    self.whetherDidLoadData = false;
-    [self.table reloadEmptyDataSet];
-    [self.table reloadData];
     
+    //old timestamp
+    int64_t timestamp = [MEClassMemberVM fetchMaxTimestamp4ClassID:self.currentClass.id_p];
+    MEClassMemberVM *vm = [[MEClassMemberVM alloc] init];
+    MEClassMemberList *list = [[MEClassMemberList alloc] init];
+    [list setTimestamp:timestamp];
+    [list setClassIds:PBFormat(@"%lld", self.currentClass.id_p)];
+    weakify(self)
+    [vm postData:[list data] hudEnable:false success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEClassMemberList *memberList = [MEClassMemberList parseFromData:resObj error:&err];
+        //NSLog(@"timestamp:%lld", memberList.timestamp);
+        if (err) {
+            [self handleTransitionError:err];
+        } else {
+            [self handleCurrentClassMembers:memberList];
+        }
+        [self.table.mj_header endRefreshing];
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [MEKits handleError:error];
+        [self.table.mj_header endRefreshing];
+    }];
+}
+
+- (void)handleCurrentClassMembers:(MEClassMemberList*)list {
+    if (list.classUserArray.count > 0) {
+        NSArray<MEClassMember*>*members = list.classUserArray.copy;
+        [MEClassMemberVM saveClassMembers:members];
+    }
+    self.whetherDidLoadData = true;
+    //再次获取更新之后的数组
+    NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMembers4ClassID:self.currentClass.id_p];
+    [self prepareHandleClassMembers:members];
+}
+
+/**
+ 排序 插入班聊
+ */
+- (void)prepareHandleClassMembers:(NSArray<MEClassMember*>*)members {
+    if (members.count > 0) {
+        NSArray *sortSets = [self sortObjectsAccordingToInitialWith:members];
+        NSDictionary *classChatMap = [self generateClassRelativeDatas];
+        [self.dataSource removeAllObjects];
+        [self.dataSource addObject:classChatMap];
+        [self.dataSource addObjectsFromArray:sortSets];
+        [self.table reloadEmptyDataSet];
+        [self.table reloadData];
+    } else {
+        self.emptyDescription = @"该班级还没有成员！";
+        [self.table reloadData];
+        [self.dataSource removeAllObjects];
+        [self.table reloadEmptyDataSet];
+    }
+}
+
+// 按首字母分组排序数组
+-(NSArray *)sortObjectsAccordingToInitialWith:(NSArray<MEClassMember*>*)arr {
     
+    // 初始化UILocalizedIndexedCollation
+    UILocalizedIndexedCollation *collation = [UILocalizedIndexedCollation currentCollation];
+    
+    //得出collation索引的数量，这里是27个（26个字母和1个#）
+    NSInteger sectionTitlesCount = [[collation sectionTitles] count];
+    //初始化一个数组newSectionsArray用来存放最终的数据，我们最终要得到的数据模型应该形如@[@[以A开头的数据数组], @[以B开头的数据数组], @[以C开头的数据数组], ... @[以#(其它)开头的数据数组]]
+    NSMutableArray *newSectionsArray = [[NSMutableArray alloc] initWithCapacity:sectionTitlesCount];
+    
+    //初始化27个空数组加入newSectionsArray
+    for (NSInteger index = 0; index < sectionTitlesCount; index++) {
+        NSMutableArray *array = [[NSMutableArray alloc] init];
+        [newSectionsArray addObject:array];
+    }
+    
+    //将每个名字分到某个section下
+    for (MEClassMember *m in arr) {
+        //获取name属性的值所在的位置，比如"林丹"，首字母是L，在A~Z中排第11（第一位是0），sectionNumber就为11
+        NSInteger sectionNumber = [collation sectionForObject:m collationStringSelector:@selector(name)];
+        //把name为“林丹”的p加入newSectionsArray中的第11个数组中去
+        NSMutableArray *sectionNames = newSectionsArray[sectionNumber];
+        [sectionNames addObject:m];
+    }
+    
+    //对每个section中的数组按照name属性排序
+    for (NSInteger index = 0; index < sectionTitlesCount; index++) {
+        NSMutableArray *personArrayForSection = newSectionsArray[index];
+        NSArray *sortedPersonArrayForSection = [collation sortedArrayFromArray:personArrayForSection collationStringSelector:@selector(name)];
+        newSectionsArray[index] = sortedPersonArrayForSection;
+    }
+    
+    //去空
+    NSMutableArray *finalArr = [NSMutableArray new];
+    for (NSInteger index = 0; index < sectionTitlesCount; index++) {
+        NSMutableArray<MEClassMember*>*members = (NSMutableArray*)(newSectionsArray[index]);
+        if (members.count != 0) {
+            MEClassMember *firstMember = members.firstObject;
+            NSString *indexAscii = [firstMember.name pb_zhHansName2Ascii4Type:PBZHHans2AsciiTypeLastChar];
+            [finalArr addObject:@{ME_CONTACT_MAP_KEY_TITLE:indexAscii, ME_CONTACT_MAP_KEY_VALUE:members.copy}];
+        }
+    }
+    return finalArr;
 }
 
 /**

@@ -56,6 +56,8 @@ static GPBFileDescriptor *MeclassMemberRoot_FileDescriptor(void) {
 @dynamic status;
 @dynamic timestamp;
 @dynamic studentName;
+@dynamic ownerId;
+@dynamic indexAscii;
 
 typedef struct MEClassMember__storage_ {
   uint32_t _has_storage_[1];
@@ -66,9 +68,11 @@ typedef struct MEClassMember__storage_ {
   NSString *portrait;
   NSString *schoolName;
   NSString *studentName;
+  NSString *indexAscii;
   int64_t id_p;
   int64_t classId;
   int64_t timestamp;
+  int64_t ownerId;
 } MEClassMember__storage_;
 
 // This method is threadsafe because it is initially called
@@ -167,6 +171,24 @@ typedef struct MEClassMember__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "ownerId",
+        .dataTypeSpecific.className = NULL,
+        .number = MEClassMember_FieldNumber_OwnerId,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(MEClassMember__storage_, ownerId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "indexAscii",
+        .dataTypeSpecific.className = NULL,
+        .number = MEClassMember_FieldNumber_IndexAscii,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(MEClassMember__storage_, indexAscii),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEClassMember class]
@@ -178,7 +200,7 @@ typedef struct MEClassMember__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\004\002\007\000\005\010\000\007\n\000\n\013\000";
+        "\006\002\007\000\005\010\000\007\n\000\n\013\000\013\007\000\014\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
