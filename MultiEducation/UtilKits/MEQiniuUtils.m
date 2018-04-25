@@ -82,9 +82,9 @@ static MEQiniuUtils *qnUtils;
     }];
 }
 
-- (void)uploadImagesWithUncheck:(NSArray <NSDictionary *> *)images {
-    NSData *data = [[images objectAtIndex: _index] objectForKey: @"data"];
-    NSString *key = [[images objectAtIndex: _index] objectForKey: @"filePath"];
+- (void)uploadImagesWithUncheck:(NSArray <ClassAlbumPb *> *)albums {
+    NSData *data = [albums objectAtIndex: _index].fileData;
+    NSString *key = [albums objectAtIndex: _index].filePath;
     __block NSInteger imageIndex = _index;
     weakify(self);
     [qnUploadManager putData: data key: key token:self.qnToken
@@ -104,7 +104,7 @@ static MEQiniuUtils *qnUtils;
                             }
                         }
                         imageIndex++;
-                        if (imageIndex >= images.count) {
+                        if (imageIndex >= albums.count) {
                             _index = 0;
                             if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
                                 [self.delegate uploadOver];
@@ -112,7 +112,7 @@ static MEQiniuUtils *qnUtils;
                             return ;
                         }
                         _index++;
-                        [self uploadImagesWithUncheck: images];
+                        [self uploadImagesWithUncheck: albums];
                         
                     } option: self.option];
 }

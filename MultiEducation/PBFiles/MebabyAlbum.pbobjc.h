@@ -31,6 +31,39 @@ CF_EXTERN_C_BEGIN
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark - Enum MEUploadStatus
+
+typedef GPB_ENUM(MEUploadStatus) {
+  /**
+   * Value used if any message's field encounters a value that is not defined
+   * by this enum. The message will also have C functions to get/set the rawValue
+   * of the field.
+   **/
+  MEUploadStatus_GPBUnrecognizedEnumeratorValue = kGPBUnrecognizedEnumeratorValue,
+  /** 等待中 */
+  MEUploadStatus_Waiting = 0,
+
+  /** 正在上传 */
+  MEUploadStatus_Uploading = 1,
+
+  /** 上传成功 */
+  MEUploadStatus_Success = 2,
+
+  /** 上传失败 */
+  MEUploadStatus_Failure = 3,
+
+  /** 已存在 */
+  MEUploadStatus_IsExist = 4,
+};
+
+GPBEnumDescriptor *MEUploadStatus_EnumDescriptor(void);
+
+/**
+ * Checks to see if the given value is defined by the enum or was not known at
+ * the time this source was generated.
+ **/
+BOOL MEUploadStatus_IsValidValue(int32_t value);
+
 #pragma mark - MebabyAlbumRoot
 
 /**
@@ -77,7 +110,10 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
   ClassAlbumPb_FieldNumber_ModifiedDate = 12,
   ClassAlbumPb_FieldNumber_Md5 = 13,
   ClassAlbumPb_FieldNumber_UpPercent = 14,
-  ClassAlbumPb_FieldNumber_FormatterDate = 15,
+  ClassAlbumPb_FieldNumber_IsExist = 15,
+  ClassAlbumPb_FieldNumber_FormatterDate = 16,
+  ClassAlbumPb_FieldNumber_FileData = 17,
+  ClassAlbumPb_FieldNumber_UploadStatu = 18,
 };
 
 @interface ClassAlbumPb : GPBMessage
@@ -121,10 +157,31 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
 /** 上传进度 */
 @property(nonatomic, readwrite) int32_t upPercent;
 
+/** 是否已经存在 1存在0不存在 */
+@property(nonatomic, readwrite) int32_t isExist;
+
 /** 格式化日期 yyyy-MM */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *formatterDate;
 
+/** data */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *fileData;
+
+/** 上传状态 */
+@property(nonatomic, readwrite) MEUploadStatus uploadStatu;
+
 @end
+
+/**
+ * Fetches the raw value of a @c ClassAlbumPb's @c uploadStatu property, even
+ * if the value was not defined by the enum at the time the code was generated.
+ **/
+int32_t ClassAlbumPb_UploadStatu_RawValue(ClassAlbumPb *message);
+/**
+ * Sets the raw value of an @c ClassAlbumPb's @c uploadStatu property, allowing
+ * it to be set to a value that was not defined by the enum at the time the code
+ * was generated.
+ **/
+void SetClassAlbumPb_UploadStatu_RawValue(ClassAlbumPb *message, int32_t value);
 
 NS_ASSUME_NONNULL_END
 

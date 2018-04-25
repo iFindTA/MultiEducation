@@ -14,12 +14,13 @@
 #import <YYKit.h>
 #import "MebabyAlbum.pbobjc.h"
 #import "MEFileQuryVM.h"
+#import "NSData+UTF8String.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 60.f;
 
 @interface MEPhotoProgressProfile () <UITableViewDelegate, UITableViewDataSource, UploadImagesCallBack> {
-    NSArray <NSDictionary *> *_dataArr;
+    NSMutableArray *_dataArr;
     NSInteger _classId;
 }
 @property (nonatomic, strong) NSMutableArray *albumArr;
@@ -33,7 +34,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        _dataArr = [params objectForKey: @"datas"];
+        _dataArr = [NSMutableArray arrayWithArray: [params objectForKey: @"datas"]];
         _classId = [[params objectForKey: @"classId"] integerValue];
     }
     return self;
@@ -60,14 +61,48 @@ static CGFloat const ROW_HEIGHT = 60.f;
         make.left.right.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo(self.view).mas_offset(ME_HEIGHT_STATUSBAR + ME_HEIGHT_NAVIGATIONBAR);
     }];
+    
+    [self uploadToQNServer];
 }
 
 - (void)uploadToQNServer {
+    weakify(self);
     [self.qnUtils checkWhetherExistInServer: _dataArr callback:^(NSDictionary *returnDic) {
-       
+        strongify(self);
+        [_dataArr removeAllObjects];
         
+        NSArray <NSDictionary *> *noExistArr = [returnDic objectForKey: @"noExist"];
+        NSArray <NSDictionary *> *existArr = [returnDic objectForKey: @"exist"];
         
+        NSMutableArray <ClassAlbumPb *> *forUploadArr = [NSMutableArray array];
+        for (NSDictionary *dict in noExistArr) {
+            ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+            pb.md5 = [dict objectForKey: @"md5"];
+            pb.filePath = [dict objectForKey: @"filePath"];
+            pb.fileName = [dict objectForKey: @"fileName"];
+            pb.fileType = [dict objectForKey: @"extension"];
+            pb.upPercent = 0;
+            pb.isExist = 0;
+            pb.uploadStatu = MEUploadStatus_Waiting;
+            pb.fileData = [dict objectForKey: @"data"];
+            [forUploadArr addObject: pb];
+            [_dataArr addObject: pb];
+        }
         
+        for (NSDictionary *dict in existArr) {
+            ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+            pb.md5 = [dict objectForKey: @"md5"];
+            pb.filePath = [dict objectForKey: @"filePath"];
+            pb.fileName = [dict objectForKey: @"fileName"];
+            pb.fileType = [dict objectForKey: @"extension"];
+            pb.upPercent = 0;
+            pb.isExist = 1;
+            pb.fileData = [dict objectForKey: @"data"];
+            pb.uploadStatu = MEUploadStatus_IsExist;
+            [_dataArr addObject: pb];
+        }
+        [self.tableView reloadData];
+        [self.qnUtils uploadImagesWithUncheck: forUploadArr];
     }];
 }
 
@@ -91,12 +126,16 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if ([[_dataArr objectAtIndex: 0] isKindOfClass: [ClassAlbumPb class]]) {
+        return _dataArr.count;
+    } else {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEProgressCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
-    
+    [cell setData: [_dataArr objectAtIndex: indexPath.row]];
     return cell;
 }
 
@@ -111,15 +150,39 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UploadImagesCallBack
 - (void)uploadImageSuccess:(NSString *)key {
-    
+    NSInteger index = 0;
+    for (ClassAlbumPb *pb in _dataArr) {
+        if ([pb.filePath isEqualToString: @"key"]) {
+            pb.upPercent = 1;
+            pb.uploadStatu = MEUploadStatus_Success;
+            [self.tableView reloadRow: index inSection: 0 withRowAnimation: UITableViewRowAnimationNone];
+        }
+        index++;
+    }
 }
 
 - (void)uploadImageFail:(NSString *)key {
-    
+    NSInteger index = 0;
+    for (ClassAlbumPb *pb in _dataArr) {
+        if ([pb.filePath isEqualToString: @"key"]) {
+            pb.upPercent = 0;
+            pb.uploadStatu = MEUploadStatus_Failure;
+            [self.tableView reloadRow: index inSection: 0 withRowAnimation: UITableViewRowAnimationNone];
+        }
+        index++;
+    }
 }
 
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent {
-    
+    NSInteger index = 0;
+    for (ClassAlbumPb *pb in _dataArr) {
+        if ([pb.filePath isEqualToString: @"key"]) {
+            pb.upPercent = percent;
+            pb.uploadStatu = MEUploadStatus_Uploading;
+            [self.tableView reloadRow: index inSection: 0 withRowAnimation: UITableViewRowAnimationNone];
+        }
+        index++;
+    }
 }
 
 - (void)uploadOver:(NSArray *)keys {
