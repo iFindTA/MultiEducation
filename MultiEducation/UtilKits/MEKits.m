@@ -428,7 +428,7 @@
 /**
  app再次进入前台 超过时间间隔需要刷新token 如七牛上传token
  */
-+ (void)refreshUserSessiontoken {
++ (void)refreshCurrentUserSessionTokenWithCompletion:(void (^)(NSError * _Nullable))completion {
     if (self.app.curUser) {
         MEPBUser *user = self.app.curUser;
         NSTimeInterval signedTimestamp = self.app.curUser.signinstamp;
@@ -456,6 +456,9 @@
                 MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
                 if (err || userList.userListArray.count == 0) {
                     [self handleError:err];
+                    if (completion) {
+                        completion(err);
+                    }
                     NSLog(@"刷新用户session-token失败！----%@", err.localizedDescription);
                 } else {
                     MEPBUser *curUser = userList.userListArray.firstObject;
@@ -463,13 +466,26 @@
                     [MEUserVM saveUser:curUser];
                     [self.app updateCurrentSignedInUser:curUser];
                     NSLog(@"刷新用户session-token成功！");
+                    if (completion) {
+                        completion(nil);
+                    }
                 }
             } failure:^(NSError * _Nonnull error) {
                 strongify(self)
                 [self handleError:error];
+                if (completion) {
+                    completion(error);
+                }
             }];
         } else {
             NSLog(@"无需刷新用户session-token");
+            if (completion) {
+                completion(nil);
+            }
+        }
+    } else {
+        if (completion) {
+            completion(nil);
         }
     }
 }

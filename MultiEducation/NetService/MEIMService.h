@@ -10,4 +10,13 @@
 
 @interface MEIMService : NSObject
 
+/**
+ share instance for singletone
+ */
++ (instancetype)shared;
+
+- (void)startRongIMService;
+
+- (void)stopRongIMService;
+
 @end

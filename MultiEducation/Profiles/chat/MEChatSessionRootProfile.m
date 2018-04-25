@@ -119,7 +119,7 @@
     chatPro.conversationType = model.conversationType;
     chatPro.targetId = model.targetId;
     chatPro.title = model.conversationTitle;
-    self.hidesBottomBarWhenPushed = YES;
+    self.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:chatPro animated:YES];
     
 }

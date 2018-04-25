@@ -15,7 +15,7 @@
 #define ME_WEB_SERVER_HOST                                              @"http://192.168.1.199:8070/coeos"
 #define ME_DEFAULT_HTTP_SERVER_URL                                      @"http://192.168.1.199:8080"
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
-#define ME_RONGIM_APPKEY                                                @"c9kqb3rdcoywj"
+#define ME_RONGIM_APPKEY                                                @"mgb7ka1nm4whg"
 #define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
 #define ME_APP_ENV                                                      @"prod"

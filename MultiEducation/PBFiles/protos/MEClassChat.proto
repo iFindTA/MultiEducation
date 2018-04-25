@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "MESession.proto";
+
+message MECUser {
+	int64 sessionId = 1; //群组id
+    int64 userId = 2; //用户id
+    int64 inviterId = 3; //邀请者id
+    int32 status = 4; //状态
+    int64 createdDate = 5; //创建时间
+    int64 modifiedDate = 6; //修改时间
+    int64 timestamp = 7; //时间戳
+}
+
+message MECSession {
+	int64 id = 1; //session id
+    string uuid = 2; //会话id
+    string name = 3; //session名称
+    int64 classId = 4; //班级id
+    int64 createdDate = 5; //群主id
+    int64 timestamp = 6; //时间戳
+    repeated MECUser user = 7; //班级用户
+    MESession baseSession = 8; //继承的基类会话
+    int32 sessionStatus= 9; //会话状态1正常0禁言家长
+}

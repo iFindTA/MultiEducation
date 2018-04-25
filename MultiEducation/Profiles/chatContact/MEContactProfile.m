@@ -303,7 +303,7 @@
 }
 
 - (void)emptyDataSet:(UIScrollView *)scrollView didTapView:(UIView *)view {
-    [self loadContactsFromServerOnline];
+    [self prepareClassContactsInfo];
 }
 
 #pragma mark --- UITableView Delegate && DataSource
@@ -381,6 +381,7 @@
     if (__section == 0) {
         if (__row == 0) {
             //班聊
+            [self userDidTouchClassChatEvent];
         }
     } else {
         NSDictionary *sectionMap = self.dataSource[__section];
@@ -414,31 +415,37 @@
         [self loadClassContacts];
     } else {
         self.classes = classes;
-        [self makeUserChooseMulticastClasses];
+        weakify(self)
+        [self makeUserSelectMulticastClassesWhetherGobackOnCancel:true completion:^(NSString *clsName) {
+            if (clsName.length > 0) {
+                strongify(self)
+                [self userDidSelectClass4Contact:clsName];
+            }
+        }];
     }
 }
 
-/**
- 让用户选择班级
- */
-- (void)makeUserChooseMulticastClasses {
+- (void)makeUserSelectMulticastClassesWhetherGobackOnCancel:(BOOL)back completion:(void(^_Nullable)(NSString * clsName))completion {
     NSArray <MEPBClass*>*classes = self.classes;
     if (classes.count <= 1) {
         return;
     }
-    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您关联了多个班级，请选择一个进行查看！" preferredStyle:UIAlertControllerStyleActionSheet];
-    weakify(self)
+    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"选择班级" message:@"您关联了多个班级，请选择其中一个！" preferredStyle:UIAlertControllerStyleActionSheet];
     for (MEPBClass *cls in classes) {
         NSString *clsName = PBAvailableString(cls.name);
         UIAlertAction *action = [UIAlertAction actionWithTitle:clsName style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            strongify(self)
-            [self userDidSelectClass4Contact:action.title];
+            if (completion) {
+                completion(action.title);
+            }
         }];
         [alertProfile addAction:action];
     }
+    weakify(self)
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        strongify(self)
-        [self defaultGoBackStack];
+        if (back) {
+            strongify(self)
+            [self defaultGoBackStack];
+        }
     }];
     [alertProfile addAction:action];
     
@@ -630,17 +637,14 @@
     return classMap;
 }
 
-/**
- 加载在线通讯录
- */
-- (void)loadContactsFromServerOnline {
+#pragma mark --- 班聊事件
+
+- (void)userDidTouchClassChatEvent {
+    if (!self.currentClass) {
+        return;
+    }
     
     
-    //插入班级相关数据
-    NSDictionary *classItem = [self generateClassRelativeDatas];
-    [self.dataSource insertObject:classItem atIndex:0];
-    
-    [self.table reloadData];
 }
 
 /*
