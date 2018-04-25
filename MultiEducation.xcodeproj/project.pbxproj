@@ -97,7 +97,6 @@
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		741EF0821C66AB72DF5E86A2B6BB756E /* MEIndexSubClassProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
-		761603A2209019810054E6CB /* NSData+UTF8String.m in Sources */ = {isa = PBXBuildFile; fileRef = 761603A1209019810054E6CB /* NSData+UTF8String.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 703F91C270941E970DDF268F5FFA7564 /* MEContentHeader.m */; };
@@ -134,6 +133,7 @@
 		958414BFC58B88A4E07DCD42BAB0FC02 /* MEEditScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC63D7E8F217BC62BBE8E9FAE4C764 /* MEEditScene.m */; };
 		96090DCEE27E4CB29207275B5B8CDA24 /* ValueImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0AED1E0E9D220CEDCE8760AA83E8D /* ValueImg.m */; };
 		96C618B7630F3758E3FF1F7965BE64FF /* MEBabyContentHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A4B4F3FEB435AFD8A344D980AC97F /* MEBabyContentHeader.m */; };
+		96F6917CE90B2C8DA1707C7E65E95F90 /* NSData+UTF8String.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FEDDB54EE8B471EFE42D01A8B6D2F2 /* NSData+UTF8String.m */; };
 		97513C50EBE68A736AB564DD25AAD696 /* MESignInProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = B10B4F7EF6669CCAD324CB6B2DCA3E5C /* MESignInProfile.m */; };
 		97E552ADFB3F5F7943BDDA12B6AA889B /* MEProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5574A92575B4ABFF4C6450B47FAD614 /* MEProgressView.m */; };
 		98F5D2B478D0D8E5186682409A7B4286 /* MEIndexSearchMaskScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C00DA13241B4744B0DF0AA5DC2E7F5 /* MEIndexSearchMaskScene.m */; };
@@ -446,8 +446,6 @@
 		753C6320F18EA7A83BEF055EC2A72CDC /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
-		761603A0209019810054E6CB /* NSData+UTF8String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+UTF8String.h"; sourceTree = "<group>"; };
-		761603A1209019810054E6CB /* NSData+UTF8String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+UTF8String.m"; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
@@ -463,6 +461,7 @@
 		7E684F61A1F815D9C208979967FC9CB4 /* MebabyAlbum.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MebabyAlbum.pbobjc.m; sourceTree = "<group>"; };
 		7EA3BE2FEA2DCA4D00371808A87F99AD /* MEQRScanProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEQRScanProfile.m; sourceTree = "<group>"; };
 		7EB24A4F7D4A6D405042E98847DD91F2 /* MEResFavorListVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEResFavorListVM.m; sourceTree = "<group>"; };
+		7F1C986852C5C044FC75D56D109E6343 /* NSData+UTF8String.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+UTF8String.h"; sourceTree = "<group>"; };
 		7F45943A4A72EACE906D11F1624CB61D /* Meclass.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meclass.pbobjc.h; sourceTree = "<group>"; };
 		8159DE530E194B4DB55A78874C2AF132 /* ValueDisk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueDisk.m; sourceTree = "<group>"; };
 		831D82747B993AF5829116D657C3E221 /* METemplateProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = METemplateProfile.m; sourceTree = "<group>"; };
@@ -470,6 +469,7 @@
 		83D0AC2F6FD6236BCCE60EC21516DCA3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		83E34AE70A1E6DF0C7491031B7A173A7 /* MECordovaVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECordovaVM.m; sourceTree = "<group>"; };
 		83E5C25B96E9C5BF89BA3B93290111ED /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		84FEDDB54EE8B471EFE42D01A8B6D2F2 /* NSData+UTF8String.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+UTF8String.m"; sourceTree = "<group>"; };
 		85CF724DFA5C2A58789573E5672B4684 /* MEPersonalCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEPersonalCell.xib; sourceTree = "<group>"; };
 		8619ED971E77A18EBC4B16C603520FA9 /* ValueDisk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueDisk.h; sourceTree = "<group>"; };
 		86FB94E6F108A00B7F9347A1DC274C92 /* MEBabyIndexVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyIndexVM.m; sourceTree = "<group>"; };
@@ -1644,9 +1644,9 @@
 				637DB53B44AFC1740D6882A58B468A51 /* MEPBUser+MEStore.h */,
 				833390A6F58646A13E8F0B4180B0D105 /* MEPBUser+MEStore.m */,
 				640690ACB501B85EE92F0388A031A9FF /* NSData+NSHash.h */,
-				761603A0209019810054E6CB /* NSData+UTF8String.h */,
-				761603A1209019810054E6CB /* NSData+UTF8String.m */,
 				CAB15DEF54D7A6EC45000F0E94DE535E /* NSData+NSHash.m */,
+				7F1C986852C5C044FC75D56D109E6343 /* NSData+UTF8String.h */,
+				84FEDDB54EE8B471EFE42D01A8B6D2F2 /* NSData+UTF8String.m */,
 				284C1CB84889033244A78C7BE7DA8445 /* NSString+Md5String.h */,
 				3627C1603F382E18DBC5760BE1D7DDFF /* NSString+Md5String.m */,
 				071C0968503F66DB979B9DDC38EAAC60 /* NSString+NSHash.h */,
@@ -2237,7 +2237,6 @@
 				4BDB16475CA499074288E09C5F6611BE /* MEQNUploadVM.m in Sources */,
 				AF40BC26FF0C637599C1A3D48DF3F7D5 /* MEQRCodeShareProfile.m in Sources */,
 				9015044CDE9D91F097C9D0FD2B158F46 /* MEQRResultProfile.m in Sources */,
-				761603A2209019810054E6CB /* NSData+UTF8String.m in Sources */,
 				ACD210A8B5C56085C8B828638A3ED0C3 /* MEQRScanProfile.m in Sources */,
 				AE199C86C4F0713730DD7CB29024BF93 /* MEQiniuUtils.m in Sources */,
 				F13B4C6664B20CF953F311F44852376F /* MERePasswordVM.m in Sources */,
@@ -2292,6 +2291,7 @@
 				B3CB67286F65AC00C1A10B137E5E22E8 /* MeuserData.pbobjc.m in Sources */,
 				827FABE58676B9D9F22DFFEBD35982EC /* Mevideo.pbobjc.m in Sources */,
 				1C45F172A1C6870BE00C4A911E838401 /* NSData+NSHash.m in Sources */,
+				96F6917CE90B2C8DA1707C7E65E95F90 /* NSData+UTF8String.m in Sources */,
 				FB49EF0C00894B22E5BF18CAC9D244A8 /* NSString+Md5String.m in Sources */,
 				EA4BC7D19E66F8F825B2D8A4CE7866A0 /* NSString+NSHash.m in Sources */,
 				7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */,
