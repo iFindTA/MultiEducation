@@ -88,7 +88,7 @@
     item.leftBarButtonItems = @[spacer, backItem];
     BOOL whetherMultiClasses = [MEKits whetherCurrentUserHaveMulticastClasses];
     if (whetherMultiClasses) {
-        UIBarButtonItem *moreItem = [MEKits barWithIconUnicode:@"\U0000e7d7" color:backColor target:self eventSelector:@selector(exchangeClassTouchEvent)];
+        UIBarButtonItem *moreItem = [MEKits barWithIconUnicode:@"\U0000e6dc" color:backColor target:self eventSelector:@selector(exchangeClassTouchEvent)];
         item.rightBarButtonItems = @[spacer, moreItem];
     }
     [self.navigationBar pushNavigationItem:item animated:true];
@@ -146,7 +146,7 @@
     [super viewWillAppear:animated];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     
-    if (!self.whetherDidLoadData || self.dataSource.count == 0) {
+    if (self.dataSource.count == 0 && !self.whetherDidLoadData) {
         [self prepareClassContactsInfo];
     }
 }
@@ -382,7 +382,19 @@
         if (__row == 0) {
             //班聊
         }
+    } else {
+        NSDictionary *sectionMap = self.dataSource[__section];
+        //class members
+        NSArray *sectionSets = [sectionMap pb_arrayForKey:ME_CONTACT_MAP_KEY_VALUE];
+        MEClassMember *member = [sectionSets objectAtIndex:__row];
+        //班级成员
+        NSDictionary *params = @{@"member":member, @"classTitle":PBAvailableString(self.currentClass.name)};
+        NSString *routeString = @"profile://root@MEContactInfoProfile";
+        NSError *err = [MEDispatcher openURL:[NSURL URLWithString:routeString] withParams:params];
+        [MEKits handleError:err];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
 }
 
 #pragma mark --- Load Data increasment
@@ -448,6 +460,15 @@
             self.currentClass = cls;
             break;
         }
+    }
+    if (self.currentClass.name.length > 0) {
+        //更新navigationBar title
+        NSString *classTitle = PBAvailableString(self.currentClass.name);
+        NSString *itemTitle = PBFormat(@"%@通讯录", classTitle);
+        NSArray<UINavigationItem*>*items = self.navigationBar.items;
+        [items enumerateObjectsUsingBlock:^(UINavigationItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            obj.title = itemTitle;
+        }];
     }
     //查询本地数据
     //再次获取更新之后的数组

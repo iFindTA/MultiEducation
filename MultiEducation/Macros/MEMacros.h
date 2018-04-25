@@ -70,6 +70,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_LAYOUT_SUBBAR_HEIGHT                                          40
 #define ME_LAYOUT_ICON_HEIGHT                                            30
 #define ME_LAYOUT_LINE_HEIGHT                                            1
+#define ME_LAYOUT_CORNER_RADIUS                                           4
 
 //以6为标准
 #define adoptValue(a) (a*(MESCREEN_WIDTH/375.0))

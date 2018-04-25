@@ -70,11 +70,6 @@
     [application registerForRemoteNotifications];
     //start on background thread
     [self startServicesOnBackgroundThread];
-
-    if (!self.curUser || !self.curUser.isTourist) {
-        // 游客和退出登录状态不能接入IM
-        [self startRongIMServivesOnbgThread];
-    }
     
     return YES;
 }
@@ -263,8 +258,11 @@
 
 - (void)updateCurrentSignedInUser:(MEPBUser *)usr {
     self.curUser = usr;
-    //for Cordova
-    [MEKits configureCordovaEnv];
+    if (usr) {
+        //for Cordova
+        [MEKits configureCordovaEnv];
+        [self startRongIMServivesOnbgThread];
+    }
 }
 
 #pragma mark --- start services background thread
