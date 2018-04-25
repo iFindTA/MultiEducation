@@ -114,12 +114,11 @@
 #pragma mark --- User Chat Session Callback
 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType conversationModel:(RCConversationModel *)model atIndexPath:(NSIndexPath *)indexPath {
-    
     MEChatProfile *chatPro = [[MEChatProfile alloc] init];
     chatPro.conversationType = model.conversationType;
     chatPro.targetId = model.targetId;
     chatPro.title = model.conversationTitle;
-    self.hidesBottomBarWhenPushed = true;
+    chatPro.hidesBottomBarWhenPushed = true;
     [self.navigationController pushViewController:chatPro animated:YES];
     
 }

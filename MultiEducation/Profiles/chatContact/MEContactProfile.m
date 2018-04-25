@@ -7,6 +7,8 @@
 //
 
 #import "VKMsgSend.h"
+#import "MEChatProfile.h"
+#import "MEClassChatVM.h"
 #import "MEContactCell.h"
 #import "MESearchPanel.h"
 #import "Meclass.pbobjc.h"
@@ -14,6 +16,7 @@
 #import <YCXMenu/YCXMenu.h>
 #import "MEContactProfile.h"
 #import <MJRefresh/MJRefresh.h>
+#import "MEBaseNavigationProfile.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
@@ -644,7 +647,62 @@
         return;
     }
     
+    //获取本地数据
+    NSArray<MECSession*>*sessions = [MEClassChatVM fetchClassChatSessions4ClassID:self.currentClass.id_p];
+    if (sessions.count > 0) {
+        [self handleClassSessionList:sessions];
+    } else {
+        int64_t timestamp = [MEClassChatVM fetchMaxClassSessionTimestamp4ClassID:self.currentClass.id_p];
+        //发起班聊
+        MEClassChatVM *vm = [[MEClassChatVM alloc] init];
+        MECSession *cSession = [[MECSession alloc] init];
+        cSession.timestamp = timestamp;
+        cSession.classId = self.currentClass.id_p;
+        weakify(self)
+        [vm postData:[cSession data] hudEnable:true success:^(NSData * _Nullable resObj) {
+            NSError *err; strongify(self)
+            MESessionList *sessionList = [MESessionList parseFromData:resObj error:&err];
+            if (err) {
+                [MEKits handleError:err];
+            } else {
+                [self handleClassSessionList:sessionList.classSessionArray.copy];
+                [MEClassChatVM saveClassChatSessions:sessionList.classSessionArray.copy];
+            }
+        } failure:^(NSError * _Nonnull error) {
+            [MEKits handleError:error];
+        }];
+    }
+}
+
+- (void)handleClassSessionList:(NSArray<MECSession*>*)cSessions {
+    MECSession *destSession;
+    for (MECSession *s in cSessions) {
+        if (s.classId == self.currentClass.id_p) {
+            destSession = s;
+            break;
+        }
+    }
+    if (!destSession) {
+        [SVProgressHUD showErrorWithStatus:@"当前班级班聊无法开启！"];
+        return;
+    }
+    NSString *targetID = PBFormat(@"CLASS-%lld", destSession.id_p);
+    MEChatProfile *chatProfile = [[MEChatProfile alloc] initWithConversationType:ConversationType_GROUP targetId:targetID];
+    chatProfile.title = PBAvailableString(destSession.name);
+    chatProfile.hidesBottomBarWhenPushed = true;
+    [self.appDelegate.winProfile pushViewController:chatProfile animated:true];
     
+//    NSArray<UIViewController*>*stacks = [self.navigationController viewControllers];
+//    NSMutableArray<UIViewController*>*newStacks = [NSMutableArray arrayWithCapacity:0];
+//    for (UIViewController *profile in stacks) {
+//        if ([profile isKindOfClass:[self class]] || [profile isMemberOfClass:[self class]]) {
+//            break;
+//        } else {
+//            [newStacks addObject:profile];
+//        }
+//    }
+//    [newStacks addObject:chatProfile];
+//    [self.navigationController setViewControllers:newStacks.copy animated:true];
 }
 
 /*

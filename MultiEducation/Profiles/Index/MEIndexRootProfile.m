@@ -174,6 +174,8 @@
         strongify(self)
         [self.appDelegate startRongIMServivesOnBgThread];
     }];
+    
+    [self setBadgeValue:10 atIndex:0];
 }
 
 - (void)didReceiveMemoryWarning {
