@@ -485,6 +485,7 @@
         infoMap[@"filePath"] = filePath;
         infoMap[@"fileName"] = filePath;
         infoMap[@"data"] = data;
+        infoMap[@"fileSize"] = [NSNumber numberWithFloat: data.length / 1024.f / 1024.f];
         
         //检查文件大小
         float size = (float) data.length / 1024.0f / 1024.0f;
@@ -533,7 +534,8 @@
         infoMap[@"filePath"] = filePath;
         infoMap[@"fileName"] = filePath;
         infoMap[@"data"] = video;
-        
+        infoMap[@"fileSize"] = [NSNumber numberWithFloat: video.length / 1024.f / 1024.f];
+
         //检查文件大小
         float size = (float) video.length / 1024.0f / 1024.0f;
         float uploadLimit = [MEKits uploadMaxLimit];

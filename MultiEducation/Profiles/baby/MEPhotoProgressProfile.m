@@ -15,6 +15,7 @@
 #import "MebabyAlbum.pbobjc.h"
 #import "MEFileQuryVM.h"
 #import "NSData+UTF8String.h"
+#import "MEBabyAlbumListVM.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 60.f;
@@ -85,6 +86,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
             pb.filePath = [dict objectForKey: @"filePath"];
             pb.fileName = [dict objectForKey: @"fileName"];
             pb.fileType = [dict objectForKey: @"extension"];
+            pb.fileSize = [[dict objectForKey: @"fileSize"] integerValue];
             pb.upPercent = 0;
             pb.parentId = _parentId;
             pb.isExist = 0;
@@ -102,6 +104,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
             pb.parentId = _parentId;
             pb.fileName = [dict objectForKey: @"fileName"];
             pb.fileType = [dict objectForKey: @"extension"];
+            pb.fileSize = [[dict objectForKey: @"fileSize"] integerValue];
             pb.upPercent = 0;
             pb.isExist = 1;
             pb.fileData = [dict objectForKey: @"data"];
@@ -109,15 +112,17 @@ static CGFloat const ROW_HEIGHT = 60.f;
             [_dataArr addObject: pb];
         }
         [self.tableView reloadData];
-        [self.qnUtils uploadImagesWithUncheck: forUploadArr];
+        if (forUploadArr.count != 0) {
+            [self.qnUtils uploadImagesWithUncheck: forUploadArr];
+        } else {
+            [SVProgressHUD showErrorWithStatus: @"当前选中的所有照片均已上传过！"];
+        }
     }];
 }
 
 - (void)sendUploadResultToServer:(ClassAlbumPb *)albumPb {
     MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: albumPb reqCode: REQ_CLASS_ALBUM_FILE_UPLOAD];
-    
     [vm postData: [albumPb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
-       
         ClassAlbumPb *albumPb = [ClassAlbumPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *pb in _dataArr) {
             if ([albumPb.filePath isEqualToString: pb.filePath]) {
@@ -126,9 +131,9 @@ static CGFloat const ROW_HEIGHT = 60.f;
                 albumPb.fileId = pb.fileId;
                 albumPb.fileType = pb.fileType;
                 albumPb.filePath = pb.filePath;
-                [self.tableView reloadData];
             }
         }
+        [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
@@ -178,12 +183,11 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UploadImagesCallBack
 - (void)uploadImageSuccess:(NSString *)key {
-    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-    pb.fileName = key;
-    pb.filePath = key;
-    pb.classId = _classId;
-    pb.parentId = 0;
-    [self sendUploadResultToServer: pb];
+    for (ClassAlbumPb *pb in _dataArr) {
+        if ([pb.filePath isEqualToString: key]) {
+            [self sendUploadResultToServer: pb];
+        }
+    }
 }
 
 - (void)uploadImageFail:(NSString *)key {

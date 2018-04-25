@@ -34,7 +34,7 @@
 
 - (void)uploadImagesWithUncheck:(NSArray <ClassAlbumPb *> *)albums;
 
-- (void)uploadImages:(NSArray <NSDictionary *> *)images callback:(void(^)(NSArray * succKeys, NSArray * failKeys))callback;
+- (void)uploadImages:(NSArray <NSDictionary *> *)images callback:(void(^)(NSArray * succKeys, NSArray * failKeys, NSError *error))callback;
 
 - (void)checkWhetherExistInServer:(NSArray <NSDictionary *> *)images callback:(void (^)(NSDictionary *returnDic))callback;
 

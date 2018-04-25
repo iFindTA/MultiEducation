@@ -19,6 +19,9 @@
 #import "MEBabyContentPhotoCell.h"
 #import "METimeLineSectionView.h"
 #import "MEPhotoProgressProfile.h"
+#import <XHImageViewer.h>
+#import <XHImageViewer/UIImageView+XHURLDownload.h>
+
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -34,7 +37,7 @@ static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
-@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate> {
+@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, XHImageViewerDelegate> {
     NSInteger _classId;
     NSInteger _parendId;
 }
@@ -45,12 +48,14 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MEBaseScene *scrollContent;
 
 @property (nonatomic, strong) UICollectionView *photoView;  //photo
-@property (nonatomic, strong) NSMutableArray *photos;   //photo's dataArr
+@property (nonatomic, strong) NSMutableArray <ClassAlbumPb *> *photos;   //photo's dataArr
 
 @property (nonatomic, strong) UICollectionView *timeLineView;   //时间轴
 @property (nonatomic, strong) NSMutableArray *timeLineArr;  //timeline's dataArr
 
 @property (nonatomic, strong) TZImagePickerController *pickerProfile;
+
+@property (nonatomic, strong) XHImageViewer *imageViewer;
 
 @end
 
@@ -298,7 +303,21 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    if (collectionView == self.photoView) {
+//        NSMutableArray *images = [NSMutableArray array];
+//        UIImageView *selectIv;
+//        NSInteger index = 0;
+//        for (ClassAlbumPb *pb in self.photos) {
+            UIImageView *iv = [UIImageView imageViewWithURL:[NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, [self.photos objectAtIndex: 0].filePath]] autoLoading:true];
+//            [images addObject: iv];
+//            if (index == indexPath.row) {
+//                selectIv = iv;
+//            }
+//            index++;
+//        }
+//
+        [self.imageViewer showWithImageViews: @[iv]  selectedView: iv];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -402,6 +421,14 @@ static CGFloat const ITEM_LEADING = 10.f;
         _pickerProfile.allowPickingVideo = YES;
     }
     return _pickerProfile;
+}
+
+- (XHImageViewer *)imageViewer {
+    if (!_imageViewer) {
+        _imageViewer = [[XHImageViewer alloc] init];
+        _imageViewer.delegate = self;
+    }
+    return _imageViewer;
 }
 
 @end

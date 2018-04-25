@@ -117,7 +117,7 @@ static MEQiniuUtils *qnUtils;
                     } option: self.option];
 }
 
-- (void)uploadImages:(NSArray<NSDictionary *> *)images callback:(void (^)(NSArray *, NSArray *))callback {
+- (void)uploadImages:(NSArray<NSDictionary *> *)images callback:(void (^)(NSArray *, NSArray *, NSError *error))callback {
     weakify(self);
     [self checkWhetherExistInServer: images checkCallback:^(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr) {
         strongify(self);
@@ -134,7 +134,7 @@ static MEQiniuUtils *qnUtils;
                             }
                             imageIndex++;
                             if (imageIndex >= noExistArr.count) {
-                                callback(self.succKeys, self.failKeys);
+                                callback(self.succKeys, self.failKeys, info.error);
                                 _index = 0;
                                 self.succKeys = nil;
                                 self.failKeys = nil;

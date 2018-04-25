@@ -36,7 +36,7 @@
     return @"FSC_CLASS_ALBUM_POST";
 }
 
-- (NSString *)reqCode {
+- (NSString *)operationCode {
     return _reqCode;
 }
 
