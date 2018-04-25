@@ -34,6 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)updateCurrentSignedInUser:(MEPBUser *)usr;
 
+/**
+ 初始化融云
+ */
+- (void)startRongIMServivesOnBgThread;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -12,6 +12,4 @@
 
 @interface MEChatProfile : RCConversationViewController
 
-
-
 @end

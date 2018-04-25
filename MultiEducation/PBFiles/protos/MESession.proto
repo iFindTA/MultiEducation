@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+message MESession {
+	int64 id = 1; //id
+    int64 userId = 2; //用户id
+    int32 type = 3; //消息类型1个人信息2群组信息
+    int64 msId = 4; //消息源id，根据type指向不同的表
+    string msName = 5; //姓名或群众名称
+    int64 sessionId = 6; //session id
+    int64 modifiedDate = 7; //最后更新时间
+    int32 dataStatus = 8; //数据状态
+    int64 timestamp = 9; //时间戳
+    int64 readId = 10; //已读id
+    int64 lastId = 11; //未读id
+}

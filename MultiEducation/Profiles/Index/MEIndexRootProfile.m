@@ -169,8 +169,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [MEKits refreshUserSessiontoken];
+    weakify(self)
+    [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
+        strongify(self)
+        [self.appDelegate startRongIMServivesOnBgThread];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

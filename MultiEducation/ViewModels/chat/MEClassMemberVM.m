@@ -48,4 +48,11 @@
     return ret;
 }
 
++ (NSArray<MEClassMember*> *)fetchClassMember4MemberID:(ino64_t)mid {
+    MEPBUser *user = [self currentUser];
+    NSString *sql = PBFormat(@"ownerId = %lld", user.uid);
+    NSArray<MEClassMember*>* members = [WHCSqlite query:MEClassMember.self where:sql];
+    return members;
+}
+
 @end

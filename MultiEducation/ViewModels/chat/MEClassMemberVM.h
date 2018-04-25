@@ -28,6 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)saveClassMembers:(NSArray<MEClassMember*>*)members;
 
+/**
+ 获取班级成员用户信息
+ */
++ (NSArray<MEClassMember*> *)fetchClassMember4MemberID:(ino64_t)mid;
+
 @end
 
 NS_ASSUME_NONNULL_END

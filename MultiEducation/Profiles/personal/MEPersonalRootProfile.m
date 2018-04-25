@@ -13,7 +13,8 @@
 #import "MEPersonalCell.h"
 #import <WHC_ModelSqlite.h>
 #import "MEWatchItem.h"
-
+#import "MEChatProfile.h"
+#import "MEBaseNavigationProfile.h"
 
 #define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户管理", @"帮助中心", @"反馈", @"关于我们"]
 
@@ -101,6 +102,10 @@ static CGFloat const SECTION_HEADER = 56.f;
             
         case 4: {
             //反馈接入融云
+            MEChatProfile *profile = [[MEChatProfile alloc] initWithConversationType:ConversationType_APPSERVICE targetId:@"SYS_XDY"];
+            profile.title = PBAvailableString([NSBundle pb_displayName]);
+            profile.hidesBottomBarWhenPushed = true;
+            [self.navigationController pushViewController:profile animated:true];
         }
             break;
         case 5: {

@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEChatProfile.h"
 #import "MEContactInfoProfile.h"
 #import "MeclassMember.pbobjc.h"
 
@@ -327,7 +328,27 @@
  发送消息
  */
 - (void)sendMessageTouchEvent {
+    MEClassMember *member = [self.params objectForKey:@"member"];
+    if (!member) {
+        [SVProgressHUD showErrorWithStatus:@"当前会话不能建立！"];
+        return;
+    }
+    NSString *targetID = PBFormat(@"%lld", member.id_p);
+    MEChatProfile *chatProfile = [[MEChatProfile alloc] initWithConversationType:ConversationType_PRIVATE targetId:targetID];
+    chatProfile.title = PBAvailableString(member.name);
+    chatProfile.hidesBottomBarWhenPushed = true;
     
+    NSArray<UIViewController*>*stacks = [self.navigationController viewControllers];
+    NSMutableArray<UIViewController*>*newStacks = [NSMutableArray arrayWithCapacity:0];
+    for (UIViewController *profile in stacks) {
+        if ([profile isKindOfClass:[self class]] || [profile isMemberOfClass:[self class]]) {
+            break;
+        } else {
+            [newStacks addObject:profile];
+        }
+    }
+    [newStacks addObject:chatProfile];
+    [self.navigationController setViewControllers:newStacks.copy animated:true];
 }
 
 /*

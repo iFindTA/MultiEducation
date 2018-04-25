@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "MESession.proto";
+import "MEClassChat.proto";
+
+message MESessionList {
+	repeated MESession message = 1;//
+
+	repeated MECUser classUser = 9;//班级用户
+	repeated MECSession classSession = 10;//班级会话
+}

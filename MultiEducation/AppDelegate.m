@@ -19,7 +19,9 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <UINavigationController+SJVideoPlayerAdd.h>
 #import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
+#import "MEIMService.h"
 #import <RongIMKit/RongIMKit.h>
+#import <RongIMLib/RCStatusDefine.h>
 
 @interface AppDelegate ()
 
@@ -263,9 +265,14 @@
         //for Cordova
         [MEKits configureCordovaEnv];
         //for refresh user-session-token
-        [MEKits refreshUserSessiontoken];
+        weakify(self)
+        [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
+            strongify(self)
+            if (!err) {
+                [self startRongIMServivesOnBgThread];
+            }
+        }];
         //for RongIM
-        [self startRongIMServivesOnbgThread];
     }
 }
 
@@ -289,35 +296,27 @@
         //for Cordova
         [MEKits configureCordovaEnv];
         [MEKits UnzipCordovaResources];
-        
+        //for rongyun im
+        [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
+        [[RCIM sharedRCIM] setEnableMessageMentioned:YES];
+        [[RCIM sharedRCIM] setEnableMessageRecall:YES];
+        // 消息回执
+        NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
+        [backTypes addObject:@(ConversationType_PRIVATE)];
+        [backTypes addObject:@(ConversationType_GROUP)];
+        [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
+        // 多端阅读消息数同步
+        [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];
     });
 }
 
 /**
  初始化融云
  */
-- (void)startRongIMServivesOnbgThread {
-    PBBACKDelay(ME_ANIMATION_DURATION, (^{
-//        [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
-        [[RCIM sharedRCIM] initWithAppKey:@"82hegw5u8yvqx"];
-        // @功能
-        [[RCIM sharedRCIM] setEnableMessageMentioned:YES];
-        // 消息撤回
-        [[RCIM sharedRCIM] setEnableMessageRecall:YES];
-        // 消息回执
-        NSArray *typeArray = @[@(ConversationType_PRIVATE), @(ConversationType_GROUP)];
-        [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:typeArray];
-        // 多端阅读消息数同步
-        [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];
-        
-        [[RCIM sharedRCIM] connectWithToken:@"H8TFnbp1yfFYnLYilXjk8AtHNNd/2ie4Gq4ONLhyoW154vpO8/FNTC8cBYI1jM7gnvuDYlELban6f0VhFzA9IQ==" success:^(NSString *userId) {
-            NSLog(@"登录成功...userId:%@", userId);
-        } error:^(RCConnectErrorCode status) {
-            NSLog(@"登录失败,error status=%ld", (long)status);
-        } tokenIncorrect:^{
-            NSLog(@"token错误...");
-        }];
-    }));
+- (void)startRongIMServivesOnBgThread {
+    PBBACK(^{
+        [[MEIMService shared] startRongIMService];
+    });
 }
 
 @end

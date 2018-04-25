@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  app再次进入前台 超过时间间隔需要刷新token 如七牛上传token
  */
-+ (void)refreshUserSessiontoken;
++ (void)refreshCurrentUserSessionTokenWithCompletion:(void(^_Nullable)(NSError * _Nullable err))completion;
 
 #pragma mark --- Max Upload Size
 

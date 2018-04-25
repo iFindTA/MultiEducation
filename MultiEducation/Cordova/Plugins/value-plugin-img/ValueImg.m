@@ -91,9 +91,8 @@
     weakify(self)
     [[MEQiniuUtils sharedQNUploadUtils] uploadImages:images callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
         strongify(self)
-        if (failKeys.count > 0) {
-            NSError *err = [NSError errorWithDomain:@"上传失败！" code:-1 userInfo:nil];
-            [self endImagePickerActionWithNoResult:err];
+        if (error) {
+            [self endImagePickerActionWithNoResult:error];
         } else {
             NSDictionary *dicResult = @{@"msg" : [self arrayToJsonString:succKeys]};
             NSLog(@"msg:%@", dicResult[@"msg"]);
