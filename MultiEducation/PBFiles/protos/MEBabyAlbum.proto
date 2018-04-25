@@ -24,6 +24,8 @@ message ClassAlbumPb {
     string formatterDate = 16;  //格式化日期 yyyy-MM
     bytes fileData = 17;    //data
     MEUploadStatus uploadStatu = 18;    //上传状态
+    int32 isSelect = 19;//  是否处于选中状态，用于delete情况
+    int32 isSelectStatus = 20;  //是否处于要选择状态
 }
 
 enum MEUploadStatus {

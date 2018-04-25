@@ -19,8 +19,10 @@
 #import "MEBabyContentPhotoCell.h"
 #import "METimeLineSectionView.h"
 #import "MEPhotoProgressProfile.h"
+#import "MESideMenuManager.h"
 #import <XHImageViewer.h>
 #import <XHImageViewer/UIImageView+XHURLDownload.h>
+#import "MEQNUploadVM.h"
 
 
 #define TITLES @[@"照片", @"时间轴"]
@@ -40,6 +42,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, XHImageViewerDelegate> {
     NSInteger _classId;
     NSInteger _parendId;
+    
+    BOOL _isSelectStatus;
 }
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
@@ -49,6 +53,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) UICollectionView *photoView;  //photo
 @property (nonatomic, strong) NSMutableArray <ClassAlbumPb *> *photos;   //photo's dataArr
+@property (nonatomic, strong) NSMutableArray <ClassAlbumPb *> *selectArr;    //is select for delete or move
 
 @property (nonatomic, strong) UICollectionView *timeLineView;   //时间轴
 @property (nonatomic, strong) NSMutableArray *timeLineArr;  //timeline's dataArr
@@ -56,6 +61,10 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) TZImagePickerController *pickerProfile;
 
 @property (nonatomic, strong) XHImageViewer *imageViewer;
+
+@property (nonatomic, strong) MESideMenuManager *sideMenuManager;
+
+@property (nonatomic, strong) UIBarButtonItem *rightItem;
 
 @end
 
@@ -81,6 +90,98 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self layoutView];
     
     [self loadDataSource];
+    
+    [self customSideMenu];
+}
+
+- (void)customSideMenu {
+    if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
+        _sideMenuManager = [[MESideMenuManager alloc] initWithMenuSuperView: self.view sideMenuCallback:^(MEUserTouchEventType type) {
+            [self sideMenuTouchEvent: type];
+        }];
+    }
+}
+
+- (void)sideMenuTouchEvent:(MEUserTouchEventType)type {
+    switch (type) {
+        case MEUserTouchEventTypeUpload: {
+            [self uploadPhoto];
+        }
+            break;
+        case MEUserTouchEventTypeNewFolder: {
+            [self createNewFolder];
+        }
+            break;
+        case MEUserTouchEventTypeMove: {
+            [self movePhotoOrFolder];
+        }
+            break;
+        case MEUserTouchEventTypeDelete: {
+            [self deletePhotoOrFolder];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)uploadPhoto {
+    [self.navigationController presentViewController: self.pickerProfile animated: YES completion: nil];
+}
+
+- (void)createNewFolder {
+    weakify(self);
+    [self showNewFolderAlert:^(UITextField *textField) {
+        strongify(self);
+        
+        ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+        pb.parentId = _parendId;
+        pb.classId = _classId;
+        pb.fileName = textField.text;
+        
+        MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: pb reqCode: REQ_CLASS_ALBUM_FOLDER_UPLOAD];
+        
+        [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
+            [self loadDataSource];
+        } failure:^(NSError * _Nonnull error) {
+            [self handleTransitionError: error];
+        }];
+    }];
+}
+
+- (void)movePhotoOrFolder {
+    
+}
+
+- (void)deletePhotoOrFolder {
+    if (_isSelectStatus) {
+        return;
+    }
+    _isSelectStatus = YES;
+    self.rightItem = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStyleDone target: self action: @selector(deleteBarButtonItemTouchEvent)];
+
+    for (ClassAlbumPb *pb in self.photos) {
+        pb.isSelectStatus = _isSelectStatus;
+    }
+    [self.photoView reloadData];
+}
+
+- (void)showNewFolderAlert:(void(^)(UITextField *textField))callback {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"新建文件夹" message: nil preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+
+    UIAlertAction *certain = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UITextField *textField = alertController.textFields[0];
+        callback(textField);
+    }];
+    
+    [alertController addAction: cancel];
+    [alertController addAction: certain];
+    
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入文件夹名称";
+    }];
+    [self.navigationController presentViewController: alertController animated: YES completion: nil];
 }
 
 - (void)loadDataSource {
@@ -92,9 +193,11 @@ static CGFloat const ITEM_LEADING = 10.f;
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *albumPb in  pb.classAlbumArray) {
             albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
+            albumPb.isSelectStatus = NO;
+            albumPb.isSelect = NO;
             [MEBabyAlbumListVM saveAlbum: albumPb];
+            [self.photos addObject: albumPb];
         }
-        [self.photos addObjectsFromArray: pb.classAlbumArray];
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
     } failure:^(NSError * _Nonnull error) {
@@ -150,14 +253,26 @@ static CGFloat const ITEM_LEADING = 10.f;
     UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
-    if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-            item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"上传" style: UIBarButtonItemStyleDone target: self action: @selector(uploadTouchEvent)];
-    }
+    item.rightBarButtonItem = _rightItem;
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
-- (void)uploadTouchEvent {
-    [self.navigationController presentViewController: self.pickerProfile animated: YES completion: nil];
+//重写backitem的方法
+- (void)backBarItemTouchEvent {
+    if (_isSelectStatus) {
+        _isSelectStatus = NO;
+        _rightItem = nil;
+        [self.selectArr removeAllObjects];
+        for (ClassAlbumPb *pb in self.photos) {
+            pb.isSelectStatus = _isSelectStatus;
+        }
+    } else {
+        [self.navigationController popViewControllerAnimated: YES];
+    }
+}
+
+- (void)deleteBarButtonItemTouchEvent {
+    
 }
 
 - (void)layoutView {
@@ -267,6 +382,17 @@ static CGFloat const ITEM_LEADING = 10.f;
     MEBabyContentPhotoCell *cell;
     if ([collectionView isEqual: self.photoView]) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
+        cell.handler = ^(ClassAlbumPb *pb) {
+            if (pb.isSelect) {
+                if (![self.selectArr containsObject: pb]) {
+                    [self.selectArr addObject: pb];
+                }
+            } else {
+                if ([self.selectArr containsObject: pb]) {
+                    [self.selectArr removeObject: pb];
+                }
+            }
+        };
         [cell setData: [self.photos objectAtIndex: indexPath.row]];
         return cell;
     } else {
@@ -429,6 +555,13 @@ static CGFloat const ITEM_LEADING = 10.f;
         _imageViewer.delegate = self;
     }
     return _imageViewer;
+}
+
+- (NSMutableArray<ClassAlbumPb *> *)selectArr {
+    if (!_selectArr) {
+        _selectArr = [NSMutableArray array];
+    }
+    return _selectArr;
 }
 
 @end

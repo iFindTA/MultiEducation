@@ -11,13 +11,20 @@
 static CGFloat const ICON_WIDTH = 35.f;
 static CGFloat const TEXT_LAB_HEIGHT = 16.f;
 
+@interface MEMenuButton ()
+
+@property (nonatomic, copy) void(^touchHandler)(void);
+
+@end
+
 @implementation MEMenuButton
 
 - (instancetype)initWithTouchHandler:(void(^)(void))handler {
     self = [super init];
     if (self) {
+        self.touchHandler = handler;
         
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(handler)];
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(menuButtonTouchEvent)];
         [self addGestureRecognizer: tapGes];
         
         [self addSubview: self.icon];
@@ -40,7 +47,9 @@ static CGFloat const TEXT_LAB_HEIGHT = 16.f;
 }
 
 - (void)menuButtonTouchEvent {
-    
+    if (self.touchHandler) {
+        self.touchHandler();
+    }
 }
 
 #pragma mark - lazyloading

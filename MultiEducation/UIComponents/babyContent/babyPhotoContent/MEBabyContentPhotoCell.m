@@ -10,16 +10,22 @@
 #import "AppDelegate.h"
 #import "Meuser.pbobjc.h"
 
+@interface MEBabyContentPhotoCell ()
+
+@property (nonatomic, strong) ClassAlbumPb *albumPb;
+
+@end
+
 @implementation MEBabyContentPhotoCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-//    self.floderNameLabel.hidden = YES;
+
 }
 
-
 - (void)setData:(ClassAlbumPb *)pb {
+    _albumPb = pb;
     if (pb.isParent) {
         self.floderNameLabel.hidden = NO;
         self.floderNameLabel.text = pb.fileName;
@@ -28,6 +34,11 @@
         self.floderNameLabel.hidden = YES;
         self.floderNameLabel.text = @"";
         [self setCoverImage: pb];
+    }
+    if (pb.isSelectStatus) {
+        self.selectBtn.hidden = NO;
+    } else {
+        self.selectBtn.hidden = YES;
     }
 }
 
@@ -42,5 +53,14 @@
         [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
     }
 }
+
+- (IBAction)selectToDeleteTouchEvent:(MEBaseButton *)sender {
+    self.selectBtn.selected = !self.selectBtn.selected;
+    self.albumPb.isSelect = self.selectBtn.selected;
+    if (self.handler) {
+        self.handler(_albumPb);
+    }
+}
+
 
 @end

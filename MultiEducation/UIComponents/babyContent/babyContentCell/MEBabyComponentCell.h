@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet MEBaseLabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
 
+
 - (void)setItemWithType:(MEBabyContentType)type;
 
 @end
