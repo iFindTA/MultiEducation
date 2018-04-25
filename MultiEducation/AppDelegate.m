@@ -31,6 +31,8 @@
 
 @property (nonatomic, strong, readwrite) MEPBUser *curUser;
 
+@property (nonatomic, weak) MEIndexRootProfile *indexRootProfile;
+
 @end
 
 @implementation AppDelegate
@@ -183,6 +185,8 @@
         selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         indexNavi.tabBarItem.image = image;
         indexNavi.tabBarItem.selectedImage = selectImg;
+        //弱引用
+        self.indexRootProfile = index;
         //聊天
         title = @"聊天";
         image = [UIImage imageNamed:@"bar_chat"];
@@ -317,6 +321,11 @@
     PBBACK(^{
         [[MEIMService shared] startRongIMService];
     });
+}
+
+- (void)updateRongIMUnReadMessageCounts {
+    int unreadCounts = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
+    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:1];});
 }
 
 @end

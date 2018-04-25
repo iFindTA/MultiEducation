@@ -39,6 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)startRongIMServivesOnBgThread;
 
+/**
+ 更新当前未读消息数
+ */
+- (void)updateRongIMUnReadMessageCounts;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -337,18 +337,7 @@
     MEChatProfile *chatProfile = [[MEChatProfile alloc] initWithConversationType:ConversationType_PRIVATE targetId:targetID];
     chatProfile.title = PBAvailableString(member.name);
     chatProfile.hidesBottomBarWhenPushed = true;
-    
-    NSArray<UIViewController*>*stacks = [self.navigationController viewControllers];
-    NSMutableArray<UIViewController*>*newStacks = [NSMutableArray arrayWithCapacity:0];
-    for (UIViewController *profile in stacks) {
-        if ([profile isKindOfClass:[self class]] || [profile isMemberOfClass:[self class]]) {
-            break;
-        } else {
-            [newStacks addObject:profile];
-        }
-    }
-    [newStacks addObject:chatProfile];
-    [self.navigationController setViewControllers:newStacks.copy animated:true];
+    [self.navigationController pushViewController:chatProfile animated:true];
 }
 
 /*

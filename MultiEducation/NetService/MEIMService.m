@@ -10,11 +10,12 @@
 #import "MEIMService.h"
 #import "AppDelegate.h"
 #import "Meuser.pbobjc.h"
+#import "MEClassChatVM.h"
 #import "MEClassMemberVM.h"
 #import <RongIMKit/RongIMKit.h>
 #import <RongIMLib/RCStatusDefine.h>
 
-@interface MEIMService () <RCIMUserInfoDataSource, RCIMGroupInfoDataSource>
+@interface MEIMService () <RCIMUserInfoDataSource, RCIMGroupInfoDataSource, RCIMReceiveMessageDelegate>
 
 @end
 
@@ -38,6 +39,10 @@ static MEIMService *instance = nil;
 
 - (void)startRongIMService {
     MEPBUser *user = self.app.curUser;
+    if (user.isTourist) {
+        NSLog(@"当前用户为游客，不用开启融云IM服务！");
+        return;
+    }
     if (user.rcToken.length == 0) {
         NSLog(@"融云登录失败-------无效的容云token！");
         return ;
@@ -50,13 +55,16 @@ static MEIMService *instance = nil;
         return;
     }
     
-    
+    weakify(self)
     [[RCIM sharedRCIM] connectWithToken:user.rcToken success:^(NSString *userId) {
-        NSLog(@"RongIM登录成功...userId:%@", userId);
+        NSLog(@"RongIM登录成功...userId:%@", userId);strongify(self)
         NSString *portrait = [MEKits imageFullPath:user.portrait];
         [[RCIM sharedRCIM] setCurrentUserInfo:[[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait]];
         [[RCIM sharedRCIM] setUserInfoDataSource:self];
         [[RCIM sharedRCIM] setGroupInfoDataSource:self];
+        [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+        //更新未读
+        [self.app updateRongIMUnReadMessageCounts];
     } error:^(RCConnectErrorCode status) {
         NSLog(@"登录失败,error status=%ld", (long)status);
     } tokenIncorrect:^{
@@ -110,7 +118,29 @@ static MEIMService *instance = nil;
  在您设置了用户信息提供者之后，SDK在需要显示用户信息的时候，会调用此方法，向您请求用户信息用于显示。
  */
 - (void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *groupInfo))completion {
-    
+    RCGroup *groupInfo = nil;
+    NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
+    NSString *groupType = stringArray[0];
+    int64_t session_id = [stringArray[1] longLongValue];
+    if ([groupType isEqualToString:@"CLASS"]) {
+        NSArray<MECSession*>*sessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
+        for (MECSession *s in sessions) {
+            if (s.id_p == session_id) {
+                groupInfo = [[RCGroup alloc] initWithGroupId:groupId groupName:s.name portraitUri:@""];
+                break;
+            }
+        }
+    }
+    if (completion) {
+        completion(groupInfo);
+    }
+}
+
+#pragma mark --- 消息回调
+
+- (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
+    //NSLog(@"收到了消息!");
+    [self.app updateRongIMUnReadMessageCounts];
 }
 
 @end
