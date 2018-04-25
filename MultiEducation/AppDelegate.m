@@ -48,6 +48,7 @@
     BOOL whetherDidSignout = [usrDefaults boolForKey:ME_USER_DID_INITIATIVE_LOGOUT];
     if (!whetherDidSignout) {
         self.curUser = [MEUserVM fetchLatestSignedInUser];
+        
     }
     MEDisplayStyle style ;
     if (!self.curUser) {
@@ -261,6 +262,9 @@
     if (usr) {
         //for Cordova
         [MEKits configureCordovaEnv];
+        //for refresh user-session-token
+        [MEKits refreshUserSessiontoken];
+        //for RongIM
         [self startRongIMServivesOnbgThread];
     }
 }

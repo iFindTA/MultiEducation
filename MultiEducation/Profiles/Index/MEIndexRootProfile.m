@@ -28,8 +28,6 @@
 /**
  分类内容
  */
-
-
 @property (nonatomic, strong) MEIndexNavigationBar *indexNavigationBar;
 @property (nonatomic, strong) MEIndexBgScroller *bgScroller;
 
@@ -171,6 +169,8 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [MEKits refreshUserSessiontoken];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -31,7 +31,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSTimeInterval)currentTimeInterval;
 
-
 /**
  sandbox path
  */
@@ -99,6 +98,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)handleError:(NSError *)err;
 
 + (void)handleSuccess:(NSString *)hud;
+
+#pragma mark --- User Token Refresh
+
+/**
+ app再次进入前台 超过时间间隔需要刷新token 如七牛上传token
+ */
++ (void)refreshUserSessiontoken;
 
 #pragma mark --- Max Upload Size
 
