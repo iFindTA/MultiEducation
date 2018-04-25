@@ -42,6 +42,49 @@ static GPBFileDescriptor *MebabyAlbumRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - Enum MEUploadStatus
+
+GPBEnumDescriptor *MEUploadStatus_EnumDescriptor(void) {
+  static GPBEnumDescriptor *descriptor = NULL;
+  if (!descriptor) {
+    static const char *valueNames =
+        "Waiting\000Uploading\000Success\000Failure\000IsExis"
+        "t\000";
+    static const int32_t values[] = {
+        MEUploadStatus_Waiting,
+        MEUploadStatus_Uploading,
+        MEUploadStatus_Success,
+        MEUploadStatus_Failure,
+        MEUploadStatus_IsExist,
+    };
+    static const char *extraTextFormatInfo = "\005\000\007\000\001\t\000\002\007\000\003\007\000\004\'\000";
+    GPBEnumDescriptor *worker =
+        [GPBEnumDescriptor allocDescriptorForName:GPBNSStringifySymbol(MEUploadStatus)
+                                       valueNames:valueNames
+                                           values:values
+                                            count:(uint32_t)(sizeof(values) / sizeof(int32_t))
+                                     enumVerifier:MEUploadStatus_IsValidValue
+                              extraTextFormatInfo:extraTextFormatInfo];
+    if (!OSAtomicCompareAndSwapPtrBarrier(nil, worker, (void * volatile *)&descriptor)) {
+      [worker release];
+    }
+  }
+  return descriptor;
+}
+
+BOOL MEUploadStatus_IsValidValue(int32_t value__) {
+  switch (value__) {
+    case MEUploadStatus_Waiting:
+    case MEUploadStatus_Uploading:
+    case MEUploadStatus_Success:
+    case MEUploadStatus_Failure:
+    case MEUploadStatus_IsExist:
+      return YES;
+    default:
+      return NO;
+  }
+}
+
 #pragma mark - ClassAlbumListPb
 
 @implementation ClassAlbumListPb
@@ -108,18 +151,24 @@ typedef struct ClassAlbumListPb__storage_ {
 @dynamic modifiedDate;
 @dynamic md5;
 @dynamic upPercent;
+@dynamic isExist;
 @dynamic formatterDate;
+@dynamic fileData;
+@dynamic uploadStatu;
 
 typedef struct ClassAlbumPb__storage_ {
   uint32_t _has_storage_[1];
   int32_t isParent;
   int32_t dataStatus;
   int32_t upPercent;
+  int32_t isExist;
+  MEUploadStatus uploadStatu;
   NSString *fileName;
   NSString *fileType;
   NSString *filePath;
   NSString *md5;
   NSString *formatterDate;
+  NSData *fileData;
   int64_t id_p;
   int64_t classId;
   int64_t parentId;
@@ -262,13 +311,40 @@ typedef struct ClassAlbumPb__storage_ {
         .dataType = GPBDataTypeInt32,
       },
       {
+        .name = "isExist",
+        .dataTypeSpecific.className = NULL,
+        .number = ClassAlbumPb_FieldNumber_IsExist,
+        .hasIndex = 14,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, isExist),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
         .name = "formatterDate",
         .dataTypeSpecific.className = NULL,
         .number = ClassAlbumPb_FieldNumber_FormatterDate,
-        .hasIndex = 14,
+        .hasIndex = 15,
         .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, formatterDate),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "fileData",
+        .dataTypeSpecific.className = NULL,
+        .number = ClassAlbumPb_FieldNumber_FileData,
+        .hasIndex = 16,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, fileData),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBytes,
+      },
+      {
+        .name = "uploadStatu",
+        .dataTypeSpecific.enumDescFunc = MEUploadStatus_EnumDescriptor,
+        .number = ClassAlbumPb_FieldNumber_UploadStatu,
+        .hasIndex = 17,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, uploadStatu),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom | GPBFieldHasEnumDescriptor),
+        .dataType = GPBDataTypeEnum,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -281,7 +357,8 @@ typedef struct ClassAlbumPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\r\002\007\000\003\010\000\004\010\000\005\006\000\006\010\000\007\010\000\010\010\000\t\010\000\n\n\000\013\013\000\014\014\000\016\t\000\017\r\000";
+        "\020\002\007\000\003\010\000\004\010\000\005\006\000\006\010\000\007\010\000\010\010\000\t\010\000\n\n\000\013\013\000\014\014\000\016\t\000\017\007\000"
+        "\020\r\000\021\010\000\022\013\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
@@ -291,6 +368,18 @@ typedef struct ClassAlbumPb__storage_ {
 }
 
 @end
+
+int32_t ClassAlbumPb_UploadStatu_RawValue(ClassAlbumPb *message) {
+  GPBDescriptor *descriptor = [ClassAlbumPb descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ClassAlbumPb_FieldNumber_UploadStatu];
+  return GPBGetMessageInt32Field(message, field);
+}
+
+void SetClassAlbumPb_UploadStatu_RawValue(ClassAlbumPb *message, int32_t value) {
+  GPBDescriptor *descriptor = [ClassAlbumPb descriptor];
+  GPBFieldDescriptor *field = [descriptor fieldWithNumber:ClassAlbumPb_FieldNumber_UploadStatu];
+  GPBSetInt32IvarWithFieldInternal(message, field, value, descriptor.file.syntax);
+}
 
 
 #pragma clang diagnostic pop

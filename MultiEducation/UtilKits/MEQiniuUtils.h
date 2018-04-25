@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <QiniuSDK.h>
-@class MEPhoto;
+#import "MebabyAlbum.pbobjc.h"
 
 @protocol UploadImagesCallBack <NSObject>
 
@@ -32,7 +32,7 @@
 
 - (void)uploadImagesWithCheck:(NSArray <NSDictionary *> *)images;
 
-- (void)uploadImagesWithUncheck:(NSArray <NSDictionary *> *)images;
+- (void)uploadImagesWithUncheck:(NSArray <ClassAlbumPb *> *)albums;
 
 - (void)uploadImages:(NSArray <NSDictionary *> *)images callback:(void(^)(NSArray * succKeys, NSArray * failKeys))callback;
 

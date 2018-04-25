@@ -7,17 +7,17 @@
 //
 
 #import "MEBaseCell.h"
-#import "MEVideo.h"
+#import "MebabyAlbum.pbobjc.h"
 
 @interface MEProgressCell : MEBaseCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 
-@property (weak, nonatomic) IBOutlet MEBaseLabel *nameLabel;
+@property (weak, nonatomic) IBOutlet MEBaseLabel *statusLabel;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progress;
 
-@property (weak, nonatomic) IBOutlet MEBaseLabel *retryLabel;
+- (void)setData:(ClassAlbumPb *)pb;
 
 
 
