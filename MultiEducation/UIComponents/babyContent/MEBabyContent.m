@@ -560,8 +560,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"did select tableview in section:%ld in row:%ld", (long)indexPath.section, (long)indexPath.row);
+    //NSLog(@"did select tableview in section:%ld in row:%ld", (long)indexPath.section, (long)indexPath.row);
     [tableView deselectRowAtIndexPath: indexPath animated: YES];
+    if (indexPath.row >= self.newsInfos.count) {
+        return;
+    }
+    OsrInformationPb *newsInfo = self.newsInfos[indexPath.row];
+    NSString *title = PBAvailableString(newsInfo.title);
+    NSString *startPage = PBFormat(@"information.html#/information/%lld", newsInfo.id_p);
+    NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:title,ME_CORDOVA_KEY_STARTPAGE:startPage};
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:url withParams:params];
+    [MEKits handleError:err];
 }
 
 #pragma mark - UIScrollViewDelegate

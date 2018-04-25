@@ -192,6 +192,7 @@
 		DB48009F72D5F0A3BF98067B142FFB90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9374EE8DBC03FADF9DB92AAF51E1DC38 /* LaunchScreen.storyboard */; };
 		DB7FA8348763A5CB6310D4BF591BC8AB /* MEVideoPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = E32A88BBE47FC632DB85F47F3B918481 /* MEVideoPreview.m */; };
 		DB7FEB815A21FC4B319C8A302FC364C5 /* Meindex.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 45450C42E4FFF0F00139F758C79A5E25 /* Meindex.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DC62D591BA8311CD9D01554E2E65F435 /* MEContactInfoProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */; };
 		DE728D505B819C1E53333132FD62723F /* MEBaseTabBarProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA66C0A23210F048FF81E9FEA0A53BD /* MEBaseTabBarProfile.m */; };
 		E024AA38646F95380CE5DE6492DB1003 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB2E15017BB5632407C343F3D905875 /* libsqlite3.0.tbd */; };
 		E07070D015A2367783E2E1AD33ABCE67 /* MEAboutMeContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 47A8572B1A19BAC2DC72DAF8B206103A /* MEAboutMeContent.m */; };
@@ -326,6 +327,7 @@
 		2C5A26B8089CD6D457A3ECABBF57A3A1 /* MEAboutMeContent.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEAboutMeContent.xib; sourceTree = "<group>"; };
 		2CAE0CB0638A86EB990BC597F553E3BE /* MEVideoClassVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVideoClassVM.m; sourceTree = "<group>"; };
 		2CF561EA7BEC20901643738BB5A623E3 /* MultiEducationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiEducationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D231FD24F33B0343313BE6960ADAD7C /* MEContactInfoProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEContactInfoProfile.h; sourceTree = "<group>"; };
 		2E0B82CEEF381F7AF37F4F29C8289989 /* MELoginTextScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELoginTextScene.h; sourceTree = "<group>"; };
 		2E2F17DED7A697EA5CCFFA29DD6797DF /* MEStudentVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEStudentVM.m; sourceTree = "<group>"; };
 		2FAE3E0B1A90316E2D2BC81E1A1E6E82 /* Mecarrier.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mecarrier.pbobjc.m; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
+		60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEContactInfoProfile.m; sourceTree = "<group>"; };
 		60D286E9AD595CBF4D2D56AF0429C8DC /* MEIndexSubClassProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEIndexSubClassProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -1453,6 +1456,8 @@
 		A3CCCF52DDABF831F123B7ED33D6D321 /* chatContact */ = {
 			isa = PBXGroup;
 			children = (
+				2D231FD24F33B0343313BE6960ADAD7C /* MEContactInfoProfile.h */,
+				60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */,
 				D5ED59A971653D8EAFC02864BD2B5619 /* MEContactProfile.h */,
 				F4F644496D42EFCDAEC7F3C5B480AE59 /* MEContactProfile.m */,
 			);
@@ -2168,6 +2173,7 @@
 				F7F3ACE18B69588B3FEE5B51E7FC08EF /* MEClassMemberVM.m in Sources */,
 				A8D07D10E662B7B56C179325BF921677 /* MECollectionProfile.m in Sources */,
 				88BA32F70BA369E0936730FE1E4DE39A /* MEContactCell.m in Sources */,
+				DC62D591BA8311CD9D01554E2E65F435 /* MEContactInfoProfile.m in Sources */,
 				55A16D5798C1A92FB882EB6F4DB41A96 /* MEContactProfile.m in Sources */,
 				7A85DDBCFF22642A9E7099EF7478CA50 /* MEContentHeader.m in Sources */,
 				D603D0874DE565F25136C9C7A32F2993 /* MEContentSubcategory.m in Sources */,
