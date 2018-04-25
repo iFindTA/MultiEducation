@@ -42,6 +42,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, XHImageViewerDelegate> {
     NSInteger _classId;
     NSInteger _parendId;
+    
+    BOOL _isSelectStatus;
 }
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
@@ -51,6 +53,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) UICollectionView *photoView;  //photo
 @property (nonatomic, strong) NSMutableArray <ClassAlbumPb *> *photos;   //photo's dataArr
+@property (nonatomic, strong) NSMutableArray <ClassAlbumPb *> *selectArr;    //is select for delete or move
 
 @property (nonatomic, strong) UICollectionView *timeLineView;   //时间轴
 @property (nonatomic, strong) NSMutableArray *timeLineArr;  //timeline's dataArr
@@ -61,7 +64,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) MESideMenuManager *sideMenuManager;
 
-@property (nonatomic, strong) UIBarButtonItem *deleteItem;
+@property (nonatomic, strong) UIBarButtonItem *rightItem;
 
 @end
 
@@ -112,7 +115,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         case MEUserTouchEventTypeMove: {
             [self movePhotoOrFolder];
         }
-            
             break;
         case MEUserTouchEventTypeDelete: {
             [self deletePhotoOrFolder];
@@ -152,7 +154,16 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)deletePhotoOrFolder {
-    
+    if (_isSelectStatus) {
+        return;
+    }
+    _isSelectStatus = YES;
+    self.rightItem = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStyleDone target: self action: @selector(deleteBarButtonItemTouchEvent)];
+
+    for (ClassAlbumPb *pb in self.photos) {
+        pb.isSelectStatus = _isSelectStatus;
+    }
+    [self.photoView reloadData];
 }
 
 - (void)showNewFolderAlert:(void(^)(UITextField *textField))callback {
@@ -182,9 +193,11 @@ static CGFloat const ITEM_LEADING = 10.f;
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *albumPb in  pb.classAlbumArray) {
             albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
+            albumPb.isSelectStatus = NO;
+            albumPb.isSelect = NO;
             [MEBabyAlbumListVM saveAlbum: albumPb];
+            [self.photos addObject: albumPb];
         }
-        [self.photos addObjectsFromArray: pb.classAlbumArray];
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
     } failure:^(NSError * _Nonnull error) {
@@ -240,9 +253,22 @@ static CGFloat const ITEM_LEADING = 10.f;
     UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
-    _deleteItem = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStyleDone target: self action: @selector(deleteBarButtonItemTouchEvent)];
-    item.rightBarButtonItem = _deleteItem;
+    item.rightBarButtonItem = _rightItem;
     [self.navigationBar pushNavigationItem:item animated:true];
+}
+
+//重写backitem的方法
+- (void)backBarItemTouchEvent {
+    if (_isSelectStatus) {
+        _isSelectStatus = NO;
+        _rightItem = nil;
+        [self.selectArr removeAllObjects];
+        for (ClassAlbumPb *pb in self.photos) {
+            pb.isSelectStatus = _isSelectStatus;
+        }
+    } else {
+        [self.navigationController popViewControllerAnimated: YES];
+    }
 }
 
 - (void)deleteBarButtonItemTouchEvent {
@@ -356,6 +382,17 @@ static CGFloat const ITEM_LEADING = 10.f;
     MEBabyContentPhotoCell *cell;
     if ([collectionView isEqual: self.photoView]) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
+        cell.handler = ^(ClassAlbumPb *pb) {
+            if (pb.isSelect) {
+                if (![self.selectArr containsObject: pb]) {
+                    [self.selectArr addObject: pb];
+                }
+            } else {
+                if ([self.selectArr containsObject: pb]) {
+                    [self.selectArr removeObject: pb];
+                }
+            }
+        };
         [cell setData: [self.photos objectAtIndex: indexPath.row]];
         return cell;
     } else {
@@ -518,6 +555,13 @@ static CGFloat const ITEM_LEADING = 10.f;
         _imageViewer.delegate = self;
     }
     return _imageViewer;
+}
+
+- (NSMutableArray<ClassAlbumPb *> *)selectArr {
+    if (!_selectArr) {
+        _selectArr = [NSMutableArray array];
+    }
+    return _selectArr;
 }
 
 @end

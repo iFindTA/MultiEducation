@@ -9,11 +9,17 @@
 #import "MEBaseCollectionCell.h"
 #import "MebabyAlbum.pbobjc.h"
 
+typedef void(^BabyPhotoSelectHandler)(ClassAlbumPb *pb);
+
 @interface MEBabyContentPhotoCell : MEBaseCollectionCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *photoIcon;
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *floderNameLabel;
+
+@property (weak, nonatomic) IBOutlet MEBaseButton *selectBtn;
+
+@property (nonatomic, copy) BabyPhotoSelectHandler handler;
 
 - (void)setData:(ClassAlbumPb *)pb;
 

@@ -114,6 +114,8 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
   ClassAlbumPb_FieldNumber_FormatterDate = 16,
   ClassAlbumPb_FieldNumber_FileData = 17,
   ClassAlbumPb_FieldNumber_UploadStatu = 18,
+  ClassAlbumPb_FieldNumber_IsSelect = 19,
+  ClassAlbumPb_FieldNumber_IsSelectStatus = 20,
 };
 
 @interface ClassAlbumPb : GPBMessage
@@ -168,6 +170,12 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
 
 /** 上传状态 */
 @property(nonatomic, readwrite) MEUploadStatus uploadStatu;
+
+/**  是否处于选中状态，用于delete情况 */
+@property(nonatomic, readwrite) int32_t isSelect;
+
+/** 是否处于要选择状态 */
+@property(nonatomic, readwrite) int32_t isSelectStatus;
 
 @end
 
