@@ -12,6 +12,6 @@
 
 @interface MEQNUploadVM : MEVM
 
-+ (instancetype)vmWithPb:(ClassAlbumListPb *)qnPb;
++ (instancetype)vmWithPb:(ClassAlbumPb *)qnPb reqCode:(NSString *)reqCode;
 
 @end

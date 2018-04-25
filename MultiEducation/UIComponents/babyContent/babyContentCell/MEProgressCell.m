@@ -41,7 +41,7 @@
         self.statusLabel.text = @"上传成功";
     } else if (pb.uploadStatu == MEUploadStatus_Failure) {
         self.statusLabel.text = @"上传失败";
-    } else if(pb.uploadStatu == MEUploadStatus_IsExist) {
+    } else if(pb.uploadStatu == MEUploadStatus_Uploading) {
         self.statusLabel.text = [NSString stringWithFormat: @"正在上传   %d", pb.upPercent];
     } else {
         self.statusLabel.text = @"已存在";

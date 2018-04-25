@@ -117,7 +117,6 @@ static MEQiniuUtils *qnUtils;
                     } option: self.option];
 }
 
-
 - (void)uploadImages:(NSArray<NSDictionary *> *)images callback:(void (^)(NSArray *, NSArray *))callback {
     weakify(self);
     [self checkWhetherExistInServer: images checkCallback:^(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr) {

@@ -10,28 +10,34 @@
 
 @interface MEQNUploadVM ()
 
-@property (nonatomic, strong) ClassAlbumListPb *qnPb;
+@property (nonatomic, strong) ClassAlbumPb *qnPb;
+@property (nonatomic, strong) NSString *reqCode;
 
 @end
 
 @implementation MEQNUploadVM
 
-+ (instancetype)vmWithPb:(ClassAlbumListPb *)qnPb {
++ (instancetype)vmWithPb:(ClassAlbumPb *)qnPb reqCode:(NSString *)reqCode {
     NSAssert(qnPb != nil, @" could not initialized by nil!");
-    return [[self alloc] initWithPb: qnPb];
+    return [[self alloc] initWithPb: qnPb reqCode:reqCode];
 }
 
 
-- (instancetype)initWithPb:(ClassAlbumListPb *)pb {
+- (instancetype)initWithPb:(ClassAlbumPb *)pb reqCode:(NSString *)reqCode {
     self = [super init];
     if (self) {
         _qnPb = pb;
+        _reqCode = reqCode;
     }
     return self;
 }
 
 - (NSString *)cmdCode {
-    return FSC_CLASS_ALBUM_BATCH_POST;
+    return @"FSC_CLASS_ALBUM_POST";
+}
+
+- (NSString *)reqCode {
+    return _reqCode;
 }
 
 @end

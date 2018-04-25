@@ -22,7 +22,9 @@ static CGFloat const ROW_HEIGHT = 60.f;
 @interface MEPhotoProgressProfile () <UITableViewDelegate, UITableViewDataSource, UploadImagesCallBack> {
     NSMutableArray *_dataArr;
     NSInteger _classId;
+    NSInteger _parentId;
 }
+
 @property (nonatomic, strong) NSMutableArray *albumArr;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MEQiniuUtils *qnUtils;
@@ -36,6 +38,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     if (self) {
         _dataArr = [NSMutableArray arrayWithArray: [params objectForKey: @"datas"]];
         _classId = [[params objectForKey: @"classId"] integerValue];
+        _parentId = [[params objectForKey: @"parentId"] integerValue];
     }
     return self;
 }
@@ -77,11 +80,13 @@ static CGFloat const ROW_HEIGHT = 60.f;
         NSMutableArray <ClassAlbumPb *> *forUploadArr = [NSMutableArray array];
         for (NSDictionary *dict in noExistArr) {
             ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+            pb.classId = _classId;
             pb.md5 = [dict objectForKey: @"md5"];
             pb.filePath = [dict objectForKey: @"filePath"];
             pb.fileName = [dict objectForKey: @"fileName"];
             pb.fileType = [dict objectForKey: @"extension"];
             pb.upPercent = 0;
+            pb.parentId = _parentId;
             pb.isExist = 0;
             pb.uploadStatu = MEUploadStatus_Waiting;
             pb.fileData = [dict objectForKey: @"data"];
@@ -91,8 +96,10 @@ static CGFloat const ROW_HEIGHT = 60.f;
         
         for (NSDictionary *dict in existArr) {
             ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+            pb.classId = _classId;
             pb.md5 = [dict objectForKey: @"md5"];
             pb.filePath = [dict objectForKey: @"filePath"];
+            pb.parentId = _parentId;
             pb.fileName = [dict objectForKey: @"fileName"];
             pb.fileType = [dict objectForKey: @"extension"];
             pb.upPercent = 0;
@@ -103,6 +110,27 @@ static CGFloat const ROW_HEIGHT = 60.f;
         }
         [self.tableView reloadData];
         [self.qnUtils uploadImagesWithUncheck: forUploadArr];
+    }];
+}
+
+- (void)sendUploadResultToServer:(ClassAlbumPb *)albumPb {
+    MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: albumPb reqCode: REQ_CLASS_ALBUM_FILE_UPLOAD];
+    
+    [vm postData: [albumPb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
+       
+        ClassAlbumPb *albumPb = [ClassAlbumPb parseFromData: resObj error: nil];
+        for (ClassAlbumPb *pb in _dataArr) {
+            if ([albumPb.filePath isEqualToString: pb.filePath]) {
+                albumPb.upPercent = 1;
+                albumPb.uploadStatu = MEUploadStatus_Success;
+                albumPb.fileId = pb.fileId;
+                albumPb.fileType = pb.fileType;
+                albumPb.filePath = pb.filePath;
+                [self.tableView reloadData];
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
     }];
 }
 
@@ -150,43 +178,32 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UploadImagesCallBack
 - (void)uploadImageSuccess:(NSString *)key {
-    NSInteger index = 0;
-    for (ClassAlbumPb *pb in _dataArr) {
-        if ([pb.filePath isEqualToString: @"key"]) {
-            pb.upPercent = 1;
-            pb.uploadStatu = MEUploadStatus_Success;
-            [self.tableView reloadRow: index inSection: 0 withRowAnimation: UITableViewRowAnimationNone];
-        }
-        index++;
-    }
+    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+    pb.fileName = key;
+    pb.filePath = key;
+    pb.classId = _classId;
+    pb.parentId = 0;
+    [self sendUploadResultToServer: pb];
 }
 
 - (void)uploadImageFail:(NSString *)key {
-    NSInteger index = 0;
     for (ClassAlbumPb *pb in _dataArr) {
-        if ([pb.filePath isEqualToString: @"key"]) {
+        if ([pb.filePath isEqualToString: key]) {
             pb.upPercent = 0;
             pb.uploadStatu = MEUploadStatus_Failure;
-            [self.tableView reloadRow: index inSection: 0 withRowAnimation: UITableViewRowAnimationNone];
+            [self.tableView reloadData];
         }
-        index++;
     }
 }
 
 - (void)uploadImageProgress:(NSString *)key percent:(float)percent {
-    NSInteger index = 0;
     for (ClassAlbumPb *pb in _dataArr) {
-        if ([pb.filePath isEqualToString: @"key"]) {
+        if ([pb.filePath isEqualToString: key]) {
             pb.upPercent = percent;
             pb.uploadStatu = MEUploadStatus_Uploading;
-            [self.tableView reloadRow: index inSection: 0 withRowAnimation: UITableViewRowAnimationNone];
+            [self.tableView reloadData];
         }
-        index++;
     }
-}
-
-- (void)uploadOver:(NSArray *)keys {
-    
 }
 
 #pragma mark - lazyloading
