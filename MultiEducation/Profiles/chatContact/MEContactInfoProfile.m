@@ -13,6 +13,9 @@
 
 @property (nonatomic, strong) NSDictionary *params;
 
+@property (nonatomic, strong) MEBaseScene *layoutContent;
+@property (nonatomic, strong) UIScrollView *scroller;
+
 @end
 
 @implementation MEContactInfoProfile
@@ -24,6 +27,48 @@
     }
     return self;
 }
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    UIBarButtonItem *spacer = [MEKits barSpacer];
+    UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"详细资料"];
+    item.leftBarButtonItems = @[spacer, backItem];
+    [self.navigationBar pushNavigationItem:item animated:true];
+    
+    [self.view addSubview:self.scroller];
+    NSUInteger offset = ME_HEIGHT_NAVIGATIONBAR+[MEKits statusBarHeight];
+    [self.scroller makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(offset, 0, 0, 0));
+    }];
+    [self.scroller addSubview:self.layoutContent];
+    [self.layoutContent makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.scroller);
+        make.width.equalTo(self.scroller.mas_width);
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    
+    [self rebuildContactMemberInfoSubviews];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark --- lazy loading
 
 - (PBNavigationBar *)initializedNavigationBar {
     if (!self.navigationBar) {
@@ -51,33 +96,21 @@
     return self.navigationBar;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"详细资料"];
-    item.leftBarButtonItems = @[spacer, backItem];
-    [self.navigationBar pushNavigationItem:item animated:true];
+- (UIScrollView *)scroller {
+    if (!_scroller) {
+        _scroller = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        _scroller.showsVerticalScrollIndicator = false;
+        _scroller.showsHorizontalScrollIndicator = false;
+        _scroller.bounces = true;
+    }
+    return _scroller;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    
-    [self rebuildContactMemberInfoSubviews];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (MEBaseScene *)layoutContent {
+    if (!_layoutContent) {
+        _layoutContent = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    }
+    return _layoutContent;
 }
 
 #pragma mark --- rebuild ui
@@ -96,18 +129,18 @@
     if (member) {
         CGFloat sectionHeight = ME_LAYOUT_MARGIN * 2;
         MEBaseScene *scene = [self assembleBlankSectionBackgroundScene4Height:sectionHeight whetherInfo:false];
-        [self.view addSubview:scene];
+        [self.layoutContent addSubview:scene];
         [scene makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.navigationBar.mas_bottom);
-            make.left.right.equalTo(self.view);
+            make.top.equalTo(self.layoutContent);
+            make.left.right.equalTo(self.layoutContent);
             make.height.equalTo(sectionHeight);
         }];
         sectionHeight = ME_HEIGHT_TABBAR + ME_LAYOUT_ICON_HEIGHT;
         MEBaseScene *infoScene = [self assembleBlankSectionBackgroundScene4Height:sectionHeight whetherInfo:true];
-        [self.view addSubview:infoScene];
+        [self.layoutContent addSubview:infoScene];
         [infoScene makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(scene.mas_bottom);
-            make.left.right.equalTo(self.view);
+            make.left.right.equalTo(self.layoutContent);
             make.height.equalTo(sectionHeight);
         }];
         //avatar
@@ -154,10 +187,10 @@
         //分割线
         sectionHeight = ME_LAYOUT_MARGIN * 2;
         scene = [self assembleBlankSectionBackgroundScene4Height:sectionHeight whetherInfo:false];
-        [self.view addSubview:scene];
+        [self.layoutContent addSubview:scene];
         [scene makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(infoScene.mas_bottom);
-            make.left.right.equalTo(self.view);
+            make.left.right.equalTo(self.layoutContent);
             make.height.equalTo(sectionHeight);
         }];
         //资料 学校
@@ -167,10 +200,10 @@
         if (schoolName.length > 0) {
             sectionHeight = ME_LAYOUT_SUBBAR_HEIGHT;
             infoScene = [self assembleBlankSectionBackgroundScene4Height:sectionHeight whetherInfo:true];
-            [self.view addSubview:infoScene];
+            [self.layoutContent addSubview:infoScene];
             [infoScene makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo((lastScene==nil)?scene.mas_bottom:lastScene.mas_bottom);
-                make.left.right.equalTo(self.view);
+                make.left.right.equalTo(self.scroller);
                 make.height.equalTo(sectionHeight);
             }];
             MEBaseLabel *preLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
@@ -200,10 +233,10 @@
         if (className.length > 0) {
             sectionHeight = ME_LAYOUT_SUBBAR_HEIGHT;
             infoScene = [self assembleBlankSectionBackgroundScene4Height:sectionHeight whetherInfo:true];
-            [self.view addSubview:infoScene];
+            [self.layoutContent addSubview:infoScene];
             [infoScene makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo((lastScene==nil)?scene.mas_bottom:lastScene.mas_bottom);
-                make.left.right.equalTo(self.view);
+                make.left.right.equalTo(self.layoutContent);
                 make.height.equalTo(sectionHeight);
             }];
             MEBaseLabel *preLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
@@ -233,10 +266,10 @@
         if (studentName.length > 0) {
             sectionHeight = ME_LAYOUT_SUBBAR_HEIGHT;
             infoScene = [self assembleBlankSectionBackgroundScene4Height:sectionHeight whetherInfo:true];
-            [self.view addSubview:infoScene];
+            [self.layoutContent addSubview:infoScene];
             [infoScene makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo((lastScene==nil)?scene.mas_bottom:lastScene.mas_bottom);
-                make.left.right.equalTo(self.view);
+                make.left.right.equalTo(self.layoutContent);
                 make.height.equalTo(sectionHeight);
             }];
             MEBaseLabel *preLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
@@ -273,12 +306,17 @@
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [btn setTitle:@"发送消息" forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(sendMessageTouchEvent) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:btn];
+        [self.layoutContent addSubview:btn];
         [btn makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo((lastScene==nil)?scene.mas_bottom:lastScene.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
-            make.left.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
-            make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+            make.left.equalTo(self.layoutContent).offset(ME_LAYOUT_BOUNDARY);
+            make.right.equalTo(self.layoutContent).offset(-ME_LAYOUT_BOUNDARY);
             make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
+        }];
+        
+        //set contentSize
+        [self.layoutContent makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(btn.mas_bottom).offset(MESCREEN_HEIGHT*0.5);
         }];
     }
 }

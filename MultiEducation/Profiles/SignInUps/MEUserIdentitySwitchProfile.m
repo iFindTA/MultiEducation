@@ -187,6 +187,7 @@
             [self handleTransitionError:err];
         } else {
             MEPBUser *curUser = userList.userListArray.firstObject;
+            user.signinstamp = [MEKits currentTimeInterval];
             [MEUserVM saveUser:curUser];
             [self.appDelegate updateCurrentSignedInUser:curUser];
             //登录成功之后的操作

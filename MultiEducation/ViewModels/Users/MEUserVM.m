@@ -64,8 +64,9 @@ static NSString * userFile = @"signedin.bat";
         NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
         [userDefault setBool:false forKey:ME_USER_DID_INITIATIVE_LOGOUT];
     }
-    NSTimeInterval timestamp = [[NSDate date] timeIntervalSince1970];
-    user.signinstamp = timestamp;
+    if (user.signinstamp == 0) {
+        user.signinstamp = [MEKits currentTimeInterval];
+    }
     //查询数据库有没有已存在
     NSString *sql = PBFormat(@"uid = %lld", user.uid);
     NSArray <MEPBUser*> *existSet = [WHCSqlite query:MEPBUser.self where:sql];

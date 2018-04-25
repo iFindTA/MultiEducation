@@ -14,7 +14,6 @@
 #import <YYKit.h>
 #import "MebabyAlbum.pbobjc.h"
 #import "MEFileQuryVM.h"
-#import "NSData+UTF8String.h"
 #import "MEBabyAlbumListVM.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";

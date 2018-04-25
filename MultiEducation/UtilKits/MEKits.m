@@ -9,6 +9,7 @@
 #import "MEKits.h"
 #import "ValueEnv.h"
 #import <sys/stat.h>
+#import "MEUserVM.h"
 #import "MECordovaVM.h"
 #import "AppDelegate.h"
 #import "Meuser.pbobjc.h"
@@ -419,6 +420,57 @@
 + (void)handleSuccess:(NSString *)hud {
     if (hud) {
         [SVProgressHUD showSuccessWithStatus:hud];
+    }
+}
+
+#pragma mark --- User Token Refresh
+
+/**
+ app再次进入前台 超过时间间隔需要刷新token 如七牛上传token
+ */
++ (void)refreshUserSessiontoken {
+    if (self.app.curUser) {
+        MEPBUser *user = self.app.curUser;
+        NSTimeInterval signedTimestamp = self.app.curUser.signinstamp;
+        NSTimeInterval currentTimestamp = [self currentTimeInterval];
+        if (fabs(signedTimestamp - currentTimestamp) >= ME_USER_SESSION_TOKEN_REFRESH_INTERVAL) {
+            //需要刷新token
+            NSLog(@"正在刷新用户session-token...");
+            //goto signin
+            MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+            [pb setLoginName:user.username];
+            //apns token
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
+            [pb setAppleToken:token];
+            //device info
+            MEPBPhoneInfo *info = [MEUserVM getDeviceInfo];
+            pb.phoneInfo = info;
+            
+            MEUserVM *vm = [MEUserVM vmWithPB:pb];
+            vm.sessionToken = user.sessionToken;
+            NSData *pbdata = [pb data];
+            weakify(self)
+            [vm postData:pbdata hudEnable:false success:^(NSData * _Nullable resObj) {
+                NSError *err;strongify(self)
+                MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
+                if (err || userList.userListArray.count == 0) {
+                    [self handleError:err];
+                    NSLog(@"刷新用户session-token失败！----%@", err.localizedDescription);
+                } else {
+                    MEPBUser *curUser = userList.userListArray.firstObject;
+                    user.signinstamp = [self currentTimeInterval];
+                    [MEUserVM saveUser:curUser];
+                    [self.app updateCurrentSignedInUser:curUser];
+                    NSLog(@"刷新用户session-token成功！");
+                }
+            } failure:^(NSError * _Nonnull error) {
+                strongify(self)
+                [self handleError:error];
+            }];
+        } else {
+            NSLog(@"无需刷新用户session-token");
+        }
     }
 }
 

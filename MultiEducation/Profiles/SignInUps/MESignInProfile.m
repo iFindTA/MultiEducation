@@ -434,6 +434,7 @@
     if (list.userListArray.count <= 1) {
         //只有一个用户登录
         MEPBUser *user = list.userListArray.firstObject;
+        user.signinstamp = [MEKits currentTimeInterval];
         [MEUserVM saveUser:user];
         [self.appDelegate updateCurrentSignedInUser:user];
         //登录成功之后的操作
@@ -482,6 +483,7 @@
             [self handleTransitionError:err];
         } else {
             MEPBUser *user = userList.userListArray.firstObject;
+            user.signinstamp = [MEKits currentTimeInterval];
             [MEUserVM saveUser:user];
             [self.appDelegate updateCurrentSignedInUser:user];
             //登录成功之后的操作
