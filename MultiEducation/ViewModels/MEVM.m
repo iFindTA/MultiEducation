@@ -9,7 +9,6 @@
 #import "MEVM.h"
 #import "AppDelegate.h"
 #import <sys/utsname.h>
-#import "Meuser.pbobjc.h"
 #import <PBService/PBService.h>
 
 @interface MEVM ()
@@ -26,6 +25,11 @@
 
 + (NSString *)fetchUserToken {
     return nil;
+}
+
++ (MEPBUser *)currentUser {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    return app.curUser;
 }
 
 + (NSData *)assembleRequestWithData:(NSData *)data {

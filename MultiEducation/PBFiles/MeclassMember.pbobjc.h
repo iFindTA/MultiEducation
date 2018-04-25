@@ -59,6 +59,8 @@ typedef GPB_ENUM(MEClassMember_FieldNumber) {
   MEClassMember_FieldNumber_Status = 8,
   MEClassMember_FieldNumber_Timestamp = 9,
   MEClassMember_FieldNumber_StudentName = 10,
+  MEClassMember_FieldNumber_OwnerId = 11,
+  MEClassMember_FieldNumber_IndexAscii = 12,
 };
 
 @interface MEClassMember : GPBMessage
@@ -87,10 +89,17 @@ typedef GPB_ENUM(MEClassMember_FieldNumber) {
 /** 1正常 0期间离开 */
 @property(nonatomic, readwrite) int32_t status;
 
+/** 创建时间戳 拉取列表时取此字段最大值 */
 @property(nonatomic, readwrite) int64_t timestamp;
 
 /** 学生名字 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *studentName;
+
+/** 成员所属用户ID */
+@property(nonatomic, readwrite) int64_t ownerId;
+
+/** 名字首字母 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *indexAscii;
 
 @end
 
