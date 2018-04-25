@@ -10,4 +10,6 @@
 
 @interface MESideHideenMenu : MEBaseScene
 
+- (instancetype)initWithHandler:(void (^)(void))handler;
+
 @end
