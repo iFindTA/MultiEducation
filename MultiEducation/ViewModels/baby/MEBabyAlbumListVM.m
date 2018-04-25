@@ -37,6 +37,8 @@
     if (arr.count == 0) {
         return [WHCSqlite insert: album];
     } else {
+        NSString *value = [NSString stringWithFormat: @"modifiedDate = '%lld'", album.modifiedDate];
+        [WHC_ModelSqlite update: [ClassAlbumPb class] value: value  where: where];
         return NO;
     }
 }

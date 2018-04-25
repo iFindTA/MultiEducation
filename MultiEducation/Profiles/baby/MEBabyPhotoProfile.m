@@ -212,7 +212,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     [MEKits handleUploadPhotos: photos assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
         strongify(self);
         NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId]};
+        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parendId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [self handleTransitionError: error];
     }];
@@ -228,7 +228,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [MEKits handleUploadVideos: @[data] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable videos) {
             strongify(self);
             NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId]};
+            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parendId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [self handleTransitionError: error];
         }];
