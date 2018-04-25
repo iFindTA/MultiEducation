@@ -8,7 +8,7 @@
 #import <XHImageViewer/UIImageView+XHURLDownload.h>
 #import <TZImagePickerController/TZImagePickerController.h>
 
-@interface ValueImg () <XHImageViewerDelegate, TZImagePickerControllerDelegate, UploadImagesCallBack>
+@interface ValueImg () <XHImageViewerDelegate, TZImagePickerControllerDelegate>
 
 @property (nonatomic, strong, nullable) XHImageViewer *imageViewer;
 
@@ -56,12 +56,12 @@
 #pragma mark --- Image Picker Delegate
 
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto infos:(NSArray<NSDictionary *> *)infos {
-    [SVProgressHUD showInfoWithStatus:@"处理中..."];
     weakify(self)
     PBBACK(^{
+        [SVProgressHUD showInfoWithStatus:@"处理中..."];
         [MEKits handleUploadPhotos:photos assets:assets checkDiskCap:false completion:^(NSArray <NSDictionary*>* _Nullable images) {
             strongify(self)
-            [self prepareFileMd54Query:images];
+            [self uploadUserDidChooseAlbums:images];
         }];
     });
 }
@@ -84,49 +84,32 @@
 #pragma mark --- QiNiu Upload && Callbacks
 
 /**
- 预处理文件md5 处理完毕后询问后台服务器
+ 调用上传接口
  */
-- (void)prepareFileMd54Query:(NSArray<NSDictionary*>*)images {
-    if (images) {
-        //拼接mds字符串
-        NSMutableString *md5Strings = [NSMutableString stringWithCapacity:0];
-        for (NSDictionary *map in images) {
-            [md5Strings appendFormat:@"%@,", map[@"md5"]];
+- (void)uploadUserDidChooseAlbums:(NSArray<NSDictionary*>*)images {
+    [SVProgressHUD showInfoWithStatus:@"上传中..."];
+    weakify(self)
+    [[MEQiniuUtils sharedQNUploadUtils] uploadImages:images callback:^(NSArray *succKeys, NSArray *failKeys) {
+        strongify(self)
+        if (failKeys.count > 0) {
+            NSError *err = [NSError errorWithDomain:@"上传失败！" code:-1 userInfo:nil];
+            [self endImagePickerActionWithNoResult:err];
+        } else {
+            NSDictionary *dicResult = @{@"msg" : [self arrayToJsonString:succKeys]};
+            NSLog(@"msg:%@", dicResult[@"msg"]);
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dicResult];
+            [self.commandDelegate sendPluginResult:result callbackId:self.currentCmd.callbackId];
         }
-        NSRange range = NSMakeRange(0, md5Strings.length - 1);
-        NSString *md5String = md5Strings.copy;
-        if (md5Strings.length > 0) {
-            md5String = [md5Strings substringWithRange:range];
-        }
-        [self previewQueryOnlineServerWhetherFilesExist:md5String images:images];
-    } else {
-        [self endImagePickerActionWithNoResult:nil];
-    }
+        
+        [SVProgressHUD dismiss];
+    }];
 }
 
-- (void)previewQueryOnlineServerWhetherFilesExist:(NSString *)md5Files images:(NSArray<NSDictionary*>*)images {
-    if (md5Files.length > 0) {
-        MEFileQuryVM *vm = [[MEFileQuryVM alloc] init];
-        MEPBQNFile *file = [[MEPBQNFile alloc] init];
-        file.fileMd5Str = md5Files;
-        [vm postData:[file data] hudEnable:false success:^(NSData * _Nullable resObj) {
-            
-        } failure:^(NSError * _Nonnull error) {
-            
-        }];
-    }
-}
-
-- (void)uploadUserAvatar:(UIImage *)avatar {
-    
-}
-
-- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
-    
-}
-
-- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
-    
+- (NSString *)arrayToJsonString:(NSArray<NSString *> *)array {
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
 }
 
 @end
