@@ -43,43 +43,84 @@ static MEQiniuUtils *qnUtils;
     return qnUtils;
 }
 
-- (void)uploadImages:(NSArray <NSDictionary *> *)images {
+- (void)uploadImagesWithCheck:(NSArray <NSDictionary *> *)images {
+    weakify(self);
+    [self checkWhetherExistInServer: images checkCallback:^(NSArray<NSDictionary *> *noExistArr, NSArray<NSDictionary *> *existArr) {
+        strongify(self);
+        NSData *data = [[noExistArr objectAtIndex: _index] objectForKey: @"data"];
+        NSString *key = [[noExistArr objectAtIndex: _index] objectForKey: @"filePath"];
+        __block NSInteger imageIndex = _index;
+        weakify(self);
+        [qnUploadManager putData: data key: key token:self.qnToken
+                        complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                strongify(self);
+                if (info.isOK) {
+                    if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
+                        dispatch_async_on_main_queue(^{
+                            [self.delegate uploadImageSuccess: key ];
+                        });
+                    }
+                } else {
+                    if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageFail:)]) {
+                        dispatch_async_on_main_queue(^{
+                            [self.delegate uploadImageFail: key];
+                        });
+                    }
+                }
+                imageIndex++;
+                if (imageIndex >= noExistArr.count) {
+                    _index = 0;
+                    if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
+                        [self.delegate uploadOver];
+                    }
+                    return ;
+                }
+                _index++;
+                [self uploadImagesWithCheck: noExistArr];
+                
+            } option: self.option];
+    }];
+}
+
+- (void)uploadImagesWithUncheck:(NSArray <NSDictionary *> *)images {
     NSData *data = [[images objectAtIndex: _index] objectForKey: @"data"];
     NSString *key = [[images objectAtIndex: _index] objectForKey: @"filePath"];
     __block NSInteger imageIndex = _index;
-    __weak typeof(self) weakSelf = self;
+    weakify(self);
     [qnUploadManager putData: data key: key token:self.qnToken
-                  complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
-                      if (info.isOK) {
-                          if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
-                              dispatch_async_on_main_queue(^{
-                                  [self.delegate uploadImageSuccess: key ];
-                              });
-                          }
-                      } else {
-                          if (weakSelf.delegate && [weakSelf.delegate respondsToSelector: @selector(uploadImageFail:)]) {
-                              dispatch_async_on_main_queue(^{
-                                  [self.delegate uploadImageFail: key];
-                              });
-                          }
-                      }
-                      imageIndex++;
-                      if (imageIndex >= images.count) {
-                          _index = 0;
-                          if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
-                              [self.delegate uploadOver];
-                          }
-                          return ;
-                      }
-                      _index++;
-                      [weakSelf uploadImages:images];
-                      
-                  } option: self.option];
+                    complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                        strongify(self);
+                        if (info.isOK) {
+                            if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
+                                dispatch_async_on_main_queue(^{
+                                    [self.delegate uploadImageSuccess: key ];
+                                });
+                            }
+                        } else {
+                            if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageFail:)]) {
+                                dispatch_async_on_main_queue(^{
+                                    [self.delegate uploadImageFail: key];
+                                });
+                            }
+                        }
+                        imageIndex++;
+                        if (imageIndex >= images.count) {
+                            _index = 0;
+                            if (self.delegate && [self.delegate respondsToSelector: @selector(uploadOver)]) {
+                                [self.delegate uploadOver];
+                            }
+                            return ;
+                        }
+                        _index++;
+                        [self uploadImagesWithUncheck: images];
+                        
+                    } option: self.option];
 }
+
 
 - (void)uploadImages:(NSArray<NSDictionary *> *)images callback:(void (^)(NSArray *, NSArray *))callback {
     weakify(self);
-    [self checkWhereExistInServer: images checkCallback:^(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr) {
+    [self checkWhetherExistInServer: images checkCallback:^(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr) {
         strongify(self);
         NSData *data = [[noExistArr objectAtIndex: _index] objectForKey: @"data"];
         NSString *key = [[noExistArr objectAtIndex: _index] objectForKey: @"filePath"];
@@ -93,7 +134,7 @@ static MEQiniuUtils *qnUtils;
                                 [self.failKeys addObject: key];
                             }
                             imageIndex++;
-                            if (imageIndex >= images.count) {
+                            if (imageIndex >= noExistArr.count) {
                                 callback(self.succKeys, self.failKeys);
                                 _index = 0;
                                 self.succKeys = nil;
@@ -102,13 +143,13 @@ static MEQiniuUtils *qnUtils;
                                 return;
                             }
                             _index++;
-                            [self uploadImages:images callback: callback];
+                            [self uploadImages:noExistArr callback: callback];
                             
                         } option: self.option];
     }];
 }
 
-- (void)checkWhereExistInServer:(NSArray <NSDictionary *> *)images checkCallback:(void(^)(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr))checkCallback {
+- (void)checkWhetherExistInServer:(NSArray <NSDictionary *> *)images checkCallback:(void(^)(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr))checkCallback {
     MEPBQNFile *pb = [[MEPBQNFile alloc] init];
     MEFileQuryVM *fileQuryVM = [MEFileQuryVM vmWithPb: pb];
     
@@ -133,6 +174,38 @@ static MEQiniuUtils *qnUtils;
             index++;
         }
         checkCallback(noExistArray, existArray);
+    } failure:^(NSError * _Nonnull error) {
+        [SVProgressHUD showErrorWithStatus: error.domain];
+    }];
+}
+
+- (void)checkWhetherExistInServer:(NSArray <NSDictionary *> *)images callback:(void (^)(NSDictionary *returnDic))callback {
+    MEPBQNFile *pb = [[MEPBQNFile alloc] init];
+    MEFileQuryVM *fileQuryVM = [MEFileQuryVM vmWithPb: pb];
+    
+    NSMutableString *md5Str = [NSMutableString string];
+    for (NSDictionary *dic in images) {
+        [md5Str appendString: [NSString stringWithFormat: @"%@,", [dic objectForKey: @"md5"]]];
+    }
+    [md5Str deleteCharactersInRange: NSMakeRange(md5Str.length - 1, 1)];
+    pb.fileMd5Str = md5Str;
+    [fileQuryVM postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
+        MEPBQNFile *filePb = [MEPBQNFile parseFromData: resObj error: nil];
+        NSArray *fileIdArr = [filePb.fileIdStr componentsSeparatedByString: @","];
+        NSMutableArray *noExistArray = [NSMutableArray array];
+        NSMutableArray *existArray = [NSMutableArray array];
+        int index = 0;
+        for (NSString *fileId in fileIdArr) {
+            if (fileId.integerValue <= 0) {
+                [noExistArray addObject: [images objectAtIndex: index]];
+            } else {
+                [existArray addObject: [images objectAtIndex: index]];
+            }
+            index++;
+        }
+        
+        NSDictionary *returnDic = @{@"noExist": noExistArray, @"exist": existArray};
+        callback(returnDic);
     } failure:^(NSError * _Nonnull error) {
         [SVProgressHUD showErrorWithStatus: error.domain];
     }];
