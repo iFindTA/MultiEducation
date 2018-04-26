@@ -9,6 +9,8 @@
 #import "MEPlayerControl.h"
 #import <ZFPlayer/UIView+CustomControlView.h>
 
+#define ME_COUNTDOWN_MAX_SECONDS                5
+
 @interface MEPlayerControl ()<ZFPlayerControlViewDelagate>
 
 @property (nonatomic, strong, readwrite) MPVolumeView *volume;
@@ -113,7 +115,7 @@
         [self.nextItemPanel addSubview:closeBtn];
         [closeBtn makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(btn.mas_centerY);
-            make.right.equalTo(self.nextItemPanel).offset(-ME_LAYOUT_BOUNDARY-ME_LAYOUT_MARGIN);
+            make.right.equalTo(self.nextItemPanel).offset(-ME_LAYOUT_MARGIN * 2);
             make.left.equalTo(btn.mas_right).offset(ME_LAYOUT_MARGIN);
             make.height.equalTo(closeBtn.mas_width);
         }];
@@ -256,7 +258,7 @@
 }
 
 - (void)showNextPlayItem:(NSString *)title {
-    NSString * text = [NSString stringWithFormat:@"下一个：%@", title.copy];
+    NSString * text = [NSString stringWithFormat:@"%d秒后自动播放下一个：%@", ME_COUNTDOWN_MAX_SECONDS, title.copy];
     [self.nextItemBtn setTitle:text forState:UIControlStateNormal];
     self.nextItemPanel.hidden = false;
     [self startTimer];
@@ -279,8 +281,6 @@
         self.videoPlayControlCallback(MEVideoPlayUserActionNextItem);
     }
 }
-
-#define ME_COUNTDOWN_MAX_SECONDS                10
 
 - (void)startTimer {
     self.floatValue = 0.f;self.progress.progress = 0.f;

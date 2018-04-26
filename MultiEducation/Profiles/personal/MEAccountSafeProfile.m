@@ -61,6 +61,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (void)logout {
     [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [self.appDelegate updateCurrentSignedInUser:nil];
     [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
 }
 

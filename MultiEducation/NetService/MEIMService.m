@@ -15,7 +15,7 @@
 #import <RongIMKit/RongIMKit.h>
 #import <RongIMLib/RCStatusDefine.h>
 
-@interface MEIMService () <RCIMUserInfoDataSource, RCIMGroupInfoDataSource, RCIMReceiveMessageDelegate>
+@interface MEIMService () <RCIMUserInfoDataSource, RCIMGroupInfoDataSource, RCIMGroupMemberDataSource, RCIMReceiveMessageDelegate>
 
 @end
 
@@ -64,6 +64,7 @@ static MEIMService *instance = nil;
         [[RCIM sharedRCIM] setCurrentUserInfo:[[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait]];
         [[RCIM sharedRCIM] setUserInfoDataSource:self];
         [[RCIM sharedRCIM] setGroupInfoDataSource:self];
+        [[RCIM sharedRCIM] setGroupMemberDataSource:self];
         [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
         //更新未读
         [self.app updateRongIMUnReadMessageCounts];
@@ -135,6 +136,41 @@ static MEIMService *instance = nil;
     }
     if (completion) {
         completion(groupInfo);
+    }
+}
+
+/*!
+ 获取当前群组成员列表的回调（需要实现用户信息提供者 RCIMUserInfoDataSource）
+ 
+ @param groupId     群ID
+ @param resultBlock 获取成功 [userIdList:群成员ID列表]
+ */
+- (void)getAllMembersOfGroup:(NSString *)groupId result:(void (^)(NSArray<NSString *> *userIdList))resultBlock {
+    NSArray <NSString*>*userIDList = nil;
+    NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
+    NSString *groupType = stringArray[0];
+    int64_t session_id = [stringArray[1] longLongValue];
+    if ([groupType isEqualToString:@"CLASS"]) {
+        //先根据session id找到classID
+        NSArray<MECSession*>*clasSessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
+        int64_t class_id = 0;
+        for (MECSession *s in clasSessions) {
+            if (s.id_p == session_id) {
+                class_id = s.classId;
+                break;
+            }
+        }
+        //再根据class ID 获取班级成员
+        NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMembers4ClassID:class_id];
+        NSMutableArray <NSString*>*tmpIds = [NSMutableArray arrayWithCapacity:0];
+        //拼接班级用户
+        for (MEClassMember *m in members) {
+            [tmpIds addObject:PBFormat(@"%lld", m.id_p)];
+        }
+        userIDList = tmpIds.copy;
+    }
+    if (resultBlock) {
+        resultBlock(userIDList);
     }
 }
 
