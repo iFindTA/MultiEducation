@@ -29,7 +29,7 @@
 + (BOOL)saveClassChatSessions:(NSArray<MECSession*>*)sessions;
 
 /**
- 根据session ID 获取所有session
+ 根据session ID 获取所有class session
  */
 + (NSArray<MECSession*>*)fetchClassChatSession4SessionID:(int64_t)sid;
 

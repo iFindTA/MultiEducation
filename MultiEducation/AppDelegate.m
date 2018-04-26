@@ -276,7 +276,8 @@
                 [self startRongIMServivesOnBgThread];
             }
         }];
-        //for RongIM
+    } else {
+        [self stopRongIMService];
     }
 }
 
@@ -302,8 +303,8 @@
         [MEKits UnzipCordovaResources];
         //for rongyun im
         [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
-        [[RCIM sharedRCIM] setEnableMessageMentioned:YES];
-        [[RCIM sharedRCIM] setEnableMessageRecall:YES];
+        [[RCIM sharedRCIM] setEnableMessageMentioned:true];
+        [[RCIM sharedRCIM] setEnableMessageRecall:true];
         // 消息回执
         NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
         [backTypes addObject:@(ConversationType_PRIVATE)];
@@ -320,6 +321,12 @@
 - (void)startRongIMServivesOnBgThread {
     PBBACK(^{
         [[MEIMService shared] startRongIMService];
+    });
+}
+
+- (void)stopRongIMService {
+    PBBACK(^{
+        [[MEIMService shared] stopRongIMService];
     });
 }
 
