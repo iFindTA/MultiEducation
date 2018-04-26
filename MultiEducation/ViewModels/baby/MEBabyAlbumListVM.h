@@ -20,6 +20,13 @@
 + (BOOL)saveAlbum:(ClassAlbumPb *)album;
 
 
+
+/**
+ 删除album
+ */
++ (BOOL)deleteAlbum:(ClassAlbumPb *)album;
+
+
 /**
  获取当前用户所在班级所有照片信息
  */

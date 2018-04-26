@@ -37,9 +37,19 @@
     if (arr.count == 0) {
         return [WHCSqlite insert: album];
     } else {
-        NSString *value = [NSString stringWithFormat: @"modifiedDate = '%lld'", album.modifiedDate];
-        [WHC_ModelSqlite update: [ClassAlbumPb class] value: value  where: where];
-        return NO;
+        [WHC_ModelSqlite delete: arr[0] where: where];
+        return [WHCSqlite insert: album];
+    }
+}
+
++ (BOOL)deleteAlbum:(ClassAlbumPb *)album {
+    NSString *where = [NSString stringWithFormat: @"id_p = %lld", album.id_p];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumListPb class] where: where limit: @"1"];
+    if (arr.count == 0) {
+        return YES;
+    } else {
+        BOOL result = [WHC_ModelSqlite delete: arr[0] where: where];
+        return result;
     }
 }
 

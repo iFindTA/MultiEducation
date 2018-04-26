@@ -24,6 +24,7 @@
 #import <XHImageViewer/UIImageView+XHURLDownload.h>
 #import "MEQNUploadVM.h"
 #import "MEAlbumDeleteVM.h"
+#import "MESelectFolderProfile.h"
 
 
 #define TITLES @[@"照片", @"时间轴"]
@@ -151,7 +152,37 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)movePhotoOrFolder {
+    if (_isSelectStatus) {
+        return;
+    }
+    _isSelectStatus = YES;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"移动到" style: UIBarButtonItemStyleDone target: self action: @selector(moveFolderOrImageToFolderTouchEvent)];
     
+    for (ClassAlbumPb *pb in self.photos) {
+        pb.isSelectStatus = _isSelectStatus;
+    }
+    [self.photoView reloadData];
+}
+
+- (void)moveFolderOrImageToFolderTouchEvent {
+    NSMutableArray *folders = [NSMutableArray array];
+    for (ClassAlbumPb *pb in self.photos) {
+        if (pb.isParent) {
+            [folders addObject: pb];
+        }
+    }
+    
+    NSString *urlStr = @"profile://root@MESelectFolderProfile/";
+    
+    weakify(self);
+    void (^moveSuccessCallback)(void) = ^() {
+        strongify(self);
+        [self loadDataSource];
+    };
+    
+    NSDictionary *params = @{@"albums": self.selectArr, @"folders": folders, ME_DISPATCH_KEY_CALLBACK: moveSuccessCallback};
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+    [self handleTransitionError: error];
 }
 
 - (void)deletePhotoOrFolder {
@@ -177,6 +208,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     weakify(self);
     [albumDelVM postData: [listPb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
+        for (ClassAlbumPb *pb in listPb.classAlbumArray) {
+            [MEBabyAlbumListVM deleteAlbum: pb];
+        }
         [self loadDataSource];
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
@@ -212,11 +246,13 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self.timeLineArr removeAllObjects];
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *albumPb in  pb.classAlbumArray) {
-            albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
-            albumPb.isSelectStatus = NO;
-            albumPb.isSelect = NO;
-            [MEBabyAlbumListVM saveAlbum: albumPb];
-            [self.photos addObject: albumPb];
+            if (albumPb.parentId == _parendId) {
+                albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
+                albumPb.isSelectStatus = NO;
+                albumPb.isSelect = NO;
+                [MEBabyAlbumListVM saveAlbum: albumPb];
+                [self.photos addObject: albumPb];
+            }
         }
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
