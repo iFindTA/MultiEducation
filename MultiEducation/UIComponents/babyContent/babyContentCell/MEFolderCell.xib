@@ -35,7 +35,7 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
                                 <real key="value" value="15"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="folderName"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="folder_Name"/>
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>

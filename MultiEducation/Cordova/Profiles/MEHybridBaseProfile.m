@@ -212,7 +212,7 @@
     }
     title = PBAvailableString(title);
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *more = [MEKits barWithTitle:title color:[UIColor whiteColor] target:self eventSelector:@selector(cordovaNavigationMoreEvent)];
+    UIBarButtonItem *more = [MEKits barWithTitle:title color:[UIColor whiteColor] target:self action:@selector(cordovaNavigationMoreEvent)];
     [items enumerateObjectsUsingBlock:^(UINavigationItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.rightBarButtonItems = @[more, spacer];
     }];

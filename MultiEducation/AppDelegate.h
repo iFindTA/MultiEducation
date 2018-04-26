@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  更新当前登录用户
  */
-- (void)updateCurrentSignedInUser:(MEPBUser *)usr;
+- (void)updateCurrentSignedInUser:(MEPBUser * _Nullable)usr;
 
 /**
  初始化融云

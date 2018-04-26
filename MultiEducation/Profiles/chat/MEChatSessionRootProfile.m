@@ -33,7 +33,7 @@
     }];
     
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *cotactItem = [MEKits barWithTitle:@"通讯录" color:[UIColor whiteColor] target:self eventSelector:@selector(userDidTouchContactTouchEvent)];
+    UIBarButtonItem *cotactItem = [MEKits barWithTitle:@"通讯录" color:[UIColor whiteColor] target:self action:@selector(userDidTouchContactTouchEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"聊天"];
     item.rightBarButtonItems = @[spacer, cotactItem];
     [self.navigationBar pushNavigationItem:item animated:true];

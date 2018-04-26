@@ -306,7 +306,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (void)customNavigation {
     NSString *title = @"宝宝相册";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2" withTarget: self withSelector: @selector(backBarItemTouchEvent)];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self action:@selector(backBarItemTouchEvent)];
     self.navigationItem = [[UINavigationItem alloc] initWithTitle:title];
     self.navigationItem.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:self.navigationItem animated:true];

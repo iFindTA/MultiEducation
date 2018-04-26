@@ -86,12 +86,12 @@
     //UIImage *moreImage = [UIImage imageNamed:@"chat_contact_add"];
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"班级通讯录"];
     item.leftBarButtonItems = @[spacer, backItem];
     BOOL whetherMultiClasses = [MEKits whetherCurrentUserHaveMulticastClasses];
     if (whetherMultiClasses) {
-        UIBarButtonItem *moreItem = [MEKits barWithIconUnicode:@"\U0000e6dc" color:backColor target:self eventSelector:@selector(exchangeClassTouchEvent)];
+        UIBarButtonItem *moreItem = [MEKits barWithUnicode:@"\U000036dc" title:nil color:backColor target:self action:@selector(exchangeClassTouchEvent)];
         item.rightBarButtonItems = @[spacer, moreItem];
     }
     [self.navigationBar pushNavigationItem:item animated:true];

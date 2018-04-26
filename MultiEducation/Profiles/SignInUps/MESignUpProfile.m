@@ -254,6 +254,7 @@
     }];
     MEBaseLabel *protocolLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     protocolLabel.numberOfLines = 2;
+    protocolLabel.lineBreakMode = NSLineBreakByCharWrapping;
     protocolLabel.font = UIFontPingFangSCBold(METHEME_FONT_SUBTITLE-2);
     [protocolLabel setAttributedText:text];
     
@@ -261,7 +262,7 @@
     [protocolLabel makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(btn);
         make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY * 0.5);
-        make.height.equalTo(ME_HEIGHT_STATUSBAR);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
     }];
     //exchange to sign-in
     font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);

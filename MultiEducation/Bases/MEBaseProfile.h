@@ -46,15 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)clearBadgeAtIndex:(NSUInteger)idx;
 
 /**
- generate barbuttonitem with iconfont
-
- @param code back icon code
- @param color back icon color
- @return bar item
- */
-- (UIBarButtonItem *)backBarButtonItemWithIconUnicode:(NSString * _Nullable)code color:(UIColor *)color;
-
-/**
  goback stack before some class
 
  @param aClass dest class

@@ -10,7 +10,7 @@
 #import "MebabyAlbum.pbobjc.h"
 
 @interface MEFolderCell : MEBaseCell
-
+ 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *folderNameLab;
 
 - (void)setData:(ClassAlbumPb *)pb;

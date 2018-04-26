@@ -11,7 +11,7 @@
 
 
 @interface MEFolderPatchVM : MEVM
-
+ 
 + (instancetype)vmWithPb:(ClassAlbumListPb *)pb;
 
 @end

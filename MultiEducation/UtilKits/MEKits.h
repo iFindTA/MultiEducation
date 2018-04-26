@@ -88,9 +88,12 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark --- UINavigationBar Items
 
 + (UIBarButtonItem *)barSpacer;
-+ (UIBarButtonItem *)backBarWithColor:(UIColor *)color target:(nullable id)target withSelector:(nullable SEL)selector;
-+ (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color target:(nullable id)target eventSelector:(nullable SEL)selector;
-+ (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color target:(nullable id)target eventSelector:(nullable SEL)selector ;
++ (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target;
++ (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target action:(SEL _Nullable)selector;
++ (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target color:(UIColor *_Nullable)color;
++ (UIBarButtonItem *)barWithUnicode:(NSString *)iconCode color:(UIColor * _Nullable)color target:(nullable id)target action:(nullable SEL)selector;
++ (UIBarButtonItem *)barWithUnicode:(NSString *)iconCode title:(NSString*_Nullable)title color:(UIColor * _Nullable)color target:(nullable id)target action:(nullable SEL)selector;
++ (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor * _Nullable)color target:(nullable id)target action:(nullable SEL)selector;
 + (UIBarButtonItem *)barWithImage:(UIImage *)image target:(id)target eventSelector:(SEL)selector;
 
 #pragma mark --- handle hud message

@@ -45,7 +45,7 @@
     }];
     
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *back = [MEKits barWithIconUnicode:@"\U0000e6e2" color:[UIColor whiteColor] target:self eventSelector:@selector(defaultGoBackStack)];
+    UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:self.title];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];

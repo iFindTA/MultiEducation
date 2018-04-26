@@ -37,12 +37,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setupMaxium];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self setupMaxium];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,9 +88,7 @@
     if (index >= mCounts) {
         return;
     }
-    //NSString *badgeValue = PBFormat(@"%d", num);
     UITabBarItem *barItem = items[index];
-    //barItem.badgeValue = (num==0)?@"":badgeValue;
     [barItem showBadgeWithStyle:style value:num animationType:WBadgeAnimTypeNone];
 }
 

@@ -49,7 +49,7 @@ PODS:
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
   - "NSURL+QueryDictionary (1.2.0)"
-  - PBBaseClasses (1.7.5):
+  - PBBaseClasses (1.7.6):
     - Masonry
     - PBKits
     - PBMediator
@@ -89,7 +89,7 @@ PODS:
   - SDWebImage (4.3.3):
     - SDWebImage/Core (= 4.3.3)
   - SDWebImage/Core (4.3.3)
-  - SJFullscreenPopGesture (1.4.0.2)
+  - SJFullscreenPopGesture (1.4.0.4)
   - SQLCipher (3.4.2):
     - SQLCipher/standard (= 3.4.2)
   - SQLCipher/common (3.4.2)
@@ -128,7 +128,7 @@ DEPENDENCIES:
   - MJRefresh (~> 3.1.15.3)
   - NJKWebViewProgress (~> 0.2.3)
   - "NSURL+QueryDictionary (~> 1.2.0)"
-  - PBBaseClasses (~> 1.7.5)
+  - PBBaseClasses (~> 1.7.6)
   - PBKits (~> 1.2.2)
   - PBService (~> 4.3.0)
   - Protobuf (~> 3.5.0)
@@ -208,7 +208,7 @@ SPEC CHECKSUMS:
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   "NSURL+QueryDictionary": bae616404e2adf6409d3d5c02a093cbf44c8a236
-  PBBaseClasses: 3861d000fabfed2b867a80faaecc0a4480712dac
+  PBBaseClasses: 3f8e47f0a58c183f922b4382c5897162a67a1d44
   PBKits: f0c06a07a3d65bd872e9e059301c3916cf5f71c7
   PBMediator: b9a87dd91276156805c7a12ba3bd45150142c4e8
   PBService: 5acd2dfae90bdedc459b3610a315c90fe06d454a
@@ -217,7 +217,7 @@ SPEC CHECKSUMS:
   RongCloudIM: ccf8cde8c7938f8a3ae464533413defed7b926bd
   SCLAlertView-Objective-C: 917836fb2349afa58edc43d592d22d21d46bb2a4
   SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
-  SJFullscreenPopGesture: eabbbe43df7b717b43753a462c66b46942634469
+  SJFullscreenPopGesture: b0a00e8d72811f8e0ea7b0a60e514ea9082ae2d2
   SQLCipher: f9fcf29b2e59ced7defc2a2bdd0ebe79b40d4990
   SSZipArchive: d4009d2ce5520a421f231fd97028cc0e2667eed8
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
@@ -233,6 +233,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: 6cabb8f55f7541d53343608abe31e34ce5767c10
+PODFILE CHECKSUM: fbdbac8629ee6372d65ae69730acaf9220dafe26
 
 COCOAPODS: 1.5.0

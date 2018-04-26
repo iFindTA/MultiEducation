@@ -94,45 +94,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIBarButtonItem *)barSpacer;
 
 /**
- generate navigationBar back item
- 
- @param backTitle title for item
- @param img : title image of unicode, default is \U0000e6e2
- @return : bar item
- */
-- (UIBarButtonItem *)backBarButtonItem:(NSString * _Nullable)backTitle withIconUnicode:(NSString * _Nullable)img;
-
-/**
- generate navigationBar back item
- 
- @param backTitle title for item
- @param img unicode for img
- @param target for callee
- @param selector for callee
- @return bar item
- */
-- (UIBarButtonItem *)backBarButtonItem:(NSString * _Nullable)backTitle withIconUnicode:(NSString * _Nullable)img withTarget:(nullable id)target withSelector:(nullable SEL)selector;
-
-/**
- generate navigationBar normal item
- 
- @param iconCode code for item
- @param target for callee
- @param selector for callee
- @return bar item
- */
-- (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode withTarget:(nullable id)target withSelector:(nullable SEL)selector;
-
-/**
- generate navigationBar normal item
-
- @param backTitle for item
- @param img for item
- @return bar item
- */
-- (UIBarButtonItem *)backBarButtonItem:(NSString * _Nullable)backTitle iconImage:(UIImage * _Nullable)img;
-
-/**
  default pop stack or dismiss event
  */
 - (void)defaultGoBackStack;

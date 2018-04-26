@@ -45,6 +45,8 @@
     NSString *sandboxPath = NSHomeDirectory();
     NSLog(@"sandbox path for debug:%@", sandboxPath);
 #endif
+    //configure for base host
+    [PBService configBaseURL:ME_APP_BASE_HOST];
     //create user
     //init root navigation profile
     //BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
@@ -291,7 +293,6 @@
         //for input
         [IQKeyboardManager sharedManager].enable = true;
         //for chinese-policy
-        [PBService configBaseURL:ME_APP_BASE_HOST];
         [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
             
         }];
@@ -319,15 +320,11 @@
  初始化融云
  */
 - (void)startRongIMServivesOnBgThread {
-    PBBACK(^{
-        [[MEIMService shared] startRongIMService];
-    });
+    [[MEIMService shared] startRongIMService];
 }
 
 - (void)stopRongIMService {
-    PBBACK(^{
-        [[MEIMService shared] stopRongIMService];
-    });
+    [[MEIMService shared] stopRongIMService];
 }
 
 - (void)updateRongIMUnReadMessageCounts {

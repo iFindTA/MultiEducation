@@ -19,7 +19,7 @@
 + (instancetype)vmWithPb:(ClassAlbumListPb *)babyAlbumListPb {
     return [[self alloc] initWithPb: babyAlbumListPb];
 }
-
+ 
 - (instancetype)initWithPb:(ClassAlbumListPb *)pb {
     self = [super init];
     if (self) {
