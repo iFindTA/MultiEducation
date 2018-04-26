@@ -136,6 +136,9 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
 
 - (void)updateNetworkState:(AFNetworkReachabilityStatus)status {
     PBNetState aState = 1 << (status + 1);
+    if (self.networkStateCallback) {
+        self.networkStateCallback(aState);
+    }
     //NSLog(@"network state:%zd", aState);
     //check network balance when net state become avaliable from unavaliable
     if ((status &(PBNetStateViaWWAN|PBNetStateViaWiFi))

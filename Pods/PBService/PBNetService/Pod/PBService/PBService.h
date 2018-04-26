@@ -27,6 +27,11 @@ typedef NS_ENUM(NSUInteger, PBNetState) {
  */
 @property (nonatomic, assign, readonly) PBNetState netState;
 
+/**
+  observe network state
+ */
+@property (nonatomic, copy) void(^networkStateCallback)(PBNetState state);
+
 + (void)configBaseURL:(NSString *)url;
 
 /**

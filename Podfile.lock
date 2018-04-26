@@ -59,7 +59,7 @@ PODS:
     - YYKit
   - PBKits (1.2.2)
   - PBMediator (0.2.0)
-  - PBService (4.3.0):
+  - PBService (4.3.1):
     - AFNetworking
     - PBKits
     - SVProgressHUD
@@ -130,7 +130,7 @@ DEPENDENCIES:
   - "NSURL+QueryDictionary (~> 1.2.0)"
   - PBBaseClasses (~> 1.7.6)
   - PBKits (~> 1.2.2)
-  - PBService (~> 4.3.0)
+  - PBService (~> 4.3.1)
   - Protobuf (~> 3.5.0)
   - Qiniu (~> 7.2.3)
   - RongCloudIM (~> 2.8.30)
@@ -211,7 +211,7 @@ SPEC CHECKSUMS:
   PBBaseClasses: 3f8e47f0a58c183f922b4382c5897162a67a1d44
   PBKits: f0c06a07a3d65bd872e9e059301c3916cf5f71c7
   PBMediator: b9a87dd91276156805c7a12ba3bd45150142c4e8
-  PBService: 5acd2dfae90bdedc459b3610a315c90fe06d454a
+  PBService: 018184528eb975d0407dacc71df55e8b570201c1
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   Qiniu: ae0fea1cc379fae1560d8748ac537e0fbeb8626e
   RongCloudIM: ccf8cde8c7938f8a3ae464533413defed7b926bd
@@ -233,6 +233,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: fbdbac8629ee6372d65ae69730acaf9220dafe26
+PODFILE CHECKSUM: 9f904e1936dc7ce61f9809d491c34ef415df80af
 
 COCOAPODS: 1.5.0

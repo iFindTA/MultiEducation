@@ -296,6 +296,13 @@
         [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
             
         }];
+        weakify(self)
+        [PBService shared].networkStateCallback = ^(PBNetState state){
+            if (state & (PBNetStateViaWiFi|PBNetStateViaWWAN)) {
+                strongify(self)
+                [self startRongIMServivesOnBgThread];
+            }
+        };
         //for umeng
         UMConfigInstance.appKey = ME_UMENG_APPKEY;
         [MobClick startWithConfigure:UMConfigInstance];
