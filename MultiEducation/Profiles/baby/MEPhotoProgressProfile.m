@@ -46,7 +46,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (void)customNavigation {
     NSString *title = @"上传进度";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];

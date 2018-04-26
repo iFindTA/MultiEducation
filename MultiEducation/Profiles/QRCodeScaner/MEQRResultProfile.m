@@ -58,7 +58,7 @@
     
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *backItem = [MEKits backBarWithColor:backColor target:self withSelector:@selector(defaultGoBackStack)];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self color:backColor];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"扫描结果"];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];

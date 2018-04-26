@@ -48,7 +48,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
 - (void)customNavigation {
     NSString *title = @"账户安全";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];

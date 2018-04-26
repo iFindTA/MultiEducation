@@ -28,7 +28,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: @"选择班级"];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];

@@ -37,7 +37,7 @@
     
     title = @"编辑昵称";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
     item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"修改" style: UIBarButtonItemStyleDone target: self action: @selector(editTouchEvent)];

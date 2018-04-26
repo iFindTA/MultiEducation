@@ -2093,6 +2093,8 @@
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/Contents.json",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/pb_navigationBar_back.imageset",
 				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/balanceMap.json",
 				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer",
 				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer",
@@ -2130,6 +2132,8 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Contents.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/pb_navigationBar_back.imageset",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/balanceMap.json",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_dev.cer",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_test.cer",
@@ -2512,7 +2516,7 @@
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2592,7 +2596,7 @@
 				DEVELOPMENT_TEAM = 68CP7SZ6EP;
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREFIX_HEADER = "$SRCROOT/MultiEducation/MEPrefix.pch";
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

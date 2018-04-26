@@ -332,24 +332,35 @@
     return barSpacer;
 }
 
-+ (UIBarButtonItem *)backBarWithColor:(UIColor *)color target:(id)target withSelector:(SEL)selector{
-    return [self barWithIconUnicode:@"\U0000e6e2" color:color withTarget:target withSelector:selector];
++ (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target {
+    return [self defaultGoBackBarButtonItemWithTarget:target color:[UIColor whiteColor]];
 }
 
-+ (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color target:(id)target eventSelector:(nullable SEL)selector {
-    return [self barWithIconUnicode:iconCode color:color withTarget:target withSelector:selector];
++ (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target action:(SEL _Nullable)selector {
+    return [self barWithUnicode:@"\U0000e6e3" color:[UIColor whiteColor] target:target action:selector];
 }
 
-+ (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode color:(UIColor *)color withTarget:(nullable id)target withSelector:(nullable SEL)selector {
++ (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target color:(UIColor *_Nullable)color {
+    return [self barWithUnicode:@"\U0000e6e2" color:color target:nil action:NSSelectorFromString(@"defaultGoBackStack")];
+}
+
++ (UIBarButtonItem *)barWithUnicode:(NSString *)iconCode color:(UIColor * _Nullable)color target:(nullable id)target action:(nullable SEL)selector {
+    return [self barWithUnicode:iconCode title:nil color:color target:target action:selector];
+}
+
++ (UIBarButtonItem *)barWithUnicode:(NSString *)iconCode title:(NSString*_Nullable)title color:(UIColor * _Nullable)color target:(nullable id)target action:(nullable SEL)selector {
     CGFloat itemSize = 28;
     CGFloat fontSize = METHEME_FONT_TITLE * 1.5;
     NSString *fontName = @"iconfont";
     UIFont *font = [UIFont fontWithName:fontName size:fontSize];
+    title = PBAvailableString(title);
+    title = PBFormat(@"%@ %@", iconCode, title);
+    CGSize titleSize = [title pb_sizeThatFitsWithFont:font width:PBSCREEN_WIDTH];
     UIColor *fontColor = (color == nil)?[UIColor whiteColor]:color;
-    //    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
+    CGFloat spacing = 2.f; // the amount of spacing to appear between image and title
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     //btn.backgroundColor = [UIColor pb_randomColor];
-    btn.frame = CGRectMake(0, 0, itemSize, itemSize);
+    btn.frame = CGRectMake(0, 0, titleSize.width + spacing, itemSize);
     btn.exclusiveTouch = true;
     btn.titleLabel.font = font;
     //    btn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, spacing);
@@ -363,7 +374,7 @@
     return barItem;
 }
 
-+ (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor *)color target:(id)target eventSelector:(SEL)selector {
++ (UIBarButtonItem *)barWithTitle:(NSString *)title color:(UIColor * _Nullable)color target:(nullable id)target action:(nullable SEL)selector  {
     CGFloat itemSize = 28;
     CGFloat fontSize = METHEME_FONT_TITLE;
     UIFont *font = UIFontPingFangSC(fontSize);

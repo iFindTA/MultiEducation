@@ -28,7 +28,7 @@
 - (void)customNavigation {
     NSString *title = @"二维码分享";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];

@@ -22,7 +22,7 @@
 - (void)customNavigation {
     NSString *title = @"移动到";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:title];
     navigationItem.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem: navigationItem animated:true];

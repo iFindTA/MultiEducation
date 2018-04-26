@@ -94,7 +94,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     // Do any additional setup after loading the view.
     
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *back = [self backBarButtonItemWithIconUnicode:@"\U0000e6e2" color:pbColorMake(ME_THEME_COLOR_TEXT)];
+    UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self color:pbColorMake(ME_THEME_COLOR_TEXT)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"直播课堂"];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];

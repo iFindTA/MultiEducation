@@ -20,7 +20,7 @@
     
     //left
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backBarItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e600"];
+    UIBarButtonItem *backBarItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *title = [[UINavigationItem alloc] initWithTitle:@"404"];
     title.leftBarButtonItems = @[spacer, backBarItem];
     [self.navigationBar pushNavigationItem:title animated:true];
