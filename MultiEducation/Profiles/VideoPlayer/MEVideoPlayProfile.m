@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "VKMsgSend.h"
 #import "MEActivity.h"
 #import "MEWatchItem.h"
 #import "MEResFavorVM.h"
@@ -592,34 +593,35 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     } else if (action & MEVideoPlayUserActionLike) {
         //收藏callback
         //MEPBUserRole role = self.currentUser.userType;
-        weakify(self)
+        weakify(self)//资源原来收藏状态
+        BOOL initFavorState = self.currentRes.isFavor;
+        MEPBRes *res = [[MEPBRes alloc] init];
+        [res setType:self.currentRes.type];
+        [res setResId:self.currentRes.resId];
         void(^likeCallback)(void) = ^(){
             strongify(self)
-            //资源原来收藏状态
-            BOOL initFavorState = self.currentRes.isFavor;
-            MEPBRes *res = [[MEPBRes alloc] init];
-            [res setType:self.currentRes.type];
-            [res setResId:self.currentRes.resId];
             MEResFavorVM *vm = [[MEResFavorVM alloc] init];
             weakify(self)
             [vm postData:[res data] hudEnable:true success:^(NSData * _Nullable resObj) {
                 strongify(self)
-                [self showSuccessHUD:initFavorState?@"取消收藏成功！":@"收藏成功！"];
+                [SVProgressHUD showSuccessWithStatus:initFavorState?@"取消收藏成功！":@"收藏成功！"];
                 //update ui
-                self.currentRes.isFavor = !initFavorState;
-                [self.playerControl updateUserLikeItemState:!initFavorState];
+                if (self) {//登录之后如果释放对象 则不再执行以下逻辑
+                    self.currentRes.isFavor = !initFavorState;
+                    [self.playerControl updateUserLikeItemState:!initFavorState];
+                }
             } failure:^(NSError * _Nonnull error) {
                 strongify(self)
                 [self handleTransitionError:error];
             }];
+            
         };
         if (self.currentUser.isTourist) {
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
             [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
-            [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
-            [params setObject:[NSNumber numberWithBool:true] forKey:@""];
-            NSURL *signInUrl = [MEDispatcher profileUrlWithClass:@"MESignInProfile" initMethod:nil params:params.copy instanceType:MEProfileTypeCODE];
-            NSError *err = [MEDispatcher openURL:signInUrl withParams:params];
+            [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
+            NSString *routeUrlString = @"profile://root@MESignInProfile/__initWithParams:";
+            NSError *err = [MEDispatcher openURL:[NSURL URLWithString:routeUrlString] withParams:params];
             [self handleTransitionError:err];
             return;
         } else {

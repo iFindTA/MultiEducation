@@ -24,9 +24,7 @@
     [super viewDidLoad];
     
     [self.navigationController setNavigationBarHidden:true animated:true];
-    
-//    UIColor *themeColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
-//    self.view.backgroundColor = themeColor;
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 - (PBNavigationBar *)initializedNavigationBar {

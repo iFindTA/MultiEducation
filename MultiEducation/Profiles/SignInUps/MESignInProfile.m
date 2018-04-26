@@ -269,8 +269,8 @@
     }];
     //游客模式
     BOOL showVisitorMode = true;
-    if ([[self.params allKeys] containsObject:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC]) {
-        showVisitorMode = [self.params pb_boolForKey:ME_SIGNIN_DIDNOT_SHOW_VISITOR_FUNC];
+    if ([[self.params allKeys] containsObject:ME_SIGNIN_DID_SHOW_VISITOR_FUNC]) {
+        showVisitorMode = [self.params pb_boolForKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
     }
     if (showVisitorMode) {
         font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);

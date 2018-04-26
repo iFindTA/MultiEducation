@@ -165,9 +165,9 @@ static NSMutableDictionary *cachedTarget;
             
             if (clsString && initMethod) {
                 NSError *error = nil;
-                //id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams.copy];
-                id aDester = [self performTarget:clsString action:initMethod params:params shouldCacheTarget:false];
-                //id aDester = [clsString VKCallClassAllocInitSelectorName:initMethod error:&error, passParams, nil];
+                id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams];
+                //id aDester = [self performTarget:clsString action:initMethod params:params shouldCacheTarget:false];
+                //id aDester = [clsString VKCallClassAllocInitSelectorName:initMethod error:&error, passParams];
                 if (!error && aDester != nil) {
                     if ([aDester isKindOfClass:[UIViewController class]]) {
                         profile = (UIViewController *)aDester;
@@ -207,82 +207,6 @@ error_occour:{
 }
     
     return nil;
-}
-
-+ (NSError *)openURL:(NSURL *)url withCallback:(void (^)())block {
-    NSError *err = nil;
-    if (url.absoluteString.length == 0) {
-        err = [self errorWirhInfo:@"url route params error!"];
-        return err;
-    }
-    //pre deal with params
-    /**
-     * profile://(alert:// or do://)root(cur代表当前显示的profile)@className/initMethod,?p=v&p=v#code(xib/sb)
-     */
-    //parser url
-    NSString *scheme = [url scheme];
-    if ([scheme isEqualToString:@"profile"]) {
-        //呈现新的页面
-        
-        //step1 解析class
-        NSString *clsString = [url host];
-        if (clsString.length == 0) {
-            err = [self errorWirhInfo:@"url route host error!"];
-            goto error_occour;
-        }
-        
-        //step3 查询创建方式 code/xib/sb 默认code 创建实例
-        NSString *createType = [url fragment];
-        UIViewController *profile = nil;
-        if ([createType isEqualToString:@"xib"]) {
-            
-        } else if ([createType isEqualToString:@"sb"]) {
-            
-        } else {
-            // 代码创建实例
-            NSString *queryMethod = [self fetchInitializedMethod4Class:NSClassFromString(clsString)];
-            if (clsString && queryMethod) {
-                NSError *error = nil;
-                //id aDester = [clsString pb_generateInstanceByInitMethod:initMethod withError:&error,passParams.copy];
-                //id aDester = [self performTarget:clsString action:initMethod params:params shouldCacheTarget:false];
-                id aDester = [clsString VKCallClassAllocInitSelectorName:queryMethod error:&error, block];
-                if (!error && aDester != nil) {
-                    if ([aDester isKindOfClass:[UIViewController class]]) {
-                        profile = (UIViewController *)aDester;
-                    }
-                }else{
-                    NSLog(@"error:%@",error.localizedDescription);
-                    err = [self errorWirhInfo:@"url route params error!"];
-                    goto error_occour;
-                }
-            }
-        }
-        if (!profile) {
-            profile = [self generateNotFoundProfile];
-        }
-        //step4 display
-        NSString *root = [url user];
-        UIViewController *startTarget = [self fetchStartNavigationProfile4Type:root];
-        Class naviClass = [UINavigationController class];
-        if ([startTarget isKindOfClass:naviClass] || [startTarget isMemberOfClass:naviClass]) {
-            UINavigationController *naviTarget = (UINavigationController *)startTarget;
-            [naviTarget pushViewController:profile animated:true];
-        } else if (startTarget.navigationController) {
-            [startTarget.navigationController pushViewController:profile animated:true];
-        } else {
-            [startTarget presentViewController:profile animated:true completion:nil];
-        }
-    } else if ([scheme isEqualToString:@"alert"]) {
-        //弹框
-    } else if ([scheme isEqualToString:@"do"]) {
-        //静默做一些事情
-    } else {
-        //TODO:上报error
-    }
-    
-error_occour:{
-    return err;
-}
 }
 
 #pragma mark --- Util Kit Methods

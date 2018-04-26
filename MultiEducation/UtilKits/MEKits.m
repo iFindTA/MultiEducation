@@ -134,11 +134,13 @@
  准备Cordova环境变量
  */
 + (void)configureCordovaEnv {
-    [ValueEnv setKey:@"env" value:ME_APP_ENV];
-    [ValueEnv setKey:@"webServer" value:ME_DEFAULT_HTTP_SERVER_URL];
-    NSString *sessionToken = self.app.curUser.sessionToken;
-    [ValueEnv setKey:@"sessionToken" value:sessionToken];
-    NSLog(@"configure Cordova Env done.");
+    PBMAIN(^{
+        [ValueEnv setKey:@"env" value:ME_APP_ENV];
+        [ValueEnv setKey:@"webServer" value:ME_DEFAULT_HTTP_SERVER_URL];
+        NSString *sessionToken = self.app.curUser.sessionToken;
+        [ValueEnv setKey:@"sessionToken" value:sessionToken];
+        NSLog(@"configure Cordova Env done.");
+    });
 }
 /**
  Cordova bundle 路径
