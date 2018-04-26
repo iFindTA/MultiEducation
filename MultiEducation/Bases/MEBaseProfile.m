@@ -6,6 +6,7 @@
 #import "MEUserVM.h"
 #import <objc/message.h>
 #import "MEBaseProfile.h"
+#import "MEBaseTabBarProfile.h"
 #import "PBBaseTabBarProfile+Hidden.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -68,13 +69,13 @@
     return delegate;
 }
 
-- (PBBaseTabBarProfile *)rootTabBar {
+- (MEBaseTabBarProfile *)rootTabBar {
     AppDelegate *delegate = [self appDelegate];
     SEL aSel = NSSelectorFromString(@"winRootTabProfile");
     if (delegate && [delegate respondsToSelector:aSel]) {
         //FLKBaseTabBarController *tabBarCtr = [delegate rootTabBar];
-        PBBaseTabBarProfile* (*msgSend)(id, SEL) = (PBBaseTabBarProfile* (*)(id, SEL))objc_msgSend;
-        PBBaseTabBarProfile *tabBarCtr = msgSend(delegate, aSel);
+        MEBaseTabBarProfile* (*msgSend)(id, SEL) = (MEBaseTabBarProfile* (*)(id, SEL))objc_msgSend;
+        MEBaseTabBarProfile *tabBarCtr = msgSend(delegate, aSel);
         return tabBarCtr;
     }
     return nil;
@@ -87,12 +88,12 @@
 }
 
 - (void)hideTabBar:(BOOL)hidden animated:(BOOL)animated {
-    PBBaseTabBarProfile *tabBarCtr = [self rootTabBar];
+    MEBaseTabBarProfile *tabBarCtr = [self rootTabBar];
     [tabBarCtr setTabBarHidden:hidden animated:animated delaysContentResizing:true completion:nil];
 }
 
 - (void)setBadgeValue:(NSInteger)value atIndex:(NSUInteger)idx {
-    PBBaseTabBarProfile *tabBarCtr = [self rootTabBar];
+    MEBaseTabBarProfile *tabBarCtr = [self rootTabBar];
     if (value < 0) {
         [tabBarCtr clearBadgeAtIndex:idx];
         return;
@@ -103,6 +104,7 @@
     }else if (value > 0 && value < 1000){
         style = WBadgeStyleNumber;
     }
+    
     [tabBarCtr updateBadgeStyle:style value:value atIndex:idx];
 }
 

@@ -231,8 +231,8 @@
         [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
         MEBaseTabBarProfile *profile = [[MEBaseTabBarProfile alloc] init];
         profile.viewControllers = @[indexNavi, chatNavi, babyNavi, personalNavi];
-        
         destProfile = profile;
+        self.winRootTabProfile = profile;
     } else if (style & MEDisplayStyleVisitor) {
         MEIndexRootProfile *profile = [[MEIndexRootProfile alloc] init];
         destProfile = profile;
@@ -325,7 +325,11 @@
 
 - (void)updateRongIMUnReadMessageCounts {
     int unreadCounts = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
-    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:1];});
+    NSLog(@"更新badge:%d", unreadCounts);
+    if (unreadCounts == 0) {
+        unreadCounts -= 1;
+    }
+    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:1];})
 }
 
 @end

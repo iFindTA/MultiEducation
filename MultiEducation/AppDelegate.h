@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class MEPBUser, MEBaseNavigationProfile;
+@class MEPBUser, MEBaseNavigationProfile, MEBaseTabBarProfile;
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

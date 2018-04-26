@@ -111,9 +111,10 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
         numPerline = ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE;
     }
     NSUInteger lines = cls.count / numPerline;
-    if (cls.count % numPerline != 0 && lines != 0) {
+    if (cls.count % numPerline != 0 /*&& lines != 0//*/) {
         lines += 1;
     }
+    
     return lines * (ME_SUBCATEGORY_ITEM_HEIGHT+ME_LAYOUT_MARGIN) + ME_LAYOUT_MARGIN *2;
 }
 

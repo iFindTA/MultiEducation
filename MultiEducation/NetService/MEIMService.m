@@ -52,6 +52,8 @@ static MEIMService *instance = nil;
         status == ConnectionStatus_Connecting ||
         status == ConnectionStatus_Connected) {
         NSLog(@"融云IM 状态无需重连！");
+        //更新未读
+        [self.app updateRongIMUnReadMessageCounts];
         return;
     }
     
@@ -73,7 +75,7 @@ static MEIMService *instance = nil;
 }
 
 - (void)stopRongIMService {
-    
+    [[RCIM sharedRCIM] disconnect:false];
 }
 
 #pragma mark --- 融云消息回调

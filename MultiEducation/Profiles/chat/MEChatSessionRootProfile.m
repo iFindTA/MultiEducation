@@ -41,6 +41,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.app updateRongIMUnReadMessageCounts];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,6 +103,10 @@
     }
     
     return _navigationBar;
+}
+
+- (AppDelegate *)app {
+    return (AppDelegate*)[UIApplication sharedApplication].delegate;
 }
 
 #pragma mark --- User Interface Actions
