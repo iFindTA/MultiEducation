@@ -8,6 +8,10 @@
 
 #import "MEBaseProfile.h"
 
+typedef void(^MoveSuccCallback)(void);
+
 @interface MESelectFolderProfile : MEBaseProfile
+
+@property (nonatomic, copy) MoveSuccCallback moveSuccCallback;
 
 @end

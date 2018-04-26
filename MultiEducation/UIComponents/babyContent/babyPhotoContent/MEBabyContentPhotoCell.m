@@ -44,14 +44,18 @@
 }
 
 - (void)setCoverImage:(ClassAlbumPb *)pb {
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    MEPBUser *user = delegate.curUser;
-    if ([pb.fileType isEqualToString: @"mp4"]) {
-        NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
-        [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+    if (pb.isParent) {
+        self.photoIcon.image = [UIImage imageNamed: @"baby_content_new_folder"];
     } else {
-        NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-        [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        MEPBUser *user = delegate.curUser;
+        if ([pb.fileType isEqualToString: @"mp4"]) {
+            NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+        } else {
+            NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+        }
     }
 }
 
