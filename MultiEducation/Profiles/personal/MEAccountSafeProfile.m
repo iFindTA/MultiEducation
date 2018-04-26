@@ -60,9 +60,17 @@ static CGFloat const CELL_HEIGHT = 54.f;
 }
 
 - (void)logout {
-    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
-    [self.appDelegate updateCurrentSignedInUser:nil];
-    [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"退出登录" message: @"您确定要退出登录吗？" preferredStyle: UIAlertControllerStyleActionSheet];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+    UIAlertAction *certain = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+        [self.appDelegate updateCurrentSignedInUser:nil];
+        [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
+    }];
+    [alertController addAction: certain];
+    [alertController addAction: cancel];
+    [self.navigationController presentViewController: alertController animated: YES completion: nil];
+
 }
 
 #pragma mark -UITableViewDataSource

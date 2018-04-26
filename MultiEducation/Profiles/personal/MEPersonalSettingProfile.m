@@ -17,6 +17,7 @@
 #import "MEGenderVM.h"
 #import "MEEditUserDataProfile.h"
 #import "MEPortraitVM.h"
+#import <TZImagePickerController.h>
 
 #define TITLE_LIST @[@"头像管理", @"昵称", @"手机号", @"性别"]
 
@@ -24,7 +25,7 @@ static NSString * const USER_ICON_CELL_IDEF = @"user_icon_cell_idef";
 static NSString * const USER_DATA_CELL_IDEF = @"user_data_cell_idef";
 static CGFloat const CELL_HEIGHT = 54.f;
 
-@interface MEPersonalSettingProfile () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UploadImagesCallBack>
+@interface MEPersonalSettingProfile () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UploadImagesCallBack, TZImagePickerControllerDelegate>
 
 @property(nonatomic,strong) UIImagePickerController *imagePicker;
 
@@ -68,7 +69,8 @@ static CGFloat const CELL_HEIGHT = 54.f;
     switch (index) {
         case 0: {
             //修改头像
-            [self getAlertToChangePhoto];
+            TZImagePickerController *imagePickerPorfile = [[TZImagePickerController alloc] initWithMaxImagesCount: 1 delegate: self];
+            [self presentViewController: imagePickerPorfile animated: YES completion: nil];
         }
             break;
         case 1: {
@@ -133,41 +135,6 @@ static CGFloat const CELL_HEIGHT = 54.f;
     }];
 }
 
-- (void)getAlertToChangePhoto {
-    UIAlertController *aletController = [UIAlertController alertControllerWithTitle: @"提示" message: @"请选择上传方式" preferredStyle: UIAlertControllerStyleActionSheet];
-    
-    weakify(self);
-    UIAlertAction *ac1 = [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        strongify(self);
-        [self gotoTakePhoto];
-    }];
-    
-    UIAlertAction *ac2 = [UIAlertAction actionWithTitle: @"从相册选择" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        strongify(self);
-        [self gotoImagePickerContoller];
-    }];
-    
-    UIAlertAction *cancelAC = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
-    
-    [aletController addAction: ac1];
-    [aletController addAction: ac2];
-    [aletController addAction: cancelAC];
-    
-    [self presentViewController: aletController animated: YES completion: nil];
-}
-
-//拍照上传
-- (void)gotoTakePhoto {
-    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    [self presentViewController: _imagePicker animated:YES completion:nil];
-}
-
-//从相册选择
-- (void)gotoImagePickerContoller {
-    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController: _imagePicker animated:YES completion:nil];
-}
-
 - (void)sendChangeUserHeadToServer:(NSString *)portrait {
     FscUserPb *userPb = [[FscUserPb alloc] init];
     userPb.portrait = portrait;
@@ -210,7 +177,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
         cell.titleLab.text = [TITLE_LIST objectAtIndex: indexPath.row];
         switch (indexPath.row) {
             case 1:
-                cell.subtitleLab.text = self.currentUser.username;
+                cell.subtitleLab.text = self.currentUser.name;
                 break;
             case 2:
                 cell.subtitleLab.text = self.currentUser.mobile;
@@ -242,15 +209,21 @@ static CGFloat const CELL_HEIGHT = 54.f;
     [self pushToNextProfile: indexPath.row];
 }
 
-#pragma mark - UIImagePickerControllerDelegate
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    UIImage *image = [info objectForKey: UIImagePickerControllerOriginalImage];
+#pragma mark - TZImagePickerControllerDelegate
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
+    UIImage *image = photos[0];
     weakify(self);
-    [self.navigationController dismissViewControllerAnimated: YES completion:^{
-        [MEKits handleUploadPhotos: @[image] assets: @[] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
-            strongify(self);
-            [self.qnUtils uploadImages: images  callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
-                
+    [MEKits handleUploadPhotos: @[image] assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
+        strongify(self);
+        [self.qnUtils uploadImages: images  callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
+            FscUserPb *pb = [[FscUserPb alloc] init];
+            pb.portrait = succKeys[0];
+            MEPortraitVM *vm = [MEPortraitVM vmWithModel:pb];
+            [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
+                //此处更新用户信息
+                [self.tableView reloadData];
+            } failure:^(NSError * _Nonnull error) {
+                [self handleTransitionError: error];
             }];
         }];
     }];
@@ -289,7 +262,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (MEQiniuUtils *)qnUtils {
     if (!_qnUtils) {
-        _qnUtils = [[MEQiniuUtils alloc] init];
+        _qnUtils = [MEQiniuUtils sharedQNUploadUtils];
         _qnUtils.delegate = self;
     }
     return _qnUtils;
