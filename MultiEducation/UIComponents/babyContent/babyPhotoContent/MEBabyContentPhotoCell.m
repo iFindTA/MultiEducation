@@ -40,6 +40,7 @@
     } else {
         self.selectBtn.hidden = YES;
     }
+    self.selectBtn.selected = pb.isSelect;
 }
 
 - (void)setCoverImage:(ClassAlbumPb *)pb {

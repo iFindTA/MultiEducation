@@ -23,6 +23,7 @@
 #import <XHImageViewer.h>
 #import <XHImageViewer/UIImageView+XHURLDownload.h>
 #import "MEQNUploadVM.h"
+#import "MEAlbumDeleteVM.h"
 
 
 #define TITLES @[@"照片", @"时间轴"]
@@ -64,7 +65,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) MESideMenuManager *sideMenuManager;
 
-@property (nonatomic, strong) UIBarButtonItem *rightItem;
+@property (nonatomic, strong) UINavigationItem *navigationItem;
 
 @end
 
@@ -158,12 +159,29 @@ static CGFloat const ITEM_LEADING = 10.f;
         return;
     }
     _isSelectStatus = YES;
-    self.rightItem = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStyleDone target: self action: @selector(deleteBarButtonItemTouchEvent)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStyleDone target: self action: @selector(deleteButtonItemTouchEvent)];
 
     for (ClassAlbumPb *pb in self.photos) {
         pb.isSelectStatus = _isSelectStatus;
     }
     [self.photoView reloadData];
+}
+
+- (void)deleteButtonItemTouchEvent {
+    ClassAlbumListPb *listPb = [[ClassAlbumListPb alloc] init];
+    MEAlbumDeleteVM *albumDelVM = [MEAlbumDeleteVM vmWithPb: listPb];
+    for (ClassAlbumPb *pb in self.selectArr) {
+        [listPb.classAlbumArray addObject: pb];
+    }
+    
+    weakify(self);
+    [albumDelVM postData: [listPb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        [self loadDataSource];
+        self.navigationItem.rightBarButtonItem = nil;
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
 }
 
 - (void)showNewFolderAlert:(void(^)(UITextField *textField))callback {
@@ -190,6 +208,8 @@ static CGFloat const ITEM_LEADING = 10.f;
     pb.classId = _classId;
     NSData *data = [pb data];
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        [self.photos removeAllObjects];
+        [self.timeLineArr removeAllObjects];
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *albumPb in  pb.classAlbumArray) {
             albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
@@ -250,29 +270,31 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (void)customNavigation {
     NSString *title = @"宝宝相册";
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2"];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
-    item.leftBarButtonItems = @[spacer, backItem];
-    item.rightBarButtonItem = _rightItem;
-    [self.navigationBar pushNavigationItem:item animated:true];
+    UIBarButtonItem *backItem = [self backBarButtonItem:nil withIconUnicode:@"\U0000e6e2" withTarget: self withSelector: @selector(backBarItemTouchEvent)];
+    self.navigationItem = [[UINavigationItem alloc] initWithTitle:title];
+    self.navigationItem.leftBarButtonItems = @[spacer, backItem];
+    [self.navigationBar pushNavigationItem:self.navigationItem animated:true];
 }
 
 //重写backitem的方法
 - (void)backBarItemTouchEvent {
     if (_isSelectStatus) {
         _isSelectStatus = NO;
-        _rightItem = nil;
+        self.navigationItem.rightBarButtonItem = nil;
         [self.selectArr removeAllObjects];
         for (ClassAlbumPb *pb in self.photos) {
             pb.isSelectStatus = _isSelectStatus;
+            pb.isSelect = NO;
         }
+        [self.photoView reloadData];
     } else {
         [self.navigationController popViewControllerAnimated: YES];
     }
 }
 
-- (void)deleteBarButtonItemTouchEvent {
-    
+- (void)reloadData {
+    [self.photoView reloadData];
+    [self.timeLineView reloadData];
 }
 
 - (void)layoutView {
