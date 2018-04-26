@@ -121,12 +121,16 @@ static MEQiniuUtils *qnUtils;
     weakify(self);
     [self checkWhetherExistInServer: images checkCallback:^(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr) {
         strongify(self);
+        if (noExistArr.count == 0) {
+            return;
+        }
         NSData *data = [[noExistArr objectAtIndex: _index] objectForKey: @"data"];
         NSString *key = [[noExistArr objectAtIndex: _index] objectForKey: @"filePath"];
         __block NSInteger imageIndex = _index;
-
+        weakify(self);
         [qnUploadManager putData: data key: key token:self.qnToken
                         complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                            strongify(self);
                             if (info.isOK) {
                                 [self.succKeys addObject: key];
                             } else {

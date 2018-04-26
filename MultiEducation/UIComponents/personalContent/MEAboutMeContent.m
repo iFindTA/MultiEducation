@@ -13,6 +13,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+    NSString *icon = [[infoPlist valueForKeyPath:@"CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconFiles"]lastObject];
+    self.appIcon.image = [UIImage imageNamed: icon];
+    
     NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
      NSString *appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
     
