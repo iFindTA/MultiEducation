@@ -7,7 +7,14 @@
 //
 
 #import "MEVM.h"
+#import "METCPService.h"
+#import "MeserverList.pbobjc.h"
 
 @interface MEServerListVM : MEVM
+
+/**
+ 获取在线服务器列表 并链接长链接
+ */
++ (void)fetchOnlineServerList;
 
 @end

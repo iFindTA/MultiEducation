@@ -64,6 +64,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<MEPBClass*>*)fetchCurrentUserMultiClasses;
 
 /**
+ 当前用户session-token
+ */
++ (NSString * _Nullable)fetchCurrentUserSessionToken;
+
+/**
  当前用户是否关联了多个班级
  */
 + (BOOL)whetherCurrentUserHaveMulticastClasses;

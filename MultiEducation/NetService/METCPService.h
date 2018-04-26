@@ -19,13 +19,24 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)shared;
 
 /**
- connect to host&port
-
- @param host for connection
- @param port for connection
- @param completion callback
+ 账号被蹬回调
  */
-- (void)connect2Host:(NSString *)host port:(uint8_t)port completion:(void(^_Nullable)(NSError * _Nullable))completion;
+@property (nonatomic, copy) void(^_Nullable accountKickoutCallback)(BOOL kicked, NSString *_Nullable msg);
+
+/**
+ 添加host port
+ */
+- (void)addServerHost:(NSString *)host port:(uint16_t)port;
+
+/**
+ connect to host&port
+ */
+- (void)connectWithcompletion:(void(^_Nullable)(NSError * _Nullable))completion;
+
+/**
+ disconnect for remote server
+ */
+- (void)disconnect;
 
 /**
  handle system send data

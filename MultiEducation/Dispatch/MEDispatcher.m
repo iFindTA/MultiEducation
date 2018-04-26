@@ -198,6 +198,10 @@ static NSMutableDictionary *cachedTarget;
         //弹框
     } else if ([scheme isEqualToString:@"do"]) {
         //静默做一些事情
+    } else if ([scheme isEqualToString:@"kickout"]){
+        //用户被顶替 登出
+        NSString *msg = [params pb_stringForKey:@"alert"];
+        [self.app passiveLogout:msg];
     } else {
         //TODO:上报error
     }

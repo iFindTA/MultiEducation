@@ -15,8 +15,14 @@
  */
 + (instancetype)shared;
 
+/**
+ start rongyun im service
+ */
 - (void)startRongIMService;
 
+/**
+ stop rongyun im service
+ */
 - (void)stopRongIMService;
 
 @end

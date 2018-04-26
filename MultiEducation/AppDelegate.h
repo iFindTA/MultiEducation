@@ -35,9 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)updateCurrentSignedInUser:(MEPBUser * _Nullable)usr;
 
 /**
- 初始化融云
+ 被动登出（账号被登录）
  */
-- (void)startRongIMServivesOnBgThread;
+- (void)passiveLogout:(NSString *_Nullable)msg;
+
+/**
+ 开启即时服务: {融云IM，自身长链接}
+ */
+- (void)startIMServivesOnBgThread;
 
 /**
  更新当前未读消息数

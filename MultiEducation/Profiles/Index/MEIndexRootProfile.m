@@ -173,7 +173,7 @@
     weakify(self)
     [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
         strongify(self)
-        [self.appDelegate startRongIMServivesOnBgThread];
+        [self.appDelegate startIMServivesOnBgThread];
     }];
 }
 

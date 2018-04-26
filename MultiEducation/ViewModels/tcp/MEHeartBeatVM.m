@@ -10,4 +10,8 @@
 
 @implementation MEHeartBeatVM
 
+- (NSString *)cmdCode {
+    return @"HEARTBEAT";
+}
+
 @end

@@ -20,6 +20,7 @@
 #import <UINavigationController+SJVideoPlayerAdd.h>
 #import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
 #import "MEIMService.h"
+#import "MEServerListVM.h"
 #import <RongIMKit/RongIMKit.h>
 #import <RongIMLib/RCStatusDefine.h>
 
@@ -54,7 +55,6 @@
     BOOL whetherDidSignout = [usrDefaults boolForKey:ME_USER_DID_INITIATIVE_LOGOUT];
     if (!whetherDidSignout) {
         self.curUser = [MEUserVM fetchLatestSignedInUser];
-        
     }
     MEDisplayStyle style ;
     if (!self.curUser) {
@@ -77,7 +77,7 @@
     [application registerForRemoteNotifications];
     //start on background thread
     [self startServicesOnBackgroundThread];
-    
+   
     return YES;
 }
 
@@ -275,11 +275,31 @@
         [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
             strongify(self)
             if (!err) {
-                [self startRongIMServivesOnBgThread];
+                [self startIMServivesOnBgThread];
             }
         }];
     } else {
-        [self stopRongIMService];
+        [self stopIMService];
+    }
+}
+
+- (void)passiveLogout:(NSString *_Nullable)msg {
+    //用户主动退出
+    [[NSUserDefaults standardUserDefaults] setBool:true forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [self updateCurrentSignedInUser:nil];
+    [self changeDisplayStyle:MEDisplayStyleAuthor];
+    if (msg.length > 0) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                                 message:msg
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertController addAction:action];
+        [self.window.rootViewController presentViewController:alertController animated:true completion:^{
+            
+        }];
     }
 }
 
@@ -300,7 +320,7 @@
         [PBService shared].networkStateCallback = ^(PBNetState state){
             if (state & (PBNetStateViaWiFi|PBNetStateViaWWAN)) {
                 strongify(self)
-                [self startRongIMServivesOnBgThread];
+                [self startIMServivesOnBgThread];
             }
         };
         //for umeng
@@ -324,14 +344,18 @@
 }
 
 /**
- 初始化融云
+ 开启即时服务: {融云IM，自身长链接}
  */
-- (void)startRongIMServivesOnBgThread {
+- (void)startIMServivesOnBgThread {
     [[MEIMService shared] startRongIMService];
+    [MEServerListVM fetchOnlineServerList];
 }
-
-- (void)stopRongIMService {
+/**
+ 断开即时服务: {融云IM，自身长链接}
+ */
+- (void)stopIMService {
     [[MEIMService shared] stopRongIMService];
+    [[METCPService shared] disconnect];
 }
 
 - (void)updateRongIMUnReadMessageCounts {

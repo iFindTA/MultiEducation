@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message MESocketServer {
+	string host = 1;//域名
+	int32 port = 2;//端口
+}
+
+message MEServerList {
+	repeated MESocketServer socketServer = 1;//socket服务
+}

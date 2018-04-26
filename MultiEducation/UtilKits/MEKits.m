@@ -123,6 +123,10 @@
     return classes.count > 1;
 }
 
++ (NSString * _Nullable)fetchCurrentUserSessionToken {
+    return self.app.curUser.sessionToken;
+}
+
 #pragma mark --- Cordova Resources && Hot Updating---
 /**
  *  Cordova策略：
