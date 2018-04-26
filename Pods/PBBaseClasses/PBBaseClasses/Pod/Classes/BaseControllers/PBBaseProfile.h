@@ -124,6 +124,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIBarButtonItem *)barWithIconUnicode:(NSString *)iconCode withTarget:(nullable id)target withSelector:(nullable SEL)selector;
 
 /**
+ generate navigationBar normal item
+
+ @param backTitle for item
+ @param img for item
+ @return bar item
+ */
+- (UIBarButtonItem *)backBarButtonItem:(NSString * _Nullable)backTitle iconImage:(UIImage * _Nullable)img;
+
+/**
  default pop stack or dismiss event
  */
 - (void)defaultGoBackStack;

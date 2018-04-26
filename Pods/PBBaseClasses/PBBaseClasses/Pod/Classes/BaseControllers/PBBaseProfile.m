@@ -12,7 +12,7 @@
 #define MAS_SHORTHAND_GLOBALS
 #import <Masonry/Masonry.h>
 
-static NSString * const PB_BASE_FONT               =   @"iconfont";
+static NSString * const PB_BASE_FONT               =   @"Helvetica-Bold";
 
 /**
  excute block func in main tread
@@ -329,6 +329,24 @@ typedef NS_ENUM(NSUInteger, PBViewPresentation) {
     CGSize m_bar_size = {PB_NAVIBAR_ITEM_SIZE, PB_NAVIBAR_ITEM_SIZE};
     UIButton *menu = [UIButton buttonWithType:UIButtonTypeCustom];
     menu.frame = (CGRect){.origin = CGPointZero,.size = m_bar_size};
+    [menu setImage:icon forState:UIControlStateNormal];
+    [menu addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *bar = [[UIBarButtonItem alloc] initWithCustomView:menu];
+    return bar;
+}
+
+#pragma mark --- new method for icon
+
+- (UIBarButtonItem *)backBarButtonItem:(NSString *)backTitle iconImage:(UIImage *)img {
+    return [self assembleBar:img title:backTitle target:self selector:@selector(backBarItemTouchEvent)];
+}
+
+- (UIBarButtonItem *)assembleBar:(UIImage *)icon title:(NSString *)title target:(id)target selector:(SEL)selector {
+    
+    CGSize m_bar_size = {PB_NAVIBAR_ITEM_SIZE, PB_NAVIBAR_ITEM_SIZE};
+    UIButton *menu = [UIButton buttonWithType:UIButtonTypeCustom];
+    menu.frame = (CGRect){.origin = CGPointZero,.size = m_bar_size};
+    [menu setTitle:title forState:UIControlStateNormal];
     [menu setImage:icon forState:UIControlStateNormal];
     [menu addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *bar = [[UIBarButtonItem alloc] initWithCustomView:menu];

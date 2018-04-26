@@ -40,7 +40,12 @@
 
 - (void)handleTransitionError:(NSError *)error {
     if (error) {
-        [SVProgressHUD showErrorWithStatus:error.domain];
+        NSDictionary *userInfo = [error userInfo];
+        NSString *alertInfo = error.domain;
+        if (userInfo) {
+            alertInfo = [userInfo pb_stringForKey:NSLocalizedDescriptionKey];
+        }
+        [SVProgressHUD showErrorWithStatus:alertInfo];
     }
 }
 
