@@ -16,14 +16,23 @@
 }
 
 - (void)setData {
-    NSString *urlStr = [NSString stringWithFormat: @"%@%@", self.currentUser.bucketDomain, self.currentUser.portrait];
+    NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
     [self.userIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
     self.userName.text = self.currentUser.name;
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
-    NSString *urlStr = @"profile://MEPersonalSettingProfile";
+    NSString *urlStr = @"profile://root@MEAccountSafeProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
     [self handleTransitionError: error];
 }
+
+
+- (IBAction)personalDataSettingTouchEvent:(MEBaseButton *)sender {
+    NSString *urlStr = @"profile://root@MEPersonalSettingProfile";
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+    [self handleTransitionError: error];
+}
+
+
 @end

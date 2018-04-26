@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,7 +17,6 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="personal_header_bg" translatesAutoresizingMaskIntoConstraints="NO" id="8aC-vR-YUg">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
-                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zrI-g9-4Ve">
                     <rect key="frame" x="19" y="82" width="58" height="58"/>
@@ -31,7 +30,7 @@
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtU-8z-8Vv" customClass="MEBaseLabel">
-                    <rect key="frame" x="90" y="91" width="180" height="20"/>
+                    <rect key="frame" x="90" y="101" width="180" height="20"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="9I6-RM-CXo"/>
@@ -48,28 +47,38 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-8h-cbB" customClass="MEBaseButton">
-                    <rect key="frame" x="335" y="103" width="17" height="17"/>
+                    <rect key="frame" x="322" y="96.5" width="30" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="17" id="AlN-0j-F9B"/>
-                        <constraint firstAttribute="height" constant="17" id="FQs-Hu-WZ3"/>
+                        <constraint firstAttribute="width" constant="30" id="AlN-0j-F9B"/>
+                        <constraint firstAttribute="height" constant="30" id="FQs-Hu-WZ3"/>
                     </constraints>
-                    <state key="normal" title="Button" image="baby_header_setting"/>
+                    <state key="normal" image="baby_header_setting"/>
                     <connections>
                         <action selector="settingTouchEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="9AX-MW-M37"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Lr-J3-szq" customClass="MEBaseButton">
+                    <rect key="frame" x="19" y="82" width="251" height="58"/>
+                    <connections>
+                        <action selector="personalDataSettingTouchEvent:" destination="iN0-l3-epB" eventType="touchUpInside" id="Y00-wN-xDe"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="6Lr-J3-szq" firstAttribute="top" secondItem="zrI-g9-4Ve" secondAttribute="top" id="7m3-49-rKE"/>
                 <constraint firstItem="8aC-vR-YUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7sW-Ng-EGM"/>
                 <constraint firstItem="zrI-g9-4Ve" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="19" id="9Yo-Lj-tBo"/>
                 <constraint firstItem="8aC-vR-YUg" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="Bzz-uW-M26"/>
                 <constraint firstItem="dtU-8z-8Vv" firstAttribute="leading" secondItem="zrI-g9-4Ve" secondAttribute="trailing" constant="13" id="HNP-s7-AVq"/>
+                <constraint firstItem="6Lr-J3-szq" firstAttribute="trailing" secondItem="dtU-8z-8Vv" secondAttribute="trailing" id="JYM-YO-OoL"/>
                 <constraint firstAttribute="trailing" secondItem="ter-8h-cbB" secondAttribute="trailing" constant="23" id="LoK-Oy-Tc2"/>
+                <constraint firstItem="6Lr-J3-szq" firstAttribute="leading" secondItem="zrI-g9-4Ve" secondAttribute="leading" id="Q1l-yD-JVN"/>
+                <constraint firstItem="dtU-8z-8Vv" firstAttribute="centerY" secondItem="zrI-g9-4Ve" secondAttribute="centerY" id="U2E-YZ-38O"/>
                 <constraint firstItem="8aC-vR-YUg" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="V05-aE-01v"/>
                 <constraint firstItem="8aC-vR-YUg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Xfv-mK-8Th"/>
                 <constraint firstItem="ter-8h-cbB" firstAttribute="centerY" secondItem="zrI-g9-4Ve" secondAttribute="centerY" id="ndb-eD-f3V"/>
-                <constraint firstItem="dtU-8z-8Vv" firstAttribute="top" secondItem="zrI-g9-4Ve" secondAttribute="top" constant="9" id="xfe-RD-orG"/>
+                <constraint firstItem="6Lr-J3-szq" firstAttribute="bottom" secondItem="zrI-g9-4Ve" secondAttribute="bottom" id="qfK-CN-Y5L"/>
                 <constraint firstAttribute="bottom" secondItem="zrI-g9-4Ve" secondAttribute="bottom" constant="30" id="z5p-pU-G0V"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -79,7 +88,7 @@
                 <outlet property="userIcon" destination="zrI-g9-4Ve" id="Lyn-Vw-yvF"/>
                 <outlet property="userName" destination="dtU-8z-8Vv" id="BAm-zE-X99"/>
             </connections>
-            <point key="canvasLocation" x="-46" y="-523"/>
+            <point key="canvasLocation" x="-153" y="-525"/>
         </view>
     </objects>
     <resources>

@@ -168,21 +168,6 @@ static CGFloat const CELL_HEIGHT = 54.f;
     [self presentViewController: _imagePicker animated:YES completion:nil];
 }
 
-- (void)uploadToQNServe:(UIImage *)image {
-    UIImage *compressImage = [self compressImage: image];
-    NSString *md5Str = [UIImagePNGRepresentation(compressImage) md5String];
-    NSString *key = [NSString stringWithFormat: @"%@.jpg", md5Str];
-//    [self.qnUtils uploadWithData: UIImagePNGRepresentation([self compressImage: image]) key: key];
-}
-
-- (UIImage *)compressImage:(UIImage *)image {
-    float limit = self.currentUser.systemConfigPb.uploadLimit.floatValue;
-    float uploadLimit = (limit == 0 ? 2 * 1024 * 1024 : limit * 1024 * 1024);
-    NSData *data = UIImageJPEGRepresentation([MEKits compressImage: image toByte: uploadLimit], 0.5);
-    UIImage *compressImage = [UIImage imageWithData: data];
-    return compressImage;
-}
-
 - (void)sendChangeUserHeadToServer:(NSString *)portrait {
     FscUserPb *userPb = [[FscUserPb alloc] init];
     userPb.portrait = portrait;
@@ -262,8 +247,12 @@ static CGFloat const CELL_HEIGHT = 54.f;
     UIImage *image = [info objectForKey: UIImagePickerControllerOriginalImage];
     weakify(self);
     [self.navigationController dismissViewControllerAnimated: YES completion:^{
-        strongify(self);
-        [self uploadToQNServe: image];
+        [MEKits handleUploadPhotos: @[image] assets: @[] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
+            strongify(self);
+            [self.qnUtils uploadImages: images  callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
+                
+            }];
+        }];
     }];
 }
 

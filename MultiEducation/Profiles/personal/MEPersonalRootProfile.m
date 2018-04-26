@@ -8,28 +8,22 @@
 
 #import "MEPersonalRootProfile.h"
 #import "MEPersonalHeader.h"
-#import "MEHistoryVideo.h"
-#import "MEPersonalSectionHeader.h"
 #import "MEPersonalCell.h"
 #import <WHC_ModelSqlite.h>
 #import "MEWatchItem.h"
 #import "MEChatProfile.h"
 #import "MEBaseNavigationProfile.h"
+#import "UIView+Frame.h"
 
-#define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"账户管理", @"帮助中心", @"反馈", @"关于我们"]
+#define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"帮助中心", @"反馈", @"关于我们"]
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const ROW_HEIGHT = 44.f;
 static CGFloat const HEADER_HEIGHT = 170.f;
-static CGFloat const HISTORY_HEIGHT = 155.f;
-static CGFloat const SECTION_HEADER = 56.f;
 
 @interface MEPersonalRootProfile () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) MEPersonalHeader *header; //header
-@property (nonatomic, strong) MEHistoryVideo *historyVideo; //history video
-
-@property (nonatomic, strong) MEBaseScene *tableHeader; //tableHeader for MEPersonalHeader + MEHistoryVideo, in order to the whole page can scroll
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 
@@ -52,22 +46,13 @@ static CGFloat const SECTION_HEADER = 56.f;
     
     //layout
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(self.view).mas_offset(-ME_HEIGHT_TABBAR);
+        make.left.right.mas_equalTo(self.view);
+        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR - ME_HEIGHT_STATUSBAR - ME_HEIGHT_NAVIGATIONBAR);
+        make.top.mas_equalTo(self.view);
     }];
 }
 
-- (BOOL)whetherHistoryCountGreaterThanZero {
-    NSString *where = [NSString stringWithFormat: @"userId = %lld", self.currentUser.uid];
-    if ([WHCSqlite query: [MEWatchItem class] where: where order: @"by watchTimestamp desc"].count > 0 ) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
 - (void)pushToPersonSecondProfileWithIndex:(NSInteger)index {
-    
     switch (index) {
         case 0: {
             NSString *urlStr = @"profile://root@MECollectionProfile";
@@ -83,15 +68,7 @@ static CGFloat const SECTION_HEADER = 56.f;
             [self handleTransitionError: error];
         }
             break;
-            
         case 2: {
-            NSString *urlStr = @"profile://root@MEAccountSafeProfile/";
-            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-            [self handleTransitionError: error];
-        }
-            break;
-            
-        case 3: {
             //help.html#/help
             NSString *urlStr = @"profile://root@METemplateProfile";
             NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"帮助中心", ME_CORDOVA_KEY_STARTPAGE:@"help.html#/help"};
@@ -100,7 +77,7 @@ static CGFloat const SECTION_HEADER = 56.f;
         }
             break;
             
-        case 4: {
+        case 3: {
             //反馈接入融云
             MEChatProfile *profile = [[MEChatProfile alloc] initWithConversationType:ConversationType_APPSERVICE targetId:@"SYS_XDY"];
             profile.title = PBAvailableString([NSBundle pb_displayName]);
@@ -108,7 +85,7 @@ static CGFloat const SECTION_HEADER = 56.f;
             [self.navigationController pushViewController:profile animated:true];
         }
             break;
-        case 5: {
+        case 4: {
             NSString *urlStr = @"profile://root@MEAboutMeProfile/";
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
             [self handleTransitionError: error];
@@ -145,36 +122,7 @@ static CGFloat const SECTION_HEADER = 56.f;
     [self pushToPersonSecondProfileWithIndex: indexPath.row];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [[MEPersonalSectionHeader alloc] initWithFrame: CGRectZero];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return SECTION_HEADER;
-}
-
 #pragma mark - lazyloading
-- (MEHistoryVideo *)historyVideo {
-    if (!_historyVideo) {
-        _historyVideo = [[MEHistoryVideo alloc] init];
-    }
-    return _historyVideo;
-}
-
-- (MEBaseScene *)tableHeader {
-    if (!_tableHeader) {
-        CGFloat tableHeaderHeight;
-        if ([self whetherHistoryCountGreaterThanZero]) {
-            tableHeaderHeight = HEADER_HEIGHT + HISTORY_HEIGHT;
-        } else {
-            tableHeaderHeight = HEADER_HEIGHT;
-        }
-        _tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, tableHeaderHeight)];
-        _tableHeader.backgroundColor = [UIColor whiteColor];
-    }
-    return _tableHeader;
-}
-
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame: CGRectZero style: UITableViewStylePlain];
@@ -188,27 +136,14 @@ static CGFloat const SECTION_HEADER = 56.f;
         
         self.header = [[NSBundle mainBundle] loadNibNamed: @"MEPersonalHeader" owner: self options: nil].firstObject;
         
-        [self.tableHeader addSubview: self.header];
+        MEBaseScene *tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, HEADER_HEIGHT)];
+        [tableHeader addSubview: self.header];
         
-        //layout
         [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.mas_equalTo(self.tableHeader);
-            make.width.mas_equalTo(MESCREEN_WIDTH);
-            make.height.mas_equalTo(HEADER_HEIGHT);
+            make.edges.mas_equalTo(tableHeader);
         }];
         
-        if ([self whetherHistoryCountGreaterThanZero]) {
-            [self.tableHeader addSubview: self.historyVideo];
-            
-            [self.historyVideo mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(self.tableHeader);
-                make.top.mas_equalTo(self.header.mas_bottom);
-                make.width.mas_equalTo(MESCREEN_WIDTH);
-                make.height.mas_equalTo(HISTORY_HEIGHT);
-            }];
-        }
-
-        _tableView.tableHeaderView = self.tableHeader;
+        _tableView.tableHeaderView = tableHeader;
 
     }
     return _tableView;
