@@ -768,7 +768,7 @@
     
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self color:backColor];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"扫一扫"];
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];

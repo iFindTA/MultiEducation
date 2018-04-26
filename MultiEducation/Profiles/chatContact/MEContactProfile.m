@@ -86,7 +86,7 @@
     //UIImage *moreImage = [UIImage imageNamed:@"chat_contact_add"];
     UIColor *backColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     UIBarButtonItem *spacer = [MEKits barSpacer];
-    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self color:backColor];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"班级通讯录"];
     item.leftBarButtonItems = @[spacer, backItem];
     BOOL whetherMultiClasses = [MEKits whetherCurrentUserHaveMulticastClasses];
