@@ -97,6 +97,12 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self loadDataSource];
     
     [self customSideMenu];
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(loadDataSource) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
 }
 
 - (void)customSideMenu {
@@ -436,7 +442,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -566,9 +571,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    _photoBrowser = nil;
+    [self.browserPhotos removeAllObjects];
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
-    self.photoBrowser = nil;
-    [self.selectArr removeAllObjects];
 }
 
 #pragma mark - UIScrollViewDelegate

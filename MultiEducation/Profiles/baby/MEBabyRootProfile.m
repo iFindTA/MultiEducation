@@ -43,6 +43,10 @@
     }];
 }
 
+- (void)dealloc {
+    [_babyView removeNotiObserver];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     

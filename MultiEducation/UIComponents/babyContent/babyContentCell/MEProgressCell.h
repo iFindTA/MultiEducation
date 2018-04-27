@@ -17,10 +17,6 @@
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progress;
 
-
-
 - (void)setData:(ClassAlbumPb *)pb;
-
-
 
 @end

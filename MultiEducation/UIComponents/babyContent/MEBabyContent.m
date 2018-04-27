@@ -68,35 +68,31 @@
         [self createSubviews];
         [self loadData];
         [self getBabyNewsInfo];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(getBabyPhotos) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
     }
     return self;
 }
 
+- (void)removeNotiObserver {
+    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+}
+
 - (void)loadData {
     if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
-        
         GuStudentArchivesPb *stuPb;
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
-            
             [self.headerView setData: stuPb];
-            
             [self getBabyPhotos];
-
             return;
         }
-        
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
         [self getBabyArchitecture: studentId];
     }
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-        GuStudentArchivesPb *stuPb;
-        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
-            stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
-            [self getBabyPhotos];
-            return;
-        }
+        [self getBabyPhotos];
         [self getBabyArchitecture: 0];
     }
     
@@ -122,11 +118,11 @@
 - (BOOL)getBabyPhotos {
     [self.babyPhotos removeAllObjects];
     NSArray *totalAlbums;
-    if (self.currentUser.userType == (MEPBUserRole_Gardener | MEPBUserRole_Teacher)) {
+    if (self.currentUser.userType == MEPBUserRole_Gardener || self.currentUser.userType == MEPBUserRole_Teacher) {
         totalAlbums = [MEBabyAlbumListVM fetchUserAllAlbum];
     } else if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
         GuStudentArchivesPb *pb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
-       totalAlbums = [MEBabyAlbumListVM fetchAlbmsWithClassId: pb.classId];
+        totalAlbums = [MEBabyAlbumListVM fetchAlbmsWithClassId: pb.classId];
     } else {
         [self updateViewsMasonry];
         return NO;
@@ -136,11 +132,16 @@
         return NO;
     }
     
-    NSArray *albums;
-    if (albums.count >= 10) {
-        albums = [totalAlbums subarrayWithRange: NSMakeRange(0, 10)];
-    } else {
-        albums = totalAlbums;
+    NSMutableArray *albums = [NSMutableArray array];
+    
+    for (ClassAlbumPb *pb in totalAlbums) {
+        if (albums.count <= (totalAlbums.count >= 10 ? 10 : totalAlbums.count)) {
+            if (!pb.isParent) {
+                [albums addObject: pb];
+            }
+        } else {
+            break;
+        }
     }
     
     [self.babyPhotos addObjectsFromArray: albums];

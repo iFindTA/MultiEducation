@@ -35,5 +35,7 @@ typedef void(^BabyContentScrollCallBack)(CGFloat contentOffsetY, MEScrollViewDir
 
 @property (nonatomic, copy) BabyContentScrollCallBack babyContentScrollCallBack;
 
+- (void)removeNotiObserver;
+
 @end
 
