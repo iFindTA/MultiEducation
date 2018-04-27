@@ -343,7 +343,7 @@
 }
 
 + (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target action:(SEL _Nullable)selector {
-    return [self barWithUnicode:@"\U0000e6e3" color:[UIColor whiteColor] target:target action:selector];
+    return [self barWithUnicode:@"\U0000e6e2" color:[UIColor whiteColor] target:target action:selector];
 }
 
 + (UIBarButtonItem *)defaultGoBackBarButtonItemWithTarget:(id _Nullable)target color:(UIColor *_Nullable)color {
