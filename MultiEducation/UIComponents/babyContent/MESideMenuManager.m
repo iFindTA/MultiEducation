@@ -28,14 +28,16 @@ static CGFloat const MAX_TIME = 4;  //4s后对操作列表无任何操作，自�
 @property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, copy) void(^sideMenuCallback)(MEUserTouchEventType type);
+@property (nonatomic, copy) void(^operationMenuCallback)(void);
 
 @end
 
 @implementation MESideMenuManager
 
-- (instancetype)initWithMenuSuperView:(UIView *)view sideMenuCallback:(void(^)(MEUserTouchEventType type))sideMenuCallback {
+- (instancetype)initWithMenuSuperView:(UIView *)view sideMenuCallback:(void(^)(MEUserTouchEventType type))sideMenuCallback operationMenuCallback:(void(^)(void))operationMenuCallback {
     if (self = [super init]) {
         self.sideMenuCallback = sideMenuCallback;
+        self.operationMenuCallback = operationMenuCallback;
         _count = MAX_TIME;
         _superView = view;
         [view addSubview: self.hideMenu];
@@ -138,6 +140,9 @@ static CGFloat const MAX_TIME = 4;  //4s后对操作列表无任何操作，自�
         _hideMenu = [[MESideHideenMenu alloc] initWithHandler:^{
             strongify(self);
             [self animationWithTouch: MEUSERTouchMenuTypeHideMenu];
+            if (self.operationMenuCallback) {
+                self.operationMenuCallback();
+            }
         }];
     }
     return _hideMenu;

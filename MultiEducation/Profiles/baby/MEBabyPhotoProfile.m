@@ -23,7 +23,8 @@
 #import "MEQNUploadVM.h"
 #import "MEAlbumDeleteVM.h"
 #import "MESelectFolderProfile.h"
-
+#import <MWPhotoBrowser.h>
+#import "MEBaseNavigationProfile.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -39,9 +40,10 @@ static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
-@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate> {
+@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, MWPhotoBrowserDelegate> {
     NSInteger _classId;
     NSInteger _parendId;
+    NSString *_navigationTitle;
     
     BOOL _isSelectStatus;
 }
@@ -64,6 +66,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @property (nonatomic, strong) UINavigationItem *navigationItem;
 
+@property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
+@property (nonatomic, strong) NSMutableArray <MWPhoto *> *browserPhotos;    //当前在browser中的Photo
+
 @end
 
 @implementation MEBabyPhotoProfile
@@ -72,8 +77,15 @@ static CGFloat const ITEM_LEADING = 10.f;
     self = [super init];
     if (self) {
         _classId = [[params objectForKey: @"classId"] integerValue];
+        _parendId = [[params objectForKey: @"parentId"] integerValue];
+        _navigationTitle = [params objectForKey: @"title"];
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    [self customNavigation];
 }
 
 - (void)viewDidLoad {
@@ -82,9 +94,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.sj_fadeAreaViews = @[self.scrollView];
-    
-    [self customNavigation];
-    
+        
     [self layoutView];
     
     [self loadDataSource];
@@ -94,8 +104,16 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (void)customSideMenu {
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
+        weakify(self);
         _sideMenuManager = [[MESideMenuManager alloc] initWithMenuSuperView: self.view sideMenuCallback:^(MEUserTouchEventType type) {
+            strongify(self);
             [self sideMenuTouchEvent: type];
+        } operationMenuCallback:^{
+            strongify(self);
+            if (_isSelectStatus) {
+                _isSelectStatus = NO;
+                [self backToUnselectingStatus];
+            }
         }];
     }
 }
@@ -161,18 +179,26 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)moveFolderOrImageToFolderTouchEvent {
+    if (self.selectArr.count == 0) {
+        [self backToUnselectingStatus];
+        return;
+    }
+    
     NSMutableArray *folders = [NSMutableArray array];
     for (ClassAlbumPb *pb in self.photos) {
         if (pb.isParent) {
-            [folders addObject: pb];
+            if (![self.selectArr containsObject: pb]) {
+                [folders addObject: pb];
+            }
         }
     }
-    
+
     NSString *urlStr = @"profile://root@MESelectFolderProfile/";
     
     weakify(self);
     void (^moveSuccessCallback)(void) = ^() {
         strongify(self);
+        self.navigationItem.rightBarButtonItem = nil;
         [self loadDataSource];
     };
     
@@ -185,6 +211,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     if (_isSelectStatus) {
         return;
     }
+    
     _isSelectStatus = YES;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle: @"删除" style: UIBarButtonItemStyleDone target: self action: @selector(deleteButtonItemTouchEvent)];
 
@@ -195,6 +222,11 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)deleteButtonItemTouchEvent {
+    if (self.selectArr.count == 0) {
+        [self backToUnselectingStatus];
+        return;
+    }
+    
     ClassAlbumListPb *listPb = [[ClassAlbumListPb alloc] init];
     MEAlbumDeleteVM *albumDelVM = [MEAlbumDeleteVM vmWithPb: listPb];
     for (ClassAlbumPb *pb in self.selectArr) {
@@ -208,6 +240,7 @@ static CGFloat const ITEM_LEADING = 10.f;
             [MEBabyAlbumListVM deleteAlbum: pb];
         }
         [self loadDataSource];
+        _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
@@ -236,6 +269,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
     MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
     pb.classId = _classId;
+    pb.parentId = _parendId;
     NSData *data = [pb data];
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         [self.photos removeAllObjects];
@@ -300,7 +334,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)customNavigation {
-    NSString *title = @"宝宝相册";
+    NSString *title = _navigationTitle;
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self action:@selector(backBarItemTouchEvent)];
     self.navigationItem = [[UINavigationItem alloc] initWithTitle:title];
@@ -311,17 +345,21 @@ static CGFloat const ITEM_LEADING = 10.f;
 //重写backitem的方法
 - (void)backBarItemTouchEvent {
     if (_isSelectStatus) {
-        _isSelectStatus = NO;
-        self.navigationItem.rightBarButtonItem = nil;
-        [self.selectArr removeAllObjects];
-        for (ClassAlbumPb *pb in self.photos) {
-            pb.isSelectStatus = _isSelectStatus;
-            pb.isSelect = NO;
-        }
-        [self.photoView reloadData];
+        [self backToUnselectingStatus];
     } else {
         [self.navigationController popViewControllerAnimated: YES];
     }
+}
+
+- (void)backToUnselectingStatus {
+    _isSelectStatus = NO;
+    [self.selectArr removeAllObjects];
+    self.navigationItem.rightBarButtonItem = nil;
+    for (ClassAlbumPb *pb in self.photos) {
+        pb.isSelectStatus = NO;
+        pb.isSelect = NO;
+    }
+    [self.photoView reloadData];
 }
 
 - (void)reloadData {
@@ -373,6 +411,32 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self.scrollContent mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(2 * MESCREEN_WIDTH);
     }];
+}
+
+- (void)didSelectAlbumPb:(ClassAlbumPb *)pb index:(NSInteger)index photos:(NSArray <ClassAlbumPb *> *)photos {
+    NSString *bucket = self.currentUser.bucketDomain;
+    if (!pb.isParent) {
+        for (ClassAlbumPb *albumPb in photos) {
+            if (!albumPb.isParent) {
+                MWPhoto *mwPhoto;
+                if ([albumPb.fileType isEqualToString: @"mp4"]) {
+                    mwPhoto = [[MWPhoto alloc] initWithVideoURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath]]];
+                } else {
+                    mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath]]];
+                }
+                [self.browserPhotos addObject: mwPhoto];
+            }
+        }
+        [self.photoBrowser setCurrentPhotoIndex: index];
+        
+        MEBaseNavigationProfile *browser  = [[MEBaseNavigationProfile alloc] initWithRootViewController: self.photoBrowser];
+        [self.navigationController presentViewController: browser animated: YES completion: nil];
+    } else {
+        NSString *urlStr = @"profile://root@MEBabyPhotoProfile";
+        NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: pb.id_p], @"title": pb.fileName};
+        NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+        [self handleTransitionError: error];
+    }
 }
 
 
@@ -483,11 +547,30 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.photoView) {
-        
-    } else {
-        
+    if (!_isSelectStatus) {
+        if (collectionView == self.photoView) {
+            ClassAlbumPb *pb = [self.photos objectAtIndex: indexPath.row];
+            [self didSelectAlbumPb: pb index: indexPath.row photos: self.photos];
+        } else {
+            ClassAlbumPb *pb = [[(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"] objectAtIndex: indexPath.row];
+            NSArray *timeLineArr = [(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"];
+            [self didSelectAlbumPb: pb index: indexPath.row photos: timeLineArr];
+        }
     }
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    return self.browserPhotos.count;
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    return [self.browserPhotos objectAtIndex: index];
+}
+
+- (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    self.photoBrowser = nil;
+    [self.selectArr removeAllObjects];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -598,6 +681,35 @@ static CGFloat const ITEM_LEADING = 10.f;
         _selectArr = [NSMutableArray array];
     }
     return _selectArr;
+}
+
+- (MWPhotoBrowser *)photoBrowser {
+    if (!_photoBrowser) {
+        _photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
+//        __weak typeof(self) weakself = self;
+//        _photoBrowser.popCallback = ^{
+//            weakself.photoBrowser = nil;
+//            [weakself.browserPhotos removeAllObjects];
+//        };
+        //set options
+        _photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
+        _photoBrowser.displayNavArrows = NO; //显示左右划动
+        _photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮
+        _photoBrowser.alwaysShowControls = YES; //控制条始终显示
+        _photoBrowser.zoomPhotosToFill = YES; //是否自适应大小
+        _photoBrowser.enableGrid = NO;//是否允许网络查看图片
+        _photoBrowser.startOnGrid = NO; //是否以网格开始;
+        _photoBrowser.enableSwipeToDismiss = YES;
+        _photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
+    }
+    return _photoBrowser;
+}
+
+- (NSMutableArray *)browserPhotos {
+    if (!_browserPhotos) {
+        _browserPhotos = [NSMutableArray array];
+    }
+    return _browserPhotos;
 }
 
 @end

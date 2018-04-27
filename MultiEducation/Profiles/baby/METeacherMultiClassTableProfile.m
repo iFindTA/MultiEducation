@@ -75,7 +75,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     uint64_t classId = [self.classes objectAtIndex: indexPath.row].id_p;
-    NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId]};
+    NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId], @"title": @"宝宝相册"};
     NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [self handleTransitionError:err];

@@ -1,6 +1,5 @@
 platform :ios, '9.0'
 
-
 target 'MultiEducation' do
 pod 'PBKits', '~> 1.2.2'
 pod 'FCUUID', '~> 1.3.1'
@@ -32,5 +31,5 @@ pod 'TZImagePickerController', '~> 2.0.1'
 pod 'Qiniu', '~> 7.2.3'
 pod 'UMengAnalytics-NO-IDFA', '~> 4.2.5'
 pod 'RongCloudIM', '~> 2.8.30'
-pod 'SDWebImage', '~> 4.3.3'
+pod 'MWPhotoBrowser', '~> 2.1.2'
 end

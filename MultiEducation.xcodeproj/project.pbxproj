@@ -1147,17 +1147,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		8BB68EFD072D7AA5305547E511947B3F /* tcp */ = {
-			isa = PBXGroup;
-			children = (
-				489EA77A2188AD13AB0EEEAB17192001 /* MEHeartBeatVM.h */,
-				1B286875237DC38BE3356C0129B1C195 /* MEHeartBeatVM.m */,
-				A2DBD633EAB0B5386E2F8D2995426B47 /* MEServerListVM.h */,
-				9FCE525B00A3BE09A1C2D61DBD351A43 /* MEServerListVM.m */,
-			);
-			path = tcp;
-			sourceTree = "<group>";
-		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1358,6 +1347,17 @@
 				929E61EAC0F5E501A38E8EE877EEF18D /* MEIndexNavigationBar.m */,
 			);
 			path = indexHeader;
+			sourceTree = "<group>";
+		};
+		8BB68EFD072D7AA5305547E511947B3F /* tcp */ = {
+			isa = PBXGroup;
+			children = (
+				489EA77A2188AD13AB0EEEAB17192001 /* MEHeartBeatVM.h */,
+				1B286875237DC38BE3356C0129B1C195 /* MEHeartBeatVM.m */,
+				A2DBD633EAB0B5386E2F8D2995426B47 /* MEServerListVM.h */,
+				9FCE525B00A3BE09A1C2D61DBD351A43 /* MEServerListVM.m */,
+			);
+			path = tcp;
 			sourceTree = "<group>";
 		};
 		8BF2F51D245461EA60713AE4817C0041 /* TemplateProfile */ = {
@@ -2133,6 +2133,7 @@
 				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png",
 				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj",
 				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/Contents.json",
@@ -2172,6 +2173,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_2.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MWPhotoBrowser.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Contents.json",

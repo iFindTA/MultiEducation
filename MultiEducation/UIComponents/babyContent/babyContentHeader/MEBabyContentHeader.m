@@ -41,7 +41,7 @@
             [self handleTransitionError:err];
         } else {
             NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.teacherPb.classPbArray[0].id_p];
-            NSDictionary *params = @{@"classId": classId};
+            NSDictionary *params = @{@"classId": classId, @"title": @"宝宝相册"};
             NSString *urlString =@"profile://root@MEBabyPhotoProfile";
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
             [self handleTransitionError:err];
@@ -55,7 +55,7 @@
             
         } else {
             NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.deanPb.classPbArray[0].id_p];
-            NSDictionary *params = @{@"classId": classId};
+            NSDictionary *params = @{@"classId": classId, @"title": @"宝宝相册"};
             NSString *urlString =@"profile://root@MEBabyPhotoProfile";
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
             [self handleTransitionError:err];
@@ -69,7 +69,7 @@
         } else {
             classId = [NSNumber numberWithInteger: self.currentUser.parentsPb.classPbArray[0].id_p];
         }
-        NSDictionary *params = @{@"classId": classId};
+        NSDictionary *params = @{@"classId": classId, @"title": @"宝宝相册"};
         NSString *urlString =@"profile://root@MEBabyPhotoProfile";
         NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
         [self handleTransitionError:err];
