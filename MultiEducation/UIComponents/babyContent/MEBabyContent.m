@@ -67,7 +67,7 @@
     if (self) {
         [self createSubviews];
         [self loadData];
-//        [self getBabyNewsInfo];
+        [self getBabyNewsInfo];
     }
     return self;
 }
@@ -341,8 +341,6 @@
         make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
     }];
     
-    [self getBabyNewsInfo];
-    
 }
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
@@ -535,7 +533,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.newsInfos.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

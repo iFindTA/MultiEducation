@@ -83,18 +83,15 @@ static CGFloat const ITEM_LEADING = 10.f;
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear: animated];
-    [self customNavigation];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.sj_fadeAreaViews = @[self.scrollView];
-        
+    
+    [self customNavigation];
+    
     [self layoutView];
     
     [self loadDataSource];
@@ -569,6 +566,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
     self.photoBrowser = nil;
     [self.selectArr removeAllObjects];
 }
