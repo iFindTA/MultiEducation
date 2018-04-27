@@ -91,7 +91,7 @@
     item.leftBarButtonItems = @[spacer, backItem];
     BOOL whetherMultiClasses = [MEKits whetherCurrentUserHaveMulticastClasses];
     if (whetherMultiClasses) {
-        UIBarButtonItem *moreItem = [MEKits barWithUnicode:@"\U000036dc" title:nil color:backColor target:self action:@selector(exchangeClassTouchEvent)];
+        UIBarButtonItem *moreItem = [MEKits barWithUnicode:@"\U0000e6dc" title:nil color:backColor target:self action:@selector(exchangeClassTouchEvent)];
         item.rightBarButtonItems = @[spacer, moreItem];
     }
     [self.navigationBar pushNavigationItem:item animated:true];
