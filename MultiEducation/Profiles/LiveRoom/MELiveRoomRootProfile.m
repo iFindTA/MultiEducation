@@ -214,8 +214,8 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         NSArray<MEPBClassLive*>*classItems = self.dataLive.recorderListArray.copy;
         MEPBClassLive *liveItem = classItems.firstObject;
         NSString *urlString = liveItem.streamURL;
-        urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
-        //urlString = self.dataLive.videoURL;
+        //urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+        urlString = self.dataLive.videoURL;
         NSURL *url = [NSURL URLWithString:urlString];
         _playProfile = [[KSYMoviePlayerController alloc] initWithContentURL:url];
         _playProfile.controlStyle = 0;
@@ -594,7 +594,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 - (void)rebuildLiveRoomSubviews {
     self.whetherDidLoadData = true;
     //mask event
-    if (self.dataLive /*&& self.dataLive.status == 1//*/) {
+    if (self.dataLive && self.dataLive.status == 1) {
         //正在直播
         self.liveMaskScene.hidden = true;
         //reset current play item
