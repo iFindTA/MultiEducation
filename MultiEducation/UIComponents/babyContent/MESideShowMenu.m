@@ -94,7 +94,7 @@ static CGFloat const BTN_HEIGHT = 56.f;
             self.touchHandler(MEUserTouchEventTypeUpload);
         }];
         _uploadBtn.textLab.text = @"上传";
-        _uploadBtn.icon.image = [UIImage imageNamed: @"appicon_placeholder"];
+        _uploadBtn.icon.image = [UIImage imageNamed: @"baby_content_upload"];
         _uploadBtn.textLab.textColor = UIColorFromRGB(0x6fa4f0);
     }
     return _uploadBtn;
@@ -106,7 +106,7 @@ static CGFloat const BTN_HEIGHT = 56.f;
             self.touchHandler(MEUserTouchEventTypeNewFolder);
         }];
         _createBtn.textLab.text = @"新建";
-        _createBtn.icon.image = [UIImage imageNamed: @"appicon_placeholder"];
+        _createBtn.icon.image = [UIImage imageNamed: @"baby_content_create_folder"];
         _createBtn.textLab.textColor = UIColorFromRGB(0x6fa4f0);
     }
     return _createBtn;
@@ -118,7 +118,7 @@ static CGFloat const BTN_HEIGHT = 56.f;
             self.touchHandler(MEUserTouchEventTypeMove);
         }];
         _moveBtn.textLab.text = @"移动";
-        _moveBtn.icon.image = [UIImage imageNamed: @"appicon_placeholder"];
+        _moveBtn.icon.image = [UIImage imageNamed: @"baby_content_move"];
         _moveBtn.textLab.textColor = UIColorFromRGB(0x6fa4f0);
     }
     return _moveBtn;
@@ -130,7 +130,7 @@ static CGFloat const BTN_HEIGHT = 56.f;
             self.touchHandler(MEUserTouchEventTypeDelete);
         }];
         _deleteBtn.textLab.text = @"删除";
-        _deleteBtn.icon.image = [UIImage imageNamed: @"appicon_placeholder"];
+        _deleteBtn.icon.image = [UIImage imageNamed: @"baby_content_delete"];
         _deleteBtn.textLab.textColor = UIColorFromRGB(0x6fa4f0);
     }
     return _deleteBtn;

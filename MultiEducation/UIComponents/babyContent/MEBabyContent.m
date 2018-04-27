@@ -108,9 +108,11 @@
     [infoVM postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
         OsrInformationPbList *listPb = [OsrInformationPbList parseFromData: resObj error: nil];
         _pageIndex +=  ME_PAGING_SIZE;
-        [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];
-        
+        [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];        
         [self.tableView reloadData];
+        [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo([self tableviewHeight]);
+        }];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
@@ -345,11 +347,7 @@
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
 - (CGFloat)tableviewHeight {
-    CGFloat height = 0;
-    for (int i = 0; i < [self.tableView numberOfSections]; i++) {
-        height += TABLEVIEW_SECTION_HEIGHT;
-        height += [self.tableView numberOfRowsInSection: i] * TABLEVIEW_ROW_HEIGHT;
-    }
+    CGFloat height = self.newsInfos.count * TABLEVIEW_ROW_HEIGHT + TABLEVIEW_SECTION_HEIGHT;
     return height;
 }
 
