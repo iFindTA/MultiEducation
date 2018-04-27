@@ -8,5 +8,9 @@ message GuIndexPb {
    int32 semester = 3;//学期
    int64 gradeId = 4;//年级
    int32 month = 5;//月份
-   int64 userId = 6;   //用户id
+   int32 unNoticeNum = 6; //园所公告badage
+   int32 unVoteNum = 7;	//问卷调查badage
+
+   int64 userId = 8;   //用户id
+
 }

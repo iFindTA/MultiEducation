@@ -54,7 +54,9 @@ typedef GPB_ENUM(GuIndexPb_FieldNumber) {
   GuIndexPb_FieldNumber_Semester = 3,
   GuIndexPb_FieldNumber_GradeId = 4,
   GuIndexPb_FieldNumber_Month = 5,
-  GuIndexPb_FieldNumber_UserId = 6,
+  GuIndexPb_FieldNumber_UnNoticeNum = 6,
+  GuIndexPb_FieldNumber_UnVoteNum = 7,
+  GuIndexPb_FieldNumber_UserId = 8,
 };
 
 @interface GuIndexPb : GPBMessage
@@ -74,6 +76,12 @@ typedef GPB_ENUM(GuIndexPb_FieldNumber) {
 
 /** 月份 */
 @property(nonatomic, readwrite) int32_t month;
+
+/** 园所公告badage */
+@property(nonatomic, readwrite) int32_t unNoticeNum;
+
+/** 问卷调查badage */
+@property(nonatomic, readwrite) int32_t unVoteNum;
 
 /** 用户id */
 @property(nonatomic, readwrite) int64_t userId;

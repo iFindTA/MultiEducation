@@ -52,12 +52,16 @@ static GPBFileDescriptor *MebabyIndexRoot_FileDescriptor(void) {
 @dynamic semester;
 @dynamic gradeId;
 @dynamic month;
+@dynamic unNoticeNum;
+@dynamic unVoteNum;
 @dynamic userId;
 
 typedef struct GuIndexPb__storage_ {
   uint32_t _has_storage_[1];
   int32_t semester;
   int32_t month;
+  int32_t unNoticeNum;
+  int32_t unVoteNum;
   GuStudentArchivesPb *studentArchives;
   int64_t studentId;
   int64_t gradeId;
@@ -116,10 +120,28 @@ typedef struct GuIndexPb__storage_ {
         .dataType = GPBDataTypeInt32,
       },
       {
+        .name = "unNoticeNum",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_UnNoticeNum,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(GuIndexPb__storage_, unNoticeNum),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "unVoteNum",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_UnVoteNum,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(GuIndexPb__storage_, unVoteNum),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
         .name = "userId",
         .dataTypeSpecific.className = NULL,
         .number = GuIndexPb_FieldNumber_UserId,
-        .hasIndex = 5,
+        .hasIndex = 7,
         .offset = (uint32_t)offsetof(GuIndexPb__storage_, userId),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
@@ -135,7 +157,7 @@ typedef struct GuIndexPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\004\001\t\000\002\017\000\004\007\000\006\006\000";
+        "\006\001\t\000\002\017\000\004\007\000\006\013\000\007\t\000\010\006\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

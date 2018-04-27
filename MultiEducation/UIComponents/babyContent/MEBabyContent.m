@@ -58,6 +58,8 @@
 
 @property (nonatomic, strong) StudentPb *studentPb;
 
+@property (nonatomic, strong) NSMutableArray <NSNumber *> *badgeArr;
+
 @end
 
 @implementation MEBabyContent
@@ -85,6 +87,7 @@
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
             [self.headerView setData: stuPb];
             [self getBabyPhotos];
+            [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
             return;
         }
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
@@ -95,7 +98,29 @@
         [self getBabyPhotos];
         [self getBabyArchitecture: 0];
     }
-    
+}
+
+//role == parent 由于会保存信息，所以不会请求GuIndexPb,无法获取最新的badge
+- (void)getBabyGrowthIndexbadgeWhichRoleParent:(NSInteger)studentId {
+    GuIndexPb *pb = [[GuIndexPb alloc] init];
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        pb.studentId = studentId;
+    }
+    MEBabyIndexVM *babyIndexVM = [MEBabyIndexVM vmWithPb: pb];
+    NSData *data = [pb data];
+    weakify(self);
+    [babyIndexVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
+        [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
+        [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        if (self.babyTabBarBadgeCallback) {
+            self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
+        }
+        [self.componentView reloadData];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
 }
 
 - (void)getBabyNewsInfo {
@@ -162,11 +187,14 @@
         strongify(self);
         GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
         [self.headerView setData: pb.studentArchives];
-        
-        GuStudentArchivesPb *babyGrowthPb = pb.studentArchives;
         [MEBabyIndexVM saveSelectBaby: pb];
-        
         [self getBabyPhotos];
+        
+        [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
+        [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        if (self.babyTabBarBadgeCallback) {
+            self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
+        }
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
@@ -375,7 +403,7 @@
     } else {
 //        scrollContentView collectionView cell
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
-        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item];
+        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item badge: [self.badgeArr objectAtIndex: indexPath.item].integerValue];
     }
     return cell;
 }
@@ -676,6 +704,14 @@
         _newsInfos = [NSMutableArray array];
     }
     return _newsInfos;
+}
+
+- (NSMutableArray<NSNumber *> *)badgeArr {
+    if (!_badgeArr) {
+        NSArray *tmpArr = @[@0, @0, @0, @0, @0, @0];
+        _badgeArr = [NSMutableArray arrayWithArray: tmpArr];
+    }
+    return _badgeArr;
 }
 
 @end

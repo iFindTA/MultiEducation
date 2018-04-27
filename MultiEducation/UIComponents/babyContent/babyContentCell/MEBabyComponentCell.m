@@ -12,18 +12,21 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self.badageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(8.f);
+        make.right.mas_equalTo(-8.f);
+        make.width.height.mas_equalTo(10.f);
+    }];
+    self.badageLab.hidden = YES;
 }
 
-- (void)setItemWithType:(MEBabyContentType)type {
-    [self setComponentValueWithType: type];
-}
-
-- (void)setComponentValueWithType:(MEBabyContentType)type {
+- (void)setItemWithType:(MEBabyContentType)type badge:(NSInteger)badge {
     NSString *title;
     NSString *subTitle;
     UIColor *backgroundColor;
     UIImage *iconImage;
     CGSize size;
+    [self setbadgeValueProperty: badge];
     switch (type) {
         case MEBabyContentTypeGrowth: {
             title = @"成长档案";
@@ -89,5 +92,27 @@
         make.height.mas_equalTo(size.height);
     }];
 }
+
+- (void)setbadgeValueProperty:(NSInteger)badge {
+    CGFloat badgeDiam;
+    if (badge == 0) {
+        self.badageLab.hidden = YES;
+    } else {
+        if (badge == 1) {
+            badgeDiam = 10.f;
+            self.badageLab.text = @"";
+        } else {
+            badgeDiam = 14.f;
+            self.badageLab.text = [NSString stringWithFormat: @"%ld", badge];
+        }
+        [self.badageLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.width.mas_equalTo(badgeDiam);
+        }];
+        [self.badageLab.superview layoutIfNeeded];
+        self.badageLab.hidden = NO;
+        self.badageLab.layer.cornerRadius = badgeDiam / 2;
+    }
+}
+
 
 @end
