@@ -187,7 +187,7 @@
 
 - (void)handleTransitionError:(NSError *)error {
     if (error) {
-        [SVProgressHUD showErrorWithStatus:error.domain];
+        [SVProgressHUD showErrorWithStatus:error.localizedDescription];
     }
 }
 

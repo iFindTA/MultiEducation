@@ -430,7 +430,7 @@
 
 + (void)handleError:(NSError *)err {
     if (err) {
-        [SVProgressHUD showErrorWithStatus:err.domain];
+        [SVProgressHUD showErrorWithStatus:err.localizedDescription];
     }
 }
 
