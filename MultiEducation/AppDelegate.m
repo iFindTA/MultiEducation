@@ -329,17 +329,17 @@
         //for Cordova
         [MEKits configureCordovaEnv];
         [MEKits UnzipCordovaResources];
-        //for rongyun im
-        [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
-        [[RCIM sharedRCIM] setEnableMessageMentioned:true];
-        [[RCIM sharedRCIM] setEnableMessageRecall:true];
-        // 消息回执
-        NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
-        [backTypes addObject:@(ConversationType_PRIVATE)];
-        [backTypes addObject:@(ConversationType_GROUP)];
-        [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
-        // 多端阅读消息数同步
-        [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];
+        //for rongyun im must run in main-thread 
+        PBMAIN(^{
+            [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
+            [[RCIM sharedRCIM] setEnableMessageMentioned:true];
+            [[RCIM sharedRCIM] setEnableMessageRecall:true];
+            NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
+            [backTypes addObject:@(ConversationType_PRIVATE)];
+            [backTypes addObject:@(ConversationType_GROUP)];
+            [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
+            [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];// 多端阅读消息数同步
+        });
     });
 }
 
@@ -347,8 +347,10 @@
  开启即时服务: {融云IM，自身长链接}
  */
 - (void)startIMServivesOnBgThread {
-    [[MEIMService shared] startRongIMService];
-    [MEServerListVM fetchOnlineServerList];
+    PBMAIN(^{
+        [[MEIMService shared] startRongIMService];
+        [MEServerListVM fetchOnlineServerList];
+    });
 }
 /**
  断开即时服务: {融云IM，自身长链接}

@@ -125,12 +125,13 @@
         [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:removeIndex];
     }
     
-    //加入短视频扩展
+    /*加入短视频扩展
     NSString *iconTitle = @"短视频";
     NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
     UIColor *iconColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
     UIImage *icon = [UIImage pb_iconFont:nil withName:@"\U0000e6a0" withSize:iconSize withColor:iconColor];
     [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:icon title:iconTitle atIndex:removeIndex tag:removeIndex];
+    //*/
 }
 
 @end

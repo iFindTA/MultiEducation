@@ -59,15 +59,18 @@ static MEIMService *instance = nil;
     
     weakify(self)
     [[RCIM sharedRCIM] connectWithToken:user.rcToken success:^(NSString *userId) {
-        NSLog(@"RongIM登录成功...userId:%@", userId);strongify(self)
-        NSString *portrait = [MEKits imageFullPath:user.portrait];
-        [[RCIM sharedRCIM] setCurrentUserInfo:[[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait]];
-        [[RCIM sharedRCIM] setUserInfoDataSource:self];
-        [[RCIM sharedRCIM] setGroupInfoDataSource:self];
-        [[RCIM sharedRCIM] setGroupMemberDataSource:self];
-        [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
-        //更新未读
-        [self.app updateRongIMUnReadMessageCounts];
+        NSLog(@"RongIM登录成功...userId:%@", userId);
+        PBMAINDelay(ME_ANIMATION_DURATION, ^{
+            strongify(self)
+            NSString *portrait = [MEKits imageFullPath:user.portrait];
+            [[RCIM sharedRCIM] setCurrentUserInfo:[[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait]];
+            [[RCIM sharedRCIM] setUserInfoDataSource:self];
+            [[RCIM sharedRCIM] setGroupInfoDataSource:self];
+            [[RCIM sharedRCIM] setGroupMemberDataSource:self];
+            [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+            //更新未读
+            [self.app updateRongIMUnReadMessageCounts];
+        });
     } error:^(RCConnectErrorCode status) {
         NSLog(@"登录失败,error status=%ld", (long)status);
     } tokenIncorrect:^{
