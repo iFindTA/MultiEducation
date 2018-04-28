@@ -15,8 +15,8 @@
 @property (weak, nonatomic) IBOutlet MEBaseLabel *titleLabel;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet MEBaseLabel *badageLab;
 
-
-- (void)setItemWithType:(MEBabyContentType)type;
+- (void)setItemWithType:(MEBabyContentType)type badge:(NSInteger)badge;
 
 @end

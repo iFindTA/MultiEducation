@@ -58,6 +58,8 @@
 
 @property (nonatomic, strong) StudentPb *studentPb;
 
+@property (nonatomic, strong) NSMutableArray <NSNumber *> *badgeArr;
+
 @end
 
 @implementation MEBabyContent
@@ -68,38 +70,57 @@
         [self createSubviews];
         [self loadData];
         [self getBabyNewsInfo];
+        
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(getBabyPhotos) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
     }
     return self;
 }
 
+- (void)removeNotiObserver {
+    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+}
+
 - (void)loadData {
     if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
-        
         GuStudentArchivesPb *stuPb;
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
-            
             [self.headerView setData: stuPb];
-            
             [self getBabyPhotos];
-
+            [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
             return;
         }
-        
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
         [self getBabyArchitecture: studentId];
     }
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-        GuStudentArchivesPb *stuPb;
-        if ([MEBabyIndexVM fetchSelectBaby] != nil) {
-            stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
-            [self getBabyPhotos];
-            return;
-        }
+        [self getBabyPhotos];
         [self getBabyArchitecture: 0];
     }
-    
+}
+
+//role == parent 由于会保存信息，所以不会请求GuIndexPb,无法获取最新的badge
+- (void)getBabyGrowthIndexbadgeWhichRoleParent:(NSInteger)studentId {
+    GuIndexPb *pb = [[GuIndexPb alloc] init];
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        pb.studentId = studentId;
+    }
+    MEBabyIndexVM *babyIndexVM = [MEBabyIndexVM vmWithPb: pb];
+    NSData *data = [pb data];
+    weakify(self);
+    [babyIndexVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
+        [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
+        [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        if (self.babyTabBarBadgeCallback) {
+            self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
+        }
+        [self.componentView reloadData];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
 }
 
 - (void)getBabyNewsInfo {
@@ -108,9 +129,11 @@
     [infoVM postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
         OsrInformationPbList *listPb = [OsrInformationPbList parseFromData: resObj error: nil];
         _pageIndex +=  ME_PAGING_SIZE;
-        [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];
-        
+        [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];        
         [self.tableView reloadData];
+        [self.tableView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo([self tableviewHeight]);
+        }];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
@@ -120,11 +143,11 @@
 - (BOOL)getBabyPhotos {
     [self.babyPhotos removeAllObjects];
     NSArray *totalAlbums;
-    if (self.currentUser.userType == (MEPBUserRole_Gardener | MEPBUserRole_Teacher)) {
+    if (self.currentUser.userType == MEPBUserRole_Gardener || self.currentUser.userType == MEPBUserRole_Teacher) {
         totalAlbums = [MEBabyAlbumListVM fetchUserAllAlbum];
     } else if (self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count != 0) {
         GuStudentArchivesPb *pb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
-       totalAlbums = [MEBabyAlbumListVM fetchAlbmsWithClassId: pb.classId];
+        totalAlbums = [MEBabyAlbumListVM fetchAlbmsWithClassId: pb.classId];
     } else {
         [self updateViewsMasonry];
         return NO;
@@ -134,11 +157,16 @@
         return NO;
     }
     
-    NSArray *albums;
-    if (albums.count >= 10) {
-        albums = [totalAlbums subarrayWithRange: NSMakeRange(0, 10)];
-    } else {
-        albums = totalAlbums;
+    NSMutableArray *albums = [NSMutableArray array];
+    
+    for (ClassAlbumPb *pb in totalAlbums) {
+        if (albums.count <= (totalAlbums.count >= 10 ? 10 : totalAlbums.count)) {
+            if (!pb.isParent) {
+                [albums addObject: pb];
+            }
+        } else {
+            break;
+        }
     }
     
     [self.babyPhotos addObjectsFromArray: albums];
@@ -159,11 +187,14 @@
         strongify(self);
         GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
         [self.headerView setData: pb.studentArchives];
-        
-        GuStudentArchivesPb *babyGrowthPb = pb.studentArchives;
         [MEBabyIndexVM saveSelectBaby: pb];
-        
         [self getBabyPhotos];
+        
+        [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
+        [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        if (self.babyTabBarBadgeCallback) {
+            self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
+        }
         
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
@@ -345,11 +376,7 @@
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
 - (CGFloat)tableviewHeight {
-    CGFloat height = 0;
-    for (int i = 0; i < [self.tableView numberOfSections]; i++) {
-        height += TABLEVIEW_SECTION_HEIGHT;
-        height += [self.tableView numberOfRowsInSection: i] * TABLEVIEW_ROW_HEIGHT;
-    }
+    CGFloat height = self.newsInfos.count * TABLEVIEW_ROW_HEIGHT + TABLEVIEW_SECTION_HEIGHT;
     return height;
 }
 
@@ -376,7 +403,7 @@
     } else {
 //        scrollContentView collectionView cell
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
-        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item];
+        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item badge: [self.badgeArr objectAtIndex: indexPath.item].integerValue];
     }
     return cell;
 }
@@ -677,6 +704,14 @@
         _newsInfos = [NSMutableArray array];
     }
     return _newsInfos;
+}
+
+- (NSMutableArray<NSNumber *> *)badgeArr {
+    if (!_badgeArr) {
+        NSArray *tmpArr = @[@0, @0, @0, @0, @0, @0];
+        _badgeArr = [NSMutableArray arrayWithArray: tmpArr];
+    }
+    return _badgeArr;
 }
 
 @end

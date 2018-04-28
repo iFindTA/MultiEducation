@@ -130,6 +130,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
                 albumPb.fileId = pb.fileId;
                 albumPb.fileType = pb.fileType;
                 albumPb.filePath = pb.filePath;
+                [MEBabyAlbumListVM saveAlbum: albumPb];
             }
         }
         [self.tableView reloadData];
@@ -140,19 +141,15 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 
 - (void)uploadTotalSuccAlert {
-    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"上传完成！" message:@"是否继续上传？" preferredStyle: UIAlertControllerStyleAlert];
-    
-    UIAlertAction *reUploadAc = [UIAlertAction actionWithTitle:@"继续上传" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+    UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"" message:@"上传完成！" preferredStyle: UIAlertControllerStyleAlert];
+    weakify(self);
+    UIAlertAction *cancelAc = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
+        [self.navigationController popViewControllerAnimated: YES];
     }];
-    
-    UIAlertAction *cancelAc = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    
-    [alertProfile setPreferredAction: reUploadAc];
-    [alertProfile setPreferredAction: cancelAc];
-    
+                            
+                               
+    [alertProfile addAction: cancelAc];
     [self.navigationController presentViewController:alertProfile animated: YES completion: nil];
 }
 
@@ -184,6 +181,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 - (void)uploadImageSuccess:(NSString *)key {
     for (ClassAlbumPb *pb in _dataArr) {
         if ([pb.filePath isEqualToString: key]) {
+            pb.uploadStatu = MEUploadStatus_Success;
             [self sendUploadResultToServer: pb];
         }
     }
@@ -207,6 +205,11 @@ static CGFloat const ROW_HEIGHT = 60.f;
             [self.tableView reloadData];
         }
     }
+}
+
+- (void)uploadOver {
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+    [self uploadTotalSuccAlert];
 }
 
 #pragma mark - lazyloading

@@ -85,6 +85,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame: self.view.bounds style: UITableViewStylePlain];
+        _tableView.tableFooterView = nil;
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }

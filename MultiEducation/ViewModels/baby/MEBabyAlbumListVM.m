@@ -13,7 +13,7 @@
 
 @interface MEBabyAlbumListVM ()
 
-@property (nonatomic, strong) ClassAlbumPb *babyAlbumListPb;
+@property (nonatomic, strong) ClassAlbumPb *babyAlbumPb;
 
 @end
 
@@ -26,25 +26,29 @@
 - (instancetype)initWithPb:(ClassAlbumPb *)pb {
     self = [super init];
     if (self) {
-        _babyAlbumListPb = pb;
+        _babyAlbumPb = pb;
     }
     return self;
 }
 
 + (BOOL)saveAlbum:(ClassAlbumPb *)album {
     NSString *where = [NSString stringWithFormat: @"id_p = %lld", album.id_p];
-    NSArray *arr = [WHCSqlite query: [ClassAlbumListPb class] where: where limit: @"1"];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where limit: @"1"];
     if (arr.count == 0) {
         return [WHCSqlite insert: album];
     } else {
-        [WHC_ModelSqlite delete: arr[0] where: where];
-        return [WHCSqlite insert: album];
+        BOOL result = [WHCSqlite delete: [ClassAlbumPb class] where: where];
+        if (result) {
+            return [WHCSqlite insert: album];
+        } else {
+            return NO;
+        }
     }
 }
 
 + (BOOL)deleteAlbum:(ClassAlbumPb *)album {
     NSString *where = [NSString stringWithFormat: @"id_p = %lld", album.id_p];
-    NSArray *arr = [WHCSqlite query: [ClassAlbumListPb class] where: where limit: @"1"];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where limit: @"1"];
     if (arr.count == 0) {
         return YES;
     } else {
@@ -74,13 +78,13 @@
     }
     //delete the last ','
     [where deleteCharactersInRange: NSMakeRange(where.length - 3, 3)];
-    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by  modifiedDate desc"];
     return arr;
 }
 
 + (NSArray *)fetchAlbmsWithClassId:(int64_t)classId {
     NSString *where = [NSString stringWithFormat: @"classId = %lld", classId];
-    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
 }
 

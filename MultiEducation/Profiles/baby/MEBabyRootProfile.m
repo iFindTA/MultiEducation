@@ -43,6 +43,10 @@
     }];
 }
 
+- (void)dealloc {
+    [_babyView removeNotiObserver];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
@@ -66,6 +70,10 @@
 - (MEBabyContent *)babyView {
     if (!_babyView) {
         _babyView = [[MEBabyContent alloc] initWithFrame: CGRectZero];
+        __weak typeof(self) weakself = self;
+        _babyView.babyTabBarBadgeCallback = ^(NSInteger badge) {
+            [weakself setBadgeValue: 0 atIndex: 2];
+        };
         weakify(self);
         _babyView.babyContentScrollCallBack = ^(CGFloat contentOffsetY, MEScrollViewDirection direction) {
             strongify(self);
