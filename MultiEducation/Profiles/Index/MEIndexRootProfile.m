@@ -169,7 +169,8 @@
         [btn addTarget:self action:@selector(guideTouristGotoSignTouchEvent) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
         [btn makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+            make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+            make.bottom.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY*1.5);
             make.size.equalTo(CGSizeMake(itemSize, itemSize));
         }];
     }

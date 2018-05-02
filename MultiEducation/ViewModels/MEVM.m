@@ -40,7 +40,7 @@
     
     NSDictionary *dicInfo = [[NSBundle mainBundle] infoDictionary];
     NSString *deviceId = [[UIDevice currentDevice].identifierForVendor UUIDString];
-    NSString *subscruberId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSString *subscruberId = [[UIDevice currentDevice].identifierForVendor UUIDString];
     struct utsname systemInfo;
     uname(&systemInfo);
     NSString *model =  [NSString stringWithCString:systemInfo.machine

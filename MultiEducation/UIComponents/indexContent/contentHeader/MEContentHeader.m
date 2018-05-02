@@ -11,7 +11,7 @@
 #import <YJBannerView/YJBannerView.h>
 
 //banner height
-static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                             =   100;
+static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                             =   140;
 //ad height
 static NSUInteger const ME_CONTENT_HEADER_AD_HEIGHT                                 =   30;
 
