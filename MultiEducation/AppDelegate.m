@@ -189,19 +189,6 @@
         indexNavi.tabBarItem.selectedImage = selectImg;
         //弱引用
         self.indexRootProfile = index;
-        //聊天
-        title = @"聊天";
-        image = [UIImage imageNamed:@"bar_chat"];
-        selectImg = [image pb_darkColor:color lightLevel:1.f];
-        MEChatSessionRootProfile *chat = [[MEChatSessionRootProfile alloc] init];
-        MEBaseNavigationProfile *chatNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:chat];
-        chatNavi.navigationBarHidden = true;
-        chatNavi.tabBarItem.title = title;
-        chatNavi.tabBarItem.image = image;
-        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        chatNavi.tabBarItem.image = image;
-        chatNavi.tabBarItem.selectedImage = selectImg;
         //宝宝成长
         title = ((self.curUser.userType == MEPBUserRole_Teacher)?@"班级":@"宝宝成长");
         image = [UIImage imageNamed:@"bar_baby"];
@@ -216,6 +203,19 @@
         selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         babyNavi.tabBarItem.image = image;
         babyNavi.tabBarItem.selectedImage = selectImg;
+        //聊天
+        title = @"聊天";
+        image = [UIImage imageNamed:@"bar_chat"];
+        selectImg = [image pb_darkColor:color lightLevel:1.f];
+        MEChatSessionRootProfile *chat = [[MEChatSessionRootProfile alloc] init];
+        MEBaseNavigationProfile *chatNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:chat];
+        chatNavi.navigationBarHidden = true;
+        chatNavi.tabBarItem.title = title;
+        chatNavi.tabBarItem.image = image;
+        image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        selectImg = [selectImg imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        chatNavi.tabBarItem.image = image;
+        chatNavi.tabBarItem.selectedImage = selectImg;
         //个人
         title = @"个人";
         image = [UIImage imageNamed:@"bar_personal"];
@@ -232,7 +232,7 @@
         //root tabbar
         [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
         MEBaseTabBarProfile *profile = [[MEBaseTabBarProfile alloc] init];
-        profile.viewControllers = @[indexNavi, chatNavi, babyNavi, personalNavi];
+        profile.viewControllers = @[indexNavi, babyNavi, chatNavi, personalNavi];
         destProfile = profile;
         self.winRootTabProfile = profile;
     } else if (style & MEDisplayStyleVisitor) {
@@ -366,7 +366,7 @@
     if (unreadCounts == 0) {
         unreadCounts -= 1;
     }
-    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:1];})
+    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:2];})
 }
 
 @end
