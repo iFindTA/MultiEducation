@@ -22,8 +22,36 @@
                         <rect key="frame" x="0.0" y="0.0" width="174" height="174"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPr-aa-Z6G" customClass="MEBaseButton">
+                        <rect key="frame" x="129" y="5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="NNt-pa-OdL"/>
+                            <constraint firstAttribute="height" constant="40" id="aZ2-wP-QH4"/>
+                        </constraints>
+                        <state key="normal" image="baby_content_photo_normal"/>
+                        <state key="selected" image="baby_content_photo_sel"/>
+                        <connections>
+                            <action selector="selectToDeleteTouchEvent:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wk7-Lb-UCl"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jiN-Bc-umm" customClass="MEBaseLabel">
+                        <rect key="frame" x="137" y="145" width="30" height="20"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="99+"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                                <real key="value" value="12"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
+                                <integer key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ox9-at-Ha3" customClass="MEBaseLabel">
-                        <rect key="frame" x="12" y="145" width="150" height="20"/>
+                        <rect key="frame" x="12" y="145" width="120" height="20"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="tz7-bS-ExQ"/>
@@ -41,37 +69,30 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPr-aa-Z6G" customClass="MEBaseButton">
-                        <rect key="frame" x="129" y="5" width="40" height="40"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="40" id="NNt-pa-OdL"/>
-                            <constraint firstAttribute="height" constant="40" id="aZ2-wP-QH4"/>
-                        </constraints>
-                        <state key="normal" image="baby_content_photo_normal"/>
-                        <state key="selected" image="baby_content_photo_sel"/>
-                        <connections>
-                            <action selector="selectToDeleteTouchEvent:" destination="gTV-IL-0wX" eventType="touchUpInside" id="wk7-Lb-UCl"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="p7W-sp-gM1" secondAttribute="bottom" id="3Sb-6f-h1C"/>
                 <constraint firstItem="p7W-sp-gM1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="659-Hd-EIL"/>
                 <constraint firstItem="ox9-at-Ha3" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="12" id="6dz-sm-0kN"/>
+                <constraint firstItem="jiN-Bc-umm" firstAttribute="leading" secondItem="ox9-at-Ha3" secondAttribute="trailing" constant="5" id="BDN-2z-J5A"/>
+                <constraint firstItem="jiN-Bc-umm" firstAttribute="height" secondItem="ox9-at-Ha3" secondAttribute="height" id="E0v-H8-Dq9"/>
+                <constraint firstItem="jiN-Bc-umm" firstAttribute="centerY" secondItem="ox9-at-Ha3" secondAttribute="centerY" id="Erx-8w-bIa"/>
                 <constraint firstAttribute="trailing" secondItem="p7W-sp-gM1" secondAttribute="trailing" id="SoG-5s-JAh"/>
-                <constraint firstAttribute="trailing" secondItem="ox9-at-Ha3" secondAttribute="trailing" constant="12" id="T75-CS-2z3"/>
+                <constraint firstAttribute="trailing" secondItem="ox9-at-Ha3" secondAttribute="trailing" constant="42" id="T75-CS-2z3"/>
                 <constraint firstItem="iPr-aa-Z6G" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="Zk8-QL-cbq"/>
+                <constraint firstAttribute="trailing" secondItem="jiN-Bc-umm" secondAttribute="trailing" constant="7" id="edJ-ff-6Uz"/>
                 <constraint firstAttribute="bottom" secondItem="ox9-at-Ha3" secondAttribute="bottom" constant="9" id="lrY-1c-ggs"/>
                 <constraint firstItem="p7W-sp-gM1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="rpQ-bN-fbc"/>
                 <constraint firstAttribute="trailing" secondItem="iPr-aa-Z6G" secondAttribute="trailing" constant="5" id="wiP-gn-sZG"/>
             </constraints>
             <connections>
+                <outlet property="countLab" destination="jiN-Bc-umm" id="mNG-nz-Wbd"/>
                 <outlet property="floderNameLabel" destination="ox9-at-Ha3" id="SNL-zS-Kqk"/>
                 <outlet property="photoIcon" destination="p7W-sp-gM1" id="xEA-OT-sJr"/>
                 <outlet property="selectBtn" destination="iPr-aa-Z6G" id="1Ca-nf-f4h"/>
             </connections>
-            <point key="canvasLocation" x="-239" y="41"/>
+            <point key="canvasLocation" x="10" y="44"/>
         </collectionViewCell>
     </objects>
     <resources>

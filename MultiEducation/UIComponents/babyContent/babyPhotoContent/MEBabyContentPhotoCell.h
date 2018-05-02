@@ -19,6 +19,8 @@ typedef void(^BabyPhotoSelectHandler)(ClassAlbumPb *pb);
 
 @property (weak, nonatomic) IBOutlet MEBaseButton *selectBtn;
 
+@property (weak, nonatomic) IBOutlet MEBaseLabel *countLab;
+
 @property (nonatomic, copy) BabyPhotoSelectHandler handler;
 
 - (void)setData:(ClassAlbumPb *)pb;

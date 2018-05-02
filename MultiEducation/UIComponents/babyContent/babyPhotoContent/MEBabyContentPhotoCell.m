@@ -27,15 +27,8 @@
 
 - (void)setData:(ClassAlbumPb *)pb {
     _albumPb = pb;
-    if (pb.isParent) {
-        self.floderNameLabel.hidden = NO;
-        self.floderNameLabel.text = pb.fileName;
-        [self setCoverImage: pb];
-    } else {
-        self.floderNameLabel.hidden = YES;
-        self.floderNameLabel.text = @"";
-        [self setCoverImage: pb];
-    }
+    [self setCoverImage: pb];
+    [self setCountLabText: pb];
     if (pb.isSelectStatus) {
         self.selectBtn.hidden = NO;
     } else {
@@ -44,10 +37,26 @@
     self.selectBtn.selected = pb.isSelect;
 }
 
+- (void)setCountLabText:(ClassAlbumPb *)pb {
+    if (pb.isParent) {
+        self.countLab.hidden = NO;
+        NSInteger count = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.parentId].count;
+        if (count > 99) {
+            self.countLab.text = @"99+";
+        } else {
+            self.countLab.text = [NSString stringWithFormat: @"%ld", count];
+        }
+    } else {
+        self.countLab.hidden = YES;
+    }
+}
+
 - (void)setCoverImage:(ClassAlbumPb *)pb {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *user = delegate.curUser;
     if (pb.isParent) {
+        self.floderNameLabel.hidden = NO;
+        self.floderNameLabel.text = pb.fileName;
         NSArray *albums = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.id_p];
         if (albums.count != 0) {
             ClassAlbumPb *firstAlbumPb = albums.firstObject;
@@ -72,6 +81,8 @@
             self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
         }
     } else {
+        self.floderNameLabel.hidden = YES;
+        self.floderNameLabel.text = @"";
         if ([pb.fileType isEqualToString: @"mp4"]) {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
