@@ -29,6 +29,10 @@
     //隐藏导航条
     [self hiddenNavigationBar];
     
+    if (!SYSTEM_VERSION_GREATER_THAN(@"11.0")) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
     [self.view addSubview: self.babyView];
     [self.view addSubview: self.babyNavigation];
     
