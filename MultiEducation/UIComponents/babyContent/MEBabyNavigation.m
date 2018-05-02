@@ -61,6 +61,10 @@ static CGFloat const ICON_HEIGHT = 20.f;
         make.centerY.mas_equalTo(backView);
     }];
     
+    [self.icon layoutIfNeeded];
+    self.icon.layer.cornerRadius = ICON_HEIGHT / 2;
+    self.icon.clipsToBounds = YES;
+    
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.icon.mas_right).mas_offset(space);
         make.width.mas_equalTo(labelWidth);

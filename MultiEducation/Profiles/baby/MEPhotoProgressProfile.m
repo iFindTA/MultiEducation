@@ -134,6 +134,11 @@ static CGFloat const ROW_HEIGHT = 60.f;
             }
         }
         [self.tableView reloadData];
+        
+        if ([albumPb isEqual: self.albumArr.lastObject]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+        }
+        
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
@@ -148,7 +153,6 @@ static CGFloat const ROW_HEIGHT = 60.f;
         [self.navigationController popViewControllerAnimated: YES];
     }];
                             
-                               
     [alertProfile addAction: cancelAc];
     [self.navigationController presentViewController:alertProfile animated: YES completion: nil];
 }
@@ -208,7 +212,6 @@ static CGFloat const ROW_HEIGHT = 60.f;
 }
 
 - (void)uploadOver {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
     [self uploadTotalSuccAlert];
 }
 

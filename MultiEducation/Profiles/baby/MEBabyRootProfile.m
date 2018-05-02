@@ -90,15 +90,18 @@
 - (MEBabyNavigation *)babyNavigation {
     if (!_babyNavigation) {
         
-        NSString *name = self.currentUser.name;
+        NSString *name;
+        if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
+            name = self.currentUser.schoolName;
+        } else {
+            name = self.currentUser.name;
+        }
         
-        NSString *urlStr = [NSString stringWithFormat: @"%@%@", self.currentUser.bucketDomain, self.currentUser.portrait];
-        
+        NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
         _babyNavigation = [[MEBabyNavigation alloc] initWithFrame: CGRectZero urlStr: urlStr title: name];
         _babyNavigation.alpha = 0;
     }
     return _babyNavigation;
 }
-
 
 @end
