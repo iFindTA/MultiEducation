@@ -25,7 +25,7 @@
     if ([UIDevice pb_isX]) {
         return ME_HEIGHT_NAVIGATIONBAR;
     }
-    return ME_HEIGHT_STATUSBAR;
+    return ME_LAYOUT_BOUNDARY;
 }
 
 + (NSString *)createUUID {

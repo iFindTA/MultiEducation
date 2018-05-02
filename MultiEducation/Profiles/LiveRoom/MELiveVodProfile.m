@@ -46,7 +46,7 @@
     
     //play back
     NSUInteger btnSize = ME_LAYOUT_ICON_HEIGHT;
-    CGFloat topOffset = ME_HEIGHT_STATUSBAR+ME_LAYOUT_MARGIN*2;
+    CGFloat topOffset = ME_LAYOUT_BOUNDARY+ME_LAYOUT_MARGIN*2;
     UIImage *image = [UIImage pb_iconFont:nil withName:@"\U0000e6e2" withSize:btnSize withColor:[UIColor whiteColor]];
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:image forState:UIControlStateNormal];

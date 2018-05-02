@@ -79,7 +79,7 @@
     }];
     
     NSUInteger btnSize = ME_LAYOUT_ICON_HEIGHT;
-    CGFloat topOffset = ME_HEIGHT_STATUSBAR+ME_LAYOUT_MARGIN*2;
+    CGFloat topOffset = ME_LAYOUT_BOUNDARY+ME_LAYOUT_MARGIN*2;
     /*camera switch
     UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000e608" withSize:20 withColor:[UIColor whiteColor]];
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
