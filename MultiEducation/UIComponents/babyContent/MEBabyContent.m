@@ -23,6 +23,7 @@
 #import "MenewsInfo.pbobjc.h"
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <NSURL+QueryDictionary/NSURL+QueryDictionary.h>
+#import <MWPhotoBrowser.h>
 
 #define COMPONENT_COUNT 6
 #define MAX_PHOTO_COUNT 10
@@ -59,6 +60,8 @@
 @property (nonatomic, strong) StudentPb *studentPb;
 
 @property (nonatomic, strong) NSMutableArray <NSNumber *> *badgeArr;
+
+@property (nonatomic, strong) NSMutableArray <MWPhoto *> *browserPhotos;    //当前在browser中的Photo
 
 @end
 
@@ -172,6 +175,18 @@
     [self.babyPhotos addObjectsFromArray: albums];
     [self updateViewsMasonry];
     [self.babyPhtoView reloadData];
+    
+    [self.browserPhotos removeAllObjects];
+    for (ClassAlbumPb *pb in self.babyPhotos) {
+        MWPhoto *photo;
+        if ([pb.fileType isEqualToString: @"mp4"]) {
+            photo = [[MWPhoto alloc] initWithVideoURL: [NSURL URLWithString: [NSString stringWithFormat:@"%@/%@", self.currentUser.bucketDomain, pb.filePath]]];
+        } else {
+            photo = [[MWPhoto alloc] initWithURL: [NSURL URLWithString: [NSString stringWithFormat:@"%@/%@", self.currentUser.bucketDomain, pb.filePath]]];
+        }
+        [self.browserPhotos addObject: photo];
+    }
+    
     return YES;
 }
 
@@ -427,7 +442,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([collectionView isEqual: self.babyPhtoView]) {
         //babyPhotoView collectionView cell
-        NSLog(@"did select babyPhotoView at indexPath.item:%ld", (long)indexPath.item);
+        if (self.DidSelectHandler) {
+            self.DidSelectHandler(indexPath.item, self.browserPhotos);
+        }
     } else {
         //scrollContentView collectionView cell
         
@@ -722,6 +739,13 @@
         _badgeArr = [NSMutableArray arrayWithArray: tmpArr];
     }
     return _badgeArr;
+}
+
+- (NSMutableArray *)browserPhotos {
+    if (!_browserPhotos) {
+        _browserPhotos = [NSMutableArray array];
+    }
+    return _browserPhotos;
 }
 
 @end

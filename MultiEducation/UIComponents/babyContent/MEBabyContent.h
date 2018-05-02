@@ -38,6 +38,9 @@ typedef void(^BabyTabBarBadgeCallback)(NSInteger badge);
 @property (nonatomic, copy) BabyContentScrollCallBack babyContentScrollCallBack;
 @property (nonatomic, copy) BabyTabBarBadgeCallback babyTabBarBadgeCallback;
 
+@property (nonatomic, copy) void((^DidSelectHandler)(NSInteger index, NSArray *photos));
+
+
 - (void)removeNotiObserver;
 
 @end

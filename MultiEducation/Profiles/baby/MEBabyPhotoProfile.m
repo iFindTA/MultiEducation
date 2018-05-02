@@ -689,11 +689,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (MWPhotoBrowser *)photoBrowser {
     if (!_photoBrowser) {
         _photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
-//        __weak typeof(self) weakself = self;
-//        _photoBrowser.popCallback = ^{
-//            weakself.photoBrowser = nil;
-//            [weakself.browserPhotos removeAllObjects];
-//        };
         //set options
         _photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
         _photoBrowser.displayNavArrows = NO; //显示左右划动
