@@ -366,7 +366,7 @@
     if (unreadCounts == 0) {
         unreadCounts -= 1;
     }
-    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:1];})
+    PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:2];})
 }
 
 @end
