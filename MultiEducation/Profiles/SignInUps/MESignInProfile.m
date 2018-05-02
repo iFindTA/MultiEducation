@@ -253,7 +253,7 @@
     [codeBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
         make.left.equalTo(btn);
-        make.height.equalTo(ME_HEIGHT_STATUSBAR);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
     }];
     //register user
     MEBaseButton *registerBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -265,7 +265,7 @@
     [registerBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
         make.right.equalTo(btn);
-        make.height.equalTo(ME_HEIGHT_STATUSBAR);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
     }];
     //游客模式
     BOOL showVisitorMode = true;
