@@ -220,12 +220,14 @@
     [self.scrollContentView addSubview: self.componentView];
     [self.scrollContentView addSubview: self.tableView];
     
-    //layoutBackContentView
-    CGFloat toTop = -20.f;
+    if (@available(iOS 11.0, *)) {
+        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     
+    //layoutBackContentView
     [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(self);
-        make.top.mas_equalTo(self).mas_offset(toTop);
+        make.top.mas_equalTo(self).mas_offset(0);
     }];
     
     [_scrollContentView mas_makeConstraints:^(MASConstraintMaker *make) {
