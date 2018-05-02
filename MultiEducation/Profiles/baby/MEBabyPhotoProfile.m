@@ -381,7 +381,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     //layout
     [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view).mas_offset(ME_HEIGHT_STATUSBAR + ME_HEIGHT_NAVIGATIONBAR);
+        make.top.mas_equalTo(self.view).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
         make.height.mas_equalTo(HEADER_HEIGHT);
     }];
     
@@ -396,7 +396,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         make.width.greaterThanOrEqualTo(@0.f);
     }];
     
-    CGFloat height = MESCREEN_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - ME_HEIGHT_STATUSBAR - HEADER_HEIGHT;
+    CGFloat height = MESCREEN_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - [MEKits statusBarHeight] - HEADER_HEIGHT;
     [self.photoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.scrollContent);
         make.left.mas_equalTo(ITEM_LEADING);

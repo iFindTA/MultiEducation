@@ -11,9 +11,9 @@
 #import "UIView+Frame.h"
 
 #define ORIGIN_HEADER_HEIGHT 250.f
-#define MAX_RANGE_HEADER_DIFF (ORIGIN_HEADER_HEIGHT - ME_HEIGHT_STATUSBAR - ME_HEIGHT_NAVIGATIONBAR)
+#define MAX_RANGE_HEADER_DIFF (ORIGIN_HEADER_HEIGHT - [MEKits statusBarHeight] - ME_HEIGHT_NAVIGATIONBAR)
 
-#define MIN_HEADER_HEIGHT (ME_HEIGHT_STATUSBAR + ME_HEIGHT_NAVIGATIONBAR)
+#define MIN_HEADER_HEIGHT ([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR)
 
 @interface MEGardenRootProfile () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, MEGardenHeaderDelegate> {
     CGFloat lastContentOffset;  //judge tableview scroll direction

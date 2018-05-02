@@ -37,7 +37,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
 
     //layout
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.mas_top).mas_offset(ME_HEIGHT_NAVIGATIONBAR + ME_HEIGHT_STATUSBAR);
+        make.top.mas_equalTo(self.view.mas_top).mas_offset(ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight]);
         make.left.right.bottom.mas_equalTo(self.view);
     }];
 

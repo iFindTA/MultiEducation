@@ -7,6 +7,7 @@
 //
 
 #import "MEBabyNavigation.h"
+#import "MEKits.h"
 
 static CGFloat const ICON_HEIGHT = 20.f;
 
@@ -49,7 +50,7 @@ static CGFloat const ICON_HEIGHT = 20.f;
     
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top).mas_offset(ME_HEIGHT_STATUSBAR);
+        make.top.mas_equalTo(self.mas_top).mas_offset([MEKits statusBarHeight]);
         make.width.mas_equalTo(backViewWidth);
         make.left.mas_equalTo((MESCREEN_WIDTH - backViewWidth) / 2);
     }];

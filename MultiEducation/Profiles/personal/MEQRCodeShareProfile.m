@@ -54,7 +54,7 @@
     [self.qrCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.mas_equalTo(self.view);
-        make.top.mas_equalTo((MESCREEN_HEIGHT - ME_HEIGHT_STATUSBAR - ME_HEIGHT_NAVIGATIONBAR - MESCREEN_WIDTH) / 2);
+        make.top.mas_equalTo((MESCREEN_HEIGHT - [MEKits statusBarHeight] - ME_HEIGHT_NAVIGATIONBAR - MESCREEN_WIDTH) / 2);
         make.width.height.mas_equalTo(MESCREEN_WIDTH);
     }];
 }

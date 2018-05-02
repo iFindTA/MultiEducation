@@ -50,7 +50,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     [self.phone mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(ROW_HEIGHT);
-        make.top.mas_equalTo(self.view.mas_top).mas_offset(ME_HEIGHT_STATUSBAR + ME_HEIGHT_NAVIGATIONBAR);
+        make.top.mas_equalTo(self.view.mas_top).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
     }];
     
     [self.newPhone mas_makeConstraints:^(MASConstraintMaker *make) {
