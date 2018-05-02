@@ -538,7 +538,7 @@ void checkNavigationStack(UIViewController *wk) {
 }
 
 CGFloat pb_expectedStatusBarHeight() {
-    return [UIDevice pb_isiPhoneX] ? PB_STATUSBAR_HEIGHT_X : PB_STATUSBAR_HEIGHT;
+    return [UIDevice pb_isX] ? PB_STATUSBAR_HEIGHT_X : PB_STATUSBAR_HEIGHT;
 }
 
 void pb_adjustsScrollViewInsets(UIScrollView * scrollView) {

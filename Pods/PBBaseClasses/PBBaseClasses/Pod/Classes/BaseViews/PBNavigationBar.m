@@ -29,7 +29,7 @@
 - (CGFloat)barHeight {
     if (_barHeight == 0) {
         CGFloat statusBarHeight = PB_STATUSBAR_HEIGHT;
-        if (@available(iOS 11.0, *) && [UIDevice pb_isiPhoneX]) {
+        if (@available(iOS 11.0, *) && [UIDevice pb_isX]) {
             statusBarHeight = PB_STATUSBAR_HEIGHT_X;
         }
         _barHeight = PB_NAVIBAR_HEIGHT + statusBarHeight;

@@ -157,6 +157,21 @@
             [self displayUserNoticeProfile];
         }
     };
+    //游客模式 添加引导登录按钮
+    if (self.currentUser.isTourist) {
+        CGFloat itemSize = ME_HEIGHT_TABBAR;
+        MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        //btn.backgroundColor = [UIColor pb_randomColor];
+        btn.titleLabel.font = [UIFont fontWithName:@"iconfont" size:itemSize];
+        [btn setTitle:@"\U0000e621" forState:UIControlStateNormal];
+        [btn setTitleColor:UIColorFromRGB(ME_THEME_COLOR_VALUE) forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(guideTouristGotoSignTouchEvent) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:btn];
+        [btn makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
+            make.size.equalTo(CGSizeMake(itemSize, itemSize));
+        }];
+    }
     //更新Cordova资源包
     [self updateOnlineCordovaResource];
     [self.appDelegate updateRongIMUnReadMessageCounts];
@@ -203,6 +218,16 @@
     NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"园所公告", ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
     NSError * err = [MEDispatcher openURL:routeUrl withParams:params];
     [self handleTransitionError:err];
+}
+
+#pragma mark --- 游客模式 点击登录
+
+- (void)guideTouristGotoSignTouchEvent {
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
+    NSString *routeUrlString = @"profile://root@MESignInProfile/__initWithParams:";
+    NSError *err = [MEDispatcher openURL:[NSURL URLWithString:routeUrlString] withParams:params];
+    [MEKits handleError:err];
 }
 
 #pragma mark --- 更新Cordova资源包

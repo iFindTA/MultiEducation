@@ -122,6 +122,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:true];
     PBBACK(^{
         [self initializedLiveStreamKit];
         [self createLiveRoomEvent];
@@ -134,6 +135,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:false];
     [self.liveKit stopPreview];
     [self stopHeartBeatTimer];
 }

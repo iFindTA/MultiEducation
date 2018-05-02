@@ -55,7 +55,7 @@ PODS:
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
   - "NSURL+QueryDictionary (1.2.0)"
-  - PBBaseClasses (1.7.6):
+  - PBBaseClasses (1.7.7):
     - Masonry
     - PBKits
     - PBMediator
@@ -63,7 +63,7 @@ PODS:
     - SVProgressHUD
     - WZLBadge
     - YYKit
-  - PBKits (1.2.2)
+  - PBKits (1.2.3)
   - PBMediator (0.2.0)
   - PBService (4.3.1):
     - AFNetworking
@@ -135,8 +135,8 @@ DEPENDENCIES:
   - MWPhotoBrowser (~> 2.1.2)
   - NJKWebViewProgress (~> 0.2.3)
   - "NSURL+QueryDictionary (~> 1.2.0)"
-  - PBBaseClasses (~> 1.7.6)
-  - PBKits (~> 1.2.2)
+  - PBBaseClasses (~> 1.7.7)
+  - PBKits (~> 1.2.3)
   - PBService (~> 4.3.1)
   - Protobuf (~> 3.5.0)
   - Qiniu (~> 7.2.3)
@@ -220,8 +220,8 @@ SPEC CHECKSUMS:
   MWPhotoBrowser: 5836d7aa041dc05a13de380c246826578adc5ea5
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   "NSURL+QueryDictionary": bae616404e2adf6409d3d5c02a093cbf44c8a236
-  PBBaseClasses: 3f8e47f0a58c183f922b4382c5897162a67a1d44
-  PBKits: f0c06a07a3d65bd872e9e059301c3916cf5f71c7
+  PBBaseClasses: e3244dc30242d71af9cecee4e05fa689f3e7eb5a
+  PBKits: 62fffdbb2180baca4a432dd0f9c04df8a8516185
   PBMediator: b9a87dd91276156805c7a12ba3bd45150142c4e8
   PBService: 018184528eb975d0407dacc71df55e8b570201c1
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
@@ -245,6 +245,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: 14ae30792f75b7cde2de5f478a1dad1c195f0346
+PODFILE CHECKSUM: 97ec7c51611b3c1ea758b5167fbc62c1d3e4865f
 
 COCOAPODS: 1.5.0

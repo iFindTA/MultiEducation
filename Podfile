@@ -1,7 +1,7 @@
 platform :ios, '9.0'
 
 target 'MultiEducation' do
-pod 'PBKits', '~> 1.2.2'
+pod 'PBKits', '~> 1.2.3'
 pod 'FCUUID', '~> 1.3.1'
 pod 'ZFPlayer', '~> 2.1.6'
 pod 'Cordova', '~> 4.5.4'
@@ -14,7 +14,7 @@ pod 'BEMCheckBox', '~> 1.4.1'
 pod 'SSZipArchive', '~> 2.1.2'
 pod 'YJBannerView', '~> 2.3.8'
 pod 'XHImageViewer', '~> 0.1.2'
-pod 'PBBaseClasses', '~> 1.7.6'
+pod 'PBBaseClasses', '~> 1.7.7'
 pod 'DZNEmptyDataSet', '~> 1.8.1'
 pod 'CocoaAsyncSocket', '~> 7.6.3'
 pod 'IQKeyboardManager', '~> 5.0.8'

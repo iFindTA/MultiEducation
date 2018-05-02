@@ -13,6 +13,12 @@
 #import <Foundation/Foundation.h>
 #endif
 
+#ifdef DEBUG
+#define NSLog(fmt, ...) NSLog((fmt), ##__VA_ARGS__)
+#else
+#define NSLog(...)
+#endif
+
 #ifdef __OBJC__
 #define MAS_SHORTHAND
 #define MAS_SHORTHAND_GLOBALS

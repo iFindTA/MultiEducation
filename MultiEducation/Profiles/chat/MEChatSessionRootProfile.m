@@ -41,7 +41,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self refreshConversationTableViewIfNeeded];
     [self.app updateRongIMUnReadMessageCounts];
 }
 

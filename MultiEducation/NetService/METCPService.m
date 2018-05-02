@@ -75,13 +75,28 @@ static METCPService *instance = nil;
 - (id)init {
     self = [super init];
     if (self) {
-        _receivedData = [NSMutableData data];
         _serverIndex = 0;
         _serverRetryCounts = 0;
-        self.serverArray = [NSMutableArray array];
-        self.whetherInitiativeLogout = false;
+        _whetherInitiativeLogout = false;
     }
     return self;
+}
+
+
+#pragma mark --- lazy getter
+
+- (NSMutableData *)receivedData {
+    if (!_receivedData) {
+        _receivedData = [NSMutableData data];
+    }
+    return _receivedData;
+}
+
+- (NSMutableArray *)serverArray {
+    if (!_serverArray) {
+        _serverArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _serverArray;
 }
 
 - (void)addServerHost:(NSString *)host port:(uint16_t)port {
@@ -92,6 +107,10 @@ static METCPService *instance = nil;
 
 - (void)connectWithcompletion:(void (^)(NSError * _Nullable))completion {
     if (self.socket.isConnected) {
+        return;
+    }
+    if (self.serverArray.count == 0) {
+        NSLog(@"socket套接字服务器地址列表空！");
         return;
     }
     //Socket连接

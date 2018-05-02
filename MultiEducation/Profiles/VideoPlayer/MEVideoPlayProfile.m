@@ -115,7 +115,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:true];
     if (!self.whetherDidLoadData) {
         [self loadVideoRelevantData];
     } else {
@@ -125,6 +125,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:false];
     [self.player pause];
     
 }
