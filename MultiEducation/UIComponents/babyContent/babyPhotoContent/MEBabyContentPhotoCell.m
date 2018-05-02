@@ -9,6 +9,7 @@
 #import "MEBabyContentPhotoCell.h"
 #import "AppDelegate.h"
 #import "Meuser.pbobjc.h"
+#import "MEBabyAlbumListVM.h"
 
 @interface MEBabyContentPhotoCell ()
 
@@ -44,17 +45,39 @@
 }
 
 - (void)setCoverImage:(ClassAlbumPb *)pb {
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *user = delegate.curUser;
     if (pb.isParent) {
-        self.photoIcon.image = [UIImage imageNamed: @"baby_content_new_folder"];
+        NSArray *albums = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.id_p];
+        if (albums.count != 0) {
+            ClassAlbumPb *firstAlbumPb = albums.firstObject;
+            NSString *urlStr;
+            if (firstAlbumPb.isParent) {
+                ClassAlbumPb *innerPb = [self getTheFirstAlbumCoverImageInFolder: firstAlbumPb.id_p];
+                if ([innerPb.fileType isEqualToString: @"mp4"]) {
+                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, innerPb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                } else {
+                    urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, innerPb.filePath];
+                }
+            } else {
+                if ([firstAlbumPb.fileType isEqualToString: @"mp4"]) {
+                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                } else {
+                    urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, firstAlbumPb.filePath];
+                }
+            }
+
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
+        } else {
+            self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+        }
     } else {
-        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        MEPBUser *user = delegate.curUser;
         if ([pb.fileType isEqualToString: @"mp4"]) {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
         } else {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
         }
     }
 }
@@ -64,6 +87,20 @@
     self.albumPb.isSelect = self.selectBtn.selected;
     if (self.handler) {
         self.handler(_albumPb);
+    }
+}
+
+//when the folderA in folderB, get the folderA's coverImage to give folderB, and maybe floderC in floderA, so this is a recurrence func
+- (ClassAlbumPb *)getTheFirstAlbumCoverImageInFolder:(int64_t)parentId {
+    ClassAlbumPb *pb = [MEBabyAlbumListVM fetchAlbumsWithParentId: parentId].firstObject;
+    if (pb) {
+        if (pb.isParent) {
+            return [self getTheFirstAlbumCoverImageInFolder: pb.parentId];
+        } else {
+            return pb;
+        }
+    } else {
+        return nil;
     }
 }
 

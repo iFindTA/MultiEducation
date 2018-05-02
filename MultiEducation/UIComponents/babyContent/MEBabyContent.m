@@ -378,8 +378,12 @@
 
 //let tableView.height = tableView.contentView.height  don't let it can scroll !!!
 - (CGFloat)tableviewHeight {
-    CGFloat height = self.newsInfos.count * TABLEVIEW_ROW_HEIGHT + TABLEVIEW_SECTION_HEIGHT;
-    return height;
+    if (self.newsInfos.count == 0) {
+        return 0;
+    } else {
+        CGFloat height = self.newsInfos.count * TABLEVIEW_ROW_HEIGHT + TABLEVIEW_SECTION_HEIGHT;
+        return height;
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -578,7 +582,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44;
+    if (self.newsInfos.count == 0) {
+        return 0;
+    } else {
+        return TABLEVIEW_SECTION_HEIGHT;
+    }
 }
 
 #pragma mark - UITabelViewDelegate

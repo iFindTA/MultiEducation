@@ -33,6 +33,13 @@
 + (NSArray *)fetchUserAllAlbum;
 
 
+/**
+ 获取当前文件夹下所有照片
+
+ @param parentId parentId
+ @return 照片array
+ */
++ (NSArray *)fetchAlbumsWithParentId:(int64_t)parentId;
 
 /**
  根据classId查询数据库中数据

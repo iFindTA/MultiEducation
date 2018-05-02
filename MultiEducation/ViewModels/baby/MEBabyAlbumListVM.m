@@ -88,6 +88,12 @@
     return arr;
 }
 
++ (NSArray *)fetchAlbumsWithParentId:(int64_t)parentId {
+    NSString *where = [NSString stringWithFormat: @"parentId = %lld", parentId];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
+    return arr;
+}
+
 - (NSString *)cmdCode {
     return FSC_CLASS_ALBUM_LIST;
 }
