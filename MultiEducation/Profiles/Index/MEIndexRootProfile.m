@@ -127,12 +127,13 @@
     
     //code layout
     //头部导航条 第一版先写死
+    NSUInteger statusBarHeight = [MEKits statusBarHeight];
     NSArray *items = @[@"精选", @"小班", @"中班", @"大班"];
     self.indexNavigationBar = [MEIndexNavigationBar indexNavigationBarWithTitles:items];
     [self.view addSubview:self.indexNavigationBar];
     [self.indexNavigationBar makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
-        make.height.equalTo(ME_HEIGHT_STATUSBAR+ME_HEIGHT_NAVIGATIONBAR);
+        make.height.equalTo(statusBarHeight+ME_HEIGHT_NAVIGATIONBAR);
     }];
     //背景滚动scroller
     BOOL whetherTourist = self.currentUser.isTourist;

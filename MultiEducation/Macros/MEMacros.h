@@ -61,7 +61,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define MESCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 #define MESCREEN_SCALE [[UIScreen mainScreen] scale]
 
-#define ME_HEIGHT_STATUSBAR                                              20
 #define ME_HEIGHT_NAVIGATIONBAR                                          44
 #define ME_HEIGHT_TABBAR                                                 50
 #define ME_LAYOUT_BOUNDARY                                               20

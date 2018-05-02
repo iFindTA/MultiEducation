@@ -23,7 +23,7 @@
 
 + (NSUInteger)statusBarHeight {
     if ([UIDevice pb_isX]) {
-        return ME_LAYOUT_ICON_HEIGHT;
+        return ME_HEIGHT_NAVIGATIONBAR;
     }
     return ME_HEIGHT_STATUSBAR;
 }
