@@ -295,8 +295,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
     
 - (void)sortPhotoWithTimeLine {
+    NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classId];
     NSMutableArray *dateArr = [NSMutableArray array];
-    for (ClassAlbumPb *album in self.photos) {
+    for (ClassAlbumPb *album in allPhotos) {
         [dateArr addObject: album.formatterDate];
     }
     //去重
@@ -316,8 +317,8 @@ static CGFloat const ITEM_LEADING = 10.f;
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject: dateArr[i] forKey: @"date"];
         NSMutableArray *tmpArr = [NSMutableArray array];
-        for (ClassAlbumPb *album in self.photos) {
-            if ([album.formatterDate isEqualToString: dateArr[i]]) {
+        for (ClassAlbumPb *album in allPhotos) {
+            if ([album.formatterDate isEqualToString: dateArr[i]] && !album.isParent) {
                 [tmpArr addObject: album];
             }
         }
@@ -416,11 +417,16 @@ static CGFloat const ITEM_LEADING = 10.f;
     }];
 }
 
-- (void)didSelectAlbumPb:(ClassAlbumPb *)pb index:(NSInteger)index photos:(NSArray <ClassAlbumPb *> *)photos {
+- (void)didSelectAlbumPb:(ClassAlbumPb *)pb photos:(NSArray <ClassAlbumPb *> *)photos {
     NSString *bucket = self.currentUser.bucketDomain;
     if (!pb.isParent) {
+        NSInteger index = 0;
+        int i = 0;
         for (ClassAlbumPb *albumPb in photos) {
             if (!albumPb.isParent) {
+                if ([albumPb isEqual: pb]) {
+                    index = i;
+                }
                 MWPhoto *mwPhoto;
                 if ([albumPb.fileType isEqualToString: @"mp4"]) {
                     mwPhoto = [[MWPhoto alloc] initWithVideoURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath]]];
@@ -429,6 +435,7 @@ static CGFloat const ITEM_LEADING = 10.f;
                 }
                 [self.browserPhotos addObject: mwPhoto];
             }
+            i++;
         }
         [self.photoBrowser setCurrentPhotoIndex: index];
         
@@ -552,11 +559,11 @@ static CGFloat const ITEM_LEADING = 10.f;
     if (!_isSelectStatus) {
         if (collectionView == self.photoView) {
             ClassAlbumPb *pb = [self.photos objectAtIndex: indexPath.row];
-            [self didSelectAlbumPb: pb index: indexPath.row photos: self.photos];
+            [self didSelectAlbumPb: pb photos: self.photos];
         } else {
             ClassAlbumPb *pb = [[(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"] objectAtIndex: indexPath.row];
             NSArray *timeLineArr = [(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"];
-            [self didSelectAlbumPb: pb index: indexPath.row photos: timeLineArr];
+            [self didSelectAlbumPb: pb photos: timeLineArr];
         }
     }
 }
