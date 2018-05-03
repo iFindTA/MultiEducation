@@ -192,9 +192,14 @@
     }];
     weakify(self)
     [countDown countDownButtonHandler:^(JKCountDownButton *countDownButton, NSInteger tag) {
+        strongify(self)
+        NSString *mobile = self.inputMobile.text;
+        if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+            [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+            return;
+        }
         countDownButton.enabled = NO;
         [countDownButton startCountDownWithSecond:59];
-        strongify(self)
         [self sendRegisterVerifyCodeEvent];
         [countDownButton countDownChanging:^NSString *(JKCountDownButton *countDownButton,NSUInteger second) {
             NSString *title = [NSString stringWithFormat:@"剩余%zd秒",second];
