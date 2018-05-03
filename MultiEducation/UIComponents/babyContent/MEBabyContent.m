@@ -35,7 +35,10 @@
 #define TABLEVIEW_ROW_HEIGHT 102.f
 #define TABLEVIEW_SECTION_HEIGHT 44.f
 #define BABY_CONTENT_HEADER_HEIGHT 230.f
+#define BABY_PHOTO_HEADER_HEIGHT 54.f
 #define COMPONENT_HEIGHT 256.f
+#define BABY_PHOTO_HEIGHT 78.f
+#define TABLEVIEW_HEIGHT MESCREEN_HEIGHT - ME_HEIGHT_TABBAR
 
 @interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
     CGFloat _lastContentOffset;
@@ -43,16 +46,16 @@
     BOOL show;  //did contentOffsetY already > BABY_CONTENT_HEADER_HEIGHT
 }
 
-@property (nonatomic, strong) MEBabyHeader *headerView;
+@property (nonatomic, strong) MEBaseScene *tableHeaderView;
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIView *scrollContentView;
+@property (nonatomic, strong) MEBabyHeader *headerView;
 
 @property (nonatomic, strong) MEBabyContentHeader *photoHeader;
 @property (nonatomic, strong) UICollectionView *babyPhtoView;
-@property (nonatomic, strong) NSMutableArray *babyPhotos;   //babyPhoto
 
 @property (nonatomic, strong) UICollectionView *componentView;
+
+@property (nonatomic, strong) NSMutableArray *babyPhotos;   //babyPhoto
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *newsInfos; //table dataArr
@@ -134,9 +137,6 @@
         _pageIndex +=  ME_PAGING_SIZE;
         [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];        
         [self.tableView reloadData];
-        [self.tableView updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo([self tableviewHeight]);
-        }];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
@@ -218,85 +218,68 @@
 
 - (void)createSubviews {
     
-    [self addSubview: self.scrollView];
-    [self.scrollView addSubview: self.scrollContentView];
-    
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyHeader" owner:self options:nil] lastObject];
     weakify(self);
     self.headerView.selectCallBack = ^(StudentPb *pb) {
         strongify(self);
         [self getBabyArchitecture: pb.id_p];
     };
-    [self.scrollContentView addSubview: self.headerView];
-
+    
+    [self.tableHeaderView addSubview: self.headerView];
     self.photoHeader = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyContentHeader" owner:self options:nil] lastObject];
-    [self.scrollContentView addSubview: self.photoHeader];
-    [self.scrollContentView addSubview: self.babyPhtoView];
-    [self.scrollContentView addSubview: self.componentView];
-    [self.scrollContentView addSubview: self.tableView];
+    [self.tableHeaderView addSubview: self.photoHeader];
+    [self.tableHeaderView addSubview: self.babyPhtoView];
+    [self.tableHeaderView addSubview: self.componentView];
+    [self addSubview: self.tableView];
     
     if (@available(iOS 11.0, *)) {
-        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
     
     //layoutBackContentView
-    [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.mas_equalTo(self);
-        make.top.mas_equalTo(self).mas_offset(0);
-    }];
-    
-    [_scrollContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.scrollView);
-    }];
-    
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(self.scrollView);
+        make.top.left.right.mas_equalTo(self.tableHeaderView);
         make.width.mas_equalTo(MESCREEN_WIDTH);
         make.height.mas_equalTo(BABY_CONTENT_HEADER_HEIGHT);
     }];
     
     if (!(self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
         [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.scrollView);
+            make.left.mas_equalTo(self.tableHeaderView);
             make.width.mas_equalTo(MESCREEN_WIDTH);
             make.top.mas_equalTo(self.headerView.mas_bottom);
-            make.height.mas_equalTo(54.f);
+            make.height.mas_equalTo(BABY_PHOTO_HEADER_HEIGHT);
         }];
         
         [self.babyPhtoView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
-            make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(-10);
-            make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(10.f);
-            make.height.mas_equalTo(78);
+            make.right.mas_equalTo(self.tableHeaderView.mas_right).mas_offset(-10);
+            make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10.f);
+            make.height.mas_equalTo(BABY_PHOTO_HEIGHT);
         }];
         
         [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(MESCREEN_WIDTH - 20);
-            make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
+            make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
             make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
             make.height.mas_equalTo(COMPONENT_HEIGHT);
         }];
         
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self.scrollContentView);
-            make.top.mas_equalTo(self.componentView.mas_bottom);
-            make.height.mas_equalTo([self tableviewHeight]);
-        }];
-        
-        [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
+            make.left.mas_equalTo(self);
+            make.top.mas_equalTo(self);
+            make.height.mas_equalTo(TABLEVIEW_HEIGHT);
+            make.width.mas_equalTo(MESCREEN_WIDTH);
         }];
         
     } else {
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self.scrollContentView);
-            make.top.mas_equalTo(self.headerView.mas_bottom);
-            make.height.mas_equalTo([self tableviewHeight]);
+            make.left.mas_equalTo(self);
+            make.top.mas_equalTo(self);
+            make.height.mas_equalTo(TABLEVIEW_HEIGHT);
+            make.width.mas_equalTo(MESCREEN_WIDTH);
         }];
-        
-        [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
-        }];
+        self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT;
     }
 }
 
@@ -305,11 +288,7 @@
         self.babyPhtoView.hidden = YES;
         self.photoHeader.hidden = YES;
         self.componentView.hidden = YES;
-        [self.tableView remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self.scrollContentView);
-            make.top.mas_equalTo(self.headerView.mas_bottom);
-            make.height.mas_equalTo([self tableviewHeight]);
-        }];
+        self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT;
     } else  {
         if (self.babyPhotos.count == 0) {
             self.babyPhtoView.hidden = YES;
@@ -317,46 +296,33 @@
                 if (self.currentUser.parentsPb.studentPbArray.count == 0) {
                     self.photoHeader.hidden = YES;
                     self.componentView.hidden = YES;
-                    [self.tableView remakeConstraints:^(MASConstraintMaker *make) {
-                        make.left.right.mas_equalTo(self.scrollContentView);
-                        make.top.mas_equalTo(self.headerView.mas_bottom);
-                        make.height.mas_equalTo([self tableviewHeight]);
-                    }];
+                    self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT;
                 } else {
                     self.photoHeader.hidden = NO;
                     self.componentView.hidden = NO;
                     [self.componentView remakeConstraints:^(MASConstraintMaker *make) {
                         make.width.mas_equalTo(MESCREEN_WIDTH - 20);
-                        make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
+                        make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
                         make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(10);
                         make.height.mas_equalTo(COMPONENT_HEIGHT);
                     }];
-                    [self.tableView remakeConstraints:^(MASConstraintMaker *make) {
-                        make.left.right.mas_equalTo(self.scrollContentView);
-                        make.top.mas_equalTo(self.componentView.mas_bottom);
-                        make.height.mas_equalTo([self tableviewHeight]);
-                    }];
+                    self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT;
                 }
             } else {
                 self.photoHeader.hidden = NO;
                 [self.componentView remakeConstraints:^(MASConstraintMaker *make) {
                     make.width.mas_equalTo(MESCREEN_WIDTH - 20);
-                    make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
+                    make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
                     make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(10);
                     make.height.mas_equalTo(COMPONENT_HEIGHT);
                 }];
-                [self.tableView remakeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.mas_equalTo(self.scrollContentView);
-                    make.top.mas_equalTo(self.componentView.mas_bottom);
-                    make.height.mas_equalTo([self tableviewHeight]);
-                }];
+                self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT;
             }
         } else {
             self.babyPhtoView.hidden = NO;
             self.photoHeader.hidden = NO;
-            
             [self.photoHeader mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(self.scrollView);
+                make.left.mas_equalTo(self.tableHeaderView);
                 make.width.mas_equalTo(MESCREEN_WIDTH);
                 make.top.mas_equalTo(self.headerView.mas_bottom);
                 make.height.mas_equalTo(54.f);
@@ -364,40 +330,19 @@
             
             [self.babyPhtoView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
-                make.right.mas_equalTo(self.scrollContentView.mas_right).mas_offset(-10);
-                make.left.mas_equalTo(self.scrollContentView.mas_left).mas_offset(10.f);
+                make.right.mas_equalTo(self.tableHeaderView.mas_right).mas_offset(-10);
+                make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10.f);
                 make.height.mas_equalTo(78);
             }];
             
             [self.componentView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.width.mas_equalTo(MESCREEN_WIDTH - 20);
-                make.left.mas_equalTo(_scrollContentView.mas_left).mas_offset(10);
+                make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
                 make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
                 make.height.mas_equalTo(COMPONENT_HEIGHT);
             }];
-            
-            [self.tableView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.mas_equalTo(self.scrollContentView);
-                make.top.mas_equalTo(self.componentView.mas_bottom);
-                make.height.mas_equalTo([self tableviewHeight]);
-            }];
+            self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + BABY_PHOTO_HEIGHT;
         }
-    }
-    
-    
-    [self.scrollContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.tableView.mas_bottom).mas_offset(10.f);
-    }];
-    
-}
-
-//let tableView.height = tableView.contentView.height  don't let it can scroll !!!
-- (CGFloat)tableviewHeight {
-    if (self.newsInfos.count == 0) {
-        return 0;
-    } else {
-        CGFloat height = self.newsInfos.count * TABLEVIEW_ROW_HEIGHT + TABLEVIEW_SECTION_HEIGHT;
-        return height;
     }
 }
 
@@ -640,12 +585,12 @@
         
         if (!show) {
             if (scrollView.contentOffset.y >= BABY_CONTENT_HEADER_HEIGHT) {
-                self.babyContentScrollCallBack(self.scrollView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
+                self.babyContentScrollCallBack(self.tableView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
                 show = YES;
             }
         } else {
             if (scrollView.contentOffset.y < BABY_CONTENT_HEADER_HEIGHT) {
-                self.babyContentScrollCallBack(self.scrollView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
+                self.babyContentScrollCallBack(self.tableView.contentOffset.y - BABY_CONTENT_HEADER_HEIGHT, direction);
                 show = NO;
             }
         }
@@ -653,24 +598,6 @@
 }
 
 #pragma mark - lazyloading
-- (UIScrollView *)scrollView {
-    if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] init];
-        _scrollView.backgroundColor = [UIColor whiteColor];
-        _scrollView.delegate = self;
-    }
-    return _scrollView;
-}
-
-- (UIView *)scrollContentView {
-    if (!_scrollContentView) {
-        _scrollContentView = [[UIView alloc] init];
-        _scrollContentView.backgroundColor = [UIColor whiteColor];
-        _scrollView.showsVerticalScrollIndicator = NO;
-    }
-    return _scrollContentView;
-}
-
 - (UICollectionView *)componentView {
     if (!_componentView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -714,6 +641,8 @@
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
         [_tableView registerNib: [UINib nibWithNibName: @"MEBabyInfoCell" bundle: nil] forCellReuseIdentifier: BABY_INFO_IDEF];
+        
+        _tableView.tableHeaderView = self.tableHeaderView;
     }
     return _tableView;
 }
@@ -747,4 +676,10 @@
     return _browserPhotos;
 }
 
+- (MEBaseScene *)tableHeaderView {
+    if (!_tableHeaderView) {
+        _tableHeaderView = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + BABY_PHOTO_HEIGHT)];
+    }
+    return _tableHeaderView;
+}
 @end
