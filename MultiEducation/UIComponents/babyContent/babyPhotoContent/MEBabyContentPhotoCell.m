@@ -40,7 +40,7 @@
 - (void)setCountLabText:(ClassAlbumPb *)pb {
     if (pb.isParent) {
         self.countLab.hidden = NO;
-        NSInteger count = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.parentId].count;
+        NSInteger count = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.id_p].count;
         if (count > 99) {
             self.countLab.text = @"99+";
         } else {
@@ -76,7 +76,7 @@
                 }
             }
 
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"] options: SDWebImageRetryFailed];
         } else {
             self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
         }
@@ -85,10 +85,10 @@
         self.floderNameLabel.text = @"";
         if ([pb.fileType isEqualToString: @"mp4"]) {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"] options: SDWebImageRetryFailed];
         } else {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"] options: SDWebImageRetryFailed];
         }
     }
 }
