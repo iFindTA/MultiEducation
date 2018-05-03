@@ -19,7 +19,7 @@
 #define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
 #define ME_APP_ENV                                                      @"prod"
-#define ME_APP_BASE_HOST                                                @"http://192.168.1.199"
+#define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
 #define ME_WEB_SERVER_HOST                                              @"http://www.chinaxqjy.com"
 #define ME_DEFAULT_HTTP_SERVER_URL                                      @"https://v2.api.chinaxqjy.com"
 #define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
