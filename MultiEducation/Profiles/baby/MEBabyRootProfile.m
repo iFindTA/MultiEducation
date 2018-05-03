@@ -27,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setBadgeValue:<#(NSInteger)#> atIndex:<#(NSUInteger)#>]
     self.view.backgroundColor = [UIColor whiteColor];
         
     //隐藏导航条
@@ -95,7 +95,7 @@
         _babyView = [[MEBabyContent alloc] initWithFrame: CGRectZero];
         __weak typeof(self) weakself = self;
         _babyView.babyTabBarBadgeCallback = ^(NSInteger badge) {
-            [weakself setBadgeValue: 0 atIndex: 2];
+            [weakself setBadgeValue: 0 atIndex: 1];
         };
         weakify(self);
         _babyView.babyContentScrollCallBack = ^(CGFloat contentOffsetY, MEScrollViewDirection direction) {

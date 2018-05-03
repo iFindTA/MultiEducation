@@ -447,7 +447,6 @@
         }
     } else {
         //scrollContentView collectionView cell
-        
         NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
         NSURL *url = nil; NSDictionary *params = nil;
         NSUInteger __tag = (NSUInteger)indexPath.item;
