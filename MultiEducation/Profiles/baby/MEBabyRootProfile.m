@@ -27,7 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBadgeValue:<#(NSInteger)#> atIndex:<#(NSUInteger)#>]
     self.view.backgroundColor = [UIColor whiteColor];
         
     //隐藏导航条
