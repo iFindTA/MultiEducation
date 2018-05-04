@@ -35,6 +35,11 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 @property (nonatomic, strong) MEPlayInfoTitlePanel *titlePanel;
 
 /**
+ 返回按钮
+ */
+@property (nonatomic, strong) MEBaseButton *backBtn;
+
+/**
  1,当前资源
  2,预览资源（点击推荐之后先清空当前资源并预览资源 其次加载当前资源）
  3,下一个播放的资源
@@ -90,6 +95,14 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     [self.table makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titlePanel.mas_bottom);
         make.left.bottom.right.equalTo(self.view);
+    }];
+    
+    //返回按钮
+    [self.view addSubview:self.backBtn];
+    [self.backBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2);
+        make.width.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     
     //observes
@@ -217,6 +230,17 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
+}
+
+- (MEBaseButton *)backBtn {
+    if (!_backBtn) {
+        UIImage *image = [UIImage imageNamed:@"video_play_back"];
+        _backBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        [_backBtn setImage:image forState:UIControlStateNormal];
+        [_backBtn addTarget:self action:@selector(userDidTouchVideoPlayBackEvent) forControlEvents:UIControlEventTouchUpInside];
+        //_backBtn.backgroundColor = [UIColor redColor];
+    }
+    return _backBtn;
 }
 
 #pragma mark --- ZFPlayer Delegate
@@ -584,6 +608,13 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 }
 
 #pragma mark --- user touch action
+
+/**
+ 点击返回
+ */
+- (void)userDidTouchVideoPlayBackEvent {
+    [self defaultGoBackStack];
+}
 
 /**
  收藏 & 分享

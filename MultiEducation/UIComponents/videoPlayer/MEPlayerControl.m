@@ -10,6 +10,7 @@
 #import <ZFPlayer/UIView+CustomControlView.h>
 
 #define ME_COUNTDOWN_MAX_SECONDS                5
+#define ME_PLAY_CONTROL_SHOW_BACKITEM           0
 
 @interface MEPlayerControl ()<ZFPlayerControlViewDelagate>
 
@@ -17,7 +18,9 @@
 
 @property (nonatomic, strong, readwrite) MEBaseButton *likeBtn;
 @property (nonatomic, strong, readwrite) MEBaseButton *shareBtn;
+#if ME_PLAY_CONTROL_SHOW_BACKITEM
 @property (nonatomic, strong, readwrite) MEBaseButton *backItem;
+#endif
 
 @property (nonatomic, strong) MEBaseScene *nextItemPanel;
 @property (nonatomic, strong) MEBaseButton *nextItemBtn;
@@ -55,7 +58,9 @@
         [self setValue:hiddenValue forKeyPath:@"self.titleLabel.hidden"];
         
         [self addSubview:self.audioMask];
+#if ME_PLAY_CONTROL_SHOW_BACKITEM
         [self addSubview:self.backItem];
+#endif
         [self addSubview:self.likeBtn];
         [self addSubview:self.volume];
         [self addSubview:self.shareBtn];
@@ -72,11 +77,13 @@
             make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN*2);
             make.width.height.equalTo(ME_LAYOUT_BOUNDARY * scale);
         }];
+#if ME_PLAY_CONTROL_SHOW_BACKITEM
         [self.backItem makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(ME_LAYOUT_BOUNDARY);
             make.left.equalTo(self).offset(ME_LAYOUT_MARGIN*2);
             make.width.height.equalTo(ME_LAYOUT_BOUNDARY * scale);
         }];
+#endif
         [self.shareBtn makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.equalTo(self.volume);
             make.right.equalTo(self.volume.mas_left).offset(-ME_LAYOUT_MARGIN);
@@ -159,17 +166,17 @@
     }
     return _audioMask;
 }
-
+#if ME_PLAY_CONTROL_SHOW_BACKITEM
 - (MEBaseButton *)backItem {
     if (!_backItem) {
         UIImage *image = [UIImage imageNamed:@"video_play_back"];
         _backItem = [MEBaseButton buttonWithType:UIButtonTypeCustom];
-//        _backItem.backgroundColor = [UIColor pb_randomColor];
         [_backItem setImage:image forState:UIControlStateNormal];
         [_backItem addTarget:self action:@selector(userDidTouchVideoBackEvent) forControlEvents:UIControlEventTouchUpInside];
     }
     return _backItem;
 }
+#endif
 
 - (MEBaseButton *)likeBtn {
     if (!_likeBtn) {
@@ -238,7 +245,9 @@
 
 - (void)updateUserActionItemState4Hidden:(BOOL)hide {
     [self.volume setHidden:hide];
+#if ME_PLAY_CONTROL_SHOW_BACKITEM
     [self.backItem setHidden:hide];
+#endif
     if (!self.isFullScreen) {
         [self.likeBtn setHidden:hide];
         [self.shareBtn setHidden:hide];
