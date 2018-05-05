@@ -41,12 +41,12 @@
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
         make.centerX.equalTo(self.mas_centerX);
-        make.height.equalTo(self).multipliedBy(scale);
-        make.width.equalTo(self.mas_height).multipliedBy(scale);
+        make.width.equalTo(self.mas_width).multipliedBy(scale);
+        make.height.equalTo(self.mas_width).multipliedBy(scale);
     }];
     [self.label makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.icon.mas_bottom).offset(ME_LAYOUT_MARGIN*2);
         make.left.bottom.right.equalTo(self);
-        make.height.equalTo(self).multipliedBy(0.2);
     }];
 }
 

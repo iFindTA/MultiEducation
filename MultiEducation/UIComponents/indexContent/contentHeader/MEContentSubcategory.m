@@ -10,7 +10,7 @@
 #import "MEVerticalItem.h"
 #import <UIButton+AFNetworking.h>
 
-NSUInteger const ME_SUBCATEGORY_ITEM_HEIGHT                                                     =   60;
+NSUInteger const ME_SUBCATEGORY_ITEM_HEIGHT                                                     =   80;
 NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_4                                                 =   20;
 NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_5                                                 =   15;
 static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                                             =   5;
@@ -96,7 +96,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
     for ( MEVerticalItem *btn in self.subItems) {
         NSUInteger idx = btn.tag;
         NSUInteger offset_x = margin + (idx % itemCountPerLine) * (itemWidth+itemDistance);
-        NSUInteger offset_y = ME_LAYOUT_MARGIN + (ME_SUBCATEGORY_ITEM_HEIGHT + ME_LAYOUT_MARGIN) * (idx / itemCountPerLine);
+        NSUInteger offset_y = ME_LAYOUT_MARGIN + (ME_SUBCATEGORY_ITEM_HEIGHT + ME_LAYOUT_MARGIN*2) * (idx / itemCountPerLine);
         [btn makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(offset_x);
             make.top.equalTo(self).offset(offset_y);
@@ -115,7 +115,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
         lines += 1;
     }
     
-    return lines * (ME_SUBCATEGORY_ITEM_HEIGHT+ME_LAYOUT_MARGIN) + ME_LAYOUT_MARGIN *2;
+    return lines * (ME_SUBCATEGORY_ITEM_HEIGHT+ME_LAYOUT_MARGIN*2) + ME_LAYOUT_MARGIN *2;
 }
 
 /*
