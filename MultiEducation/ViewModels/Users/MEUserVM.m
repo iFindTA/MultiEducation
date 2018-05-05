@@ -120,6 +120,24 @@ static NSString * userFile = @"signedin.bat";
     //*/
 }
 
++ (BOOL)updateUserGender:(int32_t)gender uid:(int64_t)uid {
+    NSString *sql = PBFormat(@"gender = %d", gender);
+    NSString *where = PBFormat(@"uid = %lld", uid);
+    return [WHCSqlite update:[MEPBUser class] value:sql where:where];
+}
+
++ (BOOL)updateUserAvatar:(NSString *)avatar uid:(int64_t)uid {
+    NSString *sql = PBFormat(@"portrait = '%@'", avatar);
+    NSString *where = PBFormat(@"uid = %lld", uid);
+    return [WHCSqlite update:[MEPBUser class] value:sql where:where];
+}
+
++ (BOOL)updateUserNick:(NSString *)nick uid:(int64_t)uid {
+    NSString *sql = PBFormat(@"name = '%@'", nick);
+    NSString *where = PBFormat(@"uid = %lld", uid);
+    return [WHCSqlite update:[MEPBUser class] value:sql where:where];
+}
+
 #pragma mark --- setter & getter
 
 @end

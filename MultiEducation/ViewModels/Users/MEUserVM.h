@@ -35,9 +35,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)saveUser:(MEPBUser *)user;
 
 /**
- getter user role
+ update user gender
  */
-//- (MEUserRole)userRole;
++ (BOOL)updateUserGender:(int32_t)gender uid:(int64_t)uid;
+
+/**
+ update user avatar
+ */
++ (BOOL)updateUserAvatar:(NSString *)avatar uid:(int64_t)uid;
+
+/**
+ update user's nick
+ */
++ (BOOL)updateUserNick:(NSString *)nick uid:(int64_t)uid;
 
 @end
 

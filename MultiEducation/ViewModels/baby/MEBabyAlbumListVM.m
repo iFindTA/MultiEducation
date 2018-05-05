@@ -71,6 +71,9 @@
     } else {
         return nil;
     }
+    if (PBIsEmpty(classPbArr)) {
+        return nil;
+    }
     
     NSMutableString *where = [NSMutableString string];
     for (MEPBClass *class in classPbArr) {

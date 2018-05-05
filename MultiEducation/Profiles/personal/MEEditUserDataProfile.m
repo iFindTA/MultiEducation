@@ -44,57 +44,49 @@
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
-- (void)editTouchEvent {
-        int32_t gender = 0;
-        if ([_editScene.textfield.text isEqualToString: @"男"]) {
-            gender = 1;
-            FscUserPb *user = [[FscUserPb alloc] init];
-            user.gender = gender;
-            MEGenderVM *genderVM = [MEGenderVM vmWithModel: user];
-            [self postData: user vm: genderVM];
-        } else if ([_editScene.textfield.text isEqualToString: @"女"]) {
-            gender = 2;
-            FscUserPb *user = [[FscUserPb alloc] init];
-            user.gender = gender;
-            MEGenderVM *genderVM = [MEGenderVM vmWithModel: user];
-            [self postData: user vm: genderVM];
-        } else {
-            [SVProgressHUD showErrorWithStatus: @"请输入正确的性别"];
-        }
-
-//        FscUserPb *user = [[FscUserPb alloc] init];
-//        user.name = _editScene.textfield.text;
-//        MEUserNameVM *nameVM = [MEUserNameVM vmWithModel: user];
-//        [self postData: user vm: nameVM];
-}
-
-- (void)postData:(FscUserPb *)user vm:(MEUserEditVM *)vm {
-    NSData *data = [user data];
-    [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        
-        [self.navigationController popViewControllerAnimated: YES];
-
-    } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
-    }];
-}
-
 - (void)createSubViews {
         NSString *placeHolder;
         placeHolder = @"请输入昵称";
 
         _editScene = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
         _editScene.textfield.placeholder = placeHolder;
-    [_editScene becomeFirstResponder];
+        [_editScene becomeFirstResponder];
         [self.view addSubview: _editScene];
-        
-//        layout
+    
         [_editScene mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.view);
             make.top.mas_equalTo(self.view.mas_top).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
             make.height.mas_equalTo(54.f);
             make.width.mas_equalTo(MESCREEN_WIDTH);
         }];
+}
+
+- (void)editTouchEvent {
+    NSString *nick = _editScene.textfield.text;
+    if (nick.length == 0) {
+        [SVProgressHUD showInfoWithStatus:@"请输入昵称!"];
+        return;
+    }
+    
+    FscUserPb *user = [[FscUserPb alloc] init];
+    user.name = nick;
+    MEUserNameVM *vm = [MEUserNameVM vmWithModel: user];
+    NSData *data = [user data];
+    weakify(self)
+    [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self)
+        [self handleModifyResult4Nick:nick];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+}
+
+- (void)handleModifyResult4Nick:(NSString *)nick {
+    MEPBUser *oldUser = self.appDelegate.curUser;
+    oldUser.name = nick;
+    [MEUserVM updateUserNick:nick uid:oldUser.uid];
+    [self.appDelegate updateCurrentSignedInUser:oldUser];
+    [self defaultGoBackStack];
 }
 
 @end

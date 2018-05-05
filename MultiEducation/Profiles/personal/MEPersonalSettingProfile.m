@@ -25,7 +25,7 @@ static NSString * const USER_ICON_CELL_IDEF = @"user_icon_cell_idef";
 static NSString * const USER_DATA_CELL_IDEF = @"user_data_cell_idef";
 static CGFloat const CELL_HEIGHT = 54.f;
 
-@interface MEPersonalSettingProfile () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UploadImagesCallBack, TZImagePickerControllerDelegate>
+@interface MEPersonalSettingProfile () <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, TZImagePickerControllerDelegate>
 
 @property(nonatomic,strong) UIImagePickerController *imagePicker;
 
@@ -128,36 +128,14 @@ static CGFloat const CELL_HEIGHT = 54.f;
     weakify(self);
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
-        //此处更新MEPBUser.currentUser的库字段
+        MEPBUser *oldUser = self.appDelegate.curUser;
+        oldUser.gender = gender;
+        [MEUserVM updateUserGender:gender uid:oldUser.uid];
+        [self.appDelegate updateCurrentSignedInUser:oldUser];
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
         [self handleTransitionError: error];
     }];
-}
-
-- (void)sendChangeUserHeadToServer:(NSString *)portrait {
-    FscUserPb *userPb = [[FscUserPb alloc] init];
-    userPb.portrait = portrait;
-    NSData *data = [self.currentUser data];
-
-    MEPortraitVM *portraitVM = [MEPortraitVM vmWithModel: userPb];
-    
-    [portraitVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        MEPBUser *user = [MEPBUser parseFromData: resObj error: nil];
-        //此处更新MEPBUser.currentUser的库字段
-        [self.tableView reloadData];
-    } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
-    }];
-}
-
-#pragma mark - UploadImagesCallback
-- (void)uploadImageSuccess:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
-    [self sendChangeUserHeadToServer: key];
-}
-
-- (void)uploadImageFail:(QNResponseInfo *)info key:(NSString *)key resp:(NSDictionary *)resp {
-    [SVProgressHUD showErrorWithStatus: @"上传头像失败"];
 }
 
 #pragma mark - UITableViewDatasource
@@ -216,17 +194,25 @@ static CGFloat const CELL_HEIGHT = 54.f;
     [MEKits handleUploadPhotos: @[image] assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
         strongify(self);
         [self.qnUtils uploadImages: images  callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
+            NSString *portrait = succKeys[0];
             FscUserPb *pb = [[FscUserPb alloc] init];
-            pb.portrait = succKeys[0];
+            pb.portrait = portrait;
             MEPortraitVM *vm = [MEPortraitVM vmWithModel:pb];
             [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
-                //此处更新用户信息
-                [self.tableView reloadData];
+                [self updateLocalUser4Portrait:portrait];
             } failure:^(NSError * _Nonnull error) {
                 [self handleTransitionError: error];
             }];
         }];
     }];
+}
+
+- (void)updateLocalUser4Portrait:(NSString *)avatar {
+    MEPBUser *oldUser = self.appDelegate.curUser;
+    oldUser.portrait = avatar;
+    [MEUserVM updateUserAvatar:avatar uid:oldUser.uid];
+    [self.appDelegate updateCurrentSignedInUser:oldUser];
+    [self.tableView reloadData];
 }
 
 #pragma mark - lazyloading
@@ -263,7 +249,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
 - (MEQiniuUtils *)qnUtils {
     if (!_qnUtils) {
         _qnUtils = [MEQiniuUtils sharedQNUploadUtils];
-        _qnUtils.delegate = self;
+        //_qnUtils.delegate = self;
     }
     return _qnUtils;
 }

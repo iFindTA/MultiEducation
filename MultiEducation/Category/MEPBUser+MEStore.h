@@ -11,6 +11,8 @@
 
 @interface MEPBUser (MEStore)<WHC_SqliteInfo>
 
++ (NSString *)whc_SqliteMainkey;
+
 + (NSArray *)whc_IgnorePropertys;
 
 @end

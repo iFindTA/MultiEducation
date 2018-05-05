@@ -23,7 +23,6 @@ static CGFloat const HEADER_HEIGHT = 170.f;
 
 @interface MEPersonalRootProfile () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) MEPersonalHeader *header; //header
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 
@@ -50,6 +49,11 @@ static CGFloat const HEADER_HEIGHT = 170.f;
         make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR - [MEKits statusBarHeight] - ME_HEIGHT_NAVIGATIONBAR);
         make.top.mas_equalTo(self.view);
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 - (void)pushToPersonSecondProfileWithIndex:(NSInteger)index {
@@ -98,6 +102,24 @@ static CGFloat const HEADER_HEIGHT = 170.f;
 }
 
 #pragma mark - UITableViewDataSource
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return HEADER_HEIGHT;
+    }
+    return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+     MEBaseScene *tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, HEADER_HEIGHT)];
+    MEPersonalHeader *header = [[NSBundle mainBundle] loadNibNamed: @"MEPersonalHeader" owner: self options: nil].firstObject;
+    [tableHeader addSubview:header];
+    [header mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(tableHeader);
+    }];
+    return tableHeader;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -133,17 +155,6 @@ static CGFloat const HEADER_HEIGHT = 170.f;
         _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
-        
-        self.header = [[NSBundle mainBundle] loadNibNamed: @"MEPersonalHeader" owner: self options: nil].firstObject;
-        
-        MEBaseScene *tableHeader = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, HEADER_HEIGHT)];
-        [tableHeader addSubview: self.header];
-        
-        [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(tableHeader);
-        }];
-        
-        _tableView.tableHeaderView = tableHeader;
 
     }
     return _tableView;
