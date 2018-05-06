@@ -123,7 +123,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setIdleTimerDisabled:true];
-    PBBACK(^{
+    PBMAINDelay(ME_ANIMATION_DURATION, ^{
         [self initializedLiveStreamKit];
         [self createLiveRoomEvent];
     });
