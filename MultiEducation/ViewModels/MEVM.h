@@ -52,7 +52,7 @@
  */
 + (NSString * _Nullable)fetchUserToken;
 
-+ (MEPBUser *)currentUser;
++ (MEPBUser * _Nullable)currentUser;
 
 /**
  assemble request
@@ -81,6 +81,6 @@
  @param success callback
  @param failure callback
  */
-- (void)postData:(NSData *_Nonnull)data pageSize:(NSUInteger)size pageIndex:(NSUInteger)index hudEnable:(BOOL)hud success:(void (^_Nullable)(NSData * _Nullable resObj, NSUInteger totalPages))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+- (void)postData:(NSData *_Nonnull)data pageSize:(int32_t)size pageIndex:(int32_t)index hudEnable:(BOOL)hud success:(void (^_Nullable)(NSData * _Nullable resObj, NSUInteger totalPages))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
 @end
