@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import <AVKit/AVKit.h>
 #import "MEPlayerControl.h"
 #import <ZFPlayer/UIView+CustomControlView.h>
 
@@ -15,6 +16,8 @@
 @interface MEPlayerControl ()<ZFPlayerControlViewDelagate>
 
 @property (nonatomic, strong, readwrite) MPVolumeView *volume;
+
+@property (nonatomic, strong, readwrite) UIView *airplayScene;
 
 @property (nonatomic, strong, readwrite) MEBaseButton *likeBtn;
 @property (nonatomic, strong, readwrite) MEBaseButton *shareBtn;
@@ -61,8 +64,16 @@
 #if ME_PLAY_CONTROL_SHOW_BACKITEM
         [self addSubview:self.backItem];
 #endif
+        if (@available(iOS 11.0, *)) {
+            AVRoutePickerView *airplay = [[AVRoutePickerView alloc] initWithFrame:CGRectZero];
+            airplay.tintColor = [UIColor whiteColor];
+            [self addSubview:airplay];
+            self.airplayScene = airplay;
+        } else {
+            [self addSubview:self.volume];
+            self.airplayScene = self.volume;
+        }
         [self addSubview:self.likeBtn];
-        [self addSubview:self.volume];
         [self addSubview:self.shareBtn];
         [self addSubview:self.nextItemPanel];
         
@@ -72,7 +83,7 @@
         }];
         
         CGFloat scale = 1.5;
-        [self.volume makeConstraints:^(MASConstraintMaker *make) {
+        [self.airplayScene makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(ME_LAYOUT_BOUNDARY);
             make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN*2);
             make.width.height.equalTo(ME_LAYOUT_BOUNDARY * scale);
@@ -85,8 +96,8 @@
         }];
 #endif
         [self.shareBtn makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(self.volume);
-            make.right.equalTo(self.volume.mas_left).offset(-ME_LAYOUT_MARGIN);
+            make.top.bottom.equalTo(self.airplayScene);
+            make.right.equalTo(self.airplayScene.mas_left).offset(-ME_LAYOUT_MARGIN);
             make.width.equalTo(ME_LAYOUT_BOUNDARY * scale);
         }];
         [self.likeBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -94,11 +105,7 @@
             make.right.equalTo(self.shareBtn.mas_left).offset(-ME_LAYOUT_MARGIN);
             make.width.equalTo(ME_LAYOUT_BOUNDARY * scale);
         }];
-//        [self.volume makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self).offset(ME_LAYOUT_BOUNDARY);
-//            make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN * 2-ME_LAYOUT_BOUNDARY * scale * 2-ME_LAYOUT_BOUNDARY);
-//            make.width.height.equalTo(ME_LAYOUT_BOUNDARY * scale);
-//        }];
+        
         //next recommand
         [self.nextItemPanel makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self);
@@ -157,6 +164,12 @@
         [_volume setRouteButtonImage:img forState:UIControlStateNormal];
     }
     return _volume;
+}
+
+- (AVRoutePickerView *)airplay  API_AVAILABLE(ios(11.0)){
+    AVRoutePickerView *airplay = [[AVRoutePickerView alloc] initWithFrame:CGRectZero];
+    airplay.tintColor = [UIColor whiteColor];
+    return airplay;
 }
 
 - (MEBaseImageView *)audioMask {
@@ -244,7 +257,7 @@
 }
 
 - (void)updateUserActionItemState4Hidden:(BOOL)hide {
-    [self.volume setHidden:hide];
+    [self.airplayScene setHidden:hide];
 #if ME_PLAY_CONTROL_SHOW_BACKITEM
     [self.backItem setHidden:hide];
 #endif
@@ -258,7 +271,7 @@
     self.isFullScreen = fullscreen;
     [self.likeBtn setHidden:fullscreen];
     [self.shareBtn setHidden:fullscreen];
-    [self.volume setHidden:false];
+    [self.airplayScene setHidden:false];
 }
 
 - (void)updateUserLikeItemState:(BOOL)like {
