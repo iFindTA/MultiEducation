@@ -37,7 +37,7 @@
     //welcom
     MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     label.font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
-    label.text = @"选择用户角色";
+    label.text = @"选择身份登录";
     [self.view addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(adoptValue(ME_LAYOUT_SUBBAR_HEIGHT * 2));
@@ -46,6 +46,80 @@
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
     }];
     
+    //parent
+    MEPBUserRole role = MEPBUserRole_Parent;
+    CGFloat iconSize = adoptValue(130);
+    UIImage *image = [UIImage imageNamed:@"signin_multi_parent"];
+    MEBaseButton *iconBtn = [[MEBaseButton alloc] initWithFrame:CGRectZero];
+    iconBtn.tag = role;
+    [iconBtn setImage:image forState:UIControlStateNormal];
+    [iconBtn addTarget:self action:@selector(userDidChoosenRole:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:iconBtn];
+    [iconBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.top.equalTo(label.mas_bottom).offset(ME_HEIGHT_TABBAR);
+        make.size.equalTo(CGSizeMake(iconSize, iconSize));
+    }];
+    label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
+    label.text = @"家长";
+    [self.view addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(iconBtn.mas_centerX);
+        make.top.equalTo(iconBtn.mas_bottom).offset(ME_LAYOUT_MARGIN*2);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
+    }];
+    MEBaseLabel *schollLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    schollLabel.font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
+    schollLabel.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    MEPBUser *user = [self fetchUser4Role:MEPBUserRole_Parent];
+    if (user != nil) {
+        schollLabel.text = PBAvailableString(user.schoolName);
+    }
+    [self.view addSubview:schollLabel];
+    [schollLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(label.mas_bottom);
+        make.centerX.equalTo(label.mas_centerX);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
+    }];
+    
+    //teacher
+    role = MEPBUserRole_Teacher;
+    image = [UIImage imageNamed:@"signin_multi_teacher"];
+    iconBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    [iconBtn setImage:image forState:UIControlStateNormal];
+    iconBtn.tag = role;
+    [iconBtn addTarget:self action:@selector(userDidChoosenRole:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:iconBtn];
+    [iconBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(schollLabel.mas_centerX);
+        make.top.equalTo(schollLabel.mas_bottom).offset(ME_LAYOUT_SUBBAR_HEIGHT);
+        make.size.equalTo(CGSizeMake(iconSize, iconSize));
+    }];
+    label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
+    label.text = @"老师";
+    [self.view addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(iconBtn.mas_centerX);
+        make.top.equalTo(iconBtn.mas_bottom).offset(ME_LAYOUT_MARGIN*2);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
+    }];
+    schollLabel = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    schollLabel.font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
+    schollLabel.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    user = [self fetchUser4Role:MEPBUserRole_Teacher];
+    if (user != nil) {
+        schollLabel.text = PBAvailableString(user.schoolName);
+    }
+    [self.view addSubview:schollLabel];
+    [schollLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(label.mas_bottom);
+        make.centerX.equalTo(label.mas_centerX);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
+    }];
+    
+    /*checkBox 多选
     MEPBUserList *userList = self.params[@"userList"];
     NSArray<MEPBUser*> *list = userList.userListArray;
     self.checkGroup = [[BEMCheckBoxGroup alloc] init];
@@ -115,6 +189,20 @@
         make.right.equalTo(self.view).offset(-ME_LAYOUT_BOUNDARY);
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
     }];
+    //*/
+}
+
+- (MEPBUser *)fetchUser4Role:(MEPBUserRole)role {
+    MEPBUserList *userList = self.params[@"userList"];
+    NSArray<MEPBUser*> *list = userList.userListArray;
+    MEPBUser *user = nil;
+    for (MEPBUser * u in list) {
+        if (u.userType == role) {
+            user = u;
+            break;
+        }
+    }
+    return user;
 }
 
 /**
@@ -158,6 +246,16 @@
     boxs[infoScene.tag].on = true;
 }
 
+- (void)userDidChoosenRole:(MEBaseButton *)icon {
+    MEPBUserRole role = (MEPBUserRole)icon.tag;
+    MEPBUser *user = [self fetchUser4Role:role];
+    if (user != nil) {
+        [self ensuerSigninWithUser:user];
+        return;
+    }
+    [SVProgressHUD showErrorWithStatus:@"您当前选择的角色无法登录,请选择其他角色！"];
+}
+
 - (void)ensureIdentityTouchEvent {
     BEMCheckBox *box = self.checkGroup.selectedCheckBox;
     NSUInteger __tag = box.tag;
@@ -165,6 +263,10 @@
     NSArray<MEPBUser*> *list = userList.userListArray;
     MEPBUser *user = list[__tag];
     
+    [self ensuerSigninWithUser:user];
+}
+
+- (void)ensuerSigninWithUser:(MEPBUser *)user {
     //goto signin
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
     [pb setLoginName:user.username];
