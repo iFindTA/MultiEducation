@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
 #if ME_ENABLED_PUSHING
     __weak typeof(self) weakSelf = self;
     self.delegate = weakSelf;
