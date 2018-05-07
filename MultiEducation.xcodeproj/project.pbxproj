@@ -1135,15 +1135,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		C0C27DD797922B383F5C4307B6CBEBCE /* signin */ = {
-			isa = PBXGroup;
-			children = (
-				CDC3D60C1D6F9745F4A2FDA937C4A73A /* MEMulticastRole.h */,
-				4C1EEB926CD6356398D999480840D975 /* MEMulticastRole.m */,
-			);
-			path = signin;
-			sourceTree = "<group>";
-		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1665,6 +1656,15 @@
 				57A48E1E7CBE8F45A4F9E4E82E8D6ACA /* ValueMore.m */,
 			);
 			path = "value-plugin-more";
+			sourceTree = "<group>";
+		};
+		C0C27DD797922B383F5C4307B6CBEBCE /* signin */ = {
+			isa = PBXGroup;
+			children = (
+				CDC3D60C1D6F9745F4A2FDA937C4A73A /* MEMulticastRole.h */,
+				4C1EEB926CD6356398D999480840D975 /* MEMulticastRole.m */,
+			);
+			path = signin;
 			sourceTree = "<group>";
 		};
 		C0D55D588132F459492F368A5A3F7978 /* indexSearch */ = {

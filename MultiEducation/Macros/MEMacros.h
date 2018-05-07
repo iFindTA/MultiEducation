@@ -21,7 +21,7 @@
 #else
 #define ME_APP_ENV                                                      @"prod"
 #define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
-#define ME_WEB_SERVER_HOST                                              @"http://xdy.coeos.ds/open/res"
+#define ME_WEB_SERVER_HOST                                              @"http://ost.x16.com/open/res"
 #define ME_CORDOVA_SERVER_HOST                                          @"http://v2.api.x16.com:443"
 #define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
 #define ME_RONGIM_APPKEY                                                @"6tnym1br64577"
