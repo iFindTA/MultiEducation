@@ -60,7 +60,8 @@
         [self setValue:hiddenValue forKeyPath:@"self.backBtn.hidden"];
         [self setValue:hiddenValue forKeyPath:@"self.titleLabel.hidden"];
         
-        [self addSubview:self.audioMask];
+        UIImageView *placeHolder = [self valueForKey:@"placeholderImageView"];
+        [self insertSubview:self.audioMask belowSubview:placeHolder];
 #if ME_PLAY_CONTROL_SHOW_BACKITEM
         [self addSubview:self.backItem];
 #endif
