@@ -10,6 +10,7 @@
 #import "MEWebProgress.h"
 #import "MEHybridBaseProfile.h"
 #import <Cordova/CDVWebViewEngineProtocol.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface MEHybridBaseProfile ()
 
@@ -79,7 +80,20 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    /*
+    [IQKeyboardManager sharedManager].enable = false;
+    [IQKeyboardManager sharedManager].enableAutoToolbar = false;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
+    */
     [self.commandDelegate evalJs:@"viewWillAppear&&viewWillAppear()"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    /*
+    [IQKeyboardManager sharedManager].enable = true;
+    [IQKeyboardManager sharedManager].enableAutoToolbar = true;
+    */
 }
 
 - (void)didReceiveMemoryWarning {

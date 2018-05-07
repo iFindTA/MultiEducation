@@ -295,11 +295,11 @@
     
 #if DEBUG
     //家长
-//    self.inputMobile.text = @"18751732219";
-//    self.inputPwd.text = @"123123";
-    //老师
-    self.inputMobile.text = @"13023622337";
+    self.inputMobile.text = @"13612345677";
     self.inputPwd.text = @"123456";
+    //老师
+//    self.inputMobile.text = @"13023622337";
+//    self.inputPwd.text = @"123456";
 #endif
 }
 
