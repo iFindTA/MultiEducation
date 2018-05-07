@@ -8,6 +8,17 @@
 
 #import "MEBaseScene.h"
 
+@class MEPBUser;
 @interface MEMulticastRole : MEBaseScene
+
+/**
+ callback
+ */
+@property (nonatomic, copy) void(^callback)(MEPBUser *user);
+
+/**
+ init method
+ */
+- (id)initWithFrame:(CGRect)frame users:(NSArray<MEPBUser*>*)list;
 
 @end

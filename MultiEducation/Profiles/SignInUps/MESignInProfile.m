@@ -9,6 +9,7 @@
 #import "MEUserVM.h"
 #import "MEVerifyCodeVM.h"
 #import "MESignInProfile.h"
+#import "MEMulticastRole.h"
 #import "MESignInputField.h"
 #import "UITextField+MaxLength.h"
 #import <JKCountDownButton/JKCountDownButton.h>
@@ -36,6 +37,8 @@
  sign-in mode pwd or code
  */
 @property (nonatomic, strong) MEBaseButton *modeChangeBtn;
+
+@property (nonatomic, strong) MEMulticastRole *multicastRoleScene;
 
 @end
 
@@ -90,7 +93,7 @@
     }];
     UIColor *textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     MESignInputField *input = [[MESignInputField alloc] initWithFrame:CGRectZero];
-    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
+    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE);
     input.placeholder = @"手机号码";
     input.textColor = textColor;
     input.maxLength = ME_REGULAR_MOBILE_LENGTH;
@@ -124,7 +127,7 @@
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     input = [[MESignInputField alloc] initWithFrame:CGRectZero];
-    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
+    input.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE);
     input.placeholder = @"密码";
     input.textColor = textColor;
     input.secureTextEntry = true;
@@ -295,11 +298,11 @@
     
 #if DEBUG
     //家长
-    self.inputMobile.text = @"13612345677";
-    self.inputPwd.text = @"123456";
-    //老师
-//    self.inputMobile.text = @"13023622337";
+//    self.inputMobile.text = @"13612345677";
 //    self.inputPwd.text = @"123456";
+    //老师
+    self.inputMobile.text = @"13023622337";
+    self.inputPwd.text = @"123456";
 #endif
 }
 
@@ -354,7 +357,7 @@
         //check pwd
         NSString *pwd = self.inputPwd.text;
         if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
-            NSString *errString = PBFormat(@"请输入%zd~%zd位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
+            NSString *errString = PBFormat(@"请输入%zd~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
             [SVProgressHUD showErrorWithStatus:errString];
             return;
         }
@@ -363,7 +366,7 @@
         //check code
         NSString *code = self.inputCode.text;
         if (code.length < ME_REGULAR_CODE_LEN_MIN) {
-            NSString *errString = PBFormat(@"请输入%zd~%zd位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
+            NSString *errString = PBFormat(@"请输入%d~%d位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
             [SVProgressHUD showErrorWithStatus:errString];
             return;
         }
@@ -385,7 +388,16 @@
         if (err) {
             [self handleTransitionError:err];
         } else {
-            [self handleMulticastUserIdentitySwitchEvent:userList];
+            NSArray<MEPBUser*>*list = userList.userListArray.copy;
+            if (list.count == 0) {
+                [SVProgressHUD showInfoWithStatus:@"此账号未关联任何数据，请联系客服！"];
+                return ;
+            } else if (list.count == 1) {
+                MEPBUser *user = list.firstObject;
+                [self handleSingleUserSignIn:user];
+            } else {
+                [self handleMulticastUserIdentitySwitchEvent:userList];
+            }
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
@@ -436,33 +448,81 @@
 #pragma mark --- 处理多用户登录身份选择
 
 - (void)handleMulticastUserIdentitySwitchEvent:(MEPBUserList*)list {
-    if (list.userListArray.count <= 1) {
-        //只有一个用户登录
-        MEPBUser *user = list.userListArray.firstObject;
-        user.signinstamp = [MEKits currentTimeInterval];
-        [MEUserVM saveUser:user];
-        [self.appDelegate updateCurrentSignedInUser:user];
-        //登录成功之后的操作
-        //有 block 则先执行
-        void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
-        if (signInCallback) {
-            signInCallback();
-        }
-        BOOL shouldGoback = [self.params pb_boolForKey:ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN];
-        if (shouldGoback) {
-            [self defaultGoBackStack];
+    if (list.userListArray.count > 1) {
+        //CGRect fromBounds = CGRectZero;
+        CGRect bounds = CGRectMake(0, 0, MESCREEN_WIDTH, MESCREEN_HEIGHT);
+        MEMulticastRole *roleScene = [[MEMulticastRole alloc] initWithFrame:bounds users:list.userListArray.copy];
+        roleScene.transform = CGAffineTransformMakeScale(0.2, 0.2);
+        [self.view addSubview:roleScene];
+        [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.3 initialSpringVelocity:0.6 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+            roleScene.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            
+        }];
+        weakify(self)
+        roleScene.callback = ^(MEPBUser * u){
+            strongify(self)
+            [self resignInUser:u];
+        };
+        self.multicastRoleScene = roleScene;
+    }
+}
+
+- (void)resignInUser:(MEPBUser *)user {
+    weakify(self)
+    [UIView animateWithDuration:ME_ANIMATION_DURATION animations:^{
+        strongify(self)
+        self.multicastRoleScene.transform = CGAffineTransformMakeScale(0, 0);
+        self.multicastRoleScene.alpha = 0;
+    } completion:^(BOOL finished) {
+        strongify(self)
+        [self.multicastRoleScene removeFromSuperview];
+        _multicastRoleScene = nil;
+    }];
+    //goto signin
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+    [pb setLoginName:user.username];
+    //apns token
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
+    [pb setAppleToken:token];
+    //device info
+    MEPBPhoneInfo *info = [MEUserVM getDeviceInfo];
+    pb.phoneInfo = info;
+    
+    MEUserVM *vm = [MEUserVM vmWithPB:pb];
+    vm.sessionToken = user.sessionToken;
+    NSData *pbdata = [pb data];
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
+        if (err || userList.userListArray.count == 0) {
+            [self handleTransitionError:err];
         } else {
-            [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
+            MEPBUser *curUser = userList.userListArray.firstObject;
+            [self handleSingleUserSignIn:curUser];
         }
+    } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self handleTransitionError:error];
+    }];
+}
+
+- (void)handleSingleUserSignIn:(MEPBUser *)user {
+    user.signinstamp = [MEKits currentTimeInterval];
+    [MEUserVM saveUser:user];
+    [self.appDelegate updateCurrentSignedInUser:user];
+    //登录成功之后的操作
+    //有 block 则先执行
+    void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];
+    if (signInCallback) {
+        signInCallback();
+    }
+    BOOL shouldGoback = [self.params pb_boolForKey:ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN];
+    if (shouldGoback) {
+        [self defaultGoBackStack];
     } else {
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-        [params setObject:list forKey:@"userList"];
-        if (self.params) {
-            [params addEntriesFromDictionary:self.params];
-        }
-        NSURL *url = [MEDispatcher profileUrlWithClass:@"MEUserIdentitySwitchProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
-        NSError *err = [MEDispatcher openURL:url withParams:params.copy];
-        [self handleTransitionError:err];
+        [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
     }
 }
 

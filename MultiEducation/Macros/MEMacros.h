@@ -11,7 +11,8 @@
 
 #if DEBUG
 #define ME_APP_ENV                                                      @"dev"
-#define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
+#define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
+//#define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
 #define ME_WEB_SERVER_HOST                                              @"http://ost.x16.com/open/res"
 #define ME_CORDOVA_SERVER_HOST                                          @"http://v2.api.x16.com:443"
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"

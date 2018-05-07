@@ -69,7 +69,7 @@
         make.width.equalTo(ME_LAYOUT_ICON_HEIGHT * 0.5);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
-    UIFont *inputFont = UIFontPingFangSCMedium(METHEME_FONT_TITLE-1);
+    UIFont *inputFont = UIFontPingFangSCMedium(METHEME_FONT_TITLE);
     UIColor *textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     MESignInputField *input = [[MESignInputField alloc] initWithFrame:CGRectZero];
     input.font = inputFont;
@@ -359,7 +359,7 @@
     //check pwd
     NSString *pwd = self.inputPwd.text;
     if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
-        NSString *errString = PBFormat(@"请输入%zd~%zd位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
+        NSString *errString = PBFormat(@"请输入%d~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
         [SVProgressHUD showErrorWithStatus:errString];
         return;
     }
@@ -374,7 +374,7 @@
     //check code
     NSString *code = self.inputCode.text;
     if (code.length < ME_REGULAR_CODE_LEN_MIN) {
-        NSString *errString = PBFormat(@"请输入%zd~%zd位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
+        NSString *errString = PBFormat(@"请输入%d~%d位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
         [SVProgressHUD showErrorWithStatus:errString];
         return;
     }
