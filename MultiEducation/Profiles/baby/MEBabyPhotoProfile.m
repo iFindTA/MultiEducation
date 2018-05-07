@@ -434,8 +434,8 @@ static CGFloat const ITEM_LEADING = 10.f;
                     mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath]]];
                 }
                 [self.browserPhotos addObject: mwPhoto];
+                i++;
             }
-            i++;
         }
         [self.photoBrowser setCurrentPhotoIndex: index];
         
