@@ -163,7 +163,7 @@
     NSMutableArray *albums = [NSMutableArray array];
     
     for (ClassAlbumPb *pb in totalAlbums) {
-        if (albums.count <= (totalAlbums.count >= 10 ? 10 : totalAlbums.count)) {
+        if (albums.count < (totalAlbums.count >= 10 ? 10 : totalAlbums.count)) {
             if (!pb.isParent) {
                 [albums addObject: pb];
             }
@@ -227,6 +227,10 @@
     
     [self.tableHeaderView addSubview: self.headerView];
     self.photoHeader = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyContentHeader" owner:self options:nil] lastObject];
+    self.photoHeader.DidChangePhotoCallback = ^{
+        strongify(self);
+        [self loadData];
+    };
     [self.tableHeaderView addSubview: self.photoHeader];
     [self.tableHeaderView addSubview: self.babyPhtoView];
     [self.tableHeaderView addSubview: self.componentView];

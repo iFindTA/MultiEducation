@@ -11,6 +11,7 @@
 #import "MEBrowserProfile.h"
 #import "MEBabyNavigation.h"
 #import <MWPhotoBrowser.h>
+#import "MEBaseNavigationProfile.h"
 
 @interface MEBabyRootProfile () <MWPhotoBrowserDelegate>
 
@@ -85,7 +86,7 @@
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
     _photoBrowser = nil;
     self.photos = nil;
-    [self.navigationController popViewControllerAnimated: YES];
+    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
 }
 
 #pragma mark - lazyloading
@@ -105,7 +106,9 @@
         _babyView.DidSelectHandler = ^(NSInteger index, NSArray *photos) {
             strongify(self);
             self.photos = photos;
-            [self.navigationController pushViewController: self.photoBrowser animated: YES];
+            MEBaseNavigationProfile *browser  = [[MEBaseNavigationProfile alloc] initWithRootViewController: self.photoBrowser];
+            [self.navigationController presentViewController: browser animated: YES completion: nil];
+            [self.photoBrowser setCurrentPhotoIndex: index];
         };
     }
     return _babyView;

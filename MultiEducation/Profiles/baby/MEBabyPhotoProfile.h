@@ -10,4 +10,6 @@
 
 @interface MEBabyPhotoProfile : MEBaseProfile
 
+@property (nonatomic, copy) void(^DidChangePhotoCallback)(void);
+
 @end

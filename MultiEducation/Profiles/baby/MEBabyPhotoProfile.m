@@ -462,6 +462,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parendId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [self handleTransitionError: error];
+        self.pickerProfile = nil;
     }];
 }
 
@@ -478,13 +479,13 @@ static CGFloat const ITEM_LEADING = 10.f;
             NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parendId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [self handleTransitionError: error];
+            self.pickerProfile = nil;
         }];
 
     } failure:^(NSString *errorMessage, NSError *error) {
         [self handleTransitionError: error];
         NSLog(@"视频导出失败:%@,error:%@",errorMessage, error);
     }];
-    
 }
 
 #pragma mark - UICollectionViewDataSource

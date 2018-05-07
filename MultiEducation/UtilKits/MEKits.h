@@ -73,6 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)whetherCurrentUserHaveMulticastClasses;
 
+
+/**
+ 获取用户本地缓存图片地址
+ */
++ (NSString *)currentUserDownloadPath;
+
 #pragma mark --- Cordova abouts
 
 /**

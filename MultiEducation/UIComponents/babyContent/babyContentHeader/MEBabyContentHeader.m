@@ -35,45 +35,45 @@
 - (void)babyContentHeaderTapEvent {
     if (self.currentUser.userType == MEPBUserRole_Teacher) {
         if (self.currentUser.teacherPb.classPbArray.count > 1) {
-            
             NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
             [self handleTransitionError:err];
         } else {
-            NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.teacherPb.classPbArray[0].id_p];
-            NSDictionary *params = @{@"classId": classId, @"title": @"宝宝相册"};
-            NSString *urlString =@"profile://root@MEBabyPhotoProfile";
-            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-            [self handleTransitionError:err];
+            NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
+            [self gotoBabyPhotoProfile: classId];
         }
     } else if(self.currentUser.userType == MEPBUserRole_Gardener) {
         if (self.currentUser.deanPb.classPbArray.count > 1) {
-            
             NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
             [self handleTransitionError:err];
             
         } else {
-            NSNumber *classId = [NSNumber numberWithInteger: self.currentUser.deanPb.classPbArray[0].id_p];
-            NSDictionary *params = @{@"classId": classId, @"title": @"宝宝相册"};
-            NSString *urlString =@"profile://root@MEBabyPhotoProfile";
-            NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-            [self handleTransitionError:err];
+            NSInteger classId =  self.currentUser.deanPb.classPbArray[0].id_p;
+            [self gotoBabyPhotoProfile: classId];
         }
     } else {
-        
         GuIndexPb *indexPb = [MEBabyIndexVM fetchSelectBaby];
-        NSNumber *classId;
+        NSInteger classId;
         if (indexPb) {
-            classId = [NSNumber numberWithLongLong: indexPb.studentArchives.classId];
+            classId = indexPb.studentArchives.classId;
         } else {
-            classId = [NSNumber numberWithInteger: self.currentUser.parentsPb.classPbArray[0].id_p];
+            classId = self.currentUser.parentsPb.classPbArray[0].id_p;
         }
-        NSDictionary *params = @{@"classId": classId, @"title": @"宝宝相册"};
-        NSString *urlString =@"profile://root@MEBabyPhotoProfile";
-        NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-        [self handleTransitionError:err];
+        [self gotoBabyPhotoProfile: classId];
     }
 }
 
+- (void)gotoBabyPhotoProfile:(NSInteger)classId {
+    void (^DidChangePhotoCallback)(void) = ^() {
+        if (self.DidChangePhotoCallback) {
+            self.DidChangePhotoCallback();
+        }
+    };
+    NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: classId], @"title": @"宝宝相册", ME_DISPATCH_KEY_CALLBACK: DidChangePhotoCallback};
+    NSString *urlString =@"profile://root@MEBabyPhotoProfile";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    [self handleTransitionError:err];
+    
+}
 @end
