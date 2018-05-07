@@ -104,17 +104,18 @@ static CGFloat const ROW_HEIGHT = 60.f;
             pb.fileName = [dict objectForKey: @"fileName"];
             pb.fileType = [dict objectForKey: @"extension"];
             pb.fileSize = [[dict objectForKey: @"fileSize"] integerValue];
-            pb.upPercent = 0;
+            pb.upPercent = 1;
             pb.isExist = 1;
             pb.fileData = [dict objectForKey: @"data"];
-            pb.uploadStatu = MEUploadStatus_IsExist;
+            pb.uploadStatu = MEUploadStatus_Success;
+            [self sendUploadResultToServer: pb];
             [_dataArr addObject: pb];
         }
         [self.tableView reloadData];
         if (forUploadArr.count != 0) {
             [self.qnUtils uploadImagesWithUncheck: forUploadArr];
         } else {
-            [SVProgressHUD showErrorWithStatus: @"当前选中的所有照片均已上传过！"];
+            [self uploadTotalSuccAlert];
         }
     }];
 }
