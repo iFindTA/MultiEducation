@@ -163,7 +163,7 @@
     NSMutableArray *albums = [NSMutableArray array];
     
     for (ClassAlbumPb *pb in totalAlbums) {
-        if (albums.count <= (totalAlbums.count >= 10 ? 10 : totalAlbums.count)) {
+        if (albums.count < (totalAlbums.count >= 10 ? 10 : totalAlbums.count)) {
             if (!pb.isParent) {
                 [albums addObject: pb];
             }
@@ -217,7 +217,6 @@
 }
 
 - (void)createSubviews {
-    
     self.headerView = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyHeader" owner:self options:nil] lastObject];
     weakify(self);
     self.headerView.selectCallBack = ^(StudentPb *pb) {
@@ -225,11 +224,12 @@
         [self getBabyArchitecture: pb.id_p];
     };
     
-    [self.tableHeaderView addSubview: self.headerView];
     self.photoHeader = [[[NSBundle mainBundle] loadNibNamed:@"MEBabyContentHeader" owner:self options:nil] lastObject];
-    [self.tableHeaderView addSubview: self.photoHeader];
-    [self.tableHeaderView addSubview: self.babyPhtoView];
-    [self.tableHeaderView addSubview: self.componentView];
+    self.photoHeader.DidChangePhotoCallback = ^{
+        strongify(self);
+        [self loadData];
+    };
+    [self.tableHeaderView addSubview: self.headerView];
     [self addSubview: self.tableView];
     
     if (@available(iOS 11.0, *)) {
@@ -244,6 +244,11 @@
     }];
     
     if (!(self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
+        
+        [self.tableHeaderView addSubview: self.photoHeader];
+        [self.tableHeaderView addSubview: self.babyPhtoView];
+        [self.tableHeaderView addSubview: self.componentView];
+        
         [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.tableHeaderView);
             make.width.mas_equalTo(MESCREEN_WIDTH);

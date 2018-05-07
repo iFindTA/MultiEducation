@@ -51,6 +51,20 @@
     }
 }
 
+- (UIImage *)getPlaceHolderImage:(ClassAlbumPb *)pb {
+    NSString *absolutePath;
+    if (![[NSFileManager defaultManager] fileExistsAtPath: pb.filePath]) {
+        absolutePath = [[MEKits currentUserDownloadPath] stringByAppendingPathComponent: pb.filePath];
+    }
+    UIImage *image;
+    if ([[NSFileManager defaultManager] fileExistsAtPath: absolutePath]) {
+        image = [[UIImage alloc] initWithContentsOfFile: absolutePath];
+    } else {
+        image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+    }
+    return image;
+}
+
 - (void)setCoverImage:(ClassAlbumPb *)pb {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *user = delegate.curUser;
@@ -76,7 +90,7 @@
                 }
             }
 
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"] options: SDWebImageRetryFailed];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         } else {
             self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
         }
@@ -85,10 +99,10 @@
         self.floderNameLabel.text = @"";
         if ([pb.fileType isEqualToString: @"mp4"]) {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"] options: SDWebImageRetryFailed];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         } else {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"] options: SDWebImageRetryFailed];
+            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         }
     }
 }

@@ -18,6 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *arrowIcon;
 
-
+@property (nonatomic, copy) void (^DidChangePhotoCallback)(void);
 
 @end

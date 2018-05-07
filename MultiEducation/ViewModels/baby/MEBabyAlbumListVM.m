@@ -52,7 +52,7 @@
     if (arr.count == 0) {
         return YES;
     } else {
-        BOOL result = [WHC_ModelSqlite delete: arr[0] where: where];
+        BOOL result = [WHC_ModelSqlite delete: [ClassAlbumPb class] where: where];
         return result;
     }
 }
