@@ -538,7 +538,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 }
 
 - (void)enablePlayer {
-    if (self.player.state != ZFPlayerStateStopped && self.player.state != ZFPlayerStateFailed) {
+    if (self.player.state != ZFPlayerStateStopped && self.player.state != ZFPlayerStateFailed && !self.player.isPauseByUser) {
         [self.player play];
     }
 }
