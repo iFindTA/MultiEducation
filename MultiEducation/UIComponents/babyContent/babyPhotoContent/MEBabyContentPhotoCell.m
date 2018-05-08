@@ -22,7 +22,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-
+    self.photoIcon.contentMode = UIViewContentModeScaleAspectFill;
 }
 
 - (void)setData:(ClassAlbumPb *)pb {
@@ -91,6 +91,7 @@
             }
 
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
+            
         } else {
             self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
         }
