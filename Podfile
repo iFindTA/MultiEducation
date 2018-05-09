@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+ platform :ios, '9.0'
 
 target 'MultiEducation' do
 pod 'PBKits', '~> 1.2.3'

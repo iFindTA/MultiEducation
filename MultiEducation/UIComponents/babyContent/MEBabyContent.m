@@ -540,9 +540,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEBabyInfoCell *cell = [tableView dequeueReusableCellWithIdentifier: BABY_INFO_IDEF forIndexPath: indexPath];
-    if (self.newsInfos.count != 0) {
-        [cell setData: [self.newsInfos objectAtIndex: 0]];
-    }
+    [cell setData: [self.newsInfos objectAtIndex: indexPath.row]];    
     return cell;
 }
 
