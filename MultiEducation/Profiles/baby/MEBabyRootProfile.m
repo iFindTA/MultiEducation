@@ -10,8 +10,12 @@
 #import "MEBabyContent.h"
 #import "MEBrowserProfile.h"
 #import "MEBabyNavigation.h"
-#import <MWPhotoBrowser.h>
+#import "MEPhotoBrowser.h"
 #import "MEBaseNavigationProfile.h"
+#import "Meuser.pbobjc.h"
+#import "Meclass.pbobjc.h"
+#import "MebabyGrowth.pbobjc.h"
+#import "MEBabyIndexVM.h"
 
 @interface MEBabyRootProfile () <MWPhotoBrowserDelegate>
 
@@ -19,7 +23,7 @@
 
 @property (nonatomic, strong) MEBabyNavigation *babyNavigation;
 
-@property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
+@property (nonatomic, strong) MEPhotoBrowser *photoBrowser;
 @property (nonatomic, strong) NSArray <MWPhoto *> *photos;
 
 @end
@@ -60,18 +64,25 @@
     
 }
 
+- (void)gotoBabyPhotoProfile:(NSInteger)classId {
+    NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: classId], @"title": @"宝宝相册"};
+    NSString *urlString =@"profile://root@MEBabyPhotoProfile";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    [self handleTransitionError:err];
+}
+
 - (void)navigationAnimation:(CGFloat)offset direction:(MEScrollViewDirection)direction {
-        if (direction == MEScrollViewDirectionUp) {
-            [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
-                self.babyNavigation.alpha = 0;
-                [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-            }];
-        } else {
-            [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
-                self.babyNavigation.alpha = 1;
-                [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-            }];
-        }
+    if (direction == MEScrollViewDirectionUp) {
+        [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
+            self.babyNavigation.alpha = 0;
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+        }];
+    } else {
+        [UIView animateWithDuration: ME_ANIMATION_DURATION animations:^{
+            self.babyNavigation.alpha = 1;
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+        }];
+    }
 }
 
 #pragma mark - MWPhotoBrowserDelegate
@@ -84,9 +95,9 @@
 }
 
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
+    [self.photoBrowser.navigationController dismissViewControllerAnimated: YES completion: nil];
     _photoBrowser = nil;
-    self.photos = nil;
-    [self.navigationController dismissViewControllerAnimated: YES completion: nil];
+    _photos = nil;
 }
 
 #pragma mark - lazyloading
@@ -106,8 +117,10 @@
         _babyView.DidSelectHandler = ^(NSInteger index, NSArray *photos) {
             strongify(self);
             self.photos = photos;
-            MEBaseNavigationProfile *browser  = [[MEBaseNavigationProfile alloc] initWithRootViewController: self.photoBrowser];
-            [self.navigationController presentViewController: browser animated: YES completion: nil];
+
+            
+           
+            [self.navigationController pushViewController: self.photoBrowser animated:YES];
             [self.photoBrowser setCurrentPhotoIndex: index];
         };
     }
@@ -131,9 +144,9 @@
     return _babyNavigation;
 }
 
-- (MWPhotoBrowser *)photoBrowser {
+- (MEPhotoBrowser *)photoBrowser {
     if (!_photoBrowser) {
-        _photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
+        _photoBrowser = [[MEPhotoBrowser alloc] initWithDelegate: self];
         //set options
         _photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
         _photoBrowser.displayNavArrows = NO; //显示左右划动
@@ -144,6 +157,49 @@
         _photoBrowser.startOnGrid = NO; //是否以网格开始;
         _photoBrowser.enableSwipeToDismiss = YES;
         _photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
+        
+        weakify(self);
+        _photoBrowser.DidBackItemHandler = ^{
+            strongify(self);
+            [self.photoBrowser.navigationController popViewControllerAnimated: YES];
+            _photoBrowser = nil;
+            _photos = nil;
+        };
+        
+        _photoBrowser.DidGotoBabyPhotoProfileHandler = ^{
+            strongify(self);
+            
+            if (self.currentUser.userType == MEPBUserRole_Teacher) {
+                if (self.currentUser.teacherPb.classPbArray.count > 1) {
+                    NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
+                    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+                    [self handleTransitionError:err];
+                } else {
+                    NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
+                    [self gotoBabyPhotoProfile: classId];
+                }
+            } else if(self.currentUser.userType == MEPBUserRole_Gardener) {
+                if (self.currentUser.deanPb.classPbArray.count > 1) {
+                    NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
+                    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+                    [self handleTransitionError:err];
+                    
+                } else {
+                    NSInteger classId =  self.currentUser.deanPb.classPbArray[0].id_p;
+                    [self gotoBabyPhotoProfile: classId];
+                }
+            } else {
+                GuIndexPb *indexPb = [MEBabyIndexVM fetchSelectBaby];
+                NSInteger classId;
+                if (indexPb) {
+                    classId = indexPb.studentArchives.classId;
+                } else {
+                    classId = self.currentUser.parentsPb.classPbArray[0].id_p;
+                }
+                [self gotoBabyPhotoProfile: classId];
+            }
+        };
+        
     }
     return _photoBrowser;
 }
