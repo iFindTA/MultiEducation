@@ -512,6 +512,9 @@
     [multiMap setObject:@(index.semester) forKey:@"semester"];
     [multiMap setObject:@(index.month) forKey:@"month"];
     [multiMap setObject:@(class_id) forKey:@"classId"];
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        [multiMap setObject:@(index.studentArchives.studentId) forKey:@"studentId"];
+    }
     NSString *getParamsString = [multiMap.copy uq_URLQueryString];
     NSDictionary *params;
     if (MEBabyContentTypeGrowth & type) {
