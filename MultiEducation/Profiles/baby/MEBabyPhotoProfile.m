@@ -305,14 +305,12 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self.timeLineArr removeAllObjects];
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+            albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
+            albumPb.isSelectStatus = NO;
+            albumPb.isSelect = NO;
             [MEBabyAlbumListVM saveAlbum: albumPb];
-            if (albumPb.parentId == _parentId) {
-                albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
-                albumPb.isSelectStatus = NO;
-                albumPb.isSelect = NO;
-                [self.photos addObject: albumPb];
-            }
         }
+        [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: _parentId]];
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
     } failure:^(NSError * _Nonnull error) {

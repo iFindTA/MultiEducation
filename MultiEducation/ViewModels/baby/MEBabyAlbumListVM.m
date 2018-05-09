@@ -81,7 +81,8 @@
     }
     //delete the last ','
     [where deleteCharactersInRange: NSMakeRange(where.length - 3, 3)];
-    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by  modifiedDate desc"];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
+
     return arr;
 }
 
