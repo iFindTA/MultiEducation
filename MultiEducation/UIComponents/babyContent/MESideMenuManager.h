@@ -18,4 +18,9 @@ typedef NS_ENUM(NSUInteger, MEUSERTouchMenuType) {
 @interface MESideMenuManager : NSObject
 
 - (instancetype)initWithMenuSuperView:(UIView *)view sideMenuCallback:(void(^)(MEUserTouchEventType type))sideMenuCallback operationMenuCallback:(void(^)(void))operationMenuCallback;
+
+- (void)hideSideMenuManager;
+
+- (void)showSideMenuManager;
+
 @end

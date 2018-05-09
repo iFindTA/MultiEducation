@@ -133,6 +133,38 @@ static CGFloat const MAX_TIME = 4;  //4s后对操作列表无任何操作，自�
     }
 }
 
+- (void)hideSideMenuManager {
+    [self.hideMenu mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(_superView.mas_right).mas_offset(HIDEVIEW_WIDTH);
+        make.width.mas_equalTo(HIDEVIEW_WIDTH);
+        make.height.mas_equalTo(HIDEVIEW_HEIGHT);
+        make.centerY.mas_equalTo(_superView);
+    }];
+    
+    [self.showMenu mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(_superView.mas_right).mas_offset(SHOWVIEW_WIDTH);
+        make.width.mas_equalTo(SHOWVIEW_WIDTH);
+        make.height.mas_equalTo(SHOWVIEW_HEIGHT);
+        make.centerY.mas_equalTo(_superView);
+    }];
+}
+
+- (void)showSideMenuManager {
+    [self.hideMenu mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(_superView.mas_right);
+        make.width.mas_equalTo(HIDEVIEW_WIDTH);
+        make.height.mas_equalTo(HIDEVIEW_HEIGHT);
+        make.centerY.mas_equalTo(_superView);
+    }];
+    
+    [self.showMenu mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(_superView.mas_right).mas_offset(SHOWVIEW_WIDTH);
+        make.width.mas_equalTo(SHOWVIEW_WIDTH);
+        make.height.mas_equalTo(SHOWVIEW_HEIGHT);
+        make.centerY.mas_equalTo(_superView);
+    }];
+}
+
 #pragma mark - lazyloading
 - (MESideHideenMenu *)hideMenu {
     if (!_hideMenu) {

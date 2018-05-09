@@ -590,6 +590,19 @@ static CGFloat const ITEM_LEADING = 10.f;
             NSArray *timeLineArr = [(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"];
             [self didSelectAlbumPb: pb photos: timeLineArr];
         }
+    } else {
+        MEBabyContentPhotoCell *cell = [collectionView cellForItemAtIndexPath: indexPath];
+        [cell changeSelectBtnStatus];
+        ClassAlbumPb *pb = [self.photos objectAtIndex: indexPath.row];
+        if (pb.isSelect) {
+            if (![self.selectArr containsObject: pb]) {
+                [self.selectArr addObject: pb];
+            }
+        } else {
+            if ([self.selectArr containsObject: pb]) {
+                [self.selectArr removeObject: pb];
+            }
+        }
     }
 }
 
@@ -613,6 +626,11 @@ static CGFloat const ITEM_LEADING = 10.f;
     if (scrollView == self.scrollView) {
         NSInteger page = (NSInteger)(scrollView.contentOffset.x / scrollView.frame.size.width);
         [self.header markLineAnimation: page];
+        if (scrollView.contentOffset.x == MESCREEN_WIDTH) {
+            [self.sideMenuManager hideSideMenuManager];
+        } else {
+            [self.sideMenuManager showSideMenuManager];
+        }
     }
 }
 

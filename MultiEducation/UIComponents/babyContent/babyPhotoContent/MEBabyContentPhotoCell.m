@@ -109,11 +109,15 @@
 }
 
 - (IBAction)selectToDeleteTouchEvent:(MEBaseButton *)sender {
-    self.selectBtn.selected = !self.selectBtn.selected;
-    self.albumPb.isSelect = self.selectBtn.selected;
+    [self changeSelectBtnStatus];
     if (self.handler) {
         self.handler(_albumPb);
     }
+}
+
+- (void)changeSelectBtnStatus {
+    self.selectBtn.selected = !self.selectBtn.selected;
+    self.albumPb.isSelect = self.selectBtn.selected;
 }
 
 //when the folderA in folderB, get the folderA's coverImage to give folderB, and maybe floderC in floderA, so this is a recurrence func

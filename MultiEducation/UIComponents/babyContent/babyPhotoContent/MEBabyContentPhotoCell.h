@@ -25,4 +25,6 @@ typedef void(^BabyPhotoSelectHandler)(ClassAlbumPb *pb);
 
 - (void)setData:(ClassAlbumPb *)pb;
 
+- (void)changeSelectBtnStatus;
+
 @end
