@@ -125,7 +125,7 @@
         }
         [self.componentView reloadData];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -138,7 +138,7 @@
         [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];        
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -212,7 +212,7 @@
         }
         
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -476,7 +476,7 @@
             url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
         }
         NSError *err = [MEDispatcher openURL:url withParams:params];
-        [self handleTransitionError:err];
+        [MEKits handleError:err];
     }
 }
 
@@ -526,7 +526,7 @@
     }
     NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 #pragma mark - UITableViewDataSource

@@ -37,7 +37,7 @@
 - (void)qrCodeTapEvent {
     NSString *urlStr = @"profile://root@MEQRCodeShareProfile/";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-    [self handleTransitionError: error];
+    [MEKits handleError: error];
 }
 
 - (IBAction)agreementAndProtocolTouchEvent:(MEBaseButton *)sender {

@@ -68,7 +68,7 @@
     NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: classId], @"title": @"宝宝相册"};
     NSString *urlString =@"profile://root@MEBabyPhotoProfile";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 - (void)navigationAnimation:(CGFloat)offset direction:(MEScrollViewDirection)direction {
@@ -173,7 +173,7 @@
                 if (self.currentUser.teacherPb.classPbArray.count > 1) {
                     NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
                     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
-                    [self handleTransitionError:err];
+                    [MEKits handleError:err];
                 } else {
                     NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
                     [self gotoBabyPhotoProfile: classId];
@@ -182,7 +182,7 @@
                 if (self.currentUser.deanPb.classPbArray.count > 1) {
                     NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
                     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
-                    [self handleTransitionError:err];
+                    [MEKits handleError:err];
                     
                 } else {
                     NSInteger classId =  self.currentUser.deanPb.classPbArray[0].id_p;

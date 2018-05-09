@@ -133,7 +133,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
         [SVProgressHUD showWithStatus: @"修改手机号成功"];
         [self.navigationController popViewControllerAnimated: YES];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -164,7 +164,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
         [self timerStart];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 

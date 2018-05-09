@@ -77,7 +77,7 @@
         strongify(self)
         [self handleModifyResult4Nick:nick];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 

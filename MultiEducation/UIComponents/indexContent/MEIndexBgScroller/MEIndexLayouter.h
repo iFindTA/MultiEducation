@@ -10,7 +10,7 @@
 
 @interface MEIndexLayouter : MEBaseScene
 
-- (id)initWithFrame:(CGRect)frame reqCode:(NSUInteger)code;
+- (id)initWithFrame:(CGRect)frame reqCode:(int32_t)code;
 
 - (void)indexLayoutViewWillAppear;
 

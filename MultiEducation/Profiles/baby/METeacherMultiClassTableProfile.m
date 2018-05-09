@@ -78,7 +78,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
     NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId], @"title": @"宝宝相册"};
     NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 #pragma mark - lazyloading

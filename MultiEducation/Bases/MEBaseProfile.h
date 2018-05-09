@@ -71,16 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 //- (BOOL)userDidSignIn;
 
-/**
- handle error
- */
-- (void)handleTransitionError:(NSError *_Nullable)error;
-
-/**
- handle success
- */
-- (void)showSuccessHUD:(NSString *)hudString;
-
 @end
 
 NS_ASSUME_NONNULL_END

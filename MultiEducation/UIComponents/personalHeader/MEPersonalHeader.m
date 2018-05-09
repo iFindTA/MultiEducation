@@ -24,14 +24,14 @@
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
     NSString *urlStr = @"profile://root@MEAccountSafeProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-    [self handleTransitionError: error];
+    [MEKits handleError: error];
 }
 
 
 - (IBAction)personalDataSettingTouchEvent:(MEBaseButton *)sender {
     NSString *urlStr = @"profile://root@MEPersonalSettingProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-    [self handleTransitionError: error];
+    [MEKits handleError: error];
 }
 
 

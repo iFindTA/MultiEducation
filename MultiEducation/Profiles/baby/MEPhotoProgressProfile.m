@@ -136,7 +136,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
         }
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 

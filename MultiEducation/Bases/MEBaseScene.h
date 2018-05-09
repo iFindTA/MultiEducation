@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEKits.h"
 #import "PBView.h"
 #import "Meuser.pbobjc.h"
 #import "MEUIBaseHeader.h"
@@ -24,11 +25,6 @@
  getter user
  */
 - (MEPBUser * _Nullable)currentUser;
-
-/**
- handle error
- */
-- (void)handleTransitionError:(NSError *_Nullable)error;
 
 - (void)showIndecator;
 

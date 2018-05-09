@@ -13,12 +13,9 @@
 #import <YJBannerView/YJBannerView.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-//banner height
-static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                             =   100;
-
 @interface MEIndexLayouter () <UIScrollViewDelegate, YJBannerViewDelegate, YJBannerViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
-@property (nonatomic, assign) NSUInteger indexCode;
+@property (nonatomic, assign) int32_t indexCode;
 
 @property (nonatomic, strong) MEPBIndexItem *dataItem;
 @property (nonatomic, strong) UIScrollView *scroller;
@@ -30,7 +27,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
 
 @implementation MEIndexLayouter
 
-- (id)initWithFrame:(CGRect)frame reqCode:(NSUInteger)code {
+- (id)initWithFrame:(CGRect)frame reqCode:(int32_t)code {
     self = [super initWithFrame:frame];
     if (self) {
         _indexCode = code;
@@ -162,7 +159,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     NSDictionary *params = @{@"id":@(video.resId), @"url":PBAvailableString(video.filePath)};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEVideoPlayProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 #pragma mark --- Data Load & Storage relevant
@@ -225,7 +222,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
             [self rebuildIndexLayoutUI];
             return;
         }
-        //[self handleTransitionError:err];
+        //[MEKits handleError:err];
     }
     
     [self.scroller.mj_header beginRefreshing];
@@ -241,7 +238,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         NSError *err;strongify(self)
         MEPBIndexClass *classes = [MEPBIndexClass parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
             [self displayErrorWhhileDataEmpty];
         } else {
             MEPBIndexItem *item = classes.catsArray[self.indexCode];
@@ -255,7 +252,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
         [self.scroller.mj_header endRefreshing];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
         //[self hiddenIndecator];
         [self.scroller.mj_header endRefreshing];
         [self displayErrorWhhileDataEmpty];
@@ -419,7 +416,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 - (void)indexLayoutStoryClassDidTouchEvent:(NSUInteger)tag {
@@ -428,7 +425,7 @@ static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                         
     NSDictionary *params = @{@"typeId":@(type.id_p), @"title":PBAvailableString(type.title)};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 /*

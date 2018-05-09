@@ -195,14 +195,14 @@
         NSError *err;strongify(self)
         MEPBClassLive *liveKit = [MEPBClassLive parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             self.liveItem = liveKit;
             [self startTimerForMaskAnimation];
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
@@ -345,11 +345,11 @@
 //        NSError *err;strongify(self)
 //        MEPBClassLive *liveKit = [MEPBClassLive parseFromData:resObj error:&err];
 //        if (err) {
-//            [self handleTransitionError:err];
+//            [MEKits handleError:err];
 //        }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 

@@ -113,7 +113,7 @@
         NSError *err;strongify(self)
         MEPBResList *list = [MEPBResList parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             if (index == 1) {
                 [self.dataSource removeAllObjects];
@@ -127,7 +127,7 @@
         [self adjustRefreshFooterState];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
         [self adjustRefreshFooterState];
     }];
 }
@@ -283,7 +283,7 @@
     NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 /*

@@ -100,7 +100,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
     if (indexPath.row == 0) {
         NSString *urlStr = @"profile://root@MEUpdatePasswordProfile";
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-        [self handleTransitionError: error];
+        [MEKits handleError:error];
     } else {
         [self logout];
     }

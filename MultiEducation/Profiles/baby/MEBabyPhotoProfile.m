@@ -163,7 +163,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
             [self loadDataSource: _parentId];
         } failure:^(NSError * _Nonnull error) {
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }];
     }];
 }
@@ -207,7 +207,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     NSDictionary *params = @{@"albums": self.selectArr, @"folders": folders, ME_DISPATCH_KEY_CALLBACK: moveSuccessCallback};
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-    [self handleTransitionError: error];
+    [MEKits handleError: error];
 }
 
 - (void)deletePhotoOrFolder {
@@ -246,7 +246,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -290,7 +290,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -315,7 +315,7 @@ static CGFloat const ITEM_LEADING = 10.f;
             [self.photoView reloadData];
             [self sortPhotoWithTimeLine];
         } failure:^(NSError * _Nonnull error) {
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }];
     } else {
         [self.photos removeAllObjects];
@@ -478,7 +478,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         NSString *urlStr = @"profile://root@MEBabyPhotoProfile";
         NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: pb.id_p], @"title": pb.fileName};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }
 }
 
@@ -494,7 +494,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
         NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parentId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
         self.pickerProfile = nil;
     }];
 }
@@ -511,12 +511,12 @@ static CGFloat const ITEM_LEADING = 10.f;
             NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
             NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parentId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
             self.pickerProfile = nil;
         }];
 
     } failure:^(NSString *errorMessage, NSError *error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
         NSLog(@"视频导出失败:%@,error:%@",errorMessage, error);
     }];
 }

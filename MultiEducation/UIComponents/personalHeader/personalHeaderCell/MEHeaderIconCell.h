@@ -15,7 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *headIcon;
 
-- (void)setData:(MEPBUser *)userPb;
+//- (void)setData:(MEPBUser *)userPb;
 
 
 @end

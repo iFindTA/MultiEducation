@@ -61,7 +61,7 @@ static CGFloat const HEADER_HEIGHT = 170.f;
         case 0: {
             NSString *urlStr = @"profile://root@MECollectionProfile";
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }
             break;
         case 1: {
@@ -69,7 +69,7 @@ static CGFloat const HEADER_HEIGHT = 170.f;
             NSString *urlStr = @"profile://root@METemplateProfile";
             NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"联系我们", ME_CORDOVA_KEY_STARTPAGE:@"contact_us.html"};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }
             break;
         case 2: {
@@ -77,7 +77,7 @@ static CGFloat const HEADER_HEIGHT = 170.f;
             NSString *urlStr = @"profile://root@METemplateProfile";
             NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"帮助中心", ME_CORDOVA_KEY_STARTPAGE:@"help.html#/help"};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }
             break;
             
@@ -92,7 +92,7 @@ static CGFloat const HEADER_HEIGHT = 170.f;
         case 4: {
             NSString *urlStr = @"profile://root@MEAboutMeProfile/";
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }
             break;
         default:

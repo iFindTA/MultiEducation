@@ -337,7 +337,7 @@
 - (void)registerAccountTouchEvent {
     NSURL *routeUrl = [MEDispatcher profileUrlWithClass:@"MESignUpProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
     NSError *error = [MEDispatcher openURL:routeUrl withParams:self.params];
-    [self handleTransitionError:error];
+    [MEKits handleError:error];
 }
 
 - (void)loginTouchEvent {
@@ -386,7 +386,7 @@
         NSError *err;strongify(self)
         MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             NSArray<MEPBUser*>*list = userList.userListArray.copy;
             if (list.count == 0) {
@@ -401,7 +401,7 @@
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
@@ -431,7 +431,7 @@
         [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
@@ -497,14 +497,14 @@
         NSError *err;strongify(self)
         MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
         if (err || userList.userListArray.count == 0) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             MEPBUser *curUser = userList.userListArray.firstObject;
             [self handleSingleUserSignIn:curUser];
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
@@ -545,7 +545,7 @@
         NSError *err;strongify(self)
         MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             MEPBUser *user = userList.userListArray.firstObject;
             user.signinstamp = [MEKits currentTimeInterval];
@@ -556,7 +556,7 @@
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
     
     //[self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];

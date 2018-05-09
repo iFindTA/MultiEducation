@@ -51,7 +51,7 @@
     };
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callBack};
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
     
     //[self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
 }
@@ -66,7 +66,7 @@
     NSString *urlString = @"profile://root@MEVideoRecordProfile/";
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK:callback};
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 - (void)didReceiveMemoryWarning {

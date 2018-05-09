@@ -430,6 +430,11 @@
 
 + (void)handleError:(NSError *)err {
     if (err) {
+        NSDictionary *userInfo = [err userInfo];
+        NSString *alertInfo = err.domain;
+        if (userInfo) {
+            alertInfo = [userInfo pb_stringForKey:NSLocalizedDescriptionKey];
+        }
         [SVProgressHUD showErrorWithStatus:err.localizedDescription];
     }
 }

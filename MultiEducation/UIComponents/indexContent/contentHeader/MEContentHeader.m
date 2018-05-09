@@ -12,8 +12,6 @@
 
 //banner height
 static NSUInteger const ME_CONTENT_HEADER_BANNER_HEIGHT                             =   140;
-//ad height
-static NSUInteger const ME_CONTENT_HEADER_AD_HEIGHT                                 =   30;
 
 @interface MEContentHeader () <YJBannerViewDelegate, YJBannerViewDataSource>
 
@@ -119,7 +117,7 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
     NSDictionary *params = @{@"title":@"多元幼教AD", @"url":@"http://baidu.com/"};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBrowserProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 #pragma mark --- Touch Event
@@ -128,7 +126,7 @@ static CGFloat ME_SUBCLASS_PANEL_HEIGHT;
     NSDictionary *params = @{@"title":@"歌曲欣赏", @"url":@"http://baidu.com/"};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 /*

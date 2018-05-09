@@ -103,7 +103,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
         [self logout];
         [SVProgressHUD showErrorWithStatus: @"密码已修改，请重新登录"];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 

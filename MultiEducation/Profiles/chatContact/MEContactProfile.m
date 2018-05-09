@@ -532,7 +532,7 @@
         MEClassMemberList *memberList = [MEClassMemberList parseFromData:resObj error:&err];
         //NSLog(@"timestamp:%lld", memberList.timestamp);
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             [self handleCurrentClassMembers:memberList];
         }

@@ -333,14 +333,14 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         NSError *err;strongify(self)
         MEPBRes *resInfo = [MEPBRes parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             self.currentRes = resInfo;
         }
         [self rebuildVideoPlayScene];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
         [self rebuildVideoPlayScene];
     }];
 }
@@ -643,8 +643,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
                     [self.playerControl updateUserLikeItemState:!initFavorState];
                 }
             } failure:^(NSError * _Nonnull error) {
-                strongify(self)
-                [self handleTransitionError:error];
+                [MEKits handleError:error];
             }];
             
         };
@@ -654,7 +653,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
             NSString *routeUrlString = @"profile://root@MESignInProfile/__initWithParams:";
             NSError *err = [MEDispatcher openURL:[NSURL URLWithString:routeUrlString] withParams:params];
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
             return;
         } else {
             //收藏动作

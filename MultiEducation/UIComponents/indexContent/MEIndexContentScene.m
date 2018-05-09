@@ -297,7 +297,7 @@ static CGFloat const ME_HIDE_SEARCH_SUBNAVIGATIONBAR_TRIGGER_ABS_VALUE          
     NSDictionary *params = @{@"title":@"蚂蚁先生搬家", @"desc":@"这是对爸爸妈妈说的话，要记牢！"};
     NSString *urlString = @"profile://root@MEVideoPlayProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 /*

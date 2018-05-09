@@ -573,14 +573,14 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         NSError *err;strongify(self)
         MEPBClassLive *liveRoom = [MEPBClassLive parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             self.dataLive = liveRoom;
         }
         [self rebuildLiveRoomSubviews];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
         self.emptyTitle = ME_EMPTY_PROMPT_TITLE;
         self.emptyDesc = ME_EMPTY_PROMPT_DESC;
         self.whetherDidLoadData = true;
@@ -707,7 +707,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     NSDictionary *params = @{@"classID":cid};
     NSString *urlString = @"profile://root@MELiveProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 /*

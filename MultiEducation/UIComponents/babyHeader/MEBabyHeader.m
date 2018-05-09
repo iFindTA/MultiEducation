@@ -70,7 +70,7 @@
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: callBack};
     NSString *urlStr = @"profile://root@MEBabySelectProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-    [self handleTransitionError: error];
+    [MEKits handleError: error];
 }
 
 

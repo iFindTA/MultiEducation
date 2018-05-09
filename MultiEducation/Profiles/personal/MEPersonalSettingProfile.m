@@ -77,14 +77,14 @@ static CGFloat const CELL_HEIGHT = 54.f;
             //修改昵称
             NSString *urlStr = @"profile://MEEditUserDataProfile";
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }
             break;
         case 2: {
             //修改手机号
             NSString *urlStr = @"profile://MERephoneProfile";
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-            [self handleTransitionError: error];
+            [MEKits handleError: error];
         }
             break;
         case 3: {
@@ -134,7 +134,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
         [self.appDelegate updateCurrentSignedInUser:oldUser];
         [self.tableView reloadData];
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
 }
 
@@ -201,7 +201,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
             [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
                 [self updateLocalUser4Portrait:portrait];
             } failure:^(NSError * _Nonnull error) {
-                [self handleTransitionError: error];
+                [MEKits handleError: error];
             }];
         }];
     }];

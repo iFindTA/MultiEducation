@@ -206,12 +206,12 @@
     NSDictionary *params = @{@"id":@(2), @"title":@"科学探索"};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
     //*/
     
     NSString *urlString = @"profile://root@MEWatchHistoryProfile/";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 - (void)displayUserNoticeProfile {
@@ -219,7 +219,7 @@
     NSURL * routeUrl = [NSURL URLWithString:urlString];
     NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"园所公告", ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
     NSError * err = [MEDispatcher openURL:routeUrl withParams:params];
-    [self handleTransitionError:err];
+    [MEKits handleError:err];
 }
 
 #pragma mark --- 游客模式 点击登录

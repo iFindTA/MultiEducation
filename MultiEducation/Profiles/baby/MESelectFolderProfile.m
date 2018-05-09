@@ -90,7 +90,7 @@ static CGFloat const CELL_HEIGHT = 65.f;
             self.moveSuccCallback();
         }
     } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
+        [MEKits handleError: error];
     }];
     
 }

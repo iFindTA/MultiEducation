@@ -312,7 +312,7 @@
     NSString *urlStr = @"profile://root@METemplateProfile";
     NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"用户服务协议", ME_CORDOVA_KEY_STARTPAGE:@"register_agreement.html#/main"};
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
-    [self handleTransitionError: error];
+    [MEKits handleError: error];
 }
 
 - (void)exchangeSplash2Sign {
@@ -345,7 +345,7 @@
         [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
@@ -390,13 +390,13 @@
         NSError *err;strongify(self)
         MEPBUser *user = [MEPBUser parseFromData:resObj error:&err];
         if (err) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             [self autoSignInWhileDidRegisterSuccessfullWithUser:user];
         }
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
@@ -421,7 +421,7 @@
         NSError *err;strongify(self)
         MEPBUserList *userlist = [MEPBUserList parseFromData:resObj error:&err];
         if (err || userlist.userListArray.count == 0) {
-            [self handleTransitionError:err];
+            [MEKits handleError:err];
         } else {
             MEPBUser *curUser = userlist.userListArray.firstObject;
             user.signinstamp = [MEKits currentTimeInterval];
@@ -441,8 +441,7 @@
             }
         }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
-        [self handleTransitionError:error];
+        [MEKits handleError:error];
     }];
 }
 
