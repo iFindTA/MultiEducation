@@ -295,27 +295,36 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)loadDataSource:(NSInteger)parentId {
-    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
-    pb.classId = _classId;
-    pb.parentId = parentId;
-    NSData *data = [pb data];
-    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+    if (parentId == 0) {
+        ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+        MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
+        pb.classId = _classId;
+        pb.parentId = parentId;
+        NSData *data = [pb data];
+        [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+            [self.photos removeAllObjects];
+            [self.timeLineArr removeAllObjects];
+            ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
+            for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+                albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
+                albumPb.isSelectStatus = NO;
+                albumPb.isSelect = NO;
+                [MEBabyAlbumListVM saveAlbum: albumPb];
+            }
+            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: _parentId]];
+            [self.photoView reloadData];
+            [self sortPhotoWithTimeLine];
+        } failure:^(NSError * _Nonnull error) {
+            [self handleTransitionError: error];
+        }];
+    } else {
         [self.photos removeAllObjects];
         [self.timeLineArr removeAllObjects];
-        ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
-            albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
-            albumPb.isSelectStatus = NO;
-            albumPb.isSelect = NO;
-            [MEBabyAlbumListVM saveAlbum: albumPb];
-        }
+        
         [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: _parentId]];
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
-    } failure:^(NSError * _Nonnull error) {
-        [self handleTransitionError: error];
-    }];
+    }
 }
     
 - (void)sortPhotoWithTimeLine {
