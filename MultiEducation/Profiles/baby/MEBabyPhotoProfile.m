@@ -42,7 +42,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, MWPhotoBrowserDelegate> {
     NSInteger _classId;
-    NSInteger _parendId;
+    NSInteger _parentId;
     NSString *_navigationTitle;
     
     BOOL _isSelectStatus;
@@ -77,7 +77,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     self = [super init];
     if (self) {
         _classId = [[params objectForKey: @"classId"] integerValue];
-        _parendId = [[params objectForKey: @"parentId"] integerValue];
+        _parentId = [[params objectForKey: @"parentId"] integerValue];
         _navigationTitle = [params objectForKey: @"title"];
     }
     return self;
@@ -94,8 +94,8 @@ static CGFloat const ITEM_LEADING = 10.f;
     
     [self layoutView];
     
-    [self loadDataSource];
-    
+    [self loadDataSource: _parentId];
+
     [self customSideMenu];
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(loadDataSource) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
@@ -154,14 +154,14 @@ static CGFloat const ITEM_LEADING = 10.f;
         strongify(self);
         
         ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-        pb.parentId = _parendId;
+        pb.parentId = _parentId;
         pb.classId = _classId;
         pb.fileName = textField.text;
         
         MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: pb reqCode: REQ_CLASS_ALBUM_FOLDER_UPLOAD];
         
         [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
-            [self loadDataSource];
+            [self loadDataSource: _parentId];
         } failure:^(NSError * _Nonnull error) {
             [self handleTransitionError: error];
         }];
@@ -202,7 +202,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     void (^moveSuccessCallback)(void) = ^() {
         strongify(self);
         self.navigationItem.rightBarButtonItem = nil;
-        [self loadDataSource];
+        [self loadDataSource: _parentId];
     };
     
     NSDictionary *params = @{@"albums": self.selectArr, @"folders": folders, ME_DISPATCH_KEY_CALLBACK: moveSuccessCallback};
@@ -242,7 +242,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         for (ClassAlbumPb *pb in listPb.classAlbumArray) {
             [MEBabyAlbumListVM deleteAlbum: pb];
         }
-        [self loadDataSource];
+        [self loadDataSource: _parentId];
         _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
@@ -272,18 +272,44 @@ static CGFloat const ITEM_LEADING = 10.f;
     ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
     MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
     pb.classId = _classId;
-    pb.parentId = _parendId;
+    pb.parentId = _parentId;
     NSData *data = [pb data];
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         [self.photos removeAllObjects];
         [self.timeLineArr removeAllObjects];
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        for (ClassAlbumPb *albumPb in  pb.classAlbumArray) {
-            if (albumPb.parentId == _parendId) {
+        for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+            if (albumPb.parentId == _parentId) {
                 albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
                 albumPb.isSelectStatus = NO;
                 albumPb.isSelect = NO;
                 [MEBabyAlbumListVM saveAlbum: albumPb];
+                [self.photos addObject: albumPb];
+            }
+        }
+        [self.photoView reloadData];
+        [self sortPhotoWithTimeLine];
+    } failure:^(NSError * _Nonnull error) {
+        [self handleTransitionError: error];
+    }];
+}
+
+- (void)loadDataSource:(NSInteger)parentId {
+    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
+    pb.classId = _classId;
+    pb.parentId = parentId;
+    NSData *data = [pb data];
+    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        [self.photos removeAllObjects];
+        [self.timeLineArr removeAllObjects];
+        ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
+        for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+            [MEBabyAlbumListVM saveAlbum: albumPb];
+            if (albumPb.parentId == _parentId) {
+                albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
+                albumPb.isSelectStatus = NO;
+                albumPb.isSelect = NO;
                 [self.photos addObject: albumPb];
             }
         }
@@ -459,7 +485,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     [MEKits handleUploadPhotos: photos assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
         strongify(self);
         NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parendId]};
+        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parentId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [self handleTransitionError: error];
         self.pickerProfile = nil;
@@ -476,7 +502,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [MEKits handleUploadVideos: @[data] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable videos) {
             strongify(self);
             NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parendId]};
+            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parentId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [self handleTransitionError: error];
             self.pickerProfile = nil;
