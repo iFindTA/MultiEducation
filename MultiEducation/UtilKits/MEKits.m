@@ -432,10 +432,10 @@
     if (err) {
         NSDictionary *userInfo = [err userInfo];
         NSString *alertInfo = err.domain;
-        if (userInfo) {
+        if (userInfo && alertInfo.length == 0) {
             alertInfo = [userInfo pb_stringForKey:NSLocalizedDescriptionKey];
         }
-        [SVProgressHUD showErrorWithStatus:err.localizedDescription];
+        [SVProgressHUD showErrorWithStatus:alertInfo];
     }
 }
 

@@ -400,7 +400,6 @@
             }
         }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }
@@ -430,7 +429,6 @@
         //strongify(self)
         [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }
@@ -503,7 +501,6 @@
             [self handleSingleUserSignIn:curUser];
         }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }
@@ -555,7 +552,6 @@
             [self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
         }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
     
