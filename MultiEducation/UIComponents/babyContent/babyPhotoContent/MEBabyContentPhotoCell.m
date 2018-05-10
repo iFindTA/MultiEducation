@@ -77,11 +77,17 @@
             NSString *urlStr;
             if (firstAlbumPb.isParent) {
                 ClassAlbumPb *innerPb = [self getTheFirstAlbumCoverImageInFolder: firstAlbumPb.id_p];
-                if ([innerPb.fileType isEqualToString: @"mp4"]) {
-                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, innerPb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                if (innerPb) {
+                    if ([innerPb.fileType isEqualToString: @"mp4"]) {
+                        urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, innerPb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                    } else {
+                        urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, innerPb.filePath];
+                    }
                 } else {
-                    urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, innerPb.filePath];
+                    self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+                    return;
                 }
+                
             } else {
                 if ([firstAlbumPb.fileType isEqualToString: @"mp4"]) {
                     urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
@@ -89,9 +95,7 @@
                     urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, firstAlbumPb.filePath];
                 }
             }
-
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
-            
         } else {
             self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
         }

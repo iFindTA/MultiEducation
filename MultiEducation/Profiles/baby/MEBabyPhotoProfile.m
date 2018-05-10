@@ -23,8 +23,9 @@
 #import "MEQNUploadVM.h"
 #import "MEAlbumDeleteVM.h"
 #import "MESelectFolderProfile.h"
-#import <MWPhotoBrowser.h>
+#import "MEPhotoBrowser.h"
 #import "MEBaseNavigationProfile.h"
+#import <SDWebImageDownloader.h>
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -40,10 +41,12 @@ static CGFloat const PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH = 7.f;
 static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
-@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, MWPhotoBrowserDelegate> {
+@interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, MWPhotoBrowserDelegate, UITextFieldDelegate> {
     NSInteger _classId;
     NSInteger _parentId;
     NSString *_navigationTitle;
+    
+    UIImage *_displayImage; //  当前显示要保存的图片
     
     BOOL _isSelectStatus;
 }
@@ -67,12 +70,11 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) UINavigationItem *navigationItem;
 
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
-@property (nonatomic, strong) NSMutableArray <MWPhoto *> *browserPhotos;    //当前在browser中的Photo
+@property (nonatomic, strong) NSMutableArray <NSString *> *browserPhotos;    //当前在browser中的Photo的urlString
 
 @end
 
 @implementation MEBabyPhotoProfile
-
 - (instancetype)__initWithParmas:(NSDictionary *)params {
     self = [super init];
     if (self) {
@@ -93,12 +95,12 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self customNavigation];
     
     [self layoutView];
-    
+
     [self loadDataSource: _parentId];
 
     [self customSideMenu];
     
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(loadDataSource) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(uploadSuccessNotification:) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
 }
 
 - (void)dealloc {
@@ -152,16 +154,20 @@ static CGFloat const ITEM_LEADING = 10.f;
     weakify(self);
     [self showNewFolderAlert:^(UITextField *textField) {
         strongify(self);
-        
         ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
         pb.parentId = _parentId;
         pb.classId = _classId;
-        pb.fileName = textField.text;
+        pb.isParent = YES;
+        if (textField.text && ![textField.text  isEqualToString: @""]) {
+            pb.fileName = textField.text;
+        } else {
+            pb.fileName = [NSString stringWithFormat: @"%lld", (uint64_t)[MEKits currentTimeInterval]];
+        }
         
         MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: pb reqCode: REQ_CLASS_ALBUM_FOLDER_UPLOAD];
-        
         [vm postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
-            [self loadDataSource: _parentId];
+            weakify(self);
+            [self loadDataSource: 0];
         } failure:^(NSError * _Nonnull error) {
             [MEKits handleError: error];
         }];
@@ -201,8 +207,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     weakify(self);
     void (^moveSuccessCallback)(void) = ^() {
         strongify(self);
+        _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
-        [self loadDataSource: _parentId];
+        [self loadDataSource: 0];
     };
     
     NSDictionary *params = @{@"albums": self.selectArr, @"folders": folders, ME_DISPATCH_KEY_CALLBACK: moveSuccessCallback};
@@ -242,7 +249,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         for (ClassAlbumPb *pb in listPb.classAlbumArray) {
             [MEBabyAlbumListVM deleteAlbum: pb];
         }
-        [self loadDataSource: _parentId];
+        [self loadDataSource: 0];
         _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
@@ -262,36 +269,17 @@ static CGFloat const ITEM_LEADING = 10.f;
     [alertController addAction: cancel];
     [alertController addAction: certain];
     
+    weakify(self)
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        strongify(self)
+        textField.delegate = self;
         textField.placeholder = @"请输入文件夹名称";
     }];
     [self.navigationController presentViewController: alertController animated: YES completion: nil];
 }
 
-- (void)loadDataSource {
-    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
-    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
-    pb.classId = _classId;
-    pb.parentId = _parentId;
-    NSData *data = [pb data];
-    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        [self.photos removeAllObjects];
-        [self.timeLineArr removeAllObjects];
-        ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
-            if (albumPb.parentId == _parentId) {
-                albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
-                albumPb.isSelectStatus = NO;
-                albumPb.isSelect = NO;
-                [MEBabyAlbumListVM saveAlbum: albumPb];
-                [self.photos addObject: albumPb];
-            }
-        }
-        [self.photoView reloadData];
-        [self sortPhotoWithTimeLine];
-    } failure:^(NSError * _Nonnull error) {
-        [MEKits handleError: error];
-    }];
+- (void)uploadSuccessNotification:(NSNotification *)noti {
+    [self loadDataSource: 0];
 }
 
 - (void)loadDataSource:(NSInteger)parentId {
@@ -301,7 +289,9 @@ static CGFloat const ITEM_LEADING = 10.f;
         pb.classId = _classId;
         pb.parentId = parentId;
         NSData *data = [pb data];
+        weakify(self)
         [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+            strongify(self)
             [self.photos removeAllObjects];
             [self.timeLineArr removeAllObjects];
             ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
@@ -460,13 +450,13 @@ static CGFloat const ITEM_LEADING = 10.f;
                 if ([albumPb isEqual: pb]) {
                     index = i;
                 }
-                MWPhoto *mwPhoto;
+                NSString *urlStr;
                 if ([albumPb.fileType isEqualToString: @"mp4"]) {
-                    mwPhoto = [[MWPhoto alloc] initWithVideoURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath]]];
+                    urlStr = [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath];
                 } else {
-                    mwPhoto = [MWPhoto photoWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath]]];
+                    urlStr = [NSString stringWithFormat: @"%@/%@", bucket, albumPb.filePath];
                 }
-                [self.browserPhotos addObject: mwPhoto];
+                [self.browserPhotos addObject: urlStr];
                 i++;
             }
         }
@@ -484,6 +474,31 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)longPressPhotoEvent:(UILongPressGestureRecognizer *)ges {
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle: nil message: nil preferredStyle: UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction *certain = [UIAlertAction actionWithTitle: @"保存" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIImageWriteToSavedPhotosAlbum(_displayImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+        }];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+        
+        [alertController addAction: certain];
+        [alertController addAction: cancel];
+        [self.photoBrowser.navigationController presentViewController: alertController animated: YES completion: nil];
+    }
+}
+
+// 保存图片后到相册后,回调的相关方法,查看是否保存成功
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error) {
+        [MEKits handleError: error];
+    } else {
+        [MEKits handleSuccess: @"保存成功"];
+    }
 }
 
 #pragma mark - TZImagePickerControllerDelegate
@@ -543,7 +558,9 @@ static CGFloat const ITEM_LEADING = 10.f;
     MEBabyContentPhotoCell *cell;
     if ([collectionView isEqual: self.photoView]) {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
+        weakify(self)
         cell.handler = ^(ClassAlbumPb *pb) {
+            strongify(self)
             if (pb.isSelect) {
                 if (![self.selectArr containsObject: pb]) {
                     [self.selectArr addObject: pb];
@@ -588,6 +605,20 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([string isEqualToString: @"\n"]) {
+        [textField resignFirstResponder];
+        return NO;
+    }
+    
+    if ([MEKits stringContainsEmoji: string]) {
+        [SVProgressHUD showErrorWithStatus: @"文件夹名称无法包含emoji符号"];
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_isSelectStatus) {
@@ -621,13 +652,28 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
-    return [self.browserPhotos objectAtIndex: index];
+    NSString *urlStr = [self.browserPhotos objectAtIndex: index];
+    MWPhoto *photo;
+    if ([urlStr hasSuffix: @".mp4"]) {
+        photo = [MWPhoto videoWithURL: [NSURL URLWithString: urlStr]];
+    } else {
+        photo = [MWPhoto photoWithURL: [NSURL URLWithString: urlStr]];
+    }
+    
+    UILongPressGestureRecognizer *longPressGes = [[UILongPressGestureRecognizer alloc] initWithTarget: self action: @selector(longPressPhotoEvent:)];
+    [self.photoBrowser.view addGestureRecognizer: longPressGes];
+
+    return photo;
 }
 
 - (void)photoBrowserDidFinishModalPresentation:(MWPhotoBrowser *)photoBrowser {
     _photoBrowser = nil;
     [self.browserPhotos removeAllObjects];
     [self.navigationController dismissViewControllerAnimated: YES completion: nil];
+}
+
+- (void)photoBrowser:(MWPhotoBrowser *)photoBrowser didDisplayPhotoAtIndex:(NSUInteger)index {
+    _displayImage = [UIImage imageWithData: [NSData dataWithContentsOfURL: [NSURL URLWithString: [self.browserPhotos objectAtIndex: index]]]];
 }
 
 #pragma mark - UIScrollViewDelegate
