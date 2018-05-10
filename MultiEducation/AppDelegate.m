@@ -174,6 +174,7 @@
     
     UIViewController *destProfile = nil;
     if (style & MEDisplayStyleMainSence) {
+        NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:UIFontPingFangSCBold(12), NSFontAttributeName, nil];
         UIColor *color = UIColorFromRGB(ME_THEME_COLOR_VALUE);
         //首页
         NSString *title = @"首页";
@@ -230,6 +231,8 @@
         personalNavi.tabBarItem.image = image;
         personalNavi.tabBarItem.selectedImage = selectImg;
         //root tabbar
+        [[UITabBarItem appearance] setTitleTextAttributes:attrs forState:UIControlStateNormal];
+        [[UITabBarItem appearance] setTitleTextAttributes:attrs forState:UIControlStateSelected];
         [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:color, NSForegroundColorAttributeName, [UIFont fontWithName:@"Helvetica" size:12.0f],NSFontAttributeName,nil] forState:UIControlStateSelected];
         MEBaseTabBarProfile *profile = [[MEBaseTabBarProfile alloc] init];
         profile.viewControllers = @[indexNavi, babyNavi, chatNavi, personalNavi];

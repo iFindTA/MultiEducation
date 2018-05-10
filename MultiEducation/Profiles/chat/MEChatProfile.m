@@ -17,11 +17,6 @@
 
 @property (nonatomic, strong) NSDictionary *params;
 
-@property (nonatomic, strong)   UIImagePickerController *pickerC;
-@property (nonatomic, copy)     NSString *videoPathStr;
-@property (nonatomic, strong)   NSURL *videoURL;
-@property (nonatomic, strong)   UIView *bgView;
-
 @end
 
 @implementation MEChatProfile
