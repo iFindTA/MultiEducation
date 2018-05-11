@@ -36,10 +36,14 @@
         
         [self.scroller addSubview:self.layout];
         weakify(self)
-        self.scroller.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             strongify(self)
             [self reloadIndexItemData];
         }];
+        [header setTitle:@"使劲往下拽..." forState:MJRefreshStateIdle];
+        [header setTitle:@"等待也是一种享受" forState:MJRefreshStateRefreshing];
+        [header setTitle:@"放手是一种态度..." forState:MJRefreshStatePulling];
+        self.scroller.mj_header = header;
     }
     return self;
 }
@@ -167,7 +171,7 @@
 #define ME_INDEX_TAB_CACHE_PATH             @"cache/index"
 
 - (NSString *)storageFileName {
-    return PBFormat(@"indexLayout_%zd.bat", self.indexCode);
+    return PBFormat(@"indexLayout_%d.bat", self.indexCode);
 }
 
 - (NSData *_Nullable)fetchIndexCacheLocalStorage {
@@ -322,7 +326,7 @@
     UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     //prepare for item
     NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
-    NSUInteger itemMargin = ME_LAYOUT_MARGIN;NSUInteger itemDistance = ME_LAYOUT_MARGIN * 2;
+    NSUInteger itemMargin = ME_LAYOUT_MARGIN;NSUInteger itemDistance = ME_LAYOUT_MARGIN;
     NSUInteger itemWidth = (MESCREEN_WIDTH-itemMargin*2-itemDistance*(numPerLine-1))/numPerLine;NSUInteger itemHeight = adoptValue(ME_INDEX_STORY_ITEM_HEIGHT);
     for (int i = 0;i < recommand.count;i++) {
         MEPBResType *type = recommand[i];
@@ -366,7 +370,6 @@
              MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
              label.font = itemFont;
              label.textColor = fontColor;
-             label.textAlignment = NSTextAlignmentCenter;
              label.text = item.title.copy;
              [itemScene addSubview:label];
              [label makeConstraints:^(MASConstraintMaker *make) {
@@ -375,7 +378,8 @@
              }];
              NSString *url = [MEKits imageFullPath:item.coverImg];
              MEBaseImageView *image = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
-             //image.backgroundColor = [UIColor blueColor];
+             image.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+            image.layer.masksToBounds = true;
              [image sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
              [itemScene addSubview:image];
              [image makeConstraints:^(MASConstraintMaker *make) {

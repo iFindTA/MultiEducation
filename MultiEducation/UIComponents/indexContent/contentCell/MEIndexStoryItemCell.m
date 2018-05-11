@@ -196,6 +196,8 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
         UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
         _leftItemImage = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
         _leftItemImage.image = image;
+        _leftItemImage.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        _leftItemImage.layer.masksToBounds = true;
         _leftItemImage.userInteractionEnabled = true;
     }
     return _leftItemImage;
@@ -207,7 +209,6 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
         _leftItemLabel.backgroundColor = [UIColor whiteColor];
         _leftItemLabel.font = UIFontPingFangSCBold(METHEME_FONT_SUBTITLE);
         _leftItemLabel.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-        _leftItemLabel.textAlignment = NSTextAlignmentCenter;
         _leftItemLabel.userInteractionEnabled = true;
     }
     return _leftItemLabel;
@@ -218,6 +219,8 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
         UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
         _rightItemImage = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
         _rightItemImage.image = image;
+        _rightItemImage.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        _rightItemImage.layer.masksToBounds = true;
         _rightItemImage.userInteractionEnabled = true;
     }
     return _rightItemImage;
@@ -229,7 +232,6 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
         _rightItemLabel.backgroundColor = [UIColor whiteColor];
         _rightItemLabel.font = UIFontPingFangSCBold(METHEME_FONT_SUBTITLE);
         _rightItemLabel.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-        _rightItemLabel.textAlignment = NSTextAlignmentCenter;
         _rightItemLabel.userInteractionEnabled = true;
     }
     return _rightItemLabel;

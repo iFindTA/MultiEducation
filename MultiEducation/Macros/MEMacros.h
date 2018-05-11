@@ -66,7 +66,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_HEIGHT_NAVIGATIONBAR                                          44
 #define ME_HEIGHT_TABBAR                                                 50
 #define ME_LAYOUT_BOUNDARY                                               20
-#define ME_LAYOUT_MARGIN                                                  5
+#define ME_LAYOUT_MARGIN                                                 10
 #define ME_LAYOUT_OFFSET                                                  2
 #define ME_LAYOUT_SUBBAR_HEIGHT                                          40
 #define ME_LAYOUT_ICON_HEIGHT                                            30
@@ -95,8 +95,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_TABBAR_ITEM_IMAGE_SIZE                                           30.f
 
 #define ME_INDEX_STORY_ITEM_NUMBER_PER_LINE                                 2
-#define ME_INDEX_STORY_ITEM_HEIGHT                                          120
-#define ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT                                   150
+#define ME_INDEX_STORY_ITEM_HEIGHT                                          140
+#define ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT                                   170
 
 #pragma mark -- regular
 #define ME_REGULAR_MOBILE_LENGTH                                            11

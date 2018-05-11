@@ -41,11 +41,11 @@
     [self.icon makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
         make.centerX.equalTo(self.mas_centerX);
-        make.width.equalTo(self.mas_width).multipliedBy(scale);
-        make.height.equalTo(self.mas_width).multipliedBy(scale);
+        make.width.equalTo(self.mas_height).multipliedBy(scale);
+        make.height.equalTo(self.mas_height).multipliedBy(scale);
     }];
     [self.label makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.icon.mas_bottom).offset(ME_LAYOUT_MARGIN*2);
+        make.top.equalTo(self.icon.mas_bottom).offset(ME_LAYOUT_MARGIN*0.5);
         make.left.bottom.right.equalTo(self);
     }];
 }
@@ -62,7 +62,7 @@
 - (MEBaseLabel *)label {
     if (!_label) {
         _label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
-        _label.font = UIFontPingFangSC(12);
+        _label.font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
         _label.textAlignment = NSTextAlignmentCenter;
         _label.text = @"儿歌欣赏";
         _label.textColor = UIColorFromRGB(0x666666);
