@@ -41,7 +41,7 @@
             member.ownerId = user.uid;
             ret &= [WHCSqlite insert:member];
         } else {
-            NSString *sql = PBFormat(@"classId = %lld AND ownerId = %lld AND id = %lld", member.classId, user.uid, member.id_p);
+            NSString *sql = PBFormat(@"classId = %lld AND ownerId = %lld AND id_p = %lld", member.classId, user.uid, member.id_p);
             ret &= [WHCSqlite delete:MEClassMember.self where:sql];
         }
     }
@@ -50,7 +50,7 @@
 
 + (NSArray<MEClassMember*> *)fetchClassMember4MemberID:(ino64_t)mid {
     MEPBUser *user = [self currentUser];
-    NSString *sql = PBFormat(@"ownerId = %lld", user.uid);
+    NSString *sql = PBFormat(@"id_p = %lld AND ownerId = %lld", mid, user.uid);
     NSArray<MEClassMember*>* members = [WHCSqlite query:MEClassMember.self where:sql];
     return members;
 }

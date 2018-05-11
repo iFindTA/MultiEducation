@@ -95,7 +95,7 @@
 - (KSYMoviePlayerController *)playProfile {
     if (!_playProfile) {
         NSString *urlString = PBAvailableString(self.params[@"url"]);
-        urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
+        //urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
         //urlString = self.dataLive.videoURL;
         NSURL *url = [NSURL URLWithString:urlString];
         _playProfile = [[KSYMoviePlayerController alloc] initWithContentURL:url];
@@ -119,6 +119,7 @@
     //reset current play item
     [self.playProfile.view setFrame:self.liveVodScene.bounds];
     [self.liveVodScene addSubview:self.playProfile.view];
+    [self.playProfile play];
 }
 
 - (void)playProfileDidFinished:(NSNotification *)notify {

@@ -12,6 +12,7 @@ message MEPBRes {
 	repeated MEPBRes relevantList = 9;//相关视频
 	int64 resTypeId = 10;//资源类型ID
 	bool isFavor = 11;//是否收藏
+	int64 gradeId = 12;//年级ID 小班3/中班4/大班5 精选0
 }
 
 enum MEPBResourceType {
