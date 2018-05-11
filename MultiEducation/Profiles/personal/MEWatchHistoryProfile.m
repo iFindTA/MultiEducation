@@ -51,7 +51,6 @@
         }
         [self autoLoadMoreHistoryWatchingItems4PageIndex:self.currentPageIndex+1];
     }];
-    self.table.mj_footer.hidden = true;
     self.whetherDidLoadData = false;
 }
 
@@ -111,22 +110,16 @@
 
 - (void)adjustHistoryWathingRefreshFooterState {
     self.whetherDidLoadData = true;
-    [self.table.mj_footer endRefreshing];
-    if (self.dataSource.count == 0) {
+    if (self.dataSource.count == 0 || self.totalPages == 0 || self.currentPageIndex == 0) {
         [self.table reloadEmptyDataSet];
-    }
-    if (self.totalPages == 0 || self.currentPageIndex == 0) {
-        self.table.mj_footer.hidden = true;
+        [self.table.mj_footer removeFromSuperview];
         return;
     }
     if (self.currentPageIndex >= self.totalPages || (self.dataSource.count % 2 != 0)) {
         [self.table.mj_footer endRefreshingWithNoMoreData];
         return;
     }
-    
-    if (self.table.contentSize.height >= self.table.bounds.size.height) {
-        [self.table.mj_footer resetNoMoreData];
-    }
+    [self.table.mj_footer endRefreshing];
 }
 
 #pragma mark --- lazy getter
