@@ -104,49 +104,50 @@ static CGFloat const ROW_HEIGHT = 60.f;
             pb.fileName = [dict objectForKey: @"fileName"];
             pb.fileType = [dict objectForKey: @"extension"];
             pb.fileSize = [[dict objectForKey: @"fileSize"] integerValue];
-            pb.upPercent = 1;
+            pb.upPercent = 0;
             pb.isExist = 1;
             pb.fileData = [dict objectForKey: @"data"];
-            pb.uploadStatu = MEUploadStatus_Success;
+            pb.uploadStatu = MEUploadStatus_Waiting;
             [self sendUploadResultToServer: pb];
             [_dataArr addObject: pb];
         }
         [self.tableView reloadData];
         if (forUploadArr.count != 0) {
             [self.qnUtils uploadImagesWithUncheck: forUploadArr];
-        } else {
-            [self uploadTotalSuccAlert];
         }
     }];
 }
 
 - (void)sendUploadResultToServer:(ClassAlbumPb *)albumPb {
+    albumPb.fileData = nil;
     MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: albumPb reqCode: REQ_CLASS_ALBUM_FILE_UPLOAD];
     [vm postData: [albumPb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
         ClassAlbumPb *albumPb = [ClassAlbumPb parseFromData: resObj error: nil];
         for (ClassAlbumPb *pb in _dataArr) {
             if ([albumPb.filePath isEqualToString: pb.filePath]) {
-                albumPb.upPercent = 1;
-                albumPb.uploadStatu = MEUploadStatus_Success;
-                albumPb.fileId = pb.fileId;
-                albumPb.fileType = pb.fileType;
-                albumPb.filePath = pb.filePath;
-                [MEBabyAlbumListVM saveAlbum: albumPb];
+                pb.upPercent = 1;
+                pb.uploadStatu = MEUploadStatus_Success;
+                pb.fileId = pb.fileId;
+                pb.fileType = pb.fileType;
+                pb.filePath = pb.filePath;
             }
         }
         [self.tableView reloadData];
+        [self uploadTotalSuccAlert];
     } failure:^(NSError * _Nonnull error) {
+        albumPb.uploadStatu = MEUploadStatus_IsExist;
+        albumPb.upPercent = 0;
+        [self.tableView reloadData];
         [MEKits handleError: error];
     }];
 }
-
 
 - (void)uploadTotalSuccAlert {
     UIAlertController *alertProfile = [UIAlertController alertControllerWithTitle:@"" message:@"上传完成！" preferredStyle: UIAlertControllerStyleAlert];
     weakify(self);
     UIAlertAction *cancelAc = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         strongify(self);
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: [NSNumber numberWithInteger: _parentId]];
         [self.navigationController popViewControllerAnimated: YES];
     }];
                             
@@ -219,7 +220,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
-        
+        _tableView.tableFooterView = [UIView new];
         [_tableView registerNib: [UINib nibWithNibName: @"MEProgressCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
     }
     return _tableView;

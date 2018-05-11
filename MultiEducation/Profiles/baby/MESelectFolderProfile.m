@@ -102,7 +102,7 @@ static CGFloat const CELL_HEIGHT = 65.f;
         _tableView = [[UITableView alloc] initWithFrame: CGRectZero style: UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView setTableFooterView: nil];
+        _tableView.tableFooterView = [UIView new];
         [_tableView registerNib: [UINib nibWithNibName: @"MEFolderCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
     }
     return _tableView;

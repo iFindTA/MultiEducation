@@ -210,6 +210,9 @@
         if (self.babyTabBarBadgeCallback) {
             self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
         }
+        if (self.didChangeSelectedBaby) {
+            self.didChangeSelectedBaby(pb.studentArchives.studentName, pb.studentArchives.studentPortrait);
+        }
         
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
@@ -238,7 +241,7 @@
     
     //layoutBackContentView
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.mas_equalTo(self.tableHeaderView);
+        make.top.left.mas_equalTo(self.tableHeaderView);
         make.width.mas_equalTo(MESCREEN_WIDTH);
         make.height.mas_equalTo(BABY_CONTENT_HEADER_HEIGHT);
     }];
@@ -258,8 +261,8 @@
         
         [self.babyPhtoView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
-            make.right.mas_equalTo(self.tableHeaderView.mas_right).mas_offset(-10);
             make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10.f);
+            make.width.mas_equalTo(MESCREEN_WIDTH - 20);
             make.height.mas_equalTo(BABY_PHOTO_HEIGHT);
         }];
         
@@ -335,9 +338,10 @@
             
             [self.babyPhtoView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
-                make.right.mas_equalTo(self.tableHeaderView.mas_right).mas_offset(-10);
+                make.width.mas_equalTo(MESCREEN_WIDTH - 20);
                 make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10.f);
                 make.height.mas_equalTo(78);
+                make.width.greaterThanOrEqualTo(@0);
             }];
             
             [self.componentView mas_remakeConstraints:^(MASConstraintMaker *make) {

@@ -16,6 +16,7 @@ static CGFloat const ICON_HEIGHT = 20.f;
 @property (nonatomic, strong) NSString *urlStr;
 @property (nonatomic, strong) NSString *title;
 
+@property (nonatomic, strong) MEBaseScene *backView;
 @property (nonatomic, strong) UIImageView *icon;
 @property (nonatomic, strong) MEBaseLabel *titleLabel;
 
@@ -35,20 +36,19 @@ static CGFloat const ICON_HEIGHT = 20.f;
 }
 
 - (void)customSubviews {
-    MEBaseScene *backView = [[MEBaseScene alloc] init];
-    backView.backgroundColor = [UIColor clearColor];
+    _backView = [[MEBaseScene alloc] init];
+    _backView.backgroundColor = [UIColor clearColor];
     
-    [self addSubview: backView];
-    [backView addSubview: self.icon];
-    [backView addSubview: self.titleLabel];
+    [self addSubview: _backView];
+    [_backView addSubview: self.icon];
+    [_backView addSubview: self.titleLabel];
     
     //layout
-    
     CGFloat labelWidth = [_title sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: UIFontPingFangSC(16), NSFontAttributeName, nil]].width;
     CGFloat space = 10.f;   //space between label and imageView
     CGFloat backViewWidth = labelWidth + ICON_HEIGHT + space;
     
-    [backView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self);
         make.top.mas_equalTo(self.mas_top).mas_offset([MEKits statusBarHeight]);
         make.width.mas_equalTo(backViewWidth);
@@ -57,8 +57,8 @@ static CGFloat const ICON_HEIGHT = 20.f;
     
     [self.icon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.mas_equalTo(ICON_HEIGHT);
-        make.left.mas_equalTo(backView);
-        make.centerY.mas_equalTo(backView);
+        make.left.mas_equalTo(_backView);
+        make.centerY.mas_equalTo(_backView);
     }];
     
     [self.icon layoutIfNeeded];
@@ -69,8 +69,32 @@ static CGFloat const ICON_HEIGHT = 20.f;
         make.left.mas_equalTo(self.icon.mas_right).mas_offset(space);
         make.width.mas_equalTo(labelWidth);
         make.height.mas_equalTo(ICON_HEIGHT);
-        make.centerY.mas_equalTo(backView);
+        make.centerY.mas_equalTo(_backView);
     }];
+}
+
+- (void)changeTitle:(NSString *)babyName url:(NSString *)url {
+    self.titleLabel.text = [NSString stringWithFormat: @"%@家长", babyName];
+    [self.icon sd_setImageWithURL: [NSURL URLWithString: url] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+    
+    CGFloat labelWidth = [self.titleLabel.text sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: UIFontPingFangSC(16), NSFontAttributeName, nil]].width + 10;
+    CGFloat space = 10.f;   //space between label and imageView
+    CGFloat backViewWidth = labelWidth + ICON_HEIGHT + space;
+    
+    [_backView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self);
+        make.top.mas_equalTo(self.mas_top).mas_offset([MEKits statusBarHeight]);
+        make.width.mas_equalTo(backViewWidth);
+        make.left.mas_equalTo((MESCREEN_WIDTH - backViewWidth) / 2);
+    }];
+    
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.icon.mas_right).mas_offset(space);
+        make.width.mas_equalTo(labelWidth);
+        make.height.mas_equalTo(ICON_HEIGHT);
+        make.centerY.mas_equalTo(_backView);
+    }];
+    
 }
 
 #pragma mark - lazyloading

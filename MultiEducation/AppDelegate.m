@@ -267,7 +267,6 @@
 }
 
 #pragma mark --- User abouts
-
 - (void)updateCurrentSignedInUser:(MEPBUser *)usr {
     self.curUser = usr;
     if (usr) {

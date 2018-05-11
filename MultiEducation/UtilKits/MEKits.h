@@ -56,6 +56,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)shareResourceUri:(ino64_t)resId type:(int32_t)type;
 
+
+/**
+ filter emoji text
+
+ @param string text
+ @return whether has emoji
+ */
++ (BOOL)stringContainsEmoji:(NSString *)string;
+
 #pragma mark --- User Abouts
 
 /**
