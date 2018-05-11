@@ -275,7 +275,7 @@
         make.right.equalTo(btn);
         make.height.equalTo(ME_LAYOUT_BOUNDARY);
     }];
-    //游客模式
+    /*游客模式
     BOOL showVisitorMode = true;
     if ([[self.params allKeys] containsObject:ME_SIGNIN_DID_SHOW_VISITOR_FUNC]) {
         showVisitorMode = [self.params pb_boolForKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
@@ -295,7 +295,7 @@
             make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
         }];
     }
-    
+    //*/
 #if DEBUG
     //家长
     self.inputMobile.text = @"13612345677";
@@ -554,8 +554,6 @@
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError:error];
     }];
-    
-    //[self splash2ChangeDisplayStyle:MEDisplayStyleVisitor];
 }
 
 /*
