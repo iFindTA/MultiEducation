@@ -60,7 +60,6 @@
 }
 
 - (IBAction)settingTouchEvent:(MEBaseButton *)sender {
-    
     void(^callBack)(StudentPb *pb) = ^(StudentPb *pb){
         if (self.selectCallBack) {
             self.selectCallBack(pb);
