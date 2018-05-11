@@ -24,55 +24,50 @@
     self = [super init];
     if (self) {
         _titles = titles;
+        
+        CGFloat leftSpace = 20.f;
+        CGFloat btnWidth = 60;
+        CGFloat betSpace = MESCREEN_WIDTH - 2 * leftSpace - _titles.count * btnWidth;
+        
+        MEBaseButton *preBtn;
+        for (int i = 0; i < _titles.count; i++) {
+            MEBaseButton *btn = [[MEBaseButton alloc] init];
+            [btn setTitle: [_titles objectAtIndex: i] forState: UIControlStateNormal];
+            btn.tag = 100 + i;
+            btn.titleLabel.font = UIFontPingFangSC(16);
+            [btn setTitleColor: [UIColor blackColor] forState: UIControlStateNormal];
+            [btn addTarget: self action: @selector(buttonTouchEvent:) forControlEvents: UIControlEventTouchUpInside];
+            
+            [self addSubview: btn];
+            
+            //layout
+            if (!preBtn) {
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(self.mas_left).mas_offset(leftSpace);
+                    make.top.mas_equalTo(self);
+                    make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-4);
+                    make.width.mas_equalTo(btnWidth);
+                }];
+                _selectedBtn = btn;
+            } else {
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(preBtn.mas_right).mas_offset(betSpace);
+                    make.top.bottom.mas_equalTo(preBtn);
+                    make.width.mas_equalTo(btnWidth);
+                }];
+            }
+            preBtn = btn;
+        }
+        
+        [self addSubview: self.markLine];
+        [self.markLine mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(16);
+            make.height.mas_equalTo(3);
+            make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-4);
+            make.centerX.mas_equalTo(_selectedBtn.mas_centerX);
+        }];
     }
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    CGFloat leftSpace = 20.f;
-    CGFloat btnWidth = 60;
-    CGFloat betSpace = MESCREEN_WIDTH - 2 * leftSpace - _titles.count * btnWidth;
-    
-    MEBaseButton *preBtn;
-    for (int i = 0; i < _titles.count; i++) {
-        MEBaseButton *btn = [[MEBaseButton alloc] init];
-        [btn setTitle: [_titles objectAtIndex: i] forState: UIControlStateNormal];
-        btn.tag = 100 + i;
-        btn.titleLabel.font = UIFontPingFangSC(16);
-        [btn setTitleColor: [UIColor blackColor] forState: UIControlStateNormal];
-        [btn addTarget: self action: @selector(buttonTouchEvent:) forControlEvents: UIControlEventTouchUpInside];
-        
-        [self addSubview: btn];
-        
-        //layout
-        if (!preBtn) {
-            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(self.mas_left).mas_offset(leftSpace);
-                make.top.mas_equalTo(self);
-                make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-4);
-                make.width.mas_equalTo(btnWidth);
-            }];
-            _selectedBtn = btn;
-        } else {
-            [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.mas_equalTo(preBtn.mas_right).mas_offset(betSpace);
-                make.top.bottom.mas_equalTo(preBtn);
-                make.width.mas_equalTo(btnWidth);
-            }];
-        }
-        preBtn = btn;
-    }
-    
-    [self addSubview: self.markLine];
-    [self.markLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(16);
-        make.height.mas_equalTo(3);
-        make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-4);
-        make.centerX.mas_equalTo(_selectedBtn.mas_centerX);
-    }];
-    
 }
 
 - (void)markLineAnimation:(NSInteger)page {

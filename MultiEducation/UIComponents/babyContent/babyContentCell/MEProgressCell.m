@@ -27,12 +27,13 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *user = delegate.curUser;
     
+    UIImage *img = [UIImage imageWithContentsOfFile: [NSString stringWithFormat: @"%@/%@", [MEKits currentUserDownloadPath], pb.filePath]];
+    
     if ([pb.fileType isEqualToString: @"mp4"]) {
         NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
         [self.image sd_setImageWithURL: [NSURL URLWithString: urlStr]];
     } else {
-        NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-        [self.image sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+        self.image.image = img;
     }
     
     if (pb.uploadStatu == MEUploadStatus_Waiting) {
