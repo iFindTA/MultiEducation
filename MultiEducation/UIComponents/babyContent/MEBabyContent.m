@@ -269,7 +269,7 @@
         [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(MESCREEN_WIDTH - 20);
             make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
-            make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
+            make.top.mas_equalTo(self.babyPhtoView.mas_bottom);
             make.height.mas_equalTo(COMPONENT_HEIGHT);
         }];
         
@@ -311,7 +311,7 @@
                     [self.componentView remakeConstraints:^(MASConstraintMaker *make) {
                         make.width.mas_equalTo(MESCREEN_WIDTH - 20);
                         make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
-                        make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(10);
+                        make.top.mas_equalTo(self.photoHeader.mas_bottom);
                         make.height.mas_equalTo(COMPONENT_HEIGHT);
                     }];
                     self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT;
@@ -321,7 +321,7 @@
                 [self.componentView remakeConstraints:^(MASConstraintMaker *make) {
                     make.width.mas_equalTo(MESCREEN_WIDTH - 20);
                     make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
-                    make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(10);
+                    make.top.mas_equalTo(self.photoHeader.mas_bottom);
                     make.height.mas_equalTo(COMPONENT_HEIGHT);
                 }];
                 self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT;
@@ -347,7 +347,7 @@
             [self.componentView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.width.mas_equalTo(MESCREEN_WIDTH - 20);
                 make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
-                make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(10);
+                make.top.mas_equalTo(self.babyPhtoView.mas_bottom);
                 make.height.mas_equalTo(COMPONENT_HEIGHT);
             }];
             self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + BABY_PHOTO_HEIGHT;
@@ -651,7 +651,7 @@
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
         [_tableView registerNib: [UINib nibWithNibName: @"MEBabyInfoCell" bundle: nil] forCellReuseIdentifier: BABY_INFO_IDEF];
-        
+        _tableView.separatorColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
         _tableView.tableHeaderView = self.tableHeaderView;
     }
     return _tableView;

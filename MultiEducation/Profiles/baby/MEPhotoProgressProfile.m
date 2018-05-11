@@ -221,6 +221,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
         _tableView.dataSource = self;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.tableFooterView = [UIView new];
+        _tableView.separatorColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
         [_tableView registerNib: [UINib nibWithNibName: @"MEProgressCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
     }
     return _tableView;

@@ -18,7 +18,7 @@
 #define PERSONAL_TEXT_ARRAY @[@"我的收藏", @"客户服务", @"帮助中心", @"反馈", @"关于我们"]
 
 static NSString * const CELL_IDEF = @"cell_idef";
-static CGFloat const ROW_HEIGHT = 44.f;
+static CGFloat const ROW_HEIGHT = 54.f;
 static CGFloat const HEADER_HEIGHT = 170.f;
 
 @interface MEPersonalRootProfile () <UITableViewDelegate, UITableViewDataSource>
@@ -153,7 +153,7 @@ static CGFloat const HEADER_HEIGHT = 170.f;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
-
+        _tableView.separatorColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
         [_tableView registerNib: [UINib nibWithNibName: @"MEPersonalCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
 
     }

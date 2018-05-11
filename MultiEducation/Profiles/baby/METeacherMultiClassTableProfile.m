@@ -88,6 +88,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
         _tableView.tableFooterView = [UIView new];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.separatorColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
     }
     return _tableView;
 }
