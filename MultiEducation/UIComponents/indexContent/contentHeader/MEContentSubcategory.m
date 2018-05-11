@@ -10,7 +10,7 @@
 #import "MEVerticalItem.h"
 #import <UIButton+AFNetworking.h>
 
-NSUInteger const ME_SUBCATEGORY_ITEM_HEIGHT                                                     =   60;
+NSUInteger const ME_SUBCATEGORY_ITEM_HEIGHT                                                     =   70;
 NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_4                                                 =   20;
 NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_5                                                 =   15;
 static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                                             =   5;

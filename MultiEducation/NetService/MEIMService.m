@@ -109,9 +109,11 @@ static MEIMService *instance = nil;
         }
     }
     
-    if (completion) {
-        completion(userInfo);
-    }
+    PBMAIN(^{
+        if (completion) {
+            completion(userInfo);
+        }
+    })
 }
 
 /*!
@@ -137,9 +139,11 @@ static MEIMService *instance = nil;
             }
         }
     }
-    if (completion) {
-        completion(groupInfo);
-    }
+    PBMAIN(^{
+        if (completion) {
+            completion(groupInfo);
+        }
+    })
 }
 
 /*!
@@ -172,9 +176,11 @@ static MEIMService *instance = nil;
         }
         userIDList = tmpIds.copy;
     }
-    if (resultBlock) {
-        resultBlock(userIDList);
-    }
+    PBMAIN(^{
+        if (resultBlock) {
+            resultBlock(userIDList);
+        }
+    })
 }
 
 #pragma mark --- 消息回调

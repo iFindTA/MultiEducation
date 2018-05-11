@@ -160,7 +160,7 @@
         }];
         //name
         NSString *name = PBAvailableString(member.name);
-        UIFont *font = UIFontPingFangSCMedium(METHEME_FONT_TITLE);
+        UIFont *font = UIFontPingFangSCMedium(METHEME_FONT_LARGETITLE);
         UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
         MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
         label.font = font;
@@ -174,7 +174,7 @@
         //gender
         //NSString *genderIconName = (member.gender == 1)?@"contact_icon_male":@"contact_icon_female";
         NSString *genderIconName = (member.gender == 1)?@"\U0000e616":@"\U0000e627";
-        NSUInteger iconSize = ME_LAYOUT_MARGIN * 3/MESCREEN_SCALE;
+        NSUInteger iconSize = ME_LAYOUT_MARGIN * 1.5/MESCREEN_SCALE;
         UIColor *iconColor = (member.gender == 1)?UIColorFromRGB(0x609EE1):UIColorFromRGB(0xE15256);
         UIImage *genderIcon = [UIImage pb_iconFont:nil withName:genderIconName withSize:iconSize withColor:iconColor];
         MEBaseImageView *gender = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
@@ -183,7 +183,7 @@
         [gender makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(infoScene.mas_centerY);
             make.left.equalTo(label.mas_right).offset(ME_LAYOUT_MARGIN);
-            make.width.height.equalTo(ME_LAYOUT_MARGIN*3);
+            make.width.height.equalTo(ME_LAYOUT_MARGIN*1.5);
         }];
         //分割线
         sectionHeight = ME_LAYOUT_MARGIN * 2;

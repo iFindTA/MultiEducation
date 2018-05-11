@@ -45,7 +45,7 @@
         make.height.equalTo(self.mas_height).multipliedBy(scale);
     }];
     [self.label makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.icon.mas_bottom).offset(ME_LAYOUT_MARGIN*0.5);
+        make.top.equalTo(self.icon.mas_bottom).offset(ME_LAYOUT_MARGIN);
         make.left.bottom.right.equalTo(self);
     }];
 }

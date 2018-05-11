@@ -57,6 +57,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         btn.titleLabel.font = font;
         [btn setTitleColor:textColor forState:UIControlStateNormal];
         [btn setTitle:obj forState:UIControlStateNormal];
+//        btn.backgroundColor = [UIColor pb_randomColor];
         [btn addTarget:self action:@selector(indexNavigationBarTitleItemTouchEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
         [self.barItems addObject:btn];
@@ -84,19 +85,22 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    NSUInteger itemWidth = ME_LAYOUT_SUBBAR_HEIGHT;
+    CGFloat start_x = ME_LAYOUT_MARGIN * 2;
+    CGFloat right_offset = ME_LAYOUT_BOUNDARY + (ME_LAYOUT_ICON_HEIGHT+ME_LAYOUT_MARGIN) * 2;
+    CGFloat allWidth = MESCREEN_WIDTH - start_x - right_offset;
+    NSUInteger itemWidth = allWidth/self.barItems.count;
     NSUInteger itemHeight = ME_HEIGHT_TABBAR * 0.5;
     [self.barItems enumerateObjectsUsingBlock:^(MEBaseButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(ME_LAYOUT_MARGIN * 2 + (itemWidth+ME_LAYOUT_MARGIN)*idx);
-            make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN * 2);
+            make.left.equalTo(self).offset(start_x + (itemWidth)*idx);
+            make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
             make.width.equalTo(itemWidth);
             make.height.equalTo(itemHeight);
         }];
     }];
     
     [self.historyBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN*2);
+        make.right.equalTo(self).offset(-ME_LAYOUT_BOUNDARY);
         make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
         make.width.height.equalTo(30);
     }];
