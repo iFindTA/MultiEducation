@@ -168,10 +168,6 @@
 
 - (UIViewController *)assembleRootProfileWhileUserChangeState:(MEDisplayStyle)style {
     
-#if DEBUG
-    
-#endif
-    
     UIViewController *destProfile = nil;
     if (style & MEDisplayStyleMainSence) {
         NSDictionary *attrs = [NSDictionary dictionaryWithObjectsAndKeys:UIFontPingFangSCBold(12), NSFontAttributeName, nil];
@@ -311,38 +307,34 @@
  start services on background-thread
  */
 - (void)startServicesOnBackgroundThread {
-    PBBACKDelay(ME_ANIMATION_DURATION, ^{
-        //for input
-        [IQKeyboardManager sharedManager].enable = true;
-        //for chinese-policy
-        [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
-            
-        }];
-        weakify(self)
-        [PBService shared].networkStateCallback = ^(PBNetState state){
-            if (state & (PBNetStateViaWiFi|PBNetStateViaWWAN)) {
-                strongify(self)
-                [self startIMServivesOnBgThread];
-            }
-        };
-        //for umeng
-        UMConfigInstance.appKey = ME_UMENG_APPKEY;
-        [MobClick startWithConfigure:UMConfigInstance];
-        //for Cordova
-        [MEKits configureCordovaEnv];
-        [MEKits UnzipCordovaResources];
-        //for rongyun im must run in main-thread 
-        PBMAIN(^{
-            [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
-            [[RCIM sharedRCIM] setEnableMessageMentioned:true];
-            [[RCIM sharedRCIM] setEnableMessageRecall:true];
-            NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
-            [backTypes addObject:@(ConversationType_PRIVATE)];
-            [backTypes addObject:@(ConversationType_GROUP)];
-            [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
-            [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];// 多端阅读消息数同步
-        });
-    });
+    //for input
+    [IQKeyboardManager sharedManager].enable = true;
+    //for chinese-policy
+    [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
+        
+    }];
+    weakify(self)
+    [PBService shared].networkStateCallback = ^(PBNetState state){
+        if (state & (PBNetStateViaWiFi|PBNetStateViaWWAN)) {
+            strongify(self)
+            [self startIMServivesOnBgThread];
+        }
+    };
+    //for umeng
+    UMConfigInstance.appKey = ME_UMENG_APPKEY;
+    [MobClick startWithConfigure:UMConfigInstance];
+    //for Cordova
+    [MEKits configureCordovaEnv];
+    [MEKits UnzipCordovaResources];
+    //for rongyun im must run in main-thread
+    [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
+    [[RCIM sharedRCIM] setEnableMessageMentioned:true];
+    [[RCIM sharedRCIM] setEnableMessageRecall:true];
+    NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
+    [backTypes addObject:@(ConversationType_PRIVATE)];
+    [backTypes addObject:@(ConversationType_GROUP)];
+    [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
+    [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];// 多端阅读消息数同步
 }
 
 /**
