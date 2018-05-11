@@ -103,6 +103,7 @@ static CGFloat const CELL_HEIGHT = 65.f;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableFooterView = [UIView new];
+        _tableView.separatorColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
         [_tableView registerNib: [UINib nibWithNibName: @"MEFolderCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
     }
     return _tableView;

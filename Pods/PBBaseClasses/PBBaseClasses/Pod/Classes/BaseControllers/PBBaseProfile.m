@@ -354,7 +354,6 @@ typedef NS_ENUM(NSUInteger, PBViewPresentation) {
 }
 
 #pragma mark -- navigationBar event
-
 - (void)backBarItemTouchEvent {
     if (self.presentationMode & PBViewPresentationPushed) {
         [self.navigationController popViewControllerAnimated:true];

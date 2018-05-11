@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,7 +29,7 @@
                     <nil key="highlightedColor"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="12"/>
+                            <real key="value" value="14"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="string" keyPath="text" value="身高"/>
                         <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -51,7 +51,7 @@
                     <nil key="highlightedColor"/>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="12"/>
+                            <real key="value" value="14"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="string" keyPath="text" value="体重"/>
                         <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -74,10 +74,7 @@
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="某某某家长，您好！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R4S-SC-21q" customClass="MEBaseLabel">
-                    <rect key="frame" x="75" y="79" width="200" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="200" id="G1t-Xm-eic"/>
-                    </constraints>
+                    <rect key="frame" x="75" y="79" width="249" height="20"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -87,7 +84,7 @@
                             <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="16"/>
+                            <real key="value" value="18"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
                             <integer key="value" value="0"/>
@@ -120,7 +117,7 @@
                             <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="12"/>
+                            <real key="value" value="14"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </label>
@@ -138,7 +135,7 @@
                             <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="14"/>
+                            <real key="value" value="16"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="string" keyPath="text" value="--"/>
                     </userDefinedRuntimeAttributes>
@@ -157,7 +154,7 @@
                             <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="14"/>
+                            <real key="value" value="16"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
                             <integer key="value" value="0"/>
@@ -179,7 +176,7 @@
                             <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                            <real key="value" value="14"/>
+                            <real key="value" value="16"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
                             <integer key="value" value="2"/>
@@ -194,6 +191,7 @@
                 <constraint firstItem="FXO-bQ-bUA" firstAttribute="top" secondItem="fK5-yV-1dl" secondAttribute="bottom" constant="9" id="2RM-Rq-DF5"/>
                 <constraint firstItem="FXO-bQ-bUA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="23" id="3Cq-Ya-FpQ"/>
                 <constraint firstItem="9f9-la-EZr" firstAttribute="centerY" secondItem="FXO-bQ-bUA" secondAttribute="centerY" id="9oD-sg-ZyT"/>
+                <constraint firstItem="g3K-kb-cFc" firstAttribute="leading" secondItem="R4S-SC-21q" secondAttribute="trailing" constant="10" id="BuO-XV-Y6f"/>
                 <constraint firstItem="zPf-2i-wTv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="21" id="Dnx-8l-PgY"/>
                 <constraint firstAttribute="trailing" secondItem="VDf-4t-Bki" secondAttribute="trailing" constant="23" id="Kau-3k-4S6"/>
                 <constraint firstAttribute="trailing" secondItem="g3K-kb-cFc" secondAttribute="trailing" constant="24" id="Kfv-OB-M9L"/>
@@ -226,11 +224,11 @@
                 <outlet property="userHeadIcon" destination="zPf-2i-wTv" id="Nme-af-YHY"/>
                 <outlet property="userNameLab" destination="R4S-SC-21q" id="2oz-9G-Lxt"/>
             </connections>
-            <point key="canvasLocation" x="-153" y="35"/>
+            <point key="canvasLocation" x="90" y="12"/>
         </view>
     </objects>
     <resources>
-        <image name="baby_header_backImage" width="375" height="230"/>
+        <image name="baby_header_backImage" width="375" height="200"/>
         <image name="baby_header_setting" width="17" height="17"/>
     </resources>
 </document>

@@ -91,7 +91,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
         _tableView = [[UITableView alloc] initWithFrame: CGRectZero style: UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        
+        _tableView.separatorColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
         [_tableView registerNib: [UINib nibWithNibName: @"MEBabySelectCell" bundle: nil] forCellReuseIdentifier: CELL_IDEF];
     }
     return _tableView;
