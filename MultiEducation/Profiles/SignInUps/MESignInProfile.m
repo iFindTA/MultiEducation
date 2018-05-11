@@ -357,7 +357,7 @@
         //check pwd
         NSString *pwd = self.inputPwd.text;
         if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
-            NSString *errString = PBFormat(@"请输入%zd~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
+            NSString *errString = PBFormat(@"请输入%d~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
             [SVProgressHUD showErrorWithStatus:errString];
             return;
         }
@@ -424,7 +424,6 @@
     //goto signin
     MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
     NSData *pbdata = [pb data];
-    weakify(self)
     [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
         //strongify(self)
         [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
@@ -447,6 +446,7 @@
 
 - (void)handleMulticastUserIdentitySwitchEvent:(MEPBUserList*)list {
     if (list.userListArray.count > 1) {
+        [self.view endEditing:true];
         //CGRect fromBounds = CGRectZero;
         CGRect bounds = CGRectMake(0, 0, MESCREEN_WIDTH, MESCREEN_HEIGHT);
         MEMulticastRole *roleScene = [[MEMulticastRole alloc] initWithFrame:bounds users:list.userListArray.copy];
