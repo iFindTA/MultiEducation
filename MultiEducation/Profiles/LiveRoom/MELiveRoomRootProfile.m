@@ -109,7 +109,6 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     }];
     //mask
     [self.liveScene addSubview:self.liveMaskScene];
-    //self.liveMaskScene.hidden = true;
     [self.liveMaskScene makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.liveScene);
     }];
@@ -211,11 +210,8 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 
 - (KSYMoviePlayerController *)playProfile {
     if (!_playProfile) {
-        NSArray<MEPBClassLive*>*classItems = self.dataLive.recorderListArray.copy;
-        MEPBClassLive *liveItem = classItems.firstObject;
-        NSString *urlString = liveItem.streamURL;
+        NSString *urlString = self.dataLive.streamURL;
         //urlString = @"rtmp://live.hkstv.hk.lxdns.com/live/hks";
-        urlString = self.dataLive.videoURL;
         NSURL *url = [NSURL URLWithString:urlString];
         _playProfile = [[KSYMoviePlayerController alloc] initWithContentURL:url];
         _playProfile.controlStyle = 0;
@@ -396,7 +392,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     }
     MEPBClassLive *liveVod = classItems[index];
     NSString *title = PBAvailableString(liveVod.title);
-    NSString *videoUrl = PBAvailableString(liveVod.videoURL);
+    NSString *videoUrl = PBAvailableString(liveVod.streamURL);
     NSDictionary *params =@{@"title":title, @"url":videoUrl};
     NSString *destProfile = @"MELiveVodProfile";NSString *method = @"__initWithParams:";
     NSError *err;
@@ -577,7 +573,9 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         } else {
             self.dataLive = liveRoom;
         }
-        [self rebuildLiveRoomSubviews];
+        PBMAIN(^{
+            [self rebuildLiveRoomSubviews];
+        })
     } failure:^(NSError * _Nonnull error) {
         strongify(self)
         [MEKits handleError:error];
@@ -600,7 +598,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
         //reset current play item
         [self.playProfile.view setFrame:self.liveScene.bounds];
         [self.liveScene addSubview:self.playProfile.view];
-        
+        [self.playProfile play];
     }
     
     [self.table reloadData];

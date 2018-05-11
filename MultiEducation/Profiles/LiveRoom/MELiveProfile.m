@@ -201,7 +201,6 @@
             [self startTimerForMaskAnimation];
         }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }
@@ -340,7 +339,6 @@
     MEPBClassLive *live = [[MEPBClassLive alloc] init];
     [live setClassId:classID.longLongValue];
     MELiveHeartBeatVM *liveHeartBeat = [[MELiveHeartBeatVM alloc] init];
-    weakify(self)
     [liveHeartBeat postData:[live data] hudEnable:false success:^(NSData * _Nullable resObj) {
 //        NSError *err;strongify(self)
 //        MEPBClassLive *liveKit = [MEPBClassLive parseFromData:resObj error:&err];
@@ -348,7 +346,6 @@
 //            [MEKits handleError:err];
 //        }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }
