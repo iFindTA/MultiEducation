@@ -33,10 +33,13 @@ typedef void(^BabyContentScrollCallBack)(CGFloat contentOffsetY, MEScrollViewDir
 
 typedef void(^BabyTabBarBadgeCallback)(NSInteger badge);
 
+typedef void(^DidChangeSelectedBaby)(NSString *babyName, NSString *babyPortrait);
+
 @interface MEBabyContent : MEBaseScene
 
 @property (nonatomic, copy) BabyContentScrollCallBack babyContentScrollCallBack;
 @property (nonatomic, copy) BabyTabBarBadgeCallback babyTabBarBadgeCallback;
+@property (nonatomic, copy) DidChangeSelectedBaby didChangeSelectedBaby;
 
 @property (nonatomic, copy) void((^DidSelectHandler)(NSInteger index, NSArray *photos));
 

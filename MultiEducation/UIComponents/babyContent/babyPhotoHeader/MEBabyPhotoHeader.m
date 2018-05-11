@@ -24,12 +24,12 @@
     self = [super init];
     if (self) {
         _titles = titles;
-        [self customSubviews];
     }
     return self;
 }
 
-- (void)customSubviews {
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
     CGFloat leftSpace = 20.f;
     CGFloat btnWidth = 60;

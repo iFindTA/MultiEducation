@@ -61,7 +61,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 - (void)gotoBabyPhotoProfile:(NSInteger)classId {
@@ -117,11 +116,12 @@
         _babyView.DidSelectHandler = ^(NSInteger index, NSArray *photos) {
             strongify(self);
             self.photos = photos;
-
-            
-           
             [self.navigationController pushViewController: self.photoBrowser animated:YES];
             [self.photoBrowser setCurrentPhotoIndex: index];
+        };
+        _babyView.didChangeSelectedBaby = ^(NSString *babyName, NSString *babyPortrait) {
+            strongify(self);
+            [self.babyNavigation changeTitle: babyName url: babyPortrait];
         };
     }
     return _babyView;

@@ -12,4 +12,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame urlStr:(NSString *)url title:(NSString *)title;
 
+- (void)changeTitle:(NSString *)babyName url:(NSString *)url;
+
 @end
