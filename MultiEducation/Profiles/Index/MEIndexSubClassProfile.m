@@ -103,11 +103,13 @@
 /**
  加载数据
  */
-- (void)autoLoadMoreRelevantItems4PageIndex:(NSUInteger)index {
+- (void)autoLoadMoreRelevantItems4PageIndex:(int32_t)index {
     NSNumber *typeId = [self.mapInfo objectForKey:@"typeId"];
+    NSNumber *gradId = [self.mapInfo objectForKey:@"gradeId"];
     MEVideoClassVM *vm = [[MEVideoClassVM alloc] init];
     MEPBRes *res = [[MEPBRes alloc] init];
     [res setResTypeId:typeId.unsignedIntegerValue];
+    [res setGradeId:gradId.unsignedLongLongValue];
     weakify(self)
     [vm postData:[res data] pageSize:ME_PAGING_SIZE pageIndex:index hudEnable:true success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
         NSError *err;strongify(self)

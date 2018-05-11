@@ -16,7 +16,7 @@
 #define ME_WEB_SERVER_HOST                                              @"http://ost.x16.com/open/res"
 #define ME_CORDOVA_SERVER_HOST                                          @"http://v2.api.x16.com:443"
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
-#define ME_RONGIM_APPKEY                                                @"mgb7ka1nm4whg"
+#define ME_RONGIM_APPKEY                                                @"mgb7ka1nm4whg"//dev
 #define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
 #define ME_APP_ENV                                                      @"prod"
