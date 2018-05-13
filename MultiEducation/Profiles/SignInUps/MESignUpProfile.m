@@ -339,12 +339,9 @@
     //goto signin
     MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
     NSData *pbdata = [pb data];
-    weakify(self)
     [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
-        //strongify(self)
         [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }
