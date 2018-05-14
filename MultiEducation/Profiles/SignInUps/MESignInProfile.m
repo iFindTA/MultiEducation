@@ -370,6 +370,7 @@
             [SVProgressHUD showErrorWithStatus:errString];
             return;
         }
+        [pb setCode:code];
     }
     //apns token
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
