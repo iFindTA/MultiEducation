@@ -371,7 +371,7 @@
 
 + (UIBarButtonItem *)barSpacer {
     UIBarButtonItem *barSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    barSpacer.width = - ME_LAYOUT_MARGIN*2;
+    barSpacer.width = - ME_LAYOUT_MARGIN;
     return barSpacer;
 }
 

@@ -30,6 +30,6 @@ pod 'libksygpulive/KSYGPUResource', '~> 3.0.2'
 pod 'TZImagePickerController', '~> 2.0.1'
 pod 'Qiniu', '~> 7.2.3'
 pod 'UMengAnalytics-NO-IDFA', '~> 4.2.5'
-pod 'RongCloudIM', '~> 2.8.30'
+pod 'RongCloudIM', '~> 2.8.32'
 pod 'MWPhotoBrowser', '~> 2.1.2'
 end

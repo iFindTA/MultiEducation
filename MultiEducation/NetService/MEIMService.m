@@ -126,22 +126,22 @@ static MEIMService *instance = nil;
  在您设置了用户信息提供者之后，SDK在需要显示用户信息的时候，会调用此方法，向您请求用户信息用于显示。
  */
 - (void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *groupInfo))completion {
-    RCGroup *groupInfo = nil;
-    NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
-    NSString *groupType = stringArray[0];
-    int64_t session_id = [stringArray[1] longLongValue];
-    if ([groupType isEqualToString:@"CLASS"]) {
-        NSArray<MECSession*>*sessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
-        for (MECSession *s in sessions) {
-            if (s.id_p == session_id) {
-                groupInfo = [[RCGroup alloc] initWithGroupId:groupId groupName:s.name portraitUri:@""];
-                break;
+    PBMAIN(^{
+        RCGroup *classInfo = nil;
+        NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
+        NSString *groupType = stringArray[0];
+        int64_t session_id = [stringArray[1] longLongValue];
+        if ([groupType isEqualToString:@"CLASS"]) {
+            NSArray<MECSession*>*sessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
+            for (MECSession *s in sessions) {
+                if (s.id_p == session_id) {
+                    classInfo = [[RCGroup alloc] initWithGroupId:groupId groupName:s.name portraitUri:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526290270940&di=d655b0256dda0b68b7ffeb1efcef9f8e&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F014b0857c64def0000012e7ed667c0.png"];
+                    break;
+                }
             }
         }
-    }
-    PBMAIN(^{
         if (completion) {
-            completion(groupInfo);
+            completion(classInfo);
         }
     })
 }
@@ -153,30 +153,30 @@ static MEIMService *instance = nil;
  @param resultBlock 获取成功 [userIdList:群成员ID列表]
  */
 - (void)getAllMembersOfGroup:(NSString *)groupId result:(void (^)(NSArray<NSString *> *userIdList))resultBlock {
-    NSArray <NSString*>*userIDList = nil;
-    NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
-    NSString *groupType = stringArray[0];
-    int64_t session_id = [stringArray[1] longLongValue];
-    if ([groupType isEqualToString:@"CLASS"]) {
-        //先根据session id找到classID
-        NSArray<MECSession*>*clasSessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
-        int64_t class_id = 0;
-        for (MECSession *s in clasSessions) {
-            if (s.id_p == session_id) {
-                class_id = s.classId;
-                break;
-            }
-        }
-        //再根据class ID 获取班级成员
-        NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMembers4ClassID:class_id];
-        NSMutableArray <NSString*>*tmpIds = [NSMutableArray arrayWithCapacity:0];
-        //拼接班级用户
-        for (MEClassMember *m in members) {
-            [tmpIds addObject:PBFormat(@"%lld", m.id_p)];
-        }
-        userIDList = tmpIds.copy;
-    }
     PBMAIN(^{
+        NSArray <NSString*>*userIDList = nil;
+        NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
+        NSString *groupType = stringArray[0];
+        int64_t session_id = [stringArray[1] longLongValue];
+        if ([groupType isEqualToString:@"CLASS"]) {
+            //先根据session id找到classID
+            NSArray<MECSession*>*clasSessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
+            int64_t class_id = 0;
+            for (MECSession *s in clasSessions) {
+                if (s.id_p == session_id) {
+                    class_id = s.classId;
+                    break;
+                }
+            }
+            //再根据class ID 获取班级成员
+            NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMembers4ClassID:class_id];
+            NSMutableArray <NSString*>*tmpIds = [NSMutableArray arrayWithCapacity:0];
+            //拼接班级用户
+            for (MEClassMember *m in members) {
+                [tmpIds addObject:PBFormat(@"%lld", m.id_p)];
+            }
+            userIDList = tmpIds.copy;
+        }
         if (resultBlock) {
             resultBlock(userIDList);
         }
