@@ -93,23 +93,23 @@ static MEIMService *instance = nil;
  在您设置了用户信息提供者之后，SDK在需要显示用户信息的时候，会调用此方法，向您请求用户信息用于显示。
  */
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *userInfo))completion {
-    MEPBUser *user = self.app.curUser;
-    ino64_t fetch_uid = userId.longLongValue;
-    RCUserInfo *userInfo = nil;
-    if (fetch_uid == user.uid) {
-        NSString *portrait = [MEKits imageFullPath:user.portrait];
-        userInfo = [[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait];
-    } else {
-        //获取班级成员
-        NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMember4MemberID:fetch_uid];
-        if (members.count > 0) {
-            MEClassMember *member = [members firstObject];
-            NSString *avatar = [MEKits imageFullPath:member.portrait];
-            userInfo = [[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", member.id_p) name:PBAvailableString(member.name) portrait:avatar];
-        }
-    }
     
     PBMAIN(^{
+        MEPBUser *user = self.app.curUser;
+        ino64_t fetch_uid = userId.longLongValue;
+        RCUserInfo *userInfo = nil;
+        if (fetch_uid == user.uid) {
+            NSString *portrait = [MEKits imageFullPath:user.portrait];
+            userInfo = [[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait];
+        } else {
+            //获取班级成员
+            NSArray<MEClassMember*>*members = [MEClassMemberVM fetchClassMember4MemberID:fetch_uid];
+            if (members.count > 0) {
+                MEClassMember *member = [members firstObject];
+                NSString *avatar = [MEKits imageFullPath:member.portrait];
+                userInfo = [[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", member.id_p) name:PBAvailableString(member.name) portrait:avatar];
+            }
+        }
         if (completion) {
             completion(userInfo);
         }
@@ -187,7 +187,9 @@ static MEIMService *instance = nil;
 
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
     //NSLog(@"收到了消息!");
-    [self.app updateRongIMUnReadMessageCounts];
+    PBMAIN(^{
+        [self.app updateRongIMUnReadMessageCounts];
+    })
 }
 
 @end

@@ -41,8 +41,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self refreshConversationTableViewIfNeeded];
-    [self.app updateRongIMUnReadMessageCounts];
+    PBMAIN(^{
+        [self refreshConversationTableViewIfNeeded];
+        [self.app updateRongIMUnReadMessageCounts];
+    })
 }
 
 - (void)didReceiveMemoryWarning {

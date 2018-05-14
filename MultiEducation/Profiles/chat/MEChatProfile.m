@@ -24,6 +24,8 @@
 - (id)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
+        self.automaticallyAdjustsScrollViewInsets = false;
+        
         _params = [NSDictionary dictionaryWithDictionary:params];
     }
     return self;
@@ -33,12 +35,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    NSLog(@"super class:%@", NSStringFromClass(self.conversationMessageCollectionView.superview.class));
     [self.view addSubview:self.navigationBar];
-    [self.conversationMessageCollectionView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.navigationBar.mas_bottom);
-        make.left.bottom.right.equalTo(self.view);
-    }];
-    
     UIBarButtonItem *spacer = [MEKits barSpacer];
     UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:self.title];
@@ -47,6 +45,11 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+    [self.conversationMessageCollectionView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.chatSessionInputBarControl.mas_top);
+    }];
     [self adgustmentExpandPlugins];
 }
 
@@ -59,12 +62,24 @@
     [IQKeyboardManager sharedManager].enable = false;
     [IQKeyboardManager sharedManager].enableAutoToolbar = false;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
+    
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [IQKeyboardManager sharedManager].enable = true;
     [IQKeyboardManager sharedManager].enableAutoToolbar = true;
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    NSUInteger finalRow = MAX(0, [self.conversationMessageCollectionView numberOfItemsInSection:0] - 1);
+    if (0 == finalRow) {
+        return;
+    }
+    NSIndexPath *finalIndexPath =  [NSIndexPath indexPathForItem:finalRow inSection:0];
+    [self.conversationMessageCollectionView scrollToItemAtIndexPath:finalIndexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
 }
 
 - (void)didReceiveMemoryWarning {
