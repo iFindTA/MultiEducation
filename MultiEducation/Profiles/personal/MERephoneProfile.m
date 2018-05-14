@@ -13,7 +13,7 @@
 #import "MEMobileVM.h"
 #import "MeuserData.pbobjc.h"
 
-#define MAX_WAIT_TIME 5
+#define MAX_WAIT_TIME 60
 
 static CGFloat const ROW_HEIGHT = 54.f;
 

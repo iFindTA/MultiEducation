@@ -1,68 +1,85 @@
-//
-//  MEUpdatePasswordProfile.m
-//  MultiEducation
-//
-//  Created by 崔小舟 on 2018/4/22.
-//  Copyright © 2018年 niuduo. All rights reserved.
-//
-
 #import "MEUpdatePasswordProfile.h"
 #import "MEEditScene.h"
+#import "MesignIn.pbobjc.h"
 #import "MERePasswordVM.h"
-#import "NSString+Md5String.h"
-#import <YYKit.h>
+#import "MEMobileVM.h"
 #import "MeuserData.pbobjc.h"
+#import "MEVerifyCodeVM.h"
+
+#define MAX_WAIT_TIME 60
 
 static CGFloat const ROW_HEIGHT = 54.f;
 
-@interface MEUpdatePasswordProfile ()
+@interface MEUpdatePasswordProfile () {
+    NSInteger _count;
+    BOOL _isTimerRun;   //是否处于读秒时间
+}
 
-@property (nonatomic, strong) MEEditScene *oldPwd;
-@property (nonatomic, strong) MEEditScene *newPwd;
-@property (nonatomic, strong) MEEditScene *reNewPwd;
+@property (nonatomic, strong) MEEditScene *phone;
+@property (nonatomic, strong) MEEditScene *code;
+@property (nonatomic, strong) MEEditScene *pwd;
+@property (nonatomic, strong) MEBaseButton *getCodeBtn;
 @property (nonatomic, strong) MEBaseButton *confirmBtn;
 
-@end 
+@property (nonatomic, strong) NSTimer *timer;
+
+@end
 
 @implementation MEUpdatePasswordProfile
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _count = MAX_WAIT_TIME;
     
-    self.view.backgroundColor = UIColorFromRGB(0xf8f8f8);
     [self customNavigation];
     
-    [self.view addSubview: self.oldPwd];
-    [self.view addSubview: self.newPwd];
-    [self.view addSubview: self.reNewPwd];
+    [self.view addSubview: self.phone];
+    [self.view addSubview: self.code];
+    [self.view addSubview: self.getCodeBtn];
+    [self.view addSubview: self.pwd];
     [self.view addSubview: self.confirmBtn];
-
+    
     //layout
-    [self.oldPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.phone mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.view).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
         make.height.mas_equalTo(ROW_HEIGHT);
+        make.top.mas_equalTo(self.view.mas_top).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
     }];
     
-    [self.newPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.pwd mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.oldPwd.mas_bottom);
         make.height.mas_equalTo(ROW_HEIGHT);
+        make.top.mas_equalTo(self.code.mas_bottom).mas_offset(5.f);
     }];
     
-    [self.reNewPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.code mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
-        make.top.mas_equalTo(self.newPwd.mas_bottom);
         make.height.mas_equalTo(ROW_HEIGHT);
+        make.top.mas_equalTo(self.phone.mas_bottom).mas_offset(5.f);
+    }];
+    
+    [self.getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.view).mas_offset(-20.f);
+        make.width.mas_equalTo(100.f);
+        make.height.mas_equalTo(25.f);
+        make.centerY.mas_equalTo(self.code);
     }];
     
     [self.confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(13.f);
-        make.right.mas_equalTo(-13.f);
-        make.top.mas_equalTo(self.reNewPwd.mas_bottom).mas_offset(35.f);
+        make.left.mas_equalTo(self.view).mas_offset(30.f);
+        make.right.mas_equalTo(self.view).mas_offset(-30.f);
         make.height.mas_equalTo(44.f);
+        make.top.mas_equalTo(self.pwd.mas_bottom).mas_offset(30.f);
     }];
+    
+    [self.confirmBtn layoutIfNeeded];
+    self.confirmBtn.layer.cornerRadius = 4.f;
+    self.confirmBtn.layer.masksToBounds = true;
+}
 
+- (void)dealloc {
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)customNavigation {
@@ -74,71 +91,144 @@ static CGFloat const ROW_HEIGHT = 54.f;
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (void)timerStart {
+    _isTimerRun = YES;
+    _timer = [NSTimer scheduledTimerWithTimeInterval: 1.f target: self selector: @selector(timerRun) userInfo: nil repeats: YES];
+    [_timer setFireDate: [NSDate date]];
+}
+
+- (void)timerRun {
+    if (_count <= 1) {
+        _count = MAX_WAIT_TIME;
+        [self.getCodeBtn setTitle: @"验证码" forState: UIControlStateNormal];
+        [self timerEnd];
+    } else {
+        _count--;
+        [self.getCodeBtn setTitle: [NSString stringWithFormat: @"%ld秒", _count] forState: UIControlStateNormal];
+    }
+}
+
+- (void)timerEnd {
+    _isTimerRun = NO;
+    [_timer invalidate];
+    _timer = nil;
 }
 
 - (void)confirmButtonTouchEvent {
+    //FIXME: CHECK TYPE
+    if (_pwd.textfield.text.length < 6 || _pwd.textfield.text.length > 12) {
+        [SVProgressHUD showErrorWithStatus: @"请输入6-12位的密码"];
+        return;
+    }
+    
+    if (_code.textfield.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus: @"请输入验证码"];
+        return;
+    }
+    
     FscUserPb *userPb = [[FscUserPb alloc] init];
+    userPb.code = _code.textfield.text;
+    userPb.password = _pwd.textfield.text;
     MERePasswordVM *vm = [MERePasswordVM vmWithModel: userPb];
     
-    if (!(self.newPwd.textfield.text.length >= 6 && self.newPwd.textfield.text.length <= 12)) {
-        [SVProgressHUD showErrorWithStatus: @"请输入6-12位的密码！"];
-        return;
-    }
-    
-    if (![self.reNewPwd.textfield.text isEqualToString: self.newPwd.textfield.text]) {
-        [SVProgressHUD showErrorWithStatus: @"两次密码输入不一致！"];
-        return;
-    }
-    
-    userPb.repassword = [[self.oldPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
-    userPb.password = [[self.newPwd.textfield.text dataUsingEncoding: NSUTF8StringEncoding] md5String];
-
     NSData *data = [userPb data];
     
     weakify(self);
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
-        [self logout];
         [SVProgressHUD showErrorWithStatus: @"密码已修改，请重新登录"];
+        [self performSelector: @selector(logout) withObject: nil afterDelay: 1.f];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
     }];
+    
+
 }
 
 - (void)logout {
-     [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [self.appDelegate updateCurrentSignedInUser:nil];
     [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
 }
 
+- (void)sendSignInVerifyCodeEvent {
+    if (_isTimerRun) {
+        return;
+    }
+    //check mobile
+    NSString *mobile = self.phone.textfield.text;
+    if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
+        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        return;
+    }
+    //assemble pb file
+    MEPBSignIn *pb = [[MEPBSignIn alloc] init];
+#if DEBUG
+    [pb setLoginName:@"2"];
+#else
+    [pb setLoginName:mobile];
+#endif
+    //goto signin
+    MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
+    NSData *pbdata = [pb data];
+    weakify(self)
+    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+        //strongify(self)
+        [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
+        [self timerStart];
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
+    }];
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    
+}
+
 #pragma mark - lazyloading
-- (MEEditScene *)oldPwd {
-    if (!_oldPwd) {
-        _oldPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
-        _oldPwd.textfield.secureTextEntry = YES;
-        [_oldPwd becomeFirstResponder];
-        _oldPwd.textfield.placeholder = @"原密码";
+- (MEEditScene *)phone {
+    if (!_phone) {
+        _phone = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+        self.phone.textfield.userInteractionEnabled = false;
+        _phone.textfield.placeholder = @"请输入手机号";
+        [_phone becomeFirstResponder];
+        _phone.textfield.text = self.currentUser.mobile;
     }
-    return _oldPwd;
+    return _phone;
 }
 
-- (MEEditScene *)newPwd {
-    if (!_newPwd) {
-        _newPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
-        _newPwd.textfield.secureTextEntry = YES;
-        _newPwd.textfield.placeholder = @"新密码";
+- (MEEditScene *)code {
+    if (!_code) {
+        _code = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+        _code.textfield.placeholder = @"请输入验证码";
     }
-    return _newPwd;
+    return _code;
 }
 
-- (MEEditScene *)reNewPwd {
-    if (!_reNewPwd) {
-        _reNewPwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
-        _reNewPwd.textfield.secureTextEntry = YES;
-        _reNewPwd.textfield.placeholder = @"确认新密码";
+- (MEEditScene *)pwd {
+    if (!_pwd) {
+        _pwd = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+        _pwd.textfield.secureTextEntry = true;
+        _pwd.textfield.placeholder = @"请输入密码";
     }
-    return _reNewPwd;
+    return _pwd;
+}
+
+- (MEBaseButton *)getCodeBtn {
+    if (!_getCodeBtn) {
+        _getCodeBtn = [[MEBaseButton alloc] init];
+        [_getCodeBtn setTitle:@"验证码" forState:UIControlStateNormal];
+        [_getCodeBtn setTitleColor: UIColorFromRGB(ME_THEME_COLOR_TEXT) forState:UIControlStateNormal];
+        _getCodeBtn.layer.cornerRadius = ME_LAYOUT_SUBBAR_HEIGHT * 0.75 * 0.5;
+        _getCodeBtn.layer.masksToBounds = true;
+        _getCodeBtn.layer.borderWidth = ME_LAYOUT_LINE_HEIGHT;
+        _getCodeBtn.layer.borderColor = UIColorFromRGB(ME_THEME_COLOR_TEXT).CGColor;
+        _getCodeBtn.backgroundColor = [UIColor whiteColor];
+        [_getCodeBtn addTarget: self action: @selector(sendSignInVerifyCodeEvent) forControlEvents: UIControlEventTouchUpInside];
+    }
+    return _getCodeBtn;
 }
 
 - (MEBaseButton *)confirmBtn {
@@ -154,3 +244,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
 }
 
 @end
+
+
+
+
