@@ -8,6 +8,8 @@
 
 #import "MEBaseScene.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  类型定义
  */
@@ -24,11 +26,18 @@ typedef NS_ENUM(NSUInteger, MEIndexNavigationType) {
 
 @property (nonatomic, copy) void(^indexNavigationBarItemCallback)(NSUInteger index);
 @property (nonatomic, copy) void(^indexNavigationBarOtherCallback)(MEIndexNavigationType type);
+@property (nonatomic, copy) void(^searchCallback)(BOOL first, NSString *_Nullable keyword);
 
 + (instancetype)indexNavigationBarWithTitles:(NSArray<NSString *>*)titles;
 
 - (NSArray *)indexNavigationBarTitles;
 
 - (void)scrollDidScroll2Page:(NSUInteger)page;
+
+- (void)updatePlaceholder:(NSString * _Nullable)placeholder;
+
+- (void)endSearchAction;
+
+NS_ASSUME_NONNULL_END
 
 @end

@@ -1,34 +1,34 @@
 //
-//  MEIndexSubClassProfile.m
+//  MESubClassProfile.m
 //  MultiEducation
 //
-//  Created by nanhu on 2018/4/13.
+//  Created by nanhu on 2018/5/14.
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
 #import "MEVideoClassVM.h"
-#import "MEIndexSubClassProfile.h"
+#import "MESubClassProfile.h"
 #import "MEIndexStoryItemCell.h"
 #import <MJRefresh/MJRefresh.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
-@interface MEIndexSubClassProfile ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface MESubClassProfile ()<UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
-@property (nonatomic, strong) NSDictionary *mapInfo;
+@property (nonatomic, strong) NSDictionary *params;
 
-@property (nonatomic, assign) NSUInteger totalPages, currentPageIndex;
+@property (nonatomic, assign) int32_t totalPages, currentPageIndex;
 @property (nonatomic, assign) BOOL whetherDidLoadData;
 @property (nonatomic, strong) NSMutableArray <MEPBRes*>*dataSource;
 @property (nonatomic, strong) UITableView *table;
 
 @end
 
-@implementation MEIndexSubClassProfile
+@implementation MESubClassProfile
 
 - (id)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        self.mapInfo = params;
+        self.params = params;
     }
     return self;
 }
@@ -37,7 +37,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSString *title = self.mapInfo[@"title"];
+    NSString *title = self.params[@"title"];
+    title = title.length > 0 ?title:@"搜索结果";
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
@@ -50,7 +51,7 @@
         make.left.bottom.right.equalTo(self.view);
     }];
     weakify(self)
-    self.table.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         strongify(self)
         if (self.totalPages == 0 || self.currentPageIndex == 0) {
             return;
@@ -61,6 +62,8 @@
         }
         [self autoLoadMoreRelevantItems4PageIndex:self.currentPageIndex+1];
     }];
+    [footer setTitle:@"我是有底线的..." forState:MJRefreshStateNoMoreData];
+    self.table.mj_footer = footer;
     self.whetherDidLoadData = false;
 }
 
@@ -103,14 +106,19 @@
  加载数据
  */
 - (void)autoLoadMoreRelevantItems4PageIndex:(int32_t)index {
-    NSNumber *typeId = [self.mapInfo objectForKey:@"typeId"];
-    NSNumber *gradId = [self.mapInfo objectForKey:@"gradeId"];
     MEVideoClassVM *vm = [[MEVideoClassVM alloc] init];
     MEPBRes *res = [[MEPBRes alloc] init];
-    [res setResTypeId:typeId.unsignedIntegerValue];
-    [res setGradeId:gradId.unsignedLongLongValue];
+    NSString *keyword = [self.params pb_stringForKey:@"keyword"];
+    if (keyword.length > 0) {
+        res.title = keyword;
+    } else {
+        NSNumber *typeId = [self.params objectForKey:@"typeId"];
+        NSNumber *gradId = [self.params objectForKey:@"gradeId"];
+        [res setResTypeId:typeId.unsignedIntegerValue];
+        [res setGradeId:gradId.unsignedLongLongValue];
+    }
     weakify(self)
-    [vm postData:[res data] pageSize:ME_PAGING_SIZE pageIndex:index hudEnable:true success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
+    [vm postData:[res data] pageSize:ME_PAGING_SIZE pageIndex:index hudEnable:true success:^(NSData * _Nullable resObj, int32_t totalPages) {
         NSError *err;strongify(self)
         MEPBResList *list = [MEPBResList parseFromData:resObj error:&err];
         if (err) {
@@ -119,7 +127,7 @@
             if (index == 1) {
                 [self.dataSource removeAllObjects];
             }
-            NSLog(@"total pages:%zd", totalPages);
+            NSLog(@"total pages:%d", totalPages);
             self.totalPages = totalPages;
             self.currentPageIndex = index;
             [self.dataSource addObjectsFromArray:list.resPbArray.copy];
@@ -135,17 +143,23 @@
 
 - (void)adjustRefreshFooterState {
     self.whetherDidLoadData = true;
-    
+    [self.table.mj_footer endRefreshing];
+    //空数据
     if (self.dataSource.count == 0 || self.totalPages == 0 || self.currentPageIndex == 0) {
         [self.table reloadEmptyDataSet];
         [self.table.mj_footer removeFromSuperview];
         return;
     }
+    //不够一页数据
+    if (self.dataSource.count < ME_PAGING_SIZE) {
+        [self.table.mj_footer removeFromSuperview];
+        return;
+    }
+    //没有更多了
     if (self.currentPageIndex >= self.totalPages || (self.dataSource.count % 2 != 0)) {
         [self.table.mj_footer endRefreshingWithNoMoreData];
         return;
     }
-    [self.table.mj_footer endRefreshing];
 }
 
 #pragma mark --- lazy getter
@@ -215,13 +229,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSUInteger __row = [indexPath row];
+    //    NSUInteger __row = [indexPath row];
     CGFloat row_height = ME_INDEX_STORY_ITEM_HEIGHT;
     return row_height;
-//    if (__row == 0) {
-//        row_height = ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT;
-//    }
-//    return adoptValue(row_height);
+    //    if (__row == 0) {
+    //        row_height = ME_INDEX_CSTORY_ITEM_TITLE_HEIGHT;
+    //    }
+    //    return adoptValue(row_height);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -281,15 +295,5 @@
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

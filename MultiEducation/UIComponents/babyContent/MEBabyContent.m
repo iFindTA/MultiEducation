@@ -132,7 +132,7 @@
 - (void)getBabyNewsInfo {
     OsrInformationPb *pb = [[OsrInformationPb alloc] init];
     MENewsInfoVM *infoVM = [MENewsInfoVM vmWithPb: pb];
-    [infoVM postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
+    [infoVM postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, int32_t totalPages) {
         OsrInformationPbList *listPb = [OsrInformationPbList parseFromData: resObj error: nil];
         _pageIndex +=  ME_PAGING_SIZE;
         [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];        

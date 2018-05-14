@@ -135,7 +135,7 @@
     }];
 }
 
-- (void)postData:(NSData *)data pageSize:(int32_t)size pageIndex:(int32_t)index hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable, NSUInteger))success failure:(void (^)(NSError * _Nonnull))failure {
+- (void)postData:(NSData *)data pageSize:(int32_t)size pageIndex:(int32_t)index hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable, int32_t))success failure:(void (^)(NSError * _Nonnull))failure {
     MECarrierPB *carrier = [[MECarrierPB alloc] init];
     /**
      *  uuid for unique request

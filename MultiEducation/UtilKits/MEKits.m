@@ -467,6 +467,11 @@
 
 + (void)handleError:(NSError *)err {
     if (err) {
+        if (err.code >= 401 && err.code < 500) {
+            //用户未鉴权
+            [self.app passiveLogout:@"当前授权已过期，请重新登录！"];
+            return;
+        }
         NSDictionary *userInfo = [err userInfo];
         NSString *alertInfo = err.domain;
         if (userInfo && alertInfo.length == 0) {

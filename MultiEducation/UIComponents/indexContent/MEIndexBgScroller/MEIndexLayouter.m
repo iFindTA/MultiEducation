@@ -147,7 +147,7 @@
     }];
     return urls.copy;
 }
-
+/*
 - (NSArray*)bannerViewTitles:(YJBannerView *)bannerView {
     NSArray <MEPBRes *>*items = self.dataItem.topListArray;
     __block NSMutableArray *urls = [NSMutableArray arrayWithCapacity:0];
@@ -155,7 +155,7 @@
         [urls addObject:obj.title.copy];
     }];
     return urls.copy;
-}
+}//*/
 
 - (void)bannerView:(YJBannerView *)bannerView didSelectItemAtIndex:(NSInteger)index {
     NSArray <MEPBRes *>*items = self.dataItem.topListArray;
@@ -334,7 +334,7 @@
         //sectTitleScene.backgroundColor = [UIColor pb_randomColor];
         [self.layout addSubview:sectTitleScene];
         [sectTitleScene makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo((lastItem == nil)?subClasses.mas_bottom:lastItem.mas_bottom).offset(ME_LAYOUT_MARGIN);
+            make.top.equalTo((lastItem == nil)?subClasses.mas_bottom:lastItem.mas_bottom);
             make.left.right.equalTo(self.layout);
             make.height.equalTo(sectionHeight);
         }];
@@ -344,7 +344,7 @@
         sectTitleLab.text = type.title;
         [sectTitleScene addSubview:sectTitleLab];
         [sectTitleLab makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN*2, 0, ME_LAYOUT_MARGIN*2));
+            make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN));
         }];
         lastSection = sectTitleScene;
         //items
@@ -355,7 +355,7 @@
             MEPBRes *item = courseItems[j];
             NSUInteger __row_idx = j / numPerLine;NSUInteger __col_idx = j % numPerLine;
             NSUInteger offset_x = itemMargin + (itemWidth+itemDistance)*__col_idx;
-            NSUInteger offset_y = itemMargin + (itemHeight+ME_LAYOUT_MARGIN)*__row_idx;
+            NSUInteger offset_y = itemMargin + itemHeight*__row_idx;
             //NSLog(@"row:%d-------col:%d-=====offset_x:%zd======offset_y:%zd", __row_idx, __col_idx, offset_x, offset_y);
             MEBaseScene *itemScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
             itemScene.sectionTag = i;itemScene.tag = j;
@@ -397,7 +397,7 @@
     
     //adjust scroll layout
     [self.layout makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo((lastItem==nil)?lastSection.mas_bottom:lastItem.mas_bottom).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo((lastItem==nil)?lastSection.mas_bottom:lastItem.mas_bottom);
     }];
     //*/
 }
@@ -429,7 +429,7 @@
     //班级 根据小班/中班/大班 区分不同资源
     NSInteger gradeId = self.indexCode == 0 ? 0 : (self.indexCode + 2);
     NSDictionary *params = @{@"typeId":@(type.id_p), @"title":PBAvailableString(type.title), @"gradeId":@(gradeId)};
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MESubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [MEKits handleError:err];
 }

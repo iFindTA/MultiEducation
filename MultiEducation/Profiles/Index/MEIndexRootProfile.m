@@ -133,7 +133,7 @@
     [self.view addSubview:self.indexNavigationBar];
     [self.indexNavigationBar makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
-        make.height.equalTo(statusBarHeight+ME_HEIGHT_NAVIGATIONBAR);
+        make.height.equalTo(statusBarHeight+ME_HEIGHT_NAVIGATIONBAR+ME_LAYOUT_SUBBAR_HEIGHT);
     }];
     //背景滚动scroller
     BOOL whetherTourist = self.currentUser.isTourist;
@@ -192,6 +192,11 @@
         strongify(self)
         [self.appDelegate startIMServivesOnBgThread];
     }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.indexNavigationBar endSearchAction];
 }
 
 - (void)didReceiveMemoryWarning {
