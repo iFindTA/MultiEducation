@@ -429,7 +429,7 @@
     //班级 根据小班/中班/大班 区分不同资源
     NSInteger gradeId = self.indexCode == 0 ? 0 : (self.indexCode + 2);
     NSDictionary *params = @{@"typeId":@(type.id_p), @"title":PBAvailableString(type.title), @"gradeId":@(gradeId)};
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEIndexSubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MESubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [MEKits handleError:err];
 }

@@ -85,7 +85,7 @@
     MEHistoryVM *vm = [[MEHistoryVM alloc] init];
     MEPBRes *res = [[MEPBRes alloc] init];
     weakify(self)
-    [vm postData:[res data] pageSize:ME_PAGING_SIZE pageIndex:index hudEnable:true success:^(NSData * _Nullable resObj, NSUInteger totalPages) {
+    [vm postData:[res data] pageSize:ME_PAGING_SIZE pageIndex:index hudEnable:true success:^(NSData * _Nullable resObj, int32_t totalPages) {
         NSError *err;strongify(self)
         MEPBResList *list = [MEPBResList parseFromData:resObj error:&err];
         if (err) {

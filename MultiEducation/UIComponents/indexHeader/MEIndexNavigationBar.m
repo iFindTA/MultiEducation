@@ -6,12 +6,13 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "UIView+Utils.h"
 #import "MEIndexNavigationBar.h"
 
 static NSUInteger ME_INDEX_HEADER_FONT_MAX                     =   18;
 static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
-@interface MEIndexNavigationBar ()
+@interface MEIndexNavigationBar () <UISearchBarDelegate, UITextFieldDelegate>
 
 @property (nonatomic, copy) NSArray <NSString*>*barTitles;
 
@@ -22,6 +23,13 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
 @property (nonatomic, strong) MEBaseButton *noticeBtn;
 @property (nonatomic, strong) MEBaseButton *historyBtn;
+
+@property (nonatomic, strong) MEBaseScene *searchScene;
+@property (nonatomic, strong) MEBaseScene *itemScene;
+@property (nonatomic, strong) MEBaseImageView *searchIcon;
+@property (nonatomic, strong) UITextField *searchTFD;
+@property (nonatomic, strong) MEBaseButton *cancelBtn;
+@property (nonatomic, strong) MASConstraint *searchRightConstraint;
 
 @end
 
@@ -42,12 +50,32 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         self.currentSelectIndex = 0;
         self.barTitles = [NSArray arrayWithArray:titles];
         self.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        [self addSubview:self.searchScene];
+        [self addSubview:self.itemScene];
         [self __initIndexNavigationBarSubviews];
     }
     return self;
 }
 
 - (void)__initIndexNavigationBarSubviews {
+    //search bar
+    [self.searchScene addSubview:self.searchTFD];
+    [self.searchScene addSubview:self.cancelBtn];
+    [self updatePlaceholder:@"小蝌蚪找妈妈"];
+    CGFloat cancelSize = 50;
+    [self.searchTFD remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(self.searchScene);
+        make.right.equalTo(self.searchScene).priority(UILayoutPriorityDefaultHigh);
+        if (!self.searchRightConstraint) {
+            self.searchRightConstraint = make.right.equalTo(self).offset(-cancelSize-20).priority(UILayoutPriorityRequired);
+        }
+    }];
+    [self.searchRightConstraint deactivate];
+    [self.cancelBtn remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self.searchTFD);
+        make.left.equalTo(self.searchTFD.mas_right).offset(ME_LAYOUT_MARGIN);
+        make.width.equalTo(cancelSize);
+    }];
     //prepare
     [self.barTitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -57,9 +85,8 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         btn.titleLabel.font = font;
         [btn setTitleColor:textColor forState:UIControlStateNormal];
         [btn setTitle:obj forState:UIControlStateNormal];
-//        btn.backgroundColor = [UIColor pb_randomColor];
         [btn addTarget:self action:@selector(indexNavigationBarTitleItemTouchEvent:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:btn];
+        [self.itemScene addSubview:btn];
         [self.barItems addObject:btn];
     }];
     //历史
@@ -67,7 +94,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:icon forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(indexNavigationBarHistoryTouchEvent) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:btn];self.historyBtn = btn;
+    [self.itemScene addSubview:btn];self.historyBtn = btn;
 //    icon = [UIImage imageNamed:@"index_header_msg"];
 //    btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
 //    [btn setImage:icon forState:UIControlStateNormal];
@@ -84,7 +111,16 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+    [self.itemScene makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self);
+        make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
+    }];
+    [self.searchScene makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(ME_LAYOUT_MARGIN);
+        make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo(self.itemScene.mas_top);
+        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+    }];
     CGFloat start_x = ME_LAYOUT_MARGIN * 2;
     CGFloat right_offset = ME_LAYOUT_BOUNDARY + (ME_LAYOUT_ICON_HEIGHT+ME_LAYOUT_MARGIN) * 2;
     CGFloat allWidth = MESCREEN_WIDTH - start_x - right_offset;
@@ -92,16 +128,16 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     NSUInteger itemHeight = ME_HEIGHT_TABBAR * 0.5;
     [self.barItems enumerateObjectsUsingBlock:^(MEBaseButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(start_x + (itemWidth)*idx);
-            make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
+            make.left.equalTo(self.itemScene).offset(start_x + (itemWidth)*idx);
+            make.bottom.equalTo(self.itemScene).offset(-ME_LAYOUT_MARGIN);
             make.width.equalTo(itemWidth);
             make.height.equalTo(itemHeight);
         }];
     }];
     
     [self.historyBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).offset(-ME_LAYOUT_BOUNDARY);
-        make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
+        make.right.equalTo(self.itemScene).offset(-ME_LAYOUT_MARGIN);
+        make.bottom.equalTo(self.itemScene).offset(-ME_LAYOUT_MARGIN);
         make.width.height.equalTo(30);
     }];
 //    [self.noticeBtn makeConstraints:^(MASConstraintMaker *make) {
@@ -109,6 +145,15 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 //        make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
 //        make.width.height.equalTo(30);
 //    }];
+}
+
+- (void)updateMasconstraints:(BOOL)begin {
+    begin?[self.searchRightConstraint activate]:[self.searchRightConstraint deactivate];
+    [UIView animateWithDuration:ME_ANIMATION_DURATION animations:^{
+        [self layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 #pragma mark --- update state
@@ -168,6 +213,153 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
 - (NSArray *)indexNavigationBarTitles {
     return [NSArray arrayWithArray:self.barTitles];
+}
+
+- (MEBaseScene *)searchScene {
+    if (!_searchScene) {
+        _searchScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _searchScene.backgroundColor = [UIColor clearColor];
+    }
+    return _searchScene;
+}
+
+- (MEBaseScene *)itemScene {
+    if (!_itemScene) {
+        _itemScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _itemScene.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+    }
+    return _itemScene;
+}
+
+//- (UISearchBar *)searchBar {
+//    if (!_searchBar) {
+//        UIFont *font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
+//        UIColor *fontColor = [UIColor whiteColor];
+//        _searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+//        _searchBar.delegate = self;
+//        _searchBar.translucent = true;
+//        //字体颜色
+//        _searchBar.tintColor = fontColor;
+//        _searchBar.barTintColor = fontColor;
+//        //设置背景图是为了去掉上下黑线
+//        _searchBar.backgroundImage = [[UIImage alloc] init];
+//        // 设置SearchBar的颜色主题为白色
+//        _searchBar.placeholder = @"小蝌蚪找妈妈";
+//        _searchBar.barStyle = UISearchBarStyleDefault;
+//        UIImage *bgImage = [UIImage imageNamed:@"search_bar_bg"];
+//        [_searchBar setSearchFieldBackgroundImage:bgImage forState:UIControlStateNormal];
+//        UIImage *icon = [UIImage imageNamed:@"search_bar_magnifier"];
+//        [_searchBar setImage:icon forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+//        [_searchBar setSearchTextPositionAdjustment:UIOffsetMake(ME_LAYOUT_MARGIN, 0)];
+//        UIView *view = [_searchBar valueForKey:@"searchField"];
+//        if (view) {
+//            UITextField *tfd = (UITextField*)view;
+//            tfd.font = font;
+//            tfd.textColor = fontColor;
+//        }
+//    }
+//    return _searchBar;
+//}
+
+- (UIView *)leftView {
+    CGRect bounds = CGRectMake(0, 0, ME_LAYOUT_ICON_HEIGHT, ME_LAYOUT_ICON_HEIGHT);
+    UIView *left = [[UIView alloc] initWithFrame:bounds];
+    UIImage *icon = [UIImage imageNamed:@"search_bar_magnifier"];
+    UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
+    [left addSubview:iconView];
+    [iconView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(left.mas_centerX);
+        make.centerY.equalTo(left.mas_centerY);
+    }];
+    return left;
+}
+
+- (UITextField *)searchTFD {
+    if (!_searchTFD) {
+        UIFont *font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
+        UIColor *fontColor = [UIColor whiteColor];
+        _searchTFD = [[UITextField alloc] initWithFrame:CGRectZero];
+        _searchTFD.backgroundColor = UIColorFromRGB(0x4A8AD0);
+        _searchTFD.returnKeyType = UIReturnKeySearch;
+        _searchTFD.delegate = self;
+        _searchTFD.font = font;
+        _searchTFD.textColor = fontColor;
+        _searchTFD.tintColor = fontColor;
+        _searchTFD.leftView = [self leftView];
+        _searchTFD.leftViewMode = UITextFieldViewModeAlways;
+        _searchTFD.clearButtonMode = UITextFieldViewModeWhileEditing;
+        _searchTFD.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        _searchTFD.layer.masksToBounds = true;
+        [_searchTFD addTarget:self action:@selector(textDidChangeInput:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _searchTFD;
+}
+
+- (MEBaseButton *)cancelBtn {
+    if (!_cancelBtn) {
+        UIColor *textColor = [UIColor whiteColor];
+        _cancelBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        _cancelBtn.backgroundColor = [UIColor clearColor];
+        _cancelBtn.titleLabel.font = UIFontPingFangSC(METHEME_FONT_TITLE);
+        [_cancelBtn setTitleColor:textColor forState:UIControlStateNormal];
+        [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [_cancelBtn addTarget:self action:@selector(endSearchAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _cancelBtn;
+}
+
+#pragma mark --- User Interface Actions
+
+- (void)updatePlaceholder:(NSString *)p {
+    //placeholder
+    UIFont *font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
+    UIColor *fontColor = [UIColor whiteColor];
+    NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:p];
+    [placeholder addAttribute:NSForegroundColorAttributeName
+                        value:fontColor
+                        range:NSMakeRange(0, p.length)];
+    [placeholder addAttribute:NSFontAttributeName
+                        value:font
+                        range:NSMakeRange(0, p.length)];
+    self.searchTFD.attributedPlaceholder = placeholder;
+}
+
+- (void)endSearchAction {
+    self.searchTFD.text = nil;
+    [self.searchTFD endEditing:true];
+}
+
+#pragma mark --- UITextField Delegate
+//TODO:获取焦点应：弹出搜索历史，覆盖页面， 收起tabBar
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self updateMasconstraints:true];
+    return true;
+}
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    [self updateMasconstraints:false];
+    return true;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSString *keyword = textField.text;
+    if (keyword.length == 0) {
+        return false;
+    }
+    NSDictionary *params = NSDictionaryOfVariableBindings(keyword);
+    NSString *urlString = @"profile://root@MESubClassProfile";
+    NSError *error = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
+    [MEKits handleError:error];
+    
+    return true;
+}
+
+- (void)textDidChangeInput:(UITextField *)tfd {
+    if (tfd == self.searchTFD) {
+        if (tfd.text.length > 20) {
+            tfd.text = [tfd.text substringToIndex:20];
+        }
+    }
 }
 
 /*

@@ -9,4 +9,5 @@
 @interface UIView (Utils)
 
 - (UIView *)subViewOfClassName:(NSString *)className;
+
 @end
