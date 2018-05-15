@@ -292,12 +292,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //[self setNeedsStatusBarAppearanceUpdate];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -428,7 +426,7 @@
             }
             BOOL shouldGoback = [self.params pb_boolForKey:ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN];
             if (shouldGoback) {
-                [self backStackBeforeClass:NSClassFromString(@"MESignInProfile")];
+                [self backStackBeforeClass:NSClassFromString(ME_USER_SIGNIN_PROFILE)];
             } else {
                 [self splash2ChangeDisplayStyle:MEDisplayStyleMainSence];
             }

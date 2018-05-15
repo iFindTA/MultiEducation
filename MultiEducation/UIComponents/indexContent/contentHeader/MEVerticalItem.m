@@ -54,6 +54,7 @@
 - (UIImageView *)icon {
     if (!_icon) {
         _icon = [[UIImageView alloc] initWithFrame:CGRectZero];
+        _icon.contentMode = UIViewContentModeScaleAspectFit;
         _icon.userInteractionEnabled = true;
     }
     return _icon;

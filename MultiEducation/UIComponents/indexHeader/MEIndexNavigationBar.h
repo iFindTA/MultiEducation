@@ -28,9 +28,12 @@ typedef NS_ENUM(NSUInteger, MEIndexNavigationType) {
 @property (nonatomic, copy) void(^indexNavigationBarOtherCallback)(MEIndexNavigationType type);
 @property (nonatomic, copy) void(^searchCallback)(BOOL first, NSString *_Nullable keyword);
 
-+ (instancetype)indexNavigationBarWithTitles:(NSArray<NSString *>*)titles;
++ (instancetype)indexNavigationBarWithTitles:(NSArray<NSDictionary *>*)titles;
 
-- (NSArray *)indexNavigationBarTitles;
+/**
+ 导航菜单codes
+ */
+- (NSArray<NSString *>*)indexBarCodes;
 
 - (void)scrollDidScroll2Page:(NSUInteger)page;
 

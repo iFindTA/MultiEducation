@@ -13,10 +13,8 @@
 
 /**
  类方法 init
- 
- @param bar 弱引用navigationBar
  */
-+ (instancetype)sceneWithSubNavigationBar:(MEIndexNavigationBar *)bar;
++ (instancetype)sceneWithSubBar:(MEIndexNavigationBar *)bar;
 
 /**
  切换当前类别

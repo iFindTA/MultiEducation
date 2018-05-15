@@ -178,7 +178,6 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     if (!self.currentClass && !self.whetherDidLoadData) {
         [self preDealWithMulticastClasses];
     } else {
@@ -188,8 +187,11 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self stopPlay];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -54,6 +54,9 @@ typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
   MEPBIndexItem_FieldNumber_TopListArray = 1,
   MEPBIndexItem_FieldNumber_ResTypeListArray = 2,
   MEPBIndexItem_FieldNumber_RecommendTypeListArray = 3,
+  MEPBIndexItem_FieldNumber_Title = 4,
+  MEPBIndexItem_FieldNumber_Code = 5,
+  MEPBIndexItem_FieldNumber_TmpType = 6,
 };
 
 @interface MEPBIndexItem : GPBMessage
@@ -73,13 +76,22 @@ typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
 /** The number of items in @c recommendTypeListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger recommendTypeListArray_Count;
 
+/** 主分类名称 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *title;
+
+/** 主分类唯一code */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *code;
+
+/** 子分类类型 1:方形 2:圆形 3:左右 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *tmpType;
+
 @end
 
 #pragma mark - MEPBIndexClass
 
 typedef GPB_ENUM(MEPBIndexClass_FieldNumber) {
   MEPBIndexClass_FieldNumber_CatsArray = 1,
-  MEPBIndexClass_FieldNumber_Index = 2,
+  MEPBIndexClass_FieldNumber_Keyword = 2,
 };
 
 @interface MEPBIndexClass : GPBMessage
@@ -89,8 +101,8 @@ typedef GPB_ENUM(MEPBIndexClass_FieldNumber) {
 /** The number of items in @c catsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger catsArray_Count;
 
-/** tab的index */
-@property(nonatomic, readwrite) int32_t index;
+/** 搜索关键字 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *keyword;
 
 @end
 

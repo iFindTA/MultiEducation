@@ -11,8 +11,8 @@
 
 #if DEBUG
 #define ME_APP_ENV                                                      @"dev"
-//#define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
-#define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
+#define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
+//#define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
 #define ME_WEB_SERVER_HOST                                              @"http://ost.x16.com/open/res"
 #define ME_CORDOVA_SERVER_HOST                                          @"http://v2.api.x16.com:443"
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
@@ -81,7 +81,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define QRCODE_URL @"http://app.chinaxqjy.com"
 
-
+#define ME_USER_SIGNIN_PROFILE                                              @"MELoginProfile"//用户授权界面
 #define ME_SIGNIN_DID_SHOW_VISITOR_FUNC                                     @"ME_SIGNIN_DID_SHOW_VISITOR_FUNC"//登录界面显示随便逛逛
 #define ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN                           @"ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN"//登录成功后是否返回 是则返回 否则跳转主界面
 #define ME_DISPATCH_KEY_CALLBEFORE                                          @"ME_DISPATCH_KEY_CALLBEFORE"//登录前执行

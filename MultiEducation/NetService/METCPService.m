@@ -171,7 +171,7 @@ static METCPService *instance = nil;
                     NSString *msg = @"您的多元幼教账号在其他设备上登录，如果这不是您的操作，您的密码有可能已泄露，请重新登录后修改密码。";
                     //self.accountKickoutCallback(true, msg);
                     
-                    NSString *routeUrlString = @"kickout://root@MESignInProfile/";
+                    NSString *routeUrlString = PBFormat(@"kickout://root@%@/", ME_USER_SIGNIN_PROFILE);
                     NSDictionary *param = @{@"alert":msg};
                     [MEDispatcher openURL:[NSURL URLWithString:routeUrlString] withParams:param];
                 }

@@ -43,7 +43,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //self.sj_fadeAreaViews = @[self.webView];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.sj_fadeAreaViews = @[self.webView];
     /*
     [self.view addSubview:self.navigationBar];
     [self.navigationBar addSubview:self.progressView];
@@ -116,7 +117,7 @@
 }
 
 - (UIStatusBarStyle) preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark --- lazy loader

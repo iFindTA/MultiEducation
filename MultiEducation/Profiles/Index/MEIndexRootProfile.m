@@ -31,6 +31,11 @@
 @property (nonatomic, strong) MEIndexNavigationBar *indexNavigationBar;
 @property (nonatomic, strong) MEIndexBgScroller *bgScroller;
 
+/**
+ 首页数据源
+ */
+@property (nonatomic, strong) MEPBIndexClass *indexDataSource;
+
 @end
 
 @implementation MEIndexRootProfile
@@ -126,9 +131,142 @@
     //*/
     
     //code layout
-    //头部导航条 第一版先写死
+    
+    //更新Cordova资源包
+    [self updateOnlineCordovaResource];
+    [self.appDelegate updateRongIMUnReadMessageCounts];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if (self.indexDataSource == nil) {
+        [self fetchIndexRemoteData];
+    } else {
+        //默认加载
+        [self.bgScroller displayDefaultClass];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    weakify(self)
+    [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
+        strongify(self)
+        [self.appDelegate startIMServivesOnBgThread];
+    }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.indexNavigationBar endSearchAction];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark --- fetch Index Datas
+
+#define ME_INDEX_TAB_CACHE_PATH             @"cache/index"
+
+- (NSString *)storageFileName {
+    return @"index_sub_bar.bat";
+}
+
+- (NSData *_Nullable)fetchIndexCacheLocalStorage {
+    NSString *rootPath = [MEKits sandboxPath];
+    NSString *fileName = [self storageFileName];
+    NSString *dir = [rootPath stringByAppendingPathComponent:ME_INDEX_TAB_CACHE_PATH];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [dir stringByAppendingPathComponent:fileName];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        NSData *data = [NSData dataWithContentsOfFile:filePath];
+        return data;
+    }
+    return nil;
+}
+
+- (BOOL)saveIndexCacheData2LocalStorage:(NSData *)data {
+    if (!data) {
+        NSLog(@"got an empty data!");
+        return false;
+    }
+    NSString *rootPath = [MEKits sandboxPath];
+    NSString *dir = [rootPath stringByAppendingPathComponent:ME_INDEX_TAB_CACHE_PATH];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:dir]) {
+        [fileManager createDirectoryAtPath:dir withIntermediateDirectories:true attributes:nil error:nil];
+    }
+    NSString *fileName = [self storageFileName];
+    NSString *filePath = [dir stringByAppendingPathComponent:fileName];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        [fileManager removeItemAtPath:filePath error:nil];
+    }
+    
+    return [data writeToFile:filePath atomically:true];
+}
+
+- (void)fetchIndexRemoteData {
+    MEIndexVM *vm = [[MEIndexVM alloc] init];
+    weakify(self)
+    [vm postData:[NSData data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEPBIndexClass *index = [MEPBIndexClass parseFromData:resObj error:&err];
+        if (err != nil) {
+            [MEKits handleError:err];
+            [self displayDefaultIndexTab];
+            return;
+        }
+        self.indexDataSource = index;
+        //save to local storage
+        [self saveIndexCacheData2LocalStorage:resObj];
+        //reload ui
+        [self renderIndexSubviewsUI];
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
+        [self displayDefaultIndexTab];
+    }];
+}
+
+/**
+ 数据加载错误 则显示bundle资源
+ */
+- (void)displayDefaultIndexTab {
+    NSData *local = [self fetchIndexCacheLocalStorage];
+    if (local == nil) {
+        //load bundle data
+        NSString *file = [[NSBundle mainBundle] pathForResource:@"index_sub_bar" ofType:@"bat"];
+        local = [NSData dataWithContentsOfFile:file];
+    }
+    NSError *err;
+    MEPBIndexClass *index = [MEPBIndexClass parseFromData:local error:&err];
+    if (err != nil) {
+        [MEKits handleError:err];
+        return;
+    }
+    self.indexDataSource = index;
+    //reload ui
+    [self renderIndexSubviewsUI];
+}
+
+- (void)renderIndexSubviewsUI {
+    //prepare sub bar data
+    NSMutableArray *datas = [NSMutableArray arrayWithCapacity:0];
+    NSArray<MEPBIndexItem*> *cats = self.indexDataSource.catsArray.copy;
+    for (MEPBIndexItem *item in cats) {
+        NSString *title = PBAvailableString(item.title);
+        NSString *code = PBAvailableString(item.code);
+        NSDictionary *map = NSDictionaryOfVariableBindings(title, code);
+        [datas addObject:map];
+    }
+    //头部导航条
     NSUInteger statusBarHeight = [MEKits statusBarHeight];
-    NSArray *items = @[@"精选", @"小班", @"中班", @"大班"];
+    NSArray *items = datas.copy;
     self.indexNavigationBar = [MEIndexNavigationBar indexNavigationBarWithTitles:items];
     [self.view addSubview:self.indexNavigationBar];
     [self.indexNavigationBar makeConstraints:^(MASConstraintMaker *make) {
@@ -137,7 +275,7 @@
     }];
     //背景滚动scroller
     BOOL whetherTourist = self.currentUser.isTourist;
-    self.bgScroller = [MEIndexBgScroller sceneWithSubNavigationBar:self.indexNavigationBar];
+    self.bgScroller = [MEIndexBgScroller sceneWithSubBar:self.indexNavigationBar];
     [self.view addSubview:self.bgScroller];
     [self.bgScroller makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.indexNavigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
@@ -174,36 +312,10 @@
             make.size.equalTo(CGSizeMake(itemSize, itemSize));
         }];
     }
-    //更新Cordova资源包
-    [self updateOnlineCordovaResource];
-    [self.appDelegate updateRongIMUnReadMessageCounts];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    //显示默认加载
+    //默认搜索
+    [self.indexNavigationBar updatePlaceholder:self.indexDataSource.keyword];
+    //默认加载
     [self.bgScroller displayDefaultClass];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    weakify(self)
-    [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
-        strongify(self)
-        [self.appDelegate startIMServivesOnBgThread];
-    }];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self.indexNavigationBar endSearchAction];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark --- History & Notice
@@ -234,7 +346,7 @@
 - (void)guideTouristGotoSignTouchEvent {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
-    NSString *routeUrlString = @"profile://root@MESignInProfile/__initWithParams:";
+    NSString *routeUrlString = PBFormat(@"profile://root@%@/__initWithParams:", ME_USER_SIGNIN_PROFILE);
     NSError *err = [MEDispatcher openURL:[NSURL URLWithString:routeUrlString] withParams:params];
     [MEKits handleError:err];
 }

@@ -10,4 +10,8 @@
 
 @implementation MEIndexItemVM
 
+- (NSString *)cmdCode {
+    return @"OSR_INDEX_ITEM_GET";
+}
+
 @end

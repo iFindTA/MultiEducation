@@ -9,6 +9,7 @@
 #import "MEUserVM.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "MELoginProfile.h"
 #import "MESignInProfile.h"
 #import "MEBaseTabBarProfile.h"
 #import "MEBaseNavigationProfile.h"
@@ -48,6 +49,8 @@
 #endif
     //configure for base host
     [PBService configBaseURL:ME_APP_BASE_HOST];
+    //for input
+    [IQKeyboardManager sharedManager].enable = true;
     //create user
     //init root navigation profile
     //BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
@@ -239,7 +242,8 @@
         destProfile = profile;
     } else {
         //当前没有可用的user 需要用户重新登录授权
-        MESignInProfile *profile = [[MESignInProfile alloc] init];
+        //MESignInProfile *profile = [[MESignInProfile alloc] init];
+        MELoginProfile *profile = [[MELoginProfile alloc] init];
         destProfile = profile;
     }
     
@@ -307,8 +311,6 @@
  start services on background-thread
  */
 - (void)startServicesOnBackgroundThread {
-    //for input
-    [IQKeyboardManager sharedManager].enable = true;
     //for chinese-policy
     [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
         

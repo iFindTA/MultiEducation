@@ -6,9 +6,12 @@ message MEPBIndexItem {
 	repeated MEPBRes topList = 1;//首页轮播视频
 	repeated MEPBResType resTypeList = 2;//子分类
 	repeated MEPBResType recommendTypeList = 3;//推荐列表
+	string title = 4;//主分类名称
+	string code = 5;//主分类唯一code
+	string tmpType = 6;//子分类类型 1:方形 2:圆形 3:左右
 }
 
 message MEPBIndexClass {
 	repeated MEPBIndexItem cats = 1;//类别
-	int32 index = 2;//tab的index
+	string keyword = 2;//搜索关键字
 }

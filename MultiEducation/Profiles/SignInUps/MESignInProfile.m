@@ -313,13 +313,11 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     //[self setNeedsStatusBarAppearanceUpdate];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [self runCallbackBeforeSignin];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {

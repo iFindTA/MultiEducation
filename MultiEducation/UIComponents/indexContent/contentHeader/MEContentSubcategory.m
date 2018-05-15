@@ -35,7 +35,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
     if (self) {
         self.subClasses = [NSArray arrayWithArray:cls];
         [self __initSubCategoryItems];
-        //self.backgroundColor = [UIColor blueColor];
+//        self.backgroundColor = [UIColor blueColor];
     }
     return self;
 }
@@ -46,7 +46,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
     [self.subClasses enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *title = obj[@"title"];NSString *img = obj[@"img"];
         MEVerticalItem *btn = [MEVerticalItem itemWithTitle:title imageURL:img];
-        //btn.backgroundColor = [UIColor pb_randomColor];
+//        btn.backgroundColor = [UIColor pb_randomColor];
         btn.tag = idx;
         [self addSubview:btn];
         [self.subItems addObject:btn];
@@ -58,7 +58,28 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
         };
     }];
     
-    [self layoutIfNeeded];
+    NSUInteger itemCountPerLine = [self numbersPerline];
+    NSUInteger itemDistance = [self itemDistance];
+    NSUInteger margin = ME_LAYOUT_BOUNDARY;
+    if (itemCountPerLine == ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE) {
+        margin = ME_LAYOUT_MARGIN;
+    }
+    MEVerticalItem *lastItem = nil;
+    NSUInteger itemWidth = ceil((MESCREEN_WIDTH-margin*2-(itemCountPerLine-1)*itemDistance)/itemCountPerLine);
+    for ( MEVerticalItem *btn in self.subItems) {
+        NSUInteger idx = btn.tag;
+        NSUInteger offset_x = margin + (idx % itemCountPerLine) * (itemWidth+itemDistance);
+        NSUInteger offset_y = ME_LAYOUT_BOUNDARY + (ME_SUBCATEGORY_ITEM_HEIGHT + ME_LAYOUT_MARGIN*2) * (idx / itemCountPerLine);
+        [btn makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(offset_x);
+            make.top.equalTo(self).offset(offset_y);
+            make.size.equalTo(CGSizeMake(itemWidth, ME_SUBCATEGORY_ITEM_HEIGHT));
+        }];
+        lastItem = btn;
+    }
+    [lastItem makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
+    }];
 }
 
 - (NSMutableArray<MEVerticalItem*>*)subItems {
@@ -85,24 +106,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
 - (void)layoutSubviews {
     [super layoutSubviews];
     //__block MEVerticalItem *lastBtn;
-    NSUInteger itemCountPerLine = [self numbersPerline];
-    NSUInteger itemDistance = [self itemDistance];
-    NSUInteger margin = ME_LAYOUT_BOUNDARY;
-    if (itemCountPerLine == ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE) {
-        margin = ME_LAYOUT_MARGIN;
-    }
     
-    NSUInteger itemWidth = ceil((MESCREEN_WIDTH-margin*2-(itemCountPerLine-1)*itemDistance)/itemCountPerLine);
-    for ( MEVerticalItem *btn in self.subItems) {
-        NSUInteger idx = btn.tag;
-        NSUInteger offset_x = margin + (idx % itemCountPerLine) * (itemWidth+itemDistance);
-        NSUInteger offset_y = ME_LAYOUT_BOUNDARY + (ME_SUBCATEGORY_ITEM_HEIGHT + ME_LAYOUT_MARGIN*2) * (idx / itemCountPerLine);
-        [btn makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(offset_x);
-            make.top.equalTo(self).offset(offset_y);
-            make.size.equalTo(CGSizeMake(itemWidth, ME_SUBCATEGORY_ITEM_HEIGHT));
-        }];
-    }
 }
 
 + (NSUInteger)subcategoryClassPanelHeight4Classes:(NSArray *)cls {

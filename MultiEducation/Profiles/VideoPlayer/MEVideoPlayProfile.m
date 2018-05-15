@@ -651,7 +651,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
             [params setObject:[likeCallback copy] forKey:ME_DISPATCH_KEY_CALLBACK];
             [params setObject:[NSNumber numberWithBool:false] forKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
-            NSString *routeUrlString = @"profile://root@MESignInProfile/__initWithParams:";
+            NSString *routeUrlString = PBFormat(@"profile://root@%@/__initWithParams:", ME_USER_SIGNIN_PROFILE);
             NSError *err = [MEDispatcher openURL:[NSURL URLWithString:routeUrlString] withParams:params];
             [MEKits handleError:err];
             return;

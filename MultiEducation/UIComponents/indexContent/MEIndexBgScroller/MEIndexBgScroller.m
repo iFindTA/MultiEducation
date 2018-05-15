@@ -11,7 +11,7 @@
 
 @interface MEIndexBgScroller () <UIScrollViewDelegate>
 
-@property (nonatomic, weak) MEIndexNavigationBar *subNavigationBar;
+@property (nonatomic, weak) MEIndexNavigationBar *subBar;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 /**
@@ -29,15 +29,15 @@
 
 @implementation MEIndexBgScroller
 
-+ (instancetype)sceneWithSubNavigationBar:(MEIndexNavigationBar *)bar {
-    MEIndexBgScroller *scene = [[MEIndexBgScroller alloc] initWithFrame:CGRectZero subNavigationBar:bar];
++ (instancetype)sceneWithSubBar:(MEIndexNavigationBar *)bar {
+    MEIndexBgScroller *scene = [[MEIndexBgScroller alloc] initWithFrame:CGRectZero subBar:bar];
     return scene;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame subNavigationBar:(MEIndexNavigationBar *)bar {
+- (instancetype)initWithFrame:(CGRect)frame subBar:(MEIndexNavigationBar *)bar {
     self = [super initWithFrame:frame];
     if (self) {
-        self.subNavigationBar = bar;
+        self.subBar = bar;
         [self __initSubviews];
     }
     return self;
@@ -50,14 +50,15 @@
     
     [self.scrollView addSubview:self.scrollLayout];
     
-    NSArray <NSString *>*subTitles = [self.subNavigationBar indexNavigationBarTitles];
-    NSAssert(subTitles.count > 0, @"can not initialized classes scene with empty titles");
-    NSUInteger subCounts = subTitles.count;
+    NSArray <NSString *>*subCodes = self.subBar.indexBarCodes;
+    NSAssert(subCodes.count > 0, @"can not initialized classes scene with empty titles");
+    NSUInteger subCounts = subCodes.count;
     //initialized sub contents
     NSUInteger width = MESCREEN_WIDTH;
     MEIndexLayouter *lastContent = nil;[self.contentScenes removeAllObjects];
-    for (int i = 0; i < subCounts; i ++) {
-        MEIndexLayouter *content = [[MEIndexLayouter alloc] initWithFrame:CGRectZero reqCode:i];
+    for (int i = 0; i < subCounts; i++) {
+        NSString *code = subCodes[i];
+        MEIndexLayouter *content = [[MEIndexLayouter alloc] initWithFrame:CGRectZero reqCode:code];
         //content.backgroundColor = [UIColor pb_randomColor];
         [self.scrollLayout addSubview:content];
         [self.contentScenes addObject:content];
@@ -151,7 +152,7 @@
 
 - (void)scrollViewDidtrigger {
     NSUInteger curPage = [self currntPageIdx];
-    [self.subNavigationBar scrollDidScroll2Page:curPage];
+    [self.subBar scrollDidScroll2Page:curPage];
     if (curPage != self.lastSceneIndex) {
         self.lastSceneIndex = curPage;
         [self configureContentScene4Page:curPage];

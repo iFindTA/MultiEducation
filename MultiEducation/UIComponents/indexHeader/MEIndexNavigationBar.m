@@ -9,13 +9,13 @@
 #import "UIView+Utils.h"
 #import "MEIndexNavigationBar.h"
 
-static NSUInteger ME_INDEX_HEADER_FONT_MAX                     =   18;
+static NSUInteger ME_INDEX_HEADER_FONT_MAX                     =   16;
 static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 #define INDEX_SEARCH_TINTCOLOR                                  0xCCCCCC
 
 @interface MEIndexNavigationBar () <UISearchBarDelegate, UITextFieldDelegate>
 
-@property (nonatomic, copy) NSArray <NSString*>*barTitles;
+@property (nonatomic, copy) NSArray <NSDictionary*>*barTitles;
 
 @property (nonatomic, strong) UIFont *selectFont, *normalFont;
 @property (nonatomic, strong) UIColor *selectColor, *normalColor;
@@ -37,12 +37,12 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
 @implementation MEIndexNavigationBar
 
-+ (instancetype)indexNavigationBarWithTitles:(NSArray<NSString *> *)titles {
++ (instancetype)indexNavigationBarWithTitles:(NSArray<NSDictionary *> *)titles {
     MEIndexNavigationBar *bar = [[MEIndexNavigationBar alloc] initWithFrame:CGRectZero titles:titles];
     return bar;
 }
 
-- (id)initWithFrame:(CGRect)frame titles:(NSArray<NSString*>*)titles {
+- (id)initWithFrame:(CGRect)frame titles:(NSArray<NSDictionary*>*)titles {
     self = [super initWithFrame:frame];
     if (self) {
         self.selectFont = UIFontPingFangSCBold(ME_INDEX_HEADER_FONT_MAX);
@@ -78,14 +78,15 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         make.width.equalTo(cancelSize);
     }];
     //prepare
-    [self.barTitles enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.barTitles enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *title = [obj pb_stringForKey:@"title"];
         MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
         btn.tag = idx;
         UIFont *font = (idx == self.currentSelectIndex)?self.selectFont:self.normalFont;
         UIColor *textColor = (idx == self.currentSelectIndex)?self.selectColor:self.normalColor;
         btn.titleLabel.font = font;
         [btn setTitleColor:textColor forState:UIControlStateNormal];
-        [btn setTitle:obj forState:UIControlStateNormal];
+        [btn setTitle:title forState:UIControlStateNormal];
         [btn addTarget:self action:@selector(indexNavigationBarTitleItemTouchEvent:) forControlEvents:UIControlEventTouchUpInside];
         [self.itemScene addSubview:btn];
         [self.barItems addObject:btn];
@@ -243,6 +244,15 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
 - (NSArray *)indexNavigationBarTitles {
     return [NSArray arrayWithArray:self.barTitles];
+}
+
+- (NSArray<NSString*>*)indexBarCodes {
+    NSMutableArray *codes = [NSMutableArray arrayWithCapacity:0];
+    for (NSDictionary *m in self.barTitles) {
+        NSString *code = [m pb_stringForKey:@"code"];
+        [codes addObject:code];
+    }
+    return codes.copy;
 }
 
 - (MEBaseScene *)flagScene {

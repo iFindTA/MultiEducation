@@ -7,6 +7,8 @@
 //
 
 #import "MEVM.h"
+#import "Meres.pbobjc.h"
+#import "Meindex.pbobjc.h"
 
 @interface MEIndexItemVM : MEVM
 

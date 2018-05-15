@@ -62,8 +62,6 @@
     [IQKeyboardManager sharedManager].enable = false;
     [IQKeyboardManager sharedManager].enableAutoToolbar = false;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
-    
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

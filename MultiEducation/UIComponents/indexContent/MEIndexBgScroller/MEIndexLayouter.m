@@ -6,7 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MEIndexVM.h"
+#import "MEIndexItemVM.h"
 #import "MEIndexLayouter.h"
 #import <MJRefresh/MJRefresh.h>
 #import "MEContentSubcategory.h"
@@ -15,7 +15,7 @@
 
 @interface MEIndexLayouter () <UIScrollViewDelegate, YJBannerViewDelegate, YJBannerViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
-@property (nonatomic, assign) int32_t indexCode;
+@property (nonatomic, copy) NSString *indexCode;
 
 @property (nonatomic, strong) MEPBIndexItem *dataItem;
 @property (nonatomic, strong) UIScrollView *scroller;
@@ -27,7 +27,7 @@
 
 @implementation MEIndexLayouter
 
-- (id)initWithFrame:(CGRect)frame reqCode:(int32_t)code {
+- (id)initWithFrame:(CGRect)frame reqCode:(NSString *)code {
     self = [super initWithFrame:frame];
     if (self) {
         _indexCode = code;
@@ -171,7 +171,7 @@
 #define ME_INDEX_TAB_CACHE_PATH             @"cache/index"
 
 - (NSString *)storageFileName {
-    return PBFormat(@"indexLayout_%d.bat", self.indexCode);
+    return PBFormat(@"indexLayout_%@.bat", self.indexCode);
 }
 
 - (NSData *_Nullable)fetchIndexCacheLocalStorage {
@@ -234,22 +234,21 @@
 
 - (void)reloadIndexItemData {
     //[self showIndecator];
-    MEPBIndexClass *indexTab = [[MEPBIndexClass alloc] init];
-    indexTab.index = self.indexCode;
-    MEIndexVM *vm = [[MEIndexVM alloc] init];
+    MEPBIndexItem *item = [[MEPBIndexItem alloc] init];
+    item.code = self.indexCode;
+    MEIndexItemVM *vm = [[MEIndexItemVM alloc] init];
     weakify(self)
-    [vm postData:[indexTab data] hudEnable:false success:^(NSData * _Nullable resObj) {
+    [vm postData:[item data] hudEnable:false success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
-        MEPBIndexClass *classes = [MEPBIndexClass parseFromData:resObj error:&err];
+        MEPBIndexItem *newItem = [MEPBIndexItem parseFromData:resObj error:&err];
         if (err) {
             [MEKits handleError:err];
             [self displayErrorWhhileDataEmpty];
         } else {
-            MEPBIndexItem *item = classes.catsArray[self.indexCode];
-            self.dataItem = item;
+            self.dataItem = newItem;
             [self rebuildIndexLayoutUI];
             //save to local storage
-            NSData *binary = [item data];
+            NSData *binary = [newItem data];
             [self saveIndexCacheData2LocalStorage:binary];
         }
         //[self hiddenIndecator];
@@ -309,7 +308,7 @@
         make.top.equalTo(self.banner.mas_bottom).offset(ME_LAYOUT_MARGIN);
         make.left.equalTo(self.layout);
         make.right.equalTo(self.layout);
-        make.height.equalTo(subClassHeight);
+        //make.height.equalTo(subClassHeight);
     }];
     weakify(self)
     subClasses.subClassesCallback = ^(NSUInteger tag){
@@ -428,8 +427,7 @@
     NSArray <MEPBResType*>*classes = self.dataItem.resTypeListArray.copy;
     MEPBResType *type = classes[tag];
     //班级 根据小班/中班/大班 区分不同资源
-    NSInteger gradeId = self.indexCode == 0 ? 0 : (self.indexCode + 2);
-    NSDictionary *params = @{@"typeId":@(type.id_p), @"title":PBAvailableString(type.title), @"gradeId":@(gradeId)};
+    NSDictionary *params = @{@"typeId":@(type.id_p), @"title":PBAvailableString(type.title)};
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MESubClassProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [MEKits handleError:err];
