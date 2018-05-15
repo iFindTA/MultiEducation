@@ -11,6 +11,7 @@
 
 static NSUInteger ME_INDEX_HEADER_FONT_MAX                     =   18;
 static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
+#define INDEX_SEARCH_TINTCOLOR                                  0xCCCCCC
 
 @interface MEIndexNavigationBar () <UISearchBarDelegate, UITextFieldDelegate>
 
@@ -20,6 +21,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 @property (nonatomic, strong) UIColor *selectColor, *normalColor;
 @property (nonatomic, strong) NSMutableArray <MEBaseButton*>*barItems;
 @property (nonatomic, assign) NSUInteger currentSelectIndex;
+@property (nonatomic, strong) MEBaseScene *flagScene;
 
 @property (nonatomic, strong) MEBaseButton *noticeBtn;
 @property (nonatomic, strong) MEBaseButton *historyBtn;
@@ -45,11 +47,10 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     if (self) {
         self.selectFont = UIFontPingFangSCBold(ME_INDEX_HEADER_FONT_MAX);
         self.normalFont = UIFontPingFangSCMedium(ME_INDEX_HEADER_FONT_MIN);
-        self.selectColor = UIColorFromRGB(0xFFFFFF);
-        self.normalColor = [UIColor colorWithWhite:1.0 alpha:0.85];
-        self.currentSelectIndex = 0;
+        self.selectColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        self.normalColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
         self.barTitles = [NSArray arrayWithArray:titles];
-        self.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        self.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.searchScene];
         [self addSubview:self.itemScene];
         [self __initIndexNavigationBarSubviews];
@@ -100,6 +101,11 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 //    [btn setImage:icon forState:UIControlStateNormal];
 //    [btn addTarget:self action:@selector(indexNavigationBarNoticeTouchEvent) forControlEvents:UIControlEventTouchUpInside];
 //    [self addSubview:btn];self.noticeBtn = btn;
+    
+    //flag
+    [self.itemScene addSubview:self.flagScene];
+    
+    self.currentSelectIndex = 0;
 }
 
 - (NSMutableArray<MEBaseButton*>*)barItems {
@@ -107,6 +113,16 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         _barItems = [NSMutableArray arrayWithCapacity:0];
     }
     return _barItems;
+}
+
+- (MEBaseButton *)fetchCurrentSelectItem {
+    __block MEBaseButton *btn;
+    for (MEBaseButton *b in self.barItems) {
+        if (b.tag == self.currentSelectIndex) {
+            btn = b;
+        }
+    }
+    return btn;
 }
 
 - (void)layoutSubviews {
@@ -137,8 +153,8 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     
     [self.historyBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.itemScene).offset(-ME_LAYOUT_MARGIN);
-        make.bottom.equalTo(self.itemScene).offset(-ME_LAYOUT_MARGIN);
-        make.width.height.equalTo(30);
+        make.bottom.equalTo(self.itemScene).offset(-ME_LAYOUT_MARGIN+(ME_LAYOUT_ICON_HEIGHT-itemHeight)*0.5);
+        make.width.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
 //    [self.noticeBtn makeConstraints:^(MASConstraintMaker *make) {
 //        make.right.equalTo(self.historyBtn.mas_left).offset(-ME_LAYOUT_MARGIN*2);
@@ -169,6 +185,20 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
             }
         }];
     } completion:nil];
+}
+
+- (void)setCurrentSelectIndex:(NSUInteger)currentSelectIndex {
+    _currentSelectIndex = currentSelectIndex;
+    [self updateFlagPosition];
+}
+
+- (void)updateFlagPosition {
+    [self.flagScene remakeConstraints:^(MASConstraintMaker *make) {
+        MEBaseButton *btn = [self fetchCurrentSelectItem];
+        make.bottom.equalTo(self.itemScene);
+        make.centerX.equalTo(btn.mas_centerX);
+        make.size.equalTo(CGSizeMake(ME_HEIGHT_TABBAR, ME_LAYOUT_LINE_HEIGHT*2));
+    }];
 }
 
 - (void)scrollDidScroll2Page:(NSUInteger)page {
@@ -215,6 +245,14 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     return [NSArray arrayWithArray:self.barTitles];
 }
 
+- (MEBaseScene *)flagScene {
+    if (!_flagScene) {
+        _flagScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _flagScene.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+    }
+    return _flagScene;
+}
+
 - (MEBaseScene *)searchScene {
     if (!_searchScene) {
         _searchScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
@@ -226,7 +264,10 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (MEBaseScene *)itemScene {
     if (!_itemScene) {
         _itemScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-        _itemScene.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        _itemScene.layer.shadowColor = UIColorFromRGB(0xDEDEDE).CGColor;
+        _itemScene.layer.shadowOffset = CGSizeMake(0, 2);
+        _itemScene.layer.shadowOpacity = 0.5;
+        _itemScene.layer.shadowRadius = 4;
     }
     return _itemScene;
 }
@@ -262,7 +303,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 //}
 
 - (UIView *)leftView {
-    CGRect bounds = CGRectMake(0, 0, ME_LAYOUT_ICON_HEIGHT, ME_LAYOUT_ICON_HEIGHT);
+    CGRect bounds = CGRectMake(0, 0, ME_LAYOUT_SUBBAR_HEIGHT, ME_LAYOUT_SUBBAR_HEIGHT);
     UIView *left = [[UIView alloc] initWithFrame:bounds];
     UIImage *icon = [UIImage imageNamed:@"search_bar_magnifier"];
     UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
@@ -277,9 +318,10 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (UITextField *)searchTFD {
     if (!_searchTFD) {
         UIFont *font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
-        UIColor *fontColor = [UIColor whiteColor];
+        UIColor *fontColor = UIColorFromRGB(INDEX_SEARCH_TINTCOLOR);
         _searchTFD = [[UITextField alloc] initWithFrame:CGRectZero];
-        _searchTFD.backgroundColor = UIColorFromRGB(0x4A8AD0);
+//        _searchTFD.backgroundColor = UIColorFromRGB(0x4A8AD0);
+        _searchTFD.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_BG_GRAY);
         _searchTFD.returnKeyType = UIReturnKeySearch;
         _searchTFD.delegate = self;
         _searchTFD.font = font;
@@ -288,7 +330,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         _searchTFD.leftView = [self leftView];
         _searchTFD.leftViewMode = UITextFieldViewModeAlways;
         _searchTFD.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _searchTFD.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        _searchTFD.layer.cornerRadius = ME_LAYOUT_ICON_HEIGHT * 0.5;
         _searchTFD.layer.masksToBounds = true;
         [_searchTFD addTarget:self action:@selector(textDidChangeInput:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -297,7 +339,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 
 - (MEBaseButton *)cancelBtn {
     if (!_cancelBtn) {
-        UIColor *textColor = [UIColor whiteColor];
+        UIColor *textColor = UIColorFromRGB(INDEX_SEARCH_TINTCOLOR);
         _cancelBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
         _cancelBtn.backgroundColor = [UIColor clearColor];
         _cancelBtn.titleLabel.font = UIFontPingFangSC(METHEME_FONT_TITLE);
@@ -313,7 +355,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (void)updatePlaceholder:(NSString *)p {
     //placeholder
     UIFont *font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
-    UIColor *fontColor = [UIColor whiteColor];
+    UIColor *fontColor = UIColorFromRGB(INDEX_SEARCH_TINTCOLOR);
     NSMutableAttributedString *placeholder = [[NSMutableAttributedString alloc] initWithString:p];
     [placeholder addAttribute:NSForegroundColorAttributeName
                         value:fontColor

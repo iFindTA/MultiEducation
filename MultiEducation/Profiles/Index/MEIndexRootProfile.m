@@ -140,7 +140,7 @@
     self.bgScroller = [MEIndexBgScroller sceneWithSubNavigationBar:self.indexNavigationBar];
     [self.view addSubview:self.bgScroller];
     [self.bgScroller makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.indexNavigationBar.mas_bottom);
+        make.top.equalTo(self.indexNavigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.view).offset((whetherTourist?0:-ME_HEIGHT_TABBAR));
     }];
@@ -183,6 +183,7 @@
     [super viewWillAppear:animated];
     //显示默认加载
     [self.bgScroller displayDefaultClass];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -197,6 +198,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.indexNavigationBar endSearchAction];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning {

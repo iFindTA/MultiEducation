@@ -331,11 +331,7 @@
     }
     //assemble pb file
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
-#if DEBUG
-    [pb setLoginName:@"13023622337"];
-#else
     [pb setLoginName:mobile];
-#endif
     //goto signin
     MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
     NSData *pbdata = [pb data];

@@ -285,6 +285,7 @@
     self.banner = [YJBannerView bannerViewWithFrame:bounds dataSource:self delegate:self emptyImage:img placeholderImage:img selectorString:@"sd_setImageWithURL:placeholderImage:"];
     self.banner.pageControlStyle = PageControlHollow;
     self.banner.pageControlAliment = PageControlAlimentRight;
+    self.banner.pageControlHighlightColor = UIColorFromRGB(0xCCCCCC);
     [self.layout addSubview:self.banner];
     [self.banner makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(self.layout).offset(ME_LAYOUT_MARGIN);
