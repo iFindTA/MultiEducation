@@ -6,8 +6,8 @@
 //  Copyright © 2018年 laborc. All rights reserved.
 //
 
+#import "METhemeItem.h"
 #import "MEContentSubcategory.h"
-#import "MEVerticalItem.h"
 #import <UIButton+AFNetworking.h>
 
 NSUInteger const ME_SUBCATEGORY_ITEM_HEIGHT                                                     =   70;
@@ -19,70 +19,73 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
 
 @property (nonatomic, strong) NSArray <NSDictionary*>*subClasses;
 
-@property (nonatomic, strong) NSMutableArray<MEVerticalItem*>*subItems;
+@property (nonatomic, copy) NSString *layoutType;
+
+@property (nonatomic, strong) NSMutableArray<METhemeItem*>*subItems;
 
 @end
 
 @implementation MEContentSubcategory
 
-+ (instancetype)subcategoryWithClasses:(NSArray *)cls {
-    MEContentSubcategory *sub = [[MEContentSubcategory alloc] initWithFrame:CGRectZero subcategoryClasses:cls];
-    return sub;
-}
-
-- (id)initWithFrame:(CGRect)frame subcategoryClasses:(NSArray *)cls {
+- (id)initWithFrame:(CGRect)frame classes:(NSArray<NSDictionary *> *)cls layoutType:(NSString *)type {
     self = [super initWithFrame:frame];
     if (self) {
+        self.layoutType = type;
         self.subClasses = [NSArray arrayWithArray:cls];
         [self __initSubCategoryItems];
-//        self.backgroundColor = [UIColor blueColor];
+        //self.backgroundColor = [UIColor blueColor];
     }
     return self;
 }
 
 - (void)__initSubCategoryItems {
     [self.subItems removeAllObjects];
-    weakify(self)
-    [self.subClasses enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *title = obj[@"title"];NSString *img = obj[@"img"];
-        MEVerticalItem *btn = [MEVerticalItem itemWithTitle:title imageURL:img];
-//        btn.backgroundColor = [UIColor pb_randomColor];
-        btn.tag = idx;
-        [self addSubview:btn];
-        [self.subItems addObject:btn];
-        strongify(self)
-        btn.MESubClassItemCallback = ^(NSUInteger tag){
-            if (self.subClassesCallback) {
-                self.subClassesCallback(tag);
-            }
-        };
-    }];
-    
     NSUInteger itemCountPerLine = [self numbersPerline];
     NSUInteger itemDistance = [self itemDistance];
     NSUInteger margin = ME_LAYOUT_BOUNDARY;
     if (itemCountPerLine == ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE) {
         margin = ME_LAYOUT_MARGIN;
     }
-    MEVerticalItem *lastItem = nil;
     NSUInteger itemWidth = ceil((MESCREEN_WIDTH-margin*2-(itemCountPerLine-1)*itemDistance)/itemCountPerLine);
-    for ( MEVerticalItem *btn in self.subItems) {
-        NSUInteger idx = btn.tag;
+    __block METhemeItem *lastItem = nil;__block METhemeItem *rowMark = nil;
+    weakify(self)
+    [self.subClasses enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *title = obj[@"title"];NSString *img = obj[@"img"];
+        METhemeItem *item = [[METhemeItem alloc] initWithType:self.layoutType];
+        item.title = title;
+        item.uri = img;
+        item.tag = idx;
+        [item configureItemSubviews];
+        [self addSubview:item];
+        [self.subItems addObject:item];
+        item.callback = ^(NSUInteger tag){
+            strongify(self)
+            if (self.subClassesCallback) {
+                self.subClassesCallback(tag);
+            }
+        };
+        //layout
         NSUInteger offset_x = margin + (idx % itemCountPerLine) * (itemWidth+itemDistance);
         NSUInteger offset_y = ME_LAYOUT_BOUNDARY + (ME_SUBCATEGORY_ITEM_HEIGHT + ME_LAYOUT_MARGIN*2) * (idx / itemCountPerLine);
-        [btn makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(offset_x);
+        [item makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(offset_y);
-            make.size.equalTo(CGSizeMake(itemWidth, ME_SUBCATEGORY_ITEM_HEIGHT));
+            //make.top.equalTo((rowMark == nil) ? self : rowMark.mas_bottom).offset(ME_LAYOUT_MARGIN);
+            make.left.equalTo(self).offset(offset_x);
+            make.width.equalTo(itemWidth);
+            //make.height.equalTo(ME_SUBCATEGORY_ITEM_HEIGHT);
         }];
-        lastItem = btn;
-    }
+        if ((idx >= (itemCountPerLine-1)) && (idx % itemCountPerLine == 0)) {
+            rowMark = item;
+        }
+        lastItem = item;
+    }];
+    //bottom margin
     [lastItem makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
     }];
 }
 
-- (NSMutableArray<MEVerticalItem*>*)subItems {
+- (NSMutableArray<METhemeItem*>*)subItems {
     if (!_subItems) {
         _subItems = [NSMutableArray arrayWithCapacity:0];
     }

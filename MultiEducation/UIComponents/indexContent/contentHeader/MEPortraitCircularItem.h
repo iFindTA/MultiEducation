@@ -10,4 +10,11 @@
 
 @interface MEPortraitCircularItem : MEBaseScene
 
+/**
+ item callback
+ */
+@property (nonatomic, copy) void(^callback)(NSUInteger tag);
+
++ (instancetype)itemWithTitle:(NSString *)title imageURL:(NSString *)urlString;
+
 @end

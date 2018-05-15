@@ -300,8 +300,7 @@
         NSDictionary *item = @{@"title":obj.title, @"img":[MEKits imageFullPath:obj.iconPath]};
         [cats addObject:item];
     }];
-    CGFloat subClassHeight = [MEContentSubcategory subcategoryClassPanelHeight4Classes:classes];
-    MEContentSubcategory *subClasses = [MEContentSubcategory subcategoryWithClasses:cats.copy];
+    MEContentSubcategory *subClasses = [[MEContentSubcategory alloc] initWithFrame:CGRectZero classes:cats.copy layoutType:self.dataItem.tmpType];
     //subClasses.backgroundColor = [UIColor pb_randomColor];
     [self.layout addSubview:subClasses];
     [subClasses makeConstraints:^(MASConstraintMaker *make) {

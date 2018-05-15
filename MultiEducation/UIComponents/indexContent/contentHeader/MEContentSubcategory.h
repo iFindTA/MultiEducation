@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseScene.h"
+#import "Meres.pbobjc.h"
 
 @interface MEContentSubcategory : MEBaseScene
 
@@ -16,13 +17,8 @@
 @property (nonatomic, copy) void(^subClassesCallback)(NSUInteger tag);
 
 /**
- 类方法 子类化子分类面板
+ init method
  */
-+ (instancetype)subcategoryWithClasses:(NSArray *)cls;
-
-/**
- 由classes预估高度
- */
-+ (NSUInteger)subcategoryClassPanelHeight4Classes:(NSArray *)cls;
+- (instancetype)initWithFrame:(CGRect)frame classes:(NSArray<NSDictionary*>*)cls layoutType:(NSString *)type;
 
 @end
