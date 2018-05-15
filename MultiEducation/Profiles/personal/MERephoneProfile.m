@@ -71,6 +71,10 @@ static CGFloat const ROW_HEIGHT = 54.f;
         make.height.mas_equalTo(25.f);
         make.centerY.mas_equalTo(self.code);
     }];
+    
+    [self.getCodeBtn layoutIfNeeded];
+    _getCodeBtn.layer.cornerRadius = self.getCodeBtn.frame.size.height / 2;
+    _getCodeBtn.layer.masksToBounds = true;
 }
 
 - (void)dealloc {
@@ -206,8 +210,6 @@ static CGFloat const ROW_HEIGHT = 54.f;
         _getCodeBtn = [[MEBaseButton alloc] init];
         [_getCodeBtn setTitle:@"验证码" forState:UIControlStateNormal];
         [_getCodeBtn setTitleColor: UIColorFromRGB(ME_THEME_COLOR_TEXT) forState:UIControlStateNormal];
-        _getCodeBtn.layer.cornerRadius = ME_LAYOUT_SUBBAR_HEIGHT * 0.75 * 0.5;
-        _getCodeBtn.layer.masksToBounds = true;
         _getCodeBtn.layer.borderWidth = ME_LAYOUT_LINE_HEIGHT;
         _getCodeBtn.layer.borderColor = UIColorFromRGB(ME_THEME_COLOR_TEXT).CGColor;
         _getCodeBtn.backgroundColor = [UIColor whiteColor];
