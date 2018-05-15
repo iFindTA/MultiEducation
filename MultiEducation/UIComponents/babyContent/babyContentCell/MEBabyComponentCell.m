@@ -30,7 +30,7 @@
     [self setbadgeValueProperty: badge];
     switch (type) {
         case MEBabyContentTypeGrowth: {
-            title = @"成长档案";
+            title = @"宝宝档案";
             subTitle = @"客观记录 成长可见";
             backgroundColor = UIColorFromRGB(0xeca0a0);
             iconImage = [UIImage imageNamed: @"baby_content_growth"];
