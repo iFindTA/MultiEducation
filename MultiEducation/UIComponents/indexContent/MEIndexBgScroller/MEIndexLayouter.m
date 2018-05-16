@@ -300,7 +300,7 @@
         NSDictionary *item = @{@"title":obj.title, @"img":[MEKits imageFullPath:obj.iconPath]};
         [cats addObject:item];
     }];
-    MEContentSubcategory *subClasses = [[MEContentSubcategory alloc] initWithFrame:CGRectZero classes:cats.copy layoutType:self.dataItem.tmpType];
+    MEContentSubcategory *subClasses = [[MEContentSubcategory alloc] initWithFrame:CGRectZero classes:cats.copy layoutType:self.dataItem.layoutType];
     //subClasses.backgroundColor = [UIColor pb_randomColor];
     [self.layout addSubview:subClasses];
     [subClasses makeConstraints:^(MASConstraintMaker *make) {
@@ -395,7 +395,7 @@
     }
     
     //adjust scroll layout
-    [self.layout makeConstraints:^(MASConstraintMaker *make) {
+    [self.layout mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo((lastItem==nil)?lastSection.mas_bottom:lastItem.mas_bottom);
     }];
     //*/

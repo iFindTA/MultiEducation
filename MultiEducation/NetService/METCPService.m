@@ -152,13 +152,13 @@ static METCPService *instance = nil;
 
 - (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
     //读取服务器传回的数据
-    [_receivedData appendData:data];
-    NSRange range = [self readRawVarint32:_receivedData];
-    if (range.length > 0 && ((range.length + range.location) <= _receivedData.length)) {
-        NSData *cmdData = [_receivedData subdataWithRange:NSMakeRange(range.location, range.length)];
-        [_receivedData replaceBytesInRange:NSMakeRange(0, range.length + range.location) withBytes:NULL length:0];
+    [self.receivedData appendData:data];
+    NSRange range = [self readRawVarint32:self.receivedData];
+    if (range.length > 0 && ((range.length + range.location) <= self.receivedData.length)) {
+        NSData *cmdData = [self.receivedData subdataWithRange:NSMakeRange(range.location, range.length)];
+        [self.receivedData replaceBytesInRange:NSMakeRange(0, range.length + range.location) withBytes:NULL length:0];
         //判断是服务器直接发送还是有请求响应
-        if (_receivedData.length != 6) {
+        if (self.receivedData.length != 6) {
             NSError *err;
             MECarrierPB *signedCarrier = [MECarrierPB parseFromData:cmdData error:&err];
             //处理是否为系统通知
@@ -192,7 +192,7 @@ static METCPService *instance = nil;
             }
         } else {
             if (self.systemDataCallback) {
-                self.systemDataCallback(_receivedData.copy);
+                self.systemDataCallback(self.receivedData.copy);
             }
         }
     }

@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UITextField *inputMobile;
 @property (nonatomic, strong) UITextField *inputCode;
 
+@property (nonatomic, strong) MEBaseLabel *helpLabel;
+
 @property (nonatomic, strong) MEMulticastRole *multicastRoleScene;
 
 @end
@@ -170,6 +172,9 @@
             [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
             return;
         }
+        if (self.helpLabel.isHidden) {
+            self.helpLabel.hidden = false;
+        }
         countDownButton.enabled = NO;
         [countDownButton startCountDownWithSecond:59];
         [self sendLoginSMSCode];
@@ -212,6 +217,8 @@
     protocolLabel.font = font;
     [protocolLabel setAttributedText:text];
     [signBgScene addSubview:protocolLabel];
+    self.helpLabel = protocolLabel;
+    protocolLabel.hidden = true;
     [protocolLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputBg.mas_bottom).offset(ME_LAYOUT_MARGIN);
         make.left.right.equalTo(inputBg);

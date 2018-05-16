@@ -56,7 +56,7 @@ typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
   MEPBIndexItem_FieldNumber_RecommendTypeListArray = 3,
   MEPBIndexItem_FieldNumber_Title = 4,
   MEPBIndexItem_FieldNumber_Code = 5,
-  MEPBIndexItem_FieldNumber_TmpType = 6,
+  MEPBIndexItem_FieldNumber_LayoutType = 6,
 };
 
 @interface MEPBIndexItem : GPBMessage
@@ -83,7 +83,7 @@ typedef GPB_ENUM(MEPBIndexItem_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *code;
 
 /** 子分类类型 1:方形 2:圆形 3:左右 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *tmpType;
+@property(nonatomic, readwrite) int32_t layoutType;
 
 @end
 

@@ -6,20 +6,19 @@
 //  Copyright © 2018年 laborc. All rights reserved.
 //
 
-#import "METhemeItem.h"
 #import "MEContentSubcategory.h"
 #import <UIButton+AFNetworking.h>
 
 NSUInteger const ME_SUBCATEGORY_ITEM_HEIGHT                                                     =   70;
-NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_4                                                 =   20;
-NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_5                                                 =   15;
+NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_4                                                 =   15;
+NSUInteger const ME_SUBCATEGORY_ITEM_DISTANCE_5                                                 =   10;
 static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                                             =   5;
 
 @interface MEContentSubcategory ()
 
 @property (nonatomic, strong) NSArray <NSDictionary*>*subClasses;
 
-@property (nonatomic, copy) NSString *layoutType;
+@property (nonatomic, assign) METhemeLayout layoutType;
 
 @property (nonatomic, strong) NSMutableArray<METhemeItem*>*subItems;
 
@@ -27,7 +26,7 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
 
 @implementation MEContentSubcategory
 
-- (id)initWithFrame:(CGRect)frame classes:(NSArray<NSDictionary *> *)cls layoutType:(NSString *)type {
+- (id)initWithFrame:(CGRect)frame classes:(NSArray<NSDictionary *> *)cls layoutType:(METhemeLayout)type {
     self = [super initWithFrame:frame];
     if (self) {
         self.layoutType = type;
@@ -66,21 +65,31 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
         };
         //layout
         NSUInteger offset_x = margin + (idx % itemCountPerLine) * (itemWidth+itemDistance);
-        NSUInteger offset_y = ME_LAYOUT_BOUNDARY + (ME_SUBCATEGORY_ITEM_HEIGHT + ME_LAYOUT_MARGIN*2) * (idx / itemCountPerLine);
         [item makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(offset_y);
-            //make.top.equalTo((rowMark == nil) ? self : rowMark.mas_bottom).offset(ME_LAYOUT_MARGIN);
+            make.top.equalTo((rowMark == nil) ? self : rowMark.mas_bottom).offset(ME_LAYOUT_MARGIN);
             make.left.equalTo(self).offset(offset_x);
             make.width.equalTo(itemWidth);
-            //make.height.equalTo(ME_SUBCATEGORY_ITEM_HEIGHT);
         }];
-        if ((idx >= (itemCountPerLine-1)) && (idx % itemCountPerLine == 0)) {
+        //间隔
+        if (self.layoutType == METhemeLayoutLandscape && idx != itemCountPerLine-1) {
+            MEBaseScene *line = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+            line.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
+            [self addSubview:line];
+            [line makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(item.mas_right).offset(itemDistance*0.5);
+                make.centerY.equalTo(item.mas_centerY);
+                make.width.equalTo(ME_LAYOUT_LINE_HEIGHT);
+                make.height.equalTo(item.mas_height).multipliedBy(0.5);
+            }];
+        }
+        //行标
+        if ((idx >= (itemCountPerLine-1)) && ((idx+1) % itemCountPerLine == 0)) {
             rowMark = item;
         }
         lastItem = item;
     }];
     //bottom margin
-    [lastItem makeConstraints:^(MASConstraintMaker *make) {
+    [lastItem mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self).offset(-ME_LAYOUT_MARGIN);
     }];
 }
@@ -93,6 +102,9 @@ static NSUInteger const ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE                    
 }
 
 - (NSUInteger)numbersPerline {
+    if (self.layoutType == METhemeLayoutLandscape) {
+        return METhemeLayoutLandscape-1;
+    }
     if (self.subClasses.count >= ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE) {
         return ME_SUBCATEGORY_ITEM_MAXCOUNT_PERLINE;
     }

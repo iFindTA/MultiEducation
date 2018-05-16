@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseScene.h"
+#import "METhemeItem.h"
 #import "Meres.pbobjc.h"
 
 @interface MEContentSubcategory : MEBaseScene
@@ -19,6 +20,6 @@
 /**
  init method
  */
-- (instancetype)initWithFrame:(CGRect)frame classes:(NSArray<NSDictionary*>*)cls layoutType:(NSString *)type;
+- (instancetype)initWithFrame:(CGRect)frame classes:(NSArray<NSDictionary*>*)cls layoutType:(METhemeLayout)type;
 
 @end

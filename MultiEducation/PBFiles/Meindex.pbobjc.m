@@ -52,16 +52,16 @@ static GPBFileDescriptor *MeindexRoot_FileDescriptor(void) {
 @dynamic recommendTypeListArray, recommendTypeListArray_Count;
 @dynamic title;
 @dynamic code;
-@dynamic tmpType;
+@dynamic layoutType;
 
 typedef struct MEPBIndexItem__storage_ {
   uint32_t _has_storage_[1];
+  int32_t layoutType;
   NSMutableArray *topListArray;
   NSMutableArray *resTypeListArray;
   NSMutableArray *recommendTypeListArray;
   NSString *title;
   NSString *code;
-  NSString *tmpType;
 } MEPBIndexItem__storage_;
 
 // This method is threadsafe because it is initially called
@@ -116,13 +116,13 @@ typedef struct MEPBIndexItem__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "tmpType",
+        .name = "layoutType",
         .dataTypeSpecific.className = NULL,
-        .number = MEPBIndexItem_FieldNumber_TmpType,
+        .number = MEPBIndexItem_FieldNumber_LayoutType,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, tmpType),
+        .offset = (uint32_t)offsetof(MEPBIndexItem__storage_, layoutType),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -136,7 +136,7 @@ typedef struct MEPBIndexItem__storage_ {
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
         "\004\001\000topList\000\002\000resTypeList\000\003\000recommendType"
-        "List\000\006\007\000";
+        "List\000\006\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

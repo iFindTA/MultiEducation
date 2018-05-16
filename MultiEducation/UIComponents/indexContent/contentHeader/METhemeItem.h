@@ -8,6 +8,15 @@
 
 #import "MEBaseScene.h"
 
+/**
+ 1:方形 2:圆形 3:左右
+ */
+typedef NS_ENUM(int32_t, METhemeLayout) {
+    METhemeLayoutRect = 1,
+    METhemeLayoutCircle = 2,
+    METhemeLayoutLandscape = 3,
+};
+
 @interface METhemeItem : MEBaseScene
 
 /**
@@ -23,16 +32,16 @@
 @property (nonatomic, strong, readonly) UIImageView *icon;
 
 /**
- 1:方形 2:圆形 3:左右
+ layout type
  */
-@property (nonatomic, copy, readonly) NSString *type;
+@property (nonatomic, assign, readonly) METhemeLayout type;
 
 /**
  item callback
  */
 @property (nonatomic, copy) void(^callback)(NSUInteger tag);
 
-- (id)initWithType:(NSString *)type;
+- (id)initWithType:(METhemeLayout)type;
 
 - (void)configureItemSubviews NS_REQUIRES_SUPER;
 
