@@ -13,7 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *backView;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *titleLabel;
-@property (weak, nonatomic) IBOutlet MEBaseLabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *badageLab;
 

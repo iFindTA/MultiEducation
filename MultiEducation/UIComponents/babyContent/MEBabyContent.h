@@ -21,12 +21,15 @@ typedef NS_ENUM(NSUInteger, MEScrollViewDirection) {
  类型定义
  */
 typedef NS_ENUM(NSUInteger, MEBabyContentType) {
-    MEBabyContentTypeGrowth                                      =   1   <<  0,     //成长档案
+    MEBabyContentTypeGrowth                                      =   1   <<  0,     //宝宝档案
     MEBabyContentTypeEvaluate                                    =   1   <<  1,     //发展评价
     MEBabyContentTypeAnnounce                                    =   1   <<  2,     //园所公告
     MEBabyContentTypeSurvey                                      =   1   <<  3,     //问卷调查
     MEBabyContentTypeRecipes                                     =   1   <<  4,     //每周食谱
     MEBabyContentTypeLive                                        =   1   <<  5,     //直播课堂
+    MEBabyContentTypeInterest                                    =   1   <<  6,     //趣事趣影
+    MEBabyContentTypeTermEvaluate                                =   1   <<   7,     //学期评价
+    MEBabyContentTypeHolidayAnnounce                             =   1   <<   8,     //假期通知
 };
 
 typedef void(^BabyContentScrollCallBack)(CGFloat contentOffsetY, MEScrollViewDirection direction);

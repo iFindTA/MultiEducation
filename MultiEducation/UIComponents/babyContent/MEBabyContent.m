@@ -25,7 +25,7 @@
 #import <NSURL+QueryDictionary/NSURL+QueryDictionary.h>
 #import <MWPhotoBrowser.h>
 
-#define COMPONENT_COUNT 6
+#define COMPONENT_COUNT 9
 #define MAX_PHOTO_COUNT 10
 
 #define BABY_PHOTOVIEW_IDEF @"baby_photoView_idef"
@@ -36,10 +36,11 @@
 #define TABLEVIEW_SECTION_HEIGHT 44.f
 #define BABY_CONTENT_HEADER_HEIGHT 230.f
 #define BABY_PHOTO_HEADER_HEIGHT 54.f
-#define COMPONENT_HEIGHT 256.f
+#define COMPONENT_HEIGHT 232.f
 #define BABY_PHOTO_HEIGHT 78.f
 #define GAP_BETWEEN_COMPONENT_PHOTOCONTENT 5.f
 #define TABLEVIEW_HEIGHT MESCREEN_HEIGHT - ME_HEIGHT_TABBAR
+#define COMPONENT_CELL_SIZE  CGSizeMake(adoptValue(113.f), 72.f);
 
 @interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
     CGFloat _lastContentOffset;
@@ -341,7 +342,7 @@
                 make.top.mas_equalTo(self.photoHeader.mas_bottom).mas_offset(0);
                 make.width.mas_equalTo(MESCREEN_WIDTH - 20);
                 make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10.f);
-                make.height.mas_equalTo(78);
+                make.height.mas_equalTo(BABY_PHOTO_HEIGHT);
                 make.width.greaterThanOrEqualTo(@0);
             }];
             
@@ -377,7 +378,7 @@
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: BABY_PHOTOVIEW_IDEF forIndexPath: indexPath];
         [(MEBabyPhotoCell *)cell setData: [self.babyPhotos objectAtIndex: indexPath.row]];
     } else {
-//        scrollContentView collectionView cell
+        //component
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
         [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item badge: [self.badgeArr objectAtIndex: indexPath.item].integerValue];
     }
@@ -389,7 +390,7 @@
     if ([collectionView isEqual: self.babyPhtoView]) {
         return CGSizeMake(78.f, 78.f);
     } else {
-        return CGSizeMake((MESCREEN_WIDTH - 25) / 2, 82.f);
+        return COMPONENT_CELL_SIZE;
     }
 }
 
@@ -402,7 +403,6 @@
         }
     } else {
         //scrollContentView collectionView cell
-        NSLog(@"did select scrollContentView at indexPath.item:%ld", (long)indexPath.item);
         NSURL *url = nil; NSDictionary *params = nil;
         NSUInteger __tag = (NSUInteger)indexPath.item;
         MEBabyContentType type = (1 << __tag);
@@ -670,7 +670,7 @@
 
 - (NSMutableArray<NSNumber *> *)badgeArr {
     if (!_badgeArr) {
-        NSArray *tmpArr = @[@0, @0, @0, @0, @0, @0];
+        NSArray *tmpArr = @[@0, @0, @0, @0, @0, @0, @0, @0, @0];
         _badgeArr = [NSMutableArray arrayWithArray: tmpArr];
     }
     return _badgeArr;

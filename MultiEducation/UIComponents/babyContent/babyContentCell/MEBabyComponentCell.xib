@@ -21,32 +21,12 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ReW-lF-5LQ">
                         <rect key="frame" x="0.0" y="0.0" width="175" height="82"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9YK-YG-bx5" customClass="MEBaseLabel">
-                                <rect key="frame" x="14" y="42" width="130" height="20"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="CSu-cH-zUE"/>
-                                    <constraint firstAttribute="height" constant="20" id="FBj-JA-pUg"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                                        <real key="value" value="12"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="subtitle"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="numberOfLines">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kqK-gp-RwO">
                                 <rect key="frame" x="135" y="42" width="28" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Zg-lZ-jai" customClass="MEBaseLabel">
-                                <rect key="frame" x="14" y="20" width="100" height="20"/>
+                                <rect key="frame" x="14" y="9" width="100" height="20"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="coH-2Z-oCe"/>
@@ -85,10 +65,8 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="9YK-YG-bx5" firstAttribute="top" secondItem="4Zg-lZ-jai" secondAttribute="bottom" constant="2" id="18g-dd-ZNI"/>
                             <constraint firstItem="4Zg-lZ-jai" firstAttribute="leading" secondItem="ReW-lF-5LQ" secondAttribute="leading" constant="14" id="RI4-BX-cwH"/>
-                            <constraint firstItem="9YK-YG-bx5" firstAttribute="leading" secondItem="4Zg-lZ-jai" secondAttribute="leading" id="eYX-Qd-1Zj"/>
-                            <constraint firstItem="4Zg-lZ-jai" firstAttribute="top" secondItem="ReW-lF-5LQ" secondAttribute="top" constant="20" id="o7M-8z-AKV"/>
+                            <constraint firstItem="4Zg-lZ-jai" firstAttribute="top" secondItem="ReW-lF-5LQ" secondAttribute="top" constant="9" id="o7M-8z-AKV"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -109,7 +87,6 @@
                 <outlet property="backView" destination="ReW-lF-5LQ" id="lKU-eC-Pc8"/>
                 <outlet property="badageLab" destination="I1g-xK-or4" id="Vq1-6K-Wko"/>
                 <outlet property="icon" destination="kqK-gp-RwO" id="27a-k5-yaC"/>
-                <outlet property="subtitleLabel" destination="9YK-YG-bx5" id="aqH-wP-fMh"/>
                 <outlet property="titleLabel" destination="4Zg-lZ-jai" id="q1N-M0-gBP"/>
             </connections>
             <point key="canvasLocation" x="47" y="54"/>
