@@ -44,13 +44,21 @@
     [self.view addSubview: self.babyView];
     [self.view addSubview: self.babyNavigation];
     
+
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
     //layout
     [self.babyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.bottom.mas_equalTo(self.view);
+        make.left.top.right.mas_equalTo(self.view);
+        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR);
     }];
     
     [self.babyNavigation mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.mas_equalTo(self.view);
+        make.left.top.mas_equalTo(self.view);
+        make.width.mas_equalTo(MESCREEN_WIDTH);
         make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight]);
     }];
 }
