@@ -49,7 +49,7 @@ static CGFloat const ICON_HEIGHT = 20.f;
     CGFloat backViewWidth = labelWidth + ICON_HEIGHT + space;
     
     [_backView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self);
+        make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR);
         make.top.mas_equalTo(self.mas_top).mas_offset([MEKits statusBarHeight]);
         make.width.mas_equalTo(backViewWidth);
         make.left.mas_equalTo((MESCREEN_WIDTH - backViewWidth) / 2);
@@ -82,7 +82,7 @@ static CGFloat const ICON_HEIGHT = 20.f;
     CGFloat backViewWidth = labelWidth + ICON_HEIGHT + space;
     
     [_backView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self);
+        make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR);
         make.top.mas_equalTo(self.mas_top).mas_offset([MEKits statusBarHeight]);
         make.width.mas_equalTo(backViewWidth);
         make.left.mas_equalTo((MESCREEN_WIDTH - backViewWidth) / 2);
@@ -94,7 +94,6 @@ static CGFloat const ICON_HEIGHT = 20.f;
         make.height.mas_equalTo(ICON_HEIGHT);
         make.centerY.mas_equalTo(_backView);
     }];
-    
 }
 
 #pragma mark - lazyloading

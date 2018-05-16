@@ -92,7 +92,7 @@
     self.backView.backgroundColor = backgroundColor;
     self.icon.image = iconImage;
     
-    [self.icon mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.icon mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.backView.mas_right).mas_offset(-12.f);
         make.bottom.mas_equalTo(self.backView.mas_bottom).mas_offset(-12.f);
         make.width.mas_equalTo(size.width);
@@ -106,7 +106,7 @@
         self.badageLab.hidden = YES;
     } else {
         if (badge == 1) {
-            badgeDiam = 10.f;
+            badgeDiam = 8.f;
             self.badageLab.text = @"";
         } else {
             badgeDiam = 14.f;

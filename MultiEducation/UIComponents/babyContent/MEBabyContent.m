@@ -38,6 +38,7 @@
 #define BABY_PHOTO_HEADER_HEIGHT 54.f
 #define COMPONENT_HEIGHT 256.f
 #define BABY_PHOTO_HEIGHT 78.f
+#define GAP_BETWEEN_COMPONENT_PHOTOCONTENT 5.f
 #define TABLEVIEW_HEIGHT MESCREEN_HEIGHT - ME_HEIGHT_TABBAR
 
 @interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
@@ -269,7 +270,7 @@
         [self.componentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(MESCREEN_WIDTH - 20);
             make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
-            make.top.mas_equalTo(self.babyPhtoView.mas_bottom);
+            make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(GAP_BETWEEN_COMPONENT_PHOTOCONTENT);
             make.height.mas_equalTo(COMPONENT_HEIGHT);
         }];
         
@@ -314,7 +315,7 @@
                         make.top.mas_equalTo(self.photoHeader.mas_bottom);
                         make.height.mas_equalTo(COMPONENT_HEIGHT);
                     }];
-                    self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT;
+                    self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + GAP_BETWEEN_COMPONENT_PHOTOCONTENT;
                 }
             } else {
                 self.photoHeader.hidden = NO;
@@ -324,7 +325,7 @@
                     make.top.mas_equalTo(self.photoHeader.mas_bottom);
                     make.height.mas_equalTo(COMPONENT_HEIGHT);
                 }];
-                self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT;
+                self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + GAP_BETWEEN_COMPONENT_PHOTOCONTENT;
             }
         } else {
             self.babyPhtoView.hidden = NO;
@@ -347,10 +348,10 @@
             [self.componentView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.width.mas_equalTo(MESCREEN_WIDTH - 20);
                 make.left.mas_equalTo(self.tableHeaderView.mas_left).mas_offset(10);
-                make.top.mas_equalTo(self.babyPhtoView.mas_bottom);
+                make.top.mas_equalTo(self.babyPhtoView.mas_bottom).mas_offset(GAP_BETWEEN_COMPONENT_PHOTOCONTENT);
                 make.height.mas_equalTo(COMPONENT_HEIGHT);
             }];
-            self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + BABY_PHOTO_HEIGHT;
+            self.tableHeaderView.height = BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + BABY_PHOTO_HEIGHT + GAP_BETWEEN_COMPONENT_PHOTOCONTENT;
         }
     }
 }
