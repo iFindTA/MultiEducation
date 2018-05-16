@@ -118,6 +118,8 @@
 #pragma mark --- User Interface Actions
 
 - (void)userDidTouchContactTouchEvent {
+    //埋点
+    [MobClick event:Buried_CHAT_CONTEACT];
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEContactProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:nil];
     [MEKits handleError:err];

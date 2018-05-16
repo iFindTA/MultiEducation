@@ -400,6 +400,7 @@
 		489EA77A2188AD13AB0EEEAB17192001 /* MEHeartBeatVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEHeartBeatVM.h; sourceTree = "<group>"; };
 		48E2F025B5AE7B0E8B4D375D8FA0A7E3 /* ValueSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueSync.h; sourceTree = "<group>"; };
 		48EBE37BA933BA362A37832800E79676 /* MEPersonalDataCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPersonalDataCell.h; sourceTree = "<group>"; };
+		4938129E6055F57651D1C8043A9BBEBC /* StatisticalAnalysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatisticalAnalysis.h; sourceTree = "<group>"; };
 		499BA803AA963E358D72B1627EF13759 /* MEPlayInfoSubTitlePanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayInfoSubTitlePanel.h; sourceTree = "<group>"; };
 		49F820F03A0F5A4305256BB6A35BDC18 /* MEPhotoBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPhotoBrowser.m; sourceTree = "<group>"; };
 		4A1D17423812763C3CC3C68EA3CE4D9B /* MultiEducation.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MultiEducation.entitlements; sourceTree = "<group>"; };
@@ -1728,6 +1729,7 @@
 				C9657F2DFDAB2E1D3BAA8668ABF6A083 /* MECmdCodes.h */,
 				95B061F57BDAEEA880D7E1D79A54719A /* MEMacros.h */,
 				6C330F7E5B36263BD9CF2E2ABC71E5DD /* MEReqCodes.h */,
+				4938129E6055F57651D1C8043A9BBEBC /* StatisticalAnalysis.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";

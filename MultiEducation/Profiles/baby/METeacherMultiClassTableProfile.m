@@ -74,6 +74,8 @@ static CGFloat const CELL_HEIGHT = 44.f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath  animated: YES];
+    //埋点
+    [MobClick event:Buried_CLASS_ALBUM];
     uint64_t classId = [self.classes objectAtIndex: indexPath.row].id_p;
     NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId], @"title": @"宝宝相册"};
     NSString *urlString = @"profile://root@MEBabyPhotoProfile/";

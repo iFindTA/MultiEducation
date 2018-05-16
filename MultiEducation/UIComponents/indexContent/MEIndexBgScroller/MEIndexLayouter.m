@@ -333,7 +333,7 @@
         //sectTitleScene.backgroundColor = [UIColor pb_randomColor];
         [self.layout addSubview:sectTitleScene];
         [sectTitleScene makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo((lastItem == nil)?subClasses.mas_bottom:lastItem.mas_bottom);
+            make.top.equalTo((lastItem == nil)?subClasses.mas_bottom:lastItem.mas_bottom).offset((lastItem==nil)?0:ME_LAYOUT_BOUNDARY);
             make.left.right.equalTo(self.layout);
             make.height.equalTo(sectionHeight);
         }];

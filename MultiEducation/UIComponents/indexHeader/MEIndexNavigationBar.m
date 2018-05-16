@@ -222,9 +222,16 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 #pragma mark --- Touch Event
 
 - (void)indexNavigationBarTitleItemTouchEvent:(MEBaseButton *)btn {
+    NSUInteger __tag = btn.tag;
     [self updateFontStateExcept:btn];
     if (self.indexNavigationBarItemCallback) {
-        self.indexNavigationBarItemCallback(btn.tag);
+        self.indexNavigationBarItemCallback(__tag);
+    }
+    //埋点
+    if (__tag < self.barTitles.count) {
+        NSDictionary *m = self.barTitles[__tag];
+        NSString *code = m[@"code"];
+        [MobClick event:Buried_INDEX_SUBCLASS label:code];
     }
 }
 
@@ -398,6 +405,8 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
     if (keyword.length == 0) {
         return false;
     }
+    //埋点
+    [MobClick event:Buried_INDEX_SEARCH];
     NSDictionary *params = NSDictionaryOfVariableBindings(keyword);
     NSString *urlString = @"profile://root@MESubClassProfile";
     NSError *error = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];

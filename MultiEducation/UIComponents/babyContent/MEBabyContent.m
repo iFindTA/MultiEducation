@@ -407,8 +407,10 @@
         NSUInteger __tag = (NSUInteger)indexPath.item;
         MEBabyContentType type = (1 << __tag);
         MEBabyContentType multiType = (MEBabyContentTypeGrowth|MEBabyContentTypeEvaluate);
+        NSString *buried_point = nil;
         if (MEBabyContentTypeLive & type) {
             url = [MEDispatcher profileUrlWithClass:@"MELiveRoomRootProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+            buried_point = Buried_CLASS_LIVE;
         } else if (type & multiType){
             //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
             GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
@@ -424,9 +426,11 @@
                 if (MEBabyContentTypeGrowth & type) {
                     NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
                     params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+                    buried_point = Buried_CLASS_ARCHIVE;
                 } else if (MEBabyContentTypeEvaluate & type) {
                     NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
                     params = @{ME_CORDOVA_KEY_TITLE:@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+                    buried_point = Buried_CLASS_EVALUATE;
                 }
                 url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
             } else {
@@ -439,24 +443,6 @@
                     MEPBClass *cls = classes.firstObject;
                     [self muticastClassChoosenEvent4ClassName:cls.name watchType:type];
                 } else {
-                    /*
-                    __block SCLAlertViewBuilder *builder = [SCLAlertViewBuilder new];
-                    weakify(self)
-                    [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        builder.addButtonWithActionBlock(PBAvailableString(obj.name), ^ {
-                            strongify(self)
-                            [self muticastClassChoosenEvent4ClassName:obj.name watchType:type];
-                        });
-                    }];
-                    builder.addButtonWithActionBlock(ME_ALERT_INFO_ITEM_CANCEL, ^ {});
-                    SCLAlertViewShowBuilder *showBuilder = [SCLAlertViewShowBuilder new]
-                    .style(SCLAlertViewStyleInfo)
-                    .title(ME_ALERT_INFO_TITILE)
-                    .subTitle(@"您当前关联了多个班级，请选择班级进行查看！")
-                    .duration(0);
-                    showBuilder.show(builder.alertView, self.window.rootViewController);
-                    return;//*/
-                    
                     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                     //Using Block
                     weakify(self)
@@ -473,13 +459,18 @@
         } else {
             if (MEBabyContentTypeAnnounce & type) {
                 params = @{ME_CORDOVA_KEY_TITLE:@"园所公告",ME_CORDOVA_KEY_STARTPAGE:@"notice.html"};
+                buried_point = Buried_CLASS_PARK_NOTICE;
             } else if (MEBabyContentTypeSurvey & type) {
                 params = @{ME_CORDOVA_KEY_TITLE:@"问卷调查",ME_CORDOVA_KEY_STARTPAGE:@"vote.html"};
+                buried_point = Buried_CLASS_QUESTIONNAIRE;
             } else if (MEBabyContentTypeRecipes & type) {
                 params = @{ME_CORDOVA_KEY_TITLE:@"每周食谱",ME_CORDOVA_KEY_STARTPAGE:@"cookbook.html"};
+                buried_point = Buried_CLASS_WEEKLY_RECIPES;
             }
             url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
         }
+        //埋点
+        [MobClick event:buried_point];
         NSError *err = [MEDispatcher openURL:url withParams:params];
         [MEKits handleError:err];
     }
@@ -522,13 +513,18 @@
     }
     NSString *getParamsString = [multiMap.copy uq_URLQueryString];
     NSDictionary *params;
+    NSString *buried_point;
     if (MEBabyContentTypeGrowth & type) {
         NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
         params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        buried_point = Buried_CLASS_ARCHIVE;
     } else if (MEBabyContentTypeEvaluate & type) {
         NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
         params = @{ME_CORDOVA_KEY_TITLE:@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        buried_point = Buried_CLASS_EVALUATE;
     }
+    //埋点
+    [MobClick event:buried_point];
     NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [MEKits handleError:err];

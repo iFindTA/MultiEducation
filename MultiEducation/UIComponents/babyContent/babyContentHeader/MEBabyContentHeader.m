@@ -70,6 +70,8 @@
             self.DidChangePhotoCallback();
         }
     };
+    //埋点
+    [MobClick event:Buried_CLASS_ALBUM];
     NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: classId], @"title": @"宝宝相册", ME_DISPATCH_KEY_CALLBACK: DidChangePhotoCallback};
     NSString *urlString =@"profile://root@MEBabyPhotoProfile";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];

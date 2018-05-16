@@ -31,6 +31,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 @property (nonatomic, strong) ZFPlayerView *player;
 @property (nonatomic, strong) MEBaseScene *playerScene;
+@property (nonatomic, strong) MEBaseScene *statusBarBg;
 @property (nonatomic, strong) MEPlayerControl *playerControl;
 @property (nonatomic, strong) MEPlayInfoTitlePanel *titlePanel;
 
@@ -74,12 +75,19 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     
     [self hiddenNavigationBar];
     self.sj_fadeAreaViews = @[self.playerScene];
-    
-    //init video player
-    [self.view addSubview:self.playerScene];
-    CGFloat height = MESCREEN_WIDTH / ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE;
-    [self.playerScene makeConstraints:^(MASConstraintMaker *make) {
+    //init status bar background
+    CGFloat offset = [UIDevice pb_isX]?[MEKits statusBarHeight]:0;
+    [self.view addSubview:self.statusBarBg];
+    [self.statusBarBg makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
+        make.height.equalTo(offset);
+    }];
+    //init video player
+    CGFloat height = MESCREEN_WIDTH / ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE;
+    [self.view addSubview:self.playerScene];
+    [self.playerScene makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.statusBarBg.mas_bottom);
+        make.left.right.equalTo(self.view);
         make.height.equalTo(height);
     }];
     //title panel
@@ -100,7 +108,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     //返回按钮
     [self.view addSubview:self.backBtn];
     [self.backBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(ME_LAYOUT_BOUNDARY);
+        make.top.equalTo(self.statusBarBg.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2);
         make.width.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
@@ -164,6 +172,14 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 }
 
 #pragma mark --- Getter for lazy load mode
+
+- (MEBaseScene *)statusBarBg {
+    if (!_statusBarBg) {
+        _statusBarBg = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _statusBarBg.backgroundColor = [UIColor blackColor];
+    }
+    return _statusBarBg;
+}
 
 - (MEBaseScene *)playerScene {
     if (!_playerScene) {

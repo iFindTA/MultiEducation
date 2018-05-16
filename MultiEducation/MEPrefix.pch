@@ -26,6 +26,7 @@
 #import "MEDispatcher.h"
 #import <PBKits/PBKits.h>
 #import <Masonry/Masonry.h>
+#import "StatisticalAnalysis.h"
 #endif
 
 #endif /* MEPrefix_pch */

@@ -386,7 +386,6 @@
             [self autoSignInWhileDidRegisterSuccessfullWithUser:user];
         }
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }

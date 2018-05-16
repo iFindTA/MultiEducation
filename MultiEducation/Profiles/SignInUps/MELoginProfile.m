@@ -55,8 +55,9 @@
     signBgScene.layer.cornerRadius = ME_LAYOUT_MARGIN*2.5;
     signBgScene.layer.masksToBounds = true;
     [self.view addSubview:signBgScene];
+    CGFloat offset = [MEKits statusBarHeight];
     [signBgScene makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(adoptValue(130));
+        make.top.equalTo(self.view).offset(offset+adoptValue(130));
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2.5);
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
     }];
@@ -252,7 +253,7 @@
          showVisitorMode = [self.params pb_boolForKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
      }
      if (showVisitorMode) {
-         font = UIFontPingFangSC(METHEME_FONT_SUBTITLE - 1);
+         font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
          btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
          btn.titleLabel.font = font;
          [btn setTitle:@"随便逛逛" forState:UIControlStateNormal];
@@ -309,6 +310,8 @@
  联系客服
  */
 - (void)displayContactService {
+    //埋点
+    [MobClick event:Buried_CUSTOM_SERIVICE];
     NSString *urlStr = @"profile://root@METemplateProfile";
     NSDictionary *params = @{ME_CORDOVA_KEY_TITLE:@"联系我们", ME_CORDOVA_KEY_STARTPAGE:@"contact_us.html"};
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
@@ -333,6 +336,8 @@
         return;
     }
     [pb setCode:code];
+    //埋点
+    [MobClick event:Buried_SIGNIN];
     //apns token
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:ME_APPLICATION_APNE_TOKEN];
@@ -449,6 +454,8 @@
 
 #pragma mark --- 游客登录模式
 - (void)signedInAsTouristTouchEvent {
+    //埋点
+    [MobClick event:Buried_SIGNIN_VISITOR];
     //assemble pb file
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
     //apns token

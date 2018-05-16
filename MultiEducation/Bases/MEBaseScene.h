@@ -13,6 +13,7 @@
 #import "MEBaseTableView.h"
 #import <PBService/PBService.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
 
 @interface MEBaseScene : PBView
 
