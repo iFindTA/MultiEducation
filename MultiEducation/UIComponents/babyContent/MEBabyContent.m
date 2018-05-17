@@ -419,7 +419,8 @@
             
         } else if(MEBabyContentTypeInterest & type) {
             //趣事趣影
-            
+            url = [MEDispatcher profileUrlWithClass:@"MEBabyInterestProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+//            buried_point = Buried_CLASS_LIVE;
         } else if (type & multiType){
             //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
             GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
