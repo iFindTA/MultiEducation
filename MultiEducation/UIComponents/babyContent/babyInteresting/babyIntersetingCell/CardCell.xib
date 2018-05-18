@@ -23,32 +23,35 @@
                         <constraint firstAttribute="width" secondItem="9PZ-gE-gam" secondAttribute="height" multiplier="1:1" id="dFS-5r-4mh"/>
                     </constraints>
                 </imageView>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xsh-B3-GXH">
-                    <rect key="frame" x="242" y="279" width="62" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.37647058823529411" green="0.61960784313725492" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="2"/>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                    </userDefinedRuntimeAttributes>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moO-nP-Zk0">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moO-nP-Zk0" customClass="MEBaseLabel">
                     <rect key="frame" x="17" y="334" width="286" height="20"/>
                     <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="ghn-S5-tmF"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdu-HR-3Um">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdu-HR-3Um" customClass="MEBaseLabel">
                     <rect key="frame" x="17" y="364" width="286" height="50"/>
                     <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjX-cQ-teS">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjX-cQ-teS" customClass="MEBaseLabel">
                     <rect key="frame" x="17" y="431" width="286" height="16"/>
                     <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="16" id="thS-2n-827"/>
                     </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xsh-B3-GXH" customClass="MEBaseLabel">
+                    <rect key="frame" x="242" y="284" width="62" height="20"/>
+                    <color key="backgroundColor" red="0.37647058823529411" green="0.61960784313725492" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="G1G-su-UF0"/>
+                        <constraint firstAttribute="width" constant="62" id="X24-mJ-DjK"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="2"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -56,11 +59,13 @@
                 <constraint firstItem="cdu-HR-3Um" firstAttribute="top" secondItem="moO-nP-Zk0" secondAttribute="bottom" constant="10" id="2Bl-ua-dwf"/>
                 <constraint firstAttribute="trailing" secondItem="9PZ-gE-gam" secondAttribute="trailing" constant="10" id="9ze-1c-SfO"/>
                 <constraint firstItem="9PZ-gE-gam" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Ijr-Bg-tTs"/>
+                <constraint firstItem="Xsh-B3-GXH" firstAttribute="bottom" secondItem="9PZ-gE-gam" secondAttribute="bottom" constant="-6" id="JEX-9d-Y6F"/>
                 <constraint firstItem="PjX-cQ-teS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="VZX-R9-qs2"/>
                 <constraint firstAttribute="trailing" secondItem="moO-nP-Zk0" secondAttribute="trailing" constant="17" id="ZJE-rq-Fcn"/>
                 <constraint firstItem="PjX-cQ-teS" firstAttribute="top" secondItem="cdu-HR-3Um" secondAttribute="bottom" constant="17" id="gxz-1k-JFf"/>
                 <constraint firstItem="cdu-HR-3Um" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="jit-Uf-Lcw"/>
                 <constraint firstAttribute="trailing" secondItem="cdu-HR-3Um" secondAttribute="trailing" constant="17" id="nkQ-Rg-gTi"/>
+                <constraint firstItem="Xsh-B3-GXH" firstAttribute="trailing" secondItem="9PZ-gE-gam" secondAttribute="trailing" constant="-6" id="oof-x8-fO3"/>
                 <constraint firstItem="moO-nP-Zk0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="qhP-mD-Hrn"/>
                 <constraint firstItem="moO-nP-Zk0" firstAttribute="top" secondItem="9PZ-gE-gam" secondAttribute="bottom" constant="24" id="r9j-cJ-bJW"/>
                 <constraint firstItem="9PZ-gE-gam" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="sZ9-UJ-0GX"/>
