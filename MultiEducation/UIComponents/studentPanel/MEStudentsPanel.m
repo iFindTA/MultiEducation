@@ -637,9 +637,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         if (self.currentSID == sid) {
             return ;
         }
-        self.currentSID = sid;
-        [self updateLandscapeVisiable];
-        [self initiativeCollapsePortraitMenu];
         [self portraitCallbackDidTriggeredChoosing4SID:sid];
     };
     self.landscapeScene.callback = ^(int64_t sid){
@@ -647,9 +644,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         if (self.currentSID == sid) {
             return ;
         }
-        self.currentSID = sid;
-        //此处不用更新 展开后更新即可
-        //[self updatePortraitVisiable];
         [self landscapeCallbackDidTriggeredChoosing4SID:sid];
     };
     
@@ -762,10 +756,14 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
  portrait触发回调
  */
 - (void)portraitCallbackDidTriggeredChoosing4SID:(int64_t)sid {
+    int64_t preStudentID = self.currentSID;
+    self.currentSID = sid;
     //更新状态
     [self.landscapeScene preSelectStudent:sid];
+    [self updateLandscapeVisiable];
+    [self initiativeCollapsePortraitMenu];
     if (self.callback) {
-        self.callback(self.currentSID);
+        self.callback(sid, preStudentID);
     }
 }
 
@@ -773,10 +771,14 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
  landscape触发回调
  */
 - (void)landscapeCallbackDidTriggeredChoosing4SID:(int64_t)sid {
+    int64_t preStudentID = self.currentSID;
+    self.currentSID = sid;
     //更新状态
     [self.portraitScene preSelectStudent:sid];
+    //此处不用更新 展开后更新即可
+    //[self updatePortraitVisiable];
     if (self.callback) {
-        self.callback(self.currentSID);
+        self.callback(sid, preStudentID);
     }
 }
 

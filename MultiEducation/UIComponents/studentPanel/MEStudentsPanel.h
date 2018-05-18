@@ -9,7 +9,13 @@
 #import "MEBaseScene.h"
 #import "MEStudentListVM.h"
 
-typedef void(^MEStudentPanelCallback)(int64_t sid);
+/**
+ 切换学生回调
+
+ @param sid 切换到的学生ID
+ @param pre_sid 切换之前的学生ID
+ */
+typedef void(^MEStudentPanelCallback)(int64_t sid, int64_t pre_sid);
 
 typedef void(^MEStudentEditCallback)(BOOL done);
 
