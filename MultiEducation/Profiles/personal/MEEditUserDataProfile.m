@@ -27,7 +27,6 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = UIColorFromRGB(0xf8f8f8);
-    
     [self customNavigation];
     [self createSubViews];
 }
@@ -45,20 +44,21 @@
 }
 
 - (void)createSubViews {
-        NSString *placeHolder;
-        placeHolder = @"请输入昵称";
-
-        _editScene = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
-        _editScene.textfield.placeholder = placeHolder;
-        [_editScene becomeFirstResponder];
-        [self.view addSubview: _editScene];
+    NSString *placeHolder;
+    placeHolder = @"请输入昵称";
     
-        [_editScene mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.view);
-            make.top.mas_equalTo(self.view.mas_top).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
-            make.height.mas_equalTo(54.f);
-            make.width.mas_equalTo(MESCREEN_WIDTH);
-        }];
+    _editScene = [[NSBundle mainBundle] loadNibNamed: @"MEEditScene" owner: self options: nil].firstObject;
+    _editScene.textfield.text = self.currentUser.name;
+    _editScene.textfield.placeholder = placeHolder;
+    [_editScene becomeFirstResponder];
+    [self.view addSubview: _editScene];
+
+    [_editScene mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view);
+        make.top.mas_equalTo(self.view.mas_top).mas_offset([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
+        make.height.mas_equalTo(54.f);
+        make.width.mas_equalTo(MESCREEN_WIDTH);
+    }];
 }
 
 - (void)editTouchEvent {
@@ -82,6 +82,9 @@
 }
 
 - (void)handleModifyResult4Nick:(NSString *)nick {
+    if (self.DidUpdateNicknameCallback) {
+        self.DidUpdateNicknameCallback();
+    }
     MEPBUser *oldUser = self.appDelegate.curUser;
     oldUser.name = nick;
     [MEUserVM updateUserNick:nick uid:oldUser.uid];

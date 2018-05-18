@@ -10,4 +10,6 @@
 
 @interface MEEditUserDataProfile : MEBaseProfile
 
+@property (nonatomic, copy) void(^DidUpdateNicknameCallback) (void);
+
 @end

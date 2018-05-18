@@ -76,7 +76,13 @@ static CGFloat const CELL_HEIGHT = 54.f;
         case 1: {
             //修改昵称
             NSString *urlStr = @"profile://MEEditUserDataProfile";
-            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+            weakify(self);
+            void(^DidUpdateNickCallback) (void) = ^() {
+                strongify(self);
+                [self.tableView reloadData];
+            };
+            NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: DidUpdateNickCallback};
+            NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [MEKits handleError: error];
         }
             break;

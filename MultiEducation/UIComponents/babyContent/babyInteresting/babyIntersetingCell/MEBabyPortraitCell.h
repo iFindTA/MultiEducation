@@ -10,5 +10,5 @@
 
 @interface MEBabyPortraitCell : MEBaseCollectionCell
 @property (weak, nonatomic) IBOutlet MEBaseImageView *icon;
-
+ 
 @end
