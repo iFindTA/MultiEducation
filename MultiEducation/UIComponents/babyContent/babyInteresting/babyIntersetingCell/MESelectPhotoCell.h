@@ -18,5 +18,5 @@
 
 - (void)setSelectCell;
 - (void)setPhotoCell:(NSDictionary *)dic;
-
+ 
 @end

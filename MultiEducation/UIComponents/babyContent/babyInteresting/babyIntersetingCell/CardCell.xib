@@ -18,7 +18,7 @@
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9PZ-gE-gam">
                     <rect key="frame" x="10" y="10" width="300" height="300"/>
-                    <color key="backgroundColor" red="0.95294117647058818" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.95294117647058818" green="0.97647058823529409" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="9PZ-gE-gam" secondAttribute="height" multiplier="1:1" id="dFS-5r-4mh"/>
                     </constraints>

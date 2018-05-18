@@ -7,7 +7,7 @@
 //  被切换的卡片
 
 #import <UIKit/UIKit.h>
-
+ 
 @interface CardCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *coverImage;

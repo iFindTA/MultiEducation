@@ -18,7 +18,7 @@
     [super awakeFromNib];
     [self addShadow];
 }
-
+ 
 #pragma mark-添加阴影
 - (void)addShadow {
 //    self.layer.shadowPath =[UIBezierPath bezierPathWithRect: self.bounds].CGPath;

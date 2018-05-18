@@ -13,3 +13,4 @@
 -(void)setPlaceholder:(NSString *)placeholdStr placeholdColor:(UIColor *)placeholdColor;
 
 @end
+ 

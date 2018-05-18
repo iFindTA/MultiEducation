@@ -9,7 +9,7 @@
 #import "UITextView+Placeholder.h"
 
 @implementation UITextView (Placeholder)
-
+ 
 -(void)setPlaceholder:(NSString *)placeholdStr placeholdColor:(UIColor *)placeholdColor {
     UILabel *placeHolderLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 0, 0)];
     placeHolderLabel.text = placeholdStr;
