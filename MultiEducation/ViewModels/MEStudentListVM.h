@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "Mestudent.pbobjc.h"
 
 @interface MEStudentListVM : MEVM
 

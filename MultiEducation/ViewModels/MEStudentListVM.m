@@ -10,4 +10,8 @@
 
 @implementation MEStudentListVM
 
+- (NSString *)cmdCode {
+    return @"FSC_STUDENT_LIST";
+}
+
 @end
