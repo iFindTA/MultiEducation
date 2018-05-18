@@ -159,10 +159,12 @@
 
 - (void)bannerView:(YJBannerView *)bannerView didSelectItemAtIndex:(NSInteger)index {
     NSArray <MEPBRes *>*items = self.dataItem.topListArray;
-    MEPBRes *video = [items objectAtIndex:index];
-    NSDictionary *params = @{@"id":@(video.resId), @"url":PBAvailableString(video.filePath)};
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEVideoPlayProfile" initMethod:nil params:params instanceType:MEProfileTypeCODE];
-    NSError *err = [MEDispatcher openURL:url withParams:params];
+    MEPBRes *item = [items objectAtIndex:index];
+    NSNumber *vid = @(item.resId);NSNumber *resType = @(item.type);
+    NSString *title = PBAvailableString(item.title); NSString *coverImg = PBAvailableString(item.coverImg);
+    NSDictionary *params = @{@"vid":vid, @"type":resType, @"title":title, @"coverImg":coverImg};
+    NSString *urlString = @"profile://root@MEVideoPlayProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];
 }
 
