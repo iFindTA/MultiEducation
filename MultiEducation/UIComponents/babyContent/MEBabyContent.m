@@ -406,17 +406,11 @@
         NSURL *url = nil; NSDictionary *params = nil;
         NSUInteger __tag = (NSUInteger)indexPath.item;
         MEBabyContentType type = (1 << __tag);
-        MEBabyContentType multiType = (MEBabyContentTypeGrowth|MEBabyContentTypeEvaluate);
+        MEBabyContentType multiType = (MEBabyContentTypeGrowth|MEBabyContentTypeEvaluate|MEBabyContentTypeTermEvaluate);
         NSString *buried_point = nil;
         if (MEBabyContentTypeLive & type) {
             url = [MEDispatcher profileUrlWithClass:@"MELiveRoomRootProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
             buried_point = Buried_CLASS_LIVE;
-        } else if(MEBabyContentTypeEvaluate & type) {
-            //发展评价
-            
-        } else if(MEBabyContentTypeTermEvaluate & type) {
-            //学期评价
-            
         } else if(MEBabyContentTypeInterest & type) {
             //趣事趣影
             url = [MEDispatcher profileUrlWithClass:@"MEBabyInterestProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
