@@ -414,29 +414,14 @@
         } else if(MEBabyContentTypeInterest & type) {
             //趣事趣影
             url = [MEDispatcher profileUrlWithClass:@"MEBabyInterestProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
-//            buried_point = Buried_CLASS_LIVE;
+            buried_point = Buried_CLASS_INTERESTING;
         } else if (type & multiType){
             //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
-            GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
-            NSMutableDictionary *multiMap = [NSMutableDictionary dictionaryWithCapacity:0];
-            [multiMap setObject:@(index.gradeId) forKey:@"gradeId"];
-            [multiMap setObject:@(index.semester) forKey:@"semester"];
-            [multiMap setObject:@(index.month) forKey:@"month"];
+            
             BOOL whetherRoleParent = (self.currentUser.userType == MEPBUserRole_Parent);
             if (whetherRoleParent) {
-                int64_t stuID = self.studentPb.id_p;
-                [multiMap setObject:@(stuID) forKey:@"studentId"];
-                NSString *getParamsString = [multiMap.copy uq_URLQueryString];
-                if (MEBabyContentTypeGrowth & type) {
-                    NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
-                    params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
-                    buried_point = Buried_CLASS_ARCHIVE;
-                } else if (MEBabyContentTypeEvaluate & type) {
-                    NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
-                    params = @{ME_CORDOVA_KEY_TITLE:@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
-                    buried_point = Buried_CLASS_EVALUATE;
-                }
-                url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
+                [self userDidChoosenType:type whetherParent:true className:nil];
+                return;
             } else {
                 //是否有多个班级 有则选择 无则直接进入
                 NSArray <MEPBClass*>*classes = [self muticastClasses];
@@ -445,7 +430,7 @@
                     [alert showInfo:ME_ALERT_INFO_TITILE subTitle:ME_ALERT_INFO_NONE_CLASS closeButtonTitle:ME_ALERT_INFO_ITEM_OK duration:0];
                 } else if (classes.count == 1){
                     MEPBClass *cls = classes.firstObject;
-                    [self muticastClassChoosenEvent4ClassName:cls.name watchType:type];
+                    [self userDidChoosenType:type whetherParent:false className:cls.name];
                 } else {
                     SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
                     //Using Block
@@ -453,7 +438,7 @@
                     [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         [alert addButton:obj.name actionBlock:^(void) {
                             strongify(self)
-                            [self muticastClassChoosenEvent4ClassName:obj.name watchType:type];
+                            [self userDidChoosenType:type whetherParent:false className:obj.name];
                         }];
                     }];
                     [alert showInfo:ME_ALERT_INFO_TITILE subTitle:@"您当前关联了多个班级，请选择班级进行查看！" closeButtonTitle:ME_ALERT_INFO_ITEM_CANCEL duration:0];
@@ -504,32 +489,41 @@
     return clsID;
 }
 
-- (void)muticastClassChoosenEvent4ClassName:(NSString *)clsName watchType:(MEBabyContentType)type {
-    int64_t class_id = [self convertClassName2ClassID:clsName];
+/**
+ 家长/老师/园务 查看
+ */
+- (void)userDidChoosenType:(MEBabyContentType)type whetherParent:(BOOL)parent className:(NSString *)clsName {
     GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
     NSMutableDictionary *multiMap = [NSMutableDictionary dictionaryWithCapacity:0];
     [multiMap setObject:@(index.gradeId) forKey:@"gradeId"];
     [multiMap setObject:@(index.semester) forKey:@"semester"];
     [multiMap setObject:@(index.month) forKey:@"month"];
-    [multiMap setObject:@(class_id) forKey:@"classId"];
-    if (self.currentUser.userType == MEPBUserRole_Parent) {
-        [multiMap setObject:@(index.studentArchives.studentId) forKey:@"studentId"];
+    if (parent) {
+        int64_t stuID = self.studentPb.id_p;
+        [multiMap setObject:@(stuID) forKey:@"studentId"];
+    } else {
+        int64_t class_id = [self convertClassName2ClassID:clsName];
+        [multiMap setObject:@(class_id) forKey:@"classId"];
     }
-    NSString *getParamsString = [multiMap.copy uq_URLQueryString];
-    NSDictionary *params;
-    NSString *buried_point;
+    NSString *destProfile;NSURL *url = nil; NSDictionary *params = nil;NSString *buried_point = nil;
     if (MEBabyContentTypeGrowth & type) {
+        NSString *getParamsString = [multiMap.copy uq_URLQueryString];
         NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
         params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        destProfile = @"METemplateProfile";
         buried_point = Buried_CLASS_ARCHIVE;
     } else if (MEBabyContentTypeEvaluate & type) {
-        NSString *startPage = PBFormat(@"gu-study.html#/appraise?%@", getParamsString);
-        params = @{ME_CORDOVA_KEY_TITLE:@"发展评价",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        params = multiMap.copy;
+        destProfile = @"MEGrowthEvaRootProfile";
         buried_point = Buried_CLASS_EVALUATE;
+    } else if (MEBabyContentTypeTermEvaluate) {
+        params = multiMap.copy;
+        destProfile = @"MESemesterEvaRootProfile";
+        buried_point = Buried_CLASS_SEMESTER;
     }
+    url = [MEDispatcher profileUrlWithClass:destProfile initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
     //埋点
     [MobClick event:buried_point];
-    NSURL *url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
     NSError *err = [MEDispatcher openURL:url withParams:params];
     [MEKits handleError:err];
 }

@@ -35,6 +35,12 @@
 #define Buried_CLASS_ARCHIVE                                                @"class_archive"
 //埋点-宝宝相册
 #define Buried_CLASS_ALBUM                                                  @"class_album"
+//埋点-趣事趣影
+#define Buried_CLASS_INTERESTING                                            @"class_interesting"
+//埋点-学期评价
+#define Buried_CLASS_SEMESTER                                               @"class_semester"
+//埋点-假期通知
+#define Buried_CLASS_VACATION                                               @"class_vacation"
 
 
 #endif /* StatisticalAnalysis_h */
