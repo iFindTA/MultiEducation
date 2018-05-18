@@ -408,6 +408,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
 @property (nonatomic, strong) MEStudentPortrait *portraitScene;
 @property (nonatomic, strong) MEStudentLandscape *landscapeScene;
 @property (nonatomic, assign) CGFloat portraitSceneHeight;
+@property (nonatomic, strong) MEBaseButton *expandBtn;
 
 /**
  当前选择的学生ID
@@ -494,12 +495,14 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
         self.currentSID = sid;
         self.currentIndex = index;
         [self updateLandscapeVisiable];
+        [self initiativeCollapsePortraitMenu];
     };
     self.landscapeScene.callback = ^(int64_t sid, NSInteger index){
         strongify(self)
         self.currentSID = sid;
         self.currentIndex = index;
-        [self updatePortraitVisiable];
+        //此处不用更新 展开后更新即可
+        //[self updatePortraitVisiable];
     };
 }
 
@@ -525,6 +528,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
     [btn setImage:image forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(expandEvent:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:btn];
+    self.expandBtn = btn;
     btn.backgroundColor = [UIColor pb_randomColor];
     [btn makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
@@ -567,10 +571,12 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
     [self updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.mas_top).offset(expand?expandHeight:singleHeight);
     }];
+    weakify(self)
     [UIView animateWithDuration:.5 delay:0 usingSpringWithDamping:0.2 initialSpringVelocity:0.3 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
-        
+        strongify(self)
+        [self updatePortraitVisiable];
     }];
 }
 
@@ -586,6 +592,13 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
  */
 - (void)updateLandscapeVisiable {
     [self.landscapeScene scroll2Visiable4SID:self.currentSID index:self.currentIndex];
+}
+
+/**
+ 选择单个menu后 收起竖直方向的scene
+ */
+- (void)initiativeCollapsePortraitMenu {
+    [self expandEvent:self.expandBtn];
 }
 
 /*
