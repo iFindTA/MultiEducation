@@ -113,6 +113,7 @@ PODS:
   - XHImageViewer (0.1.2)
   - YCXMenu (0.0.11)
   - YJBannerView (2.3.8)
+  - YUChineseSorting (1.0.2)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -150,6 +151,7 @@ DEPENDENCIES:
   - XHImageViewer (~> 0.1.2)
   - YCXMenu (~> 0.0.11)
   - YJBannerView (~> 2.3.8)
+  - YUChineseSorting (~> 1.0.2)
   - ZFPlayer (~> 2.1.6)
 
 SPEC REPOS:
@@ -196,6 +198,7 @@ SPEC REPOS:
     - XHImageViewer
     - YCXMenu
     - YJBannerView
+    - YUChineseSorting
     - YYKit
     - ZFPlayer
 
@@ -242,9 +245,10 @@ SPEC CHECKSUMS:
   XHImageViewer: 7b275d2aa829e56761c30303b9d51cae086a90b9
   YCXMenu: 6003bcd20d8ac72e3eb3c442c97ed21948c6dc1f
   YJBannerView: f69571aecb14a4305cfd9bdf62391a1657a2c7b3
+  YUChineseSorting: 46bbd4fa0344e21b169a537bb17aafec0980c560
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: cb97b1b4a31f0ff86e9dde294b4da6b01f2beb16
+PODFILE CHECKSUM: 6684553bddf95ab996fa0b918151d48688d42534
 
 COCOAPODS: 1.5.0
