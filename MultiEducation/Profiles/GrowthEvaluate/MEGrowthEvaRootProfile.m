@@ -8,11 +8,13 @@
 
 #import "MEGrowthEvaRootProfile.h"
 #import "MEStudentsPanel.h"
+#import "MEEvaluatePanel.h"
 
 @interface MEGrowthEvaRootProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
 @property (nonatomic, strong) MEStudentsPanel *studentPanel;
+@property (nonatomic, strong) MEEvaluatePanel *evaluatePanel;
 
 @end
 
@@ -64,6 +66,8 @@
     
     //配置头部
     [self configureStudentPanelWithClassID:2633];
+    //配置评价部分
+    [self configureEvaluatePanel];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -84,8 +88,19 @@
 - (void)configureStudentPanelWithClassID:(int64_t)cid {
     MEStudentsPanel *panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
     [self.view insertSubview:panel belowSubview:self.navigationBar];
-    [panel configurePanel];
+    [panel loadAndConfigure];
     self.studentPanel = panel;
+}
+
+#pragma mark --- 配置切换
+- (void)configureEvaluatePanel {
+    MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero];
+    [self.view insertSubview:panel belowSubview:self.studentPanel];
+    self.evaluatePanel = panel;
+    [panel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(ME_STUDENT_PANEL_HEIGHT);
+        make.left.bottom.right.equalTo(self.view);
+    }];
 }
 
 /*

@@ -12,6 +12,9 @@
 #define ME_STUDENT_PANEL_ITEM_HEIGHT                                100
 #define ME_STUDENT_PANEL_OFFSET                                     5
 #define ME_STUDENT_PANEL_NUMPERLINE                                 5
+#define ME_STUDENT_PANEL_TAG_START                                  1000
+
+CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
 
 #pragma mark --- Class:>>>>> 学生遮罩
 
@@ -192,7 +195,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
     for (int i = 0; i < counts; i++) {
         MEStudentItem *item = self.students[i];
         MEMask *student = [[MEMask alloc] initWithFrame:CGRectZero];
-        student.tag = i;
+        student.tag = ME_STUDENT_PANEL_TAG_START+i;
         student.label.text = item.name;
         [student setImageURL:item.avatar placeholder:placeholder];
         [self.layout addSubview:student];
@@ -220,7 +223,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
     if ([view isKindOfClass:[MEMask class]]|| [view isMemberOfClass:[MEMask class]]) {
         MEMask *mask = (MEMask*)view;
         NSUInteger __tag = mask.tag;
-        MEStudentItem *s = self.students[__tag];
+        MEStudentItem *s = self.students[__tag-ME_STUDENT_PANEL_TAG_START];
         if (self.callback) {
             self.callback(s.sid, __tag);
         }
@@ -231,11 +234,11 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
  滚动到可显示区域到中间
  */
 - (void)scroll2Visiable4SID:(int64_t)sid index:(NSInteger)index {
-    if (index < self.students.count) {
+    if ((index - ME_STUDENT_PANEL_TAG_START) < self.students.count) {
         UIView *view = [self.layout viewWithTag:index];
         if (view != nil) {
-            CGRect bounds = [self convertRect:view.frame toView:self.scroller];
-            [self.scroller scrollRectToVisible:bounds animated:true];
+            //CGRect bounds = [self convertRect:view.frame toView:self.scroller];
+            [self.scroller scrollRectToVisible:view.frame animated:true];
         }
     }
 }
@@ -332,7 +335,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
         NSUInteger offset_x = boundary + (itemWidth+itemDistance)*__col_idx;
         NSUInteger offset_y = itemHeight*__row_idx;
         MEMask *student = [[MEMask alloc] initWithFrame:CGRectZero];
-        student.tag = i;
+        student.tag = ME_STUDENT_PANEL_TAG_START+i;
         student.label.text = item.name;
         [student setImageURL:item.avatar placeholder:placeholder];
         [self.layout addSubview:student];
@@ -361,7 +364,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
     if ([view isKindOfClass:[MEMask class]]|| [view isMemberOfClass:[MEMask class]]) {
         MEMask *mask = (MEMask*)view;
         NSUInteger __tag = mask.tag;
-        MEStudentItem *s = self.students[__tag];
+        MEStudentItem *s = self.students[__tag-ME_STUDENT_PANEL_TAG_START];
         if (self.callback) {
             self.callback(s.sid, __tag);
         }
@@ -372,11 +375,10 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
  滚动到可显示区域到中间
  */
 - (void)scroll2Visiable4SID:(int64_t)sid index:(NSInteger)index {
-    if (index < self.students.count) {
+    if ((index - ME_STUDENT_PANEL_TAG_START) < self.students.count) {
         UIView *view = [self.layout viewWithTag:index];
         if (view != nil) {
-            CGRect bounds = [self convertRect:view.frame toView:self.scroller];
-            [self.scroller scrollRectToVisible:bounds animated:true];
+            [self.scroller scrollRectToVisible:view.frame animated:true];
         }
     }
 }
@@ -473,13 +475,32 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
 }
 
 /**
+ load students for class
+ */
+- (void)loadAndConfigure {
+    weakify(self)
+    MEStudentListVM *vm = [[MEStudentListVM alloc] init];
+    [vm postData:[NSData data] hudEnable:false success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEStudentList *list = [MEStudentList parseFromData:resObj error:&err];
+        if (err) {
+            [MEKits handleError:err];
+            return ;
+        }
+        
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
+    }];
+}
+
+/**
  配置panel
  */
 - (void)configurePanel {
     NSArray *tests = [self generateTest];
     [self.students addObjectsFromArray: tests];
     //default id
-    self.currentIndex = 0;
+    self.currentIndex = ME_STUDENT_PANEL_TAG_START;
     self.currentSID = self.students.firstObject.id_p;
     //configure subviews
     [self __configureSubviews];
@@ -572,7 +593,15 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSInteger index);
         make.bottom.equalTo(self.mas_top).offset(expand?expandHeight:singleHeight);
     }];
     weakify(self)
-    [UIView animateWithDuration:.5 delay:0 usingSpringWithDamping:0.2 initialSpringVelocity:0.3 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+    /*
+    [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.2 initialSpringVelocity:0.2 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [self layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        strongify(self)
+        [self updatePortraitVisiable];
+    }];
+     //*/
+    [UIView animateWithDuration:ME_ANIMATION_DURATION animations:^{
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         strongify(self)

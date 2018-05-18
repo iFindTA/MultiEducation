@@ -19,6 +19,8 @@
 /**
  load content and configure
  */
-- (void)configurePanel;
+- (void)loadAndConfigure;
 
 @end
+
+FOUNDATION_EXPORT CGFloat const ME_STUDENT_PANEL_HEIGHT;
