@@ -22,6 +22,7 @@
 @property (nonatomic, strong) MEBaseScene *pwdScene;
 @property (nonatomic, strong) UITextField *inputMobile;
 @property (nonatomic, strong) UITextField *inputCode;
+@property (nonatomic, strong) UITextField *inputPwd;
 
 @property (nonatomic, strong) MEBaseLabel *helpLabel;
 
@@ -73,6 +74,20 @@
         make.top.equalTo(signBgScene).offset(ME_LAYOUT_BOUNDARY+ME_LAYOUT_OFFSET);
         make.left.equalTo(signBgScene).offset(ME_LAYOUT_BOUNDARY*1.5);
         make.height.equalTo(28);
+    }];
+    //code sign-in
+    font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
+    MEBaseButton *codeBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    codeBtn.titleLabel.font = font;
+    [codeBtn setTitle:@"密码登录" forState:UIControlStateNormal];
+    [codeBtn setTitle:@"验证码登录" forState:UIControlStateSelected];
+    [codeBtn setTitleColor:fontColor forState:UIControlStateNormal];
+    [codeBtn addTarget:self action:@selector(signinModeExchanged:) forControlEvents:UIControlEventTouchUpInside];
+    [signBgScene addSubview:codeBtn];self.modeBtn = codeBtn;
+    [codeBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(title.mas_centerY);
+        make.right.equalTo(signBgScene).offset(-ME_LAYOUT_BOUNDARY*1.5);
+        make.height.equalTo(ME_LAYOUT_BOUNDARY);
     }];
     //icon
     image = [UIImage imageNamed:@"login_icon_account"];
@@ -241,6 +256,55 @@
         make.right.equalTo(signBgScene).offset(-ME_LAYOUT_BOUNDARY*1.5);
         make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
     }];
+    //pwd scene
+    MEBaseScene *pwdScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    [signBgScene addSubview:pwdScene];
+    pwdScene.hidden = true;
+    self.pwdScene = pwdScene;
+    [pwdScene makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.inputMobile.mas_bottom).offset(ME_LAYOUT_MARGIN);
+        make.left.right.equalTo(signBgScene);
+        make.bottom.equalTo(self.helpLabel.mas_top).offset(-ME_LAYOUT_MARGIN);
+    }];
+    image = [UIImage imageNamed:@"login_icon_pwd"];
+    icon = [[MEBaseImageView alloc] initWithImage:image];
+    [pwdScene addSubview:icon];
+    [icon makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(pwdScene).offset(ME_LAYOUT_MARGIN*1.5);
+        make.left.equalTo(pwdScene).offset(ME_LAYOUT_BOUNDARY*1.5);
+    }];
+    font = UIFontPingFangSC(METHEME_FONT_SUBTITLE-1);
+    label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.font = font;
+    label.textColor = fontColor;
+    label.text = @"密码";
+    [pwdScene addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(icon.mas_right).offset(ME_LAYOUT_MARGIN*0.5);
+        make.centerY.equalTo(icon.mas_centerY);
+    }];
+    //input background
+    inputBg = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    inputBg.backgroundColor = UIColorFromRGB(0xF9F9F9);
+    [pwdScene addSubview:inputBg];
+    [inputBg makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(label.mas_bottom).offset(ME_LAYOUT_MARGIN*0.5);
+        make.left.equalTo(icon);
+        make.right.equalTo(pwdScene).offset(-ME_LAYOUT_BOUNDARY*1.5);
+        make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
+    }];
+    input = [[UITextField alloc] initWithFrame:CGRectZero];
+    input.font = UIFontPingFangSC(METHEME_FONT_TITLE-1);
+    input.textColor = fontColor;
+    input.placeholder = @"请输入密码";
+    input.keyboardType = UIKeyboardTypeNamePhonePad;
+    input.maxLength = ME_REGULAR_PASSWD_LEN_MAX;
+    [inputBg addSubview:input];
+    self.inputPwd = input;
+    [input makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(inputBg).insets(UIEdgeInsetsMake(ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN));
+    }];
+    
     
     //bottom margin
     [signBgScene mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -281,6 +345,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)signinModeExchanged:(MEBaseButton *)btn {
+    [self.view endEditing:true];
+    btn.selected = !btn.selected;
+    self.pwdScene.hidden = !btn.selected;
 }
 
 /**
@@ -328,14 +398,27 @@
     //assemble pb file
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
     [pb setLoginName:mobile];
-    //check code
-    NSString *code = self.inputCode.text;
-    if (code.length < ME_REGULAR_CODE_LEN_MIN) {
-        NSString *errString = PBFormat(@"请输入%d~%d位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
-        [SVProgressHUD showErrorWithStatus:errString];
-        return;
+    //登录方式
+    BOOL whetherPwdSignInMode = self.modeBtn.selected;
+    if (whetherPwdSignInMode) {
+        //check pwd
+        NSString *pwd = self.inputPwd.text;
+        if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
+            NSString *errString = PBFormat(@"请输入%d~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
+            [SVProgressHUD showErrorWithStatus:errString];
+            return;
+        }
+        [pb setPassword:pwd];
+    } else {
+        //check code
+        NSString *code = self.inputCode.text;
+        if (code.length < ME_REGULAR_CODE_LEN_MIN) {
+            NSString *errString = PBFormat(@"请输入%d~%d位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
+            [SVProgressHUD showErrorWithStatus:errString];
+            return;
+        }
+        [pb setCode:code];
     }
-    [pb setCode:code];
     //埋点
     [MobClick event:Buried_SIGNIN];
     //apns token
