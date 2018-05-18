@@ -17,6 +17,9 @@
 
 @end
 
+/**
+ Evaluate DataSource
+ */
 @protocol MEEvaluateDataSource <NSObject>
 
 - (NSArray *)titleForEvaluate;
@@ -25,6 +28,9 @@
 
 @end
 
+/**
+ Evaluate Delegate
+ */
 @protocol MEEvaluateDelegate <NSObject>
 
 @end

@@ -10,4 +10,8 @@
 
 @implementation MEStudentInfoVM
 
+- (NSString *)cmdCode {
+    return @"GU_STUDY_EVALUATE_GET";
+}
+
 @end

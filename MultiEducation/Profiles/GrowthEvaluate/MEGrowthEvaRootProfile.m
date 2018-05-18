@@ -91,12 +91,20 @@
 }
 
 #pragma mark --- 配置头部
-
 - (void)configureStudentPanelWithClassID:(int64_t)cid {
     MEStudentsPanel *panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
     [self.view insertSubview:panel belowSubview:self.navigationBar];
     [panel loadAndConfigure];
     self.studentPanel = panel;
+    
+    //touch switch student callback
+    panel.callback = ^(int64_t sid, int64_t pre_sid) {
+        NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+    };
+    //编辑完成
+    panel.editCallback = ^(BOOL done) {
+        
+    };
 }
 
 #pragma mark --- 配置切换

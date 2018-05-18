@@ -622,7 +622,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
  */
 - (void)configurePanel {
     //default id
-    self.currentSID = self.students.firstObject.id_p;
+    self.currentSID = -1;
     //configure subviews
     [self __configureSubviews];
     
@@ -842,11 +842,15 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
             self.editCallback(true);
         }
     } else {
+        int64_t preStudentID = self.currentSID;
         self.currentSID = next.id_p;
         [self updatePortraitVisiable];
         [self updateLandscapeVisiable];
         [self.portraitScene preSelectStudent:self.currentSID];
         [self.landscapeScene preSelectStudent:self.currentSID];
+        if (self.callback) {
+            self.callback(next.id_p, preStudentID);
+        }
     }
 }
 
