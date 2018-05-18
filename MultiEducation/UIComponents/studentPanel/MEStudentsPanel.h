@@ -10,4 +10,14 @@
 
 @interface MEStudentsPanel : MEBaseScene
 
+/**
+ method for instance
+ */
++ (instancetype)panelWithClassID:(int64_t)clsID superView:(UIView *)view topMargin:(UIView *)margin;
+
+/**
+ load content and configure
+ */
+- (void)configurePanel;
+
 @end

@@ -1,0 +1,13 @@
+syntax ="proto3";
+
+message MEStudent {
+	int64 id = 1;//学生ID
+	int64 classId = 2;//班级ID
+	string name = 3;//中文名称
+	int32 gender = 4;//性别
+	string portrait = 5;//头像
+}
+
+message MEStudentList {
+	repeated MEStudent students = 1;//学生列表
+}

@@ -7,10 +7,12 @@
 //
 
 #import "MEGrowthEvaRootProfile.h"
+#import "MEStudentsPanel.h"
 
 @interface MEGrowthEvaRootProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
+@property (nonatomic, strong) MEStudentsPanel *studentPanel;
 
 @end
 
@@ -25,7 +27,6 @@
 }
 
 - (PBNavigationBar *)initializedNavigationBar {
-    
     if (!self.navigationBar) {
         //customize settings
         UIColor *tintColor = pbColorMake(ME_THEME_COLOR_TEXT);
@@ -60,6 +61,9 @@
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"发展评价"];
     item.leftBarButtonItems = @[spacer, back];
     [self.navigationBar pushNavigationItem:item animated:true];
+    
+    //配置头部
+    [self configureStudentPanelWithClassID:2633];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,6 +77,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark --- 配置头部
+
+- (void)configureStudentPanelWithClassID:(int64_t)cid {
+    MEStudentsPanel *panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
+    [self.view insertSubview:panel belowSubview:self.navigationBar];
+    [panel configurePanel];
+    self.studentPanel = panel;
 }
 
 /*
