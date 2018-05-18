@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseScene.h"
+#import "MEStudentListVM.h"
 
 @interface MEStudentsPanel : MEBaseScene
 
