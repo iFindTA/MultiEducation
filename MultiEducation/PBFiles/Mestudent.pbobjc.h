@@ -54,6 +54,8 @@ typedef GPB_ENUM(MEStudent_FieldNumber) {
   MEStudent_FieldNumber_Name = 3,
   MEStudent_FieldNumber_Gender = 4,
   MEStudent_FieldNumber_Portrait = 5,
+  MEStudent_FieldNumber_Status = 6,
+  MEStudent_FieldNumber_Prestate = 7,
 };
 
 @interface MEStudent : GPBMessage
@@ -72,6 +74,12 @@ typedef GPB_ENUM(MEStudent_FieldNumber) {
 
 /** 头像 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *portrait;
+
+/** 1已完成 0未填写 2已暂存 */
+@property(nonatomic, readwrite) int32_t status;
+
+/** 与status相同 保存选中之前的状态 */
+@property(nonatomic, readwrite) int32_t prestate;
 
 @end
 

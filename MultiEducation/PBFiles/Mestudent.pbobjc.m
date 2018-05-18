@@ -51,10 +51,14 @@ static GPBFileDescriptor *MestudentRoot_FileDescriptor(void) {
 @dynamic name;
 @dynamic gender;
 @dynamic portrait;
+@dynamic status;
+@dynamic prestate;
 
 typedef struct MEStudent__storage_ {
   uint32_t _has_storage_[1];
   int32_t gender;
+  int32_t status;
+  int32_t prestate;
   NSString *name;
   NSString *portrait;
   int64_t id_p;
@@ -111,6 +115,24 @@ typedef struct MEStudent__storage_ {
         .offset = (uint32_t)offsetof(MEStudent__storage_, portrait),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "status",
+        .dataTypeSpecific.className = NULL,
+        .number = MEStudent_FieldNumber_Status,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(MEStudent__storage_, status),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "prestate",
+        .dataTypeSpecific.className = NULL,
+        .number = MEStudent_FieldNumber_Prestate,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(MEStudent__storage_, prestate),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =

@@ -9,7 +9,21 @@
 #import "MEBaseScene.h"
 #import "MEStudentListVM.h"
 
+typedef void(^MEStudentPanelCallback)(int64_t sid);
+
+typedef void(^MEStudentEditCallback)(BOOL done);
+
 @interface MEStudentsPanel : MEBaseScene
+
+/**
+ touch callback
+ */
+@property (nonatomic, copy) MEStudentPanelCallback callback;
+
+/**
+ edit callback
+ */
+@property (nonatomic, copy) MEStudentEditCallback   editCallback;
 
 /**
  method for instance
@@ -21,6 +35,14 @@
  */
 - (void)loadAndConfigure;
 
+/**
+ update student evaluate state
+ */
+- (void)updateStudent:(int64_t)sid status:(MEEvaluateState)state;
+
 @end
 
+/**
+ student fixed height
+ */
 FOUNDATION_EXPORT CGFloat const ME_STUDENT_PANEL_HEIGHT;

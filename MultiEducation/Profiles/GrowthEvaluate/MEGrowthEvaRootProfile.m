@@ -16,6 +16,8 @@
 @property (nonatomic, strong) MEStudentsPanel *studentPanel;
 @property (nonatomic, strong) MEEvaluatePanel *evaluatePanel;
 
+@property (nonatomic, assign) BOOL whetherParent;
+
 @end
 
 @implementation MEGrowthEvaRootProfile
@@ -65,7 +67,12 @@
     [self.navigationBar pushNavigationItem:item animated:true];
     
     //配置头部
-    [self configureStudentPanelWithClassID:2633];
+    self.whetherParent = self.currentUser.userType == MEPBUserRole_Parent;
+    if (!self.whetherParent) {
+        int64_t classID = [self.params[@"classId"] longLongValue];
+        [self configureStudentPanelWithClassID:classID];
+    }
+    
     //配置评价部分
     [self configureEvaluatePanel];
 }
@@ -98,7 +105,7 @@
     [self.view insertSubview:panel belowSubview:self.studentPanel];
     self.evaluatePanel = panel;
     [panel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.navigationBar.mas_bottom).offset(ME_STUDENT_PANEL_HEIGHT);
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
         make.left.bottom.right.equalTo(self.view);
     }];
 }
