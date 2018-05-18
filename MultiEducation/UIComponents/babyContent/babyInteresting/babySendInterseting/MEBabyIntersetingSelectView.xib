@@ -36,7 +36,7 @@
                         <constraint firstAttribute="width" constant="70" id="bA8-Kx-p62"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="发送给谁"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="发送给谁 "/>
                         <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                             <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         </userDefinedRuntimeAttribute>

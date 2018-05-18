@@ -11,6 +11,6 @@
 @interface UITextView (Placeholder)
 
 -(void)setPlaceholder:(NSString *)placeholdStr placeholdColor:(UIColor *)placeholdColor;
-
+ 
 @end
  

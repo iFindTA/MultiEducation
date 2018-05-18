@@ -33,6 +33,9 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdu-HR-3Um" customClass="MEBaseLabel">
                     <rect key="frame" x="17" y="364" width="286" height="50"/>
                     <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value=" "/>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjX-cQ-teS" customClass="MEBaseLabel">
                     <rect key="frame" x="17" y="431" width="286" height="16"/>

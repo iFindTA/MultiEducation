@@ -10,7 +10,7 @@
 
 @interface CardCell ()
 
-@end
+@end 
 
 @implementation CardCell
 

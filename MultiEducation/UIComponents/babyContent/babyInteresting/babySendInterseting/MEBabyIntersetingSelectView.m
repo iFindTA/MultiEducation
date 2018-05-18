@@ -36,7 +36,7 @@
 - (void)didTapSelectBabyView {
     NSLog(@"didTapSelectBabyView");
 }
- 
+  
 - (void)setData:(NSArray *)babyIconArr {
     int i = 0;
     for (MEBaseImageView *icon in self.iconViewArr) {

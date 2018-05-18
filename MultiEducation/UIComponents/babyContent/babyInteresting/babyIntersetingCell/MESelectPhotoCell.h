@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet MEBaseButton *deleteBtn;
 
 @property (nonatomic, copy) void (^DidDeleteCallback) (NSDictionary *dic);
-
+ 
 - (void)setSelectCell;
 - (void)setPhotoCell:(NSDictionary *)dic;
  

@@ -26,7 +26,7 @@
     UIImage *image = [UIImage imageWithData: [dic objectForKey: @"data"]];
     self.deleteBtn.hidden = false;
     self.photo.image = image;
-}
+} 
 
 - (void)setSelectCell {
     self.deleteBtn.hidden = true;

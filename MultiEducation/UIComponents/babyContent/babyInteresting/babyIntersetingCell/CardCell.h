@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
  
 @interface CardCell : UICollectionViewCell
-
+ 
 @property (weak, nonatomic) IBOutlet UIImageView *coverImage;
 @property (weak, nonatomic) IBOutlet UIView *countLab;
 @property (weak, nonatomic) IBOutlet UIView *titleLab;
