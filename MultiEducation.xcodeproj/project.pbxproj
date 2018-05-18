@@ -117,8 +117,9 @@
 		765E026C20AEB6E60069B389 /* CardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765E026120AEB6E60069B389 /* CardCell.xib */; };
 		765E026D20AEB6E60069B389 /* MEBabyIntersetingSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E026520AEB6E60069B389 /* MEBabyIntersetingSelectView.m */; };
 		765E026E20AEB6E60069B389 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E026620AEB6E60069B389 /* MESendIntersetContent.m */; };
-		765E026F20AEB6E60069B389 /* MEBabyIntersetingSelectView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765E026720AEB6E60069B389 /* MEBabyIntersetingSelectView.xib */; };
 		765E027220AEB71E0069B389 /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E027020AEB71E0069B389 /* UITextView+Placeholder.m */; };
+		765E027620AEBB9C0069B389 /* MEBabyPortraitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 765E027420AEBB9C0069B389 /* MEBabyPortraitCell.m */; };
+		765E027720AEBB9C0069B389 /* MEBabyPortraitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 765E027520AEBB9C0069B389 /* MEBabyPortraitCell.xib */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
@@ -515,10 +516,12 @@
 		765E026420AEB6E60069B389 /* MESendIntersetContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESendIntersetContent.h; sourceTree = "<group>"; };
 		765E026520AEB6E60069B389 /* MEBabyIntersetingSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBabyIntersetingSelectView.m; sourceTree = "<group>"; };
 		765E026620AEB6E60069B389 /* MESendIntersetContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESendIntersetContent.m; sourceTree = "<group>"; };
-		765E026720AEB6E60069B389 /* MEBabyIntersetingSelectView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEBabyIntersetingSelectView.xib; sourceTree = "<group>"; };
 		765E026820AEB6E60069B389 /* MEBabyIntersetingSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBabyIntersetingSelectView.h; sourceTree = "<group>"; };
 		765E027020AEB71E0069B389 /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		765E027120AEB71E0069B389 /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		765E027320AEBB9C0069B389 /* MEBabyPortraitCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyPortraitCell.h; sourceTree = "<group>"; };
+		765E027420AEBB9C0069B389 /* MEBabyPortraitCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyPortraitCell.m; sourceTree = "<group>"; };
+		765E027520AEBB9C0069B389 /* MEBabyPortraitCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEBabyPortraitCell.xib; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
@@ -1286,11 +1289,14 @@
 			isa = PBXGroup;
 			children = (
 				765E025D20AEB6E60069B389 /* CardCell.h */,
-				765E025E20AEB6E60069B389 /* MESelectPhotoCell.xib */,
-				765E025F20AEB6E60069B389 /* MESelectPhotoCell.m */,
 				765E026020AEB6E60069B389 /* CardCell.m */,
 				765E026120AEB6E60069B389 /* CardCell.xib */,
 				765E026220AEB6E60069B389 /* MESelectPhotoCell.h */,
+				765E025F20AEB6E60069B389 /* MESelectPhotoCell.m */,
+				765E025E20AEB6E60069B389 /* MESelectPhotoCell.xib */,
+				765E027320AEBB9C0069B389 /* MEBabyPortraitCell.h */,
+				765E027420AEBB9C0069B389 /* MEBabyPortraitCell.m */,
+				765E027520AEBB9C0069B389 /* MEBabyPortraitCell.xib */,
 			);
 			path = babyIntersetingCell;
 			sourceTree = "<group>";
@@ -1299,10 +1305,9 @@
 			isa = PBXGroup;
 			children = (
 				765E026420AEB6E60069B389 /* MESendIntersetContent.h */,
-				765E026520AEB6E60069B389 /* MEBabyIntersetingSelectView.m */,
 				765E026620AEB6E60069B389 /* MESendIntersetContent.m */,
-				765E026720AEB6E60069B389 /* MEBabyIntersetingSelectView.xib */,
 				765E026820AEB6E60069B389 /* MEBabyIntersetingSelectView.h */,
+				765E026520AEB6E60069B389 /* MEBabyIntersetingSelectView.m */,
 			);
 			path = babySendInterseting;
 			sourceTree = "<group>";
@@ -2211,12 +2216,12 @@
 				7E5A791149A86D5D5A529FB8C1932E6F /* MEBabyContentHeader.xib in Resources */,
 				765E026C20AEB6E60069B389 /* CardCell.xib in Resources */,
 				D62AEB4BF3ADC75B8F782D5275E781E1 /* MEBabyContentPhotoCell.xib in Resources */,
-				765E026F20AEB6E60069B389 /* MEBabyIntersetingSelectView.xib in Resources */,
 				187831884199A563646659BED8437C23 /* MEBabyHeader.xib in Resources */,
 				309A30B69F2693D54CD6FE4B47011A68 /* MEBabyInfoCell.xib in Resources */,
 				17F302F2BDD50A0D3D1C6DDFB61065F8 /* MEBabyPhotoCell.xib in Resources */,
 				7103E746997293508C5B24EE09F0EDE9 /* MEBabySelectCell.xib in Resources */,
 				B102539829ECEA1DBD5D8CEB19D8FFB8 /* MEEditScene.xib in Resources */,
+				765E027720AEBB9C0069B389 /* MEBabyPortraitCell.xib in Resources */,
 				63539E2EDF511B7002C0AD01B19C423D /* MEFolderCell.xib in Resources */,
 				AB4CA874F33199D9113487CBE6A1290B /* MEHeaderIconCell.xib in Resources */,
 				0E1C41CF04954E72C407260D2E6E64BC /* MEHistoryCell.xib in Resources */,
@@ -2443,6 +2448,7 @@
 				EF64C492FCCDB6871CD90833A477285F /* MEDoLiveVM.m in Sources */,
 				958414BFC58B88A4E07DCD42BAB0FC02 /* MEEditScene.m in Sources */,
 				042DC73CB60A3C1F3CE64E0EEC2B95C9 /* MEEditUserDataProfile.m in Sources */,
+				765E027620AEBB9C0069B389 /* MEBabyPortraitCell.m in Sources */,
 				E76F49E94FAE0344452E3E7334A9AC06 /* MEEvaluateCell.m in Sources */,
 				BE3F6A5A337137A20A98B6E4BF5B2293 /* MEEvaluateProfile.m in Sources */,
 				D385432537AE657372FAB8451C28054F /* MEFileQuryVM.m in Sources */,

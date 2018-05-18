@@ -9,7 +9,7 @@
 #import "MEAccountSafeProfile.h"
 #import "MEPersonalCell.h"
 
-#define TEXT_ARR @[@"退出登录"]
+#define TEXT_ARR @[@"修改密码", @"退出登录"]
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const CELL_HEIGHT = 54.f;
@@ -80,12 +80,12 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEPersonalCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
-//    BOOL hide;
-//    if (indexPath.row == 1) {
-//        hide = YES;
-//    } else {
-//        hide = NO;
-//    }
+    BOOL hide;
+    if (indexPath.row == 1) {
+        hide = YES;
+    } else {
+        hide = NO;
+    }
     [cell setData:  [self.array objectAtIndex: indexPath.row] hidden: true];
     return cell;
 }
@@ -97,13 +97,13 @@ static CGFloat const CELL_HEIGHT = 54.f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: NO];
-//    if (indexPath.row == 0) {
-//        NSString *urlStr = @"profile://root@MEUpdatePasswordProfile";
-//        NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-//        [MEKits handleError:error];
-//    } else {
+    if (indexPath.row == 0) {
+        NSString *urlStr = @"profile://root@MEUpdatePasswordProfile";
+        NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+        [MEKits handleError:error];
+    } else {
         [self logout];
-//    }
+    }
 }
 
 #pragma mark - lazyloading

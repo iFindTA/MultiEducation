@@ -216,8 +216,6 @@
 - (MEBabyIntersetingSelectView *)selectView {
     if (!_selectView) {
         _selectView = [[NSBundle mainBundle] loadNibNamed: @"MEBabyIntersetingSelectView" owner:self options: nil].firstObject;
-        //FIXME: baybyIcon
-        [_selectView setData: nil];
     }
     return _selectView;
 }
