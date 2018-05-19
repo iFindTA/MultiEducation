@@ -116,6 +116,8 @@
         make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
         make.left.bottom.right.equalTo(self.view);
     }];
+    
+    [SVProgressHUD showWithStatus:@"sssss"];
 }
 
 /*

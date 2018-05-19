@@ -10,6 +10,8 @@
 
 @interface MEEvaluatePanel ()
 
+@property (nonatomic, strong) NSArray *titles;
+
 @end
 
 @implementation MEEvaluatePanel
@@ -20,6 +22,16 @@
         self.backgroundColor = [UIColor pb_randomColor];
     }
     return self;
+}
+
+#pragma mark --- user interface actions
+
+- (void)resetEvaluateContent {
+    
+}
+
+- (void)didChanged2Student4ID:(int64_t)sid {
+    
 }
 
 /*

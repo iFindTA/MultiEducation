@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+message EvaluateItem {
+	int64 id = 1;//item id
+	string title = 2;//item title
+	bool checked = 3;//是否选中
+}
+
+message EvaluateQuestion {
+	int64 id = 1;// question id
+	int64 evaluateId = 2;//?
+	string title = 3;//问题标题
+	int32 type = 4;//类型（1:在幼儿园 2:在家里）
+	int32 checkType = 5;//1:单选题 2:多选题 3:填空题
+	repeated EvaluateItem items = 6;//题目选项
+	string placeholder = 7;//填空题的占位文字描述
+}
+
+message GrowthEvaluate {
+	int64 id = 1;//?
+	int64 gradeId = 2;//年级
+	int64 semester = 3;//学期
+	int64 studentId = 4;//学生ID
+	int32 month = 5;//月份
+	string title = 6;//标题
+	int32 status = 7;//状态 1已完成 0未填写 2已暂存
+	repeated EvaluateQuestion schoolQuestions = 8;//在学校题目
+	repeated EvaluateQuestion homeQuestions = 9;//在家里题目
+}
+
+message GrowthEvaluateList {
+	repeated GrowthEvaluate evaluates = 1;//列表
+}

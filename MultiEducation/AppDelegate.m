@@ -337,6 +337,8 @@
     [backTypes addObject:@(ConversationType_GROUP)];
     [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
     [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];// 多端阅读消息数同步
+    //for SVProgressHUD
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
 }
 
 /**
