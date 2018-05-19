@@ -13,39 +13,66 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CardCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+            <rect key="frame" x="0.0" y="0.0" width="244" height="320"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9PZ-gE-gam">
-                    <rect key="frame" x="10" y="10" width="300" height="300"/>
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9PZ-gE-gam">
+                    <rect key="frame" x="10" y="10" width="224" height="224"/>
                     <color key="backgroundColor" red="0.95294117647058818" green="0.97647058823529409" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="9PZ-gE-gam" secondAttribute="height" multiplier="1:1" id="dFS-5r-4mh"/>
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moO-nP-Zk0" customClass="MEBaseLabel">
-                    <rect key="frame" x="17" y="334" width="286" height="20"/>
-                    <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="17" y="242" width="210" height="18"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="20" id="ghn-S5-tmF"/>
+                        <constraint firstAttribute="height" constant="18" id="ghn-S5-tmF"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="游戏室自由活动"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdu-HR-3Um" customClass="MEBaseLabel">
-                    <rect key="frame" x="17" y="364" width="286" height="50"/>
-                    <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="17" y="270" width="210" height="19"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="string" keyPath="text" value=" "/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="幼儿园新家游戏室，孩子们第一次来到这里，玩得很开心！"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                            <real key="value" value="14"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <color key="value" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="numberOfLines">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PjX-cQ-teS" customClass="MEBaseLabel">
-                    <rect key="frame" x="17" y="431" width="286" height="16"/>
-                    <color key="backgroundColor" red="0.95294117649999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="17" y="299" width="210" height="13"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="16" id="thS-2n-827"/>
+                        <constraint firstAttribute="height" constant="13" id="thS-2n-827"/>
                     </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                            <real key="value" value="11"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <color key="value" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="幼儿园趣事 2018-04-09"/>
+                    </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xsh-B3-GXH" customClass="MEBaseLabel">
-                    <rect key="frame" x="242" y="284" width="62" height="20"/>
+                    <rect key="frame" x="166" y="208" width="62" height="20"/>
                     <color key="backgroundColor" red="0.37647058823529411" green="0.61960784313725492" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="G1G-su-UF0"/>
@@ -54,26 +81,50 @@
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="2"/>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="string" keyPath="text" value="共9张"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                            <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                            <real key="value" value="13"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="numberOfLines">
+                            <integer key="value" value="0"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
+                            <integer key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIo-e6-Cs2">
+                    <rect key="frame" x="99" y="107" width="46" height="30"/>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="bbb:" destination="iN0-l3-epB" eventType="touchUpInside" id="eoQ-r3-WZS"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="cdu-HR-3Um" firstAttribute="top" secondItem="moO-nP-Zk0" secondAttribute="bottom" constant="10" id="2Bl-ua-dwf"/>
+                <constraint firstItem="mIo-e6-Cs2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="99" id="7jV-uU-6zl"/>
+                <constraint firstItem="moO-nP-Zk0" firstAttribute="top" secondItem="mIo-e6-Cs2" secondAttribute="bottom" constant="105" id="9d1-TW-qpk"/>
                 <constraint firstAttribute="trailing" secondItem="9PZ-gE-gam" secondAttribute="trailing" constant="10" id="9ze-1c-SfO"/>
+                <constraint firstAttribute="trailing" secondItem="mIo-e6-Cs2" secondAttribute="trailing" constant="99" id="DGT-mU-3P6"/>
                 <constraint firstItem="9PZ-gE-gam" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Ijr-Bg-tTs"/>
                 <constraint firstItem="Xsh-B3-GXH" firstAttribute="bottom" secondItem="9PZ-gE-gam" secondAttribute="bottom" constant="-6" id="JEX-9d-Y6F"/>
                 <constraint firstItem="PjX-cQ-teS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="VZX-R9-qs2"/>
                 <constraint firstAttribute="trailing" secondItem="moO-nP-Zk0" secondAttribute="trailing" constant="17" id="ZJE-rq-Fcn"/>
-                <constraint firstItem="PjX-cQ-teS" firstAttribute="top" secondItem="cdu-HR-3Um" secondAttribute="bottom" constant="17" id="gxz-1k-JFf"/>
+                <constraint firstItem="mIo-e6-Cs2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="107" id="bsz-Ro-1nC"/>
+                <constraint firstItem="PjX-cQ-teS" firstAttribute="top" secondItem="cdu-HR-3Um" secondAttribute="bottom" constant="10" id="gxz-1k-JFf"/>
                 <constraint firstItem="cdu-HR-3Um" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="jit-Uf-Lcw"/>
                 <constraint firstAttribute="trailing" secondItem="cdu-HR-3Um" secondAttribute="trailing" constant="17" id="nkQ-Rg-gTi"/>
                 <constraint firstItem="Xsh-B3-GXH" firstAttribute="trailing" secondItem="9PZ-gE-gam" secondAttribute="trailing" constant="-6" id="oof-x8-fO3"/>
                 <constraint firstItem="moO-nP-Zk0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="17" id="qhP-mD-Hrn"/>
-                <constraint firstItem="moO-nP-Zk0" firstAttribute="top" secondItem="9PZ-gE-gam" secondAttribute="bottom" constant="24" id="r9j-cJ-bJW"/>
+                <constraint firstItem="moO-nP-Zk0" firstAttribute="top" secondItem="9PZ-gE-gam" secondAttribute="bottom" constant="8" id="r9j-cJ-bJW"/>
                 <constraint firstItem="9PZ-gE-gam" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="sZ9-UJ-0GX"/>
                 <constraint firstAttribute="trailing" secondItem="PjX-cQ-teS" secondAttribute="trailing" constant="17" id="vdN-lu-bC4"/>
-                <constraint firstAttribute="bottom" secondItem="PjX-cQ-teS" secondAttribute="bottom" constant="13" id="xUb-k4-6sb"/>
+                <constraint firstAttribute="bottom" secondItem="PjX-cQ-teS" secondAttribute="bottom" constant="8" id="xUb-k4-6sb"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -83,7 +134,7 @@
                 <outlet property="subTitleLab" destination="cdu-HR-3Um" id="sIv-em-Joy"/>
                 <outlet property="titleLab" destination="moO-nP-Zk0" id="hpc-tO-ZR4"/>
             </connections>
-            <point key="canvasLocation" x="97" y="-84"/>
+            <point key="canvasLocation" x="24" y="-147"/>
         </view>
     </objects>
 </document>

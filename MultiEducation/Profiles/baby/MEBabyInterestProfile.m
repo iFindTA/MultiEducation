@@ -11,7 +11,7 @@
 #import "Meuser.pbobjc.h"
 #import "MEStudentsPanel.h"
 
-#define CONTENT_HEIGHT adoptValue(488.f)
+#define CONTENT_HEIGHT MESCREEN_HEIGHT - ME_STUDENT_PANEL_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - [MEKits statusBarHeight]
 
 @interface MEBabyInterestProfile () {
     int64_t _classId;   //role == teacher || gardener
@@ -35,23 +35,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self customNavigation];
-
+    
     [self.view addSubview: self.content];
     
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.content.center = CGPointMake(MESCREEN_WIDTH / 2, MESCREEN_HEIGHT / 2);
-    } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
-        if (self.currentUser.teacherPb.classPbArray.count > 0) {
-            if (self.currentUser.teacherPb.classPbArray.count == 1) {
-                
-            } else {
-                
-            }
-        }
-    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
-        
     } else {
-        
+        [self configureStudentPanelWithClassID: _classId];
+        CGFloat y = ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight] + ME_STUDENT_PANEL_HEIGHT;
+        self.content.frame = CGRectMake(0, y, MESCREEN_WIDTH, CONTENT_HEIGHT);
     }
 }
 
@@ -76,7 +68,9 @@
 #pragma mark --- 配置头部
 - (void)configureStudentPanelWithClassID:(int64_t)cid {
     _panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
-    [self.view insertSubview:_panel belowSubview:self.navigationBar];
+    [self.view insertSubview:_panel belowSubview: self.navigationBar];
+    [self.view insertSubview:_panel aboveSubview: self.content];
+
     [_panel loadAndConfigure];
     
     //touch switch student callback

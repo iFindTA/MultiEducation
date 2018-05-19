@@ -40,7 +40,7 @@ static NSString * const Cell_idef = @"cell_idef";
     _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
     _collectionView.showsHorizontalScrollIndicator = false;
     _collectionView.backgroundColor = [UIColor orangeColor];
-    [_collectionView registerNib: [UINib nibWithNibName: @"CardCell" bundle: nil] forCellWithReuseIdentifier: Cell_idef];
+    [_collectionView registerNib: [UINib nibWithNibName: @"MECardCell" bundle: nil] forCellWithReuseIdentifier: Cell_idef];
     _collectionView.userInteractionEnabled = true;
     _collectionView.delegate = self;
     _collectionView.dataSource = self;

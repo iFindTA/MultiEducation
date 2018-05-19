@@ -120,6 +120,8 @@
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		76369B8520B015F300068502 /* MECardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76369B8320B015F300068502 /* MECardCell.m */; };
+		76369B8620B015F300068502 /* MECardCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76369B8420B015F300068502 /* MECardCell.xib */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7AB23E9857B2AEE66BD243ED0F98B4B2 /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFA7571B49104B4711B7C111D291686 /* MEMultiSelectBabyProfile.m */; };
@@ -532,6 +534,9 @@
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
+		76369B8220B015F300068502 /* MECardCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECardCell.h; sourceTree = "<group>"; };
+		76369B8320B015F300068502 /* MECardCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MECardCell.m; sourceTree = "<group>"; };
+		76369B8420B015F300068502 /* MECardCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MECardCell.xib; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
@@ -865,6 +870,9 @@
 				9B7AA1F574DAEF07C68CA2A38AA03779 /* CardCell.h */,
 				D82FBBCAA1826092953D78C09461BA83 /* CardCell.m */,
 				2E8223EB4A20F2CD53FF1B3A45B78C84 /* CardCell.xib */,
+				76369B8220B015F300068502 /* MECardCell.h */,
+				76369B8320B015F300068502 /* MECardCell.m */,
+				76369B8420B015F300068502 /* MECardCell.xib */,
 				9BECC6FA518D7C697919ED8715201FBF /* MEBabyPortraitCell.h */,
 				3E82F034BEF21B8A8161D1B530F672F6 /* MEBabyPortraitCell.m */,
 				2376CDEC7D88376E9AFA29FD5603A00D /* MEBabyPortraitCell.xib */,
@@ -2283,6 +2291,7 @@
 				A66400286CB8705DBDAE02A84F8F8D14 /* config.xml in Resources */,
 				7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */,
 				85B41EB315B294A07DF3A3C47192C2FC /* imgResource.xcassets in Resources */,
+				76369B8620B015F300068502 /* MECardCell.xib in Resources */,
 				891F19ECEF12F9F6FDB990892AC31893 /* index_sub_bar.bat in Resources */,
 				579477FA2EA7E5C260D36706C409C49C /* www.zip in Resources */,
 			);
@@ -2479,6 +2488,7 @@
 				D018419E61B2E0073A92A14D6DB3CBE1 /* MEBaseScene.m in Sources */,
 				DE728D505B819C1E53333132FD62723F /* MEBaseTabBarProfile.m in Sources */,
 				1480F2D9E07C01873913FA13196D3EF1 /* MEBaseTableView.m in Sources */,
+				76369B8520B015F300068502 /* MECardCell.m in Sources */,
 				EA7CFDFB9AD5472D5EBC4CC8C40F2D6A /* MEBrowserProfile.m in Sources */,
 				287B2E78979F6CF4504842EBAAA1B597 /* MECardSwitchFlowLayout.m in Sources */,
 				4992C6193C6813D4245943D3E0FD55A2 /* MEChatProfile.m in Sources */,

@@ -11,8 +11,8 @@
 
 //居中卡片宽度与据屏幕宽度比例
 
-#define CellWidth adoptValue(320.f)
-#define CellHeight adoptValue(460.f)
+#define CellWidth adoptValue(self.collectionView.superview.frame.size.width - 55)
+#define CellHeight adoptValue(self.collectionView.superview.frame.size.height - 28)
 #define CardWidthScale CellWidth / self.collectionView.superview.frame.size.width
 #define CardHeightScale CellHeight / self.collectionView.superview.frame.size.height
 
@@ -23,7 +23,6 @@
     [super prepareLayout];
     self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.sectionInset = UIEdgeInsetsMake(0, [self collectionInset], 0, [self collectionInset]);
-    
 }
 
 //设置缩放动画
