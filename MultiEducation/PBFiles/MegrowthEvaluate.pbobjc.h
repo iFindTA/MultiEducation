@@ -79,6 +79,7 @@ typedef GPB_ENUM(EvaluateQuestion_FieldNumber) {
   EvaluateQuestion_FieldNumber_CheckType = 5,
   EvaluateQuestion_FieldNumber_ItemsArray = 6,
   EvaluateQuestion_FieldNumber_Placeholder = 7,
+  EvaluateQuestion_FieldNumber_MaxLength = 8,
 };
 
 @interface EvaluateQuestion : GPBMessage
@@ -105,6 +106,9 @@ typedef GPB_ENUM(EvaluateQuestion_FieldNumber) {
 
 /** 填空题的占位文字描述 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *placeholder;
+
+/** 用户最多输入长度 */
+@property(nonatomic, readwrite) int32_t maxLength;
 
 @end
 

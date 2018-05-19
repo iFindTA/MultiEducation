@@ -13,12 +13,13 @@
 #import <UITextView+Placeholder/UITextView+Placeholder.h>
 
 CGFloat const ME_QUESTION_INPUT_HEIGHT = 185;
+CGFloat const ME_QUESTION_INPUT_MAXLENGTH = 200;
 
 @class MEOption;
 typedef void(^MEOptionItemCallback)(MEOption *opt);
 
 #pragma mark --- >>>>>>>>>>>>>>>>>>> 问题Item 选项
-@interface MEOption : MEBaseScene
+@interface MEOption : MEBaseScene<UITextViewDelegate>
 
 @property (nonatomic, assign) BOOL checked;
 
@@ -115,6 +116,7 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
 - (UITextView *)input {
     if (!_input) {
         _input = [[UITextView alloc] initWithFrame:CGRectZero];
+        _input.backgroundColor = [UIColor clearColor];
         _input.keyboardType = UIKeyboardTypeNamePhonePad;
         _input.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
         _input.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
@@ -150,6 +152,64 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
     UIColor *bgColor = checked?UIColorFromRGB(0xCCE2FA):UIColorFromRGB(0xF8F8F8);
     self.titleScene.backgroundColor = bgColor;
     [self layoutIfNeeded];
+}
+
+@end
+
+#pragma mark --- >>>>>>>>>>>>>>>>>>> 问题Item 输入选项
+@interface MEInputOption : MEOption
+
++ (instancetype)optionWithPlaceholder:(NSString *)placeholder editable:(BOOL)editable maxLength:(NSUInteger)len;
+
+@end
+
+@implementation MEInputOption
+
++ (instancetype)optionWithPlaceholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len {
+    return [[MEInputOption alloc] initWithFrame:CGRectZero placeholder:holder editable:editable maxLength:len];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.editable = editable;
+        [self addSubview:self.inputScene];
+        [self.inputScene addSubview:self.input];
+        self.input.delegate = self;
+        self.input.placeholder = holder;
+        self.input.maxLength = MAX(len, ME_QUESTION_INPUT_MAXLENGTH);
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self.inputScene makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self).insets(UIEdgeInsetsMake(ME_LAYOUT_MARGIN*0.5, ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN*0.5, ME_LAYOUT_MARGIN));
+    }];
+    [self.input makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.inputScene);
+    }];
+}
+
+#pragma mark --- UITextView Delegate
+
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if (!self.editable) {
+        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前内容！"];
+        return false;
+    }
+    return true;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if (text.length > 0) {
+        if (self.callback) {
+            __weak typeof(self) weakSelf = self;
+            self.callback(weakSelf);
+        }
+    }
+    return true;
 }
 
 @end
@@ -233,32 +293,45 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     //问题选项
-    [self.itemOpts removeAllObjects];
-    NSArray <EvaluateItem*>*opts = self.source.itemsArray.copy;
     int i=0; MEOption *lastOpt = nil;CGFloat offset = ME_LAYOUT_MARGIN*0.5;
-    for (EvaluateItem *item in opts) {
-        MEOption *opt = [[MEOption alloc] initWithFrame:CGRectZero title:item.title editable:self.editable];
-        opt.tag = i;
-        opt.checked = item.checked;
-        [self addSubview:opt];
-        [self.itemOpts addObject:opt];
-        [opt makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo((lastOpt==nil)?label.mas_bottom:lastOpt.mas_bottom).offset((lastOpt==nil)?0:offset);
+    [self.itemOpts removeAllObjects];
+    int checkType = self.source.checkType;
+    if (checkType == 3) {
+        MEInputOption *inputOpt = [[MEInputOption alloc] initWithFrame:CGRectZero placeholder:self.source.placeholder editable:self.editable maxLength:self.source.maxLength];
+        inputOpt.tag = i;
+        [self addSubview:inputOpt];
+        [inputOpt makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(label.mas_bottom);
             make.left.right.equalTo(self);
-            make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+            make.height.equalTo(ME_QUESTION_INPUT_HEIGHT);
         }];
-        //如果已选择 则保存当前选择的
-        if (item.checked) {
-            self.currentOpt = opt;
+        lastOpt = inputOpt;
+    } else {
+        NSArray <EvaluateItem*>*opts = self.source.itemsArray.copy;
+        for (EvaluateItem *item in opts) {
+            MEOption *opt = [[MEOption alloc] initWithFrame:CGRectZero title:item.title editable:self.editable];
+            opt.tag = i;
+            opt.checked = item.checked;
+            [self addSubview:opt];
+            [self.itemOpts addObject:opt];
+            [opt makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo((lastOpt==nil)?label.mas_bottom:lastOpt.mas_bottom).offset((lastOpt==nil)?0:offset);
+                make.left.right.equalTo(self);
+                make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+            }];
+            //如果已选择 则保存当前选择的
+            if (item.checked) {
+                self.currentOpt = opt;
+            }
+            //callback
+            weakify(self)
+            opt.callback = ^(MEOption *opt){
+                strongify(self)
+                [self userDidTouchQuestionOption:opt];
+            };
+            lastOpt = opt;
+            i++;
         }
-        //callback
-        weakify(self)
-        opt.callback = ^(MEOption *opt){
-            strongify(self)
-            [self userDidTouchQuestionOption:opt];
-        };
-        lastOpt = opt;
-        i++;
     }
     
     //bottom margin
@@ -314,7 +387,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 @interface MEQuestionPanel: MEBaseScene
 
-@property (nonatomic, strong) UIScrollView *scroller;
+@property (nonatomic, strong) MEBaseScrollView *scroller;
 @property (nonatomic, strong) MEBaseScene *layout;
 
 /**
@@ -393,9 +466,9 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 #pragma mark --- lazy loading
 
-- (UIScrollView *)scroller {
+- (MEBaseScrollView *)scroller {
     if (!_scroller) {
-        _scroller = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        _scroller = [[MEBaseScrollView alloc] initWithFrame:CGRectZero];
         _scroller.bounces = true;
         _scroller.pagingEnabled = false;
         _scroller.showsVerticalScrollIndicator = false;

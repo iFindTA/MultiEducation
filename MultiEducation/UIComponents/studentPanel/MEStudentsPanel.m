@@ -156,7 +156,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 #pragma mark --- Class:>>>>> 学生横向列表
 @interface MEStudentLandscape: MEBaseScene
 
-@property (nonatomic, strong) UIScrollView *scroller;
+@property (nonatomic, strong) MEBaseScrollView *scroller;
 @property (nonatomic, strong) MEBaseScene *layout;
 /**
  所有学生
@@ -192,9 +192,9 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 
 #pragma mark --- lazy loading
 
-- (UIScrollView *)scroller {
+- (MEBaseScrollView *)scroller {
     if (!_scroller) {
-        _scroller = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        _scroller = [[MEBaseScrollView alloc] initWithFrame:CGRectZero];
         _scroller.bounces = true;
         _scroller.pagingEnabled = false;
         _scroller.showsVerticalScrollIndicator = false;
@@ -333,7 +333,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 #pragma mark --- Class:>>>>> 学生纵向列表
 @interface MEStudentPortrait: MEBaseScene
 
-@property (nonatomic, strong) UIScrollView *scroller;
+@property (nonatomic, strong) MEBaseScrollView *scroller;
 @property (nonatomic, strong) MEBaseScene *layout;
 /**
  所有学生
@@ -369,9 +369,9 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 
 #pragma mark --- lazy loading
 
-- (UIScrollView *)scroller {
+- (MEBaseScrollView *)scroller {
     if (!_scroller) {
-        _scroller = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        _scroller = [[MEBaseScrollView alloc] initWithFrame:CGRectZero];
         _scroller.bounces = true;
         _scroller.pagingEnabled = false;
         _scroller.showsVerticalScrollIndicator = true;
