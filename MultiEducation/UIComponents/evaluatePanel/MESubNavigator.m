@@ -19,7 +19,7 @@ CGFloat const ME_SUBNAVGATOR_HEIGHT = 44;
 @property (nonatomic, assign) NSUInteger currentIndex;
 
 @property (nonatomic, strong) UIScrollView *scroller;
-@property (nonatomic, strong) MEBaseScene *layout
+@property (nonatomic, strong) MEBaseScene *layout;
 
 @property (nonatomic, strong) MEBaseScene *flag;
 
