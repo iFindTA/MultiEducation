@@ -8,11 +8,15 @@
 
 #import "MEGrowthEvaRootProfile.h"
 #import "MEStudentsPanel.h"
+#import "MEEvaluatePanel.h"
 
 @interface MEGrowthEvaRootProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
 @property (nonatomic, strong) MEStudentsPanel *studentPanel;
+@property (nonatomic, strong) MEEvaluatePanel *evaluatePanel;
+
+@property (nonatomic, assign) BOOL whetherParent;
 
 @end
 
@@ -63,7 +67,14 @@
     [self.navigationBar pushNavigationItem:item animated:true];
     
     //配置头部
-    [self configureStudentPanelWithClassID:2633];
+    self.whetherParent = self.currentUser.userType == MEPBUserRole_Parent;
+    if (!self.whetherParent) {
+        int64_t classID = [self.params[@"classId"] longLongValue];
+        [self configureStudentPanelWithClassID:classID];
+    }
+    
+    //配置评价部分
+    [self configureEvaluatePanel];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,12 +91,31 @@
 }
 
 #pragma mark --- 配置头部
-
 - (void)configureStudentPanelWithClassID:(int64_t)cid {
     MEStudentsPanel *panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
     [self.view insertSubview:panel belowSubview:self.navigationBar];
-    [panel configurePanel];
+    [panel loadAndConfigure];
     self.studentPanel = panel;
+    
+    //touch switch student callback
+    panel.callback = ^(int64_t sid, int64_t pre_sid) {
+        NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+    };
+    //编辑完成
+    panel.editCallback = ^(BOOL done) {
+        
+    };
+}
+
+#pragma mark --- 配置切换
+- (void)configureEvaluatePanel {
+    MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero];
+    [self.view insertSubview:panel belowSubview:self.studentPanel];
+    self.evaluatePanel = panel;
+    [panel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
+        make.left.bottom.right.equalTo(self.view);
+    }];
 }
 
 /*

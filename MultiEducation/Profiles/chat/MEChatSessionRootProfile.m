@@ -60,7 +60,7 @@
 
 - (void)setupCustomRongIMUIs {
     //是否显示网络状态
-    self.isShowNetworkIndicatorView = YES;
+    self.isShowNetworkIndicatorView = false;
     //是否显示连接状态
     self.showConnectingStatusOnNavigatorBar = YES;
     self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;

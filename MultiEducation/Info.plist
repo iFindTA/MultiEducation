@@ -33,6 +33,8 @@
 	<string>请求使用麦克风</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>请求访问相册</string>
+	<key>NSLocationUsageDescription</key>
+	<string>请求使用位置</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>iconfont.ttf</string>

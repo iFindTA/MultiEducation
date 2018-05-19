@@ -17,6 +17,11 @@
 
 @interface MEIMService () <RCIMUserInfoDataSource, RCIMGroupInfoDataSource, RCIMGroupMemberDataSource, RCIMReceiveMessageDelegate>
 
+/**
+ current user id
+ */
+@property (nonatomic, strong) MEPBUser *user;
+
 @end
 
 static MEIMService *instance = nil;
@@ -56,11 +61,11 @@ static MEIMService *instance = nil;
         [self.app updateRongIMUnReadMessageCounts];
         return;
     }
-    
+    self.user = user;
     weakify(self)
     [[RCIM sharedRCIM] connectWithToken:user.rcToken success:^(NSString *userId) {
         NSLog(@"RongIM登录成功...userId:%@", userId);
-        PBMAINDelay(ME_ANIMATION_DURATION, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             strongify(self)
             NSString *portrait = [MEKits imageFullPath:user.portrait];
             [[RCIM sharedRCIM] setCurrentUserInfo:[[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait]];
@@ -68,6 +73,7 @@ static MEIMService *instance = nil;
             [[RCIM sharedRCIM] setGroupInfoDataSource:self];
             [[RCIM sharedRCIM] setGroupMemberDataSource:self];
             [[RCIM sharedRCIM] setReceiveMessageDelegate:self];
+            [RCIM sharedRCIM].globalNavigationBarTintColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
             //更新未读
             [self.app updateRongIMUnReadMessageCounts];
         });
@@ -93,10 +99,9 @@ static MEIMService *instance = nil;
  在您设置了用户信息提供者之后，SDK在需要显示用户信息的时候，会调用此方法，向您请求用户信息用于显示。
  */
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *userInfo))completion {
-    
-    PBMAIN(^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         MEPBUser *user = self.app.curUser;
-        ino64_t fetch_uid = userId.longLongValue;
+        int64_t fetch_uid = userId.longLongValue;
         RCUserInfo *userInfo = nil;
         if (fetch_uid == user.uid) {
             NSString *portrait = [MEKits imageFullPath:user.portrait];
@@ -113,7 +118,7 @@ static MEIMService *instance = nil;
         if (completion) {
             completion(userInfo);
         }
-    })
+    });
 }
 
 /*!
@@ -126,7 +131,7 @@ static MEIMService *instance = nil;
  在您设置了用户信息提供者之后，SDK在需要显示用户信息的时候，会调用此方法，向您请求用户信息用于显示。
  */
 - (void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *groupInfo))completion {
-    PBMAIN(^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         RCGroup *classInfo = nil;
         NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
         NSString *groupType = stringArray[0];
@@ -143,7 +148,7 @@ static MEIMService *instance = nil;
         if (completion) {
             completion(classInfo);
         }
-    })
+    });
 }
 
 /*!
@@ -153,7 +158,7 @@ static MEIMService *instance = nil;
  @param resultBlock 获取成功 [userIdList:群成员ID列表]
  */
 - (void)getAllMembersOfGroup:(NSString *)groupId result:(void (^)(NSArray<NSString *> *userIdList))resultBlock {
-    PBMAIN(^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         NSArray <NSString*>*userIDList = nil;
         NSArray<NSString *> *stringArray = [groupId componentsSeparatedByString:@"-"];
         NSString *groupType = stringArray[0];
@@ -180,7 +185,7 @@ static MEIMService *instance = nil;
         if (resultBlock) {
             resultBlock(userIDList);
         }
-    })
+    });
 }
 
 #pragma mark --- 消息回调

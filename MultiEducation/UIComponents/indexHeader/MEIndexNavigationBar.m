@@ -11,7 +11,7 @@
 
 static NSUInteger ME_INDEX_HEADER_FONT_MAX                     =   16;
 static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
-#define INDEX_SEARCH_TINTCOLOR                                  0xCCCCCC
+#define INDEX_SEARCH_TINTCOLOR                                  0x999999
 
 @interface MEIndexNavigationBar () <UISearchBarDelegate, UITextFieldDelegate>
 
