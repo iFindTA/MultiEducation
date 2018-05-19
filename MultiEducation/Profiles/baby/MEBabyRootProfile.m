@@ -180,7 +180,8 @@
             if (self.currentUser.userType == MEPBUserRole_Teacher) {
                 if (self.currentUser.teacherPb.classPbArray.count > 1) {
                     NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
-                    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+                    NSDictionary *params = @{@"pushUrlStr": @"profile://root@MEBabyPhotoProfile/", @"title": @"宝宝相册"};
+                    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
                     [MEKits handleError:err];
                 } else {
                     NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
@@ -189,7 +190,8 @@
             } else if(self.currentUser.userType == MEPBUserRole_Gardener) {
                 if (self.currentUser.deanPb.classPbArray.count > 1) {
                     NSString *urlString = @"profile://root@METeacherMultiClassTableProfile/";
-                    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: nil];
+                    NSDictionary *params = @{@"pushUrlStr": @"profile://root@MEBabyPhotoProfile/", @"title": @"宝宝相册"};
+                    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
                     [MEKits handleError:err];
                     
                 } else {

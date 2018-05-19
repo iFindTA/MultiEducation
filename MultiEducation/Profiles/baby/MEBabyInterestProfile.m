@@ -9,28 +9,45 @@
 #import "MEBabyInterestProfile.h"
 #import "MEBabyInterestingContent.h"
 #import "Meuser.pbobjc.h"
+#import "MEStudentsPanel.h"
 
 #define CONTENT_HEIGHT adoptValue(488.f)
 
-@interface MEBabyInterestProfile ()
+@interface MEBabyInterestProfile () {
+    int64_t _classId;   //role == teacher || gardener
+    int64_t _stuId;     //role == parent
+}
 
 @property (nonatomic, strong) MEBabyInterestingContent *content;
-
+@property (nonatomic, strong) MEStudentsPanel *panel;
 @end
 
 @implementation MEBabyInterestProfile
+
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    if (self = [super init]) {
+        _classId = [[params objectForKey: @"classId"] longLongValue];
+        _stuId = [[params objectForKey: @"stuId"] longLongValue];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self customNavigation];
 
-    
     [self.view addSubview: self.content];
     
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.content.center = CGPointMake(MESCREEN_WIDTH / 2, MESCREEN_HEIGHT / 2);
     } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
-        
+        if (self.currentUser.teacherPb.classPbArray.count > 0) {
+            if (self.currentUser.teacherPb.classPbArray.count == 1) {
+                
+            } else {
+                
+            }
+        }
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
         
     } else {
@@ -54,6 +71,22 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark --- 配置头部
+- (void)configureStudentPanelWithClassID:(int64_t)cid {
+    _panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
+    [self.view insertSubview:_panel belowSubview:self.navigationBar];
+    [_panel loadAndConfigure];
+    
+    //touch switch student callback
+    _panel.callback = ^(int64_t sid, int64_t pre_sid) {
+        NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+    };
+    //编辑完成
+    _panel.editCallback = ^(BOOL done) {
+        
+    };
 }
 
 #pragma mark - lazyloading
