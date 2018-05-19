@@ -11,6 +11,7 @@
 #import "Meuser.pbobjc.h"
 #import "MEUIBaseHeader.h"
 #import "MEBaseTableView.h"
+#import "MEBaseScrollView.h"
 #import <PBService/PBService.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>

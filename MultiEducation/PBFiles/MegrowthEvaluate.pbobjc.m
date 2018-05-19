@@ -117,11 +117,13 @@ typedef struct EvaluateItem__storage_ {
 @dynamic checkType;
 @dynamic itemsArray, itemsArray_Count;
 @dynamic placeholder;
+@dynamic maxLength;
 
 typedef struct EvaluateQuestion__storage_ {
   uint32_t _has_storage_[1];
   int32_t type;
   int32_t checkType;
+  int32_t maxLength;
   NSString *title;
   NSMutableArray *itemsArray;
   NSString *placeholder;
@@ -198,6 +200,15 @@ typedef struct EvaluateQuestion__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
+      {
+        .name = "maxLength",
+        .dataTypeSpecific.className = NULL,
+        .number = EvaluateQuestion_FieldNumber_MaxLength,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(EvaluateQuestion__storage_, maxLength),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[EvaluateQuestion class]
@@ -209,7 +220,7 @@ typedef struct EvaluateQuestion__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\002\n\000\005\t\000";
+        "\003\002\n\000\005\t\000\010\t\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

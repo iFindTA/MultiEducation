@@ -14,6 +14,7 @@ message EvaluateQuestion {
 	int32 checkType = 5;//1:单选题 2:多选题 3:填空题
 	repeated EvaluateItem items = 6;//题目选项
 	string placeholder = 7;//填空题的占位文字描述
+	int32 maxLength = 8;//用户最多输入长度
 }
 
 message GrowthEvaluate {
