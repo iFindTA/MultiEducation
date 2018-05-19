@@ -477,6 +477,9 @@
         if (userInfo && alertInfo.length == 0) {
             alertInfo = [userInfo pb_stringForKey:NSLocalizedDescriptionKey];
         }
+        if ([alertInfo isEqualToString:@"NSURLErrorDomain"]) {
+            alertInfo = @"当前网络不可用，请检查网络！";
+        }
         [SVProgressHUD showErrorWithStatus:alertInfo];
     }
 }

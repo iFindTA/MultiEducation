@@ -7,10 +7,11 @@
 //
 
 #import "MEBaseScene.h"
+#import "MEStudentInfoVM.h"
 
 typedef NS_ENUM(NSUInteger, MEEvaluateType) {
-    MEEvaluateTypeHome                                  =   1   <<  0,//在家里的评价
-    MEEvaluateTypeSchool                                =   1   <<  1,//在学校的评价
+    MEEvaluateTypeHome                                  =   0,//在家里的评价
+    MEEvaluateTypeSchool                                =   1,//在学校的评价
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -32,6 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
  user did exchanged to student
  */
 - (void)didChanged2Student4ID:(int64_t)sid;
+
+/**
+ 切换学生去评估
+ */
+- (void)exchangedStudent2Evaluate:(GrowthEvaluate *)growth;
 
 @end
 

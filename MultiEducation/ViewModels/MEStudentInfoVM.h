@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "MegrowthEvaluate.pbobjc.h"
 
 @interface MEStudentInfoVM : MEVM
 
