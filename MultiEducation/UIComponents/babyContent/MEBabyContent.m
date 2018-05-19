@@ -96,9 +96,11 @@
             [self.headerView setData: stuPb];
             [self getBabyPhotos];
             [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
+            self.studentPb.id_p = stuPb.studentId;
             return;
         }
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
+        self.studentPb.id_p = studentId;
         [self getBabyArchitecture: studentId];
     }
     
@@ -357,6 +359,38 @@
     }
 }
 
+- (NSDictionary *)pushToBabyInterestingPorfile {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBabyInterestProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+    NSDictionary *params = [NSDictionary dictionary];
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        params = @{@"stuId": @(self.studentPb.id_p)};
+    } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        if (self.currentUser.teacherPb.classPbArray) {
+            if (self.currentUser.teacherPb.classPbArray.count > 1) {
+                params = @{@"pushUrlStr": @"profile://root@MEBabyInterestProfile/", @"title": @"趣事趣影"};
+                url = [MEDispatcher profileUrlWithClass:@"METeacherMultiClassTableProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+            } else {
+                params = @{@"classId": @((self.currentUser.teacherPb.classPbArray[0]).id_p)};
+            }
+        }
+    } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        if (self.currentUser.deanPb.classPbArray) {
+            if (self.currentUser.deanPb.classPbArray.count > 1) {
+                url = [MEDispatcher profileUrlWithClass: @"METeacherMultiClassTableProfile" initMethod: nil params: nil instanceType: MEProfileTypeCODE];
+            } else {
+                params = @{@"classId": @((self.currentUser.deanPb.classPbArray[0]).id_p)};
+            }
+        }
+    } else {
+
+    }
+    
+    [dic setObject: url forKey: @"url"];
+    [dic setObject: params forKey: @"params"];
+    return dic;
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if ([collectionView isEqual: self.babyPhtoView]) {
@@ -413,7 +447,9 @@
             buried_point = Buried_CLASS_LIVE;
         } else if(MEBabyContentTypeInterest & type) {
             //趣事趣影
-            url = [MEDispatcher profileUrlWithClass:@"MEBabyInterestProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+            NSDictionary *dic = [self pushToBabyInterestingPorfile];
+            url = [dic objectForKey: @"url"];
+            params = [dic objectForKey: @"params"];
             buried_point = Buried_CLASS_INTERESTING;
         } else if (type & multiType){
             //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
@@ -686,5 +722,12 @@
         _tableHeaderView = [[MEBaseScene alloc] initWithFrame: CGRectMake(0, 0, MESCREEN_WIDTH, BABY_CONTENT_HEADER_HEIGHT + BABY_PHOTO_HEADER_HEIGHT + COMPONENT_HEIGHT + BABY_PHOTO_HEIGHT)];
     }
     return _tableHeaderView;
+}
+
+- (StudentPb *)studentPb {
+    if (!_studentPb) {
+        _studentPb = [[StudentPb alloc] init];
+    }
+    return _studentPb;
 }
 @end

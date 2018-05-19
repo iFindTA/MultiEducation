@@ -177,7 +177,7 @@ static CGFloat const CELL_HEIGHT = 48.f;
         // 设置结果更新代理
         _searchController.searchResultsUpdater = self;
         // 因为在当前控制器展示结果, 所以不需要这个透明视图
-        _searchController.dimsBackgroundDuringPresentation = NO;
+        _searchController.dimsBackgroundDuringPresentation = false;
         // 将searchBar赋值给tableView的tableHeaderView
         self.tableView.tableHeaderView = _searchController.searchBar;
         _searchController.searchBar.barTintColor = [UIColor whiteColor];

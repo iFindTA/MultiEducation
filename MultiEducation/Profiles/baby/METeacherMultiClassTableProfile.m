@@ -13,7 +13,10 @@
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const CELL_HEIGHT = 44.f;
 
-@interface METeacherMultiClassTableProfile () <UITableViewDelegate, UITableViewDataSource>
+@interface METeacherMultiClassTableProfile () <UITableViewDelegate, UITableViewDataSource> {
+    NSString *_pushUrlStr;
+    NSString *_title;
+}
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray <MEPBClass *> *classes;
@@ -21,6 +24,15 @@ static CGFloat const CELL_HEIGHT = 44.f;
 @end
 
 @implementation METeacherMultiClassTableProfile
+
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        _pushUrlStr = [params objectForKey: @"pushUrlStr"];
+        _title = [params objectForKey: @"title"];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -75,10 +87,12 @@ static CGFloat const CELL_HEIGHT = 44.f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath  animated: YES];
     //埋点
-    [MobClick event:Buried_CLASS_ALBUM];
+    if ([_pushUrlStr isEqualToString: @"profile://root@MEBabyPhotoProfile/"]) {
+        [MobClick event:Buried_CLASS_ALBUM];
+    }
     uint64_t classId = [self.classes objectAtIndex: indexPath.row].id_p;
-    NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId], @"title": @"宝宝相册"};
-    NSString *urlString = @"profile://root@MEBabyPhotoProfile/";
+    NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId], @"title": _title};
+    NSString *urlString = _pushUrlStr;
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];
 }
