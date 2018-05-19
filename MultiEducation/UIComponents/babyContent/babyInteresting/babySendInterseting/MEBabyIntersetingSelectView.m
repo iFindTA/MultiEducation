@@ -9,8 +9,14 @@
 #import "MEBabyIntersetingSelectView.h"
 #import "MEBabyPortraitCell.h"
 
+#define MIN_ITEM_GAP 6.f
+#define MIN_LINE_GAP 6.f
 #define CELL_SIZE CGSizeMake(24, 24)
 #define CELL_IDEF @"cell_idef"
+
+#define ICON_VIEW_HEIGH CELL_SIZE.height * (self.dataArr.count / 5 + 1) + (self.dataArr.count / 5) * MIN_LINE_GAP
+#define ICON_VIEW_WIDTH 144.f
+static CGFloat const LEFT_SPACE = 25.f;
 
 @interface MEBabyIntersetingSelectView () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
@@ -26,18 +32,99 @@
 
 @implementation MEBabyIntersetingSelectView
 
-
 - (instancetype)init {
     self = [super init];
     if (self) {
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(didTapSelectBabyView)];
         [self addGestureRecognizer: tapGes];
+        
+        [self addSubview: self.topSepView];
+        [self addSubview: self.bottomSepView];
+        [self addSubview: self.tipLab];
+        [self addSubview: self.arrow];
+        [self addSubview: self.iconView];
+        
+        //layout
+        [self.topSepView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
+            make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+            make.top.mas_equalTo(self);
+            make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
+        }];
+        
+        [self.bottomSepView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
+            make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+            make.bottom.mas_equalTo(self);
+            make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
+        }];
+        
+        [self.tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.leading.mas_equalTo(self.topSepView.mas_leading);
+            make.top.mas_equalTo(self.topSepView.mas_bottom);
+            make.bottom.mas_equalTo(self.bottomSepView.mas_top);
+            make.width.mas_equalTo(70.f);
+        }];
+        
+        [self.arrow mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+            make.width.mas_equalTo(5.f);
+            make.height.mas_equalTo(12.f);
+            make.centerY.mas_equalTo(self);
+        }];
+        
+        [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.arrow.mas_left).mas_offset(-12.f);
+            make.height.mas_equalTo(ICON_VIEW_HEIGH);
+            make.width.mas_equalTo(ICON_VIEW_WIDTH);
+            make.top.mas_equalTo(self.topSepView.mas_bottom).mas_offset(13.f);
+        }];
+        [self updateLayout];
     }
     return self;
 }
 
+- (void)updateLayout {
+    
+    [self.iconView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.arrow.mas_left).mas_offset(-12.f);
+        make.height.mas_equalTo(ICON_VIEW_HEIGH);
+        make.width.mas_equalTo(ICON_VIEW_WIDTH);
+        make.top.mas_equalTo(self.topSepView.mas_bottom).mas_offset(13.f);
+    }];
+    
+    [self.bottomSepView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
+        make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+        make.top.mas_equalTo(self.iconView.mas_bottom).mas_offset(13.f);
+        make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    
+    [self.tipLab mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.leading.mas_equalTo(self.topSepView.mas_leading);
+        make.height.mas_equalTo(20.f);
+        make.centerY.mas_equalTo(self.iconView);
+        make.width.mas_equalTo(70.f);
+    }];
+    
+    [self.arrow mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+        make.width.mas_equalTo(5.f);
+        make.height.mas_equalTo(12.f);
+        make.centerY.mas_equalTo(self.iconView);
+    }];
+    
+    
+}
+
 - (void)didTapSelectBabyView {
     NSLog(@"didTapSelectBabyView");
+    NSString *urlStr = @"profile://MEMultiSelectBabyProfile";
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+    [MEKits handleError: error];
+//    if (self.DidRemakeMasonry) {
+//        self.DidRemakeMasonry(self.bottomSepView);
+//    }
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -53,7 +140,7 @@
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout
@@ -65,6 +152,9 @@
 - (NSMutableArray *)dataArr {
     if (!_dataArr) {
         _dataArr = [NSMutableArray array];
+//        for (int i = 0; i < 51; i++) {
+//            [_dataArr addObject: @1];
+//        }
     }
     return _dataArr;
 }
@@ -73,13 +163,15 @@
     if (!_iconView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        layout.minimumInteritemSpacing = 6.f;
-        layout.minimumLineSpacing = 10.f;
+        layout.minimumInteritemSpacing = MIN_ITEM_GAP;
+        layout.minimumLineSpacing = MIN_LINE_GAP;
         
         _iconView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
         _iconView.delegate = self;
         _iconView.dataSource = self;
-        _iconView.backgroundColor = [UIColor whiteColor];
+        _iconView.backgroundColor = UIColorFromRGB(0x999999);
+        
+        [_iconView registerNib: [UINib nibWithNibName: @"MEBabyPortraitCell" bundle: nil] forCellWithReuseIdentifier: CELL_IDEF];
     }
     return _iconView;
 }

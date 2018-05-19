@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MEMultiBabyCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKk-HG-PS8" customClass="MEBaseLabel">
+                        <rect key="frame" x="24" y="11" width="20" height="20"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="VJC-eQ-abQ"/>
+                            <constraint firstAttribute="height" constant="20" id="rNc-gY-GoI"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                                <real key="value" value="15"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fRS-zL-giJ" customClass="MEBaseImageView">
+                        <rect key="frame" x="62" y="5" width="34" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="34" id="DoM-x7-mE2"/>
+                            <constraint firstAttribute="height" constant="34" id="zNz-we-XeV"/>
+                        </constraints>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1cN-fs-MNW" customClass="MEBaseLabel">
+                        <rect key="frame" x="106" y="12" width="162" height="20"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Kb8-IH-5Mj"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                                <real key="value" value="15"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4s-Qc-pme" customClass="MEBaseButton">
+                        <rect key="frame" x="282" y="10" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="24" id="T13-F4-GzJ"/>
+                            <constraint firstAttribute="height" constant="24" id="baZ-rs-cU3"/>
+                        </constraints>
+                        <state key="normal" image="baby_interesting_nor"/>
+                        <state key="selected" image="baby_interseting_sel"/>
+                        <connections>
+                            <action selector="didSelectButtonTouchEvent:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="UU5-yB-S0d"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="CKk-HG-PS8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="9Bh-ar-0NT"/>
+                    <constraint firstItem="CKk-HG-PS8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="NZ5-xE-L8a"/>
+                    <constraint firstItem="fRS-zL-giJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eyi-rl-6sx"/>
+                    <constraint firstItem="1cN-fs-MNW" firstAttribute="leading" secondItem="fRS-zL-giJ" secondAttribute="trailing" constant="10" id="g5U-8g-eA9"/>
+                    <constraint firstItem="I4s-Qc-pme" firstAttribute="leading" secondItem="1cN-fs-MNW" secondAttribute="trailing" constant="14" id="gfC-Bs-f8z"/>
+                    <constraint firstItem="fRS-zL-giJ" firstAttribute="leading" secondItem="CKk-HG-PS8" secondAttribute="trailing" constant="18" id="lXe-5A-mDB"/>
+                    <constraint firstAttribute="trailing" secondItem="I4s-Qc-pme" secondAttribute="trailing" constant="14" id="mWD-7f-YKe"/>
+                    <constraint firstItem="I4s-Qc-pme" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uVw-Kj-10X"/>
+                    <constraint firstItem="1cN-fs-MNW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uw2-gq-w5Q"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nameLab" destination="1cN-fs-MNW" id="c8x-FP-QnF"/>
+                <outlet property="portrait" destination="fRS-zL-giJ" id="dch-BE-rdW"/>
+                <outlet property="searchLab" destination="CKk-HG-PS8" id="nyY-Ng-BRg"/>
+                <outlet property="selBtn" destination="I4s-Qc-pme" id="e7A-gR-4GT"/>
+            </connections>
+            <point key="canvasLocation" x="-40" y="143"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="baby_interesting_nor" width="20" height="20"/>
+        <image name="baby_interseting_sel" width="20" height="20"/>
+    </resources>
+</document>

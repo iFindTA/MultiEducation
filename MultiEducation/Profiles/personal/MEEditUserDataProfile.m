@@ -23,6 +23,14 @@
 
 @implementation MEEditUserDataProfile
 
+
+- (instancetype)__initWithParams:(NSDictionary *)params {
+    if (self = [super init]) {
+        self.DidUpdateNicknameCallback = [params objectForKey: ME_DISPATCH_KEY_CALLBACK];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
