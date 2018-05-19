@@ -96,10 +96,11 @@
     [self.view insertSubview:panel belowSubview:self.navigationBar];
     [panel loadAndConfigure];
     self.studentPanel = panel;
-    
+    weakify(self)
     //touch switch student callback
     panel.callback = ^(int64_t sid, int64_t pre_sid) {
-        NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+        strongify(self);
+        [self userDidExchange2Student:sid preStudent:pre_sid];
     };
     //编辑完成
     panel.editCallback = ^(BOOL done) {
@@ -116,8 +117,24 @@
         make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
         make.left.bottom.right.equalTo(self.view);
     }];
-    
-    [SVProgressHUD showWithStatus:@"sssss"];
+}
+
+#pragma mark --- 切换学生
+- (void)userDidExchange2Student:(int64_t)sid preStudent:(int64_t)preSid {
+    NSLog(@"切换学生:%lld", sid);
+    /**
+     step1 查询之前学生是否需要暂存 需要则先暂存 否则不做处理
+     step2 拉取当前学生的评价
+     */
+    int64_t gradeId = [self.params pb_longLongForKey:@"gradeId"];
+    int64_t semester = [self.params pb_longLongForKey:@"semester"];
+    int32_t month = [self.params pb_intForKey:@"month"];
+    GrowthEvaluate *e = [[GrowthEvaluate alloc] init];
+    e.studentId = sid;
+    e.gradeId = gradeId;
+    e.month = month;
+    e.semester = semester;
+    [self.evaluatePanel exchangedStudent2Evaluate:e];
 }
 
 /*

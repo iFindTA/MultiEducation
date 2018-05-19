@@ -573,7 +573,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 - (MEStudentPortrait *)portraitScene {
     if (!_portraitScene) {
         _portraitScene = [[MEStudentPortrait alloc] initWithFrame:CGRectZero];
-        _portraitScene.backgroundColor = [UIColor pb_randomColor];
     }
     return _portraitScene;
 }
@@ -581,7 +580,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 - (MEStudentLandscape *)landscapeScene {
     if (!_landscapeScene) {
         _landscapeScene = [[MEStudentLandscape alloc] initWithFrame:CGRectZero];
-        _landscapeScene.backgroundColor = [UIColor pb_randomColor];
     }
     return _landscapeScene;
 }
@@ -674,7 +672,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     [btn addTarget:self action:@selector(expandEvent:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:btn];
     self.expandBtn = btn;
-    btn.backgroundColor = [UIColor pb_randomColor];
     [btn makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.bottom.equalTo(line.mas_top);
