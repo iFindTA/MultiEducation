@@ -118,6 +118,10 @@
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		76369B7B20AFCB0F00068502 /* MESendIntersetingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76369B7820AFCB0F00068502 /* MESendIntersetingProfile.m */; };
+		76369B7C20AFCB0F00068502 /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76369B7920AFCB0F00068502 /* MEMultiSelectBabyProfile.m */; };
+		76369B8020AFCB2400068502 /* MEMultiBabyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76369B7D20AFCB2300068502 /* MEMultiBabyCell.xib */; };
+		76369B8120AFCB2400068502 /* MEMultiBabyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76369B7F20AFCB2400068502 /* MEMultiBabyCell.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7BB1E3E4523EBB98592FCE2B39314D9B /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18F844138CCB2F2AA660C4DD87D3AE89 /* iconfont.ttf */; };
@@ -519,6 +523,13 @@
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
+		76369B7720AFCB0E00068502 /* MESendIntersetingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MESendIntersetingProfile.h; sourceTree = "<group>"; };
+		76369B7820AFCB0F00068502 /* MESendIntersetingProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESendIntersetingProfile.m; sourceTree = "<group>"; };
+		76369B7920AFCB0F00068502 /* MEMultiSelectBabyProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMultiSelectBabyProfile.m; sourceTree = "<group>"; };
+		76369B7A20AFCB0F00068502 /* MEMultiSelectBabyProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMultiSelectBabyProfile.h; sourceTree = "<group>"; };
+		76369B7D20AFCB2300068502 /* MEMultiBabyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEMultiBabyCell.xib; sourceTree = "<group>"; };
+		76369B7E20AFCB2400068502 /* MEMultiBabyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEMultiBabyCell.h; sourceTree = "<group>"; };
+		76369B7F20AFCB2400068502 /* MEMultiBabyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMultiBabyCell.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
@@ -845,6 +856,9 @@
 		0E02AFE028AE5EB7926F01BBE1FCA9E5 /* babyIntersetingCell */ = {
 			isa = PBXGroup;
 			children = (
+				76369B7E20AFCB2400068502 /* MEMultiBabyCell.h */,
+				76369B7F20AFCB2400068502 /* MEMultiBabyCell.m */,
+				76369B7D20AFCB2300068502 /* MEMultiBabyCell.xib */,
 				9B7AA1F574DAEF07C68CA2A38AA03779 /* CardCell.h */,
 				D82FBBCAA1826092953D78C09461BA83 /* CardCell.m */,
 				2E8223EB4A20F2CD53FF1B3A45B78C84 /* CardCell.xib */,
@@ -1140,6 +1154,10 @@
 				E081861517422954BFD6CA58AE7E4264 /* MESelectFolderProfile.m */,
 				18DE6A579B16D12A249181B9B4C6D5FA /* METeacherMultiClassTableProfile.h */,
 				7CC56AEB64F732AF3D4385B1BB373DF3 /* METeacherMultiClassTableProfile.m */,
+				76369B7A20AFCB0F00068502 /* MEMultiSelectBabyProfile.h */,
+				76369B7920AFCB0F00068502 /* MEMultiSelectBabyProfile.m */,
+				76369B7720AFCB0E00068502 /* MESendIntersetingProfile.h */,
+				76369B7820AFCB0F00068502 /* MESendIntersetingProfile.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -2256,6 +2274,7 @@
 				85B41EB315B294A07DF3A3C47192C2FC /* imgResource.xcassets in Resources */,
 				891F19ECEF12F9F6FDB990892AC31893 /* index_sub_bar.bat in Resources */,
 				579477FA2EA7E5C260D36706C409C49C /* www.zip in Resources */,
+				76369B8020AFCB2400068502 /* MEMultiBabyCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2490,6 +2509,7 @@
 				FE6F03E67FACC710B51A525C83FED63A /* MEIndexSearchBar.m in Sources */,
 				98F5D2B478D0D8E5186682409A7B4286 /* MEIndexSearchMaskScene.m in Sources */,
 				52AEA7A6E0CE98D8EC85E1D126B1CCA7 /* MEIndexSearchScene.m in Sources */,
+				76369B8120AFCB2400068502 /* MEMultiBabyCell.m in Sources */,
 				62E34B73EB6A539FAC7B704018CF630D /* MEIndexStoryItemCell.m in Sources */,
 				B34E4FC041A42B7E516282C0697819C3 /* MEIndexVM.m in Sources */,
 				8C0E195CFBF8D1F40BD44FD636C1340E /* MEKits.m in Sources */,
@@ -2517,6 +2537,7 @@
 				12382BEB2E603005E866E18E0EB3378A /* MEPhotoProgressProfile.m in Sources */,
 				4AA6B8CA021C06A22C60FB35ABA9EF61 /* MEPlayInfoSubTitlePanel.m in Sources */,
 				7244124173944C9455BEBF3CC028431B /* MEPlayInfoTitlePanel.m in Sources */,
+				76369B7B20AFCB0F00068502 /* MESendIntersetingProfile.m in Sources */,
 				673E84E3EB538387F29A4E1E59EFEEC5 /* MEPlayerControl.m in Sources */,
 				9EB229DB9CB49F2667427D33F3F5F14B /* MEPortraitVM.m in Sources */,
 				548F82CBF18192C9822541F015A7934A /* MEProgressCell.m in Sources */,
@@ -2607,6 +2628,7 @@
 				3BA17528E222ADE896DD047E031F336A /* UIViewController+Utils.m in Sources */,
 				219A3B612D4E5674B61E865D77B73A43 /* UIWebViewExtension.m in Sources */,
 				797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */,
+				76369B7C20AFCB0F00068502 /* MEMultiSelectBabyProfile.m in Sources */,
 				373BB47A053D10E7882361E3B66CF813 /* ValueBack.m in Sources */,
 				5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */,
 				38D6E6090A037B85242AAF9F6DF574F2 /* ValueDisk.m in Sources */,

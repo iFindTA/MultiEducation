@@ -71,7 +71,7 @@ static CGFloat const CELL_HEIGHT = 48.f;
         make.top.mas_equalTo(self.navigationBar.mas_bottom);
     }];
     [self loadData];
-
+ 
 }
 
 - (void)didReceiveMemoryWarning {
