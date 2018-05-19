@@ -343,10 +343,10 @@
  开启即时服务: {融云IM，自身长链接}
  */
 - (void)startIMServivesOnBgThread {
-    PBMAIN(^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         [[MEIMService shared] startRongIMService];
-        [MEServerListVM fetchOnlineServerList];
     });
+    [MEServerListVM fetchOnlineServerList];
 }
 /**
  断开即时服务: {融云IM，自身长链接}
