@@ -8,6 +8,24 @@
 
 #import "MEBaseScene.h"
 
+typedef void(^MESubNavigatorCallback)(NSUInteger index, NSUInteger preIndex);
+
 @interface MESubNavigator : MEBaseScene
 
+/**
+ callback
+ */
+@property (nonatomic, copy) MESubNavigatorCallback callback;
+
+/**
+ default instance
+ */
++ (instancetype)navigatorWithTitles:(NSArray<NSString*>*)titles defaultIndex:(NSUInteger)index;
+
+- (void)willSelectIndex:(NSUInteger)index;
+
 @end
+/**
+ sub navigation bar height
+ */
+FOUNDATION_EXPORT CGFloat const ME_SUBNAVGATOR_HEIGHT;

@@ -20,8 +20,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor pb_randomColor];
+        [self configureGrowthEvaluateSubviews];
     }
     return self;
+}
+
+- (void)configureGrowthEvaluateSubviews {
+    
 }
 
 #pragma mark --- user interface actions

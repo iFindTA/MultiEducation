@@ -171,6 +171,7 @@
 		A6001A019DE8EFD88B814B23A7C1E192 /* MEResFavorVM.m in Sources */ = {isa = PBXBuildFile; fileRef = F0D50A119993B5EF829EC1BA23FBBCD0 /* MEResFavorVM.m */; };
 		A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = DF202D9C6AA31F2A6DF0BF9A5165905A /* MEGardenRootProfile.m */; };
 		A66400286CB8705DBDAE02A84F8F8D14 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = C0520D6AEBF1CEC574CC9C50B6779EC0 /* config.xml */; };
+		A84621F70812F8093BFEEBB0FA560B80 /* MESubNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA5CE037E856F252FCB9D0D9DD62E4 /* MESubNavigator.m */; };
 		A8D07D10E662B7B56C179325BF921677 /* MECollectionProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F05D31938AC29A7511DC91EA51695E47 /* MECollectionProfile.m */; };
 		AAA434B42AA724745AC0D266473F45D6 /* ValueSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FE17C32A32C3CB961362800EB84ED8 /* ValueSync.m */; };
 		AB4CA874F33199D9113487CBE6A1290B /* MEHeaderIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E60200E3EA06F787FDC46F092E1F0E2E /* MEHeaderIconCell.xib */; };
@@ -423,6 +424,7 @@
 		416E2C102FE856D01CA15A3921839AA0 /* MEUserNameVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserNameVM.h; sourceTree = "<group>"; };
 		4175E50BFF48F434917035FCE6369ACB /* MEBabyContentHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEBabyContentHeader.xib; sourceTree = "<group>"; };
 		42285BB1914D459214EE35DCB9F017D4 /* MEAboutMeProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEAboutMeProfile.m; sourceTree = "<group>"; };
+		428DFA7F102AE19368211E84F1B2E79A /* MESubNavigator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESubNavigator.h; sourceTree = "<group>"; };
 		435A543C292AF74E1B2CE53850504F99 /* MENewsInfoVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MENewsInfoVM.m; sourceTree = "<group>"; };
 		45385D82285E1D39163E29A2B4BBE445 /* MELiveMaskLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MELiveMaskLayer.m; sourceTree = "<group>"; };
 		45450C42E4FFF0F00139F758C79A5E25 /* Meindex.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meindex.pbobjc.m; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 		C0520D6AEBF1CEC574CC9C50B6779EC0 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		C094F693D2841736FD6F0D1E18771B5C /* METCPService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = METCPService.m; sourceTree = "<group>"; };
 		C0A6F3A320F717F331276E485C42F325 /* MEWatchHistoryProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEWatchHistoryProfile.m; sourceTree = "<group>"; };
+		C2BA5CE037E856F252FCB9D0D9DD62E4 /* MESubNavigator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESubNavigator.m; sourceTree = "<group>"; };
 		C2EBF9C277B1EA973BA5FB365F9F8044 /* MEBaseImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseImageView.m; sourceTree = "<group>"; };
 		C376C3E4179EC5EE4B47B5A7B1841921 /* MenewsInfo.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenewsInfo.pbobjc.h; sourceTree = "<group>"; };
 		C4E0CC5C10462E8DFD293D18E1564494 /* MELiveProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MELiveProfile.h; sourceTree = "<group>"; };
@@ -1183,6 +1186,8 @@
 			children = (
 				4F31B95AEA42D2F80010944148EFF05A /* MEEvaluatePanel.h */,
 				B695E3CF44989200D69E3249CF6F0CC7 /* MEEvaluatePanel.m */,
+				428DFA7F102AE19368211E84F1B2E79A /* MESubNavigator.h */,
+				C2BA5CE037E856F252FCB9D0D9DD62E4 /* MESubNavigator.m */,
 			);
 			path = evaluatePanel;
 			sourceTree = "<group>";
@@ -2556,6 +2561,7 @@
 				7F531FF9EE37139EC8F4BEB3CD085135 /* MEStudentVM.m in Sources */,
 				1149676F4CAF3A8AAD7A8C87D5D01BD7 /* MEStudentsPanel.m in Sources */,
 				1012AF1A367F6ACE032333BD43DADCCD /* MESubClassProfile.m in Sources */,
+				A84621F70812F8093BFEEBB0FA560B80 /* MESubNavigator.m in Sources */,
 				816AE0BE2E49E7AAB98F173A37DBAA70 /* METCPService.m in Sources */,
 				82E4F83CD3F809BB6E81DAAAB1A74777 /* METeacherMultiClassTableProfile.m in Sources */,
 				2A299B99826BCE387E40A34A4DC4DAFF /* METemplateProfile.m in Sources */,
