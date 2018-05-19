@@ -10,7 +10,7 @@
 
 @interface MEBabyIntersetingSelectView : MEBaseScene
 
-@property (nonatomic, weak) void(^DidTapBabySelectViewHandler) (void);
+@property (nonatomic, copy) void(^DidRemakeMasonry) (UIView *bottomView);
  
 @end
  

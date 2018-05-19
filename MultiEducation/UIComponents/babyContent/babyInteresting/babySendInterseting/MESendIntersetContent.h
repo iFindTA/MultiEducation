@@ -11,8 +11,8 @@
 @interface MESendIntersetContent : MEBaseScene
 
 @property (nonatomic, copy) void(^DidPickerButtonTouchCallback) (void);
+@property (nonatomic, copy) void(^DidRemakeMasonry) (UIView *bottomView);
 
 - (void)didSelectImagesOrVideo:(NSArray <NSDictionary *> *)images;
-
   
 @end

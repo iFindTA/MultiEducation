@@ -34,6 +34,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        
         [self addSubview: self.titleTF];
         [self addSubview: self.contentTV];
         [self addSubview: self.photoView];
@@ -57,7 +58,7 @@
         [self.contentTV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(LEFT_SPACE - 5);
             make.top.mas_equalTo(self.sepView.mas_bottom);
-            make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE * 2 - 10);
+            make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE * 2 + 10);
             make.height.mas_equalTo(TEXT_INPUT_HEIGHT);
         }];
         
@@ -215,10 +216,22 @@
 
 - (MEBabyIntersetingSelectView *)selectView {
     if (!_selectView) {
-        _selectView = [[NSBundle mainBundle] loadNibNamed: @"MEBabyIntersetingSelectView" owner:self options: nil].firstObject;
+        _selectView = [[MEBabyIntersetingSelectView alloc] init];
+        _selectView.userInteractionEnabled = true;
+        weakify(self);
+        _selectView.DidRemakeMasonry = ^(UIView *bottomView) {
+            strongify(self);
+            [self.selectView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.mas_equalTo(self);
+                make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
+                make.bottom.mas_equalTo(bottomView.mas_bottom);
+            }];
+            if (self.DidRemakeMasonry) {
+                self.DidRemakeMasonry(bottomView);
+            }
+        };
     }
     return _selectView;
 }
-
 
 @end

@@ -13,6 +13,7 @@
 
 @interface MESendIntersetingProfile () <TZImagePickerControllerDelegate>
 
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) MESendIntersetContent *content;
 
 @property (nonatomic, strong) TZImagePickerController *pickerProfile;
@@ -25,12 +26,19 @@
     [super viewDidLoad];
     [self customNavigation];
     
-    [self.view addSubview: self.content];
+    [self.view addSubview: self.scrollView];
+    [self.scrollView addSubview: self.content];
     //layout
-    [self.content mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo(self.navigationBar.mas_bottom);
-        make.left.right.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(self.view);
+    }];
+    
+    [self.content mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.scrollView);
+        make.width.mas_equalTo(self.scrollView);
+        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - [MEKits statusBarHeight]);
     }];
 }
 
@@ -88,6 +96,18 @@
             strongify(self);
             [self.navigationController presentViewController: self.pickerProfile animated: true completion: nil];
         };
+        
+        _content.DidRemakeMasonry = ^(UIView *bottomView) {
+            strongify(self);
+            weakify(self);
+            self.content.DidRemakeMasonry = ^(UIView *bottomView) {
+                strongify(self);
+                [bottomView layoutIfNeeded];
+                [self.content mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.mas_equalTo(bottomView.mas_bottom);
+                }];
+            }; 
+        };
     }
     return _content;
 }
@@ -99,6 +119,13 @@
         _pickerProfile.allowPickingVideo = YES;
     }
     return _pickerProfile;
+}
+
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] init];
+    }
+    return _scrollView;
 }
 
 @end

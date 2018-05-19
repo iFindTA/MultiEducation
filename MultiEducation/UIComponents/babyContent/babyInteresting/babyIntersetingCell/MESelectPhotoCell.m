@@ -31,7 +31,7 @@
 - (void)setSelectCell {
     self.deleteBtn.hidden = true;
     self.photo.image = [UIImage imageNamed: @"baby_content_new_folder"];
-}
+} 
  
 - (IBAction)didDeletePhotoTouchEvent:(MEBaseButton *)sender {
     if (self.DidDeleteCallback) {

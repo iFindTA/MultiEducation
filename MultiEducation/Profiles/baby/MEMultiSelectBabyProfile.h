@@ -1,5 +1,5 @@
 //
-//  MESendIntersetingProfile.h
+//  MEMultiSelectBabyProfile.h
 //  MultiEducation
 //
 //  Created by 崔小舟 on 2018/5/18.
@@ -7,8 +7,7 @@
 //
 
 #import "MEBaseProfile.h"
-
-@interface MESendIntersetingProfile : MEBaseProfile
+ 
+@interface MEMultiSelectBabyProfile : MEBaseProfile
 
 @end
- 

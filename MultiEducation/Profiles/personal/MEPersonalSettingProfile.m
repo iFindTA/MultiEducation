@@ -75,7 +75,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
             break;
         case 1: {
             //修改昵称
-            NSString *urlStr = @"profile://MEEditUserDataProfile";
+            NSString *urlStr = @"profile://root@MEEditUserDataProfile";
             weakify(self);
             void(^DidUpdateNickCallback) (void) = ^() {
                 strongify(self);
@@ -88,7 +88,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
             break;
         case 2: {
             //修改手机号
-            NSString *urlStr = @"profile://MERephoneProfile";
+            NSString *urlStr = @"profile://root@MERephoneProfile";
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
             [MEKits handleError: error];
         }
