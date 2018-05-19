@@ -94,7 +94,6 @@
 		5D5860B9569CF4796A4F697D065E4219 /* ValueClose.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD4CE79A036AE6D1E522D97E4D352B2 /* ValueClose.m */; };
 		5EBC7C58A34231D423650A809BF2A42F /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF4E57B300E719856997789A38D8EB /* UITextView+Placeholder.m */; };
 		5F84C2C9A3EEB651B117290AF53174F8 /* UIView+ClipsCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 387D90F8FF395ECF63072784244CA105 /* UIView+ClipsCornerRadius.m */; };
-		6003CEDB20AFCA7D00D6D026 /* MegrowthEvaluate.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003CEDA20AFCA7C00D6D026 /* MegrowthEvaluate.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		61A29A41EFBF3E4E9B879D37BC52D916 /* MEGrowthEvaRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 87761243CB658B5CAD17F98E91C950F0 /* MEGrowthEvaRootProfile.m */; };
@@ -241,6 +240,7 @@
 		E5F483D2B47C3EB463C67C8E2FCF09FC /* MEServerListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FCE525B00A3BE09A1C2D61DBD351A43 /* MEServerListVM.m */; };
 		E6447F27131045527E8A977E3B9205AF /* MEIndexNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 929E61EAC0F5E501A38E8EE877EEF18D /* MEIndexNavigationBar.m */; };
 		E69F751B2E64C0A0DEB822445293B73A /* MeclassLive.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 225A9558F81DC01084A299E055C9191B /* MeclassLive.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E6A320C86F2CDDC601E4B74CFE3E5E40 /* MegrowthEvaluate.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 37D2EE32627043A6684511706D862C31 /* MegrowthEvaluate.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E76F49E94FAE0344452E3E7334A9AC06 /* MEEvaluateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB598689854B682B975CEF9B851375 /* MEEvaluateCell.m */; };
 		E9676BF8DDE66329A36BD8C94A9FEB7B /* MEBabyNavigation.m in Sources */ = {isa = PBXBuildFile; fileRef = B34F04DDB1A0ED42B48B402474441700 /* MEBabyNavigation.m */; };
 		EA4BC7D19E66F8F825B2D8A4CE7866A0 /* NSString+NSHash.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FDE5A573229EF38212D42621844F2E1 /* NSString+NSHash.m */; };
@@ -338,6 +338,7 @@
 		1D23E91BA4905152E4B81EDC2A481AEA /* MeuserData.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeuserData.pbobjc.h; sourceTree = "<group>"; };
 		1D263496D20B4DEB403C8BC5FD4A7424 /* CDVStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVStatusBar.h; sourceTree = "<group>"; };
 		1D64A4C3E1363619CAD25CD5148F5399 /* Meres.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meres.pbobjc.h; sourceTree = "<group>"; };
+		1E5540D6385F26179FEAF82896A5881C /* MegrowthEvaluate.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MegrowthEvaluate.pbobjc.h; sourceTree = "<group>"; };
 		1E6BC328B0D2CA865420FEFACB029F2F /* MEIndexVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEIndexVM.h; sourceTree = "<group>"; };
 		1E7321142B026AF84DF78192BCEF99DC /* ValuePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePlayer.m; sourceTree = "<group>"; };
 		1EA983C6AF57FF05C6C5753B555092AE /* MEIndexRootProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexRootProfile.h; sourceTree = "<group>"; };
@@ -401,6 +402,7 @@
 		36E802CDACD84BF2F646D2A9B36D3433 /* UIWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIWebViewExtension.m; sourceTree = "<group>"; };
 		377B3F958BF8A9555C8D06F17DE96642 /* ValueMore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueMore.h; sourceTree = "<group>"; };
 		37C5362DA42A191FF5509710C751D6D7 /* MEVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVM.m; sourceTree = "<group>"; };
+		37D2EE32627043A6684511706D862C31 /* MegrowthEvaluate.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MegrowthEvaluate.pbobjc.m; sourceTree = "<group>"; };
 		3872E70BBDFBF208D08CBB36B9CBFFFD /* IonicKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IonicKeyboard.m; sourceTree = "<group>"; };
 		387D90F8FF395ECF63072784244CA105 /* UIView+ClipsCornerRadius.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ClipsCornerRadius.m"; sourceTree = "<group>"; };
 		3A4F989DA1A8B839B059FB4AA59D042E /* MESideHideenMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideHideenMenu.m; sourceTree = "<group>"; };
@@ -478,8 +480,6 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
-		6003CED920AFCA7C00D6D026 /* MegrowthEvaluate.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MegrowthEvaluate.pbobjc.h; sourceTree = "<group>"; };
-		6003CEDA20AFCA7C00D6D026 /* MegrowthEvaluate.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MegrowthEvaluate.pbobjc.m; sourceTree = "<group>"; };
 		60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEContactInfoProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -1576,8 +1576,6 @@
 		9C1D73AA351B3E8485FC64D3B73CF608 /* PBFiles */ = {
 			isa = PBXGroup;
 			children = (
-				6003CED920AFCA7C00D6D026 /* MegrowthEvaluate.pbobjc.h */,
-				6003CEDA20AFCA7C00D6D026 /* MegrowthEvaluate.pbobjc.m */,
 				45D7F62E8F60E1B8895BB5B328C01113 /* MebabyAlbum.pbobjc.h */,
 				7E684F61A1F815D9C208979967FC9CB4 /* MebabyAlbum.pbobjc.m */,
 				D1F24D63BA52E9A478B70144F6D3E266 /* MebabyEvaluate.pbobjc.h */,
@@ -1598,6 +1596,8 @@
 				12EFBA8885079F1353D873B3989608C9 /* MeclassMember.pbobjc.m */,
 				2C0675F9E99B03B9B2EF74A2A4DA450F /* Mecordova.pbobjc.h */,
 				A9A998C2CA9388C64C95191839525795 /* Mecordova.pbobjc.m */,
+				1E5540D6385F26179FEAF82896A5881C /* MegrowthEvaluate.pbobjc.h */,
+				37D2EE32627043A6684511706D862C31 /* MegrowthEvaluate.pbobjc.m */,
 				69EECFF4B01CC1CE49138EFE99463B51 /* Meindex.pbobjc.h */,
 				45450C42E4FFF0F00139F758C79A5E25 /* Meindex.pbobjc.m */,
 				C376C3E4179EC5EE4B47B5A7B1841921 /* MenewsInfo.pbobjc.h */,
@@ -2587,10 +2587,10 @@
 				E69F751B2E64C0A0DEB822445293B73A /* MeclassLive.pbobjc.m in Sources */,
 				3F06A4AD6AA9C00C4541501F02710BB5 /* MeclassMember.pbobjc.m in Sources */,
 				BD02BB0AA60A9FEE2DD33F5440DC912D /* Mecordova.pbobjc.m in Sources */,
+				E6A320C86F2CDDC601E4B74CFE3E5E40 /* MegrowthEvaluate.pbobjc.m in Sources */,
 				DB7FEB815A21FC4B319C8A302FC364C5 /* Meindex.pbobjc.m in Sources */,
 				73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */,
 				41009AB89C3EAC4C3ED6DF20D770A208 /* MephoneInfo.pbobjc.m in Sources */,
-				6003CEDB20AFCA7D00D6D026 /* MegrowthEvaluate.pbobjc.m in Sources */,
 				93A97E4C58E733C795631B02845676BC /* Meqnfile.pbobjc.m in Sources */,
 				04214F55D37A803A5092BE05A7BAC8A4 /* Meres.pbobjc.m in Sources */,
 				384440D55638A5C596AAD7DCFF29BD25 /* MeserverList.pbobjc.m in Sources */,
