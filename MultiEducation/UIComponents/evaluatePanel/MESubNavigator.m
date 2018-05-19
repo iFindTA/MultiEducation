@@ -70,7 +70,6 @@ NSUInteger const ME_SUBNAVIGATOR_TAG_START = 100;
     int i = 0;
     for (NSString *t in self.titles) {
         UIColor *fontColor = self.currentIndex==i ? self.selectColor : self.normalColor;
-        NSLog(@"%@-----%d", fontColor, i);
         MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
         btn.tag = ME_SUBNAVIGATOR_TAG_START + i;
         btn.titleLabel.font = font;
