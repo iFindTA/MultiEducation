@@ -8,12 +8,30 @@
 
 #import "MEBaseScene.h"
 
+typedef NS_ENUM(NSUInteger, MEEvaluateType) {
+    MEEvaluateTypeHome                                  =   1   <<  0,//在家里的评价
+    MEEvaluateTypeSchool                                =   1   <<  1,//在学校的评价
+};
+
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol MEEvaluateDelegate, MEEvaluateDataSource;
 @interface MEEvaluatePanel : MEBaseScene
 
+/**
+ delegate
+ */
 @property (nonatomic, weak) id<MEEvaluateDelegate> delegate;
 
+/**
+ datasource
+ */
 @property (nonatomic, weak) id<MEEvaluateDataSource> dataSource;
+
+/**
+ user did exchanged to student
+ */
+- (void)didChanged2Student4ID:(int64_t)sid;
 
 @end
 
@@ -22,9 +40,15 @@
  */
 @protocol MEEvaluateDataSource <NSObject>
 
-- (NSArray *)titleForEvaluate;
+/**
+ 评价的标题 eg.在家里/在学校
+ */
+- (NSArray * _Nullable)titlesForEvaluate;
 
-- (BOOL)editableForTitle:(NSString *)title;
+/**
+ 在学校/在家里 tab是否可以编辑
+ */
+- (BOOL)editableForEvaluateType:(MEEvaluateType)type;
 
 @end
 
@@ -34,3 +58,5 @@
 @protocol MEEvaluateDelegate <NSObject>
 
 @end
+
+NS_ASSUME_NONNULL_END
