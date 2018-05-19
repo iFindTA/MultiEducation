@@ -131,6 +131,15 @@
     return returnValue;
 }
 
+//获取字符串首字母(传入汉字字符串, 返回大写拼音首字母)
++ (NSString *)getFirstLetterFromString:(NSString *)aString {
+    NSMutableString *str = [NSMutableString stringWithString:aString];
+    CFStringTransform((CFMutableStringRef)str,NULL, kCFStringTransformMandarinLatin,NO);
+    CFStringTransform((CFMutableStringRef)str,NULL, kCFStringTransformStripDiacritics,NO);
+    NSString *strPinYin = [str capitalizedString];
+    return [strPinYin substringToIndex:1];
+}
+
 #pragma mark --- User Abouts
 
 /**

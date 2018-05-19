@@ -65,6 +65,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)stringContainsEmoji:(NSString *)string;
 
+/**
+ get the first pinyin letter of string
+
+ @return A~Z
+ */
++ (NSString *)getFirstLetterFromString:(NSString *)aString;
+
 #pragma mark --- User Abouts
 
 /**

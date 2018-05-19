@@ -106,7 +106,7 @@
                 [self.content mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.bottom.mas_equalTo(bottomView.mas_bottom);
                 }];
-            }; 
+            };
         };
     }
     return _content;

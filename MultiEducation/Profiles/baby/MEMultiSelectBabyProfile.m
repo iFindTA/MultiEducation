@@ -9,6 +9,8 @@
 #import "MEMultiSelectBabyProfile.h"
 #import "MEMultiBabyCell.h"
 #import <YUChineseSorting/ChineseString.h>
+#import "MEStudentModel.h"
+#import "Mestudent.pbobjc.h"
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const CELL_HEIGHT = 48.f;
@@ -16,11 +18,10 @@ static CGFloat const CELL_HEIGHT = 48.f;
 @interface MEMultiSelectBabyProfile () <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *letterIndexArr;
-@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) NSMutableArray <NSArray <MEStudentModel *> *> *dataArr;
 
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) NSMutableArray *results;
+@property (nonatomic, strong) NSMutableArray <MEStudentModel *> *results;
 @end
 
 @implementation MEMultiSelectBabyProfile
@@ -41,24 +42,38 @@ static CGFloat const CELL_HEIGHT = 48.f;
 }
 
 - (void)loadData {
-    
+    //for test
     NSArray *nameArr = @[@"张三", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"dr.c", @"古拉加斯"];
-
+    
     NSMutableArray *tmpArr = [NSMutableArray array];
-    for (int i = 0; i < 10; i++) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setObject: nameArr[i] forKey: @"name"];
-        [dic setObject: [UIImage imageNamed: @"appicon_placeholder"] forKey: @"portrait"];
-        [tmpArr addObject: dic];
+    for (int i = 0; i < nameArr.count; i++) {
+        MEStudent *stu = [[MEStudent alloc] init];
+        stu.name = [nameArr objectAtIndex: i];
+        [tmpArr addObject: stu];
     }
     
-    self.letterIndexArr = [ChineseString IndexArray: nameArr];
+    NSMutableArray *realNameArr = [NSMutableArray array];
+    for (StudentPb *pb in tmpArr) {
+        [realNameArr addObject: pb.name];
+    }
     
-    NSArray *sortedArr = [ChineseString LetterSortArray: nameArr];
-    
-    [self.dataArr addObjectsFromArray: sortedArr];
+    NSArray *sortedArr = [ChineseString LetterSortArray: realNameArr];
+    for (NSArray *arr in sortedArr) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSString *str in arr) {
+            for (StudentPb *pb in tmpArr) {
+                if ([pb.name isEqualToString: str]) {
+                    MEStudentModel *stu = [[MEStudentModel alloc] init];
+                    stu.name = str;
+                    int a = arc4random() % 2;
+                    stu.status = 1 >> a;
+                    [array addObject: stu];
+                }
+            }
+        }
+        [self.dataArr addObject: array];
+    }
     [self.tableView reloadData];
-    
 }
 
 - (void)viewDidLoad {
@@ -98,9 +113,12 @@ static CGFloat const CELL_HEIGHT = 48.f;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MEMultiBabyCell *cell = [tableView dequeueReusableCellWithIdentifier: CELL_IDEF forIndexPath: indexPath];
     if (self.searchController.active) {
-        cell.nameLab.text = [self.results objectAtIndex: indexPath.row];
+        MEStudentModel *model = [self.results objectAtIndex: indexPath.row];
+        cell.nameLab.text = model.name;
+        [cell setData: model];
     } else {
-        cell.nameLab.text = [[self.dataArr objectAtIndex: indexPath.section] objectAtIndex: indexPath.row];
+        MEStudentModel *model = [[self.dataArr objectAtIndex: indexPath.section] objectAtIndex: indexPath.row];
+        cell.nameLab.text = model.name;
     }
     return cell;
 }
@@ -113,13 +131,31 @@ static CGFloat const CELL_HEIGHT = 48.f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: false];
     
-    MEMultiBabyCell *cell = [tableView cellForRowAtIndexPath: indexPath];
-    cell.selBtn.selected = !cell.selBtn.selected;
+    MEStudentModel *model;
+    if (_searchController.active) {
+        model = [self.results objectAtIndex: indexPath.row];
+    } else {
+        model = [[self.dataArr objectAtIndex: indexPath.section] objectAtIndex: indexPath.row];
+    }
+    
+    if (model.status == CantSelect) {
+        return;
+    } else {
+        if (_searchController.active) {
+            
+        } else {
+            
+        }
+        
+    }
+    
     
 }
 
 #pragma mark - UISearchResultsUpdating
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    
+    //FIXME: preicate 语句有问题，array里是MEStudentModel，不是NSString
     NSString *searchString = [self.searchController.searchBar text];
     NSPredicate *preicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", searchString];
     if (self.results != nil) {
@@ -155,13 +191,6 @@ static CGFloat const CELL_HEIGHT = 48.f;
         _dataArr = [NSMutableArray array];
     }
     return _dataArr;
-}
-
-- (NSMutableArray *)letterIndexArr {
-    if (!_letterIndexArr) {
-        _letterIndexArr = [NSMutableArray array];
-    }
-    return _letterIndexArr;
 }
 
 - (NSMutableArray *)results {
