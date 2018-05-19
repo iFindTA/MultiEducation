@@ -9,6 +9,10 @@
 #import "MESubNavigator.h"
 #import "MEEvaluatePanel.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <UITextView+MaxLength/UITextView+MaxLength.h>
+#import <UITextView+Placeholder/UITextView+Placeholder.h>
+
+CGFloat const ME_QUESTION_INPUT_HEIGHT = 185;
 
 @class MEOption;
 typedef void(^MEOptionItemCallback)(MEOption *opt);
@@ -23,6 +27,12 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
 @property (nonatomic, strong) MEBaseImageView *checkBox;
 @property (nonatomic, strong) MEBaseLabel *label;
 @property (nonatomic, strong) MEBaseScene *titleScene;
+
+/**
+ 用户输入
+ */
+@property (nonatomic, strong) MEBaseScene *inputScene;
+@property (nonatomic, strong) UITextView *input;
 
 + (instancetype)optionWithTitle:(NSString *)title editable:(BOOL)editable;
 
@@ -44,25 +54,25 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
         [self addSubview:self.titleScene];
         [self.titleScene addSubview:self.label];
         self.label.text = title;
-        [self.checkBox makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(self);
-            make.left.equalTo(self).offset(ME_LAYOUT_MARGIN);
-            make.width.equalTo(self.checkBox.mas_height);
-        }];
-        [self.titleScene makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.checkBox.mas_right);
-            make.top.bottom.equalTo(self);
-            make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN);
-        }];
-        [self.label makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.titleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN));
-        }];
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    [self.checkBox makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.equalTo(self);
+        make.left.equalTo(self).offset(ME_LAYOUT_MARGIN);
+        make.width.equalTo(self.checkBox.mas_height);
+    }];
+    [self.titleScene makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.checkBox.mas_right);
+        make.top.bottom.equalTo(self);
+        make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN);
+    }];
+    [self.label makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.titleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN, 0, 0));
+    }];
 }
 
 #pragma mark --- getter
@@ -71,6 +81,7 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
     if (!_checkBox) {
         _checkBox = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
         _checkBox.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_LINE);
+        _checkBox.image = [UIImage imageNamed:@"evaluate_icon_check"];
     }
     return _checkBox;
 }
@@ -91,6 +102,25 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
         _label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     }
     return _label;
+}
+
+- (MEBaseScene *)inputScene {
+    if (!_inputScene) {
+        _inputScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _inputScene.backgroundColor = UIColorFromRGB(0xF9F9F9);
+    }
+    return _inputScene;
+}
+
+- (UITextView *)input {
+    if (!_input) {
+        _input = [[UITextView alloc] initWithFrame:CGRectZero];
+        _input.keyboardType = UIKeyboardTypeNamePhonePad;
+        _input.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
+        _input.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+        _input.placeholderColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    }
+    return _input;
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
