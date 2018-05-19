@@ -116,6 +116,10 @@
                 <constraint firstAttribute="trailing" secondItem="Kpo-jU-aln" secondAttribute="trailing" constant="17" id="oXF-RT-ShU"/>
                 <constraint firstItem="Kpo-jU-aln" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="17" id="xHU-El-5Eu"/>
             </constraints>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="2"/>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="countLab" destination="0Ad-BL-DNT" id="Usl-Lk-01w"/>
                 <outlet property="coverImage" destination="ENh-ki-J64" id="ARm-Rb-24l"/>
