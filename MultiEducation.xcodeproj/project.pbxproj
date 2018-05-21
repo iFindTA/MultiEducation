@@ -45,6 +45,7 @@
 		219A3B612D4E5674B61E865D77B73A43 /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E802CDACD84BF2F646D2A9B36D3433 /* UIWebViewExtension.m */; };
 		23A32D2C7986E940E1C5B13E37E2B5A3 /* MEPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 49F820F03A0F5A4305256BB6A35BDC18 /* MEPhotoBrowser.m */; };
 		2429EAA1893C3FC05F7FB2A72E73035A /* MEAlbumDeleteVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 298E6EF854EF978AA47EA0824B4119E9 /* MEAlbumDeleteVM.m */; };
+		2472BB2430EEB0FE6D4E1DBB0FC55F5A /* MEStudentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FE19D90C61FEE9E41F4CCD62DC4AFCF /* MEStudentModel.m */; };
 		254C6E64ACC27C16C6E6F7CEA728340D /* METhemeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C613EC32D72E2DEDFBCEA67F3EFA628C /* METhemeItem.m */; };
 		260DED6522EF309EA0A47F22A741F615 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 205AA21ED33DA7A21FED48BD32A5F5A5 /* CDVSplashScreen.m */; };
 		287B2E78979F6CF4504842EBAAA1B597 /* MECardSwitchFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B8546B149A07AE2D5DE98ECEA38BD /* MECardSwitchFlowLayout.m */; };
@@ -119,11 +120,11 @@
 		6EB3738482C49C6B43DB2E7FF2FF88B6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1601BF976D58D412225D66FFA75035BC /* main.m */; };
 		6F8DE9D089E6F86C87AF40CF836B936B /* MEClassChatVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C738FC8A43B853F563AECF0FC8653F5 /* MEClassChatVM.m */; };
 		7103E746997293508C5B24EE09F0EDE9 /* MEBabySelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5453914554F197529BE6DF1E3E9711B9 /* MEBabySelectCell.xib */; };
+		71E6E610048EF96E9218ADD97799D4DE /* MEForwardGEProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A23CE6C3FBA42A962175BD1D7138666 /* MEForwardGEProfile.m */; };
 		7244124173944C9455BEBF3CC028431B /* MEPlayInfoTitlePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD95E84F3584B82BD1E6389A562287BE /* MEPlayInfoTitlePanel.m */; };
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
-		76369B8920B021A800068502 /* MEStudentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76369B8820B021A800068502 /* MEStudentModel.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7AB23E9857B2AEE66BD243ED0F98B4B2 /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFA7571B49104B4711B7C111D291686 /* MEMultiSelectBabyProfile.m */; };
@@ -310,6 +311,7 @@
 		071C0968503F66DB979B9DDC38EAAC60 /* NSString+NSHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSHash.h"; sourceTree = "<group>"; };
 		07567BA73C5436DC82BA75862B332DDE /* GardenHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GardenHeader.h; sourceTree = "<group>"; };
 		09877A44D697C45E57642DD93C5C1836 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		0A23CE6C3FBA42A962175BD1D7138666 /* MEForwardGEProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEForwardGEProfile.m; sourceTree = "<group>"; };
 		0C738FC8A43B853F563AECF0FC8653F5 /* MEClassChatVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEClassChatVM.m; sourceTree = "<group>"; };
 		0CDD65B047D3305BF2CD2D77AD8F3C1F /* MEBabyIntersetingSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBabyIntersetingSelectView.h; sourceTree = "<group>"; };
 		0D85B0DBC8B828422473DF17C1A13D79 /* MESubClassProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESubClassProfile.h; sourceTree = "<group>"; };
@@ -429,6 +431,7 @@
 		3E82F034BEF21B8A8161D1B530F672F6 /* MEBabyPortraitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBabyPortraitCell.m; sourceTree = "<group>"; };
 		3ECA2694F5F50B3828F37884BC449F61 /* MEChatProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEChatProfile.h; sourceTree = "<group>"; };
 		3F080019ED61B6F2E4DE2F0AD79335D7 /* ValueBack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ValueBack.h; sourceTree = "<group>"; };
+		3FE19D90C61FEE9E41F4CCD62DC4AFCF /* MEStudentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStudentModel.m; sourceTree = "<group>"; };
 		406CD774CC50C34DC95E02D2FF48FA3E /* MEProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEProgressCell.xib; sourceTree = "<group>"; };
 		40FC4F4D305C05813A8834892F7ED1F6 /* MECordovaVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MECordovaVM.h; sourceTree = "<group>"; };
 		416E2C102FE856D01CA15A3921839AA0 /* MEUserNameVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEUserNameVM.h; sourceTree = "<group>"; };
@@ -538,8 +541,6 @@
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
-		76369B8720B021A800068502 /* MEStudentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentModel.h; sourceTree = "<group>"; };
-		76369B8820B021A800068502 /* MEStudentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStudentModel.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
@@ -639,6 +640,7 @@
 		AA705D3F0BFFE39B743B60947687E652 /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
 		AB3897811CD8AA62EF75C58ACF63DC53 /* MEIndexSearchScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEIndexSearchScene.h; sourceTree = "<group>"; };
 		ABB3178813440804AB932AF1976EC844 /* MEBaseScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBaseScene.m; sourceTree = "<group>"; };
+		ACCB22C70CA2831DCFCCF1D219A1CF50 /* MEForwardGEProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEForwardGEProfile.h; sourceTree = "<group>"; };
 		ACCC4EFF914D3CD28D20FC2CE060E9EB /* MeserverList.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeserverList.pbobjc.m; sourceTree = "<group>"; };
 		AD2C277AADD33E0DF2372A2A73B52A9C /* CDVStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVStatusBar.m; sourceTree = "<group>"; };
 		AD4BABE19BFA80223DFB93B3BA30E46B /* MELiveHeartBeatVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MELiveHeartBeatVM.m; sourceTree = "<group>"; };
@@ -734,6 +736,7 @@
 		DC2F53F07EE015AEDA31725A45AA40FB /* MeclassChat.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeclassChat.pbobjc.h; sourceTree = "<group>"; };
 		DD2D373EF7F59368D24B839D9A59DCA8 /* MEPortraitVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPortraitVM.m; sourceTree = "<group>"; };
 		DDA38576908B7959B383CE9034EB5220 /* MESemesterEvaRootProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESemesterEvaRootProfile.h; sourceTree = "<group>"; };
+		DE221910FEE400D2A4E283883CEBE7BA /* MEStudentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentModel.h; sourceTree = "<group>"; };
 		DE51318B95ABB5E4954764162B8A1351 /* CDVDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVDevice.m; sourceTree = "<group>"; };
 		DE6AF7FE3DE98CF356F7B436B645AD27 /* MultiEducation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiEducation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB240170F64DDA482BA3435E3A142A7 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -1673,12 +1676,12 @@
 			children = (
 				0665851624CEF54E62772643E34216EC /* MEM.h */,
 				EEB3785FE98ED2C9087D01A95147394A /* MEM.m */,
+				DE221910FEE400D2A4E283883CEBE7BA /* MEStudentModel.h */,
+				3FE19D90C61FEE9E41F4CCD62DC4AFCF /* MEStudentModel.m */,
 				7B1F090670F3AAF7A7253B5820D0EFBF /* MEVideo.h */,
 				5063A6DC9E30C87FF3DF74F7C1C88B89 /* MEVideo.m */,
 				D4142593B9244C83DA60FDAC72CE3550 /* MEWatchItem.h */,
 				E6ED304D07D9241B0E90929BD8FF55F9 /* MEWatchItem.m */,
-				76369B8720B021A800068502 /* MEStudentModel.h */,
-				76369B8820B021A800068502 /* MEStudentModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1772,6 +1775,8 @@
 		A79F01FF025098C35FF1CD06E13E74F3 /* GrowthEvaluate */ = {
 			isa = PBXGroup;
 			children = (
+				ACCB22C70CA2831DCFCCF1D219A1CF50 /* MEForwardGEProfile.h */,
+				0A23CE6C3FBA42A962175BD1D7138666 /* MEForwardGEProfile.m */,
 				32476F9F3E2D04D4219FC9A9A50226E4 /* MEGrowthEvaRootProfile.h */,
 				87761243CB658B5CAD17F98E91C950F0 /* MEGrowthEvaRootProfile.m */,
 			);
@@ -2481,7 +2486,6 @@
 				522E8BB83AC1CDA07B8A8ADDC6EDE0B4 /* MEBabyFillBaseLabel.m in Sources */,
 				D42B5F8D7FE3023BD070FAFE9AF22B40 /* MEBabyHeader.m in Sources */,
 				CCA57F5D28479F04ECD331A5303A72A2 /* MEBabyIndexVM.m in Sources */,
-				76369B8920B021A800068502 /* MEStudentModel.m in Sources */,
 				3B8094F2FBA1A02D321918AE9625790F /* MEBabyInfoCell.m in Sources */,
 				E2659C645211AFDA38E6592C68203E2C /* MEBabyInterestProfile.m in Sources */,
 				9DCAA6F000CB2422707BEF623E8CAFA3 /* MEBabyInterestingContent.m in Sources */,
@@ -2530,6 +2534,7 @@
 				D385432537AE657372FAB8451C28054F /* MEFileQuryVM.m in Sources */,
 				B0D6D50144271687D99828DFF3926472 /* MEFolderCell.m in Sources */,
 				E263A6240F7DEE8354E8BD5BD8047B38 /* MEFolderPatchVM.m in Sources */,
+				71E6E610048EF96E9218ADD97799D4DE /* MEForwardGEProfile.m in Sources */,
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
 				B47B439AD08DC8B5D54A312F64EAC41C /* MEGenderVM.m in Sources */,
 				61A29A41EFBF3E4E9B879D37BC52D916 /* MEGrowthEvaRootProfile.m in Sources */,
@@ -2609,6 +2614,7 @@
 				E0D84C2A464E3E6D5963D26D50F2BB62 /* MESignUpProfile.m in Sources */,
 				9640513F206388D7DA282600DE717183 /* MEStudentInfoVM.m in Sources */,
 				BCE42F4462006BDC219E0F2EDBF463AE /* MEStudentListVM.m in Sources */,
+				2472BB2430EEB0FE6D4E1DBB0FC55F5A /* MEStudentModel.m in Sources */,
 				7F531FF9EE37139EC8F4BEB3CD085135 /* MEStudentVM.m in Sources */,
 				1149676F4CAF3A8AAD7A8C87D5D01BD7 /* MEStudentsPanel.m in Sources */,
 				1012AF1A367F6ACE032333BD43DADCCD /* MESubClassProfile.m in Sources */,

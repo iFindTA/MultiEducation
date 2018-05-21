@@ -542,20 +542,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 
 @implementation MEStudentsPanel
 
-+ (instancetype)panelWithClassID:(int64_t)clsID superView:(UIView *)view topMargin:(UIView *)margin {
-    return [[MEStudentsPanel alloc] initWithFrame:CGRectZero classID:clsID superView:view topMargin:margin];
-}
-
-- (id)initWithFrame:(CGRect)frame classID:(int64_t)cid superView:(UIView *)view topMargin:(UIView *)margin{
-    self = [super initWithFrame:frame];
-    if (self) {
-        _classID = cid;
-        _father = view;
-        _margin = margin;
-    }
-    return self;
-}
-
 + (instancetype)panelWithSuperView:(UIView *)view topMargin:(UIView *)margin {
     return [[MEStudentsPanel alloc] initWithFrame:CGRectZero superView:view topMargin:margin];
 }
@@ -834,10 +820,8 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     }
     [self.portraitScene updateStudent:sid state:state];
     [self.landscapeScene updateStudent:sid state:state];
-    //如果是完成状态 自动切换下一个
-    if (state == MEEvaluateStateDone) {
-        [self autoScroll2NextStudent];
-    }
+    // 自动切换下一个
+    [self autoScroll2NextStudent];
 }
 
 /**

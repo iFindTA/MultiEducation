@@ -63,8 +63,10 @@
     
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self color:pbColorMake(ME_THEME_COLOR_TEXT)];
+    UIBarButtonItem *forward = [MEKits barWithTitle:@"往期评价" color:UIColorFromRGB(ME_THEME_COLOR_TEXT) target:self action:@selector(displayForwardEvaluate)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"发展评价"];
     item.leftBarButtonItems = @[spacer, back];
+    item.rightBarButtonItems = @[spacer, forward];
     [self.navigationBar pushNavigationItem:item animated:true];
     
     //配置头部
@@ -102,6 +104,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark --- 往期评价
+- (void)displayForwardEvaluate {
+    NSURL *route = [MEDispatcher profileUrlWithClass:@"MEForwardGEProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:route withParams:nil];
+    [MEKits handleError:err];
 }
 
 #pragma mark --- 配置头部
@@ -143,6 +152,13 @@
         make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
         make.left.bottom.right.equalTo(self.view);
     }];
+    //callback
+    panel.callback = ^(int64_t sid, MEEvaluateState state) {
+        if (state == MEEvaluateStateDone) {
+            [SVProgressHUD showSuccessWithStatus:@"评价成功，填写下一个吧！"];
+        }
+        
+    };
 }
 
 #pragma mark --- 切换学生

@@ -19,6 +19,10 @@
 
 @implementation MEBaseScene
 
+- (void)dealloc {
+    NSLog(@"%@---dealloc", NSStringFromClass(self.class));
+}
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {

@@ -12,3 +12,8 @@
 @interface MEStudentInfoVM : MEVM
 
 @end
+
+
+@interface MEStudentInfoPutVM: MEVM
+
+@end

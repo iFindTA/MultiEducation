@@ -8,31 +8,32 @@
 
 #import "MEBaseScene.h"
 #import "MEStudentInfoVM.h"
+#import "MEStudentListVM.h"
 
 typedef NS_ENUM(NSUInteger, MEEvaluateType) {
     MEEvaluateTypeHome                                  =   0,//在家里的评价
     MEEvaluateTypeSchool                                =   1,//在学校的评价
 };
 
+typedef NS_ENUM(NSUInteger, MEQuestionType) {
+    MEQuestionTypSingle                                 =   1,//单选
+    MEQuestionTypeMulti                                 =   2,//多选
+    MEQuestionTypeInput                                 =   3,//填空
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol MEEvaluateDelegate, MEEvaluateDataSource;
+/**
+ 评价回调
+ */
+typedef void(^MEEvaluatePanelCallback)(int64_t sid, MEEvaluateState state);
+
 @interface MEEvaluatePanel : MEBaseScene
 
 /**
- delegate
+ callback submit
  */
-@property (nonatomic, weak) id<MEEvaluateDelegate> delegate;
-
-/**
- datasource
- */
-@property (nonatomic, weak) id<MEEvaluateDataSource> dataSource;
-
-/**
- user did exchanged to student
- */
-- (void)didChanged2Student4ID:(int64_t)sid;
+@property (nonatomic, copy) MEEvaluatePanelCallback callback;
 
 /**
  切换学生去评估
@@ -43,30 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
  instance method
  */
 - (id)initWithFrame:(CGRect)frame father:(UIView *)view;
-
-@end
-
-/**
- Evaluate DataSource
- */
-@protocol MEEvaluateDataSource <NSObject>
-
-/**
- 评价的标题 eg.在家里/在学校
- */
-- (NSArray * _Nullable)titlesForEvaluate;
-
-/**
- 在学校/在家里 tab是否可以编辑
- */
-- (BOOL)editableForEvaluateType:(MEEvaluateType)type;
-
-@end
-
-/**
- Evaluate Delegate
- */
-@protocol MEEvaluateDelegate <NSObject>
 
 @end
 

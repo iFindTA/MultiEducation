@@ -44,11 +44,6 @@ typedef void(^MEStudentEditCallback)(BOOL done);
 /**
  method for instance
  */
-+ (instancetype)panelWithClassID:(int64_t)clsID superView:(UIView *)view topMargin:(UIView *)margin;
-
-/**
- method for instance
- */
 + (instancetype)panelWithSuperView:(UIView *)view topMargin:(UIView *)margin;
 
 /**
