@@ -90,8 +90,8 @@ static CGFloat const CELL_HEIGHT = 44.f;
     if ([_pushUrlStr isEqualToString: @"profile://root@MEBabyPhotoProfile/"]) {
         [MobClick event:Buried_CLASS_ALBUM];
     }
-    uint64_t classId = [self.classes objectAtIndex: indexPath.row].id_p;
-    NSDictionary *params = @{@"classId": [NSNumber numberWithUnsignedLongLong: classId], @"title": _title};
+    MEPBClass *classPb = [self.classes objectAtIndex: indexPath.row];
+    NSDictionary *params = @{@"classPb": classPb, @"title": _title};
     NSString *urlString = _pushUrlStr;
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];

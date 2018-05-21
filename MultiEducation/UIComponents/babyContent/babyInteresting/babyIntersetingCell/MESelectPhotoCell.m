@@ -23,14 +23,21 @@
 
 - (void)setPhotoCell:(NSDictionary *)dic {
     _dic = dic;
-    UIImage *image = [UIImage imageWithData: [dic objectForKey: @"data"]];
+    
+    UIImage *image;
+    if ([[dic objectForKey: @"extension"] isEqualToString: @"mp4"]) {
+        image = [UIImage imageWithData: [dic objectForKey: @"coverImage"]];
+    } else {
+        image = [UIImage imageWithData: [dic objectForKey: @"data"]];
+    }
+    
     self.deleteBtn.hidden = false;
     self.photo.image = image;
 } 
 
 - (void)setSelectCell {
     self.deleteBtn.hidden = true;
-    self.photo.image = [UIImage imageNamed: @"baby_content_new_folder"];
+    self.photo.image = [UIImage imageNamed: @"baby_interesting_add_image"];
 } 
  
 - (IBAction)didDeletePhotoTouchEvent:(MEBaseButton *)sender {

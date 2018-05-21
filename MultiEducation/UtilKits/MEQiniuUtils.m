@@ -47,6 +47,11 @@ static MEQiniuUtils *qnUtils;
     weakify(self);
     [self checkWhetherExistInServer: images checkCallback:^(NSArray<NSDictionary *> *noExistArr, NSArray<NSDictionary *> *existArr) {
         strongify(self);
+        
+        for (NSDictionary *dic in existArr) {
+            [self.delegate uploadImageSuccess: [dic objectForKey: @"filePath"]];
+        }
+        
         NSData *data = [[noExistArr objectAtIndex: _index] objectForKey: @"data"];
         NSString *key = [[noExistArr objectAtIndex: _index] objectForKey: @"filePath"];
         __block NSInteger imageIndex = _index;
@@ -57,7 +62,7 @@ static MEQiniuUtils *qnUtils;
                 if (info.isOK) {
                     if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
                         dispatch_async_on_main_queue(^{
-                            [self.delegate uploadImageSuccess: key ];
+                            [self.delegate uploadImageSuccess: key];
                         });
                     }
                 } else {
@@ -121,6 +126,12 @@ static MEQiniuUtils *qnUtils;
     weakify(self);
     [self checkWhetherExistInServer: images checkCallback:^(NSArray <NSDictionary *> *noExistArr, NSArray <NSDictionary *> *existArr) {
         strongify(self);
+        if (existArr.count != 0) {
+            for (NSDictionary *dic in existArr) {
+                [self.succKeys addObject: [dic objectForKey: @"filePath"]];
+            }
+            callback(self.succKeys, nil, nil);
+        }
         if (noExistArr.count == 0) {
             return;
         }

@@ -10,12 +10,14 @@
 #import "MEBabyInterestingContent.h"
 #import "Meuser.pbobjc.h"
 #import "MEStudentsPanel.h"
+#import "MEBabyIndexVM.h"
+#import "Meclass.pbobjc.h"
 
 #define CONTENT_HEIGHT MESCREEN_HEIGHT - ME_STUDENT_PANEL_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - [MEKits statusBarHeight]
 
 @interface MEBabyInterestProfile () {
-    int64_t _classId;   //role == teacher || gardener
-    int64_t _stuId;     //role == parent
+    MEPBClass *_classPb;   //role == teacher || gardener
+    int64_t _stuId;     //selected student's id ,if role == parent, from pre stack controller
 }
 
 @property (nonatomic, strong) MEBabyInterestingContent *content;
@@ -26,7 +28,7 @@
 
 - (instancetype)__initWithParams:(NSDictionary *)params {
     if (self = [super init]) {
-        _classId = [[params objectForKey: @"classId"] longLongValue];
+        _classPb = [params objectForKey: @"classPb"];
         _stuId = [[params objectForKey: @"stuId"] longLongValue];
     }
     return self;
@@ -41,7 +43,7 @@
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.content.center = CGPointMake(MESCREEN_WIDTH / 2, MESCREEN_HEIGHT / 2);
     } else {
-        [self configureStudentPanelWithClassID: _classId];
+        [self configureStudentPanel];
         CGFloat y = ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight] + ME_STUDENT_PANEL_HEIGHT;
         self.content.frame = CGRectMake(0, y, MESCREEN_WIDTH, CONTENT_HEIGHT);
     }
@@ -57,7 +59,8 @@
 - (void)pushToSendBabyInterestingProfileItemTouchEvent {
     //FIXME: 每月只能发送一次，加一下判断，如果当月已经发送，点击提示toast
     NSString *urlStr = @"profile://root@MESendIntersetingProfile";
-    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+    NSDictionary *params = @{@"classPb": _classPb, @"stuId": @(_stuId)};
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
     [MEKits handleError: error];
 }
 
@@ -66,12 +69,14 @@
 }
 
 #pragma mark --- 配置头部
-- (void)configureStudentPanelWithClassID:(int64_t)cid {
+- (void)configureStudentPanel {
+    GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
+    
     _panel = [MEStudentsPanel panelWithSuperView: self.view topMargin: self.navigationBar];
-    _panel.classID = 0;
-    _panel.gradeID = 0;
-    _panel.semester = 0;
-    _panel.month = 0;
+    _panel.classID = _classPb.id_p;
+    _panel.gradeID = _classPb.gradeId;
+    _panel.semester = _classPb.semester;
+    _panel.month = index.month;
     _panel.type = 6;
     [self.view insertSubview:_panel belowSubview: self.navigationBar];
     [self.view insertSubview:_panel aboveSubview: self.content];
@@ -79,8 +84,11 @@
     [_panel loadAndConfigure];
     
     //touch switch student callback
+    weakify(self);
     _panel.callback = ^(int64_t sid, int64_t pre_sid) {
         NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+        strongify(self);
+        _stuId = sid;
     };
     //编辑完成
     _panel.editCallback = ^(BOOL done) {

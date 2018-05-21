@@ -11,13 +11,23 @@
 #import <YUChineseSorting/ChineseString.h>
 #import "MEStudentModel.h"
 #import "Mestudent.pbobjc.h"
+#import "Meclass.pbobjc.h"
+#import "MEBabyIndexVM.h"
+#import "MEStudentListVM.h"
+
 
 static NSString * const CELL_IDEF = @"cell_idef";
 static CGFloat const CELL_HEIGHT = 48.f;
 
 @interface MEMultiSelectBabyProfile () <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 
+@property (nonatomic, assign) int64_t semester;
+@property (nonatomic, assign) int64_t classId;
+@property (nonatomic, assign) int64_t gradeId;
+
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSMutableArray <MEStudentModel *> *selectedArr;
 @property (nonatomic, strong) NSMutableArray <NSArray <MEStudentModel *> *> *dataArr;
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -30,8 +40,10 @@ static CGFloat const CELL_HEIGHT = 48.f;
     self = [super init];
     if(self) {
         self.didSelectedStuCallback = [params objectForKey: ME_DISPATCH_KEY_CALLBACK];
-        NSArray *selectedArr = [params objectForKey: @"selectedBabys"];
-        [self.dataArr addObjectsFromArray: selectedArr];
+        self.semester = [[params objectForKey: @"semester"] longLongValue];
+        self.classId = [[params objectForKey: @"classId"] longLongValue];
+        self.gradeId = [[params objectForKey: @"gradeId"] longLongValue];
+        self.selectedArr = [params objectForKey: @"selectedBabys"];
     }
     return self;
 }
@@ -59,40 +71,105 @@ static CGFloat const CELL_HEIGHT = 48.f;
 }
 
 - (void)loadData {
-    //for test
-    NSArray *nameArr = @[@"张三", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎"];
-    
-    NSMutableArray *tmpArr = [NSMutableArray array];
-    for (int i = 0; i < nameArr.count; i++) {
-        MEStudent *stu = [[MEStudent alloc] init];
-        stu.name = [nameArr objectAtIndex: i];
-        [tmpArr addObject: stu];
-    }
-    
-    NSMutableArray *realNameArr = [NSMutableArray array];
-    for (StudentPb *pb in tmpArr) {
-        [realNameArr addObject: pb.name];
-    }
-    
-    NSArray *sortedArr = [ChineseString LetterSortArray: realNameArr];
-    for (NSArray *arr in sortedArr) {
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSString *str in arr) {
-            for (StudentPb *pb in tmpArr) {
-                if ([pb.name isEqualToString: str]) {
-                    MEStudentModel *stu = [[MEStudentModel alloc] init];
-                    stu.name = str;
-                    int a = arc4random() % 3;
-                    stu.status = 1 << a;
-                    [array addObject: stu];
-                    stu.letter = [MEKits getFirstLetterFromString: stu.name];
+    weakify(self)
+    MEStudent *s = [[MEStudent alloc] init];
+    s.type = 6;
+    s.classId = _classId;
+    s.gradeId = _gradeId;
+    s.semester = _semester;
+    s.month = [MEBabyIndexVM fetchSelectBaby].month;
+    MEStudentListVM *vm = [[MEStudentListVM alloc] init];
+    [vm postData:[s data] hudEnable:false success:^(NSData * _Nullable resObj) {
+        NSError *err;strongify(self)
+        MEStudentList *list = [MEStudentList parseFromData:resObj error:&err];
+        
+        NSMutableArray *tmpArr = [NSMutableArray array];
+        for (MEStudent *stu in list.studentsArray) {
+            MEStudentModel *model = [[MEStudentModel alloc] init];
+            model.name = stu.name;
+            model.portrait = stu.portrait;
+            model.stuId = stu.id_p;
+            if (stu.status == 1) {
+                //已完成
+                model.status = CantSelect;
+            }
+            if (stu.status == 0) {
+                //未填写
+                for (MEStudentModel *stuModel in self.selectedArr) {
+                    if (stuModel.stuId == model.stuId) {
+                        model.status = Selected;
+                        break;
+                    } else {
+                        model.status = Unselected;;
+                    }
                 }
             }
+            model.letter = [MEKits getFirstLetterFromString: model.name];
+            [tmpArr addObject: model];
         }
-        [self.dataArr addObject: array];
-    }
-    [self.tableView reloadData];
+    
+        NSMutableArray *nameArr = [NSMutableArray array];
+        for (MEStudentModel *stu in tmpArr) {
+            [nameArr addObject: stu.name];
+        }
+        NSArray *indexArr = [ChineseString IndexArray: nameArr];
+        for (NSString *letter in indexArr) {
+            NSMutableArray *letterArr = [NSMutableArray array];
+            for (MEStudentModel *stu in tmpArr) {
+                if ([letter isEqualToString: stu.letter]) {
+                    [letterArr addObject: stu];
+                }
+            }
+            [self.dataArr addObject: letterArr];
+        }
+        [self.tableView reloadData];
+
+        if (err) {
+            [MEKits handleError:err];
+            return ;
+        }
+        
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
+    }];
 }
+
+
+//- (void)loadData {
+//    //for test
+//    NSArray *nameArr = @[@"张三", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎"];
+//
+//    NSMutableArray *tmpArr = [NSMutableArray array];
+//    for (int i = 0; i < nameArr.count; i++) {
+//        MEStudent *stu = [[MEStudent alloc] init];
+//        stu.name = [nameArr objectAtIndex: i];
+//        [tmpArr addObject: stu];
+//    }
+//
+//    NSMutableArray *realNameArr = [NSMutableArray array];
+//    for (StudentPb *pb in tmpArr) {
+//        [realNameArr addObject: pb.name];
+//    }
+//
+//    NSArray *sortedArr = [ChineseString LetterSortArray: realNameArr];
+//    for (NSArray *arr in sortedArr) {
+//        NSMutableArray *array = [NSMutableArray array];
+//        for (NSString *str in arr) {
+//            for (StudentPb *pb in tmpArr) {
+//                if ([pb.name isEqualToString: str]) {
+//                    MEStudentModel *stu = [[MEStudentModel alloc] init];
+//                    stu.name = str;
+//                    int a = arc4random() % 3;
+//                    stu.status = 1 << a;
+//                    [array addObject: stu];
+//                    stu.letter = [MEKits getFirstLetterFromString: stu.name];
+//                }
+//            }
+//        }
+//        [self.dataArr addObject: array];
+//    }
+//    [self.tableView reloadData];
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -151,9 +228,13 @@ static CGFloat const CELL_HEIGHT = 48.f;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = UIColorFromRGB(0xF3F3F3);
-    return view;
+    if (section != 0) {
+        UIView *view = [[UIView alloc] init];
+        view.backgroundColor = UIColorFromRGB(0xF3F3F3);
+        return view;
+    } else {
+        return [UIView new];
+    }
 }
 
 #pragma mark - UITableViewDelegate
