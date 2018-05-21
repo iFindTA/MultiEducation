@@ -19,6 +19,15 @@ typedef void(^MEStudentPanelCallback)(int64_t sid, int64_t pre_sid);
 
 typedef void(^MEStudentEditCallback)(BOOL done);
 
+/**
+ 切换学生回调
+
+ @param sid 切换到的学生ID
+ @param pre_sid 切换之前的学生ID
+ @param sName 切换到的学生名称
+ */
+typedef void(^MEStudentExchangeCallback)(int64_t sid, int64_t pre_sid, NSString *sName);
+
 @interface MEStudentsPanel : MEBaseScene
 
 /**
@@ -30,6 +39,11 @@ typedef void(^MEStudentEditCallback)(BOOL done);
  edit callback
  */
 @property (nonatomic, copy) MEStudentEditCallback   editCallback;
+
+/**
+ exchange callback
+ */
+@property (nonatomic, copy) MEStudentExchangeCallback exchangeCallback;
 
 /**
  whether auto scroll to next item, default is YES

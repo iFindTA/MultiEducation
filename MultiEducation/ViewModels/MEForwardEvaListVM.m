@@ -10,4 +10,8 @@
 
 @implementation MEForwardEvaListVM
 
+- (NSString *)cmdCode {
+    return @"GU_GRADE_SEMESTER_LIST";
+}
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "MeforwardEvaluate.pbobjc.h"
 
 @interface MEForwardEvaListVM : MEVM
 
