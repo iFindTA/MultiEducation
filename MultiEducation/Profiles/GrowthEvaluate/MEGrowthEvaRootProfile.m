@@ -108,8 +108,9 @@
 
 #pragma mark --- 往期评价
 - (void)displayForwardEvaluate {
-    NSURL *route = [MEDispatcher profileUrlWithClass:@"MEForwardGEProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
-    NSError *err = [MEDispatcher openURL:route withParams:nil];
+    NSDictionary *p = [NSDictionary dictionaryWithDictionary:self.params];
+    NSURL *route = [MEDispatcher profileUrlWithClass:@"MEForwardGEProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:route withParams:p];
     [MEKits handleError:err];
 }
 
