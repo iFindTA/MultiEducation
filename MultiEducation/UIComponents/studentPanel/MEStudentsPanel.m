@@ -551,6 +551,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     if (self) {
         _father = view;
         _margin = margin;
+        _autoScrollNext = true;
     }
     return self;
 }
@@ -821,7 +822,9 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     [self.portraitScene updateStudent:sid state:state];
     [self.landscapeScene updateStudent:sid state:state];
     // 自动切换下一个
-    [self autoScroll2NextStudent];
+    if (self.autoScrollNext) {
+        [self autoScroll2NextStudent];
+    }
 }
 
 /**

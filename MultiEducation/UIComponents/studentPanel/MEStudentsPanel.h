@@ -31,6 +31,11 @@ typedef void(^MEStudentEditCallback)(BOOL done);
  */
 @property (nonatomic, copy) MEStudentEditCallback   editCallback;
 
+/**
+ whether auto scroll to next item, default is YES
+ */
+@property (nonatomic, assign) BOOL autoScrollNext;
+
 @property (nonatomic, assign) int64_t classID;
 @property (nonatomic, assign) int64_t gradeID;
 @property (nonatomic, assign) int64_t semester;
