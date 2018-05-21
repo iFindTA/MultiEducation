@@ -34,6 +34,13 @@
     return self;
 }
 
+- (void)loadData {
+    
+    
+    
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self customNavigation];
@@ -100,7 +107,6 @@
 - (MEBabyInterestingContent *)content {
     if (!_content) {
         _content = [[MEBabyInterestingContent alloc] initWithFrame: CGRectMake(0, ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight], MESCREEN_WIDTH, CONTENT_HEIGHT)];
-        _content.items = @[@0, @1, @2];
         _content.pagingEnabled = true;
         _content.DidSelectCardHandler = ^(NSInteger index) {
             

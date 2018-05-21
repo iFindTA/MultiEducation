@@ -22,7 +22,7 @@
 
 - (instancetype)initWithPb:(GuFunPhotoPb *)pb {
     self = [super init];
-    if (self) {
+    if (self) { 
         _funPhotoPb = pb;
     }
     return self;

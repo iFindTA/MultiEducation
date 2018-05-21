@@ -125,6 +125,9 @@
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		76457C1520B2FB3D000E557C /* MEInterestListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76457C1220B2FB3C000E557C /* MEInterestListVM.m */; };
+		76457C1620B2FB3D000E557C /* MEStuInterestVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76457C1420B2FB3D000E557C /* MEStuInterestVM.m */; };
+		76C728D620B2FC8000618482 /* MestuFun.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C728D420B2FC8000618482 /* MestuFun.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7AB23E9857B2AEE66BD243ED0F98B4B2 /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFA7571B49104B4711B7C111D291686 /* MEMultiSelectBabyProfile.m */; };
@@ -543,7 +546,13 @@
 		756080B04C87E0EAECB2F3E6A26C952A /* MEBabyContentPhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentPhotoCell.m; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
+		76457C1120B2FB3C000E557C /* MEInterestListVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEInterestListVM.h; sourceTree = "<group>"; };
+		76457C1220B2FB3C000E557C /* MEInterestListVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEInterestListVM.m; sourceTree = "<group>"; };
+		76457C1320B2FB3D000E557C /* MEStuInterestVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEStuInterestVM.h; sourceTree = "<group>"; };
+		76457C1420B2FB3D000E557C /* MEStuInterestVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEStuInterestVM.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
+		76C728D420B2FC8000618482 /* MestuFun.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MestuFun.pbobjc.m; sourceTree = "<group>"; };
+		76C728D520B2FC8000618482 /* MestuFun.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MestuFun.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
 		792872332F743D62E639668F6E34AD68 /* MEQNUploadBatchVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEQNUploadBatchVM.h; sourceTree = "<group>"; };
@@ -1483,6 +1492,10 @@
 				4E47A68372848ED0B3E5B7854F11734A /* MEFolderPatchVM.m */,
 				45AB12C9CC6FB76579CDBB475C850CBF /* MENewsInfoVM.h */,
 				435A543C292AF74E1B2CE53850504F99 /* MENewsInfoVM.m */,
+				76457C1120B2FB3C000E557C /* MEInterestListVM.h */,
+				76457C1220B2FB3C000E557C /* MEInterestListVM.m */,
+				76457C1320B2FB3D000E557C /* MEStuInterestVM.h */,
+				76457C1420B2FB3D000E557C /* MEStuInterestVM.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -1672,6 +1685,8 @@
 				B0D1336CF3FB5B80CD7D9820CC7FABE6 /* MeuserData.pbobjc.m */,
 				69F9A75758D8EF209F01089D823595A8 /* Mevideo.pbobjc.h */,
 				BAEAFEC598806F8D0BF55D767CB2570D /* Mevideo.pbobjc.m */,
+				76C728D520B2FC8000618482 /* MestuFun.pbobjc.h */,
+				76C728D420B2FC8000618482 /* MestuFun.pbobjc.m */,
 			);
 			path = PBFiles;
 			sourceTree = "<group>";
@@ -2471,6 +2486,7 @@
 				446CB806887877986123034D0407DBA2 /* AppDelegate.m in Sources */,
 				3F69DC752F034EF886414BC228825F92 /* CDVDevice.m in Sources */,
 				260DED6522EF309EA0A47F22A741F615 /* CDVSplashScreen.m in Sources */,
+				76457C1620B2FB3D000E557C /* MEStuInterestVM.m in Sources */,
 				D1CDA819ED22677E7709CF7D44458ABF /* CDVStatusBar.m in Sources */,
 				64F4A1A7C03FE46AB65E294057D29B6E /* CDVViewController+SplashScreen.m in Sources */,
 				AFF4DA46B5AF1F024B5C639736630CDE /* CardCell.m in Sources */,
@@ -2636,6 +2652,7 @@
 				9397FA3C534B6A887C1D79800EB9E934 /* MEVM.m in Sources */,
 				86E44343185A32725C9337E9B0863A5B /* MEVerifyCodeVM.m in Sources */,
 				F4DDD85DC36FAF29705255DAE08F6BD1 /* MEVideo.m in Sources */,
+				76C728D620B2FC8000618482 /* MestuFun.pbobjc.m in Sources */,
 				19906CEFDF802A6CF5590CDF81F9DFD6 /* MEVideoClassVM.m in Sources */,
 				F7E4762F48D3FD6455D202E0B54D3507 /* MEVideoInfoVM.m in Sources */,
 				C2374C852FF26744C4280F48C6530F60 /* MEVideoPlayProfile.m in Sources */,
@@ -2676,6 +2693,7 @@
 				7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */,
 				5EBC7C58A34231D423650A809BF2A42F /* UITextView+Placeholder.m in Sources */,
 				1E875B2DC795B73EA691B47B3C03F1DF /* UIView+BlurEffect.m in Sources */,
+				76457C1520B2FB3D000E557C /* MEInterestListVM.m in Sources */,
 				5F84C2C9A3EEB651B117290AF53174F8 /* UIView+ClipsCornerRadius.m in Sources */,
 				ED0D090076CEE017686C906F12AFFD4E /* UIView+Frame.m in Sources */,
 				610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */,

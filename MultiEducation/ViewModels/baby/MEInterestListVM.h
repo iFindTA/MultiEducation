@@ -1,5 +1,5 @@
 //
-//  MEStuIntersetVM.h
+//  MEInterestListVM.h
 //  MultiEducation
 //
 //  Created by 崔小舟 on 2018/5/21.
@@ -7,11 +7,7 @@
 //
 
 #import "MEVM.h"
-#import "MestuFun.pbobjc.h"
 
-@interface MEStuInterestVM : MEVM
-
-+ (instancetype)vmWithPb:(GuFunPhotoPb *)pb;
- 
+@interface MEInterestListVM : MEVM
 
 @end
