@@ -39,6 +39,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)exchangedStudent2Evaluate:(GrowthEvaluate *)growth;
 
+/**
+ instance method
+ */
+- (id)initWithFrame:(CGRect)frame father:(UIView *)view;
+
 @end
 
 /**

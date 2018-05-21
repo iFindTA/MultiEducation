@@ -394,7 +394,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     }
     MEPBClassLive *liveVod = classItems[index];
     NSString *title = PBAvailableString(liveVod.title);
-    NSString *videoUrl = PBAvailableString(liveVod.streamURL);
+    NSString *videoUrl = PBAvailableString(liveVod.videoURL);
     NSDictionary *params =@{@"title":title, @"url":videoUrl};
     NSString *destProfile = @"MELiveVodProfile";NSString *method = @"__initWithParams:";
     NSError *err;

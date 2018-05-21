@@ -522,11 +522,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 @property (nonatomic, strong) MEBaseScene *fatherMask;
 
 /**
- 班级ID
- */
-@property (nonatomic, assign) int64_t classID;
-
-/**
  所有学生
  */
 @property (nonatomic, strong) NSMutableArray<MEStudent*> *students;
@@ -555,6 +550,19 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     self = [super initWithFrame:frame];
     if (self) {
         _classID = cid;
+        _father = view;
+        _margin = margin;
+    }
+    return self;
+}
+
++ (instancetype)panelWithSuperView:(UIView *)view topMargin:(UIView *)margin {
+    return [[MEStudentsPanel alloc] initWithFrame:CGRectZero superView:view topMargin:margin];
+}
+
+- (id)initWithFrame:(CGRect)frame superView:(UIView *)view topMargin:(UIView *)margin{
+    self = [super initWithFrame:frame];
+    if (self) {
         _father = view;
         _margin = margin;
     }
@@ -590,7 +598,11 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 - (void)loadAndConfigure {
     weakify(self)
     MEStudent *s = [[MEStudent alloc] init];
+    s.type = self.type;
     s.classId = self.classID;
+    s.gradeId = self.gradeID;
+    s.semester = self.semester;
+    s.month = self.month;
     MEStudentListVM *vm = [[MEStudentListVM alloc] init];
     vm.operationCode = @"GU_TYPE_STUDY_EVALUATE";
     [vm postData:[s data] hudEnable:false success:^(NSData * _Nullable resObj) {
@@ -605,7 +617,6 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         //预处理数据
         NSMutableArray<MEStudent*>*tmp = [NSMutableArray arrayWithCapacity:0];
         for (MEStudent *s in list.studentsArray) {
-            s.prestate = s.status;
             [tmp addObject:s];
         }
         [self.students addObjectsFromArray:tmp.copy];

@@ -578,6 +578,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     } else if ([keyPath isEqualToString:@"state"]) {
         NSInteger state = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         if (state == ZFPlayerStateStopped) {
+            //退出全屏
+            [self.playerControl exitFullscreenMode];
             //自动提示播放下一个视频
             MEPBRes *nextItem = [self fetchNextRecommandResource];
             if (nextItem) {

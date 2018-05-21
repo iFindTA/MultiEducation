@@ -60,6 +60,11 @@ typedef NS_ENUM(NSUInteger, MEVideoPlayUserAction) {
 - (void)closeNextRecommandItemEvent;
 
 /**
+ 退出全屏模式
+ */
+- (void)exitFullscreenMode;
+
+/**
  用户点击新的item
  */
 - (void)clean;

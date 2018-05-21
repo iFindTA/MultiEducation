@@ -335,6 +335,15 @@
     }
 }
 
+- (void)exitFullscreenMode {
+    UIButton *fullScreenBtn = [self valueForKey:@"fullScreenBtn"];
+    NSString *selString = @"fullScreenBtnClick:";
+    SEL fullSelector = NSSelectorFromString(selString);
+    if ([self respondsToSelector:fullSelector]) {
+        [self performSelector:fullSelector withObject:fullScreenBtn];
+    }
+}
+
 - (void)clean {
     [self stopTimer];
     self.floatValue = 0.f;self.progress.progress = 0.f;

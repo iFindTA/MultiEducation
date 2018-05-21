@@ -31,10 +31,25 @@ typedef void(^MEStudentEditCallback)(BOOL done);
  */
 @property (nonatomic, copy) MEStudentEditCallback   editCallback;
 
+@property (nonatomic, assign) int64_t classID;
+@property (nonatomic, assign) int64_t gradeID;
+@property (nonatomic, assign) int64_t semester;
+@property (nonatomic, assign) int32_t month;
+
+/**
+ 类型 2:学期评价 4:发展评价 6:趣事趣影
+ */
+@property (nonatomic, assign) int32_t type;
+
 /**
  method for instance
  */
 + (instancetype)panelWithClassID:(int64_t)clsID superView:(UIView *)view topMargin:(UIView *)margin;
+
+/**
+ method for instance
+ */
++ (instancetype)panelWithSuperView:(UIView *)view topMargin:(UIView *)margin;
 
 /**
  load content and configure

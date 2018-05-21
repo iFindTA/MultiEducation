@@ -21,7 +21,7 @@
 @implementation MELiveVodProfile
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 
 - (id)__initWithParams:(NSDictionary *)params {
@@ -61,7 +61,7 @@
     self.sj_fadeAreaViews = @[self.view];
     
     //observe
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playProfileDidFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playProfileDidFinished:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

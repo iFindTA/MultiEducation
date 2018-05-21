@@ -9,6 +9,7 @@
 #import "MEGrowthEvaRootProfile.h"
 #import "MEStudentsPanel.h"
 #import "MEEvaluatePanel.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface MEGrowthEvaRootProfile ()
 
@@ -79,6 +80,19 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //*
+     [IQKeyboardManager sharedManager].enable = false;
+     [IQKeyboardManager sharedManager].enableAutoToolbar = false;
+     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
+     //*/
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //*
+     [IQKeyboardManager sharedManager].enable = true;
+     [IQKeyboardManager sharedManager].enableAutoToolbar = true;
+     //*/
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -92,7 +106,19 @@
 
 #pragma mark --- 配置头部
 - (void)configureStudentPanelWithClassID:(int64_t)cid {
-    MEStudentsPanel *panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
+    int64_t gradeId = [self.params pb_longLongForKey:@"gradeId"];
+    int64_t semester = [self.params pb_longLongForKey:@"semester"];
+    int32_t month = [self.params pb_intForKey:@"month"];
+    int64_t classId = 0;
+    if (!self.whetherParent) {
+        classId = [self.params pb_longLongForKey:@"classId"];
+    }
+    MEStudentsPanel *panel = [MEStudentsPanel panelWithSuperView:self.view topMargin:self.navigationBar];
+    panel.type = 4;
+    panel.month = month;
+    panel.classID = classId;
+    panel.gradeID = gradeId;
+    panel.semester = semester;
     [self.view insertSubview:panel belowSubview:self.navigationBar];
     [panel loadAndConfigure];
     self.studentPanel = panel;
@@ -110,7 +136,7 @@
 
 #pragma mark --- 配置切换
 - (void)configureEvaluatePanel {
-    MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero];
+    MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero father:self.view];
     [self.view insertSubview:panel belowSubview:self.studentPanel];
     self.evaluatePanel = panel;
     [panel makeConstraints:^(MASConstraintMaker *make) {

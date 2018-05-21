@@ -10,16 +10,17 @@
 #import "MEEvaluatePanel.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <UITextView+MaxLength/UITextView+MaxLength.h>
-#import <UITextView+Placeholder/UITextView+Placeholder.h>
+#import <IQKeyboardManager/IQTextView.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 CGFloat const ME_QUESTION_INPUT_HEIGHT = 185;
-CGFloat const ME_QUESTION_INPUT_MAXLENGTH = 200;
+NSUInteger const ME_QUESTION_INPUT_MAXLENGTH = 50;
 
-@class MEOption;
-typedef void(^MEOptionItemCallback)(MEOption *opt);
+@class MEQuestionSlice;
+typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 
 #pragma mark --- >>>>>>>>>>>>>>>>>>> 问题Item 选项
-@interface MEOption : MEBaseScene<UITextViewDelegate>
+@interface MEQuestionSlice : MEBaseScene<UITextViewDelegate>
 
 @property (nonatomic, assign) BOOL checked;
 
@@ -29,22 +30,16 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
 @property (nonatomic, strong) MEBaseLabel *label;
 @property (nonatomic, strong) MEBaseScene *titleScene;
 
-/**
- 用户输入
- */
-@property (nonatomic, strong) MEBaseScene *inputScene;
-@property (nonatomic, strong) UITextView *input;
-
 + (instancetype)optionWithTitle:(NSString *)title editable:(BOOL)editable;
 
-@property (nonatomic, copy) MEOptionItemCallback callback;
+@property (nonatomic, copy) MEQuestionSliceItemCallback callback;
 
 @end
 
-@implementation MEOption
+@implementation MEQuestionSlice
 
 + (instancetype)optionWithTitle:(NSString *)title editable:(BOOL)editable {
-    return [[MEOption alloc] initWithFrame:CGRectZero title:title editable:editable];
+    return [[MEQuestionSlice alloc] initWithFrame:CGRectZero title:title editable:editable];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title editable:(BOOL)editable{
@@ -105,26 +100,6 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
     return _label;
 }
 
-- (MEBaseScene *)inputScene {
-    if (!_inputScene) {
-        _inputScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-        _inputScene.backgroundColor = UIColorFromRGB(0xF9F9F9);
-    }
-    return _inputScene;
-}
-
-- (UITextView *)input {
-    if (!_input) {
-        _input = [[UITextView alloc] initWithFrame:CGRectZero];
-        _input.backgroundColor = [UIColor clearColor];
-        _input.keyboardType = UIKeyboardTypeNamePhonePad;
-        _input.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
-        _input.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-        _input.placeholderColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    }
-    return _input;
-}
-
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
     if (!self.editable) {
@@ -157,22 +132,36 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
 @end
 
 #pragma mark --- >>>>>>>>>>>>>>>>>>> 问题Item 输入选项
-@interface MEInputOption : MEOption
+@interface MEQuesInputSlice : MEQuestionSlice
 
-+ (instancetype)optionWithPlaceholder:(NSString *)placeholder editable:(BOOL)editable maxLength:(NSUInteger)len;
+@property (nonatomic, copy) NSString *questionTitle;
+@property (nonatomic, copy) NSString *placeholderString;
+
+/**
+ 用户输入
+ */
+@property (nonatomic, strong) MEBaseScene *inputScene;
+@property (nonatomic, strong) IQTextView *input, *inputPlaceholer;
+@property (nonatomic, strong) MEBaseScene *inputAccess;
+@property (nonatomic, assign) NSUInteger maxInputLength;
+
++ (instancetype)optionWithPlaceholder:(NSString *)placeholder editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title;
 
 @end
 
-@implementation MEInputOption
+@implementation MEQuesInputSlice
 
-+ (instancetype)optionWithPlaceholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len {
-    return [[MEInputOption alloc] initWithFrame:CGRectZero placeholder:holder editable:editable maxLength:len];
++ (instancetype)optionWithPlaceholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
+    return [[MEQuesInputSlice alloc] initWithFrame:CGRectZero placeholder:holder editable:editable maxLength:len quesTitle:title];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len {
+- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
     self = [super initWithFrame:frame];
     if (self) {
         self.editable = editable;
+        _questionTitle = title.copy;
+        _maxInputLength = len;
+        _placeholderString = holder.copy;
         [self addSubview:self.inputScene];
         [self.inputScene addSubview:self.input];
         self.input.delegate = self;
@@ -190,6 +179,82 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
     [self.input makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.inputScene);
     }];
+}
+
+#pragma mark --- lazy loading
+
+- (MEBaseScene *)inputScene {
+    if (!_inputScene) {
+        _inputScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _inputScene.backgroundColor = UIColorFromRGB(0xF9F9F9);
+    }
+    return _inputScene;
+}
+
+- (IQTextView *)input {
+    if (!_input) {
+        _input = [[IQTextView alloc] initWithFrame:CGRectZero];
+        _input.backgroundColor = [UIColor clearColor];
+        _input.keyboardType = UIKeyboardTypeNamePhonePad;
+        _input.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
+        _input.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+        //_input.placeholderColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+        if (!([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)) {
+            _input.inputAccessoryView = self.inputAccess;
+        }
+    }
+    return _input;
+}
+
+- (MEBaseScene *)inputAccess {
+    if (!_inputAccess) {
+        CGRect bounds = CGRectMake(0, 0, MESCREEN_WIDTH, ME_QUESTION_INPUT_HEIGHT);
+        _inputAccess = [[MEBaseScene alloc] initWithFrame:bounds];
+        UIFont *font = UIFontPingFangSC(METHEME_FONT_TITLE-1);
+        UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+        MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+        label.font = font;
+        label.textColor = fontColor;
+        label.text = PBFormat(@"%@:%lu字以内", self.questionTitle, MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength));
+        [_inputAccess addSubview:label];
+        [label makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_inputAccess);
+            make.left.equalTo(_inputAccess).offset(ME_LAYOUT_MARGIN);
+            make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+        }];
+        MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        btn.titleLabel.font = font;
+        [btn setTitleColor:fontColor forState:UIControlStateNormal];
+        [btn setTitle:@"完成" forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(doneInputEvent) forControlEvents:UIControlEventTouchUpInside];
+        [_inputAccess addSubview:btn];
+        [btn makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_inputAccess);
+            make.right.equalTo(_inputAccess).offset(-ME_LAYOUT_MARGIN);
+            make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+        }];
+        //bg
+        MEBaseScene *bg = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        bg.backgroundColor = UIColorFromRGB(0xF9F9F9);
+        [_inputAccess addSubview:bg];
+        [bg makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_inputAccess).insets(UIEdgeInsetsMake(ME_LAYOUT_ICON_HEIGHT, ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN));
+        }];
+        //textview
+        IQTextView *placeholder = [[IQTextView alloc] initWithFrame:CGRectZero];
+        placeholder.editable = false;
+        placeholder.backgroundColor = [UIColor clearColor];
+        placeholder.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
+        placeholder.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+        placeholder.placeholder = self.placeholderString;
+        placeholder.maxLength = MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength);
+        [bg addSubview:placeholder];
+        [placeholder makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(bg);
+        }];
+        self.inputPlaceholer = placeholder;
+    }
+    return _inputAccess;
 }
 
 #pragma mark --- UITextView Delegate
@@ -210,6 +275,22 @@ typedef void(^MEOptionItemCallback)(MEOption *opt);
         }
     }
     return true;
+}
+
+- (void)textViewDidChange:(UITextView *)textView {
+    NSString *tempInputs = textView.text;
+    NSUInteger maxLen = MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength);
+    if (tempInputs.length >= maxLen) {
+        self.inputPlaceholer.text = [tempInputs substringToIndex:maxLen];
+        return;
+    }
+    self.inputPlaceholer.text = tempInputs;
+}
+
+#pragma mark --- user interface actions
+
+- (void)doneInputEvent {
+    [self.input endEditing:true];
 }
 
 @end
@@ -237,12 +318,12 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 /**
  问题选项
  */
-@property (nonatomic, strong) NSMutableArray<MEOption*>*itemOpts;
+@property (nonatomic, strong) NSMutableArray<MEQuestionSlice*>*itemOpts;
 
 /**
  当前选中的item选项 空表示没有该问题选项没有编辑过
  */
-@property (nonatomic, strong) MEOption *currentOpt;
+@property (nonatomic, strong) MEQuestionSlice *currentOpt;
 
 /**
  问题 是否已答题(可依据此判断是否已编辑)
@@ -293,11 +374,11 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     //问题选项
-    int i=0; MEOption *lastOpt = nil;CGFloat offset = ME_LAYOUT_MARGIN*0.5;
+    int i=0; MEQuestionSlice *lastOpt = nil;CGFloat offset = ME_LAYOUT_MARGIN*0.5;
     [self.itemOpts removeAllObjects];
     int checkType = self.source.checkType;
     if (checkType == 3) {
-        MEInputOption *inputOpt = [[MEInputOption alloc] initWithFrame:CGRectZero placeholder:self.source.placeholder editable:self.editable maxLength:self.source.maxLength];
+        MEQuesInputSlice *inputOpt = [[MEQuesInputSlice alloc] initWithFrame:CGRectZero placeholder:self.source.placeholder editable:self.editable maxLength:self.source.maxLength quesTitle:self.source.title];
         inputOpt.tag = i;
         [self addSubview:inputOpt];
         [inputOpt makeConstraints:^(MASConstraintMaker *make) {
@@ -309,7 +390,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     } else {
         NSArray <EvaluateItem*>*opts = self.source.itemsArray.copy;
         for (EvaluateItem *item in opts) {
-            MEOption *opt = [[MEOption alloc] initWithFrame:CGRectZero title:item.title editable:self.editable];
+            MEQuestionSlice *opt = [[MEQuestionSlice alloc] initWithFrame:CGRectZero title:item.title editable:self.editable];
             opt.tag = i;
             opt.checked = item.checked;
             [self addSubview:opt];
@@ -325,7 +406,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
             }
             //callback
             weakify(self)
-            opt.callback = ^(MEOption *opt){
+            opt.callback = ^(MEQuestionSlice *opt){
                 strongify(self)
                 [self userDidTouchQuestionOption:opt];
             };
@@ -342,7 +423,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 #pragma mark --- getter
 
-- (NSMutableArray<MEOption*>*)itemOpts {
+- (NSMutableArray<MEQuestionSlice*>*)itemOpts {
     if (!_itemOpts) {
         _itemOpts = [NSMutableArray arrayWithCapacity:0];
     }
@@ -356,7 +437,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 #pragma mark --- user interface actions
 
-- (void)userDidTouchQuestionOption:(MEOption *)opt {
+- (void)userDidTouchQuestionOption:(MEQuestionSlice *)opt {
     if (opt == self.currentOpt) {
         NSLog(@"选择了相同的选项!");
         return;
@@ -366,7 +447,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     self.currentOpt = opt;
     if (self.source.checkType == 1) {
         //单选题
-        for (MEOption *o in self.itemOpts) {
+        for (MEQuestionSlice *o in self.itemOpts) {
             BOOL checked = (o == opt && o.tag == opt.tag);
             [o setChecked:checked];
         }
@@ -512,6 +593,8 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 @interface MEEvaluatePanel ()
 
+@property (nonatomic, weak) UIView *fatherView;
+
 /**
  当前学生ID
  */
@@ -531,16 +614,45 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 @property (nonatomic, strong) MEQuestionPanel *homePanel;
 @property (nonatomic, strong) MEQuestionPanel *schoolPanel;
 
+@property (nonatomic, strong) MEBaseScene *inputMask;
+
 @end
 
 @implementation MEEvaluatePanel
 
-- (id)initWithFrame:(CGRect)frame {
+- (void)dealloc {
+    [self uninstallKeyBoradEvents];
+}
+
+- (id)initWithFrame:(CGRect)frame father:(nonnull UIView *)view {
     self = [super initWithFrame:frame];
     if (self) {
+        _fatherView = view;
+        CGRect bounds = _fatherView.bounds;
+        _inputMask = [[MEBaseScene alloc] initWithFrame:bounds];
+        _inputMask.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+        _inputMask.hidden = true;
+        [self.fatherView insertSubview:_inputMask aboveSubview:self];
         self.backgroundColor = [UIColor pb_randomColor];
+        [self registerKeyboradEvents];
     }
     return self;
+}
+
+- (void)registerKeyboradEvents {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(__keyboradWillShow:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)uninstallKeyBoradEvents {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)__keyboradWillShow:(NSNotification *)notify {
+    NSLog(@"keyborad:%@", notify);
+    [self.fatherView bringSubviewToFront:self.inputMask];
+    CGRect endBounds = [[[notify userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+    BOOL hide = fabs(endBounds.origin.y - MESCREEN_HEIGHT) < ME_LAYOUT_MARGIN;
+    self.inputMask.hidden = hide;
 }
 
 #pragma mark --- user interface actions

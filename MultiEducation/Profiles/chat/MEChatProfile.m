@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong) NSDictionary *params;
 
+@property (nonatomic, weak) id<RCRealTimeLocationProxy> realTimeLocation;
+
 @end
 
 @implementation MEChatProfile
@@ -44,12 +46,20 @@
     [self.navigationBar pushNavigationItem:item animated:true];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    //adjust conversation frame
     [self.conversationMessageCollectionView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.navigationBar.mas_bottom);
         make.left.right.equalTo(self.view);
         make.bottom.equalTo(self.chatSessionInputBarControl.mas_top);
     }];
+    [RCIM sharedRCIM].globalNavigationBarTintColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    /* setup location proxy
+    [[RCRealTimeLocationManager sharedManager] getRealTimeLocationProxy:self.conversationType targetId:self.targetId success:^(id<RCRealTimeLocationProxy> locationShare) {
+        
+    } error:^(RCRealTimeLocationErrorCode status) {
+        NSLog(@"failed to fetch real-time location with Code:%ld", (long)status);
+    }];//*/
+    // setup extend plugins
     [self adgustmentExpandPlugins];
 }
 

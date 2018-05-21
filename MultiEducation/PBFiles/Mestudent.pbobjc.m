@@ -52,17 +52,23 @@ static GPBFileDescriptor *MestudentRoot_FileDescriptor(void) {
 @dynamic gender;
 @dynamic portrait;
 @dynamic status;
-@dynamic prestate;
+@dynamic type;
+@dynamic gradeId;
+@dynamic semester;
+@dynamic month;
 
 typedef struct MEStudent__storage_ {
   uint32_t _has_storage_[1];
   int32_t gender;
   int32_t status;
-  int32_t prestate;
+  int32_t type;
+  int32_t month;
   NSString *name;
   NSString *portrait;
   int64_t id_p;
   int64_t classId;
+  int64_t gradeId;
+  int64_t semester;
 } MEStudent__storage_;
 
 // This method is threadsafe because it is initially called
@@ -126,11 +132,38 @@ typedef struct MEStudent__storage_ {
         .dataType = GPBDataTypeInt32,
       },
       {
-        .name = "prestate",
+        .name = "type",
         .dataTypeSpecific.className = NULL,
-        .number = MEStudent_FieldNumber_Prestate,
+        .number = MEStudent_FieldNumber_Type,
         .hasIndex = 6,
-        .offset = (uint32_t)offsetof(MEStudent__storage_, prestate),
+        .offset = (uint32_t)offsetof(MEStudent__storage_, type),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "gradeId",
+        .dataTypeSpecific.className = NULL,
+        .number = MEStudent_FieldNumber_GradeId,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(MEStudent__storage_, gradeId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "semester",
+        .dataTypeSpecific.className = NULL,
+        .number = MEStudent_FieldNumber_Semester,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(MEStudent__storage_, semester),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "month",
+        .dataTypeSpecific.className = NULL,
+        .number = MEStudent_FieldNumber_Month,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(MEStudent__storage_, month),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
@@ -145,7 +178,7 @@ typedef struct MEStudent__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\001\002\007\000";
+        "\002\002\007\000\010\007\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
