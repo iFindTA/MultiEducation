@@ -67,7 +67,12 @@
 
 #pragma mark --- 配置头部
 - (void)configureStudentPanelWithClassID:(int64_t)cid {
-    _panel = [MEStudentsPanel panelWithClassID:cid superView:self.view topMargin:self.navigationBar];
+    _panel = [MEStudentsPanel panelWithSuperView: self.view topMargin: self.navigationBar];
+    _panel.classID = 0;
+    _panel.gradeID = 0;
+    _panel.semester = 0;
+    _panel.month = 0;
+    _panel.type = 6;
     [self.view insertSubview:_panel belowSubview: self.navigationBar];
     [self.view insertSubview:_panel aboveSubview: self.content];
 
