@@ -29,6 +29,7 @@ static CGFloat const CELL_HEIGHT = 48.f;
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if(self) {
+        self.didSelectedStuCallback = [params objectForKey: ME_DISPATCH_KEY_CALLBACK];
         NSArray *selectedArr = [params objectForKey: @"selectedBabys"];
         [self.dataArr addObjectsFromArray: selectedArr];
     }
@@ -38,12 +39,28 @@ static CGFloat const CELL_HEIGHT = 48.f;
 - (void)customNavigation {
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: @"选择用户"];
     item.leftBarButtonItem = [MEKits defaultGoBackBarButtonItemWithTarget: self];
+    item.rightBarButtonItem = [MEKits barWithTitle: @"确定" color: [UIColor whiteColor] target: self action: @selector(didConfirmButtonItemTouchEvent)];
     [self.navigationBar pushNavigationItem: item animated: false];
+}
+
+- (void)didConfirmButtonItemTouchEvent {
+    NSMutableArray *selectedStuArr = [NSMutableArray array];
+    for (NSArray *arr in self.dataArr) {
+        for (MEStudentModel *stu in arr) {
+            if (stu.status == Selected) {
+                [selectedStuArr addObject: stu];
+            }
+        }
+    }
+    if (self.didSelectedStuCallback) {
+        self.didSelectedStuCallback(selectedStuArr);
+    }
+    [self.navigationController popViewControllerAnimated: true];
 }
 
 - (void)loadData {
     //for test
-    NSArray *nameArr = @[@"张三", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"dr.c", @"古拉加斯"];
+    NSArray *nameArr = @[@"张三", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎", @"李四", @"王五", @"网六", @"钱塘江", @"金克斯", @"科加斯", @"鬼脚七", @"drc", @"古拉加斯", @"古德包哎"];
     
     NSMutableArray *tmpArr = [NSMutableArray array];
     for (int i = 0; i < nameArr.count; i++) {
@@ -65,9 +82,10 @@ static CGFloat const CELL_HEIGHT = 48.f;
                 if ([pb.name isEqualToString: str]) {
                     MEStudentModel *stu = [[MEStudentModel alloc] init];
                     stu.name = str;
-                    int a = arc4random() % 2;
-                    stu.status = 1 >> a;
+                    int a = arc4random() % 3;
+                    stu.status = 1 << a;
                     [array addObject: stu];
+                    stu.letter = [MEKits getFirstLetterFromString: stu.name];
                 }
             }
         }
@@ -118,9 +136,24 @@ static CGFloat const CELL_HEIGHT = 48.f;
         [cell setData: model];
     } else {
         MEStudentModel *model = [[self.dataArr objectAtIndex: indexPath.section] objectAtIndex: indexPath.row];
+        if (indexPath.row == 0) {
+            cell.searchLab.text = model.letter;
+            cell.searchLab.hidden = false;
+        } else {
+            cell.searchLab.text = @"";
+            cell.searchLab.hidden = true;
+        }
         cell.nameLab.text = model.name;
+        [cell setData: model];
+
     }
     return cell;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = UIColorFromRGB(0xF3F3F3);
+    return view;
 }
 
 #pragma mark - UITableViewDelegate
@@ -128,9 +161,12 @@ static CGFloat const CELL_HEIGHT = 48.f;
     return CELL_HEIGHT;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 8.f;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: false];
-    
     MEStudentModel *model;
     if (_searchController.active) {
         model = [self.results objectAtIndex: indexPath.row];
@@ -142,31 +178,35 @@ static CGFloat const CELL_HEIGHT = 48.f;
         return;
     } else {
         if (_searchController.active) {
-            
+            if (model.status == Selected) {
+                model.status = Unselected;
+            } else {
+                model.status = Selected;
+            }
         } else {
-            
+            if (model.status == Selected) {
+                model.status = Unselected;
+            } else {
+                model.status = Selected;
+            }
         }
         
     }
-    
-    
+    [self.tableView reloadRowsAtIndexPaths: @[indexPath] withRowAnimation: UITableViewRowAnimationNone];
 }
 
 #pragma mark - UISearchResultsUpdating
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    
-    //FIXME: preicate 语句有问题，array里是MEStudentModel，不是NSString
-    NSString *searchString = [self.searchController.searchBar text];
-    NSPredicate *preicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", searchString];
-    if (self.results != nil) {
+    if (self.results.count > 0) {
         [self.results removeAllObjects];
     }
-    
-    NSMutableArray *tmpArr = [NSMutableArray array];
+    //FIXME: preicate 语句有问题，array里是MEStudentModel，不是NSString
+    NSString *searchString = [self.searchController.searchBar text];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name CONTAINS [c] %@", searchString];
+
     for (NSArray *arr in self.dataArr) {
-        [tmpArr addObjectsFromArray: [NSMutableArray arrayWithArray:[arr filteredArrayUsingPredicate:preicate]]];
+        [self.results addObjectsFromArray: [arr filteredArrayUsingPredicate: predicate]];
     }
-    [self.results addObjectsFromArray: tmpArr];
 
     [self.tableView reloadData];
 }

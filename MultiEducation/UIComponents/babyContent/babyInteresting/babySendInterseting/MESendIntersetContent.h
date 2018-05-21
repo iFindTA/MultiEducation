@@ -7,11 +7,12 @@
 //
 
 #import "MEBaseScene.h"
+@class MEBabyIntersetingSelectView;
 
 @interface MESendIntersetContent : MEBaseScene
 
 @property (nonatomic, copy) void(^DidPickerButtonTouchCallback) (void);
-@property (nonatomic, copy) void(^DidRemakeMasonry) (UIView *bottomView);
+@property (nonatomic, strong) MEBabyIntersetingSelectView *selectView;
 
 - (void)didSelectImagesOrVideo:(NSArray <NSDictionary *> *)images;
   

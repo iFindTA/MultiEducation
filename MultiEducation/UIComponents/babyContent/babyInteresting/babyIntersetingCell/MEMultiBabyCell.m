@@ -22,8 +22,6 @@
 
 - (void)setData:(MEStudentModel *)model {
     [self changeStatus: model.status];
-    
-    
 }
 
 - (void)changeStatus:(SelectStatus)status {
