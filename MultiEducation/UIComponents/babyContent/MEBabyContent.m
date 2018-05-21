@@ -371,7 +371,7 @@
                 params = @{@"pushUrlStr": @"profile://root@MEBabyInterestProfile/", @"title": @"趣事趣影"};
                 url = [MEDispatcher profileUrlWithClass:@"METeacherMultiClassTableProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
             } else {
-                params = @{@"classId": @((self.currentUser.teacherPb.classPbArray[0]).id_p)};
+                params = @{@"classPb": (self.currentUser.teacherPb.classPbArray[0])};
             }
         }
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
@@ -379,7 +379,7 @@
             if (self.currentUser.deanPb.classPbArray.count > 1) {
                 url = [MEDispatcher profileUrlWithClass: @"METeacherMultiClassTableProfile" initMethod: nil params: nil instanceType: MEProfileTypeCODE];
             } else {
-                params = @{@"classId": @((self.currentUser.deanPb.classPbArray[0]).id_p)};
+                params = @{@"classPb": (self.currentUser.deanPb.classPbArray[0])};
             }
         }
     } else {

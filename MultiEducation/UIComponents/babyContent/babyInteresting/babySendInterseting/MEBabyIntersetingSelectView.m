@@ -8,6 +8,7 @@
 
 #import "MEBabyIntersetingSelectView.h"
 #import "MEBabyPortraitCell.h"
+#import "MEStudentModel.h"
 
 #define MIN_ITEM_GAP 6.f
 #define MIN_LINE_GAP 6.f
@@ -26,65 +27,61 @@ static CGFloat const LEFT_SPACE = 25.f;
 @property (nonatomic, strong) MEBaseImageView *arrow;
 
 @property (nonatomic, strong) UICollectionView *iconView;
-@property (nonatomic, strong) NSMutableArray *dataArr;
+@property (nonatomic, strong) NSMutableArray <MEStudentModel *> *dataArr;
 
 @end
 
 @implementation MEBabyIntersetingSelectView
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(didTapSelectBabyView)];
-        [self addGestureRecognizer: tapGes];
-        
-        [self addSubview: self.topSepView];
-        [self addSubview: self.bottomSepView];
-        [self addSubview: self.tipLab];
-        [self addSubview: self.arrow];
-        [self addSubview: self.iconView];
-        
-        //layout
-        [self.topSepView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
-            make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
-            make.top.mas_equalTo(self);
-            make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
-        }];
-        
-        [self.bottomSepView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
-            make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
-            make.bottom.mas_equalTo(self);
-            make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
-        }];
-        
-        [self.tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.leading.mas_equalTo(self.topSepView.mas_leading);
-            make.top.mas_equalTo(self.topSepView.mas_bottom);
-            make.bottom.mas_equalTo(self.bottomSepView.mas_top);
-            make.width.mas_equalTo(70.f);
-        }];
-        
-        [self.arrow mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
-            make.width.mas_equalTo(5.f);
-            make.height.mas_equalTo(12.f);
-            make.centerY.mas_equalTo(self);
-        }];
-        
-        [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.arrow.mas_left).mas_offset(-12.f);
-            make.height.mas_equalTo(ICON_VIEW_HEIGH);
-            make.width.mas_equalTo(ICON_VIEW_WIDTH);
-            make.top.mas_equalTo(self.topSepView.mas_bottom).mas_offset(13.f);
-        }];
-        
-        if (self.DidRemakeMasonry) {
-            self.DidRemakeMasonry(self.bottomSepView);
-        }
+- (void)customSubviews {
+    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(didTapSelectBabyView)];
+    [self addGestureRecognizer: tapGes];
+    
+    [self addSubview: self.topSepView];
+    [self addSubview: self.bottomSepView];
+    [self addSubview: self.tipLab];
+    [self addSubview: self.arrow];
+    [self addSubview: self.iconView];
+    
+    //layout
+    [self.topSepView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
+        make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+        make.top.mas_equalTo(self);
+        make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    
+    [self.bottomSepView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
+        make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+        make.bottom.mas_equalTo(self);
+        make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
+    }];
+    
+    [self.tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.mas_equalTo(self.topSepView.mas_leading);
+        make.top.mas_equalTo(self.topSepView.mas_bottom);
+        make.bottom.mas_equalTo(self.bottomSepView.mas_top);
+        make.width.mas_equalTo(70.f);
+    }];
+    
+    [self.arrow mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self).mas_offset(-LEFT_SPACE);
+        make.width.mas_equalTo(5.f);
+        make.height.mas_equalTo(12.f);
+        make.centerY.mas_equalTo(self);
+    }];
+    
+    [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.arrow.mas_left).mas_offset(-12.f);
+        make.height.mas_equalTo(ICON_VIEW_HEIGH);
+        make.width.mas_equalTo(ICON_VIEW_WIDTH);
+        make.top.mas_equalTo(self.topSepView.mas_bottom).mas_offset(13.f);
+    }];
+    
+    if (self.DidRemakeMasonry) {
+        self.DidRemakeMasonry(self.bottomSepView);
     }
-    return self;
 }
 
 - (void)updateLayout {
@@ -121,6 +118,10 @@ static CGFloat const LEFT_SPACE = 25.f;
     }
 }
 
+- (NSArray<MEStudentModel *> *)getInterestingStuArr {
+    return self.dataArr;
+}
+
 - (void)didTapSelectBabyView {
     NSLog(@"didTapSelectBabyView");
     weakify(self);
@@ -131,11 +132,10 @@ static CGFloat const LEFT_SPACE = 25.f;
         [self updateLayout];
         [self.iconView reloadData];
     };
-    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectStuCallback};
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectStuCallback, @"classId": @(_classId), @"semester": @(_semester), @"grade": @(_gradeId), @"selectedBabys": _dataArr};
     NSString *urlStr = @"profile://MEMultiSelectBabyProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
     [MEKits handleError: error];
-
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -145,7 +145,8 @@ static CGFloat const LEFT_SPACE = 25.f;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MEBabyPortraitCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: CELL_IDEF forIndexPath: indexPath];
-    
+    NSString *portraitUrl = [NSString stringWithFormat: @"%@/%@",self.currentUser.bucketDomain,  [self.dataArr objectAtIndex: indexPath.row].portrait];
+    [cell.icon sd_setImageWithURL: [NSURL URLWithString: portraitUrl] placeholderImage: [UIImage pb_imageWithColor: UIColorFromRGB(0xF3F8F8)]];
     return cell;
 }
 

@@ -20,65 +20,60 @@
  
 @interface MESendIntersetContent() <UITextFieldDelegate, UITextViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
+@property (nonatomic, strong) NSMutableArray <NSDictionary *> *dataArr;  //数据源
+
 @property (nonatomic, strong) UITextField *titleTF;
 @property (nonatomic, strong) UITextView *contentTV;
 @property (nonatomic, strong) UICollectionView *photoView;
-@property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) MEBaseScene *sepView; //sep between contentTV & titleTF
 
 @end
 
 @implementation MESendIntersetContent
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        
-        [self addSubview: self.titleTF];
-        [self addSubview: self.contentTV];
-        [self addSubview: self.photoView];
-        [self addSubview: self.sepView];
-        
-        //layout
-        [self.titleTF mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self);
-            make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
-            make.width.mas_equalTo(MESCREEN_WIDTH - 2 * LEFT_SPACE);
+- (void)customSubviews {
+    [self addSubview: self.titleTF];
+    [self addSubview: self.contentTV];
+    [self addSubview: self.photoView];
+    [self addSubview: self.sepView];
+    
+    //layout
+    [self.titleTF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self);
+        make.left.mas_equalTo(self).mas_offset(LEFT_SPACE);
+        make.width.mas_equalTo(MESCREEN_WIDTH - 2 * LEFT_SPACE);
+        make.height.mas_equalTo(52.f);
+    }];
+    
+    [self.sepView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(LEFT_SPACE);
+        make.top.mas_equalTo(self.titleTF.mas_bottom);
+        make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
+        make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE * 2);
+    }];
+    
+    [self.contentTV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(LEFT_SPACE - 5);
+        make.top.mas_equalTo(self.sepView.mas_bottom);
+        make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE * 2 + 10);
+        make.height.mas_equalTo(TEXT_INPUT_HEIGHT);
+    }];
+    
+    [self.photoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(LEFT_SPACE);
+        make.top.mas_equalTo(self.contentTV.mas_bottom).mas_offset(10.f);
+        make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE);
+        make.height.mas_equalTo(CELL_SIZE.height);
+    }];
+    
+    if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
+        [self addSubview: self.selectView];
+        [self.selectView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.mas_equalTo(self);
             make.height.mas_equalTo(52.f);
+            make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
         }];
-        
-        [self.sepView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(LEFT_SPACE);
-            make.top.mas_equalTo(self.titleTF.mas_bottom);
-            make.height.mas_equalTo(ME_LAYOUT_LINE_HEIGHT);
-            make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE * 2);
-        }];
-        
-        [self.contentTV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(LEFT_SPACE - 5);
-            make.top.mas_equalTo(self.sepView.mas_bottom);
-            make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE * 2 + 10);
-            make.height.mas_equalTo(TEXT_INPUT_HEIGHT);
-        }];
-        
-        [self.photoView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(LEFT_SPACE);
-            make.top.mas_equalTo(self.contentTV.mas_bottom).mas_offset(10.f);
-            make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE);
-            make.height.mas_equalTo(CELL_SIZE.height);
-        }];
-        
-//        if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-            [self addSubview: self.selectView];
-            [self.selectView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.mas_equalTo(self);
-                make.height.mas_equalTo(52.f);
-                make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
-            }];
-//        }
-
     }
-    return self;
 }
 
 - (BOOL)whetherCanPickImage {
@@ -102,8 +97,39 @@
 
 #pragma mark - public func
 - (void)didSelectImagesOrVideo:(NSArray<NSDictionary *> *)images {
+    [self.dataArr removeAllObjects];
     [self.dataArr addObjectsFromArray: images];
     [self.photoView reloadData];
+}
+
+- (BOOL)whetherCanPickPhotoFromImagePickerProfile {
+    if ([[self.dataArr.firstObject objectForKey: @"extension"] isEqualToString: @"mp4"]) {
+        if (self.dataArr.count  >= 1) {
+            [SVProgressHUD showErrorWithStatus: @"视频最多可上传1部，请删除后重新选择上传"];
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        if (self.dataArr.count  >= 9) {
+            [SVProgressHUD showErrorWithStatus: @"照片最多可上传9张，请删除后重新选择上传"];
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+- (NSString *)getInterestTitle {
+    return self.titleTF.text;
+}
+
+- (NSString *)getInterestContext {
+    return self.contentTV.text;
+}
+
+- (NSArray<MEStudentModel *> *)getInterestingStuArr {
+    return [self.selectView getInterestingStuArr];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -149,17 +175,18 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == self.dataArr.count) {
-        //上传图片
-        if ([self whetherCanPickImage]) {
-            if (self.DidPickerButtonTouchCallback) {
-                self.DidPickerButtonTouchCallback();
+        if ([self whetherCanPickPhotoFromImagePickerProfile]) {
+            //上传图片
+            if ([self whetherCanPickImage]) {
+                if (self.DidPickerButtonTouchCallback) {
+                    self.DidPickerButtonTouchCallback();
+                }
             }
         }
     }
 }
 
 #pragma mark - lazyloading
-
 - (UITextField *)titleTF {
     if (!_titleTF) {
         _titleTF = [[UITextField alloc] init];
@@ -217,18 +244,30 @@
 - (MEBabyIntersetingSelectView *)selectView {
     if (!_selectView) {
         _selectView = [[MEBabyIntersetingSelectView alloc] init];
+        _selectView.semester = _semester;
+        _selectView.classId = _classId;
+        _selectView.gradeId = _gradeId;
+        [_selectView customSubviews];
         _selectView.userInteractionEnabled = true;
         weakify(self);
         _selectView.DidRemakeMasonry = ^(UIView *bottomView) {
             strongify(self);
             [self.selectView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.mas_equalTo(self);
+
                 make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
                 make.bottom.mas_equalTo(bottomView.mas_bottom);
             }];
         };
     }
     return _selectView;
+}
+
+- (NSMutableArray *)selectedImages {
+    if (!_selectedImages) {
+        _selectedImages = [NSMutableArray array];
+    }
+    return _selectedImages;
 }
 
 @end

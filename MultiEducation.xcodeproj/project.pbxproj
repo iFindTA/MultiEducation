@@ -124,6 +124,9 @@
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
 		76369B8920B021A800068502 /* MEStudentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 76369B8820B021A800068502 /* MEStudentModel.m */; };
+		76457C0920B2B7A7000E557C /* MestuFun.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76457C0720B2B7A7000E557C /* MestuFun.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76457C0C20B2B7F2000E557C /* MEStuInterestVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76457C0B20B2B7F2000E557C /* MEStuInterestVM.m */; };
+		76457C0D20B2D364000E557C /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFA7571B49104B4711B7C111D291686 /* MEMultiSelectBabyProfile.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7AB23E9857B2AEE66BD243ED0F98B4B2 /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFA7571B49104B4711B7C111D291686 /* MEMultiSelectBabyProfile.m */; };
@@ -540,6 +543,10 @@
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
 		76369B8720B021A800068502 /* MEStudentModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentModel.h; sourceTree = "<group>"; };
 		76369B8820B021A800068502 /* MEStudentModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStudentModel.m; sourceTree = "<group>"; };
+		76457C0720B2B7A7000E557C /* MestuFun.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MestuFun.pbobjc.m; sourceTree = "<group>"; };
+		76457C0820B2B7A7000E557C /* MestuFun.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MestuFun.pbobjc.h; sourceTree = "<group>"; };
+		76457C0A20B2B7F2000E557C /* MEStuInterestVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStuInterestVM.h; sourceTree = "<group>"; };
+		76457C0B20B2B7F2000E557C /* MEStuInterestVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStuInterestVM.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
@@ -1477,6 +1484,8 @@
 				4E47A68372848ED0B3E5B7854F11734A /* MEFolderPatchVM.m */,
 				45AB12C9CC6FB76579CDBB475C850CBF /* MENewsInfoVM.h */,
 				435A543C292AF74E1B2CE53850504F99 /* MENewsInfoVM.m */,
+				76457C0A20B2B7F2000E557C /* MEStuInterestVM.h */,
+				76457C0B20B2B7F2000E557C /* MEStuInterestVM.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -1664,6 +1673,8 @@
 				B0D1336CF3FB5B80CD7D9820CC7FABE6 /* MeuserData.pbobjc.m */,
 				69F9A75758D8EF209F01089D823595A8 /* Mevideo.pbobjc.h */,
 				BAEAFEC598806F8D0BF55D767CB2570D /* Mevideo.pbobjc.m */,
+				76457C0820B2B7A7000E557C /* MestuFun.pbobjc.h */,
+				76457C0720B2B7A7000E557C /* MestuFun.pbobjc.m */,
 			);
 			path = PBFiles;
 			sourceTree = "<group>";
@@ -2443,6 +2454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F17F7942D34279CED04B2DFB8B283832 /* MultiEducationTests.m in Sources */,
+				76457C0D20B2D364000E557C /* MEMultiSelectBabyProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2635,6 +2647,7 @@
 				192D3CE7F1B1C0628D1617C151003A0C /* MEWatchItem.m in Sources */,
 				377557F6B667B753B83CAC10E81EC41C /* MEWebProgress.m in Sources */,
 				C0F618FF86DEAFA5363D1C615388ECDD /* MebabyAlbum.pbobjc.m in Sources */,
+				76457C0920B2B7A7000E557C /* MestuFun.pbobjc.m in Sources */,
 				BD1D7A6C74175AFB2C1CDBF8F03B8113 /* MebabyEvaluate.pbobjc.m in Sources */,
 				B0C81781B0DF30E3443B0A92C1C0F5C6 /* MebabyGrowth.pbobjc.m in Sources */,
 				C1781E8B58FDD7A4B319539BF038C9D2 /* MebabyIndex.pbobjc.m in Sources */,
@@ -2676,6 +2689,7 @@
 				CEA271402094FD7BFD21E151669A6681 /* ValueEnv.m in Sources */,
 				EB8CF1F5D0E78B878E9C2439E72BE591 /* ValueH5n.m in Sources */,
 				96090DCEE27E4CB29207275B5B8CDA24 /* ValueImg.m in Sources */,
+				76457C0C20B2B7F2000E557C /* MEStuInterestVM.m in Sources */,
 				3F7C2FF8934F9E03D7A0E9171AADF286 /* ValueLogin.m in Sources */,
 				BAC64A5B21398594100F0395FA212F5A /* ValueMore.m in Sources */,
 				6413A1DD216ADBD0B538B0967C0B2A8E /* ValuePay.m in Sources */,

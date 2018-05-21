@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message GuFunPhotoPb {
+   int64 id=1;
+   int64 studentId=2;//学生id
+   int64 gradeId=3; //年级id
+   int32 month=4;//月份
+   string title=5; //标题
+   string funText=6;//文字
+   int32 status=7;//状态 1完成 0没完成的
+   repeated GuFunPhotoStudentPb studentList=8;//学生列表
+   repeated GuFunPhotoImgPb imgList=9;//图片
+}
+
+message GuFunPhotoStudentPb {
+   int64 studentId=1;//学生id
+}
+
+message GuFunPhotoImgPb {
+   string imgPath=1;//图片路径
+}
