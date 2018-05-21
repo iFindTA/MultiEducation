@@ -513,33 +513,44 @@
     return classes;
 }
 
-- (int64_t)convertClassName2ClassID:(NSString *)clsName {
-    __block int64_t clsID = 0;
+- (MEPBClass *)convertClassName2Class:(NSString *)clsName {
+    __block MEPBClass *cls = 0;
     NSArray <MEPBClass*>*classes = [self muticastClasses];
     [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.name isEqualToString:clsName]) {
-            clsID = obj.id_p;
+            cls = obj;
             *stop = true;
         }
     }];
-    return clsID;
+    return cls;
 }
 
 /**
  家长/老师/园务 查看
  */
 - (void)userDidChoosenType:(MEBabyContentType)type whetherParent:(BOOL)parent className:(NSString *)clsName {
-    GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
     NSMutableDictionary *multiMap = [NSMutableDictionary dictionaryWithCapacity:0];
-    [multiMap setObject:@(index.gradeId) forKey:@"gradeId"];
-    [multiMap setObject:@(index.semester) forKey:@"semester"];
+    GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
     [multiMap setObject:@(index.month) forKey:@"month"];
     if (parent) {
-        int64_t stuID = self.studentPb.id_p;
-        [multiMap setObject:@(stuID) forKey:@"studentId"];
+        int64_t stud_id = index.studentId;
+        StudentPb *studnt;
+        for (StudentPb *s in self.currentUser.parentsPb.studentPbArray) {
+            if (s.id_p == stud_id) {
+                studnt = s;
+                break;
+            }
+        }
+        [multiMap setObject:@(stud_id) forKey:@"studentId"];
+        [multiMap setObject:@(studnt.classId) forKey:@"classId"];
+        [multiMap setObject:@(index.gradeId) forKey:@"gradeId"];
+        [multiMap setObject:@(index.semester) forKey:@"semester"];
     } else {
-        int64_t class_id = [self convertClassName2ClassID:clsName];
-        [multiMap setObject:@(class_id) forKey:@"classId"];
+        MEPBClass *cls = [self convertClassName2Class:clsName];
+        [multiMap setObject:@(cls.id_p) forKey:@"classId"];
+        [multiMap setObject:@(cls.gradeId) forKey:@"gradeId"];
+        [multiMap setObject:@(cls.semester) forKey:@"semester"];
+        [multiMap setObject:cls.name forKey:@"className"];
     }
     NSString *destProfile;NSURL *url = nil; NSDictionary *params = nil;NSString *buried_point = nil;
     if (MEBabyContentTypeGrowth & type) {

@@ -395,6 +395,12 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
             make.left.right.equalTo(self);
             make.height.equalTo(ME_QUESTION_INPUT_HEIGHT);
         }];
+        //callback
+        weakify(self)
+        inputOpt.callback = ^(MEQuestionSlice *opt){
+            strongify(self)
+            [self userDidTouchQuestionOption:opt];
+        };
         lastOpt = inputOpt;
         whetherAnswered = self.source.answer.length > 0;
     } else {
@@ -477,12 +483,21 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     return newQues;
 }
 
+- (BOOL)answered {
+    int32_t checkType = self.source.checkType;
+    if (checkType != MEQuestionTypeInput) {
+        return _answered;
+    }
+    MEQuesInputSlice *slice = (MEQuesInputSlice*)self.itemOpts.firstObject;
+    return slice.input.text.length > 0;
+}
+
 #pragma mark --- user interface actions
 
 - (void)userDidTouchQuestionOption:(MEQuestionSlice *)opt {
     //已编辑
-    self.answered = true;
     if (self.source.checkType == MEQuestionTypSingle) {
+        self.answered = true;
         if (opt == self.currentOpt) {
             NSLog(@"选择了相同的选项!");
             return;
@@ -494,6 +509,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
             [o setChecked:checked];
         }
     } else if (self.source.checkType == MEQuestionTypeMulti) {
+        self.answered = true;
         //多选题
         opt.checked = !opt.checked;
     }
@@ -790,14 +806,13 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
     NSArray<EvaluateQuestion*>*ques = [tmpPanel fetchAllQuestions:true];
     if (ques.count > 0) {
         //需要暂存
-        NSLog(@"有需要缓存的项！");
+        weakify(self)
         dispatch_semaphore_t semo = dispatch_semaphore_create(1);
         [self preQuerySubmit4State:MEEvaluateStateStash completion:^(NSError * _Nullable err) {
             if (err) {
                 NSString *alertInfo = PBFormat(@"暂存失败：%@", err.localizedDescription);
                 [SVProgressHUD showErrorWithStatus:alertInfo];
             }
-            NSLog(@"缓存结束！");
             dispatch_semaphore_signal(semo);
         }];
         dispatch_semaphore_wait(semo, DISPATCH_TIME_FOREVER);
