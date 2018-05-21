@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseCell.h"
+@class MEStudentModel;
 
 @interface MEMultiBabyCell : MEBaseCell
 
@@ -16,8 +17,9 @@
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *nameLab;
 
-@property (weak, nonatomic) IBOutlet MEBaseButton *selBtn;
+@property (weak, nonatomic) IBOutlet MEBaseImageView *statusImageView;
 
 
+- (void)setData:(MEStudentModel *)model;
 
 @end

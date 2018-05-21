@@ -56,42 +56,37 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4s-Qc-pme" customClass="MEBaseButton">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0GT-Oz-P2H" customClass="MEBaseImageView">
                         <rect key="frame" x="282" y="10" width="24" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="24" id="T13-F4-GzJ"/>
-                            <constraint firstAttribute="height" constant="24" id="baZ-rs-cU3"/>
+                            <constraint firstAttribute="width" constant="24" id="HjG-cj-zIl"/>
+                            <constraint firstAttribute="height" constant="24" id="t7X-xV-NEb"/>
                         </constraints>
-                        <state key="normal" image="baby_interesting_nor"/>
-                        <state key="selected" image="baby_interseting_sel"/>
-                        <connections>
-                            <action selector="didSelectButtonTouchEvent:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="UU5-yB-S0d"/>
-                        </connections>
-                    </button>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.cornerRadius" value="YES"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="0GT-Oz-P2H" secondAttribute="trailing" constant="14" id="15m-tc-qi9"/>
                     <constraint firstItem="CKk-HG-PS8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="9Bh-ar-0NT"/>
                     <constraint firstItem="CKk-HG-PS8" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="NZ5-xE-L8a"/>
+                    <constraint firstItem="1cN-fs-MNW" firstAttribute="leading" secondItem="fRS-zL-giJ" secondAttribute="trailing" constant="10" id="VKa-Ru-AkK"/>
+                    <constraint firstItem="0GT-Oz-P2H" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Y7g-8Q-cnl"/>
                     <constraint firstItem="fRS-zL-giJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eyi-rl-6sx"/>
-                    <constraint firstItem="1cN-fs-MNW" firstAttribute="leading" secondItem="fRS-zL-giJ" secondAttribute="trailing" constant="10" id="g5U-8g-eA9"/>
-                    <constraint firstItem="I4s-Qc-pme" firstAttribute="leading" secondItem="1cN-fs-MNW" secondAttribute="trailing" constant="14" id="gfC-Bs-f8z"/>
                     <constraint firstItem="fRS-zL-giJ" firstAttribute="leading" secondItem="CKk-HG-PS8" secondAttribute="trailing" constant="18" id="lXe-5A-mDB"/>
-                    <constraint firstAttribute="trailing" secondItem="I4s-Qc-pme" secondAttribute="trailing" constant="14" id="mWD-7f-YKe"/>
-                    <constraint firstItem="I4s-Qc-pme" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uVw-Kj-10X"/>
                     <constraint firstItem="1cN-fs-MNW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="uw2-gq-w5Q"/>
+                    <constraint firstItem="0GT-Oz-P2H" firstAttribute="leading" secondItem="1cN-fs-MNW" secondAttribute="trailing" constant="14" id="vpd-3D-VHI"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="nameLab" destination="1cN-fs-MNW" id="c8x-FP-QnF"/>
                 <outlet property="portrait" destination="fRS-zL-giJ" id="dch-BE-rdW"/>
                 <outlet property="searchLab" destination="CKk-HG-PS8" id="nyY-Ng-BRg"/>
-                <outlet property="selBtn" destination="I4s-Qc-pme" id="e7A-gR-4GT"/>
+                <outlet property="statusImageView" destination="0GT-Oz-P2H" id="vKx-18-zHO"/>
             </connections>
             <point key="canvasLocation" x="-40" y="143"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="baby_interesting_nor" width="20" height="20"/>
-        <image name="baby_interseting_sel" width="20" height="20"/>
-    </resources>
 </document>

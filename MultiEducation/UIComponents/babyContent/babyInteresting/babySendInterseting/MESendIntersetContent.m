@@ -25,7 +25,6 @@
 @property (nonatomic, strong) UICollectionView *photoView;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) MEBaseScene *sepView; //sep between contentTV & titleTF
-@property (nonatomic, strong) MEBabyIntersetingSelectView *selectView;
 
 @end
 
@@ -227,9 +226,6 @@
                 make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
                 make.bottom.mas_equalTo(bottomView.mas_bottom);
             }];
-            if (self.DidRemakeMasonry) {
-                self.DidRemakeMasonry(bottomView);
-            }
         };
     }
     return _selectView;

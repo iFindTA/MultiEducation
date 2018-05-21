@@ -10,6 +10,7 @@
 #import "MESendIntersetContent.h"
 #import <TZImagePickerController.h>
 #import <TZImageManager.h>
+#import "MEBabyIntersetingSelectView.h"
 
 @interface MESendIntersetingProfile () <TZImagePickerControllerDelegate>
 
@@ -38,7 +39,7 @@
     [self.content mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.scrollView);
         make.width.mas_equalTo(self.scrollView);
-        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - [MEKits statusBarHeight]);
+        make.bottom.mas_equalTo(self.content.selectView);
     }];
 }
 
@@ -95,18 +96,6 @@
         _content.DidPickerButtonTouchCallback = ^{
             strongify(self);
             [self.navigationController presentViewController: self.pickerProfile animated: true completion: nil];
-        };
-        
-        _content.DidRemakeMasonry = ^(UIView *bottomView) {
-            strongify(self);
-            weakify(self);
-            self.content.DidRemakeMasonry = ^(UIView *bottomView) {
-                strongify(self);
-                [bottomView layoutIfNeeded];
-                [self.content mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.bottom.mas_equalTo(bottomView.mas_bottom);
-                }];
-            }; 
         };
     }
     return _content;

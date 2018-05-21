@@ -7,19 +7,31 @@
 //
 
 #import "MEMultiBabyCell.h"
+#import "MEStudentModel.h"
 
 @implementation MEMultiBabyCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.statusImageView.userInteractionEnabled = true;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
 
-- (IBAction)didSelectButtonTouchEvent:(MEBaseButton *)sender {
-    sender.selected = !sender.selected;
+- (void)setData:(MEStudentModel *)model {
+    [self changeStatus: model.status];
+}
+
+- (void)changeStatus:(SelectStatus)status {
+    if (status == CantSelect) {
+        self.statusImageView.image = [UIImage imageNamed: @"baby_interesting_cant_sel"];
+    } else if (status == Selected) {
+        self.statusImageView.image = [UIImage imageNamed: @"baby_interesting_sel"];
+    } else {
+        self.statusImageView.image = [UIImage imageNamed: @"baby_interesting_nor"];
+    }
 }
 
 @end
