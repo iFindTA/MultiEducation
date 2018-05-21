@@ -99,7 +99,6 @@
 		5EBC7C58A34231D423650A809BF2A42F /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAF4E57B300E719856997789A38D8EB /* UITextView+Placeholder.m */; };
 		5F4CC69157750F224FB978084300EC6D /* MEMultiBabyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1766B3195494C2A05871308FB359A89C /* MEMultiBabyCell.m */; };
 		5F84C2C9A3EEB651B117290AF53174F8 /* UIView+ClipsCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 387D90F8FF395ECF63072784244CA105 /* UIView+ClipsCornerRadius.m */; };
-		6003CEE620B2621200D6D026 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003CEE520B2621200D6D026 /* MapKit.framework */; };
 		605BFCA8BB5D002D2978A4681B299189 /* MEBabyOtherInfoCard.m in Sources */ = {isa = PBXBuildFile; fileRef = C8B5FAF9B8215ECF2338299014EA43B8 /* MEBabyOtherInfoCard.m */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
 		61A29A41EFBF3E4E9B879D37BC52D916 /* MEGrowthEvaRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 87761243CB658B5CAD17F98E91C950F0 /* MEGrowthEvaRootProfile.m */; };
@@ -236,6 +235,7 @@
 		DB7FA8348763A5CB6310D4BF591BC8AB /* MEVideoPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = E32A88BBE47FC632DB85F47F3B918481 /* MEVideoPreview.m */; };
 		DB7FEB815A21FC4B319C8A302FC364C5 /* Meindex.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 45450C42E4FFF0F00139F758C79A5E25 /* Meindex.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DC62D591BA8311CD9D01554E2E65F435 /* MEContactInfoProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */; };
+		DCF568D81DC8156610FF640814E36309 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 691F2745CD9846AA898634F66C095E83 /* MapKit.framework */; };
 		DE728D505B819C1E53333132FD62723F /* MEBaseTabBarProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA66C0A23210F048FF81E9FEA0A53BD /* MEBaseTabBarProfile.m */; };
 		E024AA38646F95380CE5DE6492DB1003 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB2E15017BB5632407C343F3D905875 /* libsqlite3.0.tbd */; };
 		E07070D015A2367783E2E1AD33ABCE67 /* MEAboutMeContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 47A8572B1A19BAC2DC72DAF8B206103A /* MEAboutMeContent.m */; };
@@ -492,7 +492,6 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
-		6003CEE520B2621200D6D026 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEContactInfoProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		623689A313118EDB1B986A816DF90740 /* MebabyGrowth.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyGrowth.pbobjc.h; sourceTree = "<group>"; };
@@ -510,6 +509,7 @@
 		683E8395D0E413F0AC0450E7FBCCE91E /* ValueEnv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueEnv.m; sourceTree = "<group>"; };
 		68E81B5FD3FD430991441F6E1295C2B0 /* ValueShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueShare.m; sourceTree = "<group>"; };
 		690E28A2FDC2A4C4DC669BF31C42E626 /* MEMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMenuButton.m; sourceTree = "<group>"; };
+		691F2745CD9846AA898634F66C095E83 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		69EECFF4B01CC1CE49138EFE99463B51 /* Meindex.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meindex.pbobjc.h; sourceTree = "<group>"; };
 		69F9A75758D8EF209F01089D823595A8 /* Mevideo.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mevideo.pbobjc.h; sourceTree = "<group>"; };
 		6ACF53893678F1C3E12D21999B17B3B8 /* METemplateProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = METemplateProfile.h; sourceTree = "<group>"; };
@@ -815,9 +815,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCF568D81DC8156610FF640814E36309 /* MapKit.framework in Frameworks */,
 				2CC03C76B92C6E44E24FC81694861E99 /* SystemConfiguration.framework in Frameworks */,
 				7E64FF2AFC108B8F23A9DD90E69E13DA /* libPods-MultiEducation.a in Frameworks */,
-				6003CEE620B2621200D6D026 /* MapKit.framework in Frameworks */,
 				E024AA38646F95380CE5DE6492DB1003 /* libsqlite3.0.tbd in Frameworks */,
 				401A13434495A43AA92295237E5A5537 /* libz.tbd in Frameworks */,
 			);
@@ -1797,12 +1797,12 @@
 		AD8DB100F4D42F9CC3BF49991F65C018 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6003CEE520B2621200D6D026 /* MapKit.framework */,
 				60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */,
 				83D0AC2F6FD6236BCCE60EC21516DCA3 /* CFNetwork.framework */,
 				E3BDD94B73F30E2C7B9DD1FB7F9B6765 /* CoreFoundation.framework */,
 				580EB77D8BA40B7398A8FD7A0C43FD16 /* CoreGraphics.framework */,
 				E1F84286888B12CD1173AA7A3154B505 /* Foundation.framework */,
+				691F2745CD9846AA898634F66C095E83 /* MapKit.framework */,
 				DEB240170F64DDA482BA3435E3A142A7 /* MediaPlayer.framework */,
 				94EC7DAE0CA7456FF6A8C3F51FC7F28F /* SystemConfiguration.framework */,
 				96823B802CA106393AA939570F7EBB8C /* UIKit.framework */,
