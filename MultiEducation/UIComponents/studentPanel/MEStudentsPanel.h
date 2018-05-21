@@ -31,6 +31,11 @@ typedef void(^MEStudentEditCallback)(BOOL done);
  */
 @property (nonatomic, copy) MEStudentEditCallback   editCallback;
 
+/**
+ whether auto scroll to next item, default is YES
+ */
+@property (nonatomic, assign) BOOL autoScrollNext;
+
 @property (nonatomic, assign) int64_t classID;
 @property (nonatomic, assign) int64_t gradeID;
 @property (nonatomic, assign) int64_t semester;
@@ -40,11 +45,6 @@ typedef void(^MEStudentEditCallback)(BOOL done);
  类型 2:学期评价 4:发展评价 6:趣事趣影
  */
 @property (nonatomic, assign) int32_t type;
-
-/**
- method for instance
- */
-+ (instancetype)panelWithClassID:(int64_t)clsID superView:(UIView *)view topMargin:(UIView *)margin;
 
 /**
  method for instance

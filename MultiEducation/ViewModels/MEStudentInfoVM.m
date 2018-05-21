@@ -15,3 +15,12 @@
 }
 
 @end
+
+
+@implementation MEStudentInfoPutVM
+
+- (NSString *)cmdCode {
+    return @"GU_STUDY_EVALUATE_PUT";
+}
+
+@end

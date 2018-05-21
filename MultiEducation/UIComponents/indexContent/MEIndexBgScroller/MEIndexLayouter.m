@@ -321,7 +321,7 @@
     NSArray <MEPBResType*>*recommand = self.dataItem.recommendTypeListArray.copy;
     //NSLog(@"recommand:%@", recommand);
     __block MEBaseScene *lastSection = nil;__block MEBaseScene *lastItem = nil;
-    NSUInteger sectionHeight = ME_LAYOUT_ICON_HEIGHT;
+    NSUInteger sectionHeight = ME_LAYOUT_ICON_HEIGHT+ME_LAYOUT_MARGIN*2;
     UIFont *sectFont = UIFontPingFangSCBold(METHEME_FONT_TITLE);
     UIFont *itemFont = UIFontPingFangSCBold(METHEME_FONT_SUBTITLE);
     UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
@@ -339,13 +339,21 @@
             make.left.right.equalTo(self.layout);
             make.height.equalTo(sectionHeight);
         }];
+        //分割线
+        MEBaseScene *seperator = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        seperator.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_BG_GRAY);
+        [sectTitleScene addSubview:seperator];
+        [seperator makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(sectTitleScene);
+            make.height.equalTo(ME_LAYOUT_MARGIN);
+        }];
         MEBaseLabel *sectTitleLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
         sectTitleLab.font = sectFont;
         sectTitleLab.textColor = fontColor;
         sectTitleLab.text = type.title;
         [sectTitleScene addSubview:sectTitleLab];
         [sectTitleLab makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN));
+            make.edges.equalTo(sectTitleScene).insets(UIEdgeInsetsMake(ME_LAYOUT_MARGIN*2, ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN));
         }];
         lastSection = sectTitleScene;
         //items

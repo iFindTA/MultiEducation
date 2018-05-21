@@ -14,13 +14,16 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 
 CGFloat const ME_QUESTION_INPUT_HEIGHT = 185;
-NSUInteger const ME_QUESTION_INPUT_MAXLENGTH = 50;
+NSUInteger const ME_QUESTION_INPUT_MAXLENGTH = 200;
 
 @class MEQuestionSlice;
 typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 
-#pragma mark --- >>>>>>>>>>>>>>>>>>> 问题Item 选项
+#pragma mark --- >>>>>>>>>>>>>>>>>>> 问题Item 分片slice
 @interface MEQuestionSlice : MEBaseScene<UITextViewDelegate>
+
+@property (nonatomic, assign) int64_t e_id;
+@property (nonatomic, copy) NSString *e_title;
 
 @property (nonatomic, assign) BOOL checked;
 
@@ -45,6 +48,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 - (instancetype)initWithFrame:(CGRect)frame title:(NSString *)title editable:(BOOL)editable{
     self = [super initWithFrame:frame];
     if (self) {
+        _e_title = title.copy;
         _editable = editable;
         [self addSubview:self.checkBox];
         [self addSubview:self.titleScene];
@@ -136,6 +140,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 
 @property (nonatomic, copy) NSString *questionTitle;
 @property (nonatomic, copy) NSString *placeholderString;
+@property (nonatomic, copy) NSString *answerString;
 
 /**
  用户输入
@@ -145,26 +150,28 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 @property (nonatomic, strong) MEBaseScene *inputAccess;
 @property (nonatomic, assign) NSUInteger maxInputLength;
 
-+ (instancetype)optionWithPlaceholder:(NSString *)placeholder editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title;
++ (instancetype)optionWithPlaceholder:(NSString *)placeholder answer:(NSString *)answer  editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title;
 
 @end
 
 @implementation MEQuesInputSlice
 
-+ (instancetype)optionWithPlaceholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
-    return [[MEQuesInputSlice alloc] initWithFrame:CGRectZero placeholder:holder editable:editable maxLength:len quesTitle:title];
++ (instancetype)optionWithPlaceholder:(NSString *)holder answer:(NSString *)answer editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
+    return [[MEQuesInputSlice alloc] initWithFrame:CGRectZero placeholder:holder answer:(NSString *)answer  editable:editable maxLength:len quesTitle:title];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)holder editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
+- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)holder answer:(NSString *)answer editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
     self = [super initWithFrame:frame];
     if (self) {
         self.editable = editable;
         _questionTitle = title.copy;
         _maxInputLength = len;
+        _answerString = answer.copy;
         _placeholderString = holder.copy;
         [self addSubview:self.inputScene];
         [self.inputScene addSubview:self.input];
         self.input.delegate = self;
+        self.input.text = answer;
         self.input.placeholder = holder;
         self.input.maxLength = MAX(len, ME_QUESTION_INPUT_MAXLENGTH);
     }
@@ -198,7 +205,6 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
         _input.keyboardType = UIKeyboardTypeNamePhonePad;
         _input.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
         _input.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-        //_input.placeholderColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
         if (!([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)) {
             _input.inputAccessoryView = self.inputAccess;
         }
@@ -246,7 +252,8 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
         placeholder.backgroundColor = [UIColor clearColor];
         placeholder.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
         placeholder.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-        placeholder.placeholder = self.placeholderString;
+        placeholder.text = self.answerString.copy;
+        placeholder.placeholder = self.placeholderString.copy;
         placeholder.maxLength = MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength);
         [bg addSubview:placeholder];
         [placeholder makeConstraints:^(MASConstraintMaker *make) {
@@ -336,7 +343,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 /**
  获取新的已答题答案 模型
  */
-- (EvaluateQuestion * _Nullable)generateNewAnswer;
+- (EvaluateQuestion * _Nullable)generateNewQuestion;
 
 @end
 
@@ -376,24 +383,35 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     //问题选项
     int i=0; MEQuestionSlice *lastOpt = nil;CGFloat offset = ME_LAYOUT_MARGIN*0.5;
     [self.itemOpts removeAllObjects];
-    int checkType = self.source.checkType;
-    if (checkType == 3) {
-        MEQuesInputSlice *inputOpt = [[MEQuesInputSlice alloc] initWithFrame:CGRectZero placeholder:self.source.placeholder editable:self.editable maxLength:self.source.maxLength quesTitle:self.source.title];
+    int checkType = self.source.checkType;BOOL whetherAnswered = false;
+    if (checkType == MEQuestionTypeInput) {
+        MEQuesInputSlice *inputOpt = [[MEQuesInputSlice alloc] initWithFrame:CGRectZero placeholder:self.source.placeholder answer:self.source.answer editable:self.editable maxLength:self.source.maxLength quesTitle:self.source.title];
         inputOpt.tag = i;
         [self addSubview:inputOpt];
+        //add reference
+        [self.itemOpts addObject:inputOpt];
         [inputOpt makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(label.mas_bottom);
             make.left.right.equalTo(self);
             make.height.equalTo(ME_QUESTION_INPUT_HEIGHT);
         }];
+        //callback
+        weakify(self)
+        inputOpt.callback = ^(MEQuestionSlice *opt){
+            strongify(self)
+            [self userDidTouchQuestionOption:opt];
+        };
         lastOpt = inputOpt;
+        whetherAnswered = self.source.answer.length > 0;
     } else {
         NSArray <EvaluateItem*>*opts = self.source.itemsArray.copy;
         for (EvaluateItem *item in opts) {
             MEQuestionSlice *opt = [[MEQuestionSlice alloc] initWithFrame:CGRectZero title:item.title editable:self.editable];
+            opt.e_id = item.id_p;
             opt.tag = i;
             opt.checked = item.checked;
             [self addSubview:opt];
+            //add reference
             [self.itemOpts addObject:opt];
             [opt makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo((lastOpt==nil)?label.mas_bottom:lastOpt.mas_bottom).offset((lastOpt==nil)?0:offset);
@@ -412,6 +430,10 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
             };
             lastOpt = opt;
             i++;
+            //是否已作答
+            if (item.checked) {
+                whetherAnswered = true;
+            }
         }
     }
     
@@ -419,6 +441,8 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     [lastOpt mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.mas_bottom).offset(-offset);
     }];
+    //whether answered
+    self.answered = whetherAnswered;
 }
 
 #pragma mark --- getter
@@ -430,28 +454,62 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     return _itemOpts;
 }
 
-- (EvaluateQuestion *_Nullable)generateNewAnswer {
+/**
+ 生成新的问题与答案
+ */
+- (EvaluateQuestion *_Nullable)generateNewQuestion {
+    EvaluateQuestion *newQues = [[EvaluateQuestion alloc] init];
+    newQues.id_p = self.source.id_p;
+    newQues.evaluateId = self.source.evaluateId;
+    newQues.type = self.source.type;
+    newQues.checkType = self.source.checkType;
+    if (self.source.checkType == MEQuestionTypeInput) {
+        MEQuesInputSlice *slice = (MEQuesInputSlice*)self.itemOpts.firstObject;
+        NSString *answer = slice.input.text;
+        newQues.answer = answer.copy;
+    } else {
+        //单选 或 多选
+        NSMutableArray<EvaluateItem*>*newItems = [NSMutableArray arrayWithCapacity:0];
+        for (MEQuestionSlice *s in self.itemOpts) {
+            EvaluateItem *item = [[EvaluateItem alloc] init];
+            item.id_p = s.e_id;
+            item.title = s.e_title;
+            item.checked = s.checked;
+            [newItems addObject:item];
+        }
+        newQues.itemsArray = newItems;
+    }
     
-    return nil;
+    return newQues;
+}
+
+- (BOOL)answered {
+    int32_t checkType = self.source.checkType;
+    if (checkType != MEQuestionTypeInput) {
+        return _answered;
+    }
+    MEQuesInputSlice *slice = (MEQuesInputSlice*)self.itemOpts.firstObject;
+    return slice.input.text.length > 0;
 }
 
 #pragma mark --- user interface actions
 
 - (void)userDidTouchQuestionOption:(MEQuestionSlice *)opt {
-    if (opt == self.currentOpt) {
-        NSLog(@"选择了相同的选项!");
-        return;
-    }
     //已编辑
-    self.answered = true;
-    self.currentOpt = opt;
-    if (self.source.checkType == 1) {
+    if (self.source.checkType == MEQuestionTypSingle) {
+        self.answered = true;
+        if (opt == self.currentOpt) {
+            NSLog(@"选择了相同的选项!");
+            return;
+        }
+        self.currentOpt = opt;
         //单选题
         for (MEQuestionSlice *o in self.itemOpts) {
             BOOL checked = (o == opt && o.tag == opt.tag);
             [o setChecked:checked];
         }
-    } else if (self.source.checkType == 2) {
+    } else if (self.source.checkType == MEQuestionTypeMulti) {
+        self.answered = true;
         //多选题
         opt.checked = !opt.checked;
     }
@@ -466,10 +524,20 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 #pragma mark --- >>>>>>>>>>>>>>>>>>> 评价问题panel
 
+/**
+ 点击提交的回调
+ */
+typedef void(^MEQuestionPanelCallback)(BOOL stashed);
+
 @interface MEQuestionPanel: MEBaseScene
 
 @property (nonatomic, strong) MEBaseScrollView *scroller;
 @property (nonatomic, strong) MEBaseScene *layout;
+
+/**
+ 能编辑的角色 提交
+ */
+@property (nonatomic, strong) MEBaseButton *submitBtn;
 
 /**
  本页是否可编辑 eg. 老师不能编辑在家里的内容 家长不能编辑在学校的内容 园务不能编辑所有内容
@@ -480,11 +548,12 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
  本页所有问题
  */
 @property (nonatomic, strong) NSArray<EvaluateQuestion*>*questions;
+@property (nonatomic, strong) NSMutableArray<MEQuestionItem *>*allQuesItems;
 
 /**
  正在编辑 暂存问题panel
  */
-@property (nonatomic, strong) NSMutableArray<MEQuestionItem *>*stashQuesIDs;
+@property (nonatomic, strong) NSMutableArray<MEQuestionItem *>*stashQuesItems;
 
 /**
  重置问题
@@ -492,9 +561,14 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 - (void)reset4Questions:(NSArray<EvaluateQuestion*> *)ques;
 
 /**
- 获取暂存的问题
+ 获取所有的问题
  */
-- (NSArray<EvaluateQuestion*>*_Nullable)fetchStashQuestions;
+- (NSArray<EvaluateQuestion*>*_Nullable)fetchAllQuestions:(BOOL)stash;
+
+/**
+ 回调
+ */
+@property (nonatomic, copy) MEQuestionPanelCallback callback;
 
 @end
 
@@ -518,26 +592,42 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 - (void)reset4Questions:(NSArray<EvaluateQuestion*> *)ques {
     [self.layout.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.allQuesItems removeAllObjects];
+    [self.stashQuesItems removeAllObjects];
     _questions = [NSArray arrayWithArray:ques];
     //reset
-    int i = 1;MEQuestionItem *lastItem = nil;
+    int i = 1;UIView *lastItem = nil;
     for (EvaluateQuestion *q in ques) {
         MEQuestionItem *item = [[MEQuestionItem alloc] initWithFrame:CGRectZero question:q index:i editable:self.editable];
         [self.layout addSubview:item];
         [item makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo((lastItem==nil)?self:lastItem.mas_bottom);
+            make.top.equalTo((lastItem==nil)?self.layout:lastItem.mas_bottom);
             make.left.right.equalTo(self.layout);
         }];
         //编辑回调
         weakify(self)
         item.editCallback = ^(MEQuestionItem *item){
             strongify(self)
-            if (![self.stashQuesIDs containsObject:item]) {
-                [self.stashQuesIDs addObject:item];
+            if (![self.stashQuesItems containsObject:item]) {
+                [self.stashQuesItems addObject:item];
             }
         };
+        //add reference
+        [self.allQuesItems addObject:item];
         lastItem = item;
         i++;
+    }
+    //submit button
+    if (self.editable) {
+        [self.layout addSubview:self.submitBtn];
+        [self.submitBtn makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo((lastItem==nil)?self.layout:lastItem.mas_bottom).offset(ME_LAYOUT_MARGIN);
+            make.left.equalTo(self.layout).offset(ME_LAYOUT_MARGIN);
+            make.right.equalTo(self.layout).offset(-ME_LAYOUT_MARGIN);
+            make.height.equalTo(ME_SUBNAVGATOR_HEIGHT);
+        }];
+        
+        lastItem = self.submitBtn;
     }
     //bottom margin
     [self.layout mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -566,25 +656,77 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     return _layout;
 }
 
-- (NSMutableArray<MEQuestionItem*>*)stashQuesIDs {
-    if (!_stashQuesIDs) {
-        _stashQuesIDs = [NSMutableArray arrayWithCapacity:0];
+- (NSMutableArray<MEQuestionItem*>*)stashQuesItems {
+    if (!_stashQuesItems) {
+        _stashQuesItems = [NSMutableArray arrayWithCapacity:0];
     }
-    return _stashQuesIDs;
+    return _stashQuesItems;
+}
+
+- (NSMutableArray<MEQuestionItem*>*)allQuesItems {
+    if (!_allQuesItems) {
+        _allQuesItems = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _allQuesItems;
+}
+
+- (MEBaseButton *)submitBtn {
+    if (!_submitBtn) {
+        _submitBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        UIFont *font = UIFontPingFangSCBold(METHEME_FONT_TITLE+1);
+        MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        btn.titleLabel.font = font;
+        btn.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        btn.layer.masksToBounds = true;
+        btn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        [btn setTitle:@"提交" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(userDidTouchSubmitEvent) forControlEvents:UIControlEventTouchUpInside];
+        _submitBtn = btn;
+    }
+    return _submitBtn;
 }
 
 #pragma mark --- getter
 
-- (NSArray<EvaluateQuestion*>*_Nullable)fetchStashQuestions {
-    if (self.stashQuesIDs.count == 0) {
-        return nil;
+- (NSArray<EvaluateQuestion*>*_Nullable)fetchAllQuestions:(BOOL)stash {
+    if (stash) {
+        if (self.stashQuesItems.count == 0) {
+            return nil;
+        }
     }
+    NSArray<MEQuestionItem*>*tmpSets = stash ? self.stashQuesItems.copy : self.allQuesItems.copy;
     NSMutableArray<EvaluateQuestion*>*newSets = [NSMutableArray arrayWithCapacity:0];
-    for (MEQuestionItem *i in self.stashQuesIDs) {
-        EvaluateQuestion *ques = [i generateNewAnswer];
+    for (MEQuestionItem *i in tmpSets) {
+        EvaluateQuestion *ques = [i generateNewQuestion];
         [newSets addObject:ques];
     }
     return newSets.copy;
+}
+
+#pragma mark --- User Interface Actions
+
+- (void)userDidTouchSubmitEvent {
+    //step1 检查是否已填写完毕
+    if (self.editable) {
+        int i = 0;
+        for (MEQuestionItem *item in self.allQuesItems) {
+            NSLog(@"item answered:%d", item.answered);
+            if (!item.answered) {
+                i++;
+            }
+        }
+        if (i > 0) {
+            NSString *alertInfo = PBFormat(@"您还有%d项没有作答！", i);
+            [SVProgressHUD showInfoWithStatus:alertInfo];
+            return;
+        }
+    }
+    //step2 回调
+    BOOL stahed = self.stashQuesItems.count > 0;
+    if (self.callback) {
+        self.callback(stahed);
+    }
 }
 
 @end
@@ -633,7 +775,6 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
         _inputMask.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
         _inputMask.hidden = true;
         [self.fatherView insertSubview:_inputMask aboveSubview:self];
-        self.backgroundColor = [UIColor pb_randomColor];
         [self registerKeyboradEvents];
     }
     return self;
@@ -648,7 +789,6 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 }
 
 - (void)__keyboradWillShow:(NSNotification *)notify {
-    NSLog(@"keyborad:%@", notify);
     [self.fatherView bringSubviewToFront:self.inputMask];
     CGRect endBounds = [[[notify userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
     BOOL hide = fabs(endBounds.origin.y - MESCREEN_HEIGHT) < ME_LAYOUT_MARGIN;
@@ -657,19 +797,29 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 #pragma mark --- user interface actions
 
-- (void)didChanged2Student4ID:(int64_t)sid {
-    if (self.currentSID == sid) {
-        return;
-    }
-    
-    GrowthEvaluate *e = [[GrowthEvaluate alloc] init];
-    e.studentId = sid;
-}
-
 - (void)exchangedStudent2Evaluate:(GrowthEvaluate *)growth {
     if (growth.studentId == self.currentSID) {
         return;
     }
+    //step1 切换学生 先暂存
+    MEQuestionPanel *tmpPanel = [self fetchCurrentEditablePanel];
+    NSArray<EvaluateQuestion*>*ques = [tmpPanel fetchAllQuestions:true];
+    if (ques.count > 0) {
+        //需要暂存
+        weakify(self)
+        dispatch_semaphore_t semo = dispatch_semaphore_create(1);
+        [self preQuerySubmit4State:MEEvaluateStateStash completion:^(NSError * _Nullable err) {
+            if (err) {
+                NSString *alertInfo = PBFormat(@"暂存失败：%@", err.localizedDescription);
+                [SVProgressHUD showErrorWithStatus:alertInfo];
+            }
+            dispatch_semaphore_signal(semo);
+        }];
+        dispatch_semaphore_wait(semo, DISPATCH_TIME_FOREVER);
+    }
+    NSLog(@"pull new request");
+    //step2 切换学生 再拉取
+    self.originSource = growth;
     weakify(self)
     MEStudentInfoVM *vm = [[MEStudentInfoVM alloc] init];
     [vm postData:[growth data] hudEnable:true success:^(NSData * _Nullable resObj) {
@@ -677,17 +827,25 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
         GrowthEvaluate *newEvaluate = [GrowthEvaluate parseFromData:resObj error:&err];
         if (err) {
             [MEKits handleError:err];
+            [self cleanEvaluatePanel];
             return ;
         }
         self.originSource = newEvaluate;
         [self resetEvaluateContent];
     } failure:^(NSError * _Nonnull error) {
+        strongify(self)
+        [self cleanEvaluatePanel];
         [MEKits handleError:error];
     }];
 }
 
-- (void)resetEvaluateContent {
+- (void)cleanEvaluatePanel {
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    _homePanel = nil;_schoolPanel = nil;
+}
+
+- (void)resetEvaluateContent {
+    [self cleanEvaluatePanel];
     NSArray *titles = @[@"在家里", @"在学校"];
     BOOL parent = self.currentUser.userType == MEPBUserRole_Parent;
     self.currentSubClassType = parent ? MEEvaluateTypeHome : MEEvaluateTypeSchool;
@@ -728,6 +886,16 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     //reset content
     [self.homePanel reset4Questions:self.originSource.homeQuestionsArray.copy];
     [self.schoolPanel reset4Questions:self.originSource.schoolQuestionsArray.copy];
+    
+    //callback 点击提交
+    self.homePanel.callback = ^(BOOL stash) {
+        strongify(self)
+        [self homePreDidSubmit];
+    };
+    self.schoolPanel.callback = ^(BOOL stash) {
+        strongify(self)
+        [self schoolPreDidSubmit];
+    };
 }
 
 #pragma mark --- lazy loading
@@ -754,6 +922,97 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
 
 - (BOOL)schoolPanelEditable {
     return (self.currentUser.userType == MEPBUserRole_Teacher);
+}
+
+#pragma mark --- user interface actions
+
+/**
+ 家长评价 预提交
+ */
+- (void)homePreDidSubmit {
+    if (![self homePanelEditable]) {
+        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前页面"];
+        return;
+    }
+    [self preQuerySubmit4State:MEEvaluateStateDone completion:nil];
+}
+
+/**
+ 学校评价 预提交
+ */
+- (void)schoolPreDidSubmit {
+    if (![self schoolPanelEditable]) {
+        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前页面"];
+        return;
+    }
+    [self preQuerySubmit4State:MEEvaluateStateDone completion:nil];
+}
+
+/**
+ 获取当前可编辑panel
+ */
+- (MEQuestionPanel * _Nullable)fetchCurrentEditablePanel {
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        return self.homePanel;
+    } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
+        return self.schoolPanel;
+    }
+    return nil;
+}
+
+/**
+ 获取当前评价的数据
+ */
+- (GrowthEvaluate *)fetchCurrentEditableEvaluate:(BOOL)stash {
+    [SVProgressHUD showWithStatus:@"请稍后..."];
+    BOOL whetherParent = self.currentUser.userType == MEPBUserRole_Parent;
+    /**
+     step1 首先查看暂存 如果没有暂存数据 且可以提交说明此panel已经完全回答过
+     step2 如果有暂存则是编辑过
+     简单起见可以都作提交
+     */
+    NSArray<EvaluateQuestion*>*questions;
+    if (whetherParent) {
+        questions = [self.homePanel fetchAllQuestions:stash];
+    } else {
+        questions = [self.schoolPanel fetchAllQuestions:stash];
+    }
+    GrowthEvaluate *e = [[GrowthEvaluate alloc] init];
+    e.id_p = self.originSource.id_p;
+    e.month = self.originSource.month;
+    e.gradeId = self.originSource.gradeId;
+    e.semester = self.originSource.semester;
+    e.studentId = self.originSource.studentId;
+    if (whetherParent) {
+        e.homeQuestionsArray = [NSMutableArray arrayWithArray:questions];
+    } else {
+        e.schoolQuestionsArray = [NSMutableArray arrayWithArray:questions];
+    }
+    
+    return e;
+}
+/**
+ 此处真正提交所有的问题选项
+ */
+- (void)preQuerySubmit4State:(MEEvaluateState)state completion:(void(^_Nullable)(NSError * _Nullable err))completion {
+    GrowthEvaluate *ge = [self fetchCurrentEditableEvaluate:state==MEEvaluateStateStash];
+    ge.status = state;
+    weakify(self)
+    MEStudentInfoPutVM *vm = [[MEStudentInfoPutVM alloc] init];
+    [vm postData:[ge data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        if (completion) {
+            completion(nil);
+        }
+        strongify(self)
+        if (self.callback) {
+            self.callback(self.originSource.studentId, state);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
+        if (completion) {
+            completion(error);
+        }
+    }];
 }
 
 /*

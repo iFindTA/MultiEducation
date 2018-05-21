@@ -78,8 +78,9 @@ typedef GPB_ENUM(EvaluateQuestion_FieldNumber) {
   EvaluateQuestion_FieldNumber_Type = 4,
   EvaluateQuestion_FieldNumber_CheckType = 5,
   EvaluateQuestion_FieldNumber_ItemsArray = 6,
-  EvaluateQuestion_FieldNumber_Placeholder = 7,
-  EvaluateQuestion_FieldNumber_MaxLength = 8,
+  EvaluateQuestion_FieldNumber_Answer = 7,
+  EvaluateQuestion_FieldNumber_Placeholder = 8,
+  EvaluateQuestion_FieldNumber_MaxLength = 9,
 };
 
 @interface EvaluateQuestion : GPBMessage
@@ -103,6 +104,9 @@ typedef GPB_ENUM(EvaluateQuestion_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<EvaluateItem*> *itemsArray;
 /** The number of items in @c itemsArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger itemsArray_Count;
+
+/** 填空题时的 文字答案 */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *answer;
 
 /** 填空题的占位文字描述 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *placeholder;

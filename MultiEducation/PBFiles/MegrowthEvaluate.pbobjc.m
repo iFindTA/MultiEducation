@@ -116,6 +116,7 @@ typedef struct EvaluateItem__storage_ {
 @dynamic type;
 @dynamic checkType;
 @dynamic itemsArray, itemsArray_Count;
+@dynamic answer;
 @dynamic placeholder;
 @dynamic maxLength;
 
@@ -126,6 +127,7 @@ typedef struct EvaluateQuestion__storage_ {
   int32_t maxLength;
   NSString *title;
   NSMutableArray *itemsArray;
+  NSString *answer;
   NSString *placeholder;
   int64_t id_p;
   int64_t evaluateId;
@@ -192,10 +194,19 @@ typedef struct EvaluateQuestion__storage_ {
         .dataType = GPBDataTypeMessage,
       },
       {
+        .name = "answer",
+        .dataTypeSpecific.className = NULL,
+        .number = EvaluateQuestion_FieldNumber_Answer,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(EvaluateQuestion__storage_, answer),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
         .name = "placeholder",
         .dataTypeSpecific.className = NULL,
         .number = EvaluateQuestion_FieldNumber_Placeholder,
-        .hasIndex = 5,
+        .hasIndex = 6,
         .offset = (uint32_t)offsetof(EvaluateQuestion__storage_, placeholder),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -204,7 +215,7 @@ typedef struct EvaluateQuestion__storage_ {
         .name = "maxLength",
         .dataTypeSpecific.className = NULL,
         .number = EvaluateQuestion_FieldNumber_MaxLength,
-        .hasIndex = 6,
+        .hasIndex = 7,
         .offset = (uint32_t)offsetof(EvaluateQuestion__storage_, maxLength),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
@@ -220,7 +231,7 @@ typedef struct EvaluateQuestion__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\002\n\000\005\t\000\010\t\000";
+        "\003\002\n\000\005\t\000\t\t\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
