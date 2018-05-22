@@ -18,7 +18,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _photo.contentMode = UIViewContentModeScaleToFill;
+    _photo.contentMode = UIViewContentModeScaleAspectFill;
+    _photo.clipsToBounds = true;
 }
 
 - (void)setPhotoCell:(NSDictionary *)dic {

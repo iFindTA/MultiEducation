@@ -21,6 +21,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self addShadow];
+    _coverImage.contentMode = UIViewContentModeScaleAspectFill;
+    _coverImage.clipsToBounds = true;
     _coverImage.userInteractionEnabled = true;
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(pushToPhotoBrowser)];
     [_coverImage addGestureRecognizer: tapGes];

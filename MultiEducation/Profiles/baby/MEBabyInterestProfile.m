@@ -109,7 +109,6 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: photoBrowser];
     
     [self.navigationController presentViewController: nav animated: true completion: nil];
-    
 }
 
 - (void)pushToSendBabyInterestingProfileItemTouchEvent {
