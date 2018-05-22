@@ -161,7 +161,9 @@
         };
         //编辑完成
         panel.editCallback = ^(BOOL done) {
-            
+            if (done) {
+                [SVProgressHUD showSuccessWithStatus:@"恭喜你！已经全部填写完毕了"];
+            }
         };
     }
     //配置 评价部分 先清空
