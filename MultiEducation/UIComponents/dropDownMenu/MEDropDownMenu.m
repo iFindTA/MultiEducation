@@ -186,12 +186,86 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 
 @end
 
+#pragma mark -------------- >>>>>>>: sub-menu-cell
+
+@interface MEDropListCell: UITableViewCell
+
+@property (nonatomic, strong) MEBaseScene *layout;
+@property (nonatomic, strong) MEBaseLabel *title;
+@property (nonatomic, strong) MEBaseImageView *access;
+
+- (void)update4ChoosenState:(BOOL)choose;
+
+@end
+
+@implementation MEDropListCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self.contentView addSubview:self.layout];
+        [self.layout addSubview:self.title];
+        [self.layout addSubview:self.access];
+        [self.layout makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView);
+        }];
+        [self.title makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.layout).insets(UIEdgeInsetsMake(0, ME_LAYOUT_BOUNDARY, 0, ME_LAYOUT_BOUNDARY));
+        }];
+        [self.access makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.layout).offset(-ME_LAYOUT_MARGIN);
+            make.centerY.equalTo(self.title);
+            make.width.height.equalTo(ME_LAYOUT_ICON_HEIGHT*0.6);
+        }];
+    }
+    return self;
+}
+
+#pragma mark --- lazy loading
+
+- (MEBaseScene *)layout {
+    if (!_layout) {
+        _layout = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+    }
+    return _layout;
+}
+
+- (MEBaseLabel *)title {
+    if (!_title) {
+        _title = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+        _title.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
+        _title.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    }
+    return _title;
+}
+
+- (MEBaseImageView *)access {
+    if (!_access) {
+        _access = [[MEBaseImageView alloc] initWithFrame:CGRectZero];
+    }
+    return _access;
+}
+
+#pragma mark --- user interface actions
+
+- (void)update4ChoosenState:(BOOL)choose {
+    UIColor *color = choose ? UIColorFromRGB(ME_THEME_COLOR_VALUE):UIColorFromRGB(ME_THEME_COLOR_TEXT);
+    self.title.textColor = color;
+    UIImage *icon = [UIImage pb_iconFont:nil withName:@"\U0000e6f5" withSize:ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE withColor:color];
+    self.access.image = icon;
+}
+
+@end
+
 #pragma mark -------------- >>>>>>>: sub-menu
 
-@interface MEDropList: MEBaseScene <UITableViewDelegate, UITableViewDataSource>
+@interface MEDropList: MEBaseScene <UITableViewDelegate, UITableViewDataSource> {
+    int sectIndecator[5];
+}
 
 @property (nonatomic, strong) MEBaseTableView *sect1Table;
 @property (nonatomic, strong) ForwardEvaluateList *source;
+@property (nonatomic, strong) MEBaseTableView *sect2Table;
 
 @end
 
@@ -201,9 +275,20 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
     self = [super initWithFrame:frame];
     if (self) {
         [self addSubview:self.sect1Table];
+        [self addSubview:self.sect2Table];
         [self.sect1Table makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.bottom.equalTo(self);
+            make.width.equalTo(self.mas_width).multipliedBy(0.5);
         }];
+        [self.sect2Table makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.equalTo(self);
+            make.width.equalTo(self.mas_width).multipliedBy(0.5);
+        }];
+        //default value
+        int len = sizeof(sectIndecator)/sizeof(sectIndecator[0]);
+        for (int i = 0; i < len; i++) {
+            sectIndecator[i] = 0;
+        }
     }
     return self;
 }
@@ -213,15 +298,36 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 - (MEBaseTableView *)sect1Table {
     if (!_sect1Table) {
         _sect1Table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-        
+        _sect1Table.delegate = self;
+        _sect1Table.dataSource = self;
+        _sect1Table.tableFooterView = [UIView new];
+        //_sect1Table.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_BG_GRAY);
     }
     return _sect1Table;
+}
+
+- (MEBaseTableView *)sect2Table {
+    if (!_sect2Table) {
+        _sect2Table = [[MEBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _sect2Table.delegate = self;
+        _sect2Table.dataSource = self;
+        _sect2Table.tableFooterView = [UIView new];
+    }
+    return _sect2Table;
 }
 
 #pragma mark --- TableView Datasource & Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.source.listArray.count;
+    NSInteger counts = 0;
+    if (tableView == self.sect1Table) {
+        counts = self.source.listArray.count;
+    } else if (tableView  == self.sect2Table) {
+        // display months;
+        ForwardEvaluate *fe = self.source.listArray[sectIndecator[0]];
+        counts = fe.monthsArray.count;
+    }
+    return counts;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -230,15 +336,60 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"forward_cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    MEDropListCell *cell = (MEDropListCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[MEDropListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
+    NSInteger __row = [indexPath row];
+    ForwardEvaluate *fe;
+    BOOL whehtherChoosen = false;
+    if (tableView == self.sect1Table) {
+        whehtherChoosen = __row == sectIndecator[0];
+        fe = self.source.listArray[__row];
+        cell.title.text = fe.name;
+        cell.access.hidden = false;
+    } else if (tableView == self.sect2Table) {
+        whehtherChoosen = __row == sectIndecator[1];
+        fe = self.source.listArray[sectIndecator[0]];
+        NSArray<Month*>*ms = fe.monthsArray.copy;
+        Month *m = ms[__row];
+        cell.access.hidden = true;
+        cell.title.text = m.name;
+    }
+    [cell update4ChoosenState:whehtherChoosen];
     
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:true];
+    int __row = (int)[indexPath row];
+    if (tableView == self.sect1Table) {
+        if (__row == sectIndecator[0]) {
+            return;
+        }
+        //重置第二行
+        sectIndecator[1] = 0;
+        sectIndecator[0] = __row;
+    }
+}
+
+#pragma mark --- user interface actions
+
+- (void)reloadData4Source:(ForwardEvaluateList *)list {
+    _source = nil;
+    self.source = list;
+    [self.sect1Table reloadData];
+    [self.sect2Table reloadData];
+}
+
 @end
+
+#pragma mark -------------- >>>>>>>: Drop-Menu
+
+CGFloat const ME_DROP_DOWN_LIST_SCALE                                               =   0.3;
+NSUInteger const ME_DROP_DOWN_LIST_LINES_MAX                                        =   6;//最多六行
+NSUInteger const ME_DROP_DOWN_LIST_LINES_MIN                                        =   3;//最少三行
 
 @interface MEDropDownMenu ()
 
@@ -257,6 +408,11 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
  */
 @property (nonatomic, strong) MEDropList *dropList;
 @property (nonatomic, strong) ForwardEvaluateList *sourceList;
+
+/**
+ 最多的行数
+ */
+@property (nonatomic, assign) NSUInteger listMaxLines;
 
 @end
 
@@ -278,14 +434,16 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
         [self addSubview:self.titlePanel];
         [self addSubview:self.barLine];
         [self addSubview:self.statusBar];
-//        self.backgroundColor = [UIColor pb_randomColor];
+        CGFloat statusHeight = [MEKits statusBarHeight];
+        //CGFloat barHeight = statusHeight + ME_HEIGHT_NAVIGATIONBAR;
         [self.statusBar makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self);
-            make.bottom.equalTo(self.titlePanel.mas_top);
+            make.height.equalTo(statusHeight);
         }];
         [self.titlePanel makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.statusBar.mas_bottom);
             make.left.bottom.right.equalTo(self);
-            make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
+            //make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
         }];
         [self.barLine makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.mas_bottom);
@@ -313,15 +471,23 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 }
 
 - (void)configureMenu:(ForwardEvaluateList *)list {
+    //reset max lines
+    NSUInteger counts = list.listArray.count;
+    counts = (counts < ME_DROP_DOWN_LIST_LINES_MIN) ? ME_DROP_DOWN_LIST_LINES_MIN : counts;
+    counts = (counts > ME_DROP_DOWN_LIST_LINES_MAX) ? ME_DROP_DOWN_LIST_LINES_MAX : counts;
+    self.listMaxLines = counts;
     //clear reset
     _sourceList = list;
     [self.fatherMask addSubview:self.dropList];
+    //[self insertSubview:self.dropList belowSubview:self.titlePanel];
     CGFloat offset = [MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR;
     [self.dropList makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.fatherMask.mas_top).offset(offset);
         make.left.right.equalTo(self);
-        make.height.equalTo(MESCREEN_HEIGHT).multipliedBy(0.5);
+        make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT * self.listMaxLines);
     }];
+    //reload
+    [self.dropList reloadData4Source:list];
 }
 
 #pragma mark --- lazy loading
@@ -361,25 +527,27 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 - (void)titlePanelExpand:(BOOL)expand {
     //是否展开
     self.fatherMask.hidden = !expand;
-    CGFloat offset = [MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR + (expand? MESCREEN_HEIGHT*0.5 : 0);
+    CGFloat padding = (expand? (ME_LAYOUT_SUBBAR_HEIGHT * self.listMaxLines) : 0);
+    CGFloat offset = [MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR + padding;
     [self.dropList mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.fatherMask.mas_top).offset(offset);
     }];
     weakify(self)
-    /*
-     [UIView animateWithDuration:1.0 delay:0 usingSpringWithDamping:0.2 initialSpringVelocity:0.2 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
-     [self layoutIfNeeded];
+    //*
+     [UIView animateWithDuration:.7 delay:0 usingSpringWithDamping:0.3 initialSpringVelocity:0.5 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionBeginFromCurrentState animations:^{
+         strongify(self)
+         [self.fatherMask layoutIfNeeded];
      } completion:^(BOOL finished) {
-     strongify(self)
-     [self updatePortraitVisiable];
+         
      }];
      //*/
+    /*
     [UIView animateWithDuration:ME_ANIMATION_DURATION animations:^{
         strongify(self)
-        [self.fatherView layoutIfNeeded];
+        [self layoutIfNeeded];
     } completion:^(BOOL finished) {
         
-    }];
+    }];//*/
 }
 
 /*

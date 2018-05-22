@@ -591,8 +591,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     s.semester = self.semester;
     s.month = self.month;
     MEStudentListVM *vm = [[MEStudentListVM alloc] init];
-    vm.operationCode = @"GU_TYPE_STUDY_EVALUATE";
-    [vm postData:[s data] hudEnable:false success:^(NSData * _Nullable resObj) {
+    [vm postData:[s data] hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         MEStudentList *list = [MEStudentList parseFromData:resObj error:&err];
         if (err) {

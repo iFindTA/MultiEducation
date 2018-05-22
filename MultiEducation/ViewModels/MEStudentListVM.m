@@ -14,4 +14,8 @@
     return @"FSC_STUDENT_LIST";
 }
 
+- (NSString *)operationCode {
+    return @"GU_TYPE_STUDY_EVALUATE";
+}
+
 @end
