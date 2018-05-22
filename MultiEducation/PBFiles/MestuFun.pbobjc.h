@@ -28,6 +28,7 @@
 CF_EXTERN_C_BEGIN
 
 @class GuFunPhotoImgPb;
+@class GuFunPhotoPb;
 @class GuFunPhotoStudentPb;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -45,6 +46,20 @@ NS_ASSUME_NONNULL_BEGIN
  * this file and all files that it depends on.
  **/
 @interface MestuFunRoot : GPBRootObject
+@end
+
+#pragma mark - GuFunPhotoListPb
+
+typedef GPB_ENUM(GuFunPhotoListPb_FieldNumber) {
+  GuFunPhotoListPb_FieldNumber_FunPhotoPbArray = 1,
+};
+
+@interface GuFunPhotoListPb : GPBMessage
+
+@property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GuFunPhotoPb*> *funPhotoPbArray;
+/** The number of items in @c funPhotoPbArray without causing the array to be created. */
+@property(nonatomic, readonly) NSUInteger funPhotoPbArray_Count;
+
 @end
 
 #pragma mark - GuFunPhotoPb

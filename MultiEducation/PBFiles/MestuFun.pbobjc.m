@@ -42,6 +42,54 @@ static GPBFileDescriptor *MestuFunRoot_FileDescriptor(void) {
   return descriptor;
 }
 
+#pragma mark - GuFunPhotoListPb
+
+@implementation GuFunPhotoListPb
+
+@dynamic funPhotoPbArray, funPhotoPbArray_Count;
+
+typedef struct GuFunPhotoListPb__storage_ {
+  uint32_t _has_storage_[1];
+  NSMutableArray *funPhotoPbArray;
+} GuFunPhotoListPb__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "funPhotoPbArray",
+        .dataTypeSpecific.className = GPBStringifySymbol(GuFunPhotoPb),
+        .number = GuFunPhotoListPb_FieldNumber_FunPhotoPbArray,
+        .hasIndex = GPBNoHasBit,
+        .offset = (uint32_t)offsetof(GuFunPhotoListPb__storage_, funPhotoPbArray),
+        .flags = (GPBFieldFlags)(GPBFieldRepeated | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeMessage,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[GuFunPhotoListPb class]
+                                     rootClass:[MestuFunRoot class]
+                                          file:MestuFunRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(GuFunPhotoListPb__storage_)
+                                         flags:GPBDescriptorInitializationFlag_None];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\001\001\000funPhotoPb\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
 #pragma mark - GuFunPhotoPb
 
 @implementation GuFunPhotoPb

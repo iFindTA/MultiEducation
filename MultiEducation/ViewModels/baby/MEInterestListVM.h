@@ -7,7 +7,11 @@
 //
 
 #import "MEVM.h"
+#import "MestuFun.pbobjc.h"
 
 @interface MEInterestListVM : MEVM
+
++ (instancetype)vmWithPb:(GuFunPhotoPb *)pb;
+
 
 @end

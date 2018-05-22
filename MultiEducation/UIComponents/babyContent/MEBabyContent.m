@@ -24,6 +24,7 @@
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <NSURL+QueryDictionary/NSURL+QueryDictionary.h>
 #import <MWPhotoBrowser.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #define COMPONENT_COUNT 9
 #define MAX_PHOTO_COUNT 10
@@ -366,21 +367,25 @@
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         params = @{@"stuId": @(self.studentPb.id_p)};
     } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
-        if (self.currentUser.teacherPb.classPbArray) {
+        if (self.currentUser.teacherPb.classPbArray.count > 0) {
             if (self.currentUser.teacherPb.classPbArray.count > 1) {
                 params = @{@"pushUrlStr": @"profile://root@MEBabyInterestProfile/", @"title": @"趣事趣影"};
                 url = [MEDispatcher profileUrlWithClass:@"METeacherMultiClassTableProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
             } else {
                 params = @{@"classPb": (self.currentUser.teacherPb.classPbArray[0])};
             }
+        } else {
+            [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
         }
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
-        if (self.currentUser.deanPb.classPbArray) {
+        if (self.currentUser.deanPb.classPbArray.count > 0) {
             if (self.currentUser.deanPb.classPbArray.count > 1) {
                 url = [MEDispatcher profileUrlWithClass: @"METeacherMultiClassTableProfile" initMethod: nil params: nil instanceType: MEProfileTypeCODE];
             } else {
                 params = @{@"classPb": (self.currentUser.deanPb.classPbArray[0])};
             }
+        } else {
+            [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
         }
     } else {
 

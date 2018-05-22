@@ -8,7 +8,7 @@
 
 #import "MEBabyInterestingContent.h"
 #import "MECardSwitchFlowLayout.h"
-#import "CardCell.h"
+#import "MECardCell.h"
 
 static NSString * const Cell_idef = @"cell_idef";
 
@@ -74,7 +74,6 @@ static NSString * const Cell_idef = @"cell_idef";
 //滚动到中间
 - (void)scrollToCenter {
     [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_selectedIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    [self performHandlerMethod];
 }
 
 #pragma mark -
@@ -86,7 +85,7 @@ static NSString * const Cell_idef = @"cell_idef";
     if (!scrollView.isDragging) {return;}
     CGRect currentRect = _collectionView.bounds;
     currentRect.origin.x = _collectionView.contentOffset.x;
-    for (CardCell *card in _collectionView.visibleCells) {
+    for (MECardCell *card in _collectionView.visibleCells) {
         if (CGRectContainsRect(currentRect, card.frame)) {
             NSInteger index = [_collectionView indexPathForCell:card].row;
             if (index != _selectedIndex) {
@@ -129,7 +128,15 @@ static NSString * const Cell_idef = @"cell_idef";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     static NSString* cellId = Cell_idef;
-    CardCell* card = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
+    MECardCell* card = [collectionView dequeueReusableCellWithReuseIdentifier:cellId forIndexPath:indexPath];
+    weakify(self);
+    card.gotoPhotoBrowserHandler = ^(GuFunPhotoPb *pb) {
+        strongify(self);
+        if (self.gotoPhotoBrowserHandler) {
+            self.gotoPhotoBrowserHandler(pb);
+        }
+    };
+    [card setData: [self.items objectAtIndex: indexPath.row]];
     return card;
 }
 
@@ -143,14 +150,6 @@ static NSString * const Cell_idef = @"cell_idef";
 - (void)switchToIndex:(NSInteger)index animated:(BOOL)animated {
     _selectedIndex = index;
     [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
-    [self performHandlerMethod];
 }
-
-- (void)performHandlerMethod {
-    if (self.DidSelectCardHandler) {
-        self.DidSelectCardHandler(_selectedIndex);
-    }
-}
-
 
 @end
