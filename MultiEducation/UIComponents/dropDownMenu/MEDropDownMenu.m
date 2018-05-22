@@ -259,6 +259,8 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 
 #pragma mark -------------- >>>>>>>: sub-menu
 
+typedef void(^MEDropListCallback)(int semester, int month);
+
 @interface MEDropList: MEBaseScene <UITableViewDelegate, UITableViewDataSource> {
     int sectIndecator[5];
 }
@@ -266,6 +268,11 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 @property (nonatomic, strong) MEBaseTableView *sect1Table;
 @property (nonatomic, strong) ForwardEvaluateList *source;
 @property (nonatomic, strong) MEBaseTableView *sect2Table;
+
+/**
+ callback
+ */
+@property (nonatomic, copy) MEDropListCallback callback;
 
 @end
 
@@ -284,11 +291,6 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
             make.top.right.bottom.equalTo(self);
             make.width.equalTo(self.mas_width).multipliedBy(0.5);
         }];
-        //default value
-        int len = sizeof(sectIndecator)/sizeof(sectIndecator[0]);
-        for (int i = 0; i < len; i++) {
-            sectIndecator[i] = 0;
-        }
     }
     return self;
 }
@@ -368,9 +370,22 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
         if (__row == sectIndecator[0]) {
             return;
         }
-        //重置第二行
+        //重置选择行
         sectIndecator[1] = 0;
         sectIndecator[0] = __row;
+        //reload
+        [tableView reloadData];
+        [self.sect2Table reloadData];
+        [self userDidTriggeredChangeEvent];
+    } else if (tableView == self.sect2Table) {
+        if (__row == sectIndecator[1]) {
+            return;
+        }
+        //重置第二行
+        sectIndecator[1] = __row;
+        //reload
+        [tableView reloadData];
+        [self userDidTriggeredChangeEvent];
     }
 }
 
@@ -381,6 +396,20 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
     self.source = list;
     [self.sect1Table reloadData];
     [self.sect2Table reloadData];
+    //default value
+    int len = sizeof(sectIndecator)/sizeof(sectIndecator[0]);
+    for (int i = 0; i < len; i++) {
+        sectIndecator[i] = 0;
+    }
+    if (self.callback) {
+        self.callback(sectIndecator[0], sectIndecator[0]);
+    }
+}
+
+- (void)userDidTriggeredChangeEvent {
+    if (self.callback) {
+        self.callback(sectIndecator[0], sectIndecator[0]);
+    }
 }
 
 @end
@@ -456,7 +485,7 @@ NSUInteger const ME_DROP_DOWN_LIST_LINES_MIN                                    
             strongify(self)
             if (back) {
                 if (self.callback) {
-                    self.callback(back);
+                    self.callback(back, 0, 0);
                 }
             } else {
                 [self titlePanelExpand:expand];
@@ -486,6 +515,20 @@ NSUInteger const ME_DROP_DOWN_LIST_LINES_MIN                                    
         make.left.right.equalTo(self);
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT * self.listMaxLines);
     }];
+    //callback
+    weakify(self)
+    self.dropList.callback = ^(int sIndex, int mIndex) {
+        strongify(self)
+        ForwardEvaluate *fe = self.sourceList.listArray[sIndex];
+        int32_t semester = fe.semester;
+        Month *ms = fe.monthsArray[mIndex];
+        int32_t month = ms.month;
+        if (self.callback) {
+            self.callback(false, semester, month);
+        }
+        [self.titlePanel closeExpand];
+        [self titlePanelExpand:false];
+    };
     //reload
     [self.dropList reloadData4Source:list];
 }
