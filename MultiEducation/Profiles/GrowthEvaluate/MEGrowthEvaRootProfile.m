@@ -78,6 +78,10 @@
     
     //配置评价部分
     [self configureEvaluatePanel];
+    if (self.whetherParent) {
+        int64_t sid = [self.params pb_longLongForKey:@"studentId"];
+        [self userDidExchange2Student:sid preStudent:0];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -147,7 +151,7 @@
 #pragma mark --- 配置切换
 - (void)configureEvaluatePanel {
     MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero father:self.view];
-    [self.view insertSubview:panel belowSubview:self.studentPanel];
+    [self.view insertSubview:panel belowSubview:self.navigationBar];
     self.evaluatePanel = panel;
     [panel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
@@ -156,7 +160,7 @@
     //callback
     weakify(self)
     panel.callback = ^(int64_t sid, MEEvaluateState state) {
-        if (state == MEEvaluateStateDone) {
+        if (state == MEEvaluateStateDone && !self.whetherParent) {
             [SVProgressHUD showSuccessWithStatus:@"评价成功，填写下一个吧！"];
         }
         strongify(self)

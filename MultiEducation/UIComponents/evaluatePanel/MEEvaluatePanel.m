@@ -846,7 +846,7 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
 
 - (void)resetEvaluateContent {
     [self cleanEvaluatePanel];
-    NSArray *titles = @[@"在家里", @"在学校"];
+    NSArray *titles = @[@"家长评价", @"老师评价"];
     BOOL parent = self.currentUser.userType == MEPBUserRole_Parent;
     self.currentSubClassType = parent ? MEEvaluateTypeHome : MEEvaluateTypeSchool;
     self.subNavigator = [MESubNavigator navigatorWithTitles:titles defaultIndex:self.currentSubClassType];

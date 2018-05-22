@@ -9,7 +9,7 @@
 #import "MEBaseScene.h"
 #import "MEForwardEvaListVM.h"
 
-typedef void(^MEForwardEvaCallback)(BOOL back);
+typedef void(^MEForwardEvaCallback)(BOOL back, int32_t semester, int32_t month);
 
 @interface MEDropDownMenu : MEBaseScene
 
