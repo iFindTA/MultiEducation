@@ -52,7 +52,6 @@
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
                                 <color key="value" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="幼儿园趣事 2018-04-09"/>
                             <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
                                 <real key="value" value="11"/>
                             </userDefinedRuntimeAttribute>
@@ -82,7 +81,7 @@
                             <constraint firstAttribute="width" constant="60" id="ssT-Ec-qBq"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="3"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                             <userDefinedRuntimeAttribute type="string" keyPath="text" value="共9张"/>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">

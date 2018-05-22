@@ -1,5 +1,9 @@
 syntax = "proto3";
 
+message GuFunPhotoListPb {
+    repeated GuFunPhotoPb funPhotoPb = 1;
+}
+
 message GuFunPhotoPb {
    int64 id=1;
    int64 studentId=2;//学生id

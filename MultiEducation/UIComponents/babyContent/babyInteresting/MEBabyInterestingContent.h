@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseScene.h"
+#import "MestuFun.pbobjc.h"
 
 @interface MEBabyInterestingContent : MEBaseScene
 
@@ -17,13 +18,13 @@
 /**
  设置数据源
  */
-@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSArray <GuFunPhotoPb *> *items;
 /**
  是否分页，默认为true
  */
 @property (nonatomic, assign) BOOL pagingEnabled;
 
-@property (nonatomic, copy) void (^DidSelectCardHandler) (NSInteger index);
+@property (nonatomic, copy) void(^gotoPhotoBrowserHandler) (GuFunPhotoPb *pb);
 
 /**
  手动滚动到某个卡片位置
