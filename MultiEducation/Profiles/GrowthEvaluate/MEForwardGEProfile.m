@@ -63,11 +63,10 @@
     item.leftBarButtonItems = @[spacer, back];
     [self.navigatorBar pushNavigationItem:item animated:true];
     //*/
-    
+    CGFloat barHeight = [MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR;
     MEDropDownMenu *menu = [MEDropDownMenu dropDownWithSuperView:self.view];
     [self.view addSubview:menu];
     self.dropDownMenu = menu;
-    CGFloat barHeight = [MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR;
     [menu makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.height.equalTo(barHeight);
@@ -78,7 +77,6 @@
         strongify(self)
         [self defaultGoBackStack];
     };
-    [menu configureMenu:nil];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -121,7 +119,7 @@
 }
 
 - (void)rebuildForwardEvaluateSubviews {
-    
+    [self.dropDownMenu configureMenu:self.evaList];
 }
 
 /*
