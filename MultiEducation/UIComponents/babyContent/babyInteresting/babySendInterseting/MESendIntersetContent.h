@@ -16,9 +16,10 @@
 @property (nonatomic, assign) int64_t classId;
 @property (nonatomic, assign) int64_t gradeId;
 
+@property (nonatomic, strong) UIView *bottomView;
+
 @property (nonatomic, strong) NSMutableArray *selectedImages;   //当前选中的image
 @property (nonatomic, copy) void(^DidPickerButtonTouchCallback) (void);
-@property (nonatomic, strong) MEBabyIntersetingSelectView *selectView;
 
 - (void)didSelectImagesOrVideo:(NSArray <NSDictionary *> *)images;
 

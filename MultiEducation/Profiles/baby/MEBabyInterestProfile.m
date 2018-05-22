@@ -20,7 +20,7 @@
 
 @interface MEBabyInterestProfile () <MWPhotoBrowserDelegate> {
     MEPBClass *_classPb;   //role == teacher || gardener
-    int64_t _stuId;     //selected student's id ,if role == parent, from pre stack controller
+    int64_t _stuId;     //selected student's id ,if role == parent [MEBabyIndexVM fetchSelectBaby]
     BOOL _whetherSend4Month;    //本月是否已经发送过趣事趣影
 }
 
@@ -35,7 +35,6 @@
 - (instancetype)__initWithParams:(NSDictionary *)params {
     if (self = [super init]) {
         _classPb = [params objectForKey: @"classPb"];
-        _stuId = [[params objectForKey: @"stuId"] longLongValue];
     }
     return self;
 }
@@ -53,13 +52,11 @@
     pb.gradeId = gradeId;
     
     MEInterestListVM *vm = [MEInterestListVM vmWithPb: pb];
-    
     weakify(self);
     [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
         strongify(self);
         GuFunPhotoListPb *pb = [GuFunPhotoListPb parseFromData: resObj error: nil];
         self.content.items = pb.funPhotoPbArray;
-        
         for (GuFunPhotoPb *photoPb in pb.funPhotoPbArray) {
             if (photoPb.month == [MEBabyIndexVM fetchSelectBaby].month) {
                 _whetherSend4Month = true;
@@ -67,7 +64,6 @@
             }
         }
         _whetherSend4Month = false;
-        
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
     }];
@@ -76,11 +72,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self customNavigation];
-    
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        _stuId = [MEBabyIndexVM fetchSelectBaby].studentArchives.studentId;
+    }
     [self.view addSubview: self.content];
-    
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.content.center = CGPointMake(MESCREEN_WIDTH / 2, MESCREEN_HEIGHT / 2);
+        [self loadData];
     } else {
         [self configureStudentPanel];
         CGFloat y = ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight] + ME_STUDENT_PANEL_HEIGHT;
@@ -91,7 +89,7 @@
 - (void)customNavigation {
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: @"趣事趣影"];
     item.leftBarButtonItem = [MEKits defaultGoBackBarButtonItemWithTarget: self];
-    item.rightBarButtonItem = [MEKits barWithImage: [UIImage imageNamed: @"appicon_placeholder"] target: self eventSelector: @selector(pushToSendBabyInterestingProfileItemTouchEvent)];
+    item.rightBarButtonItem = [MEKits barWithUnicode: @"\U0000e670" color: [UIColor whiteColor] target: self action: @selector(pushToSendBabyInterestingProfileItemTouchEvent)];
     [self.navigationBar pushNavigationItem: item animated: false];
 }
 
@@ -111,17 +109,25 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: photoBrowser];
     
     [self.navigationController presentViewController: nav animated: true completion: nil];
-    
 }
 
 - (void)pushToSendBabyInterestingProfileItemTouchEvent {
-    if (_whetherSend4Month) {
-        [SVProgressHUD showErrorWithStatus: @"本月已经发布过趣事趣影"];
-        return;
+    for (GuFunPhotoPb *pb in self.content.items) {
+        if (pb.month == [MEBabyIndexVM fetchSelectBaby].month) {
+            [SVProgressHUD showErrorWithStatus: @"当月已发布过趣事趣影"];
+            return;
+        }
     }
-    //FIXME: 每月只能发送一次，加一下判断，如果当月已经发送，点击提示toast
     NSString *urlStr = @"profile://root@MESendIntersetingProfile";
-    NSDictionary *params = @{@"classPb": _classPb, @"stuId": @(_stuId)};
+    weakify(self);
+    void (^didSubmitStuInterestCallback) (void) = ^ {
+        strongify(self);
+        [self loadData];
+    };
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"stuId": @(_stuId), ME_DISPATCH_KEY_CALLBACK: didSubmitStuInterestCallback}];
+    if (_classPb) {
+        [params setObject: _classPb forKey: @"classPb"];
+    }
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
     [MEKits handleError: error];
 }

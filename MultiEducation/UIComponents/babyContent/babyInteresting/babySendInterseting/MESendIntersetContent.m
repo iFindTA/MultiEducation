@@ -26,6 +26,7 @@
 @property (nonatomic, strong) UITextView *contentTV;
 @property (nonatomic, strong) UICollectionView *photoView;
 @property (nonatomic, strong) MEBaseScene *sepView; //sep between contentTV & titleTF
+@property (nonatomic, strong) MEBabyIntersetingSelectView *selectView;
 
 @end
 
@@ -65,6 +66,7 @@
         make.width.mas_equalTo(MESCREEN_WIDTH - LEFT_SPACE);
         make.height.mas_equalTo(CELL_SIZE.height);
     }];
+    self.bottomView = self.photoView;
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
         [self addSubview: self.selectView];
@@ -73,6 +75,7 @@
             make.height.mas_equalTo(52.f);
             make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
         }];
+        self.bottomView = self.selectView;
     }
 }
 

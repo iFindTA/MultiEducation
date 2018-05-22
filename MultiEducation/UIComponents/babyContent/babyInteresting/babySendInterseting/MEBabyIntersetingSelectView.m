@@ -132,7 +132,7 @@ static CGFloat const LEFT_SPACE = 25.f;
         [self updateLayout];
         [self.iconView reloadData];
     };
-    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectStuCallback, @"classId": @(_classId), @"semester": @(_semester), @"grade": @(_gradeId), @"selectedBabys": _dataArr};
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectStuCallback, @"classId": @(_classId), @"semester": @(_semester), @"gradeId": @(_gradeId), @"selectedBabys": _dataArr};
     NSString *urlStr = @"profile://MEMultiSelectBabyProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
     [MEKits handleError: error];

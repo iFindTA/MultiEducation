@@ -34,10 +34,8 @@
 + (void)saveSelectBaby:(GuIndexPb *)baby {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *curUser = delegate.curUser;
-        
     NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
     NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
-    
     if (arr.count == 0) {
         baby.userId = curUser.uid;
          [WHCSqlite insert: baby];
@@ -53,10 +51,8 @@
 + (GuIndexPb *)fetchSelectBaby {
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         MEPBUser *curUser = delegate.curUser;
-    
         NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
         NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
-    
         if (arr.count != 0) {
             return arr.firstObject;
         } else {

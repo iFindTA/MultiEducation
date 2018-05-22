@@ -13,13 +13,13 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.babyPhotoImage.contentMode = UIViewContentModeScaleAspectFill;
+    self.babyPhotoImage.clipsToBounds = true;
 }
-
 
 - (void)setData:(ClassAlbumPb *)pb {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *user = delegate.curUser;
-    
     if ([pb.fileType isEqualToString: @"mp4"]) {
         NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
         [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr]];

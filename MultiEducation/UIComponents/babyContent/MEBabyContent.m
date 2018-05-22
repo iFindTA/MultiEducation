@@ -364,9 +364,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     NSURL *url = [MEDispatcher profileUrlWithClass:@"MEBabyInterestProfile" initMethod:nil params:nil instanceType:MEProfileTypeCODE];
     NSDictionary *params = [NSDictionary dictionary];
-    if (self.currentUser.userType == MEPBUserRole_Parent) {
-        params = @{@"stuId": @(self.studentPb.id_p)};
-    } else if (self.currentUser.userType == MEPBUserRole_Teacher) {
+    if (self.currentUser.userType == MEPBUserRole_Teacher) {
         if (self.currentUser.teacherPb.classPbArray.count > 0) {
             if (self.currentUser.teacherPb.classPbArray.count > 1) {
                 params = @{@"pushUrlStr": @"profile://root@MEBabyInterestProfile/", @"title": @"趣事趣影"};
