@@ -376,7 +376,6 @@ typedef void(^MEDropListCallback)(int semester, int month);
         //reload
         [tableView reloadData];
         [self.sect2Table reloadData];
-        [self userDidTriggeredChangeEvent];
     } else if (tableView == self.sect2Table) {
         if (__row == sectIndecator[1]) {
             return;
@@ -385,8 +384,8 @@ typedef void(^MEDropListCallback)(int semester, int month);
         sectIndecator[1] = __row;
         //reload
         [tableView reloadData];
-        [self userDidTriggeredChangeEvent];
     }
+    [self userDidTriggeredChangeEvent];
 }
 
 #pragma mark --- user interface actions
@@ -402,13 +401,13 @@ typedef void(^MEDropListCallback)(int semester, int month);
         sectIndecator[i] = 0;
     }
     if (self.callback) {
-        self.callback(sectIndecator[0], sectIndecator[0]);
+        self.callback(sectIndecator[0], sectIndecator[1]);
     }
 }
 
 - (void)userDidTriggeredChangeEvent {
     if (self.callback) {
-        self.callback(sectIndecator[0], sectIndecator[0]);
+        self.callback(sectIndecator[0], sectIndecator[1]);
     }
 }
 
@@ -528,6 +527,12 @@ NSUInteger const ME_DROP_DOWN_LIST_LINES_MIN                                    
         }
         [self.titlePanel closeExpand];
         [self titlePanelExpand:false];
+        //更改标题
+        NSString *sName = fe.name;
+        NSString *mName = ms.name;
+        NSString *title = PBFormat(@"%@-%@", sName, mName);
+        [self.titlePanel.titleBtn setTitle:title forState:UIControlStateNormal];
+        [self.titlePanel.titleBtn setTitle:title forState:UIControlStateSelected];
     };
     //reload
     [self.dropList reloadData4Source:list];
