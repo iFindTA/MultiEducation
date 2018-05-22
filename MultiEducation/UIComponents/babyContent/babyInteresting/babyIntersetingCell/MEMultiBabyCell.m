@@ -8,6 +8,8 @@
 
 #import "MEMultiBabyCell.h"
 #import "MEStudentModel.h"
+#import "AppDelegate.h"
+#import "Meuser.pbobjc.h"
 
 @implementation MEMultiBabyCell
 
@@ -21,6 +23,8 @@
 }
 
 - (void)setData:(MEStudentModel *)model {
+    MEPBUser *user = ((AppDelegate *)[UIApplication sharedApplication].delegate).curUser;
+    [self.portrait sd_setImageWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", user.bucketDomain, model.portrait]]  placeholderImage: [UIImage pb_imageWithColor: UIColorFromRGB(0xF3F8F8)]];
     [self changeStatus: model.status];
 }
 
