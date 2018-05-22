@@ -538,7 +538,7 @@
     GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
     [multiMap setObject:@(index.month) forKey:@"month"];
     if (parent) {
-        int64_t stud_id = index.studentId;
+        int64_t stud_id = index.studentArchives.studentId;
         StudentPb *studnt;
         for (StudentPb *s in self.currentUser.parentsPb.studentPbArray) {
             if (s.id_p == stud_id) {

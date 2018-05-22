@@ -47,32 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    /*
-    UIColor *tintColor = pbColorMake(ME_THEME_COLOR_TEXT);
-    UIColor *barTintColor = pbColorMake(0xFFFFFF);//影响背景
-    UIFont *font = [UIFont boldSystemFontOfSize:PBFontTitleSize + PBFONT_OFFSET];
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:tintColor, NSForegroundColorAttributeName,font,NSFontAttributeName, nil];
-    CGRect barBounds = CGRectZero;
-    PBNavigationBar *naviBar = [[PBNavigationBar alloc] initWithFrame:barBounds];
-    naviBar.barStyle  = UIBarStyleBlack;
-    //naviBar.backgroundColor = [UIColor redColor];
-    UIImage *bgImg = [UIImage pb_imageWithColor:barTintColor];
-    [naviBar setBackgroundImage:bgImg forBarMetrics:UIBarMetricsDefault];
-    UIImage *lineImg = [UIImage pb_imageWithColor:pbColorMake(PB_NAVIBAR_SHADOW_HEX)];
-    [naviBar setShadowImage:lineImg];// line
-    naviBar.barTintColor = barTintColor;
-    naviBar.tintColor = tintColor;//影响item字体
-    [naviBar setTranslucent:false];
-    [naviBar setTitleTextAttributes:attributes];//影响标题
-    [self.view addSubview:naviBar];
-    self.navigatorBar = naviBar;
     
-    UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self color:pbColorMake(ME_THEME_COLOR_TEXT)];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"往期评价"];
-    item.leftBarButtonItems = @[spacer, back];
-    [self.navigatorBar pushNavigationItem:item animated:true];
-    //*/
     CGFloat barHeight = [MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR;
     _marginBaseLine = [[MEBaseScene alloc] initWithFrame:CGRectZero];
     [self.view addSubview:_marginBaseLine];
@@ -194,7 +169,7 @@
     _evaluatePanel = nil;
     //再次配置
     MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero father:self.view];
-    [self.view insertSubview:panel belowSubview:self.studentPanel];
+    [self.view insertSubview:panel belowSubview:self.marginBaseLine];
     self.evaluatePanel = panel;
     [panel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.marginBaseLine.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
@@ -203,18 +178,21 @@
     //callback
     weakify(self)
     panel.callback = ^(int64_t sid, MEEvaluateState state) {
-        if (state == MEEvaluateStateDone) {
+        if (state == MEEvaluateStateDone && !self.whetherParent) {
             [SVProgressHUD showSuccessWithStatus:@"评价成功，填写下一个吧！"];
         }
         strongify(self)
         [self.studentPanel updateStudent:sid status:state];
     };
-    
+    //whether parent
+    if (self.whetherParent) {
+        int64_t sid = [self.parameters pb_longLongForKey:@"studentId"];
+        [self userDidExchange2Student:sid preStudent:0];
+    }
 }
 
 #pragma mark --- 切换学生
 - (void)userDidExchange2Student:(int64_t)sid preStudent:(int64_t)preSid {
-    NSLog(@"切换学生:%lld", sid);
     /**
      step1 查询之前学生是否需要暂存 需要则先暂存 否则不做处理
      step2 拉取当前学生的评价
