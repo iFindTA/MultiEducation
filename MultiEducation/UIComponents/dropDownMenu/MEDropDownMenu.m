@@ -384,8 +384,9 @@ typedef void(^MEDropListCallback)(int semester, int month);
         sectIndecator[1] = __row;
         //reload
         [tableView reloadData];
+        
+        [self userDidTriggeredChangeEvent];
     }
-    [self userDidTriggeredChangeEvent];
 }
 
 #pragma mark --- user interface actions
