@@ -10,5 +10,7 @@
 
 @interface MESendIntersetingProfile : MEBaseProfile
 
+@property (nonatomic, copy) void (^didSubmitStuInterestCallback) (void);
+
 @end
  

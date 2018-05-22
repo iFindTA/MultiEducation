@@ -27,7 +27,6 @@
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) MESendIntersetContent *content;
-
 @property (nonatomic, strong) TZImagePickerController *pickerProfile;
 
 @end
@@ -37,6 +36,7 @@
 - (instancetype)__initWithParams:(NSDictionary *)params {
     self = [super init];
     if (self) {
+        self.didSubmitStuInterestCallback = [params objectForKey: ME_DISPATCH_KEY_CALLBACK];
         _classPb = [params objectForKey: @"classPb"];
         _stuId = [[params objectForKey: @"stuId"] longLongValue];
     }
@@ -58,7 +58,7 @@
     [self.content mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.scrollView);
         make.width.mas_equalTo(self.scrollView);
-        make.bottom.mas_equalTo(self.content.selectView);
+        make.bottom.mas_equalTo(self.content.bottomView);
     }];
 }
 
@@ -70,9 +70,46 @@
 }
 
 - (void)didSubmitButtonTouchEvent {
-   
+    if ([[self.content getInterestTitle]  isEqualToString: @""]) {
+        [SVProgressHUD showErrorWithStatus: @"请输入标题"];
+        return;
+    }
+    
+    if ([[self.content getInterestContext]  isEqualToString: @""]) {
+        [SVProgressHUD showErrorWithStatus: @"请输入内容"];
+        return;
+    }
+    
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        if (_stuId == 0) {
+            if ([self.content getInterestingStuArr].count == 0) {
+                [SVProgressHUD showErrorWithStatus: @"选择学生失败"];
+                return;
+            }
+        }
+    } else {
+        if ([self.content getInterestingStuArr].count == 0) {
+            [SVProgressHUD showErrorWithStatus: @"请选择学生"];
+            return;
+        }
+    }
+    
+    if (_submitPhotos.count == 0) {
+        [SVProgressHUD showErrorWithStatus: @"请选择图片"];
+        return;
+    }
+    
     MEQiniuUtils *utils = [MEQiniuUtils sharedQNUploadUtils];
     [utils uploadImages: _submitPhotos callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
+        if (error) {
+            [MEKits handleError: error];
+            return;
+        }
+        
+        if (succKeys.count == 0) {
+            [SVProgressHUD showErrorWithStatus: @"上传图片失败，请重新选择"];
+            return;
+        }
         
         GuFunPhotoPb *pb = [[GuFunPhotoPb alloc] init];
         pb.month = [MEBabyIndexVM fetchSelectBaby].month;
@@ -104,7 +141,10 @@
         
         MEStuInterestVM *vm = [MEStuInterestVM vmWithPb: pb];
         [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
-            //FIXME:  趣事趣影发布成功
+            [self.navigationController popViewControllerAnimated: true];
+            if (self.didSubmitStuInterestCallback) {
+                self.didSubmitStuInterestCallback();
+            }
         } failure:^(NSError * _Nonnull error) {
             [MEKits handleError: error];
         }];

@@ -39,7 +39,7 @@ static NSString * const Cell_idef = @"cell_idef";
     MECardSwitchFlowLayout *flowLayout = [[MECardSwitchFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
     _collectionView.showsHorizontalScrollIndicator = false;
-    _collectionView.backgroundColor = [UIColor orangeColor];
+    _collectionView.backgroundColor = [UIColor whiteColor];
     [_collectionView registerNib: [UINib nibWithNibName: @"MECardCell" bundle: nil] forCellWithReuseIdentifier: Cell_idef];
     _collectionView.userInteractionEnabled = true;
     _collectionView.delegate = self;
