@@ -299,6 +299,7 @@
     input.placeholder = @"请输入密码";
     input.keyboardType = UIKeyboardTypeNamePhonePad;
     input.maxLength = ME_REGULAR_PASSWD_LEN_MAX;
+    input.secureTextEntry = true;
     [inputBg addSubview:input];
     self.inputPwd = input;
     [input makeConstraints:^(MASConstraintMaker *make) {

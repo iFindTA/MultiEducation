@@ -111,6 +111,7 @@
     input.textColor = textColor;
     input.maxLength = ME_REGULAR_PASSWD_LEN_MAX;
     input.keyboardType = UIKeyboardTypeNamePhonePad;
+    input.secureTextEntry = true;
     [self.view addSubview:input];
     self.inputPwd = input;
     [input makeConstraints:^(MASConstraintMaker *make) {
