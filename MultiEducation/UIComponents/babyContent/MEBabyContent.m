@@ -439,6 +439,7 @@
             self.DidSelectHandler(indexPath.item, self.browserPhotos);
         }
     } else {
+        BOOL whetherRoleParent = (self.currentUser.userType == MEPBUserRole_Parent);
         //scrollContentView collectionView cell
         NSURL *url = nil; NSDictionary *params = nil;
         NSUInteger __tag = (NSUInteger)indexPath.item;
@@ -456,8 +457,6 @@
             buried_point = Buried_CLASS_INTERESTING;
         } else if (type & multiType){
             //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
-            
-            BOOL whetherRoleParent = (self.currentUser.userType == MEPBUserRole_Parent);
             if (whetherRoleParent) {
                 [self userDidChoosenType:type whetherParent:true className:nil];
                 return;
@@ -494,6 +493,20 @@
             } else if (MEBabyContentTypeRecipes & type) {
                 params = @{ME_CORDOVA_KEY_TITLE:@"每周食谱",ME_CORDOVA_KEY_STARTPAGE:@"cookbook.html"};
                 buried_point = Buried_CLASS_WEEKLY_RECIPES;
+            } else if (MEBabyContentTypeHolidayAnnounce & type) {
+                GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
+                NSString *startPage = @"gu_holiday_notice.html#/main";
+                NSString *title = @"假期通知";
+                if (index.showGraduate) {
+                    title = @"毕业通知";
+                    startPage = @"gu_graduate.html#/gu_graduate";
+                }
+                if (whetherRoleParent) {
+                    int64_t studentId = index.studentArchives.studentId;
+                    startPage = PBFormat(@"%@?studentId=%lld", startPage, studentId);
+                }
+                params = @{ME_CORDOVA_KEY_TITLE:title,ME_CORDOVA_KEY_STARTPAGE:startPage};
+                buried_point = Buried_CLASS_VACATION;
             }
             url = [MEDispatcher profileUrlWithClass:@"METemplateProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
         }
