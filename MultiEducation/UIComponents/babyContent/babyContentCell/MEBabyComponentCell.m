@@ -7,6 +7,7 @@
 //
 
 #import "MEBabyComponentCell.h"
+#import "MEBabyIndexVM.h"
 #import "MEKits.h"
 
 @implementation MEBabyComponentCell
@@ -21,7 +22,7 @@
     self.badageLab.hidden = YES;
 }
 
-- (void)setItemWithType:(MEBabyContentType)type badge:(NSInteger)badge {
+- (void)setItemWithType:(MEBabyContentType)type badge:(NSInteger)badge whetherGraduate:(BOOL)graduate {
     NSString *title;
     NSString *subTitle;
     UIColor *backgroundColor;
@@ -74,21 +75,25 @@
         case MEBabyContentTypeInterest: {
             title = @"趣事趣影";
             backgroundColor = UIColorFromRGB(0x9D91DF);
-            iconImage = [UIImage imageNamed: @"baby_content_live"];
+            iconImage = [UIImage imageNamed: @"baby_content_interesting_photo"];
             size = CGSizeMake(26, 19);
         }
             break;
         case MEBabyContentTypeTermEvaluate: {
             title = @"学期评价";
             backgroundColor = UIColorFromRGB(0x9FBDED);
-            iconImage = [UIImage imageNamed: @"baby_content_live"];
+            iconImage = [UIImage imageNamed: @"baby_content_term_evaluate"];
             size = CGSizeMake(26, 19);
         }
             break;
         case MEBabyContentTypeHolidayAnnounce: {
-            title = @"假期通知";
+            if (graduate) {
+                title = @"毕业通知";
+            } else {
+                title = @"假期通知";
+            }
             backgroundColor = UIColorFromRGB(0xF1CCA9);
-            iconImage = [UIImage imageNamed: @"baby_content_live"];
+            iconImage = [UIImage imageNamed: @"baby_content_holiday_announce"];
             size = CGSizeMake(26, 19);
         }
             break;

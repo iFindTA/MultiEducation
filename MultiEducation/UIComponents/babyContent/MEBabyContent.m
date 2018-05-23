@@ -47,6 +47,8 @@
     CGFloat _lastContentOffset;
     NSInteger _pageIndex;
     BOOL show;  //did contentOffsetY already > BABY_CONTENT_HEADER_HEIGHT
+    
+    BOOL _whetherGraduate;    //显示 @"假期通知" || @"毕业通知"
 }
 
 @property (nonatomic, strong) MEBaseScene *tableHeaderView;
@@ -94,6 +96,7 @@
         GuStudentArchivesPb *stuPb;
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+            _whetherGraduate = [MEBabyIndexVM fetchSelectBaby].showGraduate;
             [self.headerView setData: stuPb];
             [self getBabyPhotos];
             [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
@@ -208,6 +211,7 @@
         GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
         [self.headerView setData: pb.studentArchives];
         [MEBabyIndexVM saveSelectBaby: pb];
+        _whetherGraduate = pb.showGraduate;
         [self getBabyPhotos];
         
         [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
@@ -417,7 +421,7 @@
     } else {
         //component
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: SCROLL_CONTENTVIEW_IDEF forIndexPath: indexPath];
-        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item badge: [self.badgeArr objectAtIndex: indexPath.item].integerValue];
+        [(MEBabyComponentCell *)cell setItemWithType: 1 << indexPath.item badge: [self.badgeArr objectAtIndex: indexPath.item].integerValue whetherGraduate: _whetherGraduate];
     }
     return cell;
 }

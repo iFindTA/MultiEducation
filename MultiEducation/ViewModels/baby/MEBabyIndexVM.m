@@ -49,15 +49,15 @@
 }
 
 + (GuIndexPb *)fetchSelectBaby {
-        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        MEPBUser *curUser = delegate.curUser;
-        NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
-        NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
-        if (arr.count != 0) {
-            return arr.firstObject;
-        } else {
-            return nil;
-        }
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *curUser = delegate.curUser;
+    NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
+    NSArray *arr = [WHCSqlite query: [GuIndexPb class] where: where];
+    if (arr.count != 0) {
+        return arr.firstObject;
+    } else {
+        return nil;
+    }
 }
 
 - (NSString *)cmdCode {

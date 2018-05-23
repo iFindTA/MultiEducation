@@ -16,6 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *icon;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *badageLab;
 
-- (void)setItemWithType:(MEBabyContentType)type badge:(NSInteger)badge;
+- (void)setItemWithType:(MEBabyContentType)type badge:(NSInteger)badge whetherGraduate:(BOOL)graduate;
 
 @end
