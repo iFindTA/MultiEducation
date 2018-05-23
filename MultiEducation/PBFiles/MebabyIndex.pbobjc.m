@@ -54,6 +54,7 @@ static GPBFileDescriptor *MebabyIndexRoot_FileDescriptor(void) {
 @dynamic month;
 @dynamic unNoticeNum;
 @dynamic unVoteNum;
+@dynamic showGraduate;
 @dynamic userId;
 
 typedef struct GuIndexPb__storage_ {
@@ -138,10 +139,19 @@ typedef struct GuIndexPb__storage_ {
         .dataType = GPBDataTypeInt32,
       },
       {
+        .name = "showGraduate",
+        .dataTypeSpecific.className = NULL,
+        .number = GuIndexPb_FieldNumber_ShowGraduate,
+        .hasIndex = 7,
+        .offset = 8,  // Stored in _has_storage_ to save space.
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBool,
+      },
+      {
         .name = "userId",
         .dataTypeSpecific.className = NULL,
         .number = GuIndexPb_FieldNumber_UserId,
-        .hasIndex = 7,
+        .hasIndex = 9,
         .offset = (uint32_t)offsetof(GuIndexPb__storage_, userId),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
@@ -157,7 +167,7 @@ typedef struct GuIndexPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\006\001\t\000\002\017\000\004\007\000\006\013\000\007\t\000\010\006\000";
+        "\007\001\t\000\002\017\000\004\007\000\006\013\000\007\t\000\010\014\000\t\006\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

@@ -10,7 +10,7 @@ message GuIndexPb {
    int32 month = 5;//月份
    int32 unNoticeNum = 6; //园所公告badage
    int32 unVoteNum = 7;	//问卷调查badage
-
-   int64 userId = 8;   //用户id
+   bool showGraduate = 8;	//是否显示毕业菜单
+   int64 userId = 9;   //用户id
 
 }
