@@ -459,7 +459,7 @@
             url = [dic objectForKey: @"url"];
             params = [dic objectForKey: @"params"];
             buried_point = Buried_CLASS_INTERESTING;
-            if (![params objectForKey: @"classPb"]) {
+            if (![params objectForKey: @"classPb"] && ![params objectForKey: @"pushUrlStr"]) {
                 [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
                 return;
             }

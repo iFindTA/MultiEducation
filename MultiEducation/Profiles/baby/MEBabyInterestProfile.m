@@ -15,6 +15,7 @@
 #import "MEInterestListVM.h"
 #import "MestuFun.pbobjc.h"
 #import <MWPhotoBrowser.h>
+#import "MEInterestNotFound.h"
 
 #define CONTENT_HEIGHT MESCREEN_HEIGHT - ME_STUDENT_PANEL_HEIGHT - ME_HEIGHT_NAVIGATIONBAR - [MEKits statusBarHeight]
 
@@ -28,6 +29,8 @@
 
 @property (nonatomic, strong) MEBabyInterestingContent *content;
 @property (nonatomic, strong) MEStudentsPanel *panel;
+
+@property (nonatomic, strong) MEInterestNotFound *notfound;
 @end
 
 @implementation MEBabyInterestProfile
@@ -56,6 +59,11 @@
     [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
         strongify(self);
         GuFunPhotoListPb *pb = [GuFunPhotoListPb parseFromData: resObj error: nil];
+        if (pb.funPhotoPbArray.count > 0) {
+            self.notfound.hidden = true;
+        } else {
+            self.notfound.hidden = false;
+        }
         self.content.items = pb.funPhotoPbArray;
         for (GuFunPhotoPb *photoPb in pb.funPhotoPbArray) {
             if (photoPb.month == [MEBabyIndexVM fetchSelectBaby].month) {
@@ -76,13 +84,26 @@
         _stuId = [MEBabyIndexVM fetchSelectBaby].studentArchives.studentId;
     }
     [self.view addSubview: self.content];
+    [self.view addSubview: self.notfound];
+
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.content.center = CGPointMake(MESCREEN_WIDTH / 2, MESCREEN_HEIGHT / 2);
+        [self.notfound mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(240.f);
+            make.height.mas_equalTo(250.f);
+            make.center.mas_equalTo(self);
+        }];
         [self loadData];
     } else {
         [self configureStudentPanel];
         CGFloat y = ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight] + ME_STUDENT_PANEL_HEIGHT;
         self.content.frame = CGRectMake(0, y, MESCREEN_WIDTH, CONTENT_HEIGHT);
+        [self.notfound mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(240.f);
+            make.height.mas_equalTo(250.f);
+            make.centerX.mas_equalTo(self);
+            make.top.mas_equalTo(self.navigationBar.mas_bottom).mas_offset(y);
+        }];
     }
 }
 
@@ -200,6 +221,18 @@
         };
     }
     return _content;
+}
+
+- (MEInterestNotFound *)notfound {
+    if (!_notfound) {
+        _notfound = [[MEInterestNotFound alloc] initWithFrame: CGRectZero];
+        _notfound.hidden = true; weakify(self);
+        _notfound.didSubmitCallback = ^{
+            strongify(self);
+            [self pushToSendBabyInterestingProfileItemTouchEvent];
+        };
+    }
+    return _notfound;
 }
 
 
