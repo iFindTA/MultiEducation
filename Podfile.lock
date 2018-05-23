@@ -107,7 +107,7 @@ PODS:
   - TZImagePickerController (2.0.1)
   - UICKeyChainStore (2.1.1)
   - "UITextView+MaxLength (0.0.1)"
-  - "UITextView+Placeholder (1.2.1)"
+  - "UITextView+Placeholder (1.2.0)"
   - UMengAnalytics-NO-IDFA (4.2.5)
   - WHC_ModelSqliteKit/SQLCipher (1.3.0):
     - SQLCipher
@@ -246,7 +246,7 @@ SPEC CHECKSUMS:
   TZImagePickerController: 34ecb53af8c349964394407e42b6e54e22589ebe
   UICKeyChainStore: 239558492fa260531a0774cfc611ea83a6eaff3a
   "UITextView+MaxLength": 455db218d2b125ead449e411dba8fd2576368a77
-  "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
+  "UITextView+Placeholder": 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
   WHC_ModelSqliteKit: dfafef3ee872dedd9823395291fc80bf37eac46d
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
