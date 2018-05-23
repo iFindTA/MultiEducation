@@ -3,14 +3,14 @@
 #import "ValueImg.h"
 #import "MEQiniuUtils.h"
 #import "MEFileQuryVM.h"
-#import <XHImageViewer/XHImageViewer.h>
 #import <SVProgressHUD/SVProgressHUD.h>
-#import <XHImageViewer/UIImageView+XHURLDownload.h>
+#import <MWPhotoBrowser/MWPhotoBrowser.h>
 #import <TZImagePickerController/TZImagePickerController.h>
 
-@interface ValueImg () <XHImageViewerDelegate, TZImagePickerControllerDelegate>
+@interface ValueImg () <TZImagePickerControllerDelegate, MWPhotoBrowserDelegate>
 
-@property (nonatomic, strong, nullable) XHImageViewer *imageViewer;
+@property (nonatomic, strong, nullable) MWPhotoBrowser *photoBrowser;
+@property (nonatomic, strong) NSMutableArray<MWPhoto*>*browserSource;
 
 @property (nonatomic, strong, nullable) CDVInvokedUrlCommand *currentCmd;
 
@@ -21,10 +21,28 @@
 - (void)show:(CDVInvokedUrlCommand *)command {
     NSArray<NSString*>*args = command.arguments;
     if (args.count > 0) {
+        [self.browserSource removeAllObjects];
         NSString *imgUrl = args.firstObject;
-        UIImageView *imageview = [UIImageView imageViewWithURL:[NSURL URLWithString:imgUrl] autoLoading:true];
-        [self.imageViewer showWithImageViews:@[imageview] selectedView:imageview];
+        NSLog(@"预览图片地址:%@", imgUrl);
+        MWPhoto *photo = [[MWPhoto alloc] initWithURL:[NSURL URLWithString:imgUrl]];
+        [self.browserSource addObject:photo];
+        
+        MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
+        //set options
+        photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
+        photoBrowser.displayNavArrows = NO; //显示左右划动
+        photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮
+        photoBrowser.alwaysShowControls = YES; //控制条始终显示
+        photoBrowser.zoomPhotosToFill = YES; //是否自适应大小
+        photoBrowser.enableGrid = NO;//是否允许网络查看图片
+        photoBrowser.startOnGrid = NO; //是否以网格开始;
+        photoBrowser.enableSwipeToDismiss = YES;
+        photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+        [self.viewController.navigationController presentViewController: nav animated: true completion: nil];
     }
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:self.currentCmd.callbackId];
 }
 
 - (void)upload:(CDVInvokedUrlCommand *)command {
@@ -45,15 +63,32 @@
 
 #pragma mark --- lazy loading
 
-- (XHImageViewer *)imageViewer {
-    if (!_imageViewer) {
-        _imageViewer = [[XHImageViewer alloc] init];
-        _imageViewer.delegate = self;
+- (MWPhotoBrowser *)photoBrowser {
+    if (!_photoBrowser) {
+        MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
+        //set options
+        photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
+        photoBrowser.displayNavArrows = NO; //显示左右划动
+        photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮
+        photoBrowser.alwaysShowControls = YES; //控制条始终显示
+        photoBrowser.zoomPhotosToFill = YES; //是否自适应大小
+        photoBrowser.enableGrid = NO;//是否允许网络查看图片
+        photoBrowser.startOnGrid = NO; //是否以网格开始;
+        photoBrowser.enableSwipeToDismiss = YES;
+        photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
+        _photoBrowser = photoBrowser;
     }
-    return _imageViewer;
+    return _photoBrowser;
 }
 
-#pragma mark --- Image Picker Delegate
+- (NSMutableArray<MWPhoto*>*)browserSource {
+    if (!_browserSource) {
+        _browserSource = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _browserSource;
+}
+
+#pragma mark --- TZImage Picker Delegate
 
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto infos:(NSArray<NSDictionary *> *)infos {
     weakify(self)
@@ -109,6 +144,20 @@
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     return jsonString;
+}
+
+#pragma mark --- MWPhotoBrowser Delegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    NSUInteger counts = self.browserSource.count;
+    return counts;
+}
+
+- (id<MWPhoto>)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    if (index < self.browserSource.count) {
+        return self.browserSource[index];
+    }
+    return nil;
 }
 
 @end

@@ -25,7 +25,52 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>api.x16.com</key>
+			<dict>
+				<key>NSAllowsLocalNetworking</key>
+				<true/>
+				<key>NSAllowsArbitraryLoadsForMedia</key>
+				<true/>
+				<key>NSAllowsArbitraryLoadsInWebContent</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<string>NO</string>
+			</dict>
+			<key>glb.qiniucdn.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<string>NO</string>
+			</dict>
+			<key>ost.x16.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<string>NO</string>
+			</dict>
+			<key>mmbiz.qpic.cn</key>
+			<dict>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>请求使用相机</string>
