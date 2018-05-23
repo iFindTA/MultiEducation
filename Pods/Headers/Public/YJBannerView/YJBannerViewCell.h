@@ -1,1 +1,0 @@
-../../../YJBannerView/YJBannerViewDemo/YJBannerView/Views/YJBannerViewCell.h

@@ -26,19 +26,7 @@
         NSLog(@"预览图片地址:%@", imgUrl);
         MWPhoto *photo = [[MWPhoto alloc] initWithURL:[NSURL URLWithString:imgUrl]];
         [self.browserSource addObject:photo];
-        
-        MWPhotoBrowser *photoBrowser = [[MWPhotoBrowser alloc] initWithDelegate: self];
-        //set options
-        photoBrowser.displayActionButton = NO;//显示分享按钮(左右划动按钮显示才有效)
-        photoBrowser.displayNavArrows = NO; //显示左右划动
-        photoBrowser.displaySelectionButtons = NO; //是否显示选择图片按钮
-        photoBrowser.alwaysShowControls = YES; //控制条始终显示
-        photoBrowser.zoomPhotosToFill = YES; //是否自适应大小
-        photoBrowser.enableGrid = NO;//是否允许网络查看图片
-        photoBrowser.startOnGrid = NO; //是否以网格开始;
-        photoBrowser.enableSwipeToDismiss = YES;
-        photoBrowser.autoPlayOnAppear = NO;//是否自动播放视频
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:photoBrowser];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.photoBrowser];
         [self.viewController.navigationController presentViewController: nav animated: true completion: nil];
     }
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
