@@ -459,6 +459,10 @@
             url = [dic objectForKey: @"url"];
             params = [dic objectForKey: @"params"];
             buried_point = Buried_CLASS_INTERESTING;
+            if (![params objectForKey: @"classPb"]) {
+                [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
+                return;
+            }
         } else if (type & multiType){
             //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
             if (whetherRoleParent) {
