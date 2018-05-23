@@ -28,7 +28,7 @@
 @property (nonatomic, strong) MEBaseScene *nextItemPanel;
 @property (nonatomic, strong) MEBaseButton *nextItemBtn;
 
-@property (nonatomic, assign) BOOL isFullScreen;
+@property (nonatomic, assign) BOOL whetherFullScreen;
 
 @property (nonatomic, strong) UIProgressView *progress;
 @property (nonatomic, strong) NSTimer *timer;
@@ -78,7 +78,7 @@
         [self addSubview:self.shareBtn];
         [self addSubview:self.nextItemPanel];
         
-        self.isFullScreen = false;
+        self.whetherFullScreen = false;
         [self.audioMask makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
         }];
@@ -262,14 +262,14 @@
 #if ME_PLAY_CONTROL_SHOW_BACKITEM
     [self.backItem setHidden:hide];
 #endif
-    if (!self.isFullScreen) {
+    if (!self.whetherFullScreen) {
         [self.likeBtn setHidden:hide];
         [self.shareBtn setHidden:hide];
     }
 }
 
 - (void)updateVideoPlayerState:(BOOL)fullscreen {
-    self.isFullScreen = fullscreen;
+    self.whetherFullScreen = fullscreen;
     [self.likeBtn setHidden:fullscreen];
     [self.shareBtn setHidden:fullscreen];
     [self.airplayScene setHidden:false];
@@ -336,6 +336,10 @@
 }
 
 - (void)exitFullscreenMode {
+    if (!self.whetherFullScreen) {
+        NSLog(@"当前非全屏模式！");
+        return;
+    }
     UIButton *fullScreenBtn = [self valueForKey:@"fullScreenBtn"];
     NSString *selString = @"fullScreenBtnClick:";
     SEL fullSelector = NSSelectorFromString(selString);
