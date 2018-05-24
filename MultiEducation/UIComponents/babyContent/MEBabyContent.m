@@ -382,6 +382,7 @@
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
         if (self.currentUser.deanPb.classPbArray.count > 0) {
             if (self.currentUser.deanPb.classPbArray.count > 1) {
+                params = @{@"pushUrlStr": @"profile://root@MEBabyInterestProfile/", @"title": @"趣事趣影"};
                 url = [MEDispatcher profileUrlWithClass: @"METeacherMultiClassTableProfile" initMethod: nil params: nil instanceType: MEProfileTypeCODE];
             } else {
                 params = @{@"classPb": (self.currentUser.deanPb.classPbArray[0])};
