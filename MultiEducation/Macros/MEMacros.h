@@ -122,6 +122,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 #define ME_ALERT_INFO_ITEM_OK                                               @"知道了"
 #define ME_ALERT_INFO_ITEM_CANCEL                                           @"取消"
 #define ME_ALERT_INFO_NONE_CLASS                                            @"您还没有关联班级，请先关联班级！"
+#define ME_TOAST_BOTTOM_SCALE                                               0.85
 
 #define ME_USER_SESSION_TOKEN_REFRESH_INTERVAL                              (60*10UL)//刷新token时间间隔
 

@@ -502,7 +502,8 @@
 
 + (void)makeToast:(NSString *)info {
     if (info.length > 0) {
-        [self.app.rootView makeToast:info duration:ME_DISPATCH_KEY_CALLBACK position:<#(id)#> style:<#(CSToastStyle *)#>];
+        NSValue *position = [NSValue valueWithCGPoint:CGPointMake(MESCREEN_WIDTH*0.5, MESCREEN_HEIGHT*ME_TOAST_BOTTOM_SCALE)];
+        [self.app.rootView makeToast:info duration:1 position:position style:nil];
     }
 }
 

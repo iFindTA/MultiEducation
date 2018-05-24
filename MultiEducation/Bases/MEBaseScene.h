@@ -12,7 +12,6 @@
 #import "MEUIBaseHeader.h"
 #import "MEBaseTableView.h"
 #import "MEBaseScrollView.h"
-#import <Toast/UIView+Toast.h>
 #import <PBService/PBService.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>

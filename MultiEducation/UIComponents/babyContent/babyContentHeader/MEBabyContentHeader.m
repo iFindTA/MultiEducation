@@ -44,7 +44,7 @@
                 NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
                 [self gotoBabyPhotoProfile: classId];
             } else {
-                [self makeToast: @"暂无绑定班级"];
+                [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
             }
         }
     } else if(self.currentUser.userType == MEPBUserRole_Gardener) {
@@ -57,7 +57,7 @@
                 NSInteger classId = self.currentUser.deanPb.classPbArray[0].id_p;
                 [self gotoBabyPhotoProfile: classId];
             } else {
-                [self makeToast: @"暂无绑定班级"];
+                [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
             }
         }
     } else {

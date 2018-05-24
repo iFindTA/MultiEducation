@@ -221,7 +221,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
         MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
         label.font = font;
         label.textColor = fontColor;
-        label.text = PBFormat(@"%@:%lu字以内", self.questionTitle, MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength));
+        label.text = PBFormat(@"%@:%u字以内", self.questionTitle, MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength));
         [_inputAccess addSubview:label];
         [label makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_inputAccess);
@@ -806,13 +806,11 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
     NSArray<EvaluateQuestion*>*ques = [tmpPanel fetchAllQuestions:true];
     if (ques.count > 0) {
         //需要暂存
-        weakify(self)
+        //weakify(self)
         dispatch_semaphore_t semo = dispatch_semaphore_create(1);
         [self preQuerySubmit4State:MEEvaluateStateStash completion:^(NSError * _Nullable err) {
             if (err) {
-                strongify(self)
-                NSString *alertInfo = PBFormat(@"暂存失败：%@", err.localizedDescription);
-                [self makeToast:alertInfo];
+                NSLog(@"暂存失败：%@", err.localizedDescription);
             }
             dispatch_semaphore_signal(semo);
         }];

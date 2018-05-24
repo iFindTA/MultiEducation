@@ -86,11 +86,11 @@
         NSDictionary *dic = self.dataArr.firstObject;
         NSString *filePath = [dic objectForKey: @"filePath"];
         if ([filePath hasSuffix: @".mp4"]) {
-            [self makeToast: @"视频最多可上传1部"];
+            [MEKits makeToast: @"视频最多可上传1部"];
             return false;
         } else {
             if (self.dataArr.count >= 9) {
-                [self makeToast: @"照片最多可上传9张"];
+                [MEKits makeToast: @"照片最多可上传9张"];
                 return false;
             }
             return true;
@@ -108,14 +108,14 @@
 - (BOOL)whetherCanPickPhotoFromImagePickerProfile {
     if ([[self.dataArr.firstObject objectForKey: @"extension"] isEqualToString: @"mp4"]) {
         if (self.dataArr.count  >= 1) {
-            [self makeToast: @"视频最多可上传1部，请删除后重新选择上传"];
+            [MEKits makeToast: @"视频最多可上传1部，请删除后重新选择上传"];
             return false;
         } else {
             return true;
         }
     } else {
         if (self.dataArr.count  >= 9) {
-            [self makeToast: @"照片最多可上传9张，请删除后重新选择上传"];
+            [MEKits makeToast: @"照片最多可上传9张，请删除后重新选择上传"];
             return false;
         } else {
             return true;

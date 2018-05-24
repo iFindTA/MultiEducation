@@ -377,7 +377,7 @@
                 params = @{@"classPb": (self.currentUser.teacherPb.classPbArray[0])};
             }
         } else {
-            [self makeToast: @"暂无绑定班级"];
+           [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
         }
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
         if (self.currentUser.deanPb.classPbArray.count > 0) {
@@ -387,7 +387,7 @@
                 params = @{@"classPb": (self.currentUser.deanPb.classPbArray[0])};
             }
         } else {
-            [self makeToast: @"暂无绑定班级"];
+            [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
         }
     } else {
 
