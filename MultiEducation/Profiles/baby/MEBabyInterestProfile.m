@@ -194,6 +194,7 @@
     _panel.type = 6;
     [self.view insertSubview:_panel belowSubview: self.navigationBar];
     [self.view insertSubview:_panel aboveSubview: self.content];
+    [self.view insertSubview:_panel aboveSubview: self.notfound];
 
     [_panel loadAndConfigure];
     
