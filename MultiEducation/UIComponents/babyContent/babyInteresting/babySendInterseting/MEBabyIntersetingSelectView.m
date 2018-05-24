@@ -122,13 +122,31 @@ static CGFloat const LEFT_SPACE = 25.f;
     return self.dataArr;
 }
 
+- (void)sortSelectStudent:(NSArray *)oriArr {
+    NSInteger lineCount = 5;
+    NSInteger capacity = ceil((float)(oriArr.count) / (float)(lineCount)) * lineCount;
+    
+    for (int i = 0; i < capacity; i++) {
+        MEStudentModel *model = [[MEStudentModel alloc] init];
+        [self.dataArr addObject: model];
+    }
+    
+    NSInteger index = 0;
+    for (MEStudentModel *stu in oriArr) {
+        NSInteger reIndex = (index / lineCount) * lineCount + (4 - index % lineCount);
+        [self.dataArr replaceObjectAtIndex:reIndex withObject:stu];
+        index++;
+    }
+    NSLog(@"%@", self.dataArr);
+}
+
 - (void)didTapSelectBabyView {
     NSLog(@"didTapSelectBabyView");
     weakify(self);
     void (^didSelectStuCallback) (NSArray *arr) = ^(NSArray *stuArr) {
         strongify(self);
         [self.dataArr removeAllObjects];
-        [self.dataArr addObjectsFromArray: stuArr];
+        [self sortSelectStudent: stuArr];
         [self updateLayout];
         [self.iconView reloadData];
     };
@@ -146,7 +164,10 @@ static CGFloat const LEFT_SPACE = 25.f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MEBabyPortraitCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: CELL_IDEF forIndexPath: indexPath];
     NSString *portraitUrl = [NSString stringWithFormat: @"%@/%@",self.currentUser.bucketDomain,  [self.dataArr objectAtIndex: indexPath.row].portrait];
-    [cell.icon sd_setImageWithURL: [NSURL URLWithString: portraitUrl] placeholderImage: [UIImage pb_imageWithColor: UIColorFromRGB(0xF3F8F8)]];
+    if ([self.dataArr objectAtIndex: indexPath.row].stuId != 0) {
+        [cell.icon sd_setImageWithURL: [NSURL URLWithString: portraitUrl] placeholderImage: [UIImage pb_imageWithColor: UIColorFromRGB(0xF3F8F8)]];
+    }
+    
     return cell;
 }
 
@@ -164,9 +185,6 @@ static CGFloat const LEFT_SPACE = 25.f;
 - (NSMutableArray *)dataArr {
     if (!_dataArr) {
         _dataArr = [NSMutableArray array];
-//        for (int i = 0; i < 51; i++) {
-//            [_dataArr addObject: @1];
-//        }
     }
     return _dataArr;
 }
