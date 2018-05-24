@@ -23,11 +23,12 @@
     if (args.count > 0) {
         [self.browserSource removeAllObjects];
         NSString *imgUrl = args.firstObject;
-        NSLog(@"预览图片地址:%@", imgUrl);
+        //NSLog(@"预览图片地址:%@", imgUrl);
         MWPhoto *photo = [[MWPhoto alloc] initWithURL:[NSURL URLWithString:imgUrl]];
         [self.browserSource addObject:photo];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.photoBrowser];
         [self.viewController.navigationController presentViewController: nav animated: true completion: nil];
+        [self.photoBrowser reloadData];
     }
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:result callbackId:self.currentCmd.callbackId];
