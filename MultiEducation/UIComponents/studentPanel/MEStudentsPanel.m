@@ -71,6 +71,7 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
     if (!_icon) {
         _icon = [[UIImageView alloc] initWithFrame:CGRectZero];
         _icon.contentMode = UIViewContentModeScaleAspectFill;
+        _icon.clipsToBounds = true;
     }
     return _icon;
 }
