@@ -121,12 +121,12 @@ static CGFloat const ROW_HEIGHT = 54.f;
 - (void)confirmButtonTouchEvent {
     //FIXME: CHECK TYPE
     if (_pwd.textfield.text.length < 6 || _pwd.textfield.text.length > 12) {
-        [SVProgressHUD showErrorWithStatus: @"请输入6-12位的密码"];
+        [self makeToast: @"请输入6-12位的密码"];
         return;
     }
     
     if (_code.textfield.text.length == 0) {
-        [SVProgressHUD showErrorWithStatus: @"请输入验证码"];
+        [self makeToast: @"请输入验证码"];
         return;
     }
     
@@ -140,7 +140,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     weakify(self);
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
-        [SVProgressHUD showErrorWithStatus: @"密码已修改，请重新登录"];
+        [self makeToast: @"密码已修改，请重新登录"];
         [self performSelector: @selector(logout) withObject: nil afterDelay: 1.f];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
@@ -162,7 +162,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     //check mobile
     NSString *mobile = self.phone.textfield.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     //assemble pb file

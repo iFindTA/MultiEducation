@@ -196,7 +196,7 @@
         strongify(self)
         NSString *mobile = self.inputMobile.text;
         if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-            [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+            [self makeToast:@"请输入正确的手机号码！"];
             return;
         }
         countDownButton.enabled = NO;
@@ -325,7 +325,7 @@
     //check mobile
     NSString *mobile = self.inputMobile.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     //assemble pb file
@@ -345,14 +345,14 @@
     //check mobile
     NSString *mobile = self.inputMobile.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     //check pwd
     NSString *pwd = self.inputPwd.text;
     if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
         NSString *errString = PBFormat(@"请输入%d~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
-        [SVProgressHUD showErrorWithStatus:errString];
+        [self makeToast:errString];
         return;
     }
     self.userPwd = pwd.copy;
@@ -360,14 +360,14 @@
     NSString *classno = self.inputClassno.text;
     if (classno.length < ME_REGULAR_CLASSNO_LEN_MIX) {
         NSString *errString = PBFormat(@"请输入%zd~%zd位班级码！", ME_REGULAR_CLASSNO_LEN_MIX, ME_REGULAR_CLASSNO_LEN_MAX);
-        [SVProgressHUD showErrorWithStatus:errString];
+        [self makeToast:errString];
         return;
     }//*/
     //check code
     NSString *code = self.inputCode.text;
     if (code.length < ME_REGULAR_CODE_LEN_MIN) {
         NSString *errString = PBFormat(@"请输入%d~%d位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
-        [SVProgressHUD showErrorWithStatus:errString];
+        [self makeToast:errString];
         return;
     }
     //TODO:// sigin-in action

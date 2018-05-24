@@ -28,8 +28,4 @@
  */
 - (MEPBUser * _Nullable)currentUser;
 
-- (void)showIndecator;
-
-- (void)hiddenIndecator;
-
 @end

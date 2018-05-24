@@ -194,14 +194,14 @@
         strongify(self)
         NSString *mobile = self.inputMobile.text;
         if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-            [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+            [self makeToast:@"请输入正确的手机号码！"];
             return;
         }
         countDownButton.enabled = NO;
         [countDownButton startCountDownWithSecond:59];
         [self sendSignInVerifyCodeEvent];
         [countDownButton countDownChanging:^NSString *(JKCountDownButton *countDownButton,NSUInteger second) {
-            NSString *title = [NSString stringWithFormat:@"剩余%zd秒",second];
+            NSString *title = [NSString stringWithFormat:@"剩余%lu秒",second];
             return title;
         }];
         [countDownButton countDownFinished:^NSString *(JKCountDownButton *countDownButton, NSUInteger second) {
@@ -343,7 +343,7 @@
     //check mobile
     NSString *mobile = self.inputMobile.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     //assemble pb file
@@ -356,7 +356,7 @@
         NSString *pwd = self.inputPwd.text;
         if (pwd.length < ME_REGULAR_PASSWD_LEN_MIN) {
             NSString *errString = PBFormat(@"请输入%d~%d位密码！", ME_REGULAR_PASSWD_LEN_MIN, ME_REGULAR_PASSWD_LEN_MAX);
-            [SVProgressHUD showErrorWithStatus:errString];
+            [self makeToast:errString];
             return;
         }
         [pb setPassword:pwd];
@@ -365,7 +365,7 @@
         NSString *code = self.inputCode.text;
         if (code.length < ME_REGULAR_CODE_LEN_MIN) {
             NSString *errString = PBFormat(@"请输入%d~%d位验证码！", ME_REGULAR_CODE_LEN_MIN, ME_REGULAR_CODE_LEN_MAX);
-            [SVProgressHUD showErrorWithStatus:errString];
+            [self makeToast:errString];
             return;
         }
         [pb setCode:code];
@@ -410,7 +410,7 @@
     //check mobile
     NSString *mobile = self.inputMobile.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     //assemble pb file

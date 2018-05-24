@@ -377,7 +377,7 @@
                 params = @{@"classPb": (self.currentUser.teacherPb.classPbArray[0])};
             }
         } else {
-            [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
+           [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
         }
     } else if (self.currentUser.userType == MEPBUserRole_Gardener) {
         if (self.currentUser.deanPb.classPbArray.count > 0) {
@@ -387,7 +387,7 @@
                 params = @{@"classPb": (self.currentUser.deanPb.classPbArray[0])};
             }
         } else {
-            [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
+            [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
         }
     } else {
 
@@ -460,7 +460,7 @@
             params = [dic objectForKey: @"params"];
             buried_point = Buried_CLASS_INTERESTING;
             if (![params objectForKey: @"classPb"] && ![params objectForKey: @"pushUrlStr"]) {
-                [SVProgressHUD showErrorWithStatus: @"暂无绑定班级"];
+                [MEKits makeToast: @"暂无绑定班级"];
                 return;
             }
         } else if (type & multiType){
@@ -472,8 +472,7 @@
                 //是否有多个班级 有则选择 无则直接进入
                 NSArray <MEPBClass*>*classes = [self muticastClasses];
                 if (classes.count == 0) {
-                    SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
-                    [alert showInfo:ME_ALERT_INFO_TITILE subTitle:ME_ALERT_INFO_NONE_CLASS closeButtonTitle:ME_ALERT_INFO_ITEM_OK duration:0];
+                    [MEKits makeToast:ME_ALERT_INFO_NONE_CLASS];
                 } else if (classes.count == 1){
                     MEPBClass *cls = classes.firstObject;
                     [self userDidChoosenType:type whetherParent:false className:cls.name];

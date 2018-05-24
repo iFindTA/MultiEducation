@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly, nullable) MEPBUser * curUser;
 
+- (UIView *)rootView;
+
 /**
  splash change display sence
  */

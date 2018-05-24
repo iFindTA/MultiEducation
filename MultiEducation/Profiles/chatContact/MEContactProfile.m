@@ -685,7 +685,7 @@
         }
     }
     if (!destSession) {
-        [SVProgressHUD showErrorWithStatus:@"当前班级班聊无法开启！"];
+        [self makeToast:@"当前班级班聊无法开启！"];
         return;
     }
     NSString *targetID = PBFormat(@"CLASS-%lld", destSession.id_p);

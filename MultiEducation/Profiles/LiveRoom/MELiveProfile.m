@@ -180,7 +180,7 @@
  */
 - (void)createLiveRoomEvent {
     if (!self.params) {
-        [SVProgressHUD showErrorWithStatus:@"直播创建失败！"];
+        [self makeToast:@"直播创建失败！"];
         return;
     }
     if (self.liveItem) {
@@ -309,7 +309,7 @@
  */
 - (void)realStartPushStream4LiveAction {
     if (!self.liveItem) {
-        [SVProgressHUD showErrorWithStatus:@"直播内部错误！"];
+        [self makeToast:@"直播内部错误！"];
         return;
     }
     NSString *streamUrl = self.liveItem.streamURL;

@@ -613,7 +613,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     }
     
     if ([MEKits stringContainsEmoji: string]) {
-        [SVProgressHUD showErrorWithStatus: @"文件夹名称无法包含emoji符号"];
+        [self makeToast: @"文件夹名称无法包含emoji符号"];
         return NO;
     }
     return YES;

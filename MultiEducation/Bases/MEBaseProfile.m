@@ -4,6 +4,7 @@
 //
 
 #import "MEUserVM.h"
+#import <Toast/Toast.h>
 #import <objc/message.h>
 #import "MEBaseProfile.h"
 #import "MEBaseTabBarProfile.h"
@@ -195,6 +196,11 @@
     if (hudString.length) {
         [SVProgressHUD showSuccessWithStatus:hudString];
     }
+}
+
+- (void)makeToast:(NSString *)info {
+    NSValue *position = [NSValue valueWithCGPoint:CGPointMake(MESCREEN_WIDTH*0.5, MESCREEN_HEIGHT*ME_TOAST_BOTTOM_SCALE)];
+    [self.view makeToast:info duration:1 position:position style:nil];
 }
 
 @end

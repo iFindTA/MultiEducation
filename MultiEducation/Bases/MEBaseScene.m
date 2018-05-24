@@ -9,6 +9,7 @@
 #import "MEBaseScene.h"
 #import "MEUserVM.h"
 #import "AppDelegate.h"
+#import <UIView+Toast.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
 @interface MEBaseScene ()
