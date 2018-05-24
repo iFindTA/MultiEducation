@@ -116,6 +116,12 @@
         pb.title = [self.content getInterestTitle];
         pb.funText = [self.content getInterestContext];
         
+        if (_classPb) {
+            pb.type = 1;
+        } else {
+            pb.type = 2;
+        }
+        
         if (self.currentUser.userType == MEPBUserRole_Parent) {
             pb.gradeId = [MEBabyIndexVM fetchSelectBaby].gradeId;
             GuFunPhotoStudentPb *stuPb = [[GuFunPhotoStudentPb alloc] init];

@@ -74,6 +74,8 @@ typedef GPB_ENUM(GuFunPhotoPb_FieldNumber) {
   GuFunPhotoPb_FieldNumber_Status = 7,
   GuFunPhotoPb_FieldNumber_StudentListArray = 8,
   GuFunPhotoPb_FieldNumber_ImgListArray = 9,
+  GuFunPhotoPb_FieldNumber_Type = 10,
+  GuFunPhotoPb_FieldNumber_CreatedDate = 11,
 };
 
 @interface GuFunPhotoPb : GPBMessage
@@ -107,6 +109,11 @@ typedef GPB_ENUM(GuFunPhotoPb_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) NSMutableArray<GuFunPhotoImgPb*> *imgListArray;
 /** The number of items in @c imgListArray without causing the array to be created. */
 @property(nonatomic, readonly) NSUInteger imgListArray_Count;
+
+/** 1幼儿园  2在家里 */
+@property(nonatomic, readwrite) int32_t type;
+
+@property(nonatomic, readwrite) int64_t createdDate;
 
 @end
 

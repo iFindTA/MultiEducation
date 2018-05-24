@@ -38,7 +38,7 @@
     _pb = pb;
     self.titleLab.text = pb.title;
     self.subtitleLab.text = pb.funText;
-    self.countLab.text = [NSString stringWithFormat: @"共%ld张", pb.imgListArray.count];
+    self.countLab.text = [NSString stringWithFormat: @"共%lu张", (unsigned long)pb.imgListArray.count];
     
     NSString *urlStr;
     NSString *bucket = ((AppDelegate *)[UIApplication sharedApplication].delegate).curUser.bucketDomain;
@@ -50,6 +50,16 @@
         }
     }
     [self.coverImage sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage pb_imageWithColor: UIColorFromRGB(0xF3F8F8)]];
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970: pb.createdDate / 1000];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy-MM-dd";
+    NSString *dateStr = [formatter stringFromDate: date];
+    if (pb.type == 1) {
+        self.markLab.text = [NSString stringWithFormat: @"幼儿园趣事  %@", dateStr];
+    } else {
+        self.markLab.text = [NSString stringWithFormat: @"家庭趣事  %@", dateStr];
+    }
 }
 
 #pragma mark-添加阴影
