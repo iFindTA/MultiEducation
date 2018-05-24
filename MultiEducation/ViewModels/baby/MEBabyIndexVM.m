@@ -32,6 +32,7 @@
 }
 
 + (void)saveSelectBaby:(GuIndexPb *)baby {
+    
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *curUser = delegate.curUser;
     NSString *where = [NSString stringWithFormat: @"userId = '%lld'", curUser.uid];
