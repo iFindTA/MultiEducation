@@ -4,6 +4,7 @@
 //
 
 #import "MEUserVM.h"
+#import <Toast/Toast.h>
 #import <objc/message.h>
 #import "MEBaseProfile.h"
 #import "MEBaseTabBarProfile.h"
@@ -195,6 +196,10 @@
     if (hudString.length) {
         [SVProgressHUD showSuccessWithStatus:hudString];
     }
+}
+
+- (void)makeToast:(NSString *)info {
+    [self.view makeToast:info];
 }
 
 @end

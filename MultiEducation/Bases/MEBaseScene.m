@@ -9,6 +9,7 @@
 #import "MEBaseScene.h"
 #import "MEUserVM.h"
 #import "AppDelegate.h"
+#import <UIView+Toast.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
 @interface MEBaseScene ()
@@ -76,6 +77,7 @@
     [self.indecator removeFromSuperview];
     _indecator = nil;
 }
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

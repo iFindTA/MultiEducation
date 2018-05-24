@@ -305,6 +305,10 @@
     }
 }
 
+- (UIView *)rootView {
+    return self.winProfile.view;
+}
+
 #pragma mark --- start services background thread
 
 /**

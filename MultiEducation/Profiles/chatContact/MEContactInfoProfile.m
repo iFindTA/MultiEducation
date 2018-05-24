@@ -332,7 +332,7 @@
 - (void)sendMessageTouchEvent {
     MEClassMember *member = [self.params objectForKey:@"member"];
     if (!member) {
-        [SVProgressHUD showErrorWithStatus:@"当前会话不能建立！"];
+        [self makeToast:@"当前会话不能建立！"];
         return;
     }
     NSString *targetID = PBFormat(@"%lld", member.id_p);

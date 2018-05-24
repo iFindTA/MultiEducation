@@ -68,9 +68,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (MEPBUser * _Nullable)currentUser;
 
 /**
- whether user did sign-in
+ show toast
  */
-//- (BOOL)userDidSignIn;
+- (void)makeToast:(NSString *)info;
 
 @end
 

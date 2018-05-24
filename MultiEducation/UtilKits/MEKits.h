@@ -129,6 +129,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)handleSuccess:(NSString *)hud;
 
+/**
+ 提示信息
+ */
++ (void)makeToast:(NSString *)info;
+
 #pragma mark --- User Token Refresh
 
 /**

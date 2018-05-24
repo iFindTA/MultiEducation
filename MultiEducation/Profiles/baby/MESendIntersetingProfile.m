@@ -71,31 +71,31 @@
 
 - (void)didSubmitButtonTouchEvent {
     if ([[self.content getInterestTitle]  isEqualToString: @""]) {
-        [SVProgressHUD showErrorWithStatus: @"请输入标题"];
+        [self makeToast: @"请输入标题"];
         return;
     }
     
     if ([[self.content getInterestContext]  isEqualToString: @""]) {
-        [SVProgressHUD showErrorWithStatus: @"请输入内容"];
+        [self makeToast: @"请输入内容"];
         return;
     }
     
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         if (_stuId == 0) {
             if ([self.content getInterestingStuArr].count == 0) {
-                [SVProgressHUD showErrorWithStatus: @"选择学生失败"];
+                [self makeToast: @"选择学生失败"];
                 return;
             }
         }
     } else {
         if ([self.content getInterestingStuArr].count == 0) {
-            [SVProgressHUD showErrorWithStatus: @"请选择学生"];
+            [self makeToast: @"请选择学生"];
             return;
         }
     }
     
     if (_submitPhotos.count == 0) {
-        [SVProgressHUD showErrorWithStatus: @"请选择图片"];
+        [self makeToast: @"请选择图片"];
         return;
     }
     
@@ -107,7 +107,7 @@
         }
         
         if (succKeys.count == 0) {
-            [SVProgressHUD showErrorWithStatus: @"上传图片失败，请重新选择"];
+            [self makeToast: @"上传图片失败，请重新选择"];
             return;
         }
         

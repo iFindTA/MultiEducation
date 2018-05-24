@@ -1,6 +1,7 @@
  platform :ios, '9.0'
 
 target 'MultiEducation' do
+pod 'Toast', '~> 4.0.0'
 pod 'PBKits', '~> 1.2.3'
 pod 'FCUUID', '~> 1.3.1'
 pod 'ZFPlayer', '~> 2.1.6'

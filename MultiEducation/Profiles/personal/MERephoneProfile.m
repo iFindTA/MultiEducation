@@ -117,13 +117,13 @@ static CGFloat const ROW_HEIGHT = 54.f;
 - (void)touchUpdateButtonEvent {
     NSString *mobile = self.phone.textfield.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     
     NSString *newMobile = self.newPhone.textfield.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     
@@ -148,7 +148,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     //check mobile
     NSString *mobile = self.newPhone.textfield.text;
     if (![mobile pb_isMatchRegexPattern:ME_REGULAR_MOBILE]) {
-        [SVProgressHUD showErrorWithStatus:@"请输入正确的手机号码！"];
+        [self makeToast:@"请输入正确的手机号码！"];
         return;
     }
     //assemble pb file
@@ -167,7 +167,6 @@ static CGFloat const ROW_HEIGHT = 54.f;
         [SVProgressHUD showSuccessWithStatus:@"发送验证码成功！"];
         [self timerStart];
     } failure:^(NSError * _Nonnull error) {
-        strongify(self)
         [MEKits handleError:error];
     }];
 }

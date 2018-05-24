@@ -135,7 +135,7 @@
 - (void)pushToSendBabyInterestingProfileItemTouchEvent {
     for (GuFunPhotoPb *pb in self.content.items) {
         if (pb.month == [MEBabyIndexVM fetchSelectBaby].month) {
-            [SVProgressHUD showErrorWithStatus: @"当月已发布过趣事趣影"];
+            [self makeToast: @"当月已发布过趣事趣影"];
             return;
         }
     }

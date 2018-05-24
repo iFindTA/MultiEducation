@@ -12,6 +12,7 @@
 #import "MEUserVM.h"
 #import "MECordovaVM.h"
 #import "AppDelegate.h"
+#import <Toast/Toast.h>
 #import "Meuser.pbobjc.h"
 #import "NSData+NSHash.h"
 #import <PBService/PBService.h>
@@ -496,6 +497,12 @@
 + (void)handleSuccess:(NSString *)hud {
     if (hud) {
         [SVProgressHUD showSuccessWithStatus:hud];
+    }
+}
+
++ (void)makeToast:(NSString *)info {
+    if (info.length > 0) {
+        [self.app.rootView makeToast:info duration:ME_DISPATCH_KEY_CALLBACK position:<#(id)#> style:<#(CSToastStyle *)#>];
     }
 }
 

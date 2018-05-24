@@ -810,8 +810,9 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
         dispatch_semaphore_t semo = dispatch_semaphore_create(1);
         [self preQuerySubmit4State:MEEvaluateStateStash completion:^(NSError * _Nullable err) {
             if (err) {
+                strongify(self)
                 NSString *alertInfo = PBFormat(@"暂存失败：%@", err.localizedDescription);
-                [SVProgressHUD showErrorWithStatus:alertInfo];
+                [self makeToast:alertInfo];
             }
             dispatch_semaphore_signal(semo);
         }];
