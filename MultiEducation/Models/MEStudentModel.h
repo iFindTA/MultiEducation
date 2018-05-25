@@ -11,7 +11,7 @@
 typedef NS_ENUM(NSUInteger, SelectStatus) {
     Selected         =                                                  1 <<                               0, //已选中
     Unselected       =                                                  1 <<                               1, //未选中
-    CantSelect       =                                                  1 <<        2  //不可选
+    CantSelect       =                                                  1 <<                               2  //不可选
 };
 
 @interface MEStudentModel : MEM

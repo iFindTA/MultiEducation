@@ -12,6 +12,9 @@
 #import <TZImagePickerController.h>
 #import <SVProgressHUD.h>
 #import "MEBabyIntersetingSelectView.h"
+#import "MEStuInterestModel.h"
+#import "UIView+Utils.h"
+#import <YYKit.h>
 
 #define CELL_IDEF @"cell_idef"
 #define CELL_SIZE CGSizeMake(110.f, 110.f)
@@ -28,9 +31,65 @@
 @property (nonatomic, strong) MEBaseScene *sepView; //sep between contentTV & titleTF
 @property (nonatomic, strong) MEBabyIntersetingSelectView *selectView;
 
+@property (nonatomic, strong) MEStuInterestModel *stuModel;
+
 @end
 
 @implementation MESendIntersetContent
+
+/**
+ 初始化StuInterestModel
+ */
+- (void)initializeStudentModel {
+    _stuModel = [MEStuInterestModel fetchStudentInterestModel];
+    if (!_stuModel) {
+        _stuModel = [[MEStuInterestModel alloc] init];
+    }
+}
+
+/**
+ 判断是否有本地缓存数据，仅在页面init时调用一次，如果有，将model数据放到view上
+ */
+- (BOOL)whetherHaveLocalizationDataOfMEStudentModel {
+    if ([MEStuInterestModel fetchStudentInterestModel]) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+- (void)showAlert2UserWhetherFetchStuInterestModel {
+    [self initializeStudentModel];
+    if ([self whetherHaveLocalizationDataOfMEStudentModel]) {
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle: @"提示" message: @"检测到上次有未提交的数据，是否继续编辑？" preferredStyle: UIAlertControllerStyleAlert];
+        
+        weakify(self);
+        UIAlertAction *certain = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            strongify(self);
+            [self fetchLocalizationData2UIComponent];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+        [controller addAction: certain];
+        [controller addAction: cancel];
+        
+        [[self viewController].navigationController presentViewController: controller animated: true completion: nil];
+    }
+}
+
+//将本地缓存数据放到view上
+- (void)fetchLocalizationData2UIComponent {
+    if (self.didFetchlocalizationDataHandler) {
+        self.didFetchlocalizationDataHandler(_stuModel);
+    }
+    self.titleTF.text = _stuModel.title;
+    self.contentTV.text = _stuModel.context;
+    [self.dataArr removeAllObjects];
+    [self.dataArr addObjectsFromArray: _stuModel.images];
+    [self.photoView reloadData];
+    
+    [self.selectView.dataArr removeAllObjects];
+    self.selectView.dataArr = [NSMutableArray arrayWithObject: _stuModel.stuArr];
+}
 
 - (void)customSubviews {
     [self addSubview: self.titleTF];
@@ -100,6 +159,10 @@
 
 #pragma mark - public func
 - (void)didSelectImagesOrVideo:(NSArray<NSDictionary *> *)images {
+    
+    _stuModel.images = images;
+    [MEStuInterestModel saveOrUpdateStudentInterestModel: _stuModel];
+    
     [self.dataArr removeAllObjects];
     [self.dataArr addObjectsFromArray: images];
     [self.photoView reloadData];
@@ -141,12 +204,22 @@
     return true;
 }
 
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    _stuModel.title = textField.text;
+    [MEStuInterestModel saveOrUpdateStudentInterestModel: _stuModel];
+}
+
 #pragma mark - UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString: @"\n"]) {
         [textView resignFirstResponder];
     }
     return true;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    _stuModel.context = textView.text;
+    [MEStuInterestModel saveOrUpdateStudentInterestModel: _stuModel];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -257,10 +330,14 @@
             strongify(self);
             [self.selectView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.mas_equalTo(self);
-
                 make.top.mas_equalTo(self.photoView.mas_bottom).mas_offset(54.f);
                 make.bottom.mas_equalTo(bottomView.mas_bottom);
             }];
+        };
+        _selectView.didSelectStuCallback = ^(NSArray *stuArr) {
+            strongify(self);
+            _stuModel.stuArr = stuArr;
+            [MEStuInterestModel saveOrUpdateStudentInterestModel: _stuModel];
         };
     }
     return _selectView;

@@ -17,6 +17,7 @@
 #import "MEBabyIndexVM.h"
 #import "MEQiniuUtils.h"
 #import "MEStudentModel.h"
+#import "MEStuInterestModel.h"
 
 @interface MESendIntersetingProfile () <TZImagePickerControllerDelegate> {
     MEPBClass *_classPb;
@@ -48,6 +49,7 @@
     [self customNavigation];
     [self.view addSubview: self.scrollView];
     [self.scrollView addSubview: self.content];
+    [self.content showAlert2UserWhetherFetchStuInterestModel];
 
     //layout
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -147,6 +149,7 @@
         
         MEStuInterestVM *vm = [MEStuInterestVM vmWithPb: pb];
         [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+            [MEStuInterestModel deleteStudentInterestModel];
             [self.navigationController popViewControllerAnimated: true];
             if (self.didSubmitStuInterestCallback) {
                 self.didSubmitStuInterestCallback();
@@ -218,6 +221,10 @@
         _content.DidPickerButtonTouchCallback = ^{
             strongify(self);
             [self.navigationController presentViewController: self.pickerProfile animated: true completion: nil];
+        };
+        _content.didFetchlocalizationDataHandler = ^(MEStuInterestModel *model) {
+            strongify(self);
+            _submitPhotos = model.images;
         };
     }
     return _content;

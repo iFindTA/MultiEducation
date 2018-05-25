@@ -19,7 +19,9 @@
 #define ICON_VIEW_WIDTH 144.f
 static CGFloat const LEFT_SPACE = 25.f;
 
-@interface MEBabyIntersetingSelectView () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface MEBabyIntersetingSelectView () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
+    NSMutableArray <MEStudentModel *> *_dataArr;
+}
 
 @property (nonatomic, strong) MEBaseScene *topSepView;
 @property (nonatomic, strong) MEBaseScene *bottomSepView;
@@ -27,7 +29,6 @@ static CGFloat const LEFT_SPACE = 25.f;
 @property (nonatomic, strong) MEBaseImageView *arrow;
 
 @property (nonatomic, strong) UICollectionView *iconView;
-@property (nonatomic, strong) NSMutableArray <MEStudentModel *> *dataArr;
 
 @end
 
@@ -149,8 +150,11 @@ static CGFloat const LEFT_SPACE = 25.f;
         [self sortSelectStudent: stuArr];
         [self updateLayout];
         [self.iconView reloadData];
+        if (self.didSelectStuCallback) {
+            self.didSelectStuCallback(stuArr);
+        }
     };
-    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectStuCallback, @"classId": @(_classId), @"semester": @(_semester), @"gradeId": @(_gradeId), @"selectedBabys": _dataArr};
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectStuCallback, @"classId": @(_classId), @"semester": @(_semester), @"gradeId": @(_gradeId), @"selectedBabys": self.dataArr};
     NSString *urlStr = @"profile://MEMultiSelectBabyProfile";
     NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
     [MEKits handleError: error];
@@ -182,11 +186,16 @@ static CGFloat const LEFT_SPACE = 25.f;
 }
 
 #pragma mark - lazyloading
-- (NSMutableArray *)dataArr {
+- (NSMutableArray<MEStudentModel *> *)dataArr {
     if (!_dataArr) {
         _dataArr = [NSMutableArray array];
     }
     return _dataArr;
+}
+
+- (void)setDataArr:(NSMutableArray<MEStudentModel *> *)dataArr {
+    _dataArr = dataArr;
+    [self.iconView reloadData];
 }
 
 - (UICollectionView *)iconView {
