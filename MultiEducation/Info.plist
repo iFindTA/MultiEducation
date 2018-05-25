@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.2</string>
 	<key>CFBundleVersion</key>
-	<string>102</string>
+	<string>103</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -30,45 +30,45 @@
 		<dict>
 			<key>api.x16.com</key>
 			<dict>
-				<key>NSAllowsLocalNetworking</key>
-				<true/>
 				<key>NSAllowsArbitraryLoadsForMedia</key>
 				<true/>
 				<key>NSAllowsArbitraryLoadsInWebContent</key>
 				<true/>
-				<key>NSIncludesSubdomains</key>
+				<key>NSAllowsLocalNetworking</key>
 				<true/>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSExceptionRequiresForwardSecrecy</key>
 				<string>NO</string>
+				<key>NSIncludesSubdomains</key>
+				<true/>
 			</dict>
 			<key>glb.qiniucdn.com</key>
 			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSExceptionRequiresForwardSecrecy</key>
 				<string>NO</string>
-			</dict>
-			<key>ost.x16.com</key>
-			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSExceptionRequiresForwardSecrecy</key>
-				<string>NO</string>
 			</dict>
 			<key>mmbiz.qpic.cn</key>
 			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
 				<key>NSExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+			<key>ost.x16.com</key>
+			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSExceptionRequiresForwardSecrecy</key>
-				<false/>
+				<string>NO</string>
+				<key>NSIncludesSubdomains</key>
+				<true/>
 			</dict>
 		</dict>
 	</dict>

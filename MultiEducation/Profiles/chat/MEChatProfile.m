@@ -143,12 +143,14 @@
         [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:removeIndex];
     }
     //去除发送GIF
-    NSArray<UIView*>*subs = self.chatSessionInputBarControl.emojiBoardView.subviews;
+    UIView *emojiBorad = self.chatSessionInputBarControl.emojiBoardView;
+    NSArray<UIView*>*subs = emojiBorad.subviews;
     UIView *extentKit;
     for (UIView *s in subs) {
         if (fabs(s.bounds.size.height - ME_LAYOUT_SUBBAR_HEIGHT) <= ME_LAYOUT_OFFSET) {
             extentKit = s;
-            break;
+        } else if ([s isKindOfClass:[UIButton class]]||[s isMemberOfClass:[UIButton class]]) {
+            s.hidden = true;
         }
     }
     subs = extentKit.subviews;
@@ -159,6 +161,12 @@
             break;
         }
     }
+    //修改位置
+    CGRect frame = extentScroll.frame;
+    CGFloat pre_x = frame.origin.x;
+    frame.origin.x = 0;
+    frame.size.width += pre_x;
+    [extentScroll setFrame:frame];
     subs = extentScroll.subviews;
     /*只删除GIF一项 其余前移
     int i = 0;

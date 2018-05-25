@@ -71,6 +71,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [MEKits makeToast:@"Oops，稍后再来吧！"];
+}
+
 /*
 #pragma mark - Navigation
 
