@@ -46,6 +46,7 @@ typedef void(^DidChangeSelectedBaby)(NSString *babyName, NSString *babyPortrait)
 
 @property (nonatomic, copy) void((^DidSelectHandler)(NSInteger index, NSArray *photos));
 
+- (void)viewWillAppear;
 
 - (void)removeNotiObserver;
 

@@ -33,7 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-        
     //隐藏导航条
     [self hiddenNavigationBar];
     
@@ -43,8 +42,11 @@
     
     [self.view addSubview: self.babyView];
     [self.view addSubview: self.babyNavigation];
-    
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    [self.babyView viewWillAppear];
 }
 
 - (void)viewDidLayoutSubviews {
