@@ -160,11 +160,9 @@
         }
     }
     subs = extentScroll.subviews;
+    /*只删除GIF一项 其余前移
     int i = 0;
     for (UIView *s in subs) {
-//        if (s.frame.origin.x >= ME_LAYOUT_SUBBAR_HEIGHT) {
-//            [s removeFromSuperview];
-//        }
         if (fabs(s.frame.origin.x - ME_LAYOUT_SUBBAR_HEIGHT) <= ME_LAYOUT_OFFSET) {
             [s removeFromSuperview];
         } else if (i > 0) {
@@ -174,6 +172,12 @@
         }
         
         i++;
+    }//*/
+    //全部删除除了第一个
+    for (UIView *s in subs) {
+        if (s.frame.origin.x >= ME_LAYOUT_SUBBAR_HEIGHT) {
+            [s removeFromSuperview];
+        }
     }
     
     /*加入短视频扩展
