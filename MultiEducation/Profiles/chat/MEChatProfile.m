@@ -160,10 +160,20 @@
         }
     }
     subs = extentScroll.subviews;
+    int i = 0;
     for (UIView *s in subs) {
-        if (s.frame.origin.x >= ME_LAYOUT_SUBBAR_HEIGHT) {
+//        if (s.frame.origin.x >= ME_LAYOUT_SUBBAR_HEIGHT) {
+//            [s removeFromSuperview];
+//        }
+        if (fabs(s.frame.origin.x - ME_LAYOUT_SUBBAR_HEIGHT) <= ME_LAYOUT_OFFSET) {
             [s removeFromSuperview];
+        } else if (i > 0) {
+            CGRect frame = s.frame;
+            frame.origin.x = s.frame.origin.x-frame.size.width;
+            [s setFrame:frame];
         }
+        
+        i++;
     }
     
     /*加入短视频扩展
