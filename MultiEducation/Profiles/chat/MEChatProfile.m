@@ -142,9 +142,29 @@
     if (removeIndex < items.count) {
         [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:removeIndex];
     }
+    //去除发送GIF
     NSArray<UIView*>*subs = self.chatSessionInputBarControl.emojiBoardView.subviews;
-    NSLog(@"subviews:%@", subs);
-    
+    UIView *extentKit;
+    for (UIView *s in subs) {
+        if (fabs(s.bounds.size.height - ME_LAYOUT_SUBBAR_HEIGHT) <= ME_LAYOUT_OFFSET) {
+            extentKit = s;
+            break;
+        }
+    }
+    subs = extentKit.subviews;
+    UIScrollView *extentScroll;
+    for (UIView *s in subs) {
+        if ([s isKindOfClass:[UIScrollView class]]||[s isMemberOfClass:[UIScrollView class]]) {
+            extentScroll = (UIScrollView*)s;
+            break;
+        }
+    }
+    subs = extentScroll.subviews;
+    for (UIView *s in subs) {
+        if (s.frame.origin.x >= ME_LAYOUT_SUBBAR_HEIGHT) {
+            [s removeFromSuperview];
+        }
+    }
     
     /*加入短视频扩展
     NSString *iconTitle = @"短视频";
