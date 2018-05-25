@@ -110,6 +110,7 @@ PODS:
   - "UITextView+MaxLength (0.0.1)"
   - "UITextView+Placeholder (1.2.0)"
   - UMengAnalytics-NO-IDFA (4.2.5)
+  - WHC_Model (1.7.0.1)
   - WHC_ModelSqliteKit/SQLCipher (1.3.0):
     - SQLCipher
   - WZLBadge (1.2.6)
@@ -153,6 +154,7 @@ DEPENDENCIES:
   - "UITextView+MaxLength (~> 0.0.1)"
   - "UITextView+Placeholder (~> 1.2.0)"
   - UMengAnalytics-NO-IDFA (~> 4.2.5)
+  - WHC_Model (~> 1.7.0.1)
   - WHC_ModelSqliteKit/SQLCipher (~> 1.3.0)
   - XHImageViewer (~> 0.1.2)
   - YCXMenu (~> 0.0.11)
@@ -202,6 +204,7 @@ SPEC REPOS:
     - "UITextView+MaxLength"
     - "UITextView+Placeholder"
     - UMengAnalytics-NO-IDFA
+    - WHC_Model
     - WHC_ModelSqliteKit
     - WZLBadge
     - XHImageViewer
@@ -252,6 +255,7 @@ SPEC CHECKSUMS:
   "UITextView+MaxLength": 455db218d2b125ead449e411dba8fd2576368a77
   "UITextView+Placeholder": 77680995fcdd07c3f52ec92fe1150874a2ac89ff
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
+  WHC_Model: 8268100386a9d450fa7ff72e9671910da8334e3f
   WHC_ModelSqliteKit: dfafef3ee872dedd9823395291fc80bf37eac46d
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
   XHImageViewer: 7b275d2aa829e56761c30303b9d51cae086a90b9
@@ -261,6 +265,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: f4941be0baed95b1e68d258c436d3d26f34633f4
+PODFILE CHECKSUM: 67469524bddde0b5c8c4d3111ce3334d559cc381
 
 COCOAPODS: 1.5.0

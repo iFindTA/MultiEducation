@@ -138,7 +138,7 @@ static CGFloat const LEFT_SPACE = 25.f;
         [self.dataArr replaceObjectAtIndex:reIndex withObject:stu];
         index++;
     }
-    NSLog(@"%@", self.dataArr);
+    [self.iconView reloadData];
 }
 
 - (void)didTapSelectBabyView {
@@ -194,8 +194,8 @@ static CGFloat const LEFT_SPACE = 25.f;
 }
 
 - (void)setDataArr:(NSMutableArray<MEStudentModel *> *)dataArr {
-    _dataArr = dataArr;
-    [self.iconView reloadData];
+    [self sortSelectStudent: dataArr];
+    [self updateLayout];
 }
 
 - (UICollectionView *)iconView {

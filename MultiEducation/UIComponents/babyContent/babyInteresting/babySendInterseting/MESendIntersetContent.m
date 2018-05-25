@@ -88,7 +88,7 @@
     [self.photoView reloadData];
     
     [self.selectView.dataArr removeAllObjects];
-    self.selectView.dataArr = [NSMutableArray arrayWithObject: _stuModel.stuArr];
+    self.selectView.dataArr = [NSMutableArray arrayWithArray: _stuModel.stuArr];
 }
 
 - (void)customSubviews {

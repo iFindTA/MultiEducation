@@ -10,15 +10,9 @@
 #import <WHC_ModelSqlite.h>
 #import "Meuser.pbobjc.h"
 #import "AppDelegate.h"
-#import <objc/message.h>
-
-@interface MEStuInterestModel () <NSCoding>
-
-
-@end
+#import <WHC_Model/NSObject+WHC_Model.h>
 
 @implementation MEStuInterestModel
-
 
 + (MEPBUser *)curUser {
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -53,14 +47,7 @@
     }
 }
 
-#pragma mark - NSCoding
-//- (id)initWithCoder:(NSCoder *)coder {
-//    
-//}
-//
-//- (void)encodeWithCoder:(NSCoder *)coder {
-//   
-//}
+
 
 #pragma mark -setter
 - (void)setTitle:(NSString *)title {
