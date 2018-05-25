@@ -141,6 +141,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)refreshCurrentUserSessionTokenWithCompletion:(void(^_Nullable)(NSError * _Nullable err))completion;
 
+/**
+ 进入app获取当前用户的班级所有联系人 避免聊天session界面头像、名字问题
+ */
++ (void)fetchContacts4CurrentUser;
+
 #pragma mark --- Max Upload Size
 
 /**

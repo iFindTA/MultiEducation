@@ -107,7 +107,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
     if (!self.editable) {
-        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前内容！"];
+        [MEKits makeToast:@"您不能编辑当前内容！"];
         return;
     }
     
@@ -221,7 +221,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
         MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
         label.font = font;
         label.textColor = fontColor;
-        label.text = PBFormat(@"%@:%u字以内", self.questionTitle, MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength));
+        label.text = PBFormat(@"%@:%lu字以内", self.questionTitle, MAX(ME_QUESTION_INPUT_MAXLENGTH, self.maxInputLength));
         [_inputAccess addSubview:label];
         [label makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_inputAccess);
@@ -268,7 +268,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if (!self.editable) {
-        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前内容！"];
+        [MEKits makeToast:@"您不能编辑当前内容！"];
         return false;
     }
     return true;
@@ -416,7 +416,7 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
             [opt makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo((lastOpt==nil)?label.mas_bottom:lastOpt.mas_bottom).offset((lastOpt==nil)?0:offset);
                 make.left.right.equalTo(self);
-                make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+                make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
             }];
             //如果已选择 则保存当前选择的
             if (item.checked) {
@@ -718,7 +718,7 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
         }
         if (i > 0) {
             NSString *alertInfo = PBFormat(@"您还有%d项没有作答！", i);
-            [SVProgressHUD showInfoWithStatus:alertInfo];
+            [MEKits makeToast:alertInfo];
             return;
         }
     }
@@ -930,7 +930,7 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
  */
 - (void)homePreDidSubmit {
     if (![self homePanelEditable]) {
-        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前页面"];
+        [MEKits makeToast:@"您不能编辑当前页面"];
         return;
     }
     [self preQuerySubmit4State:MEEvaluateStateDone completion:nil];
@@ -941,7 +941,7 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
  */
 - (void)schoolPreDidSubmit {
     if (![self schoolPanelEditable]) {
-        [SVProgressHUD showInfoWithStatus:@"您不能编辑当前页面"];
+        [MEKits makeToast:@"您不能编辑当前页面"];
         return;
     }
     [self preQuerySubmit4State:MEEvaluateStateDone completion:nil];

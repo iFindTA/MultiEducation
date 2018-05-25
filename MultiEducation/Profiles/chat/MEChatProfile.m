@@ -142,6 +142,9 @@
     if (removeIndex < items.count) {
         [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:removeIndex];
     }
+    NSArray<UIView*>*subs = self.chatSessionInputBarControl.emojiBoardView.subviews;
+    NSLog(@"subviews:%@", subs);
+    
     
     /*加入短视频扩展
     NSString *iconTitle = @"短视频";

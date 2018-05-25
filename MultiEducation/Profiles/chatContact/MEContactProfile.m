@@ -186,8 +186,8 @@
 - (NSArray<YCXMenuItem*>*)classItems {
     if (!_classItems) {
         NSArray <MEPBClass*>*classes = [MEKits fetchCurrentUserMultiClasses];
-        NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
-        UIColor *iconColor = [UIColor whiteColor];
+        //NSUInteger iconSize = ME_LAYOUT_ICON_HEIGHT/MESCREEN_SCALE;
+        //UIColor *iconColor = [UIColor whiteColor];
         __block NSMutableArray *items = [NSMutableArray arrayWithCapacity:0];
         [classes enumerateObjectsUsingBlock:^(MEPBClass * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             NSString *title = obj.name;
@@ -372,7 +372,7 @@
         MEClassMember *member = [sectionSets objectAtIndex:__row];
         cell.infoLab.text = PBAvailableString(member.name);
         UIImage *placehodler = [UIImage imageNamed:@"appicon_placeholder"];
-        NSString *iconString = member.portrait;
+        NSString *iconString = [MEKits mediaFullPath:member.portrait];
         NSURL *iconUrl = [NSURL URLWithString:PBAvailableString(iconString)];
         [cell.icon sd_setImageWithURL:iconUrl placeholderImage:placehodler];
     }

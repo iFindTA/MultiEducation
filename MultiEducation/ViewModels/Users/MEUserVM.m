@@ -68,7 +68,7 @@ static NSString * userFile = @"signedin.bat";
         user.signinstamp = [MEKits currentTimeInterval];
     }
     //查询数据库有没有已存在
-    NSString *sql = PBFormat(@"uid = %lld", user.uid);
+    NSString *sql = PBFormat(@"uid = %lld AND uuid = '%@'", user.uid, user.uuid);
     NSArray <MEPBUser*> *existSet = [WHCSqlite query:MEPBUser.self where:sql];
     if (existSet.count > 0) {
         [WHCSqlite delete:MEPBUser.self where:sql];
@@ -99,7 +99,7 @@ static NSString * userFile = @"signedin.bat";
     //NSLog(@"当前已经有 %zd 位登录用户！", signedinUsers.count);
     NSArray <MEPBUser*> *usrs = [WHCSqlite query:[MEPBUser class] order:@"by signinstamp desc" limit:@"1"];
     if (usrs.count > 0) {
-        return [usrs lastObject];
+        return [usrs firstObject];
     }
     return nil;//*/
     

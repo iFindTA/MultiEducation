@@ -72,8 +72,7 @@
                                         @(ConversationType_SYSTEM),
                                         @(ConversationType_APPSERVICE)]];
     // 把很多群组放在一个列表的一行cell里  把很多的讨论组放在一个列表的一行cell里
-    [self setCollectionConversationType:@[@(ConversationType_GROUP),
-                                          @(ConversationType_DISCUSSION)]];
+    [self setCollectionConversationType:@[@(ConversationType_DISCUSSION)]];
     //设置cell的背景颜色
     self.cellBackgroundColor = [UIColor whiteColor];
     //设置置顶的cell的背景颜色
