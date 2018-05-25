@@ -11,7 +11,7 @@
 @implementation MEPBUser (MEStore)
 
 + (NSString *)whc_SqliteMainkey {
-    return @"uid";
+    return @"id";
 }
 
 + (NSArray *)whc_IgnorePropertys {

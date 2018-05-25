@@ -149,11 +149,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    /*
     weakify(self)
     [MEKits refreshCurrentUserSessionTokenWithCompletion:^(NSError * _Nullable err) {
         strongify(self)
         [self.appDelegate startIMServivesOnBgThread];
     }];
+    //*/
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

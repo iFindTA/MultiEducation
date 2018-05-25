@@ -56,9 +56,11 @@
     //BOOL signedin = [MEUserVM whetherExistValidSignedInUser];
     NSUserDefaults *usrDefaults = [NSUserDefaults standardUserDefaults];
     BOOL whetherDidSignout = [usrDefaults boolForKey:ME_USER_DID_INITIATIVE_LOGOUT];
+    MEPBUser *tmpUser = nil;
     if (!whetherDidSignout) {
-        self.curUser = [MEUserVM fetchLatestSignedInUser];
+        tmpUser = [MEUserVM fetchLatestSignedInUser];
     }
+    [self updateCurrentSignedInUser:tmpUser];
     MEDisplayStyle style ;
     if (!self.curUser) {
         style = MEDisplayStyleAuthor;
@@ -333,14 +335,7 @@
     [MEKits configureCordovaEnv];
     [MEKits UnzipCordovaResources];
     //for rongyun im must run in main-thread
-    [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
-    [[RCIM sharedRCIM] setEnableMessageMentioned:true];
-    [[RCIM sharedRCIM] setEnableMessageRecall:true];
-    NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
-    [backTypes addObject:@(ConversationType_PRIVATE)];
-    [backTypes addObject:@(ConversationType_GROUP)];
-    [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
-    [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];// 多端阅读消息数同步
+    
     //for SVProgressHUD
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
 }
@@ -349,10 +344,10 @@
  开启即时服务: {融云IM，自身长链接}
  */
 - (void)startIMServivesOnBgThread {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[MEIMService shared] startRongIMService];
-    });
+    [[MEIMService shared] startRongIMService];
     [MEServerListVM fetchOnlineServerList];
+    //刷新当前用户联系人
+    [MEKits fetchContacts4CurrentUser];
 }
 /**
  断开即时服务: {融云IM，自身长链接}

@@ -15,6 +15,8 @@
 #import <Toast/Toast.h>
 #import "Meuser.pbobjc.h"
 #import "NSData+NSHash.h"
+#import "Meclass.pbobjc.h"
+#import "MEClassMemberVM.h"
 #import <PBService/PBService.h>
 #import <SSZipArchive/SSZipArchive.h>
 #import <SVProgressHUD/SVProgressHUD.h>
@@ -571,6 +573,40 @@
         if (completion) {
             completion(nil);
         }
+    }
+}
+
+#pragma mark --- 获取当前登录用户的所有班级用户
+
++ (void)fetchContacts4CurrentUser {
+    MEPBUser *user = self.app.curUser;
+    if (!user) {
+        return;
+    }
+    NSArray<MEPBClass*>*cls = [self fetchCurrentUserMultiClasses];
+    for (MEPBClass *c in cls) {
+        //old timestamp
+        int64_t cls_id = c.id_p;
+        int64_t timestamp = [MEClassMemberVM fetchMaxTimestamp4ClassID:cls_id];
+        MEClassMemberVM *vm = [[MEClassMemberVM alloc] init];
+        MEClassMemberList *list = [[MEClassMemberList alloc] init];
+        [list setTimestamp:timestamp];
+        [list setClassIds:PBFormat(@"%lld", cls_id)];
+        //weakify(self)
+        [vm postData:[list data] hudEnable:false success:^(NSData * _Nullable resObj) {
+            NSError *err;//strongify(self)
+            MEClassMemberList *memberList = [MEClassMemberList parseFromData:resObj error:&err];
+            //NSLog(@"timestamp:%lld", memberList.timestamp);
+            if (err) {
+                [MEKits handleError:err];
+            } else {
+                NSArray<MEClassMember*>*members = memberList.classUserArray.copy;
+                [MEClassMemberVM saveClassMembers:members];
+                NSLog(@"获取到%lu个联系人!", (unsigned long)members.count);
+            }
+        } failure:^(NSError * _Nonnull error) {
+            [MEKits handleError:error];
+        }];
     }
 }
 

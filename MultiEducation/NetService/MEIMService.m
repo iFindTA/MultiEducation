@@ -20,7 +20,7 @@
 /**
  current user id
  */
-@property (nonatomic, strong) MEPBUser *user;
+//@property (nonatomic, strong) MEPBUser *user;
 
 @end
 
@@ -52,23 +52,39 @@ static MEIMService *instance = nil;
         NSLog(@"融云登录失败-------无效的容云token！");
         return ;
     }
+    
     RCConnectionStatus status = [[RCIM sharedRCIM] getConnectionStatus];
-    if (status == ConnectionStatus_UNKNOWN ||
-        status == ConnectionStatus_Connecting ||
+    if (status == ConnectionStatus_Connecting ||
         status == ConnectionStatus_Connected) {
         NSLog(@"融云IM 状态无需重连！");
         //更新未读
         [self.app updateRongIMUnReadMessageCounts];
         return;
     }
-    self.user = user;
+    [self stopRongIMService];
+    NSString *curUID = PBFormat(@"%lld", user.uid);
+    //[[RCIM sharedRCIM] clearUserInfoCache];
+    [[RCIM sharedRCIM] clearGroupInfoCache];
+    [[RCIM sharedRCIM] setCurrentUserInfo:nil];
+    [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
+    [[RCIM sharedRCIM] setEnableMessageMentioned:true];
+    [[RCIM sharedRCIM] setEnableMessageRecall:true];
+    [[RCIM sharedRCIM] setEnableMessageAttachUserInfo:true];
+    [[RCIM sharedRCIM] setEnablePersistentUserInfoCache:true];
+    NSMutableArray *backTypes = [NSMutableArray arrayWithCapacity:0];
+    [backTypes addObject:@(ConversationType_PRIVATE)];
+    [backTypes addObject:@(ConversationType_GROUP)];
+    [[RCIM sharedRCIM] setEnabledReadReceiptConversationTypeList:backTypes.copy];
+    [[RCIM sharedRCIM] setEnableSyncReadStatus:YES];// 多端阅读消息数同步
+    
+    NSString *portrait = [MEKits imageFullPath:user.portrait];
+    RCUserInfo *newInfo = [[RCUserInfo alloc] initWithUserId:curUID name:user.name portrait:portrait];
     weakify(self)
     [[RCIM sharedRCIM] connectWithToken:user.rcToken success:^(NSString *userId) {
         NSLog(@"RongIM登录成功...userId:%@", userId);
         dispatch_async(dispatch_get_main_queue(), ^{
             strongify(self)
-            NSString *portrait = [MEKits imageFullPath:user.portrait];
-            [[RCIM sharedRCIM] setCurrentUserInfo:[[RCUserInfo alloc] initWithUserId:PBFormat(@"%lld", user.uid) name:user.name portrait:portrait]];
+            [[RCIM sharedRCIM] setCurrentUserInfo:newInfo];
             [[RCIM sharedRCIM] setUserInfoDataSource:self];
             [[RCIM sharedRCIM] setGroupInfoDataSource:self];
             [[RCIM sharedRCIM] setGroupMemberDataSource:self];
@@ -85,7 +101,7 @@ static MEIMService *instance = nil;
 }
 
 - (void)stopRongIMService {
-    [[RCIM sharedRCIM] disconnect:false];
+    [[RCIM sharedRCIM] logout];
 }
 
 #pragma mark --- 融云消息回调
@@ -140,7 +156,7 @@ static MEIMService *instance = nil;
             NSArray<MECSession*>*sessions = [MEClassChatVM fetchClassChatSession4SessionID:session_id];
             for (MECSession *s in sessions) {
                 if (s.id_p == session_id) {
-                    classInfo = [[RCGroup alloc] initWithGroupId:groupId groupName:s.name portraitUri:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1526290270940&di=d655b0256dda0b68b7ffeb1efcef9f8e&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F014b0857c64def0000012e7ed667c0.png"];
+                    classInfo = [[RCGroup alloc] initWithGroupId:groupId groupName:s.name portraitUri:nil];
                     break;
                 }
             }
