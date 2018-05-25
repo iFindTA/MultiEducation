@@ -87,6 +87,13 @@
     return self;
 }
 
+- (void)viewWillAppear {
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        GuStudentArchivesPb *stu = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+        [self getBabyArchitecture: stu.studentId];
+    }
+}
+
 - (void)removeNotiObserver {
     [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
 }
