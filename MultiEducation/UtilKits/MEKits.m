@@ -16,6 +16,7 @@
 #import "Meuser.pbobjc.h"
 #import "NSData+NSHash.h"
 #import "Meclass.pbobjc.h"
+#import "MEClassChatVM.h"
 #import "MEClassMemberVM.h"
 #import <PBService/PBService.h>
 #import <SSZipArchive/SSZipArchive.h>
@@ -585,7 +586,7 @@
     }
     NSArray<MEPBClass*>*cls = [self fetchCurrentUserMultiClasses];
     for (MEPBClass *c in cls) {
-        //old timestamp
+        //section1:刷新班级成员
         int64_t cls_id = c.id_p;
         int64_t timestamp = [MEClassMemberVM fetchMaxTimestamp4ClassID:cls_id];
         MEClassMemberVM *vm = [[MEClassMemberVM alloc] init];
@@ -603,6 +604,25 @@
                 NSArray<MEClassMember*>*members = memberList.classUserArray.copy;
                 [MEClassMemberVM saveClassMembers:members];
                 NSLog(@"获取到%lu个联系人!", (unsigned long)members.count);
+            }
+        } failure:^(NSError * _Nonnull error) {
+            [MEKits handleError:error];
+        }];
+        //secton2:刷新班聊session
+        timestamp = [MEClassChatVM fetchMaxClassSessionTimestamp4ClassID:cls_id];
+        //发起班聊
+        MEClassChatVM *svm = [[MEClassChatVM alloc] init];
+        MECSession *cSession = [[MECSession alloc] init];
+        cSession.timestamp = timestamp;
+        cSession.classId = cls_id;
+        //weakify(self)
+        [svm postData:[cSession data] hudEnable:false success:^(NSData * _Nullable resObj) {
+            NSError *err; //strongify(self)
+            MESessionList *sessionList = [MESessionList parseFromData:resObj error:&err];
+            if (err) {
+                [MEKits handleError:err];
+            } else {
+                [MEClassChatVM saveClassChatSessions:sessionList.classSessionArray.copy];
             }
         } failure:^(NSError * _Nonnull error) {
             [MEKits handleError:error];
