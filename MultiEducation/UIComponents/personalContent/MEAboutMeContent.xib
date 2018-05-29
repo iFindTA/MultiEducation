@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,10 +23,9 @@
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bgw-Zd-c98" customClass="MEBaseLabel">
-                    <rect key="frame" x="147" y="110" width="80" height="20"/>
+                    <rect key="frame" x="20" y="110" width="335" height="20"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="80" id="Lcj-oN-GcU"/>
                         <constraint firstAttribute="height" constant="20" id="tgM-ak-EPd"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
@@ -144,8 +143,10 @@
                 <constraint firstItem="VJ0-Ng-pPA" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Ri0-EB-Gdl"/>
                 <constraint firstItem="t3R-DV-B7N" firstAttribute="top" secondItem="Bgw-Zd-c98" secondAttribute="bottom" constant="20" id="aGb-oF-Th2"/>
                 <constraint firstItem="Z9u-Ms-sPL" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="dmt-xf-mg3"/>
+                <constraint firstItem="Bgw-Zd-c98" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="gIm-wE-aid"/>
                 <constraint firstAttribute="bottom" secondItem="Mb1-dZ-mJM" secondAttribute="bottom" constant="20" id="i1S-mW-d0E"/>
                 <constraint firstItem="U4W-kB-8aa" firstAttribute="top" secondItem="Z9u-Ms-sPL" secondAttribute="bottom" id="oBj-uD-B4E"/>
+                <constraint firstAttribute="trailing" secondItem="Bgw-Zd-c98" secondAttribute="trailing" constant="20" id="suN-2x-Ee7"/>
                 <constraint firstItem="Mb1-dZ-mJM" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="sz4-8F-lJa"/>
                 <constraint firstItem="5iI-db-Fgn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="xso-qj-uON"/>
                 <constraint firstItem="Z9u-Ms-sPL" firstAttribute="top" secondItem="VJ0-Ng-pPA" secondAttribute="bottom" constant="8" id="xvg-Z5-mQs"/>

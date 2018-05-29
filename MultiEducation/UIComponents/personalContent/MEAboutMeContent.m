@@ -18,9 +18,10 @@
     self.appIcon.image = [UIImage imageNamed: icon];
     
     NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-     NSString *appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+    NSString *appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+    NSString *buildVersion = [infoDic pb_stringForKey:@"CFBundleVersion"];
     
-    self.appVersion.text = [NSString stringWithFormat: @"多元幼教%@", appVersion];
+    self.appVersion.text = [NSString stringWithFormat: @"多元幼教%@-%@", appVersion, buildVersion];
     
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(qrCodeTapEvent)];
     self.qrCodeShare.userInteractionEnabled = YES;

@@ -712,11 +712,12 @@
         }
         //写入文件 如果已经有了就不再写入
         if (![fileHandler fileExistsAtPath:filePath]) {
+            NSLog(@"file:%@已经存在，不用写入!", filePath);
             NSString *absolutePath = [userPrePath stringByAppendingPathComponent:filePath];
             [data writeToFile:absolutePath atomically:true];
         }
         
-        NSLog(@"File size is : %.2f MB", (float) data.length / 1024.0f / 1024.0f);
+        NSLog(@"File size is : %.2f MB----file:%@", (float) data.length / 1024.0f / 1024.0f, filePath);
         [destAssets addObject:infoMap.copy];
     }
     if (completion) {

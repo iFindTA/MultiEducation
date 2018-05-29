@@ -181,6 +181,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 
 #pragma mark - UploadImagesCallBack
 - (void)uploadImageSuccess:(NSString *)key {
+    NSLog(@"上传回调成功了:%@", key);
     for (ClassAlbumPb *pb in _dataArr) {
         if ([pb.filePath isEqualToString: key]) {
             pb.uploadStatu = MEUploadStatus_Success;
@@ -190,6 +191,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
 }
 
 - (void)uploadImageFail:(NSString *)key {
+    NSLog(@"上传回调失败了:%@", key);
     for (ClassAlbumPb *pb in _dataArr) {
         if ([pb.filePath isEqualToString: key]) {
             pb.upPercent = 0;

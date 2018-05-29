@@ -280,7 +280,7 @@
     }
     
     //banner
-    CGFloat bannerHeight = adoptValue(140);
+    CGFloat bannerHeight = MESCREEN_WIDTH/2.96;
     CGRect bounds = CGRectMake(ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN, MESCREEN_WIDTH - ME_LAYOUT_MARGIN * 2, bannerHeight);
     UIImage *img = [UIImage imageNamed:@"index_content_placeholder"];
     self.banner = [YJBannerView bannerViewWithFrame:bounds dataSource:self delegate:self emptyImage:img placeholderImage:img selectorString:@"sd_setImageWithURL:placeholderImage:"];

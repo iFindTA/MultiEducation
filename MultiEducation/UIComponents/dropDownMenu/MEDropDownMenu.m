@@ -262,7 +262,7 @@ typedef void(^METitlePanelCallback)(BOOL back, BOOL expand);
 typedef void(^MEDropListCallback)(int semester, int month);
 
 @interface MEDropList: MEBaseScene <UITableViewDelegate, UITableViewDataSource> {
-    int sectIndecator[5];
+    int sectIndecator[2];
 }
 
 @property (nonatomic, strong) MEBaseTableView *sect1Table;
@@ -273,6 +273,13 @@ typedef void(^MEDropListCallback)(int semester, int month);
  callback
  */
 @property (nonatomic, copy) MEDropListCallback callback;
+
+/**
+ 保存之前选中
+ */
+@property (nonatomic, assign) int preSect1, preSect2;
+
+- (void)reset;
 
 @end
 
@@ -371,8 +378,11 @@ typedef void(^MEDropListCallback)(int semester, int month);
             return;
         }
         //重置选择行
-        sectIndecator[1] = 0;
         sectIndecator[0] = __row;
+        sectIndecator[1] = -1;
+        if (__row == _preSect1) {
+            sectIndecator[1] = _preSect2;
+        }
         //reload
         [tableView reloadData];
         [self.sect2Table reloadData];
@@ -382,9 +392,10 @@ typedef void(^MEDropListCallback)(int semester, int month);
         }
         //重置第二行
         sectIndecator[1] = __row;
+        //更改preview selection
+        _preSect1 = sectIndecator[0];_preSect2 = sectIndecator[1] = __row;
         //reload
         [tableView reloadData];
-        
         [self userDidTriggeredChangeEvent];
     }
 }
@@ -401,6 +412,7 @@ typedef void(^MEDropListCallback)(int semester, int month);
     for (int i = 0; i < len; i++) {
         sectIndecator[i] = 0;
     }
+    _preSect1 = sectIndecator[0];_preSect2 = sectIndecator[1];
     if (self.callback) {
         self.callback(sectIndecator[0], sectIndecator[1]);
     }
@@ -410,6 +422,14 @@ typedef void(^MEDropListCallback)(int semester, int month);
     if (self.callback) {
         self.callback(sectIndecator[0], sectIndecator[1]);
     }
+}
+
+- (void)reset {
+    sectIndecator[0] = _preSect1;
+    sectIndecator[1] = _preSect2;
+    //reload
+    [self.sect1Table reloadData];
+    [self.sect2Table reloadData];
 }
 
 @end
@@ -587,7 +607,8 @@ NSUInteger const ME_DROP_DOWN_LIST_LINES_MIN                                    
          strongify(self)
          [self.fatherMask layoutIfNeeded];
      } completion:^(BOOL finished) {
-         
+         strongify(self)
+         [self.dropList reset];
      }];
      //*/
     /*

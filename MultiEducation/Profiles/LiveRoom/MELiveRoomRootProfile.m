@@ -146,7 +146,7 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     label.font = UIFontPingFangSCBold(METHEME_FONT_TITLE);
     label.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    label.text = @"往期视频";
+    label.text = @"最近录像";
     [scene addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(scene).insets(UIEdgeInsetsMake(0, ME_LAYOUT_MARGIN*2, 0, ME_LAYOUT_MARGIN*2));

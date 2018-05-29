@@ -19,8 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self customNavigation]
-    ;
+    [self customNavigation];
+    
     MEAboutMeContent *contentView = [[NSBundle mainBundle] loadNibNamed: @"MEAboutMeContent" owner: self options: nil].firstObject;
     [self.view addSubview: contentView];
     

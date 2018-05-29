@@ -88,12 +88,14 @@ static MEQiniuUtils *qnUtils;
 }
 
 - (void)uploadImagesWithUncheck:(NSArray <ClassAlbumPb *> *)albums {
+    //NSLog(@"上传图片index:%ld", _index);
     NSData *data = [albums objectAtIndex: _index].fileData;
     NSString *key = [albums objectAtIndex: _index].filePath;
     __block NSInteger imageIndex = _index;
     weakify(self);
     [qnUploadManager putData: data key: key token:self.qnToken
                     complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                        NSLog(@"上传结果key:%@------:%@", key, info);
                         strongify(self);
                         if (info.isOK) {
                             if (self.delegate && [self.delegate respondsToSelector: @selector(uploadImageSuccess:)]) {
@@ -202,9 +204,11 @@ static MEQiniuUtils *qnUtils;
         [md5Str appendString: [NSString stringWithFormat: @"%@,", [dic objectForKey: @"md5"]]];
     }
     [md5Str deleteCharactersInRange: NSMakeRange(md5Str.length - 1, 1)];
+    //NSLog(@"上传前的md5文件名:%@", md5Str);
     pb.fileMd5Str = md5Str;
     [fileQuryVM postData: [pb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
         MEPBQNFile *filePb = [MEPBQNFile parseFromData: resObj error: nil];
+        //NSLog(@"上传查询服务器结果:%@", filePb.fileIdStr);
         NSArray *fileIdArr = [filePb.fileIdStr componentsSeparatedByString: @","];
         NSMutableArray *noExistArray = [NSMutableArray array];
         NSMutableArray *existArray = [NSMutableArray array];
