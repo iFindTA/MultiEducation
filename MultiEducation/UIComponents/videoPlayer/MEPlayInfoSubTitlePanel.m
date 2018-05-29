@@ -7,12 +7,15 @@
 //
 
 #import "MEPlayInfoSubTitlePanel.h"
+#import <ZSSRichTextEditor/ZSSRichTextEditor.h>
 
 @interface MEPlayInfoSubTitlePanel ()
 
 @property (nonatomic, copy) NSString *infoDesc;
 
-@property (nonatomic, strong) MEBaseLabel *subTitle, *contentLab;
+@property (nonatomic, strong) MEBaseLabel *subTitle;
+@property (nonatomic, strong) MEBaseLabel *contentLab;
+//@property (nonatomic, strong) UIWebView *contentLab;
 
 @end
 
@@ -20,9 +23,14 @@
 
 + (CGFloat)estimateVideoDescriptionPanelHeight4Description:(NSString *)desc {
     CGFloat height = ME_LAYOUT_ICON_HEIGHT;
-    UIFont *font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
     CGFloat descWidth = MESCREEN_WIDTH - ME_LAYOUT_MARGIN*4;
-    CGSize descSize = [desc pb_sizeThatFitsWithFont:font width:descWidth];
+    //UIFont *font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
+    //CGSize descSize = [desc pb_sizeThatFitsWithFont:font width:descWidth];
+    
+    NSDictionary *options = @{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute :@(NSUTF8StringEncoding) };
+    NSData *data = [desc dataUsingEncoding:NSUTF8StringEncoding];
+    NSAttributedString *attr = [[NSAttributedString alloc] initWithData:data options:options documentAttributes:nil error:nil];
+    CGSize descSize = [attr boundingRectWithSize:CGSizeMake(descWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
     
     return height + descSize.height + ME_LAYOUT_BOUNDARY;
 }
@@ -55,14 +63,20 @@
     self.subTitle.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     [self addSubview:self.subTitle];
     font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
+    //*
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithData:[self.infoDesc dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
     self.contentLab = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     //self.contentLab.backgroundColor = [UIColor blueColor];
-    self.contentLab.font = font;
+    //self.contentLab.text = self.infoDesc;
+    //self.contentLab.font = font;
     self.contentLab.numberOfLines = 0;
     self.contentLab.lineBreakMode = NSLineBreakByCharWrapping;
-    self.contentLab.text = self.infoDesc;
-    self.contentLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
+    self.contentLab.attributedText = attrStr;
+    //self.contentLab.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT_GRAY);
     [self addSubview:self.contentLab];
+    //*/
+    //self.contentLab = [[UIWebView alloc] initWithFrame:CGRectZero];
+    
 }
 
 - (void)layoutSubviews {
