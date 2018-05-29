@@ -7,7 +7,6 @@
 //
 
 #import "MEPlayInfoSubTitlePanel.h"
-#import <ZSSRichTextEditor/ZSSRichTextEditor.h>
 
 @interface MEPlayInfoSubTitlePanel ()
 
