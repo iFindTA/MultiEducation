@@ -34,6 +34,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+        self.automaticallyAdjustsScrollViewInsets = false;
         [self registerPlugins];
     }
     return self;

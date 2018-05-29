@@ -7,7 +7,12 @@
 //
 
 #import "MEVM.h"
+#import "MesemesterEvaluate.pbobjc.h"
 
 @interface MESEInfoVM : MEVM
+
+@end
+
+@interface MESEInfoPutVM : MEVM
 
 @end

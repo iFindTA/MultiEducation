@@ -22,6 +22,9 @@ typedef void(^MESubNavigatorCallback)(NSUInteger index, NSUInteger preIndex);
  */
 + (instancetype)navigatorWithTitles:(NSArray<NSString*>*)titles defaultIndex:(NSUInteger)index;
 
+/**
+ triggered by scrollview
+ */
 - (void)willSelectIndex:(NSUInteger)index;
 
 @end

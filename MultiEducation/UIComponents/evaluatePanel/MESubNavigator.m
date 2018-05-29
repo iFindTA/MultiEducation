@@ -187,10 +187,14 @@ NSUInteger const ME_SUBNAVIGATOR_TAG_START = 100;
         make.width.equalTo(btn.mas_width).multipliedBy(ME_SUBNAVIGATOR_FLAG_SCALE);
     }];
     //更改颜色
+    __block MEBaseButton *destBtn = nil;
     [self.items enumerateObjectsUsingBlock:^(MEBaseButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         UIColor *fontColor = (idx == self.currentIndex)? self.selectColor : self.normalColor;
         [obj setTitleColor:fontColor forState:UIControlStateNormal];
+        destBtn = (idx == self.currentIndex)? obj : nil;
     }];
+    //滚动到可视区域
+    [self.scroller scrollRectToVisible:destBtn.frame animated:true];
 }
 
 /*

@@ -64,7 +64,7 @@
     
     [self.tagScene makeConstraints:^(MASConstraintMaker *make) {
         //make.edges.equalTo(self).insets(UIEdgeInsetsMake(ME_LAYOUT_MARGIN, 0, ME_LAYOUT_MARGIN, ME_LAYOUT_MARGIN));
-        make.top.equalTo(self).offset(ME_LAYOUT_MARGIN * 2);
+        make.top.equalTo(self).offset(ME_LAYOUT_MARGIN);
         make.right.equalTo(self).offset(-ME_LAYOUT_MARGIN*2);
         make.left.equalTo(self).offset(ME_LAYOUT_MARGIN *2);
         make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);

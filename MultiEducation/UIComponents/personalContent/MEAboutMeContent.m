@@ -20,8 +20,13 @@
     NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
     NSString *appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
     NSString *buildVersion = [infoDic pb_stringForKey:@"CFBundleVersion"];
-    
-    self.appVersion.text = [NSString stringWithFormat: @"多元幼教%@-%@", appVersion, buildVersion];
+    NSString *env;
+#if DEBUG
+    env = @"dev";
+#else
+    env = @"prod";
+#endif
+    self.appVersion.text = [NSString stringWithFormat: @"多元幼教%@-%@-%@", appVersion, buildVersion, env];
     
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(qrCodeTapEvent)];
     self.qrCodeShare.userInteractionEnabled = YES;

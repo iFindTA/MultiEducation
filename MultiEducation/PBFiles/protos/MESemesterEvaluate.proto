@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+/*问题item 都是单选*/
+message SEEvaluateItem {
+	int64 id = 1;//问题ID 全局唯一
+	string title = 3;//问题描述
+	int32 answer = 4;//固定值： 0未选择 1做到了 2有进步 3要加油
+}
+
+/*子类型：身心状况/动作发展*/
+message SEEvaluateSubType {
+	int64 id = 1;//
+	string title = 2;//
+	repeated SEEvaluateItem items = 3;//问题列表
+}
+
+/*大类型：健康/语言/社会/科学/艺术*/
+message SEEvaluateType {
+	int64 id = 1;//
+	string title = 2;//
+	repeated SEEvaluateSubType subTypes = 3;//子分类列表
+}
+
+/*学期评价 数据对接*/
+message SemesterEvaluate {
+	int64 id = 1;//?
+	int64 gradeId = 2;//年级
+	int64 semester = 3;//学期
+	int64 studentId = 4;//学生ID
+	string title = 5;//标题
+	int32 status = 6;//状态 1已完成 0未填写 2已暂存
+	repeated SEEvaluateType types = 7;//大类型列表
+	repeated SEEvaluateItem quesItems = 8;//题目列表 暂存时使用
+}
+
+message SemesterEvaluateList {
+	repeated SemesterEvaluate evaluates = 1;//列表
+}

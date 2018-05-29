@@ -16,6 +16,11 @@ typedef NS_ENUM(NSUInteger, MEEvaluateState) {
     MEEvaluateStateChoosing                         =   3,//当前选中
 };
 
+/**
+ 评价回调
+ */
+typedef void(^MEEvaluatePanelCallback)(int64_t sid, MEEvaluateState state);
+
 @interface MEStudentListVM : MEVM
 
 @end

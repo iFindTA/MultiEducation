@@ -10,4 +10,16 @@
 
 @implementation MESEInfoVM
 
+- (NSString *)cmdCode {
+    return @"GU_SEMESTER_EVALUATE_GET";
+}
+
+@end
+
+@implementation MESEInfoPutVM
+
+- (NSString *)cmdCode {
+    return @"GU_SEMESTER_EVALUATE_PUT";
+}
+
 @end

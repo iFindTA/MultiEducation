@@ -7,10 +7,17 @@
 //
 
 #import "MESemesterEvaRootProfile.h"
+#import "MEStudentsPanel.h"
+#import "MESemesterEvaPanel.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface MESemesterEvaRootProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
+
+@property (nonatomic, strong) MEStudentsPanel *studentPanel;
+@property (nonatomic, strong) MESemesterEvaPanel *evaluatePanel;
+@property (nonatomic, assign) BOOL whetherParent;
 
 @end
 
@@ -57,9 +64,42 @@
     
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self color:pbColorMake(ME_THEME_COLOR_TEXT)];
+    UIBarButtonItem *forward = [MEKits barWithTitle:@"往期评价" color:UIColorFromRGB(ME_THEME_COLOR_TEXT) target:self action:@selector(displayForwardEvaluate)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"学期评价"];
     item.leftBarButtonItems = @[spacer, back];
+    item.rightBarButtonItems = @[spacer, forward];
     [self.navigationBar pushNavigationItem:item animated:true];
+    
+    //配置头部
+    self.whetherParent = self.currentUser.userType == MEPBUserRole_Parent;
+    if (!self.whetherParent) {
+        int64_t classID = [self.params[@"classId"] longLongValue];
+        [self configureStudentPanelWithClassID:classID];
+    }
+    
+    //配置评价部分
+    [self configureEvaluatePanel];
+    if (self.whetherParent) {
+        int64_t sid = [self.params pb_longLongForKey:@"studentId"];
+        [self userDidExchange2Student:sid preStudent:0];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //*
+    [IQKeyboardManager sharedManager].enable = false;
+    [IQKeyboardManager sharedManager].enableAutoToolbar = false;
+    [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
+    //*/
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //*
+    [IQKeyboardManager sharedManager].enable = true;
+    [IQKeyboardManager sharedManager].enableAutoToolbar = true;
+    //*/
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -71,10 +111,73 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+#pragma mark --- 往期评价
+- (void)displayForwardEvaluate {
+    NSDictionary *p = [NSDictionary dictionaryWithDictionary:self.params];
+    NSURL *route = [MEDispatcher profileUrlWithClass:@"MEForwardSEProfile" initMethod:@"__initWithParams:" params:nil instanceType:MEProfileTypeCODE];
+    NSError *err = [MEDispatcher openURL:route withParams:p];
+    [MEKits handleError:err];
+}
+
+#pragma mark --- 配置头部
+- (void)configureStudentPanelWithClassID:(int64_t)cid {
+    int64_t gradeId = [self.params pb_longLongForKey:@"gradeId"];
+    int64_t semester = [self.params pb_longLongForKey:@"semester"];
+    int32_t month = [self.params pb_intForKey:@"month"];
+    int64_t classId = 0;
+    if (!self.whetherParent) {
+        classId = [self.params pb_longLongForKey:@"classId"];
+    }
+    MEStudentsPanel *panel = [MEStudentsPanel panelWithSuperView:self.view topMargin:self.navigationBar];
+    panel.type = 2;//学期评价
+    panel.month = month;
+    panel.classID = classId;
+    panel.gradeID = gradeId;
+    panel.semester = semester;
+    [self.view insertSubview:panel belowSubview:self.navigationBar];
+    [panel loadAndConfigure];
+    self.studentPanel = panel;
+    weakify(self)
+    //touch switch student callback
+    panel.callback = ^(int64_t sid, int64_t pre_sid) {
+        strongify(self);
+        [self userDidExchange2Student:sid preStudent:pre_sid];
+    };
+    //编辑完成
+    panel.editCallback = ^(BOOL done) {
+        if (done) {
+            [SVProgressHUD showSuccessWithStatus:@"恭喜你！已经全部填写完毕了"];
+        }
+    };
+}
+
+#pragma mark --- 配置切换
+- (void)configureEvaluatePanel {
+    MESemesterEvaPanel *panel = [[MESemesterEvaPanel alloc] initWithFrame:CGRectZero father:self.view];
+    [self.view insertSubview:panel atIndex:0];
+    self.evaluatePanel = panel;
+    [panel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
+        make.left.bottom.right.equalTo(self.view);
+    }];
+    //callback
     
-    [MEKits makeToast:@"Oops，稍后再来吧！"];
+}
+
+#pragma mark --- 切换学生
+- (void)userDidExchange2Student:(int64_t)sid preStudent:(int64_t)preSid {
+    NSLog(@"切换学生:%lld", sid);
+    /**
+     step1 查询之前学生是否需要暂存 需要则先暂存 否则不做处理
+     step2 拉取当前学生的评价
+     */
+    int64_t gradeId = [self.params pb_longLongForKey:@"gradeId"];
+    int64_t semester = [self.params pb_longLongForKey:@"semester"];
+    SemesterEvaluate *e = [[SemesterEvaluate alloc] init];
+    e.studentId = sid;
+    e.gradeId = gradeId;
+    e.semester = semester;
+    [self.evaluatePanel exchangedStudent2Evaluate:e];
 }
 
 /*

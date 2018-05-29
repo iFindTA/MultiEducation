@@ -23,11 +23,6 @@ typedef NS_ENUM(NSUInteger, MEQuestionType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- 评价回调
- */
-typedef void(^MEEvaluatePanelCallback)(int64_t sid, MEEvaluateState state);
-
 @interface MEEvaluatePanel : MEBaseScene
 
 /**
