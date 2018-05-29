@@ -53,8 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef GPB_ENUM(SEEvaluateItem_FieldNumber) {
   SEEvaluateItem_FieldNumber_Id_p = 1,
-  SEEvaluateItem_FieldNumber_Title = 3,
-  SEEvaluateItem_FieldNumber_Answer = 4,
+  SEEvaluateItem_FieldNumber_Title = 2,
+  SEEvaluateItem_FieldNumber_Answer = 3,
 };
 
 /**

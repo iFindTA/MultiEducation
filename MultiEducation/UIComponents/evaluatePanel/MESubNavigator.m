@@ -121,6 +121,11 @@ NSUInteger const ME_SUBNAVIGATOR_TAG_START = 100;
 - (MEBaseScene *)layout {
     if (!_layout) {
         _layout = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        //shadows
+        _layout.layer.shadowColor = UIColorFromRGB(0xDEDEDE).CGColor;
+        _layout.layer.shadowOffset = CGSizeMake(0, 2);
+        _layout.layer.shadowOpacity = 0.5;
+        _layout.layer.shadowRadius = 4;
     }
     return _layout;
 }

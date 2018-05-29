@@ -3,8 +3,8 @@ syntax = "proto3";
 /*问题item 都是单选*/
 message SEEvaluateItem {
 	int64 id = 1;//问题ID 全局唯一
-	string title = 3;//问题描述
-	int32 answer = 4;//固定值： 0未选择 1做到了 2有进步 3要加油
+	string title = 2;//问题描述
+	int32 answer = 3;//固定值： 0未选择 1做到了 2有进步 3要加油
 }
 
 /*子类型：身心状况/动作发展*/
