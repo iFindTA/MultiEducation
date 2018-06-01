@@ -7,6 +7,7 @@
 //
 
 #import "MEVM.h"
+#import "MegradeList.pbobjc.h"
 #import "MesemesterEvaluate.pbobjc.h"
 
 @interface MESemesterEvaListVM : MEVM

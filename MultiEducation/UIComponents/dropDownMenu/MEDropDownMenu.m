@@ -586,7 +586,6 @@ NSUInteger const ME_DROP_DOWN_LIST_LINES_MIN                                    
 - (MEDropList *)dropList {
     if (!_dropList) {
         _dropList = [[MEDropList alloc] initWithFrame:CGRectZero];
-        _dropList.backgroundColor = [UIColor pb_randomColor];
     }
     return _dropList;
 }
