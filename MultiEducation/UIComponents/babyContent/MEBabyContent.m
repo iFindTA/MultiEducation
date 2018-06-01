@@ -223,6 +223,7 @@
         
         [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
         [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        [self.componentView reloadData];
         if (self.babyTabBarBadgeCallback) {
             self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
         }

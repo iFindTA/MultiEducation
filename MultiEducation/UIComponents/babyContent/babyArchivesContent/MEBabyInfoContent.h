@@ -1,5 +1,5 @@
 //
-//  MEBabyArchivesHeader.h
+//  MEBabyInfoContent.h
 //  MultiEducation
 //
 //  Created by 崔小舟 on 2018/6/1.
@@ -8,6 +8,6 @@
 
 #import "MEBaseScene.h"
 
-@interface MEBabyArchivesHeader : MEBaseScene
+@interface MEBabyInfoContent : MEBaseScene
 
 @end
