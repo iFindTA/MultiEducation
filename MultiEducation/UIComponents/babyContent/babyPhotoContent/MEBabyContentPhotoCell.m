@@ -97,7 +97,7 @@
             }
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         } else {
-            self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+            self.photoIcon.image = [UIImage imageNamed: @"baby_content_folder_placeholder"];
         }
     } else {
         self.floderNameLabel.hidden = YES;

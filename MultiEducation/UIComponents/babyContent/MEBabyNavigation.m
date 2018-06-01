@@ -74,8 +74,16 @@ static CGFloat const ICON_HEIGHT = 20.f;
 }
 
 - (void)changeTitle:(NSString *)babyName url:(NSString *)url {
-    self.titleLabel.text = [NSString stringWithFormat: @"%@家长", babyName];
-    [self.icon sd_setImageWithURL: [NSURL URLWithString: url] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+    
+    if ([babyName isEqualToString: @""]) {
+        self.titleLabel.text = self.currentUser.schoolName;
+        NSString *userPortriat = [NSString stringWithFormat:@"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
+        [self.icon sd_setImageWithURL: [NSURL URLWithString: userPortriat] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+    } else {
+        self.titleLabel.text = [NSString stringWithFormat: @"%@家长", babyName];
+        NSString *portriat = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, url];
+        [self.icon sd_setImageWithURL: [NSURL URLWithString: portriat] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+    }
     
     CGFloat labelWidth = [self.titleLabel.text sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: UIFontPingFangSC(16), NSFontAttributeName, nil]].width + 10;
     CGFloat space = 10.f;   //space between label and imageView
