@@ -10,6 +10,8 @@
 #import "MEStudentsPanel.h"
 #import "MESemesterEvaPanel.h"
 #import "MEForwardSEProfile.h"
+#import "MEForwardEvaListVM.h"
+#import "MESemesterEvaListVM.h"
 
 @interface MEForwardSEProfile ()
 
@@ -20,10 +22,10 @@
 @property (nonatomic, strong) MEStudentsPanel *studentPanel;
 @property (nonatomic, strong) MESemesterEvaPanel *evaluatePanel;
 
-@property (nonatomic, strong) SemesterEvaluateList *evaList;
+@property (nonatomic, strong) MEGradeList *evaList;
 @property (nonatomic, assign) BOOL whetherParent;
 
-@property (nonatomic, assign) int32_t semester_id, month_id;
+@property (nonatomic, assign) int32_t grade_id, semester_id;
 
 @end
 
@@ -66,7 +68,7 @@
         if (back) {
             [self defaultGoBackStack];
         } else {
-//            [self userDidExchangeSemester:semester month:month];
+            [self userDidExchangeGrade:semester semester:month];
         }
     };
 }
@@ -91,14 +93,14 @@
 - (void)fetchForwardSEEvaluateConditions {
     int64_t gradeId = [self.params pb_longLongForKey:@"gradeId"];
     int32_t semester = [self.params pb_intForKey:@"semester"];
-    SemesterEvaluate *fe = [[SemesterEvaluate alloc] init];
-    fe.gradeId = gradeId;
-    fe.semester = semester;
+    MEGrade *gd = [[MEGrade alloc] init];
+    gd.gradeId = gradeId;
+    gd.semester = semester;
     weakify(self)
-    MEForwardEvaListVM *vm = [[MEForwardEvaListVM alloc] init];
-    [vm postData:[fe data] hudEnable:true success:^(NSData * _Nullable resObj) {
+    MESemesterEvaListVM *vm = [[MESemesterEvaListVM alloc] init];
+    [vm postData:[gd data] hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err; strongify(self)
-        SemesterEvaluateList *list = [SemesterEvaluateList parseFromData:resObj error:&err];
+        MEGradeList *list = [MEGradeList parseFromData:resObj error:&err];
         if (err) {
             [MEKits handleError:err];
             return ;
@@ -111,7 +113,99 @@
 }
 
 - (void)rebuildSEForwardEvaluateSubviews {
-    
+    NSMutableArray<ForwardEvaluate*>*list = [NSMutableArray arrayWithCapacity:0];
+    for (MEGrade *g in self.evaList.listArray) {
+        ForwardEvaluate * eva = [[ForwardEvaluate alloc] init];
+        eva.semester = (int32_t)g.gradeId;//借位实现
+        eva.name = g.name;
+        NSMutableArray <Month*>*evaM = [NSMutableArray arrayWithCapacity:0];
+        for (MESemester *s in g.sListArray) {
+            Month *m = [[Month alloc] init];
+            m.month = s.semester;
+            m.name = s.name;
+            [evaM addObject:m];
+        }
+        eva.monthsArray = evaM;
+        [list addObject:eva];
+    }
+    ForwardEvaluateList *newEvaList = [[ForwardEvaluateList alloc] init];
+    newEvaList.listArray = list;
+    [self.dropDownMenu configureMenu:newEvaList];
+}
+
+/**
+ 切换年级/学期
+ */
+- (void)userDidExchangeGrade:(int32_t)grade semester:(int32_t)semester {
+    _grade_id = grade; _semester_id = semester;
+    //配置头部
+    self.whetherParent = self.currentUser.userType == MEPBUserRole_Parent;
+    if (!self.whetherParent) {
+        //先清空数据
+        [self.studentPanel removeFromSuperview];
+        _studentPanel = nil;
+        //再次渲染
+        int64_t gradeId = [self.params pb_longLongForKey:@"gradeId"];
+        int64_t classID = [self.params pb_longLongForKey:@"classId"];
+        MEStudentsPanel *panel = [MEStudentsPanel panelWithSuperView:self.view topMargin:self.marginBaseLine];
+        panel.type = 2;
+        panel.classID = classID;
+        panel.gradeID = gradeId;
+        panel.semester = semester;
+        [self.view insertSubview:panel belowSubview:self.marginBaseLine];
+        [panel loadAndConfigure];
+        self.studentPanel = panel;
+        weakify(self)
+        //touch switch student callback
+        panel.callback = ^(int64_t sid, int64_t pre_sid) {
+            strongify(self);
+            [self userDidExchange2Student:sid preStudent:pre_sid];
+        };
+        //编辑完成
+        panel.editCallback = ^(BOOL done) {
+            if (done) {
+                [SVProgressHUD showSuccessWithStatus:@"恭喜你！已经全部填写完毕了"];
+            }
+        };
+    }
+    //配置 评价部分 先清空
+    [self.evaluatePanel removeFromSuperview];
+    _evaluatePanel = nil;
+    //再次配置
+    MESemesterEvaPanel *panel = [[MESemesterEvaPanel alloc] initWithFrame:CGRectZero father:self.view];
+    [self.view insertSubview:panel belowSubview:self.marginBaseLine];
+    self.evaluatePanel = panel;
+    [panel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.marginBaseLine.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
+        make.left.bottom.right.equalTo(self.view);
+    }];
+    //callback
+    weakify(self)
+    panel.callback = ^(int64_t sid, MEEvaluateState state) {
+        if (state == MEEvaluateStateDone && !self.whetherParent) {
+            [SVProgressHUD showSuccessWithStatus:@"评价成功，填写下一个吧！"];
+        }
+        strongify(self)
+        [self.studentPanel updateStudent:sid status:state];
+    };
+    //whether parent
+    if (self.whetherParent) {
+        int64_t sid = [self.params pb_longLongForKey:@"studentId"];
+        [self userDidExchange2Student:sid preStudent:0];
+    }
+}
+
+#pragma mark --- 切换学生
+- (void)userDidExchange2Student:(int64_t)sid preStudent:(int64_t)preSid {
+    /**
+     step1 查询之前学生是否需要暂存 需要则先暂存 否则不做处理
+     step2 拉取当前学生的评价
+     */
+    SemesterEvaluate *e = [[SemesterEvaluate alloc] init];
+    e.studentId = sid;
+    e.gradeId = _grade_id;
+    e.semester = _semester_id;
+    [self.evaluatePanel exchangedStudent2Evaluate:e];
 }
 
 /*
