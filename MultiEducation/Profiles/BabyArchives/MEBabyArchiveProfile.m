@@ -13,12 +13,17 @@
 #import "MEBabyIndexVM.h"
 #import "MebabyIndex.pbobjc.h"
 
+#define COMPONENT_WIDTH adoptValue(320)
+#define COMPONENT_HEIGHT adoptValue(480)
+
 @interface MEBabyArchiveProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
 
 @property (nonatomic, strong) MEStudentsPanel *panel;
 @property (nonatomic, strong) UIScrollView *scroll;
+@property (nonatomic, strong) MEBaseScene *scrollContent;
+
 @property (nonatomic, strong) MEBabyInfoContent *babyContent;
 @property (nonatomic, strong) MEParentInfoContent *parentContent;
 
@@ -76,17 +81,48 @@
     [self.navigationBar pushNavigationItem:item animated:true];
     
     [self.view addSubview: self.scroll];
-    [self.scroll addSubview: self.babyContent];
-    [self.scroll addSubview: self.parentContent];
+    [self.scroll addSubview: self.scrollContent];
+    [self.scrollContent addSubview: self.babyContent];
+    [self.scrollContent addSubview: self.parentContent];
     
     //layout
-//    [self.scroll mas_makeConstraints:^(MASConstraintMaker *make) {
-//       make.
-//    }];
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        [self.scroll mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(COMPONENT_HEIGHT);
+            make.left.mas_equalTo(adoptValue(10.f));
+            make.centerY.mas_equalTo(self.view.mas_centerY);
+            make.width.mas_equalTo(MESCREEN_WIDTH - adoptValue(10));
+        }];
+    } else {
+        [self configureStudentPanel];
+        [self.scroll mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(COMPONENT_HEIGHT);
+            make.top.mas_equalTo(self.panel.mas_bottom);
+            make.left.mas_equalTo(adoptValue(10.f));
+            make.width.mas_equalTo(MESCREEN_WIDTH - adoptValue(10));
+        }];
+    }
     
+    [self.scrollContent mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.scroll);
+        make.height.mas_equalTo(COMPONENT_HEIGHT);
+        make.width.greaterThanOrEqualTo(@0);
+    }];
     
-    [self configureStudentPanel];
-
+    [self.babyContent mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.mas_equalTo(self.scrollContent);
+        make.width.mas_equalTo(COMPONENT_WIDTH);
+    }];
+    
+    [self.parentContent mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.babyContent.mas_right).mas_offset(17.f);
+        make.top.bottom.mas_equalTo(self.scrollContent);
+        make.width.mas_equalTo(COMPONENT_WIDTH);
+    }];
+    
+    [self.scrollContent mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.parentContent.mas_right).mas_offset(17.f);
+    }];
     
 }
 
@@ -101,6 +137,7 @@
     if (!_scroll) {
         _scroll = [[UIScrollView alloc] initWithFrame: CGRectZero];
         _scroll.backgroundColor = [UIColor whiteColor];
+        _scroll.pagingEnabled = true;
     }
     return _scroll;
 }
@@ -117,6 +154,14 @@
         _parentContent = [[MEParentInfoContent alloc] initWithFrame: CGRectZero];
     }
     return _parentContent;
+}
+
+- (MEBaseScene *)scrollContent {
+    if (!_scrollContent) {
+        _scrollContent = [[MEBaseScene alloc] initWithFrame: CGRectZero];
+        _scrollContent.backgroundColor = [UIColor whiteColor];
+    }
+    return _scrollContent;
 }
 
 - (void)configureStudentPanel {
