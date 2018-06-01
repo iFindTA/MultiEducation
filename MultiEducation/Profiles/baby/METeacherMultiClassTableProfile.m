@@ -91,7 +91,7 @@ static CGFloat const CELL_HEIGHT = 44.f;
         [MobClick event:Buried_CLASS_ALBUM];
     }
     MEPBClass *classPb = [self.classes objectAtIndex: indexPath.row];
-    NSDictionary *params = @{@"classId": @(classPb.id_p), @"title": _title};
+    NSDictionary *params = @{@"classPb": classPb, @"title": _title};
     NSString *urlString = _pushUrlStr;
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];

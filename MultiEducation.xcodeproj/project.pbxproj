@@ -126,6 +126,7 @@
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		76E6DFF120C1240C0073BAF3 /* MEBabySettingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E6DFF020C1240C0073BAF3 /* MEBabySettingProfile.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
 		7AB23E9857B2AEE66BD243ED0F98B4B2 /* MEMultiSelectBabyProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EFA7571B49104B4711B7C111D291686 /* MEMultiSelectBabyProfile.m */; };
@@ -552,6 +553,8 @@
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
+		76E6DFEF20C1240C0073BAF3 /* MEBabySettingProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabySettingProfile.h; sourceTree = "<group>"; };
+		76E6DFF020C1240C0073BAF3 /* MEBabySettingProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabySettingProfile.m; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
 		792872332F743D62E639668F6E34AD68 /* MEQNUploadBatchVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEQNUploadBatchVM.h; sourceTree = "<group>"; };
@@ -1201,6 +1204,8 @@
 				62D4F1EED4C625F06E504B1E5A4BEED4 /* MESendIntersetingProfile.m */,
 				18DE6A579B16D12A249181B9B4C6D5FA /* METeacherMultiClassTableProfile.h */,
 				7CC56AEB64F732AF3D4385B1BB373DF3 /* METeacherMultiClassTableProfile.m */,
+				76E6DFEF20C1240C0073BAF3 /* MEBabySettingProfile.h */,
+				76E6DFF020C1240C0073BAF3 /* MEBabySettingProfile.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -1284,6 +1289,15 @@
 			path = "cordova-plugin-device";
 			sourceTree = "<group>";
 		};
+		52E1F0044C9F64A90A835FF0E86566E5 /* BabyArchives */ = {
+			isa = PBXGroup;
+			children = (
+				71566E112F5AA81FD59E606566C2D847 /* MEBabyArchiveProfile.h */,
+				647A3BA3BF7900EE43C1A80720816E95 /* MEBabyArchiveProfile.m */,
+			);
+			path = BabyArchives;
+			sourceTree = "<group>";
+		};
 		5B23389D8B409442E6B9AF0F84633AF0 /* index */ = {
 			isa = PBXGroup;
 			children = (
@@ -1319,15 +1333,6 @@
 				7C1817EEDDCAC941EAD51AD2D050A2F3 /* value-plugin-toolbar */,
 			);
 			path = Plugins;
-			sourceTree = "<group>";
-		};
-		52E1F0044C9F64A90A835FF0E86566E5 /* BabyArchives */ = {
-			isa = PBXGroup;
-			children = (
-				71566E112F5AA81FD59E606566C2D847 /* MEBabyArchiveProfile.h */,
-				647A3BA3BF7900EE43C1A80720816E95 /* MEBabyArchiveProfile.m */,
-			);
-			path = BabyArchives;
 			sourceTree = "<group>";
 		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
@@ -2578,6 +2583,7 @@
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
 				B47B439AD08DC8B5D54A312F64EAC41C /* MEGenderVM.m in Sources */,
 				61A29A41EFBF3E4E9B879D37BC52D916 /* MEGrowthEvaRootProfile.m in Sources */,
+				76E6DFF120C1240C0073BAF3 /* MEBabySettingProfile.m in Sources */,
 				FB38A0844095733226FCE4F14089F278 /* MEHeaderIconCell.m in Sources */,
 				E41191B6CA37EB7ABBAB828628A37D58 /* MEHeartBeatVM.m in Sources */,
 				C99C1EC7292FE9175B378902DF204C3D /* MEHistoryCell.m in Sources */,
