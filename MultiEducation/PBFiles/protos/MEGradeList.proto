@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+message MESemester {
+	int32 semester = 1;//学期
+	string name = 2;//学期名称
+}
+
+message MEGrade {
+	int64 gradeId = 1;//年级ID
+	int32 semester = 2;//学期 用户查询
+	string name = 3;//年级名称
+	repeated MESemester sList = 4;//学期列表
+}
+
+message MEGradeList {
+	repeated MEGrade list = 1;//年级列表
+}
