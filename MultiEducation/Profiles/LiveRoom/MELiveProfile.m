@@ -17,6 +17,112 @@
 #import <libksygpulive/KSYGPUStreamerKit.h>
 #import <libksygpulive/KSYGPUBeautifyFilter.h>
 
+#pragma mark --- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 班级选择panel
+
+@interface MELiveClassChoosenPanel: MEBaseScene
+
+@property (nonatomic, strong) NSArray<MEPBClass*>*multiClasses;
+@property (nonatomic, strong) NSMutableArray<MEBaseButton *>*clsBtns;
+@property (nonatomic, assign) NSUInteger currentClsIndex;
+
+/**
+ 当前班级ID
+ */
+@property (nonatomic, assign) int64_t currentClsID;
+
+@end
+
+@implementation MELiveClassChoosenPanel
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _currentClsIndex = 0;
+        self.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        self.layer.masksToBounds = true;
+        self.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+        [self configureLiveClassSubviews];
+    }
+    return self;
+}
+
+- (void)configureLiveClassSubviews {
+    NSArray<MEPBClass*>*cls = [MEKits fetchCurrentUserMultiClasses];
+    CGFloat itemSize = 50;
+    CGFloat start_offset = ME_LAYOUT_BOUNDARY;
+    CGFloat distance = 16;
+    //标题
+    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = UIFontPingFangSCBold(METHEME_FONT_TITLE-1);
+    label.textColor = [UIColor whiteColor];
+    label.text = @"选择班级开启直播";
+    [self addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(distance);
+        make.left.equalTo(self).offset(start_offset);
+    }];
+    //按钮
+    UIFont *font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE-1);
+    UIImage *normalIcon = [UIImage imageNamed:@"live_scene_normal"];
+    UIImage *selectIcon = [UIImage imageNamed:@"live_scene_select"];
+    MEBaseButton *lastBtn = nil;
+    for (int i = 0;i < cls.count;i++) {
+        MEPBClass *c = cls[i];UIImage *icon = (i==_currentClsIndex) ? selectIcon : normalIcon;
+        MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        btn.tag = i;
+        btn.titleLabel.font = font;
+        btn.titleLabel.adjustsFontSizeToFitWidth = true;
+        [btn setTitle:c.name forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btn setBackgroundImage:icon forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(userDidChoosenLiveClass:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:btn];
+        [btn makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(label.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
+            make.left.equalTo((lastBtn==nil)?self:lastBtn.mas_right).offset((lastBtn==nil)?start_offset:distance);
+            make.width.height.equalTo(itemSize);
+        }];
+        //add reference
+        [self.clsBtns addObject:btn];
+        
+        //flag
+        lastBtn = btn;
+    }
+    self.multiClasses = [NSArray arrayWithArray:cls];
+    _currentClsID = cls.firstObject.id_p;
+}
+
+#pragma mark --- lazy loading
+
+- (NSMutableArray<MEBaseButton *>*)clsBtns {
+    if (!_clsBtns) {
+        _clsBtns = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _clsBtns;
+}
+
+#pragma mark --- user interface actions
+
+- (void)userDidChoosenLiveClass:(MEBaseButton *)btn {
+    if (btn.tag == _currentClsIndex || btn.tag >= self.multiClasses.count) {
+        return;
+    }
+    _currentClsIndex = btn.tag;
+    UIImage *normalIcon = [UIImage imageNamed:@"live_scene_normal"];
+    UIImage *selectIcon = [UIImage imageNamed:@"live_scene_select"];
+    for (MEBaseButton *b in self.clsBtns) {
+        UIImage *icon = (b.tag==_currentClsIndex) ? selectIcon : normalIcon;
+        [b setBackgroundImage:icon forState:UIControlStateNormal];
+    }
+    MEPBClass *cls = self.multiClasses[_currentClsIndex];
+    self.currentClsID = cls.id_p;
+}
+
+@end
+
+#pragma mark --- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 直播类
+
 @interface MELiveProfile ()
 
 @property (nonatomic, strong) NSDictionary *params;
@@ -24,7 +130,13 @@
 @property (nonatomic, assign) CGFloat animateCount;
 
 @property (nonatomic, strong) MEBaseScene *liveScene;
+@property (nonatomic, strong) MEBaseScene *layoutScene;
 @property (nonatomic, strong) MELiveMaskLayer *maskLayer;
+
+/**
+ 班级选择panel
+ */
+@property (nonatomic, strong) MELiveClassChoosenPanel *choosenPanel;
 
 @property (nonatomic, strong) MEPBClassLive *liveItem;
 
@@ -77,9 +189,22 @@
     [self.liveScene makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    //layout scene
+    [self.view addSubview:self.layoutScene];
+    [self.layoutScene makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    MELiveClassChoosenPanel *panel = [[MELiveClassChoosenPanel alloc] initWithFrame:CGRectZero];
+    [self.layoutScene addSubview:panel];
+    self.choosenPanel = panel;
+    [panel makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.layoutScene).offset(adoptValue(100));
+        make.left.equalTo(self.layoutScene).offset(ME_LAYOUT_MARGIN*1.5);
+        make.right.equalTo(self.layoutScene).offset(-ME_LAYOUT_MARGIN*1.5);
+        make.height.equalTo(130);
+    }];
     
-    NSUInteger btnSize = ME_LAYOUT_ICON_HEIGHT;
-    CGFloat topOffset = ME_LAYOUT_BOUNDARY+ME_LAYOUT_MARGIN*2;
+    NSUInteger btnSize = adoptValue(36);
     /*camera switch
     UIImage *img = [UIImage pb_iconFont:nil withName:@"\U0000e608" withSize:20 withColor:[UIColor whiteColor]];
     MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
@@ -92,27 +217,44 @@
         make.width.height.equalTo(btnSize);
     }];//*/
     
-    [self.liveScene addSubview:self.maskLayer];
+    [self.view addSubview:self.maskLayer];
     [self.maskLayer makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.liveScene);
+        make.edges.equalTo(self.view);
     }];
     
     //play back
-    UIImage * img = [UIImage pb_iconFont:nil withName:@"\U0000e6e2" withSize:btnSize withColor:[UIColor whiteColor]];
+    UIImage * img = [UIImage imageNamed:@"live_scene_close"];
     MEBaseButton * btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
     [btn setImage:img forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(defaultGoBackStack) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     [btn makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(topOffset);
-        make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2);
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-ME_LAYOUT_ICON_HEIGHT);
         make.size.equalTo(CGSizeMake(btnSize, btnSize));
+    }];
+    //开启直播
+    MEBaseButton *startLiveBtn = [[MEBaseButton alloc] initWithFrame:CGRectZero];
+    startLiveBtn.titleLabel.font = UIFontPingFangSCMedium(METHEME_FONT_TITLE+1);
+    [startLiveBtn setTitle:@"开启直播" forState:UIControlStateNormal];
+    [startLiveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    startLiveBtn.backgroundColor = UIColorFromRGB(0xE59037);
+    startLiveBtn.layer.cornerRadius = ME_HEIGHT_NAVIGATIONBAR*0.5;
+    startLiveBtn.layer.masksToBounds = true;
+    [startLiveBtn addTarget:self action:@selector(createLiveRoomEvent) forControlEvents:UIControlEventTouchUpInside];
+    [self.layoutScene addSubview:startLiveBtn];
+    [startLiveBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.layoutScene);
+        make.bottom.equalTo(self.layoutScene).offset(-100);
+        make.width.equalTo(self.layoutScene.mas_width).multipliedBy(0.75);
+        make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
     }];
     
     //observes
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(doLiveStreamStateChangeEvent) name:KSYStreamStateDidChangeNotification object:nil];
     
-    self.sj_fadeArea = @[self.liveScene];
+    self.sj_DisableGestures = YES;
+    //self.sj_fadeArea = @[self.view, self.layoutScene, self.liveScene];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -123,14 +265,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setIdleTimerDisabled:true];
-    PBMAINDelay(ME_ANIMATION_DURATION, ^{
-        [self initializedLiveStreamKit];
-        [self createLiveRoomEvent];
-    });
+    [self initializedLiveStreamKit];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self startTimerForMaskAnimation];
+    //[self createLiveRoomEvent];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -148,6 +289,14 @@
         _liveScene.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     }
     return _liveScene;
+}
+
+- (MEBaseScene *)layoutScene {
+    if (!_layoutScene) {
+        _layoutScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
+        _layoutScene.backgroundColor = [UIColor colorWithWhite:0 alpha:0.1];
+    }
+    return _layoutScene;
 }
 
 - (MELiveMaskLayer *)maskLayer {
@@ -179,16 +328,11 @@
  创建直播
  */
 - (void)createLiveRoomEvent {
-    if (!self.params) {
-        [self makeToast:@"直播创建失败！"];
-        return;
-    }
     if (self.liveItem) {
         return;
     }
-    NSNumber *classID = [self.params pb_numberForKey:@"classID"];
     MEPBClassLive *live = [[MEPBClassLive alloc] init];
-    [live setClassId:classID.longLongValue];
+    [live setClassId:self.choosenPanel.currentClsID];
     MEDoLiveVM *doLive = [[MEDoLiveVM alloc] init];
     weakify(self)
     [doLive postData:[live data] hudEnable:true success:^(NSData * _Nullable resObj) {
@@ -198,7 +342,8 @@
             [MEKits handleError:err];
         } else {
             self.liveItem = liveKit;
-            [self startTimerForMaskAnimation];
+            self.layoutScene.hidden = true;
+            [self realStartPushStream4LiveAction];
         }
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError:error];
@@ -230,7 +375,6 @@
         CGFloat progress = 1.f;
         [self.maskLayer setProgress:progress];
         [self.maskLayer reveal];
-        [self realStartPushStream4LiveAction];
         return;
     }
     CGFloat progress = self.animateCount/ME_LIVE_MASK_COUNT_MAX;
@@ -353,6 +497,10 @@
 #pragma mark --- user interface actions
 
 - (void)defaultGoBackStack {
+    if (self.liveKit.streamerBase.streamState != KSYStreamStateConnected) {
+        [super defaultGoBackStack];
+        return;
+    }
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
                                                                              message:@"确定退出直播吗？"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
