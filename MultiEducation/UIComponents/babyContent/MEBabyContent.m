@@ -25,6 +25,7 @@
 #import <NSURL+QueryDictionary/NSURL+QueryDictionary.h>
 #import <MWPhotoBrowser.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "MEBabyArchiveProfile.h"
 
 #define COMPONENT_COUNT 9
 #define MAX_PHOTO_COUNT 10
@@ -682,6 +683,12 @@
             }
         }
     }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    NSString *urlStr = @"profile://root@MEBabyArchiveProfile";
+//    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+//    [MEKits handleError: error];
 }
 
 #pragma mark - lazyloading
