@@ -21,7 +21,7 @@
 @implementation MEBaseScene
 
 - (void)dealloc {
-    NSLog(@"%@---dealloc", NSStringFromClass(self.class));
+//    NSLog(@"%@---dealloc", NSStringFromClass(self.class));
 }
 
 - (id)initWithFrame:(CGRect)frame {
