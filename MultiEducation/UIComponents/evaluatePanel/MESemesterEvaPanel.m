@@ -8,6 +8,7 @@
 
 #import "MESemesterEvaPanel.h"
 #import "MESubNavigator.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #pragma mark --- >>>>>>>>>>>>>>>>>>> 评价问题单选 slice
 @class MECheckSlice;
@@ -221,7 +222,7 @@ static NSString * checkSet[3] = {
         BOOL whetherAnswered = (self.quesItem.answer - 1 == i);
         slice.checked = whetherAnswered;
         //如果已选择 则保存当前选择的
-        if (whetherAnswered) {//已暂存过
+        if (whetherAnswered) {//已作答
             self.currentSlice = slice;
         }
         //callback
@@ -270,12 +271,22 @@ static NSString * checkSet[3] = {
     return _titleLab;
 }
 
+- (NSMutableArray<MECheckSlice*>*)slices {
+    if (!_slices) {
+        _slices = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _slices;
+}
+
 #pragma mark --- user interface actions
 
 - (SEEvaluateItem *)generateNewQuestion {
+    SEEvaluateItem *newItem = [[SEEvaluateItem alloc] init];
+    newItem.id_p = self.quesItem.id_p;
+    newItem.title = self.quesItem.title;
+    newItem.answer = (int32_t)self.currentSlice.tag + 1;
     
-    
-    return nil;
+    return newItem;
 }
 
 - (void)userDidTouchQuestionSlice:(MECheckSlice *)s {
@@ -315,6 +326,28 @@ static NSString * checkSet[3] = {
 
 @property (nonatomic, strong) MEBaseButton *submitBtn;
 
+/**
+ 本页所有问题panel
+ */
+@property (nonatomic, strong) NSMutableArray<MESEQuestionItem*>*allQuesItems;
+
+/**
+ 已编辑暂存的问题
+ */
+@property (nonatomic, strong) NSMutableArray<MESEQuestionItem*>*stashQuesItems;
+
+/**
+ 获取所有问题
+
+ @param stash 是否暂存：切换学生时获取暂存问题/提交时获取所有问题
+ */
+- (NSArray<SEEvaluateItem*>*_Nullable)fetchAllSEQuestions:(BOOL)stash;
+
+/**
+ 是否已全部作答
+ */
+- (NSError * _Nullable)whetherAnsweredAll;
+
 + (instancetype)panelWithSource:(SEEvaluateType*)type editable:(BOOL)editable;
 
 @end
@@ -351,7 +384,8 @@ static NSString * checkSet[3] = {
         make.top.left.right.equalTo(self.panelLayout);
         make.height.equalTo(MESCREEN_HEIGHT);
     }];//*/
-    
+    [self.allQuesItems removeAllObjects];
+    [self.stashQuesItems removeAllObjects];
     NSArray<SEEvaluateSubType*>*subTypes = self.source.subTypesArray.copy;
     MEBaseScene *lastSection;MESEQuestionItem *lastItem;
     for (SEEvaluateSubType *sub in subTypes) {
@@ -373,7 +407,6 @@ static NSString * checkSet[3] = {
         }];
         //reference
         lastSection = section;
-        
         //*sub questions
         NSArray<SEEvaluateItem *>*items = sub.itemsArray.copy;
         for (int i = 0; i < items.count; i++) {
@@ -386,7 +419,17 @@ static NSString * checkSet[3] = {
             }];
             
             //add reference
+            [self.allQuesItems addObject:slice];
             lastItem = slice;
+            
+            //callback
+            weakify(self)
+            slice.editCallback = ^(MESEQuestionItem *ref) {
+                strongify(self)
+                if (![self.stashQuesItems containsObject:ref]) {
+                    [self.stashQuesItems addObject:ref];
+                }
+            };
         }
     }
     //editable
@@ -395,6 +438,7 @@ static NSString * checkSet[3] = {
         lastMargin = lastSection;
     }
     if (self.editable) {
+        /*
         [self.panelLayout addSubview:self.submitBtn];
         [self.submitBtn makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo((lastMargin==nil)?self.panelLayout:lastMargin.mas_bottom).offset(ME_LAYOUT_MARGIN);
@@ -402,8 +446,8 @@ static NSString * checkSet[3] = {
             make.right.equalTo(self.panelLayout).offset(-ME_LAYOUT_MARGIN);
             make.height.equalTo(ME_SUBNAVGATOR_HEIGHT);
         }];
-        
         lastMargin = self.submitBtn;
+        //*/
     }
     
     //bottom margin
@@ -457,10 +501,61 @@ static NSString * checkSet[3] = {
     return _submitBtn;
 }
 
+- (NSMutableArray<MESEQuestionItem*>*)allQuesItems {
+    if (!_allQuesItems) {
+        _allQuesItems = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _allQuesItems;
+}
+
+- (NSMutableArray<MESEQuestionItem*>*)stashQuesItems {
+    if (!_stashQuesItems) {
+        _stashQuesItems = [NSMutableArray arrayWithCapacity:0];
+    }
+    return _stashQuesItems;
+}
+
+#pragma mark --- getter
+
+- (NSArray<SEEvaluateItem*>*_Nullable)fetchAllSEQuestions:(BOOL)stash {
+    if (stash) {
+        if (self.stashQuesItems.count == 0) {
+            return nil;
+        }
+    }
+    NSArray<MESEQuestionItem*>*tmpSets = stash ? self.stashQuesItems.copy : self.allQuesItems.copy;
+    NSMutableArray<SEEvaluateItem*>*newSets = [NSMutableArray arrayWithCapacity:0];
+    for (MESEQuestionItem *i in tmpSets) {
+        SEEvaluateItem *ques = [i generateNewQuestion];
+        [newSets addObject:ques];
+    }
+    return newSets.copy;
+}
+
 #pragma mark --- user interface actions
 
 - (void)userDidTouchSESubmitEvent {
     
+}
+
+- (NSError * _Nullable)whetherAnsweredAll {
+    NSError * err = nil;
+    //step1 检查是否已填写完毕
+    if (self.editable) {
+        int i = 0;
+        for (MESEQuestionItem *item in self.allQuesItems) {
+            NSLog(@"item answered:%d", item.answered);
+            if (!item.answered) {
+                i++;
+            }
+        }
+        if (i > 0) {
+            NSString *alertInfo = PBFormat(@"%@栏目您还有%d项没有作答！",self.source.title, i);
+            err = [NSError errorWithDomain:alertInfo code:-1 userInfo:nil];
+        }
+    }
+    
+    return err;
 }
 
 @end
@@ -471,11 +566,7 @@ static NSString * checkSet[3] = {
 
 @property (nonatomic, weak) UIView *fatherView;
 
-/**
- 当前学生ID
- */
-@property (nonatomic, assign) int64_t currentSID;
-
+@property (nonatomic, assign) int64_t preStudentID;
 /**
  获取到的元数据
  */
@@ -494,6 +585,8 @@ static NSString * checkSet[3] = {
 @property (nonatomic, strong) MEBaseScrollView *scroller;
 @property (nonatomic, strong) MEBaseScene *layout;
 
+@property (nonatomic, strong) MEBaseButton *submitBtn;
+
 @end
 
 @implementation MESemesterEvaPanel
@@ -507,10 +600,27 @@ static NSString * checkSet[3] = {
 }
 
 - (void)exchangedStudent2Evaluate:(SemesterEvaluate *)semester {
-    if (semester.studentId == self.currentSID) {
+    if (semester.studentId == self.originSource.studentId) {
         return;
     }
+    self.preStudentID = self.originSource.studentId;
+//    NSLog(@"原始学生ID:%lld----当前学生ID:%lld", semester.studentId, self.originSource.studentId);
     //step1 切换学生 先暂存
+    NSArray<SEEvaluateItem*>*ques = [self fetchCurrentSEEvaluateQuestions:true];
+    if (ques.count > 0) {
+        NSLog(@"stashing...");
+        //需要暂存
+        //weakify(self)
+        dispatch_semaphore_t semo = dispatch_semaphore_create(1);
+        [self preQuerySESubmit4State:MEEvaluateStateStash completion:^(NSError * _Nullable err) {
+            if (err) {
+                NSLog(@"暂存失败：%@", err.localizedDescription);
+            }
+            dispatch_semaphore_signal(semo);
+        }];
+        dispatch_semaphore_wait(semo, DISPATCH_TIME_FOREVER);
+    }
+    NSLog(@"pull new request");
     
     //step2 获取新数据
     self.originSource = semester;
@@ -519,6 +629,7 @@ static NSString * checkSet[3] = {
     [vm postData:[semester data] hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         SemesterEvaluate *newEvaluate = [SemesterEvaluate parseFromData:resObj error:&err];
+        NSLog(@"pull到学生ID:%lld", newEvaluate.studentId);
         if (err) {
             [MEKits handleError:err];
             [self cleanEvaluatePanel];
@@ -535,7 +646,7 @@ static NSString * checkSet[3] = {
 
 - (void)cleanEvaluatePanel {
     [self.quesPanels removeAllObjects];
-    _currentSubClassIndex = 0;_currentSID = 0;
+    _currentSubClassIndex = 0;
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     _scroller = nil;_layout = nil;_subNavigator = nil;
 }
@@ -566,15 +677,29 @@ static NSString * checkSet[3] = {
         make.edges.equalTo(self.scroller);
         make.height.equalTo(self.scroller);
     }];
-    //inner content
+    CGFloat bottomOffset = UIDevice.pb_isX ? ME_LAYOUT_BOUNDARY : ME_LAYOUT_MARGIN;
+    //inner content 是否可编辑：角色老师&&未提交完成
     BOOL editable = (self.currentUser.userType == MEPBUserRole_Teacher);
-    int i = 0;MESEQuestionPanel *lastPanel = nil;
-    for (SEEvaluateType *t in Types) {
+    MESEQuestionPanel *lastPanel = nil;NSUInteger counts = Types.count;
+    for (int i = 0; i < counts; i++) {
+        BOOL whetherLastest = (i == (counts-1));
+        if (whetherLastest) {
+            //最后一个加上提交按钮
+            [self.layout addSubview:self.submitBtn];
+            [self.submitBtn makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(self.layout).offset(-bottomOffset);
+                make.left.equalTo((lastPanel==nil)?self.layout : lastPanel.mas_right).offset(ME_LAYOUT_MARGIN);
+                make.width.equalTo(MESCREEN_WIDTH-ME_LAYOUT_MARGIN*2);
+                make.height.equalTo(ME_SUBNAVGATOR_HEIGHT);
+            }];
+        }
+        SEEvaluateType *t = Types[i];
         MESEQuestionPanel *panel = [MESEQuestionPanel panelWithSource:t editable:editable];
         //panel.backgroundColor = [UIColor pb_randomColor];
         [self.layout addSubview:panel];
         [panel makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.equalTo(self.layout);
+            make.top.equalTo(self.layout);
+            make.bottom.equalTo((whetherLastest) ? self.submitBtn.mas_top : self.layout).offset((whetherLastest) ? -ME_LAYOUT_MARGIN : 0);
             make.left.equalTo((lastPanel==nil)?self.layout : lastPanel.mas_right);
             make.width.equalTo(MESCREEN_WIDTH);
         }];
@@ -582,7 +707,6 @@ static NSString * checkSet[3] = {
         [self.quesPanels addObject:panel];
         //flag
         lastPanel = panel;
-        i++;
     }
     
     //right margin
@@ -625,6 +749,23 @@ static NSString * checkSet[3] = {
         _layout = [[MEBaseScene alloc] initWithFrame:CGRectZero];
     }
     return _layout;
+}
+
+- (MEBaseButton *)submitBtn {
+    if (!_submitBtn) {
+        _submitBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        UIFont *font = UIFontPingFangSCBold(METHEME_FONT_TITLE+1);
+        MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+        btn.titleLabel.font = font;
+        btn.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+        btn.layer.masksToBounds = true;
+        btn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+        [btn setTitle:@"提交" forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(userDidTouchSESubmitEvent) forControlEvents:UIControlEventTouchUpInside];
+        _submitBtn = btn;
+    }
+    return _submitBtn;
 }
 
 #pragma mark --- UIScrollView Delegate ---
@@ -679,6 +820,86 @@ static NSString * checkSet[3] = {
  */
 - (void)reloadQuestionPanel4Index:(NSUInteger)page {
     
+}
+
+#pragma mark --- user interface actions
+
+- (void)userDidTouchSESubmitEvent {
+    //step1 查询是否都已作答
+    NSError *answerError = nil;
+    for (MESEQuestionPanel *p in self.quesPanels) {
+        NSError *err = [p whetherAnsweredAll];
+        if (err) {
+            answerError = err;
+            break;
+        }
+    }
+    if (answerError) {
+        [MEKits makeToast:answerError.domain];
+        return;
+    }
+    //step2 可以提交
+    [self preQuerySESubmit4State:MEEvaluateStateDone completion:nil];
+}
+
+- (NSArray<SEEvaluateItem*>*_Nullable)fetchCurrentSEEvaluateQuestions:(BOOL)stash {
+    NSMutableArray<SEEvaluateItem*>*questions = [NSMutableArray arrayWithCapacity:0];
+    for (MESEQuestionPanel *p in self.quesPanels) {
+        NSArray<SEEvaluateItem*>*tmp = [p fetchAllSEQuestions:stash];
+        if (tmp != nil) {
+            [questions addObjectsFromArray:tmp];
+        }
+    }
+    return questions.copy;
+}
+
+/**
+ 获取当前评价的数据
+ */
+- (SemesterEvaluate *)fetchCurrentSEEditableEvaluate:(BOOL)stash {
+    [SVProgressHUD showWithStatus:@"请稍后..."];
+    /**
+     step1 首先查看暂存 如果没有暂存数据 且可以提交说明此panel已经完全回答过
+     step2 如果有暂存则是编辑过
+     简单起见可以都作提交
+     */
+    NSArray<SEEvaluateItem*>*tmps = [self fetchCurrentSEEvaluateQuestions:stash];
+    SemesterEvaluate *e = [[SemesterEvaluate alloc] init];
+    e.id_p = self.originSource.id_p;
+    e.gradeId = self.originSource.gradeId;
+    e.semester = self.originSource.semester;
+    e.studentId = self.originSource.studentId;
+    if (tmps.count > 0) {
+        e.quesItemsArray = [NSMutableArray arrayWithArray:tmps];
+    }
+    
+    return e;
+}
+
+/**
+ 此处真正提交所有的问题选项
+ */
+- (void)preQuerySESubmit4State:(MEEvaluateState)state completion:(void(^_Nullable)(NSError * _Nullable err))completion {
+    SemesterEvaluate *ge = [self fetchCurrentSEEditableEvaluate:state==MEEvaluateStateStash];
+    ge.status = state;
+    weakify(self)
+    MESEInfoPutVM *vm = [[MESEInfoPutVM alloc] init];
+    [vm postData:[ge data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        strongify(self)
+        if (self.callback) {
+            int64_t stu_id = (state == MEEvaluateStateStash) ? self.preStudentID : self.originSource.studentId;
+            NSLog(@"回调学生ID:%lld", stu_id);
+            self.callback(stu_id, state);
+        }
+        if (completion) {
+            completion(nil);
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
+        if (completion) {
+            completion(error);
+        }
+    }];
 }
 
 /*

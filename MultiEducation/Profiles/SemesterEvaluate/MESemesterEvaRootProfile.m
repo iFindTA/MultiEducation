@@ -161,7 +161,14 @@
         make.left.bottom.right.equalTo(self.view);
     }];
     //callback
-    
+    weakify(self)
+    panel.callback = ^(int64_t sid, MEEvaluateState state) {
+        if (state == MEEvaluateStateDone && !self.whetherParent) {
+            [SVProgressHUD showSuccessWithStatus:@"评价成功，填写下一个吧！"];
+        }
+        strongify(self)
+        [self.studentPanel updateStudent:sid status:state];
+    };
 }
 
 #pragma mark --- 切换学生

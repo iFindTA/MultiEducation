@@ -474,7 +474,7 @@
                 }
             }
         } else if (type & multiType){
-            //目前加载Cordova网页 后续替换为原生: studentId&gradeId&semester&month
+            //Cordova替换为原生: studentId&gradeId&semester&month
             if (whetherRoleParent) {
                 [self userDidChoosenType:type whetherParent:true className:nil];
                 return;
@@ -587,10 +587,11 @@
     }
     NSString *destProfile;NSURL *url = nil; NSDictionary *params = nil;NSString *buried_point = nil;
     if (MEBabyContentTypeGrowth & type) {
-        NSString *getParamsString = [multiMap.copy uq_URLQueryString];
-        NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
-        params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
-        destProfile = @"METemplateProfile";
+//        NSString *getParamsString = [multiMap.copy uq_URLQueryString];
+//        NSString *startPage = PBFormat(@"gu-profile.html#/show?%@", getParamsString);
+//        params = @{ME_CORDOVA_KEY_TITLE:@"成长档案",ME_CORDOVA_KEY_STARTPAGE:startPage};
+        params = multiMap.copy;
+        destProfile = @"MEBabyArchiveProfile";
         buried_point = Buried_CLASS_ARCHIVE;
     } else if (MEBabyContentTypeEvaluate & type) {
         params = multiMap.copy;

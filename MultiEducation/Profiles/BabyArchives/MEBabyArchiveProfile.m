@@ -10,9 +10,19 @@
 
 @interface MEBabyArchiveProfile ()
 
+@property (nonatomic, strong) NSDictionary *params;
+
 @end
 
 @implementation MEBabyArchiveProfile
+
+- (id)__initWithParams:(NSDictionary *)params {
+    self = [super init];
+    if (self) {
+        _params = [NSDictionary dictionaryWithDictionary:params];
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

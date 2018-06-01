@@ -822,7 +822,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     [self.portraitScene updateStudent:sid state:state];
     [self.landscapeScene updateStudent:sid state:state];
     // 自动切换下一个
-    if (self.autoScrollNext) {
+    if (self.autoScrollNext && state==MEEvaluateStateDone) {
         [self autoScroll2NextStudent];
     }
 }

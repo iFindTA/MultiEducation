@@ -738,9 +738,9 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
 @property (nonatomic, weak) UIView *fatherView;
 
 /**
- 当前学生ID
+ 之前学生ID
  */
-@property (nonatomic, assign) int64_t currentSID;
+@property (nonatomic, assign) int64_t preStudentID;
 
 /**
  获取到的元数据
@@ -798,14 +798,17 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
 #pragma mark --- user interface actions
 
 - (void)exchangedStudent2Evaluate:(GrowthEvaluate *)growth {
-    if (growth.studentId == self.currentSID) {
+    if (growth.studentId == self.originSource.studentId) {
         return;
     }
+    self.preStudentID = self.originSource.studentId;
+    NSLog(@"原始学生ID:%lld----当前学生ID:%lld", growth.studentId, self.originSource.studentId);
     //step1 切换学生 先暂存
     MEQuestionPanel *tmpPanel = [self fetchCurrentEditablePanel];
     NSArray<EvaluateQuestion*>*ques = [tmpPanel fetchAllQuestions:true];
     if (ques.count > 0) {
         //需要暂存
+        NSLog(@"growth stashing...");
         //weakify(self)
         dispatch_semaphore_t semo = dispatch_semaphore_create(1);
         [self preQuerySubmit4State:MEEvaluateStateStash completion:^(NSError * _Nullable err) {
@@ -824,6 +827,7 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
     [vm postData:[growth data] hudEnable:true success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         GrowthEvaluate *newEvaluate = [GrowthEvaluate parseFromData:resObj error:&err];
+        NSLog(@"pull到学生ID:%lld", newEvaluate.studentId);
         if (err) {
             [MEKits handleError:err];
             [self cleanEvaluatePanel];
@@ -999,12 +1003,14 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
     weakify(self)
     MEStudentInfoPutVM *vm = [[MEStudentInfoPutVM alloc] init];
     [vm postData:[ge data] hudEnable:true success:^(NSData * _Nullable resObj) {
-        if (completion) {
-            completion(nil);
-        }
         strongify(self)
         if (self.callback) {
-            self.callback(self.originSource.studentId, state);
+            int64_t stu_id = (state == MEEvaluateStateStash) ? self.preStudentID : self.originSource.studentId;
+            NSLog(@"回调学生ID:%lld", stu_id);
+            self.callback(stu_id, state);
+        }
+        if (completion) {
+            completion(nil);
         }
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError:error];
