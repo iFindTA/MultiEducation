@@ -338,6 +338,7 @@
     
     //for SVProgressHUD
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    [SVProgressHUD setMinimumDismissTimeInterval:1.0];
 }
 
 /**

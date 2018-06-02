@@ -653,11 +653,16 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
     
     //关闭正在观看的直播
     [self stopPlay];
-    if (classes.count == 1) {
-        [self realStartLiveAction4Class:classes.firstObject];
-    } else {
-        [self makeUserChooseClass2StartLiveEvent];
-    }
+    //直接进入直播再选择班级
+    NSString *urlString = @"profile://root@MELiveProfile/";
+    NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:nil];
+    [MEKits handleError:err];
+    //不再选择班级直播
+//    if (classes.count == 1) {
+//        [self realStartLiveAction4Class:classes.firstObject];
+//    } else {
+//        [self makeUserChooseClass2StartLiveEvent];
+//    }
 }
 
 - (void)makeUserChooseClass2StartLiveEvent {
