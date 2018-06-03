@@ -318,6 +318,7 @@
  */
 - (void)startServicesOnBackgroundThread {
     //for chinese-policy
+    [SBNetState startPing];
     [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
         
     }];
