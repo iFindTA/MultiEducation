@@ -77,7 +77,7 @@
     
     NSMutableString *where = [NSMutableString string];
     for (MEPBClass *class in classPbArr) {
-        [where appendString: [NSString stringWithFormat: @"classId = '%lld' OR ", class.id_p]];
+        [where appendString: [NSString stringWithFormat: @"classId = '%lld'", class.id_p]];
     }
     //delete the last ','
     [where deleteCharactersInRange: NSMakeRange(where.length - 3, 3)];

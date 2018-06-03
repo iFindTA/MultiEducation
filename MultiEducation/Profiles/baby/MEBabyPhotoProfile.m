@@ -301,7 +301,7 @@ static CGFloat const ITEM_LEADING = 10.f;
                 albumPb.isSelect = NO;
                 [MEBabyAlbumListVM saveAlbum: albumPb];
             }
-            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: _parentId]];
+            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p]];
             [self.photoView reloadData];
             [self sortPhotoWithTimeLine];
         } failure:^(NSError * _Nonnull error) {
@@ -315,6 +315,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self.photoView reloadData];
         [self sortPhotoWithTimeLine];
     }
+    self.photoView.contentOffset = CGPointMake(0, 0);
 }
     
 - (void)sortPhotoWithTimeLine {

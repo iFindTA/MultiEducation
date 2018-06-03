@@ -7,7 +7,13 @@
 //
 
 #import "MEBaseScene.h"
+@class MEArchivesView;
 
 @interface MEBabyInfoHeader : MEBaseScene
+
+@property (nonatomic, strong) MEBaseImageView *backImageView;
+
+@property (nonatomic, strong) MEArchivesView *genderView;
+
 
 @end

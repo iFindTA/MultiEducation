@@ -41,8 +41,8 @@
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];            [MEKits handleError:err];
         } else {
             if (self.currentUser.teacherPb.classPbArray.count > 0) {
-                NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
-                [self gotoBabyPhotoProfile: classId];
+                MEPBClass *classPb = self.currentUser.teacherPb.classPbArray[0];
+                [self gotoBabyPhotoProfile: classPb];
             } else {
                 [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
             }
@@ -54,25 +54,26 @@
             NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];            [MEKits handleError:err];
         } else {
             if (self.currentUser.deanPb.classPbArray.count > 0) {
-                NSInteger classId = self.currentUser.deanPb.classPbArray[0].id_p;
-                [self gotoBabyPhotoProfile: classId];
+                MEPBClass *classPb = self.currentUser.deanPb.classPbArray[0];
+                [self gotoBabyPhotoProfile: classPb];
             } else {
                 [MEKits makeToast: ME_ALERT_INFO_NONE_CLASS];
             }
         }
     } else {
         GuIndexPb *indexPb = [MEBabyIndexVM fetchSelectBaby];
-        NSInteger classId;
+        MEPBClass *classPb = [[MEPBClass alloc] init];
         if (indexPb) {
-            classId = indexPb.studentArchives.classId;
+            NSInteger classId = indexPb.studentArchives.classId;
+            classPb.id_p = classId;
         } else {
-            classId = self.currentUser.parentsPb.classPbArray[0].id_p;
+            classPb = self.currentUser.parentsPb.classPbArray[0];
         }
-        [self gotoBabyPhotoProfile: classId];
+        [self gotoBabyPhotoProfile: classPb];
     }
 }
 
-- (void)gotoBabyPhotoProfile:(NSInteger)classId {
+- (void)gotoBabyPhotoProfile:(MEPBClass *)classPb {
     void (^DidChangePhotoCallback)(void) = ^() {
         if (self.DidChangePhotoCallback) {
             self.DidChangePhotoCallback();
@@ -80,7 +81,7 @@
     };
     //埋点
     [MobClick event:Buried_CLASS_ALBUM];
-    NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: classId], @"title": @"宝宝相册", ME_DISPATCH_KEY_CALLBACK: DidChangePhotoCallback};
+    NSDictionary *params = @{@"classPb": classPb, @"title": @"宝宝相册", ME_DISPATCH_KEY_CALLBACK: DidChangePhotoCallback};
     NSString *urlString =@"profile://root@MEBabyPhotoProfile";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];

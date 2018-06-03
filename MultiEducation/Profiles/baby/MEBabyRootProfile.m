@@ -68,8 +68,8 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)gotoBabyPhotoProfile:(NSInteger)classId {
-    NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: classId], @"title": @"宝宝相册"};
+- (void)gotoBabyPhotoProfile:(MEPBClass *)classPb {
+    NSDictionary *params = @{@"classPb": classPb, @"title": @"宝宝相册"};
     NSString *urlString =@"profile://root@MEBabyPhotoProfile";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];
@@ -183,8 +183,8 @@
                     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams: params];
                     [MEKits handleError:err];
                 } else {
-                    NSInteger classId = self.currentUser.teacherPb.classPbArray[0].id_p;
-                    [self gotoBabyPhotoProfile: classId];
+                    MEPBClass *classPb = self.currentUser.teacherPb.classPbArray[0];
+                    [self gotoBabyPhotoProfile: classPb];
                 }
             } else if(self.currentUser.userType == MEPBUserRole_Gardener) {
                 if (self.currentUser.deanPb.classPbArray.count > 1) {
@@ -194,21 +194,21 @@
                     [MEKits handleError:err];
                     
                 } else {
-                    NSInteger classId =  self.currentUser.deanPb.classPbArray[0].id_p;
-                    [self gotoBabyPhotoProfile: classId];
+                    MEPBClass *classPb = self.currentUser.deanPb.classPbArray[0];
+                    [self gotoBabyPhotoProfile: classPb];
                 }
             } else {
                 GuIndexPb *indexPb = [MEBabyIndexVM fetchSelectBaby];
-                NSInteger classId;
+                MEPBClass *classPb = [[MEPBClass alloc] init];
                 if (indexPb) {
-                    classId = indexPb.studentArchives.classId;
+                    NSInteger classId = indexPb.studentArchives.classId;
+                    classPb.id_p = classId;
                 } else {
-                    classId = self.currentUser.parentsPb.classPbArray[0].id_p;
+                    classPb = self.currentUser.parentsPb.classPbArray[0];
                 }
-                [self gotoBabyPhotoProfile: classId];
+                [self gotoBabyPhotoProfile: classPb];
             }
         };
-        
     }
     return _photoBrowser;
 }
