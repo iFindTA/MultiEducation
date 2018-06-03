@@ -89,8 +89,7 @@
     */
     [self.commandDelegate evalJs:@"viewWillAppear&&viewWillAppear()"];
     BOOL reachable = [SBNetState isReachable];
-    PBNetState state = [PBService shared].netState;
-    if (state & (PBNetStateUnavaliable|PBNetStateUnknown)) {
+    if (!reachable) {
         [MEKits makeToast:ME_EMPTY_PROMPT_NETWORK];
     }
 }

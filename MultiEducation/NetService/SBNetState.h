@@ -17,4 +17,6 @@
  */
 + (BOOL)isReachable;
 
++ (BOOL)isViaWifi;
+
 @end

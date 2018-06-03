@@ -39,11 +39,16 @@ static SBNetState *instance = nil;
 
 + (void)startPing {
     GLobalRealReachability.hostForPing = @"www.baidu.com";
+    GLobalRealReachability.hostForCheck = @"www.x16.com";
     [GLobalRealReachability startNotifier];
 }
 
 + (BOOL)isReachable {
     return GLobalRealReachability.currentReachabilityStatus != RealStatusNotReachable;
+}
+
++ (BOOL)isViaWifi {
+    return GLobalRealReachability.currentReachabilityStatus == RealStatusViaWiFi;
 }
 
 @end
