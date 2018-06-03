@@ -44,11 +44,6 @@
     [self.view addSubview: self.babyNavigation];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear: animated];
-    [self.babyView viewWillAppear];
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -144,7 +139,9 @@
         if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
             name = self.currentUser.schoolName;
         } else {
-            name = self.currentUser.name;
+            if (self.currentUser.parentsPb.studentPbArray.count == 0) {
+                name = self.currentUser.name;
+            }
         }
         
         NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];

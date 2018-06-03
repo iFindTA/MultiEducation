@@ -24,6 +24,7 @@
         if (self.currentUser.parentsPb.studentPbArray.count < 2) {
             self.settingBtn.hidden = YES;
             if (self.currentUser.parentsPb.studentPbArray.count == 0) {
+                self.userNameLab.text = self.currentUser.name;
                 self.ageLab.text = @"--";
                 self.babyHeightLab.text = @"--";
                 self.babyWeightLab.text = @"--";
@@ -51,10 +52,18 @@
         self.ageLab.text = [NSString stringWithFormat: @"%d岁", growthPb.age];
         self.babyHeightLab.text = [NSString stringWithFormat: @"%dcm", growthPb.height];
         self.babyWeightLab.text = [NSString stringWithFormat: @"%dkg", growthPb.weight];
+        if (![growthPb.studentPortrait isEqualToString: @""]) {
+            NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, growthPb.studentPortrait];
+            [self.userHeadIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
+        }
         
         NSString *text;
         NSString *babyName = growthPb.studentName;
-        text = [NSString stringWithFormat: @"%@家长，您好！", babyName];
+        if ([babyName isEqualToString: @""]) {
+            text = self.currentUser.name;
+        } else {
+            text = [NSString stringWithFormat: @"%@家长，您好！", babyName];
+        }
         self.userNameLab.text = text;
     }
 }
