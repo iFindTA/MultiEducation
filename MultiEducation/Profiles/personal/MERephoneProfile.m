@@ -75,6 +75,18 @@ static CGFloat const ROW_HEIGHT = 54.f;
     [self.getCodeBtn layoutIfNeeded];
     _getCodeBtn.layer.cornerRadius = self.getCodeBtn.frame.size.height / 2;
     _getCodeBtn.layer.masksToBounds = true;
+    
+    [self.confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.code.mas_bottom).mas_offset(20.f);
+        make.left.mas_equalTo(self.view).mas_offset(20.f);
+        make.right.mas_equalTo(self.view).mas_offset(-20.f);
+        make.height.mas_equalTo(44.f);
+    }];
+    
+    [self.confirmBtn layoutIfNeeded];
+    _confirmBtn.layer.cornerRadius = ME_LAYOUT_CORNER_RADIUS;
+    _confirmBtn.layer.masksToBounds = true;
+    
 }
 
 - (void)dealloc {
