@@ -566,6 +566,11 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
 - (NSArray<EvaluateQuestion*>*_Nullable)fetchAllQuestions:(BOOL)stash;
 
 /**
+ 提交成功后清除暂存数据 防止重复提交
+ */
+- (void)cleanStashDataWhileSubmitSuccessfully;
+
+/**
  回调
  */
 @property (nonatomic, copy) MEQuestionPanelCallback callback;
@@ -727,6 +732,10 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
     if (self.callback) {
         self.callback(stahed);
     }
+}
+
+- (void)cleanStashDataWhileSubmitSuccessfully {
+    [self.stashQuesItems removeAllObjects];
 }
 
 @end
@@ -937,7 +946,15 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
         [MEKits makeToast:@"您不能编辑当前页面"];
         return;
     }
-    [self preQuerySubmit4State:MEEvaluateStateDone completion:nil];
+    weakify(self)
+    [self preQuerySubmit4State:MEEvaluateStateDone completion:^(NSError * _Nullable err) {
+        if (err) {
+            [MEKits handleError:err];
+            return ;
+        }
+        //清空已暂存的数据 防止切换学生时再次暂存变化
+        strongify(self);[self cleanStashDatas];
+    }];
 }
 
 /**
@@ -948,7 +965,23 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
         [MEKits makeToast:@"您不能编辑当前页面"];
         return;
     }
-    [self preQuerySubmit4State:MEEvaluateStateDone completion:nil];
+    weakify(self)
+    [self preQuerySubmit4State:MEEvaluateStateDone completion:^(NSError * _Nullable err) {
+        if (err) {
+            [MEKits handleError:err];
+            return ;
+        }
+        //清空已暂存的数据 防止切换学生时再次暂存变化
+        strongify(self);[self cleanStashDatas];
+    }];
+}
+
+/**
+ 提交成功后清除暂存数据 防止再次暂存数据
+ */
+- (void)cleanStashDatas {
+    MEQuestionPanel *tmpPanel = [self fetchCurrentEditablePanel];
+    [tmpPanel cleanStashDataWhileSubmitSuccessfully];
 }
 
 /**
@@ -1003,15 +1036,16 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
     weakify(self)
     MEStudentInfoPutVM *vm = [[MEStudentInfoPutVM alloc] init];
     [vm postData:[ge data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        if (completion) {
+            completion(nil);
+        }
         strongify(self)
         if (self.callback) {
             int64_t stu_id = (state == MEEvaluateStateStash) ? self.preStudentID : self.originSource.studentId;
             NSLog(@"回调学生ID:%lld", stu_id);
             self.callback(stu_id, state);
         }
-        if (completion) {
-            completion(nil);
-        }
+        
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError:error];
         if (completion) {

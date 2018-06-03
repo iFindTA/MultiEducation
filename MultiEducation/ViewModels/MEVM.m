@@ -125,9 +125,17 @@
                         success((responseCarrier.source));
                     }
                 } else {
+                    //err message
+                    NSString *errMsg = @"未知错误！";
                     if (responseCarrier.msg.length > 0) {
-                        err = [NSError errorWithDomain:responseCarrier.msg code:-1 userInfo:nil];
+                        errMsg = responseCarrier.msg;
                     }
+                    // err cide
+                    NSUInteger errCode = -1;
+                    if ([responseCarrier.respCode isEqualToString:@"LOGIN_FAIL"]) {
+                        errCode = 401;
+                    }
+                    err = [NSError errorWithDomain:errMsg code:errCode userInfo:nil];
                     if (failure) {
                         failure(err);
                     }
@@ -208,9 +216,17 @@
                         success((responseCarrier.source), responseCarrier.page.totalPages);
                     }
                 } else {
+                    //err message
+                    NSString *errMsg = @"未知错误！";
                     if (responseCarrier.msg.length > 0) {
-                        err = [NSError errorWithDomain:responseCarrier.msg code:-1 userInfo:nil];
+                        errMsg = responseCarrier.msg;
                     }
+                    // err cide
+                    NSUInteger errCode = -1;
+                    if ([responseCarrier.respCode isEqualToString:@"LOGIN_FAIL"]) {
+                        errCode = 401;
+                    }
+                    err = [NSError errorWithDomain:errMsg code:errCode userInfo:nil];
                     if (failure) {
                         failure(err);
                     }
