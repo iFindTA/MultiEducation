@@ -88,6 +88,10 @@
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
     */
     [self.commandDelegate evalJs:@"viewWillAppear&&viewWillAppear()"];
+    PBNetState state = [PBService shared].netState;
+    if (state & (PBNetStateUnavaliable|PBNetStateUnknown)) {
+        [MEKits makeToast:ME_EMPTY_PROMPT_NETWORK];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

@@ -8,6 +8,7 @@
 
 #import "MEKits.h"
 #import "CDVViewController.h"
+#import <PBService/PBService.h>
 #import <PBBaseClasses/PBNavigationBar.h>
 #import <UIViewController+SJVideoPlayerAdd.h>
 

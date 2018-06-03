@@ -510,6 +510,13 @@
     }
 }
 
++ (void)makeTopToast:(NSString *)info {
+    if (info.length > 0) {
+        NSValue *position = [NSValue valueWithCGPoint:CGPointMake(MESCREEN_WIDTH*0.5, MESCREEN_HEIGHT*(1-ME_TOAST_BOTTOM_SCALE))];
+        [self.app.rootView makeToast:info duration:1 position:position style:nil];
+    }
+}
+
 #pragma mark --- User Token Refresh
 
 /**
