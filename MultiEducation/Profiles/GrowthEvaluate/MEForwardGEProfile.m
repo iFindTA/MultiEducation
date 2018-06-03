@@ -180,9 +180,8 @@
     //callback
     weakify(self)
     panel.callback = ^(int64_t sid, MEEvaluateState state) {
-        if (state == MEEvaluateStateDone && !self.whetherParent) {
-            [SVProgressHUD showSuccessWithStatus:@"评价成功，填写下一个吧！"];
-        }
+        NSString *alertInfo = self.whetherParent ? @"评价成功！" : @"评价成功，填写下一个吧！";
+        [SVProgressHUD showSuccessWithStatus:alertInfo];
         strongify(self)
         [self.studentPanel updateStudent:sid status:state];
     };

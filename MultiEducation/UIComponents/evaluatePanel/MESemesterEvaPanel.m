@@ -348,6 +348,11 @@ static NSString * checkSet[3] = {
  */
 - (NSError * _Nullable)whetherAnsweredAll;
 
+/**
+ 提交成功清除暂存数据 防止多次暂存
+ */
+- (void)cleanStashDataWhileUserDidSubmitSuccessfully;
+
 + (instancetype)panelWithSource:(SEEvaluateType*)type editable:(BOOL)editable;
 
 @end
@@ -556,6 +561,10 @@ static NSString * checkSet[3] = {
     }
     
     return err;
+}
+
+- (void)cleanStashDataWhileUserDidSubmitSuccessfully {
+    [self.stashQuesItems removeAllObjects];
 }
 
 @end
@@ -839,7 +848,15 @@ static NSString * checkSet[3] = {
         return;
     }
     //step2 可以提交
-    [self preQuerySESubmit4State:MEEvaluateStateDone completion:nil];
+    weakify(self)
+    [self preQuerySESubmit4State:MEEvaluateStateDone completion:^(NSError * _Nullable err) {
+        if (err) {
+            [MEKits handleError:err];
+            return ;
+        }
+        //清空已暂存的数据 防止切换学生时再次暂存变化
+        strongify(self);[self cleanStashDatas];
+    }];
 }
 
 - (NSArray<SEEvaluateItem*>*_Nullable)fetchCurrentSEEvaluateQuestions:(BOOL)stash {
@@ -885,14 +902,14 @@ static NSString * checkSet[3] = {
     weakify(self)
     MESEInfoPutVM *vm = [[MESEInfoPutVM alloc] init];
     [vm postData:[ge data] hudEnable:true success:^(NSData * _Nullable resObj) {
+        if (completion) {
+            completion(nil);
+        }
         strongify(self)
         if (self.callback) {
             int64_t stu_id = (state == MEEvaluateStateStash) ? self.preStudentID : self.originSource.studentId;
             NSLog(@"回调学生ID:%lld", stu_id);
             self.callback(stu_id, state);
-        }
-        if (completion) {
-            completion(nil);
         }
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError:error];
@@ -900,6 +917,15 @@ static NSString * checkSet[3] = {
             completion(error);
         }
     }];
+}
+
+/**
+ 清空暂存数据 防止再次提交
+ */
+- (void)cleanStashDatas {
+    for (MESEQuestionPanel *p in self.quesPanels) {
+        [p cleanStashDataWhileUserDidSubmitSuccessfully];
+    }
 }
 
 /*
