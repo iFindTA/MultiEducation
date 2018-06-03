@@ -403,6 +403,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     NSString *keyword = textField.text;
     if (keyword.length == 0) {
+        [MEKits makeTopToast:@"请先输入搜索关键词！"];
         return false;
     }
     //埋点

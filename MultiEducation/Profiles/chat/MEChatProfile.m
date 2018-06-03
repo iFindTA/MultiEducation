@@ -152,6 +152,13 @@
         } else if ([s isKindOfClass:[UIButton class]]||[s isMemberOfClass:[UIButton class]]) {
             s.hidden = true;
         }
+        //调整ContentSize 禁止下载表情
+        if ([s isKindOfClass:[UIScrollView class]] || [s isMemberOfClass:[UIScrollView class]]) {
+            UIScrollView *scroll = (UIScrollView *)s;
+            CGSize size = scroll.contentSize;
+            size.width = MESCREEN_WIDTH*6;
+            [scroll setContentSize:size];
+        }
     }
     subs = extentKit.subviews;
     UIScrollView *extentScroll;

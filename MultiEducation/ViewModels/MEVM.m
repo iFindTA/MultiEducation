@@ -63,7 +63,7 @@
 }
 
 - (void)postData:(NSData *)data hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
-    if ([PBService shared].netState == PBNetStateUnavaliable) {
+    if (![SBNetState isReachable]) {
         NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
         if (failure) {
             failure(error);
@@ -142,7 +142,7 @@
 }
 
 - (void)postData:(NSData *)data pageSize:(int32_t)size pageIndex:(int32_t)index hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable, int32_t))success failure:(void (^)(NSError * _Nonnull))failure {
-    if ([PBService shared].netState == PBNetStateUnavaliable) {
+    if (![SBNetState isReachable]) {
         NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
         if (failure) {
             failure(error);
