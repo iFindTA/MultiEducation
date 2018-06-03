@@ -42,7 +42,7 @@ static CGFloat const TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH = 1.f;
 static CGFloat const ITEM_LEADING = 10.f;
 
 @interface MEBabyPhotoProfile () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, TZImagePickerControllerDelegate, MWPhotoBrowserDelegate, UITextFieldDelegate> {
-    NSInteger _classId;
+    MEPBClass *_classPb;
     NSInteger _parentId;
     NSString *_navigationTitle;
     
@@ -78,7 +78,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (instancetype)__initWithParmas:(NSDictionary *)params {
     self = [super init];
     if (self) {
-        _classId = [[params objectForKey: @"classId"] integerValue];
+        _classPb = [params objectForKey: @"classPb"];
         _parentId = [[params objectForKey: @"parentId"] integerValue];
         _navigationTitle = [params objectForKey: @"title"];
     }
@@ -156,7 +156,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         strongify(self);
         ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
         pb.parentId = _parentId;
-        pb.classId = _classId;
+        pb.classId = _classPb.id_p;
         pb.isParent = YES;
         if (textField.text && ![textField.text  isEqualToString: @""]) {
             pb.fileName = textField.text;
@@ -286,7 +286,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     if (parentId == 0) {
         ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
         MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
-        pb.classId = _classId;
+        pb.classId = _classPb.id_p;
         pb.parentId = parentId;
         NSData *data = [pb data];
         weakify(self)
@@ -318,7 +318,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
     
 - (void)sortPhotoWithTimeLine {
-    NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classId];
+    NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p];
     NSMutableArray *dateArr = [NSMutableArray array];
     for (ClassAlbumPb *album in allPhotos) {
         [dateArr addObject: album.formatterDate];
@@ -466,7 +466,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self.navigationController presentViewController: browser animated: YES completion: nil];
     } else {
         NSString *urlStr = @"profile://root@MEBabyPhotoProfile";
-        NSDictionary *params = @{@"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: pb.id_p], @"title": pb.fileName};
+        NSDictionary *params = @{@"classPb": _classPb, @"parentId": [NSNumber numberWithInteger: pb.id_p], @"title": pb.fileName};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [MEKits handleError: error];
     }
@@ -507,7 +507,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     [MEKits handleUploadPhotos: photos assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
         strongify(self);
         NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parentId]};
+        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classPb.id_p], @"parentId": [NSNumber numberWithInteger: _parentId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [MEKits handleError: error];
         self.pickerProfile = nil;
@@ -524,7 +524,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [MEKits handleUploadVideos: @[data] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable videos) {
             strongify(self);
             NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classId], @"parentId": [NSNumber numberWithInteger: _parentId]};
+            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classPb.id_p], @"parentId": [NSNumber numberWithInteger: _parentId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [MEKits handleError: error];
             self.pickerProfile = nil;

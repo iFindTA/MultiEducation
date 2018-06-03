@@ -5,6 +5,7 @@
 #import "MEMobileVM.h"
 #import "MeuserData.pbobjc.h"
 #import "MEVerifyCodeVM.h"
+#import <YYKit.h>
 
 #define MAX_WAIT_TIME 60
 
@@ -121,18 +122,18 @@ static CGFloat const ROW_HEIGHT = 54.f;
 - (void)confirmButtonTouchEvent {
     //FIXME: CHECK TYPE
     if (_pwd.textfield.text.length < 6 || _pwd.textfield.text.length > 12) {
-        [self makeToast: @"请输入6-12位的密码"];
+        [SVProgressHUD showErrorWithStatus: @"请输入6-12位的密码"];
         return;
     }
     
     if (_code.textfield.text.length == 0) {
-        [self makeToast: @"请输入验证码"];
+        [SVProgressHUD showErrorWithStatus: @"请输入验证码"];
         return;
     }
     
     FscUserPb *userPb = [[FscUserPb alloc] init];
     userPb.code = _code.textfield.text;
-    userPb.password = _pwd.textfield.text;
+    userPb.password = [_pwd.textfield.text md5String];
     MERePasswordVM *vm = [MERePasswordVM vmWithModel: userPb];
     
     NSData *data = [userPb data];
