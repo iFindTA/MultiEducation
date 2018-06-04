@@ -52,6 +52,15 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>glb.clouddn.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<string>NO</string>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 			<key>mmbiz.qpic.cn</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
