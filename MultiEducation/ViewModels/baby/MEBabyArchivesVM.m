@@ -29,7 +29,7 @@
         self.cmd = cmd;
         _pb = pb;
     }
-    return self;
+    return self; 
 }
 
 - (NSString *)cmdCode {

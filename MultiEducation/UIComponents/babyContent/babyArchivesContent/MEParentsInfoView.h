@@ -11,7 +11,7 @@
 @interface MEParentsInfoView : MEBaseScene <UITextFieldDelegate>
 
 @property (nonatomic, strong) MEBaseLabel *tipLab;
-
+ 
 @property (nonatomic, strong) UITextField *nameTextField;
 @property (nonatomic, strong) UITextField *phoneTextField;
 @property (nonatomic, strong) UITextField *addressTextField;

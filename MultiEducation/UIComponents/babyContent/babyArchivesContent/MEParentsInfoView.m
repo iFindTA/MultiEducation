@@ -77,7 +77,7 @@
         make.left.mas_equalTo(self.nameTextField);
         make.right.mas_equalTo(self);
         make.height.mas_equalTo(22.f);
-    }];
+    }]; 
 }
 
 #pragma mark - UITextFieldDelegate
