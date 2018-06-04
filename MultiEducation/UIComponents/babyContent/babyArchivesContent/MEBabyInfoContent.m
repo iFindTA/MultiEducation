@@ -13,7 +13,6 @@
 #import "AppDelegate.h"
 #import "MebabyGrowth.pbobjc.h"
 #import <IQKeyboardManager.h>
-#import <AFNetworking/UIImageView+AFNetworking.h>
 
 #define SELF_HEIGHT adoptValue(480.f)
 #define SELF_WIDTH adoptValue(320.f)
@@ -127,8 +126,7 @@
     NSString *bucket = self.currentUser.bucketDomain;
     NSString *portrait = pb.studentPortrait;
     
-//    [self.header.portrait sd_setImageWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, portrait]] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
-    [self.header.portrait setImageWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, portrait]]];
+    [self.header.portrait sd_setImageWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, portrait]] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
     NSString *gender = pb.gender == 1 ? @"男" : @"女";
     [self.header.genderView changeTitle: gender];
     
@@ -143,10 +141,10 @@
     [self.HGBView changeTitle: [NSString stringWithFormat: @"%d", pb.hemoglobin]];
     [self.addressView changeTitle: pb.homeAddress];
     
-    self.heightView.count = pb.heightRt;
-    self.weightView.count = pb.weightRt;
-    self.leftEyeView.count = pb.leftVisionRt;
-    self.rightEyeView.count = pb.rightVisionRt;
+    [self.heightView changeCount: pb.heightRt];
+    [self.weightView changeCount: pb.weightRt];
+    [self.leftEyeView changeCount: pb.leftVisionRt];
+    [self.rightEyeView changeCount: pb.rightVisionRt];
 
 }
 

@@ -288,6 +288,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
         pb.classId = _classPb.id_p;
         pb.parentId = parentId;
+        pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDate];
         NSData *data = [pb data];
         weakify(self)
         [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
@@ -301,7 +302,7 @@ static CGFloat const ITEM_LEADING = 10.f;
                 albumPb.isSelect = NO;
                 [MEBabyAlbumListVM saveAlbum: albumPb];
             }
-            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p]];
+            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId:_parentId classId: _classPb.id_p]];
             [self.photoView reloadData];
             [self sortPhotoWithTimeLine];
         } failure:^(NSError * _Nonnull error) {

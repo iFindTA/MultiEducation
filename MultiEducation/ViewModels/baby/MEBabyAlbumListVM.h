@@ -50,6 +50,22 @@
 + (NSArray *)fetchAlbmsWithClassId:(int64_t)classId;
 
 
+/**
+ 根据parentId和classId查询数据库数据
+
+ @param parentId parentId
+ @param classId classId
+ @return classAlbumsArr
+ */
++ (NSArray *)fetchAlbumsWithParentId:(int64_t)parentId classId:(int64_t)classId;
+
+/**
+ 获取最新时间戳
+
+ @return 时间戳
+ */
++ (int64_t)fetchNewestModifyDate;
+
 
 
 @end

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -69,6 +69,13 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="baby_photo_video_play" translatesAutoresizingMaskIntoConstraints="NO" id="UCe-K4-Yn7" customClass="MEBaseImageView">
+                        <rect key="frame" x="72" y="72" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="AmI-QV-nQK"/>
+                            <constraint firstAttribute="width" constant="30" id="Ndm-Km-UX5"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
@@ -82,21 +89,25 @@
                 <constraint firstAttribute="trailing" secondItem="ox9-at-Ha3" secondAttribute="trailing" constant="42" id="T75-CS-2z3"/>
                 <constraint firstItem="iPr-aa-Z6G" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="Zk8-QL-cbq"/>
                 <constraint firstAttribute="trailing" secondItem="jiN-Bc-umm" secondAttribute="trailing" constant="7" id="edJ-ff-6Uz"/>
+                <constraint firstItem="UCe-K4-Yn7" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="j9Z-gi-VXZ"/>
                 <constraint firstAttribute="bottom" secondItem="ox9-at-Ha3" secondAttribute="bottom" constant="9" id="lrY-1c-ggs"/>
                 <constraint firstItem="p7W-sp-gM1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="rpQ-bN-fbc"/>
                 <constraint firstAttribute="trailing" secondItem="iPr-aa-Z6G" secondAttribute="trailing" constant="5" id="wiP-gn-sZG"/>
+                <constraint firstItem="UCe-K4-Yn7" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="y25-Za-3fc"/>
             </constraints>
             <connections>
                 <outlet property="countLab" destination="jiN-Bc-umm" id="mNG-nz-Wbd"/>
                 <outlet property="floderNameLabel" destination="ox9-at-Ha3" id="SNL-zS-Kqk"/>
                 <outlet property="photoIcon" destination="p7W-sp-gM1" id="xEA-OT-sJr"/>
+                <outlet property="playIcon" destination="UCe-K4-Yn7" id="0qz-wt-n5v"/>
                 <outlet property="selectBtn" destination="iPr-aa-Z6G" id="1Ca-nf-f4h"/>
             </connections>
-            <point key="canvasLocation" x="10" y="44"/>
+            <point key="canvasLocation" x="-202" y="31"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="baby_content_photo_normal" width="26" height="26"/>
         <image name="baby_content_photo_sel" width="26" height="26"/>
+        <image name="baby_photo_video_play" width="37" height="37"/>
     </resources>
 </document>

@@ -282,6 +282,7 @@
     } else {
         self.countLab.text = [NSString stringWithFormat: @"%.1f", count];
     }
+    [self updateCountLabWhileTitleTextChanged: count];
 }
 
 @end

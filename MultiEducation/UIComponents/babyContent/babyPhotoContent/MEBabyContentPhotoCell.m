@@ -23,6 +23,7 @@
     [super awakeFromNib];
     // Initialization code
     self.photoIcon.contentMode = UIViewContentModeScaleAspectFill;
+    self.playIcon.hidden = true;
 }
 
 - (void)setData:(ClassAlbumPb *)pb {
@@ -87,10 +88,9 @@
                     self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
                     return;
                 }
-                
             } else {
                 if ([firstAlbumPb.fileType isEqualToString: @"mp4"]) {
-                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, firstAlbumPb.filePath, QN_VIDEO_FIRST_FPS_URL];
                 } else {
                     urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, firstAlbumPb.filePath];
                 }
@@ -103,9 +103,11 @@
         self.floderNameLabel.hidden = YES;
         self.floderNameLabel.text = @"";
         if ([pb.fileType isEqualToString: @"mp4"]) {
+            self.playIcon.hidden = false;
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         } else {
+            self.playIcon.hidden = true;
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         }

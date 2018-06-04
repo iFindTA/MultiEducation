@@ -77,12 +77,11 @@
     
     NSMutableString *where = [NSMutableString string];
     for (MEPBClass *class in classPbArr) {
-        [where appendString: [NSString stringWithFormat: @"classId = '%lld'", class.id_p]];
+        [where appendString: [NSString stringWithFormat: @"classId = '%lld',", class.id_p]];
     }
     //delete the last ','
-    [where deleteCharactersInRange: NSMakeRange(where.length - 3, 3)];
+    [where deleteCharactersInRange: NSMakeRange(where.length - 1, 1)];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
-
     return arr;
 }
 
@@ -96,6 +95,17 @@
     NSString *where = [NSString stringWithFormat: @"parentId = %lld", parentId];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
+}
+
++ (NSArray *)fetchAlbumsWithParentId:(int64_t)parentId classId:(int64_t)classId {
+    NSString *where = [NSString stringWithFormat: @"parentId = %lld AND classId = %lld", parentId, classId];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
+    return arr;
+}
+
++ (int64_t)fetchNewestModifyDate {
+    ClassAlbumPb *newestAlbum = [WHCSqlite query: [ClassAlbumPb class] order: @"by modifiedDate desc"].firstObject;
+    return newestAlbum.modifiedDate;
 }
 
 - (NSString *)cmdCode {
