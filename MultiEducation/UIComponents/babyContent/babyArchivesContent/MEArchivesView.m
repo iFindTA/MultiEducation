@@ -7,11 +7,12 @@
 //
 
 #import "MEArchivesView.h"
-#import <IQKeyboardManager.h>
+#import <SVProgressHUD.h>
 
 @interface MEArchivesView() <UITextFieldDelegate> {
     BOOL _isEditing;   // whether is editing status
     BOOL _whetherNeedGes;
+    BOOL _isHavePoint;  //是否有了小数点
 }
 
 /**
@@ -44,11 +45,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        [IQKeyboardManager sharedManager].enable = false;
-        [IQKeyboardManager sharedManager].enableAutoToolbar = false;
-        [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
-        
+        self.backgroundColor = [UIColor clearColor];
         UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(didTapArchivesView)];
         [self addGestureRecognizer: tapGes];
     }
@@ -70,13 +67,22 @@
 }
 
 - (void)configArchives:(BOOL)whetherNeedGes {
-    
     _whetherNeedGes = whetherNeedGes;
     
+    if (!_titleTextColor) {
+        _titleTextColor = UIColorFromRGB(0x333333);
+    }
+    
+    if (!_tipTextColor) {
+        _tipTextColor = UIColorFromRGB(0x999999);
+    }
+    
     self.titleLab = [[MEBaseLabel alloc] initWithFrame: CGRectZero];
+    self.titleLab.backgroundColor = [UIColor clearColor];
     self.titleLab.text = _title;
+    self.titleLab.userInteractionEnabled = true;
     self.titleLab.font = UIFontPingFangSC(17);
-    self.titleLab.textColor = UIColorFromRGB(0x333333);
+    self.titleLab.textColor = _titleTextColor;
     self.titleLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview: self.titleLab];
     [self.titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -93,8 +99,12 @@
 //        [attStr addAttribute: NSForegroundColorAttributeName value: self.tipLab.textColor range: NSMakeRange(0, self.titleTextField.placeholder.length)];
 //        self.titleTextField.attributedPlaceholder = attStr;
         self.titleTextField.textColor = self.titleLab.textColor;
+        if (_isOnlyNumber) {
+            self.titleTextField.keyboardType = UIKeyboardTypeDecimalPad;
+        }
         self.titleTextField.font = self.titleLab.font;
         self.titleTextField.text = self.title;
+        self.titleTextField.textAlignment = NSTextAlignmentCenter;
         self.titleTextField.hidden = true;
         self.titleTextField.delegate = self;
         [self addSubview: self.titleTextField];
@@ -104,9 +114,11 @@
     }
 
     self.tipLab = [[MEBaseLabel alloc] initWithFrame: CGRectZero];
+    self.tipLab.backgroundColor = [UIColor clearColor];
     self.tipLab.text = _tip;
     self.tipLab.font = UIFontPingFangSC(12);
-    self.tipLab.textColor = UIColorFromRGB(0x999999);
+    self.tipLab.textColor = _tipTextColor;
+    self.tipLab.userInteractionEnabled = true;
     self.tipLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview: self.tipLab];
     [self.tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,14 +128,16 @@
     }];
     
     if (self.type == MEArchivesTypeTipCount) {
-        NSString *symbol;
+        NSString *symbol = @"";
         if (_count > 0) { symbol = @"+"; }
-        else { symbol = @"-"; }
         self.countLab = [[MEBaseLabel alloc] initWithFrame: CGRectZero];
+        self.countLab.backgroundColor = [UIColor clearColor];
         self.countLab.text = [NSString stringWithFormat:@"%@%.1f", symbol, _count];
+        self.countLab.userInteractionEnabled = true;
         self.countLab.font = UIFontPingFangSC(10);
         self.countLab.textColor = UIColorFromRGB(0xD46767);
         self.countLab.textAlignment = NSTextAlignmentLeft;
+        [self changeCount: _count];
         [self addSubview: self.countLab];
         [self.countLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.titleLab.mas_top);
@@ -132,6 +146,8 @@
         }];
         
         self.tipImageView = [[MEBaseImageView alloc] init];
+        self.tipImageView.backgroundColor = [UIColor clearColor];
+        self.tipImageView.userInteractionEnabled = true;
         [self updateCountLabWhileTitleTextChanged: _count];
         [self addSubview: self.tipImageView];
         [self.tipImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -143,23 +159,39 @@
     }
 }
 
-- (void)updateCountLabWhileTitleTextChanged:(NSInteger)count {
+- (void)updateCountLabWhileTitleTextChanged:(double)count {
     if (count > 0) {
         _tipImageView.image = [UIImage imageNamed: @"baby_archives_add_count"];
-    } else {
+        _tipImageView.hidden = false;
+    } else if(count < 0) {
         _tipImageView.image = [UIImage imageNamed: @"baby_archives_decrease_count"];
+        _tipImageView.hidden = false;
+    } else {
+        _tipImageView.hidden = true;
     }
 }
 
 - (void)changeTitle:(NSString *)titleText {
+    if ([titleText isEqualToString: @""] || titleText == nil) {
+        titleText = @"-";
+    }
     self.titleLab.text = titleText;
     self.titleTextField.text = titleText;
+    self.title = titleText;
+}
+
+- (void)changeTip:(NSString *)tipText {
+    self.tipLab.text = tipText;
+    self.tip = tipText;
 }
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     _isEditing = true;
-    self.titleTextField.text = self.titleLab.text;
+    if (![self.titleLab.text isEqualToString: @"-"]) {
+        self.titleTextField.text = self.titleLab.text;
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     return true;
 }
 
@@ -172,16 +204,84 @@
     _isEditing = false;
     self.titleLab.hidden = false;
     self.titleTextField.hidden = true;
+    self.titleLab.text = textField.text;
+    self.title = textField.text;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField.text rangeOfString:@"."].location == NSNotFound) {
+        _isHavePoint = NO;
+    }
+    if ([string length] > 0) {
+        unichar single = [string characterAtIndex:0];//当前输入的字符
+        if ((single >= '0' && single <= '9') || single == '.') {//数据格式正确
+            //首字母不能为小数点
+            if([textField.text length] == 0){
+                if(single == '.') {
+                    [MEKits makeTopToast: @"首位不能为."];
+                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                    return NO;
+                }
+            }
+            
+            //输入的字符是否是小数点
+            if (single == '.') {
+                if(!_isHavePoint)//text中还没有小数点
+                {
+                    _isHavePoint = YES;
+                    return YES;
+                    
+                } else {
+                    [MEKits makeTopToast: @"小数点已存在"];
+                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                    return NO;
+                }
+            }else{
+                if (_isHavePoint) {//存在小数点
+                    
+                    //判断小数点的位数
+                    NSRange ran = [textField.text rangeOfString:@"."];
+                    if (range.location - ran.location <= 2) {
+                        return YES;
+                    }else{
+                        [MEKits makeTopToast: @"小数点后最多可输入两位"];
+                        return NO;
+                    }
+                }else{
+                    return YES;
+                }
+            }
+        }else{//输入的数据格式不正确
+            [MEKits makeTopToast: @"文字格式错误！"];
+            [textField.text stringByReplacingCharactersInRange:range withString:@""];
+            return NO;
+        }
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 #pragma mark - setter
 - (void)setTitleTextColor:(UIColor *)titleTextColor {
+    _titleTextColor = titleTextColor;
     self.titleLab.textColor = titleTextColor;
     self.titleTextField.textColor = titleTextColor;
 }
 
 - (void)setTipTextColor:(UIColor *)tipTextColor {
+    _tipTextColor = tipTextColor;
     self.tipLab.textColor = tipTextColor;
+}
+
+- (void)changeCount:(double)count {
+    _count = count;
+    if (count == 0) {
+        self.countLab.text = @"";
+    } else {
+        self.countLab.text = [NSString stringWithFormat: @"%.1f", count];
+    }
 }
 
 @end

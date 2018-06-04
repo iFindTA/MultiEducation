@@ -15,5 +15,14 @@
 
 @property (nonatomic, strong) MEArchivesView *genderView;
 
+@property (nonatomic, strong) MEBaseImageView *portrait;
+
+@property (nonatomic, strong) MEArchivesView *birthView;
+
+@property (nonatomic, strong) MEArchivesView *nameView;
+
+@property (nonatomic, copy) void (^didTapPortraitCallback) (void);
+
+- (void)changeBabyPortrait:(NSString *)portrait;
 
 @end

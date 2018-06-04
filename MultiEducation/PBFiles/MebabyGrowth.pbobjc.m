@@ -122,19 +122,28 @@ typedef struct GuStudentArchivesListPb__storage_ {
 @dynamic studentPortrait;
 @dynamic studentName;
 @dynamic classId;
+@dynamic sid;
+@dynamic heightRt;
+@dynamic weightRt;
+@dynamic leftVisionRt;
+@dynamic rightVisionRt;
 
 typedef struct GuStudentArchivesPb__storage_ {
-  uint32_t _has_storage_[1];
+  uint32_t _has_storage_[2];
   int32_t semester;
   int32_t gender;
   int32_t age;
   int32_t height;
   int32_t weight;
+  float leftVision;
+  float rightVision;
   int32_t hemoglobin;
+  int32_t heightRt;
+  int32_t weightRt;
+  float leftVisionRt;
+  float rightVisionRt;
   NSString *petName;
   NSString *zodiac;
-  NSString *leftVision;
-  NSString *rightVision;
   NSString *bloodType;
   NSString *nation;
   NSString *homeAddress;
@@ -153,6 +162,7 @@ typedef struct GuStudentArchivesPb__storage_ {
   int64_t gradeId;
   int64_t birthday;
   int64_t classId;
+  int64_t sid;
 } GuStudentArchivesPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -267,7 +277,7 @@ typedef struct GuStudentArchivesPb__storage_ {
         .hasIndex = 11,
         .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, leftVision),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
+        .dataType = GPBDataTypeFloat,
       },
       {
         .name = "rightVision",
@@ -276,7 +286,7 @@ typedef struct GuStudentArchivesPb__storage_ {
         .hasIndex = 12,
         .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, rightVision),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeString,
+        .dataType = GPBDataTypeFloat,
       },
       {
         .name = "bloodType",
@@ -413,6 +423,51 @@ typedef struct GuStudentArchivesPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "sid",
+        .dataTypeSpecific.className = NULL,
+        .number = GuStudentArchivesPb_FieldNumber_Sid,
+        .hasIndex = 28,
+        .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, sid),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeInt64,
+      },
+      {
+        .name = "heightRt",
+        .dataTypeSpecific.className = NULL,
+        .number = GuStudentArchivesPb_FieldNumber_HeightRt,
+        .hasIndex = 29,
+        .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, heightRt),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "weightRt",
+        .dataTypeSpecific.className = NULL,
+        .number = GuStudentArchivesPb_FieldNumber_WeightRt,
+        .hasIndex = 30,
+        .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, weightRt),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "leftVisionRt",
+        .dataTypeSpecific.className = NULL,
+        .number = GuStudentArchivesPb_FieldNumber_LeftVisionRt,
+        .hasIndex = 31,
+        .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, leftVisionRt),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeFloat,
+      },
+      {
+        .name = "rightVisionRt",
+        .dataTypeSpecific.className = NULL,
+        .number = GuStudentArchivesPb_FieldNumber_RightVisionRt,
+        .hasIndex = 32,
+        .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, rightVisionRt),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeFloat,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[GuStudentArchivesPb class]
@@ -424,8 +479,8 @@ typedef struct GuStudentArchivesPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\022\002\t\000\003\007\000\005\007\000\014\n\000\r\013\000\016\t\000\021\013\000\022\r\000\023\010\000\024\n\000\025\014\000\026\016\000\027\n\000"
-        "\030\014\000\031\016\000\032\017\000\033\013\000\034\007\000";
+        "\026\002\t\000\003\007\000\005\007\000\014\n\000\r\013\000\016\t\000\021\013\000\022\r\000\023\010\000\024\n\000\025\014\000\026\016\000\027\n\000"
+        "\030\014\000\031\016\000\032\017\000\033\013\000\034\007\000\036\010\000\037\010\000 \014\000!\r\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

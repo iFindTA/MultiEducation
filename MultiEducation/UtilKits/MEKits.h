@@ -72,6 +72,26 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)getFirstLetterFromString:(NSString *)aString;
 
+
+/**
+ get dateString from timeStamp
+
+ @param formatter date formatter string
+ @param timeStamp time
+ @return dateString
+ */
++ (NSString *)timeStamp2DateStringWithFormatter:(NSString *)formatter timeStamp:(int64_t)timeStamp;
+
+
+/**
+ get timeStamp from dateString
+
+ @param formatter formatter
+ @param dateStr dateString
+ @return timeStamp
+ */
++ (int64_t)DateString2TimeStampWithFormatter:(NSString *)formatter dateStr:(NSString *)dateStr;
+
 #pragma mark --- User Abouts
 
 /**

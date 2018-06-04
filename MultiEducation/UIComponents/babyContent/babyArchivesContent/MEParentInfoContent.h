@@ -7,7 +7,16 @@
 //
 
 #import "MEBaseScene.h"
+@class GuStudentArchivesPb;
+@class MEParentsInfoView;
 
 @interface MEParentInfoContent : MEBaseScene
+
+@property (nonatomic, strong) MEParentsInfoView *dadView;
+@property (nonatomic, strong) MEParentsInfoView *momView;
+
+@property (nonatomic, strong) UITextView *tipTextView;
+
+- (void)setData:(GuStudentArchivesPb *)pb;
 
 @end

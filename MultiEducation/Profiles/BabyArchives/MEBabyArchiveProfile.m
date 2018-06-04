@@ -12,11 +12,23 @@
 #import "MEParentInfoContent.h"
 #import "MEBabyIndexVM.h"
 #import "MebabyIndex.pbobjc.h"
+#import "MEBabyIndexVM.h"
+#import "MebabyIndex.pbobjc.h"
+#import "MEBabyArchivesVM.h"
+#import <TZImagePickerController.h>
+#import "MEQiniuUtils.h"
+#import "MEBabyInfoHeader.h"
+#import "MEArchivesView.h"
+#import "MEParentsInfoView.h"
 
 #define COMPONENT_WIDTH adoptValue(320)
 #define COMPONENT_HEIGHT adoptValue(480)
 
-@interface MEBabyArchiveProfile ()
+@interface MEBabyArchiveProfile () <TZImagePickerControllerDelegate> {
+    GuStudentArchivesPb *_curArchivesPb;
+    BOOL _whetherEditArchives;  //用于判断pop时是否提示
+    NSString *_selectedStudentPortrait; //从相册选中的头像
+}
 
 @property (nonatomic, strong) NSDictionary *params;
 
@@ -26,6 +38,8 @@
 
 @property (nonatomic, strong) MEBabyInfoContent *babyContent;
 @property (nonatomic, strong) MEParentInfoContent *parentContent;
+
+@property (nonatomic, strong) TZImagePickerController *pickerProfile;
 
 @end
 
@@ -40,7 +54,6 @@
 }
 
 - (PBNavigationBar *)initializedNavigationBar {
-    
     if (!self.navigationBar) {
         //customize settings
         UIColor *tintColor = pbColorMake(ME_THEME_COLOR_TEXT);
@@ -59,7 +72,6 @@
         naviBar.tintColor = tintColor;//影响item字体
         [naviBar setTranslucent:false];
         [naviBar setTitleTextAttributes:attributes];//影响标题
-        
         return naviBar;
     }
     
@@ -70,14 +82,26 @@
     return UIStatusBarStyleDefault;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver: self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(didReciveEditBabyArchivesNotification:) name: @"DID_EDIT_BABY_ARCHIVES" object: nil];
+    
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        [self loadDataOfBabyArchives: 0];
+    }
+    
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self color:pbColorMake(ME_THEME_COLOR_TEXT)];
+    UIBarButtonItem *back = [MEKits barWithUnicode: @"\U0000e6e2" color: UIColorFromRGB(ME_THEME_COLOR_TEXT) target: self action: @selector(didBackItemTouchEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"宝宝档案"];
     item.leftBarButtonItems = @[spacer, back];
+    UIBarButtonItem *confirm = [MEKits barWithTitle: @"确认" color: UIColorFromRGB(ME_THEME_COLOR_TEXT) target: self action: @selector(putBabyArchives2Server)];
+    item.rightBarButtonItems = @[confirm, spacer];
     [self.navigationBar pushNavigationItem:item animated:true];
     
     [self.view addSubview: self.scroll];
@@ -110,26 +134,220 @@
     }];
     
     [self.babyContent mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.bottom.mas_equalTo(self.scrollContent);
+        make.left.top.mas_equalTo(self.scrollContent);
+        make.bottom.mas_equalTo(self.scrollContent).mas_offset(-10);
         make.width.mas_equalTo(COMPONENT_WIDTH);
     }];
-    
+    [self.babyContent layoutIfNeeded];
+    self.babyContent.layer.shadowColor = UIColorFromRGB(0x878787).CGColor;
+    self.babyContent.layer.shadowOpacity = 0.6f;
+    self.babyContent.layer.shadowOffset = CGSizeMake(-2.f, 6.0f);
+    self.babyContent.layer.shadowRadius = 6.0f;
+    self.babyContent.layer.masksToBounds = NO;
+
     [self.parentContent mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.babyContent.mas_right).mas_offset(17.f);
-        make.top.bottom.mas_equalTo(self.scrollContent);
+        make.top.mas_equalTo(self.scrollContent);
+        make.bottom.mas_equalTo(self.scrollContent).mas_offset(-10);
         make.width.mas_equalTo(COMPONENT_WIDTH);
     }];
+    self.parentContent.layer.shadowColor = UIColorFromRGB(0x878787).CGColor;
+    self.parentContent.layer.shadowOpacity = 0.6f;
+    self.parentContent.layer.shadowOffset = CGSizeMake(-2.f, 6.0f);
+    self.parentContent.layer.shadowRadius = 6.0f;
+    self.parentContent.layer.masksToBounds = NO;
     
     [self.scrollContent mas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.parentContent.mas_right).mas_offset(17.f);
     }];
-    
 }
 
+- (void)didReciveEditBabyArchivesNotification:(NSNotification *)noti {
+    _whetherEditArchives = true;
+}
+
+- (void)didBackItemTouchEvent {
+    if (!_whetherEditArchives) {
+        [self.navigationController popViewControllerAnimated: true];
+        return;
+    }
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle: @"提示" message: @"您有未提交的修改信息，确定离开吗？" preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertAction *certain = [UIAlertAction actionWithTitle: @"保存" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self putBabyArchives2Server];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"离开" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated: true];
+    }];
+    [controller addAction: certain];
+    [controller addAction: cancel];
+    [self presentViewController: controller animated: true completion: nil];
+}
+
+- (void)loadDataOfBabyArchives:(NSInteger)stuId {
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        GuIndexPb *indexBb = [MEBabyIndexVM fetchSelectBaby];
+        GuStudentArchivesPb *pb = [[GuStudentArchivesPb alloc] init];
+        pb.studentId = indexBb.studentArchives.studentId;
+        MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: pb cmdCode: @"GU_STUDENT_ARCHIVES_GET"];
+        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+            GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
+            _curArchivesPb = pb;
+            [self.babyContent setData: pb];
+            [self.parentContent setData: pb];
+        } failure:^(NSError * _Nonnull error) {
+            [self makeToast: error.description];
+        }];
+        
+    } else {
+        GuStudentArchivesPb *pb = [[GuStudentArchivesPb alloc] init];
+        pb.studentId = stuId;
+        MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: pb cmdCode: @"GU_STUDENT_ARCHIVES_GET"];
+        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+            GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
+            _curArchivesPb = pb;
+            [self.babyContent setData: pb];
+            [self.parentContent setData: pb];
+        } failure:^(NSError * _Nonnull error) {
+            [self makeToast: error.description];
+        }];
+    }
+}
+
+- (BOOL)whetherNeedPutToServer:(NSString *)text {
+    if ([text isEqualToString: @""] || text == nil || [text isEqualToString: @"-"]) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+- (void)putBabyArchives2Server {
+    MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: _curArchivesPb cmdCode: @"GU_STUDENT_ARCHIVES_PUT"];
+    //gender
+    if ([self.babyContent.header.genderView.title isEqualToString: @"男"]) {
+        _curArchivesPb.gender = 1;
+    } else {
+        _curArchivesPb.gender = 2;
+    }
+    
+    //portrait
+    if (![_selectedStudentPortrait isEqualToString: @""]) {
+        _curArchivesPb.studentPortrait = _selectedStudentPortrait;
+    }
+    
+    //birthday
+    int64_t birth = [MEKits DateString2TimeStampWithFormatter: @"yyyy-MM" dateStr: self.babyContent.header.birthView.title];
+    _curArchivesPb.birthday = birth;
+    
+    //name
+    if ([self whetherNeedPutToServer: self.babyContent.header.nameView.title]) {
+        _curArchivesPb.studentName = self.babyContent.header.nameView.title;
+    }
+    
+    //height
+    _curArchivesPb.height = [self.babyContent.heightView.title intValue];
+    
+    //weight
+    _curArchivesPb.weight = [self.babyContent.weightView.title intValue];
+
+    //nickname
+    if ([self whetherNeedPutToServer: self.babyContent.nickView.title]) {
+        _curArchivesPb.petName = self.babyContent.nickView.title;
+    }
+
+    //nation
+    if ([self whetherNeedPutToServer: self.babyContent.nationView.title]) {
+        _curArchivesPb.nation = self.babyContent.nationView.title;
+    }
+
+    //blood
+    if ([self whetherNeedPutToServer: self.babyContent.bloodView.title]) {
+        _curArchivesPb.bloodType = self.babyContent.bloodView.title;
+    }
+
+    //zodiac
+    if ([self whetherNeedPutToServer: self.babyContent.zodiacView.title]) {
+        _curArchivesPb.zodiac = self.babyContent.zodiacView.title;
+    }
+
+    //left eye
+    _curArchivesPb.leftVision = [self.babyContent.leftEyeView.title floatValue];
+
+    //right eye
+    _curArchivesPb.rightVision = [self.babyContent.rightEyeView.title floatValue];
+
+    //HGB
+    _curArchivesPb.hemoglobin = [self.babyContent.HGBView.title intValue];
+
+    //home address
+    if ([self whetherNeedPutToServer: self.babyContent.addressView.title]) {
+        _curArchivesPb.homeAddress = self.babyContent.addressView.title;
+    }
+
+    //dadname
+    if ([self whetherNeedPutToServer: self.parentContent.dadView.nameTextField.text]) {
+        _curArchivesPb.fatherName = self.parentContent.dadView.nameTextField.text;
+    }
+
+    //dadphone
+    if ([self whetherNeedPutToServer: self.parentContent.dadView.phoneTextField.text]) {
+        _curArchivesPb.fatherMobile = self.parentContent.dadView.phoneTextField.text;
+    }
+
+    //dad address
+    if ([self whetherNeedPutToServer: self.parentContent.dadView.addressTextField.text]) {
+        _curArchivesPb.fatherWorkUnit = self.parentContent.dadView.addressTextField.text;
+    }
+
+    //momname
+    if ([self whetherNeedPutToServer: self.parentContent.momView.nameTextField.text]) {
+        _curArchivesPb.motherName = self.parentContent.momView.nameTextField.text;
+    }
+    
+    //momphone
+    if ([self whetherNeedPutToServer: self.parentContent.momView.phoneTextField.text]) {
+        _curArchivesPb.motherMobile = self.parentContent.momView.phoneTextField.text;
+    }
+    
+    //mom address
+    if ([self whetherNeedPutToServer: self.parentContent.momView.addressTextField.text]) {
+        _curArchivesPb.motherWorkUnit = self.parentContent.momView.addressTextField.text;
+    }
+    
+    //tip
+    if ([self whetherNeedPutToServer: self.parentContent.tipTextView.text]) {
+        _curArchivesPb.warnItem = self.parentContent.tipTextView.text;
+    }
+    
+    weakify(self);
+    [vm postData: [_curArchivesPb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        [MEKits makeToast: @"修改宝宝档案成功！"];
+        _whetherEditArchives = false;
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits makeToast: error.description];
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - TZImagePickerControllerDelegate
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray<UIImage *> *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
+    UIImage *image = photos[0];
+    MEQiniuUtils *utils = [MEQiniuUtils sharedQNUploadUtils];
+    weakify(self);
+    [MEKits handleUploadPhotos: @[image] assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
+        strongify(self);
+        [utils uploadImages: images  callback:^(NSArray *succKeys, NSArray *failKeys, NSError *error) {
+            NSString *portrait = succKeys[0];
+            weakify(self);
+            _selectedStudentPortrait = portrait;
+            [self.babyContent changeBabyPortrait: portrait];
+        }];
+    }];
 }
 
 #pragma mark - lazyloading
@@ -137,6 +355,7 @@
     if (!_scroll) {
         _scroll = [[UIScrollView alloc] initWithFrame: CGRectZero];
         _scroll.backgroundColor = [UIColor whiteColor];
+        _scroll.showsHorizontalScrollIndicator = false;
         _scroll.pagingEnabled = true;
     }
     return _scroll;
@@ -145,6 +364,11 @@
 - (MEBabyInfoContent *)babyContent {
     if (!_babyContent) {
         _babyContent = [[MEBabyInfoContent alloc] initWithFrame: CGRectZero];
+        weakify(self);
+        _babyContent.didTapPortraitCallback = ^{
+            strongify(self);
+            [self.navigationController presentViewController: self.pickerProfile animated: true completion: nil];
+        };
     }
     return _babyContent;
 }
@@ -165,13 +389,11 @@
 }
 
 - (void)configureStudentPanel {
-    GuIndexPb *index = [MEBabyIndexVM fetchSelectBaby];
-    
     _panel = [MEStudentsPanel panelWithSuperView: self.view topMargin: self.navigationBar];
     _panel.autoScrollNext = false;
-    _panel.classID = index.studentArchives.classId;
-    _panel.gradeID = index.gradeId;
-    _panel.semester = index.semester;
+    _panel.classID = [[self.params objectForKey: @"classId"] integerValue];
+    _panel.gradeID = [[self.params objectForKey: @"gradeId"] integerValue];
+    _panel.semester = [[self.params objectForKey: @"semester"] integerValue];
 
     [self.view insertSubview:_panel belowSubview: self.navigationBar];
     [self.view insertSubview:_panel aboveSubview: self.scroll];
@@ -183,10 +405,17 @@
     _panel.callback = ^(int64_t sid, int64_t pre_sid) {
         NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
         strongify(self);
-
-
+        [self loadDataOfBabyArchives: sid];
     };
-    
+}
+
+- (TZImagePickerController *)pickerProfile {
+    if (!_pickerProfile) {
+        _pickerProfile = [[TZImagePickerController alloc] initWithMaxImagesCount: 20 delegate: self];
+        _pickerProfile.allowPickingOriginalPhoto = NO;
+        _pickerProfile.allowPickingVideo = YES;
+    }
+    return _pickerProfile;
 }
 
 

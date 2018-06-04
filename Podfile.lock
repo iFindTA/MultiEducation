@@ -1,4 +1,5 @@
 PODS:
+  - ActionSheetPicker-3.0 (2.3.0)
   - AFNetworking (3.2.1):
     - AFNetworking/NSURLSession (= 3.2.1)
     - AFNetworking/Reachability (= 3.2.1)
@@ -130,6 +131,7 @@ PODS:
     - Masonry
 
 DEPENDENCIES:
+  - ActionSheetPicker-3.0 (~> 2.3.0)
   - BEMCheckBox (~> 1.4.1)
   - CocoaAsyncSocket (~> 7.6.3)
   - Cordova (~> 4.5.4)
@@ -170,6 +172,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - ActionSheetPicker-3.0
     - AFNetworking
     - BEMCheckBox
     - CocoaAsyncSocket
@@ -222,6 +225,7 @@ SPEC REPOS:
     - ZFPlayer
 
 SPEC CHECKSUMS:
+  ActionSheetPicker-3.0: eef157d75e151f255c5333d26656c7fbfe905a51
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
@@ -273,6 +277,6 @@ SPEC CHECKSUMS:
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZFPlayer: 833cb3974b619bfd01a0ec1ebaabfe6f629e85b4
 
-PODFILE CHECKSUM: d50c2e482d5b5c4adb6b46e3cb30ec7c992f0ff7
+PODFILE CHECKSUM: 9b5f82815ecca934f278a10443a2752eb56a7542
 
 COCOAPODS: 1.5.0

@@ -678,12 +678,6 @@
     }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    NSString *urlStr = @"profile://root@MEBabyArchiveProfile";
-//    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
-//    [MEKits handleError: error];
-}
-
 #pragma mark - lazyloading
 - (UICollectionView *)componentView {
     if (!_componentView) {

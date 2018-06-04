@@ -15,12 +15,41 @@ typedef NS_ENUM(NSUInteger, MEArchivesType) {
 
 @interface MEArchivesView : MEBaseScene
 
+
+/**
+ 文字内容
+ */
 @property (nonatomic, strong) NSString *title;
+
+/**
+ 提示输入文字
+ */
 @property (nonatomic, strong) NSString *tip;
+
+/**
+ 是否需要增减标志view
+ */
 @property (nonatomic, assign) MEArchivesType type;
+
+/**
+ 增减数字
+ */
 @property (nonatomic, assign) double count;
 
+/**
+ 是否需要限制只能输入数字
+ */
+@property (nonatomic, assign) BOOL isOnlyNumber;
+
+
+/**
+ 文字color
+ */
 @property (nonatomic, strong) UIColor *titleTextColor;
+
+/**
+ 提示文字颜色
+ */
 @property (nonatomic, strong) UIColor *tipTextColor;
 
 @property (nonatomic, copy) void(^didTapArchivesViewCallback) (void);
@@ -30,5 +59,11 @@ typedef NS_ENUM(NSUInteger, MEArchivesType) {
 
 //通过DatePicker 或者 AlertController 选择后修改titleText
 - (void)changeTitle:(NSString *)titleText;
+
+//修改tip文字
+- (void)changeTip:(NSString *)tipText;
+
+//修改增减数字
+- (void)changeCount:(double)count;
 
 @end

@@ -16,8 +16,8 @@ message GuStudentArchivesPb {
     string zodiac = 9; //生肖
     int32 height = 10; //身高
     int32 weight = 11; //体重
-    string leftVision = 12;//左眼视力
-    string rightVision =13;//右眼视力
+    float leftVision = 12;//左眼视力
+    float rightVision =13;//右眼视力
     string bloodType = 14;//血型
     int32 hemoglobin = 15;//血色素
     string nation = 16;//民族
@@ -33,4 +33,11 @@ message GuStudentArchivesPb {
     string studentPortrait = 26;//头像
     string studentName = 27;    //姓名
     int64 classId = 28;    //所在班级id
+    int64 sid = 29;    //学籍号
+    int32 heightRt=30;//对比上学期的差值结果
+    int32 weightRt=31;//对比上学期的差值结果
+    float leftVisionRt=32;//对比上学期的差值结果
+    float rightVisionRt=33;//对比上学期的差值结果
+
+
 }

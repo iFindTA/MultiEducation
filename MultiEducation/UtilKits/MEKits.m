@@ -144,6 +144,27 @@
     return [strPinYin substringToIndex:1];
 }
 
++ (NSString *)timeStamp2DateStringWithFormatter:(NSString *)formatter timeStamp:(int64_t)timeStamp {
+    if ([formatter isEqualToString: @""] || formatter == nil) {
+        formatter = @"yyyy-MM-dd HH:mm:ss";
+    }
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970: timeStamp / 1000];
+    NSDateFormatter *dateformatter= [[NSDateFormatter alloc] init];
+    [dateformatter setDateFormat: formatter];
+    NSString *dateStr=[dateformatter stringFromDate: date];
+    return dateStr;
+}
+
++ (int64_t)DateString2TimeStampWithFormatter:(NSString *)formatter dateStr:(NSString *)dateStr {
+    if ([formatter isEqualToString: @""] || formatter == nil) {
+        return 0;
+    }
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = formatter;
+    NSDate *date = [dateFormatter dateFromString: dateStr];
+    return (int64_t)([date timeIntervalSince1970] * 1000);
+}
+
 #pragma mark --- User Abouts
 
 /**

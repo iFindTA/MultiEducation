@@ -91,6 +91,11 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
   GuStudentArchivesPb_FieldNumber_StudentPortrait = 26,
   GuStudentArchivesPb_FieldNumber_StudentName = 27,
   GuStudentArchivesPb_FieldNumber_ClassId = 28,
+  GuStudentArchivesPb_FieldNumber_Sid = 29,
+  GuStudentArchivesPb_FieldNumber_HeightRt = 30,
+  GuStudentArchivesPb_FieldNumber_WeightRt = 31,
+  GuStudentArchivesPb_FieldNumber_LeftVisionRt = 32,
+  GuStudentArchivesPb_FieldNumber_RightVisionRt = 33,
 };
 
 @interface GuStudentArchivesPb : GPBMessage
@@ -125,10 +130,10 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
 @property(nonatomic, readwrite) int32_t weight;
 
 /** 左眼视力 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *leftVision;
+@property(nonatomic, readwrite) float leftVision;
 
 /** 右眼视力 */
-@property(nonatomic, readwrite, copy, null_resettable) NSString *rightVision;
+@property(nonatomic, readwrite) float rightVision;
 
 /** 血型 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *bloodType;
@@ -174,6 +179,21 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
 
 /** 所在班级id */
 @property(nonatomic, readwrite) int64_t classId;
+
+/** 学籍号 */
+@property(nonatomic, readwrite) int64_t sid;
+
+/** 对比上学期的差值结果 */
+@property(nonatomic, readwrite) int32_t heightRt;
+
+/** 对比上学期的差值结果 */
+@property(nonatomic, readwrite) int32_t weightRt;
+
+/** 对比上学期的差值结果 */
+@property(nonatomic, readwrite) float leftVisionRt;
+
+/** 对比上学期的差值结果 */
+@property(nonatomic, readwrite) float rightVisionRt;
 
 @end
 

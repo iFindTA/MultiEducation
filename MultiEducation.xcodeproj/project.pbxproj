@@ -128,6 +128,8 @@
 		73F6661D81F728CDEC7025617AA371F6 /* MenewsInfo.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7FF73E956FC3527C1D6C86CAEF3682 /* MenewsInfo.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		747D77485468B0CA692E4EA67F4CFCF0 /* MESendIntersetContent.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E378D06B59E179B5C0C192796EC031 /* MESendIntersetContent.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		7674F45D20C4F7250039581D /* MEParentsInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7674F45C20C4F7250039581D /* MEParentsInfoView.m */; };
+		7674F46020C503360039581D /* MEBabyArchivesVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7674F45F20C503360039581D /* MEBabyArchivesVM.m */; };
 		76A2813620C3CD9F000F133F /* MEArchivesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A2813520C3CD9F000F133F /* MEArchivesView.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
 		797A2B74728613A64A02D5D1A79C9DCE /* VKMsgSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D97C6A32D559983480CBC014C2B4AB /* VKMsgSend.m */; };
@@ -564,6 +566,10 @@
 		7567079F3C40EB49854A2E000C3AD6FA /* MEBabyInfoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyInfoContent.h; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
+		7674F45B20C4F7250039581D /* MEParentsInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEParentsInfoView.h; sourceTree = "<group>"; };
+		7674F45C20C4F7250039581D /* MEParentsInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEParentsInfoView.m; sourceTree = "<group>"; };
+		7674F45E20C503360039581D /* MEBabyArchivesVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyArchivesVM.h; sourceTree = "<group>"; };
+		7674F45F20C503360039581D /* MEBabyArchivesVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyArchivesVM.m; sourceTree = "<group>"; };
 		76A2813420C3CD9F000F133F /* MEArchivesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEArchivesView.h; sourceTree = "<group>"; };
 		76A2813520C3CD9F000F133F /* MEArchivesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEArchivesView.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
@@ -1087,6 +1093,8 @@
 				EF294E776997DA4CCFA855EDB8C73CE2 /* MEParentInfoContent.m */,
 				76A2813420C3CD9F000F133F /* MEArchivesView.h */,
 				76A2813520C3CD9F000F133F /* MEArchivesView.m */,
+				7674F45B20C4F7250039581D /* MEParentsInfoView.h */,
+				7674F45C20C4F7250039581D /* MEParentsInfoView.m */,
 			);
 			path = babyArchivesContent;
 			sourceTree = "<group>";
@@ -1546,6 +1554,8 @@
 				435A543C292AF74E1B2CE53850504F99 /* MENewsInfoVM.m */,
 				1B2403A0FE26C5AD2CDC5337A71520DF /* MEStuInterestVM.h */,
 				FB4393FD8CA6966784F12C5DD9DFBE1A /* MEStuInterestVM.m */,
+				7674F45E20C503360039581D /* MEBabyArchivesVM.h */,
+				7674F45F20C503360039581D /* MEBabyArchivesVM.m */,
 			);
 			path = baby;
 			sourceTree = "<group>";
@@ -2614,6 +2624,7 @@
 				E263A6240F7DEE8354E8BD5BD8047B38 /* MEFolderPatchVM.m in Sources */,
 				E654C03AE7A3FD3757F81F5D9C59DF5E /* MEForwardEvaListVM.m in Sources */,
 				71E6E610048EF96E9218ADD97799D4DE /* MEForwardGEProfile.m in Sources */,
+				7674F46020C503360039581D /* MEBabyArchivesVM.m in Sources */,
 				0E2180047B8A4C884A7D1A7BB90CDFB6 /* MEForwardSEProfile.m in Sources */,
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
 				76A2813620C3CD9F000F133F /* MEArchivesView.m in Sources */,
@@ -2658,6 +2669,7 @@
 				CAA98C38CEE382DA85A11E9F3C3087EF /* MEParentInfoContent.m in Sources */,
 				842CC392A03B7C3BFC48679B6BEBE1A7 /* MEPersonalCell.m in Sources */,
 				C953851F6C78FC4B2F7EBBEE639C9245 /* MEPersonalDataCell.m in Sources */,
+				7674F45D20C4F7250039581D /* MEParentsInfoView.m in Sources */,
 				404D030D977EB8FE76430468F136498A /* MEPersonalHeader.m in Sources */,
 				3B474F160919595D28D369AFD0784364 /* MEPersonalRootProfile.m in Sources */,
 				882F1F2DE84334EA4D27E15AFFA50565 /* MEPersonalSectionHeader.m in Sources */,
