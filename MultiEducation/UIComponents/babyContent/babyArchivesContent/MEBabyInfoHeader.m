@@ -91,6 +91,9 @@
 }
 
 - (void)didTapPortriat {
+    if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        return;
+    }
     if (self.didTapPortraitCallback) {
         self.didTapPortraitCallback();
     }
