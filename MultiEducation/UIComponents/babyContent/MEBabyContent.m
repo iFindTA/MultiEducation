@@ -50,6 +50,7 @@
     BOOL show;  //did contentOffsetY already > BABY_CONTENT_HEADER_HEIGHT
     
     BOOL _whetherGraduate;    //显示 @"假期通知" || @"毕业通知"
+    BOOL _whetherNeedReloadData;    //当点击component时重新请求数据badge
 }
 
 @property (nonatomic, strong) MEBaseScene *tableHeaderView;
@@ -86,6 +87,13 @@
         [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(getBabyPhotos) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
     }
     return self;
+}
+
+- (void)viewWillAppear {
+    if (_whetherNeedReloadData) {
+        [self loadData];
+        _whetherNeedReloadData = false;
+    }
 }
 
 - (void)removeNotiObserver {
@@ -446,6 +454,7 @@
             self.DidSelectHandler(indexPath.item, self.browserPhotos);
         }
     } else {
+        _whetherNeedReloadData = true;
         BOOL whetherRoleParent = (self.currentUser.userType == MEPBUserRole_Parent);
         //scrollContentView collectionView cell
         NSURL *url = nil; NSDictionary *params = nil;

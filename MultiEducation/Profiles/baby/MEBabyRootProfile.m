@@ -46,7 +46,6 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
     //layout
     [self.babyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.mas_equalTo(self.view);
@@ -58,6 +57,11 @@
         make.width.mas_equalTo(MESCREEN_WIDTH);
         make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight]);
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear: animated];
+    [self.babyView viewWillAppear];
 }
 
 - (void)dealloc {
@@ -110,7 +114,11 @@
         _babyView = [[MEBabyContent alloc] initWithFrame: CGRectZero];
         __weak typeof(self) weakself = self;
         _babyView.babyTabBarBadgeCallback = ^(NSInteger badge) {
-            [weakself setBadgeValue: 0 atIndex: 1];
+            if (badge == 0) {
+                [weakself setBadgeValue: -1 atIndex: 1];
+            } else {
+                [weakself setBadgeValue: 0 atIndex: 1];
+            }
         };
         weakify(self);
         _babyView.babyContentScrollCallBack = ^(CGFloat contentOffsetY, MEScrollViewDirection direction) {

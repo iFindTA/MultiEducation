@@ -48,5 +48,7 @@ typedef void(^DidChangeSelectedBaby)(NSString *babyName, NSString *babyPortrait)
 
 - (void)removeNotiObserver;
 
+- (void)viewWillAppear;
+
 @end
 
