@@ -70,15 +70,18 @@
     [IQKeyboardManager sharedManager].enable = false;
     [IQKeyboardManager sharedManager].enableAutoToolbar = false;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
-    
-    // setup extend plugins
-    [self adgustmentExpandPlugins];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [IQKeyboardManager sharedManager].enable = true;
     [IQKeyboardManager sharedManager].enableAutoToolbar = true;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // setup extend plugins
+    [self adgustmentExpandPlugins];
 }
 
 - (void)viewWillLayoutSubviews {
