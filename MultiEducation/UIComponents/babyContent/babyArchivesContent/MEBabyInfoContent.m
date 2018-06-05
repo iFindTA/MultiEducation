@@ -143,7 +143,6 @@
     if (!PBIsEmpty(pb.homeAddress)) {
         [self.addressView changeTitle: pb.homeAddress];
     } else {
-        [self.addressView changeTitle: @"家庭住址"];
         [self.addressView setPlaceHolder: @"家庭住址"];
     }
     

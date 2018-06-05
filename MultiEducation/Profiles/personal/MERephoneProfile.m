@@ -146,11 +146,17 @@ static CGFloat const ROW_HEIGHT = 54.f;
     MEMobileVM *vm = [MEMobileVM vmWithModel: pb];
     NSData *data = [pb data];
     [vm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-        [SVProgressHUD showWithStatus: @"修改手机号成功"];
-        [self.navigationController popViewControllerAnimated: YES];
+        [self makeToast: @"手机号已修改，请重新登录"];
+        [self performSelector: @selector(logout) withObject: nil afterDelay: 1.f];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
     }];
+}
+
+- (void)logout {
+    [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+    [self.appDelegate updateCurrentSignedInUser:nil];
+    [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
 }
 
 - (void)sendSignInVerifyCodeEvent {
@@ -165,11 +171,7 @@ static CGFloat const ROW_HEIGHT = 54.f;
     }
     //assemble pb file
     MEPBSignIn *pb = [[MEPBSignIn alloc] init];
-#if DEBUG
-    [pb setLoginName:@"2"];
-#else
     [pb setLoginName:mobile];
-#endif
     //goto signin
     MEVerifyCodeVM *vm = [MEVerifyCodeVM vmWithPB:pb];
     NSData *pbdata = [pb data];

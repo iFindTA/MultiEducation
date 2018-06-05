@@ -10,17 +10,9 @@
 #import <SVProgressHUD.h>
 
 @interface MEArchivesView() <UITextFieldDelegate> {
-    BOOL _isEditing;   // whether is editing status
     BOOL _whetherNeedGes;
     BOOL _isHavePoint;  //是否有了小数点
 }
-
-/**
- Specific content e.g. the specific count for weight = 70
- */
-@property (nonatomic, strong) MEBaseLabel *titleLab;
-
-
 /**
  edit title
  */
@@ -57,11 +49,7 @@
         return;
     }
     if (_whetherNeedGes) {
-        if (!_isEditing) {
-            self.titleLab.hidden = true;
-            self.titleTextField.hidden = false;
-            [self.titleTextField becomeFirstResponder];
-        }
+        [self.titleTextField becomeFirstResponder];
     } else {
         if (self.didTapArchivesViewCallback) {
             self.didTapArchivesViewCallback();
@@ -79,42 +67,27 @@
     if (!_tipTextColor) {
         _tipTextColor = UIColorFromRGB(0x999999);
     }
-    
-    self.titleLab = [[MEBaseLabel alloc] initWithFrame: CGRectZero];
-    self.titleLab.backgroundColor = [UIColor clearColor];
-    self.titleLab.text = _title;
-    self.titleLab.userInteractionEnabled = true;
-    self.titleLab.font = UIFontPingFangSC(17);
-    self.titleLab.textColor = _titleTextColor;
-    self.titleLab.textAlignment = NSTextAlignmentCenter;
-    [self addSubview: self.titleLab];
-    [self.titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self).mas_offset(adoptValue(2.f));
-        make.left.right.mas_equalTo(self);
-        make.height.mas_equalTo(adoptValue(25));
-    }];
-    
-    if (_whetherNeedGes) {
-        self.titleTextField = [[UITextField alloc] initWithFrame: CGRectZero];
+    self.titleTextField = [[UITextField alloc] initWithFrame: CGRectZero];
 //        self.titleTextField.placeholder = self.titleLab.text;
 //        NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString: self.titleTextField.placeholder];
 //        [attStr addAttribute: NSFontAttributeName value: self.titleLab.font range: NSMakeRange(0, self.titleTextField.placeholder.length)];
 //        [attStr addAttribute: NSForegroundColorAttributeName value: self.tipLab.textColor range: NSMakeRange(0, self.titleTextField.placeholder.length)];
 //        self.titleTextField.attributedPlaceholder = attStr;
-        self.titleTextField.textColor = self.titleLab.textColor;
-        if (_isOnlyNumber) {
-            self.titleTextField.keyboardType = UIKeyboardTypeDecimalPad;
-        }
-        self.titleTextField.font = self.titleLab.font;
-        self.titleTextField.text = self.title;
-        self.titleTextField.textAlignment = NSTextAlignmentCenter;
-        self.titleTextField.hidden = true;
-        self.titleTextField.delegate = self;
-        [self addSubview: self.titleTextField];
-        [self.titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(self.titleLab);
-        }];
+    self.titleTextField.textColor = _titleTextColor;
+    if (_isOnlyNumber) {
+        self.titleTextField.keyboardType = UIKeyboardTypeDecimalPad;
     }
+    self.titleTextField.font = UIFontPingFangSC(17);
+    self.titleTextField.text = self.title;
+    self.titleTextField.textAlignment = NSTextAlignmentCenter;
+    self.titleTextField.delegate = self;
+    [self addSubview: self.titleTextField];
+    [self.titleTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self).mas_offset(adoptValue(2.f));
+        make.left.right.mas_equalTo(self);
+        make.height.mas_equalTo(adoptValue(25));
+        
+    }];
 
     self.tipLab = [[MEBaseLabel alloc] initWithFrame: CGRectZero];
     self.tipLab.backgroundColor = [UIColor clearColor];
@@ -125,7 +98,7 @@
     self.tipLab.textAlignment = NSTextAlignmentCenter;
     [self addSubview: self.tipLab];
     [self.tipLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.titleLab.mas_bottom).mas_offset(adoptValue(4.f));
+        make.top.mas_equalTo(self.titleTextField.mas_bottom).mas_offset(adoptValue(4.f));
         make.left.right.mas_equalTo(self);
         make.height.mas_equalTo(adoptValue(17.f));
     }];
@@ -143,7 +116,7 @@
         [self changeCount: _count];
         [self addSubview: self.countLab];
         [self.countLab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.titleLab.mas_top);
+            make.top.mas_equalTo(self.titleTextField.mas_top);
             make.right.mas_equalTo(self);
             make.height.mas_equalTo(adoptValue(13));
         }];
@@ -182,7 +155,6 @@
     if ([titleText isEqualToString: @""] || titleText == nil) {
         titleText = @"-";
     }
-    self.titleLab.text = titleText;
     self.titleTextField.text = titleText;
     self.title = titleText;
 }
@@ -194,9 +166,9 @@
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    _isEditing = true;
-    if (![self.titleLab.text isEqualToString: @"-"]) {
-        self.titleTextField.text = self.titleLab.text;
+    if (!_whetherNeedGes) {
+        [self didTapArchivesView];
+        return false;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     return true;
@@ -208,10 +180,6 @@
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    _isEditing = false;
-    self.titleLab.hidden = false;
-    self.titleTextField.hidden = true;
-    self.titleLab.text = textField.text;
     self.title = textField.text;
 }
 
@@ -276,7 +244,6 @@
 #pragma mark - setter
 - (void)setTitleTextColor:(UIColor *)titleTextColor {
     _titleTextColor = titleTextColor;
-    self.titleLab.textColor = titleTextColor;
     self.titleTextField.textColor = titleTextColor;
 }
 

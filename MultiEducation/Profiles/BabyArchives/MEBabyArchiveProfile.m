@@ -192,6 +192,7 @@
         [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
             GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
             _curArchivesPb = pb;
+            _selectedStudentPortrait = pb.studentPortrait;
             [self.babyContent setData: pb];
             [self.parentContent setData: pb];
         } failure:^(NSError * _Nonnull error) {
@@ -205,6 +206,7 @@
         [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
             GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
             _curArchivesPb = pb;
+            _selectedStudentPortrait = pb.studentPortrait;
             [self.babyContent setData: pb];
             [self.parentContent setData: pb];
         } failure:^(NSError * _Nonnull error) {
