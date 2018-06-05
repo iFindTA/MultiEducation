@@ -614,8 +614,12 @@ static CGFloat const ITEM_LEADING = 10.f;
         return NO;
     }
     
+    if ([MEKits isNineKeyBoard: string]) {
+        return YES;
+    }
+    
     if ([MEKits stringContainsEmoji: string]) {
-        [self makeToast: @"文件夹名称无法包含emoji符号"];
+        [MEKits makeTopToast: @"文件夹名称无法包含emoji符号"];
         return NO;
     }
     return YES;

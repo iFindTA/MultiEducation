@@ -174,6 +174,10 @@
     }
 }
 
+- (void)setPlaceHolder:(NSString *)placeholder {
+    self.titleTextField.placeholder = placeholder;
+}
+
 - (void)changeTitle:(NSString *)titleText {
     if ([titleText isEqualToString: @""] || titleText == nil) {
         titleText = @"-";
@@ -212,6 +216,9 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (!_isOnlyNumber) {
+        return true;
+    }
     if ([textField.text rangeOfString:@"."].location == NSNotFound) {
         _isHavePoint = NO;
     }

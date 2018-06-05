@@ -65,6 +65,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (BOOL)stringContainsEmoji:(NSString *)string;
 
+
+/**
+ when iOS > 10.0.0 nine keyboard chinese input, when click 2 - 9, not 2 - 9,      is ➋-➒
+ @param string input string
+ @return true or false
+ */
++ (BOOL)isNineKeyBoard:(NSString*)string;
+
 /**
  get the first pinyin letter of string
 

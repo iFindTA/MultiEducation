@@ -85,9 +85,6 @@
     if (self.currentUser.userType == MEPBUserRole_Gardener) {
         return false;
     }
-    if (![textField.text isEqualToString: @"-"]) {
-        textField.text = @"";
-    }
     [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     return true;
 }

@@ -120,8 +120,9 @@
 
 - (void)setData:(GuStudentArchivesPb *)pb {
     [self.header.nameView changeTitle: pb.studentName];
-    [self.header.nameView changeTip: [NSString stringWithFormat: @"%lld", pb.sid]];
-    NSString *dateStr = [MEKits timeStamp2DateStringWithFormatter: @"yyyy-MM" timeStamp: pb.birthday];
+    NSString *sid = pb.sid == 0 ? @"" : [NSString stringWithFormat: @"%lld", pb.sid];
+    [self.header.nameView changeTip: sid];
+    NSString *dateStr = [MEKits timeStamp2DateStringWithFormatter: @"yyyy-MM-dd" timeStamp: pb.birthday];
     [self.header.birthView changeTitle: dateStr];
     NSString *bucket = self.currentUser.bucketDomain;
     NSString *portrait = pb.studentPortrait;
@@ -139,7 +140,12 @@
     [self.leftEyeView changeTitle: [NSString stringWithFormat: @"%.1f", pb.leftVision]];
     [self.rightEyeView changeTitle: [NSString stringWithFormat: @"%.1f", pb.rightVision]];
     [self.HGBView changeTitle: [NSString stringWithFormat: @"%d", pb.hemoglobin]];
-    [self.addressView changeTitle: pb.homeAddress];
+    if (!PBIsEmpty(pb.homeAddress)) {
+        [self.addressView changeTitle: pb.homeAddress];
+    } else {
+        [self.addressView changeTitle: @"家庭住址"];
+        [self.addressView setPlaceHolder: @"家庭住址"];
+    }
     
     [self.heightView changeCount: pb.heightRt];
     [self.weightView changeCount: pb.weightRt];
@@ -300,7 +306,7 @@
 - (MEArchivesView *)addressView {
     if (!_addressView) {
         _addressView = [[MEArchivesView alloc] initWithFrame: CGRectZero];
-        _addressView.title = @"西湖区文二西路西湖国际科技大厦D座4楼";
+        _addressView.title = @"";
         _addressView.type = MEArchivesTypeNormal;
         [_addressView configArchives: true];
     }

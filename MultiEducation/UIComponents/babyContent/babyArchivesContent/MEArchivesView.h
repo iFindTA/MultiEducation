@@ -60,6 +60,9 @@ typedef NS_ENUM(NSUInteger, MEArchivesType) {
 //通过DatePicker 或者 AlertController 选择后修改titleText
 - (void)changeTitle:(NSString *)titleText;
 
+//修改placeholder;
+- (void)setPlaceHolder:(NSString *)placeholder;
+
 //修改tip文字
 - (void)changeTip:(NSString *)tipText;
 

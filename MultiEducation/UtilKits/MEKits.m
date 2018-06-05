@@ -98,6 +98,16 @@
     return PBFormat(@"%@/%d/%lld", ME_WEB_SERVER_HOST, type, resId);
 }
 
++ (BOOL)isNineKeyBoard:(NSString*)string {
+    NSString *other =@"➋➌➍➎➏➐➑➒";
+    int len = (int)string.length;
+    for(int i = 0; i < len; i++) {
+        if(!([other rangeOfString:string].location != NSNotFound))
+            return NO;
+    }
+    return YES;
+}
+
 + (BOOL)stringContainsEmoji:(NSString *)string {
     __block BOOL returnValue = NO;
     [string enumerateSubstringsInRange:NSMakeRange(0, [string length])

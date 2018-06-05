@@ -69,19 +69,26 @@
 }
 
 - (void)setData:(GuStudentArchivesPb *)pb {
-    self.dadView.nameTextField.text = [self resetStringFormatter: pb.fatherName];
-    self.dadView.phoneTextField.text = [self resetStringFormatter: pb.fatherMobile];
-    self.dadView.addressTextField.text = [self resetStringFormatter: pb.fatherWorkUnit];
-    
-    self.momView.nameTextField.text = [self resetStringFormatter: pb.motherName];
-    self.momView.phoneTextField.text = [self resetStringFormatter: pb.motherMobile];
-    self.momView.addressTextField.text = [self resetStringFormatter: pb.motherWorkUnit];
-    self.tipTextView.text = [self resetStringFormatter: pb.warnItem];
+    self.dadView.nameTextField.text = [self resetStringFormatter: pb.fatherName placeHolder: @"爸爸姓名" textField: self.dadView.nameTextField];
+
+    self.dadView.phoneTextField.text = [self resetStringFormatter: pb.fatherMobile placeHolder: @"爸爸手机号" textField: self.dadView.phoneTextField];
+
+    self.dadView.addressTextField.text = [self resetStringFormatter: pb.fatherWorkUnit placeHolder: @"爸爸工作单位" textField: self.dadView.addressTextField];
+
+    self.momView.nameTextField.text = [self resetStringFormatter: pb.motherName placeHolder: @"妈妈姓名" textField: self.momView.phoneTextField];
+
+    self.momView.phoneTextField.text = [self resetStringFormatter: pb.motherMobile placeHolder: @"妈妈手机号" textField: self.momView.phoneTextField];
+
+    self.momView.addressTextField.text = [self resetStringFormatter: pb.motherWorkUnit placeHolder: @"妈妈工作单位" textField: self.momView.addressTextField];
+
+    self.tipTextView.text = [self resetStringFormatter: pb.warnItem placeHolder: @"注意事项" textField: nil];
+    self.tipTextView.text = @"注意事项";
 }
 
-- (NSString *)resetStringFormatter:(NSString *)string {
+- (NSString *)resetStringFormatter:(NSString *)string placeHolder:(NSString *)placeholder textField:(UITextField *)textField {
     if (!string || [string isEqualToString: @""]) {
-        return @"-";
+        textField.placeholder = placeholder;
+        return @"";
     } else {
         return string;
     }

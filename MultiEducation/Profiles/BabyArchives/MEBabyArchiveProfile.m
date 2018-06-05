@@ -236,7 +236,7 @@
     }
     
     //birthday
-    int64_t birth = [MEKits DateString2TimeStampWithFormatter: @"yyyy-MM" dateStr: self.babyContent.header.birthView.title];
+    int64_t birth = [MEKits DateString2TimeStampWithFormatter: @"yyyy-MM-dd" dateStr: self.babyContent.header.birthView.title];
     _curArchivesPb.birthday = birth;
     
     //name

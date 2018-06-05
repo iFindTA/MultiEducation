@@ -47,8 +47,9 @@
         [self addSubview: self.birthView];
         [self.birthView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.genderView);
-            make.right.mas_equalTo(self).mas_offset(-adoptValue(20));
-            make.width.height.mas_equalTo(self.genderView);
+            make.right.mas_equalTo(self).mas_offset(-adoptValue(10));
+            make.height.mas_equalTo(self.genderView);
+            make.left.mas_equalTo(self.portrait.mas_right).mas_offset(adoptValue(10));
         }];
         
         [self addSubview: self.nameView];
@@ -77,12 +78,12 @@
 
 - (void)didTapBirthView {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"yyyy-MM";
+    formatter.dateFormat = @"yyyy-MM-dd";
     NSDate *date = [formatter dateFromString: self.birthView.title];
     AppDelegate *delegate= (AppDelegate *)[UIApplication sharedApplication].delegate;
     [ActionSheetDatePicker showPickerWithTitle:@"选择生日" datePickerMode: UIDatePickerModeDate selectedDate: date minimumDate: [NSDate dateWithTimeIntervalSince1970: 0] maximumDate: [NSDate date] doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyy-MM";
+        formatter.dateFormat = @"yyyy-MM-dd";
         NSString *dateStr = [formatter stringFromDate: selectedDate];
         [self.birthView changeTitle: dateStr];
     } cancelBlock:^(ActionSheetDatePicker *picker) {

@@ -70,6 +70,7 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     MEPBUser *user = delegate.curUser;
     if (pb.isParent) {
+        self.playIcon.hidden = true;
         self.floderNameLabel.hidden = NO;
         self.floderNameLabel.text = pb.fileName;
         NSArray *albums = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.id_p];
