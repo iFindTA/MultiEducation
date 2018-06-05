@@ -242,7 +242,7 @@ static METCPService *instance = nil;
  * 服务器连接成功
  */
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
-    NSLog(@"已经连接到服务器：%@", host);
+    NSLog(@"已经连接到服务器：%@--%lld", host, port);
     //重新登录
     _serverIndex = 0;
     [self clearTimer];

@@ -59,8 +59,6 @@
     } error:^(RCRealTimeLocationErrorCode status) {
         NSLog(@"failed to fetch real-time location with Code:%ld", (long)status);
     }];//*/
-    // setup extend plugins
-    [self adgustmentExpandPlugins];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -72,6 +70,9 @@
     [IQKeyboardManager sharedManager].enable = false;
     [IQKeyboardManager sharedManager].enableAutoToolbar = false;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
+    
+    // setup extend plugins
+    [self adgustmentExpandPlugins];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -146,6 +147,10 @@
     UIView *emojiBorad = self.chatSessionInputBarControl.emojiBoardView;
     NSArray<UIView*>*subs = emojiBorad.subviews;
     UIView *extentKit;
+    //调整表情
+    NSUInteger itemSize = 46;
+    NSUInteger numPerLine = floor(MESCREEN_WIDTH/itemSize);
+    NSUInteger pages = ceil(127.f/(numPerLine*3-1));
     for (UIView *s in subs) {
         if (fabs(s.bounds.size.height - ME_LAYOUT_SUBBAR_HEIGHT) <= ME_LAYOUT_OFFSET) {
             extentKit = s;
@@ -154,9 +159,10 @@
         }
         //调整ContentSize 禁止下载表情
         if ([s isKindOfClass:[UIScrollView class]] || [s isMemberOfClass:[UIScrollView class]]) {
+            
             UIScrollView *scroll = (UIScrollView *)s;
             CGSize size = scroll.contentSize;
-            size.width = MESCREEN_WIDTH*6;
+            size.width = MESCREEN_WIDTH*pages;
             [scroll setContentSize:size];
         }
     }
