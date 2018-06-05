@@ -82,6 +82,9 @@
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        return false;
+    }
     if (![textField.text isEqualToString: @"-"]) {
         textField.text = @"";
     }

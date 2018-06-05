@@ -53,6 +53,9 @@
 }
 
 - (void)didTapArchivesView {
+    if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        return;
+    }
     if (_whetherNeedGes) {
         if (!_isEditing) {
             self.titleLab.hidden = true;

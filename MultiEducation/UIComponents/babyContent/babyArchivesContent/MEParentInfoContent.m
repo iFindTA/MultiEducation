@@ -88,6 +88,13 @@
 }
 
 #pragma mark - UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+    if (self.currentUser.userType == MEPBUserRole_Gardener) {
+        return false;
+    }
+    return true;
+}
+
 -(void)textViewDidBeginEditing:(UITextView *)textView {
     [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
 }
