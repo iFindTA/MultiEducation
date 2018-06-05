@@ -836,16 +836,18 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         if (self.editCallback) {
             self.editCallback(true);
         }
-    } else {
-        int64_t preStudentID = self.currentSID;
-        self.currentSID = next.id_p;
-        [self updatePortraitVisiable];
-        [self updateLandscapeVisiable];
-        [self.portraitScene preSelectStudent:self.currentSID];
-        [self.landscapeScene preSelectStudent:self.currentSID];
-        if (self.callback) {
-            self.callback(next.id_p, preStudentID);
-        }
+        //如果都已完成 则默认选择第一个
+        MEStudent *first = self.students.firstObject;
+        next = first;
+    }
+    int64_t preStudentID = self.currentSID;
+    self.currentSID = next.id_p;
+    [self updatePortraitVisiable];
+    [self updateLandscapeVisiable];
+    [self.portraitScene preSelectStudent:self.currentSID];
+    [self.landscapeScene preSelectStudent:self.currentSID];
+    if (self.callback) {
+        self.callback(next.id_p, preStudentID);
     }
 }
 
