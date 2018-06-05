@@ -78,6 +78,9 @@
 }
 
 + (NSString *)imageFullPath:(NSString *)absPath {
+    if ([absPath hasPrefix:@"http://"]||[absPath hasPrefix:@"https://"]) {
+        return absPath;
+    }
     if (self.app.curUser) {
         return PBFormat(@"%@/%@", self.app.curUser.bucketDomain, absPath);
     }
@@ -86,6 +89,9 @@
 }
 
 + (NSString *)mediaFullPath:(NSString *)absPath {
+    if ([absPath hasPrefix:@"http://"]||[absPath hasPrefix:@"https://"]) {
+        return absPath;
+    }
     AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     if (app.curUser) {
         return PBFormat(@"%@/%@", app.curUser.bucketDomain, absPath);
