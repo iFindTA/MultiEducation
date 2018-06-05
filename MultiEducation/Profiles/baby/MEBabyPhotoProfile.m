@@ -249,7 +249,16 @@ static CGFloat const ITEM_LEADING = 10.f;
         for (ClassAlbumPb *pb in listPb.classAlbumArray) {
             [MEBabyAlbumListVM deleteAlbum: pb];
         }
-        [self loadDataSource: 0];
+        [self.photos removeAllObjects];
+        [self.timeLineArr removeAllObjects];
+        
+
+        [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId:_parentId classId: _classPb.id_p]];
+        [self sortPhotoWithTimeLine];
+        
+        [self.photoView reloadData];
+        [self.timeLineView reloadData];
+        
         _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
