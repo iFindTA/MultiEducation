@@ -33,7 +33,7 @@
     [self.nameBackView layoutIfNeeded];
     CAGradientLayer *layer = [[CAGradientLayer alloc] init];
     layer.frame = self.nameBackView.bounds;
-    layer.opacity = 0.7;
+    layer.opacity = 0.5;
     layer.colors = @[(id)UIColorFromRGB(0x999999).CGColor, (id)UIColorFromRGB(0x333333).CGColor];
     layer.locations = @[@(0), @(0.5), @(1)];
     layer.startPoint = CGPointMake(0, 0);
