@@ -157,6 +157,7 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [ActionSheetStringPicker showPickerWithTitle: @"选择血型" rows: self.bloodArr initialSelection: 1 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         [self.bloodView changeTitle: self.bloodArr[selectedIndex]];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
     } origin: delegate.window];
@@ -166,6 +167,7 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [ActionSheetStringPicker showPickerWithTitle: @"选择属相" rows: self.zodiacArr initialSelection: 1 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         [self.zodiacView changeTitle: self.zodiacArr[selectedIndex]];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
     } origin: delegate.window];

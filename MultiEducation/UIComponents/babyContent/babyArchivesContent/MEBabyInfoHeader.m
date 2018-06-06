@@ -58,7 +58,6 @@
             make.height.mas_equalTo(self.genderView);
             make.left.right.mas_equalTo(self);
         }];
-        
     }
     return self;
 }
@@ -71,6 +70,7 @@
         } else {
             [self.genderView changeTitle: @"女"];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
     } origin: delegate.window];
@@ -86,6 +86,7 @@
         formatter.dateFormat = @"yyyy-MM-dd";
         NSString *dateStr = [formatter stringFromDate: selectedDate];
         [self.birthView changeTitle: dateStr];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetDatePicker *picker) {
         
     } origin: delegate.window];

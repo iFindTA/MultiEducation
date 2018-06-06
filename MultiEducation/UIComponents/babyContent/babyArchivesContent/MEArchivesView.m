@@ -185,6 +185,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (!_isOnlyNumber) {
+        self.title = textField.text;
         return true;
     }
     if ([textField.text rangeOfString:@"."].location == NSNotFound) {
@@ -201,14 +202,13 @@
                     return NO;
                 }
             }
-            
             //输入的字符是否是小数点
             if (single == '.') {
-                if(!_isHavePoint)//text中还没有小数点
-                {
+                if(!_isHavePoint) {
+                    //text中还没有小数点
                     _isHavePoint = YES;
+                    self.title = textField.text;
                     return YES;
-                    
                 } else {
                     [MEKits makeTopToast: @"小数点已存在"];
                     [textField.text stringByReplacingCharactersInRange:range withString:@""];
@@ -220,23 +220,25 @@
                     //判断小数点的位数
                     NSRange ran = [textField.text rangeOfString:@"."];
                     if (range.location - ran.location <= 2) {
+                        self.title = textField.text;
                         return YES;
-                    }else{
+                    } else {
                         [MEKits makeTopToast: @"小数点后最多可输入两位"];
                         return NO;
                     }
-                }else{
+                } else {
+                    self.title = textField.text;
                     return YES;
                 }
             }
-        }else{//输入的数据格式不正确
+        } else {//输入的数据格式不正确
             [MEKits makeTopToast: @"文字格式错误！"];
             [textField.text stringByReplacingCharactersInRange:range withString:@""];
             return NO;
         }
     }
-    else
-    {
+    else {
+        self.title = textField.text;
         return YES;
     }
 }
