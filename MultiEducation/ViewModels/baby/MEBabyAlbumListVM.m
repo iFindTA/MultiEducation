@@ -48,11 +48,11 @@
 
 + (BOOL)deleteAlbum:(ClassAlbumPb *)album {
     NSString *where = [NSString stringWithFormat: @"id_p = %lld", album.id_p];
-    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where limit: @"1"];
-    if (arr.count == 0) {
+    ClassAlbumPb *pb = [WHCSqlite query: [ClassAlbumPb class] where: where limit: @"1"].firstObject;
+    if (pb.dataStatus == 0) {
         return YES;
     } else {
-        BOOL result = [WHC_ModelSqlite delete: [ClassAlbumPb class] where: where];
+        BOOL result = [WHC_ModelSqlite update: [ClassAlbumPb class] value: @"dataStatus = 1" where: where];
         return result;
     }
 }
@@ -77,28 +77,27 @@
     
     NSMutableString *where = [NSMutableString string];
     for (MEPBClass *class in classPbArr) {
-        [where appendString: [NSString stringWithFormat: @"classId = '%lld',", class.id_p]];
+        [where appendString: [NSString stringWithFormat: @"classId = '%lld' AND", class.id_p]];
     }
-    //delete the last ','
-    [where deleteCharactersInRange: NSMakeRange(where.length - 1, 1)];
+    [where appendFormat: @" dataStatus = 1"];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
 }
 
 + (NSArray *)fetchAlbmsWithClassId:(int64_t)classId {
-    NSString *where = [NSString stringWithFormat: @"classId = %lld", classId];
+    NSString *where = [NSString stringWithFormat: @"classId = %lld AND dataStatus = 1", classId];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
 }
 
 + (NSArray *)fetchAlbumsWithParentId:(int64_t)parentId {
-    NSString *where = [NSString stringWithFormat: @"parentId = %lld", parentId];
+    NSString *where = [NSString stringWithFormat: @"parentId = %lld AND dataStatus = 1", parentId];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
 }
 
 + (NSArray *)fetchAlbumsWithParentId:(int64_t)parentId classId:(int64_t)classId {
-    NSString *where = [NSString stringWithFormat: @"parentId = %lld AND classId = %lld", parentId, classId];
+    NSString *where = [NSString stringWithFormat: @"parentId = %lld AND classId = %lld AND dataStatus = 1", parentId, classId];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
 }

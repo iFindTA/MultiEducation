@@ -246,19 +246,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     weakify(self);
     [albumDelVM postData: [listPb data] hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
-        for (ClassAlbumPb *pb in listPb.classAlbumArray) {
-            [MEBabyAlbumListVM deleteAlbum: pb];
-        }
-        [self.photos removeAllObjects];
-        [self.timeLineArr removeAllObjects];
-        
-
-        [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId:_parentId classId: _classPb.id_p]];
-        [self sortPhotoWithTimeLine];
-        
-        [self.photoView reloadData];
-        [self.timeLineView reloadData];
-        
+        [self loadDataSource: 0];
         _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
     } failure:^(NSError * _Nonnull error) {
@@ -301,7 +289,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         NSData *data = [pb data];
         weakify(self)
         [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
-            strongify(self)
+            strongify(self);
             [self.photos removeAllObjects];
             [self.timeLineArr removeAllObjects];
             ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
