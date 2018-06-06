@@ -24,6 +24,17 @@
     // Initialization code
     self.photoIcon.contentMode = UIViewContentModeScaleAspectFill;
     self.playIcon.hidden = true;
+    
+    [self.nameBackView layoutIfNeeded];
+    CAGradientLayer *layer = [[CAGradientLayer alloc] init];
+    layer.frame = self.nameBackView.bounds;
+    layer.opacity = 0.7;
+    layer.colors = @[(id)UIColorFromRGB(0x999999).CGColor, (id)UIColorFromRGB(0x333333).CGColor];
+    layer.locations = @[@(0), @(0.5), @(1)];
+    layer.startPoint = CGPointMake(0, 0);
+    layer.endPoint = CGPointMake(0, 1);
+    [self.nameBackView.layer addSublayer: layer];
+    
 }
 
 - (void)setData:(ClassAlbumPb *)pb {
@@ -113,6 +124,7 @@
             [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         }
     }
+    self.nameBackView.hidden = self.floderNameLabel.hidden;
 }
 
 - (IBAction)selectToDeleteTouchEvent:(MEBaseButton *)sender {

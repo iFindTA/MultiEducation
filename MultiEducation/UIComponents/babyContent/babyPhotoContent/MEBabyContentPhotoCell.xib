@@ -22,6 +22,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="174" height="174"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jf8-pH-X46" customClass="MEBaseScene">
+                        <rect key="frame" x="0.0" y="144" width="174" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="Wdj-KU-PDY"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ox9-at-Ha3" customClass="MEBaseLabel">
+                        <rect key="frame" x="12" y="150" width="120" height="15"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="tz7-bS-ExQ"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="文件夹名称"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
+                                <real key="value" value="14"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
+                                <integer key="value" value="0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iPr-aa-Z6G" customClass="MEBaseButton">
                         <rect key="frame" x="129" y="5" width="40" height="40"/>
                         <constraints>
@@ -35,11 +61,11 @@
                         </connections>
                     </button>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jiN-Bc-umm" customClass="MEBaseLabel">
-                        <rect key="frame" x="137" y="145" width="30" height="20"/>
+                        <rect key="frame" x="137" y="150" width="30" height="15"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="string" keyPath="text" value="99+"/>
                             <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
@@ -47,25 +73,6 @@
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
                                 <integer key="value" value="2"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ox9-at-Ha3" customClass="MEBaseLabel">
-                        <rect key="frame" x="12" y="145" width="120" height="20"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="tz7-bS-ExQ"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="string" keyPath="text" value="文件夹名称"/>
-                            <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
-                                <real key="value" value="14"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="textAlignment">
-                                <integer key="value" value="0"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -85,6 +92,7 @@
                 <constraint firstItem="jiN-Bc-umm" firstAttribute="leading" secondItem="ox9-at-Ha3" secondAttribute="trailing" constant="5" id="BDN-2z-J5A"/>
                 <constraint firstItem="jiN-Bc-umm" firstAttribute="height" secondItem="ox9-at-Ha3" secondAttribute="height" id="E0v-H8-Dq9"/>
                 <constraint firstItem="jiN-Bc-umm" firstAttribute="centerY" secondItem="ox9-at-Ha3" secondAttribute="centerY" id="Erx-8w-bIa"/>
+                <constraint firstAttribute="trailing" secondItem="jf8-pH-X46" secondAttribute="trailing" id="K5j-ug-SWS"/>
                 <constraint firstAttribute="trailing" secondItem="p7W-sp-gM1" secondAttribute="trailing" id="SoG-5s-JAh"/>
                 <constraint firstAttribute="trailing" secondItem="ox9-at-Ha3" secondAttribute="trailing" constant="42" id="T75-CS-2z3"/>
                 <constraint firstItem="iPr-aa-Z6G" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="Zk8-QL-cbq"/>
@@ -92,17 +100,20 @@
                 <constraint firstItem="UCe-K4-Yn7" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="j9Z-gi-VXZ"/>
                 <constraint firstAttribute="bottom" secondItem="ox9-at-Ha3" secondAttribute="bottom" constant="9" id="lrY-1c-ggs"/>
                 <constraint firstItem="p7W-sp-gM1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="rpQ-bN-fbc"/>
+                <constraint firstItem="jf8-pH-X46" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="sfQ-Gc-w4Y"/>
                 <constraint firstAttribute="trailing" secondItem="iPr-aa-Z6G" secondAttribute="trailing" constant="5" id="wiP-gn-sZG"/>
                 <constraint firstItem="UCe-K4-Yn7" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="y25-Za-3fc"/>
+                <constraint firstAttribute="bottom" secondItem="jf8-pH-X46" secondAttribute="bottom" id="zyT-RL-F0j"/>
             </constraints>
             <connections>
                 <outlet property="countLab" destination="jiN-Bc-umm" id="mNG-nz-Wbd"/>
                 <outlet property="floderNameLabel" destination="ox9-at-Ha3" id="SNL-zS-Kqk"/>
+                <outlet property="nameBackView" destination="jf8-pH-X46" id="5ot-1f-QtW"/>
                 <outlet property="photoIcon" destination="p7W-sp-gM1" id="xEA-OT-sJr"/>
                 <outlet property="playIcon" destination="UCe-K4-Yn7" id="0qz-wt-n5v"/>
                 <outlet property="selectBtn" destination="iPr-aa-Z6G" id="1Ca-nf-f4h"/>
             </connections>
-            <point key="canvasLocation" x="-244" y="31"/>
+            <point key="canvasLocation" x="-167" y="30"/>
         </collectionViewCell>
     </objects>
     <resources>

@@ -20,6 +20,7 @@ typedef void(^BabyPhotoSelectHandler)(ClassAlbumPb *pb);
 @property (weak, nonatomic) IBOutlet MEBaseButton *selectBtn;
 
 @property (weak, nonatomic) IBOutlet MEBaseLabel *countLab;
+@property (weak, nonatomic) IBOutlet MEBaseScene *nameBackView;
 
 @property (weak, nonatomic) IBOutlet MEBaseImageView *playIcon;
 
