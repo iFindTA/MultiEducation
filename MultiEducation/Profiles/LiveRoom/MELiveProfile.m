@@ -139,6 +139,7 @@
 @property (nonatomic, strong) MELiveClassChoosenPanel *choosenPanel;
 
 @property (nonatomic, strong) MEPBClassLive *liveItem;
+@property (nonatomic, assign) int64_t choosenClsID;
 
 /**
  直播推流相关
@@ -331,8 +332,9 @@
     if (self.liveItem) {
         return;
     }
+    self.choosenClsID = self.choosenPanel.currentClsID;
     MEPBClassLive *live = [[MEPBClassLive alloc] init];
-    [live setClassId:self.choosenPanel.currentClsID];
+    [live setClassId:self.choosenClsID];
     MEDoLiveVM *doLive = [[MEDoLiveVM alloc] init];
     weakify(self)
     [doLive postData:[live data] hudEnable:true success:^(NSData * _Nullable resObj) {
@@ -479,9 +481,9 @@
 
 - (void)doLiveHeartBeatAction {
     NSLog(@"do live heart beat...");
-    NSNumber *classID = [self.params pb_numberForKey:@"classID"];
+    //NSNumber *classID = [self.params pb_numberForKey:@"classID"];
     MEPBClassLive *live = [[MEPBClassLive alloc] init];
-    [live setClassId:classID.longLongValue];
+    [live setClassId:self.choosenClsID];
     MELiveHeartBeatVM *liveHeartBeat = [[MELiveHeartBeatVM alloc] init];
     [liveHeartBeat postData:[live data] hudEnable:false success:^(NSData * _Nullable resObj) {
 //        NSError *err;strongify(self)
