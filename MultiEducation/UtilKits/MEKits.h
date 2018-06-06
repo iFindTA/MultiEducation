@@ -22,6 +22,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSUInteger)statusBarHeight;
 
 /**
+ fetch tabbar height
+ */
++ (CGFloat)tabBarHeight;
+
+/**
  uuid
  */
 + (NSString *)createUUID;

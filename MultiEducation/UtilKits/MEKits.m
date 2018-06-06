@@ -32,6 +32,13 @@
     return ME_LAYOUT_BOUNDARY;
 }
 
++ (CGFloat)tabBarHeight {
+    if ([UIDevice pb_isX]) {
+        return ME_HEIGHT_TABBAR + 33;
+    }
+    return ME_HEIGHT_TABBAR;
+}
+
 + (NSString *)createUUID {
     CFUUIDRef udid = CFUUIDCreate(NULL);
     NSString *udidString = (NSString *) CFBridgingRelease(CFUUIDCreateString(NULL, udid));
