@@ -45,8 +45,10 @@
     if (pb.imgListArray.count > 0) {
         if ([pb.imgListArray.firstObject.imgPath hasSuffix: @".mp4"]) {
             urlStr = [NSString stringWithFormat: @"%@/%@%@", bucket, pb.imgListArray.firstObject.imgPath, QN_VIDEO_FIRST_FPS_URL];
+            self.playIcon.hidden = false;
         } else {
             urlStr = [NSString stringWithFormat: @"%@/%@", bucket, pb.imgListArray.firstObject.imgPath];
+            self.playIcon.hidden = true;
         }
     }
     [self.coverImage sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage pb_imageWithColor: UIColorFromRGB(0xF3F8F8)]];

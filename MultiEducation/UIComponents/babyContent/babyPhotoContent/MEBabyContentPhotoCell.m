@@ -25,6 +25,11 @@
     self.photoIcon.contentMode = UIViewContentModeScaleAspectFill;
     self.playIcon.hidden = true;
     
+    self.photoIcon.userInteractionEnabled = true;
+    self.playIcon.userInteractionEnabled = true;
+    self.floderNameLabel.userInteractionEnabled = true;
+    self.countLab.userInteractionEnabled = true;
+    
     [self.nameBackView layoutIfNeeded];
     CAGradientLayer *layer = [[CAGradientLayer alloc] init];
     layer.frame = self.nameBackView.bounds;
@@ -35,6 +40,14 @@
     layer.endPoint = CGPointMake(0, 1);
     [self.nameBackView.layer addSublayer: layer];
     
+    UILongPressGestureRecognizer *longPressGes = [[UILongPressGestureRecognizer alloc] initWithTarget: self action: @selector(longPressEvent:)];
+    [self addGestureRecognizer: longPressGes];
+}
+
+- (void)longPressEvent:(UIGestureRecognizer *)ges {
+    if (self.renameFolderCallback) {
+        self.renameFolderCallback(self.albumPb);
+    }
 }
 
 - (void)setData:(ClassAlbumPb *)pb {

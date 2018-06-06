@@ -26,6 +26,9 @@ typedef void(^BabyPhotoSelectHandler)(ClassAlbumPb *pb);
 
 @property (nonatomic, copy) BabyPhotoSelectHandler handler;
 
+@property (nonatomic, copy) void(^renameFolderCallback) (ClassAlbumPb *pb);
+
+
 - (void)setData:(ClassAlbumPb *)pb;
 
 - (void)changeSelectBtnStatus;

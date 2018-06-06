@@ -26,6 +26,7 @@
 #import "MEPhotoBrowser.h"
 #import "MEBaseNavigationProfile.h"
 #import <SDWebImageDownloader.h>
+#import "MEFolderPatchVM.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -273,6 +274,34 @@ static CGFloat const ITEM_LEADING = 10.f;
         textField.placeholder = @"请输入文件夹名称";
     }];
     [self.navigationController presentViewController: alertController animated: YES completion: nil];
+}
+
+- (void)showAlert2RenameFolder:(ClassAlbumPb *)pb {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"请输入文件夹名称" message: nil preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
+    
+    UIAlertAction *certain = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UITextField *textField = alertController.textFields[0];
+        NSLog(@"确定");
+        pb.fileName = textField.text;
+        MEFolderPatchVM *vm = [MEFolderPatchVM vmWithClassAlbumPb: pb];
+        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+            [self loadDataSource: 0];
+        } failure:^(NSError * _Nonnull error) {
+            [MEKits makeToast: error.description];
+        }];
+    }];
+    
+    [alertController addAction: cancel];
+    [alertController addAction: certain];
+    __block ClassAlbumPb *blockPb = pb;
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.text = blockPb.fileName;
+        textField.placeholder = @"请输入文件夹名称";
+    }];
+    
+    [self.navigationController presentViewController: alertController animated: YES completion: nil];
+    
 }
 
 - (void)uploadSuccessNotification:(NSNotification *)noti {
@@ -571,6 +600,12 @@ static CGFloat const ITEM_LEADING = 10.f;
             }
         };
         [cell setData: [self.photos objectAtIndex: indexPath.row]];
+        cell.renameFolderCallback = ^(ClassAlbumPb *pb) {
+            strongify(self);
+            if (!_isSelectStatus && [self.photos objectAtIndex: indexPath.row].isParent) {
+                [self showAlert2RenameFolder: pb];
+            }
+        };
         return cell;
     } else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];

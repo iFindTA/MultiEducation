@@ -83,7 +83,7 @@
     self.momView.addressTextField.text = [self resetStringFormatter: pb.motherWorkUnit placeHolder: @"妈妈工作单位" textField: self.momView.addressTextField];
 
     self.tipTextView.text = pb.warnItem;
-    [self.tipTextView setPlaceholder: @"  注意事项" placeholdColor: UIColorFromRGB(0x999999)];
+    [self.tipTextView setPlaceholder: @"  请家长围绕孩子的健康、睡眠、饮食、教育等写下有关孩子在幼儿园需要特别注意的事项" placeholdColor: UIColorFromRGB(0x999999)];
 }
 
 - (NSString *)resetStringFormatter:(NSString *)string placeHolder:(NSString *)placeholder textField:(UITextField *)textField {

@@ -11,19 +11,32 @@
 @interface MEFolderPatchVM ()
 
 @property (nonatomic, strong) ClassAlbumListPb *babyAlbumListPb;
+@property (nonatomic, strong) ClassAlbumPb *albumPb;
 
 @end
 
 @implementation MEFolderPatchVM
 
 + (instancetype)vmWithPb:(ClassAlbumListPb *)babyAlbumListPb {
-    return [[self alloc] initWithPb: babyAlbumListPb];
+    return [[self alloc] initWithAlbumListPb: babyAlbumListPb];
+}
+
++ (instancetype)vmWithClassAlbumPb:(ClassAlbumPb *)albumPb {
+    return [[self alloc] initWithAlbumPb: albumPb];
 }
  
-- (instancetype)initWithPb:(ClassAlbumListPb *)pb {
+- (instancetype)initWithAlbumListPb:(ClassAlbumListPb *)pb {
     self = [super init];
     if (self) {
         _babyAlbumListPb = pb;
+    }
+    return self;
+}
+
+- (instancetype)initWithAlbumPb:(ClassAlbumPb *)pb {
+    self = [super init];
+    if (self) {
+        _albumPb = pb;
     }
     return self;
 }

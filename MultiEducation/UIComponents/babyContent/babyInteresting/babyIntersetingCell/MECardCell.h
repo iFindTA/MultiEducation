@@ -10,6 +10,7 @@
 @class GuFunPhotoPb;
 
 @interface MECardCell : MEBaseCollectionCell
+@property (weak, nonatomic) IBOutlet UIImageView *playIcon;
 
 @property (weak, nonatomic) IBOutlet MEBaseImageView *coverImage;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *countLab;

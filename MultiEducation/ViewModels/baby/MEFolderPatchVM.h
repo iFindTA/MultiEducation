@@ -14,4 +14,6 @@
  
 + (instancetype)vmWithPb:(ClassAlbumListPb *)pb;
 
++ (instancetype)vmWithClassAlbumPb:(ClassAlbumPb *)pb;
+
 @end

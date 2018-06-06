@@ -95,6 +95,13 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="baby_photo_video_play" translatesAutoresizingMaskIntoConstraints="NO" id="ok3-oZ-0rx">
+                        <rect key="frame" x="135" y="135" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="H4z-EB-WuI"/>
+                            <constraint firstAttribute="height" constant="50" id="PpX-Pg-deZ"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -104,6 +111,7 @@
                 <constraint firstItem="ENh-ki-J64" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="9zd-U0-JUh"/>
                 <constraint firstAttribute="bottom" secondItem="lGH-Xd-imh" secondAttribute="bottom" constant="10" id="AWc-sC-ZeB"/>
                 <constraint firstItem="ENh-ki-J64" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="Aem-d5-TJ0"/>
+                <constraint firstItem="ok3-oZ-0rx" firstAttribute="centerY" secondItem="ENh-ki-J64" secondAttribute="centerY" id="FVY-tK-hhZ"/>
                 <constraint firstItem="lGH-Xd-imh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="17" id="J4O-c8-4mt"/>
                 <constraint firstAttribute="trailing" secondItem="lGH-Xd-imh" secondAttribute="trailing" constant="17" id="LnJ-TT-FGi"/>
                 <constraint firstItem="0Ad-BL-DNT" firstAttribute="bottom" secondItem="ENh-ki-J64" secondAttribute="bottom" constant="-6" id="OW4-Rc-CHD"/>
@@ -111,6 +119,7 @@
                 <constraint firstItem="Kpo-jU-aln" firstAttribute="top" secondItem="ENh-ki-J64" secondAttribute="bottom" constant="8" id="Tr2-Rh-4pe"/>
                 <constraint firstItem="lGH-Xd-imh" firstAttribute="top" secondItem="Zay-o2-qJg" secondAttribute="bottom" constant="10" id="VcM-0G-pPV"/>
                 <constraint firstItem="Zay-o2-qJg" firstAttribute="top" secondItem="Kpo-jU-aln" secondAttribute="bottom" constant="10" id="Yqb-Ki-45Q"/>
+                <constraint firstItem="ok3-oZ-0rx" firstAttribute="centerX" secondItem="ENh-ki-J64" secondAttribute="centerX" id="cr9-61-fb2"/>
                 <constraint firstItem="0Ad-BL-DNT" firstAttribute="trailing" secondItem="ENh-ki-J64" secondAttribute="trailing" constant="-6" id="kdl-5Y-1Bx"/>
                 <constraint firstAttribute="trailing" secondItem="Kpo-jU-aln" secondAttribute="trailing" constant="17" id="oXF-RT-ShU"/>
                 <constraint firstItem="Kpo-jU-aln" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="17" id="xHU-El-5Eu"/>
@@ -123,10 +132,14 @@
                 <outlet property="countLab" destination="0Ad-BL-DNT" id="Usl-Lk-01w"/>
                 <outlet property="coverImage" destination="ENh-ki-J64" id="ARm-Rb-24l"/>
                 <outlet property="markLab" destination="lGH-Xd-imh" id="LvS-d0-SFZ"/>
+                <outlet property="playIcon" destination="ok3-oZ-0rx" id="XMR-A2-OnD"/>
                 <outlet property="subtitleLab" destination="Zay-o2-qJg" id="W8Y-Hz-pP0"/>
                 <outlet property="titleLab" destination="Kpo-jU-aln" id="AnT-dz-USm"/>
             </connections>
             <point key="canvasLocation" x="93" y="81"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="baby_photo_video_play" width="37" height="37"/>
+    </resources>
 </document>
