@@ -256,7 +256,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
 
 - (void)showNewFolderAlert:(void(^)(UITextField *textField))callback {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"新建文件夹" message: nil preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"新建文件夹" message: @"长按文件夹可对文件夹进行重命名" preferredStyle: UIAlertControllerStyleAlert];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
 
     UIAlertAction *certain = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
