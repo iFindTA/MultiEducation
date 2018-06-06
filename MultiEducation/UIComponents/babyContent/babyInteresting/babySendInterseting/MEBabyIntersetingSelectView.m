@@ -124,20 +124,7 @@ static CGFloat const LEFT_SPACE = 25.f;
 }
 
 - (void)sortSelectStudent:(NSArray *)oriArr {
-    NSInteger lineCount = 5;
-    NSInteger capacity = ceil((float)(oriArr.count) / (float)(lineCount)) * lineCount;
-    
-    for (int i = 0; i < capacity; i++) {
-        MEStudentModel *model = [[MEStudentModel alloc] init];
-        [self.dataArr addObject: model];
-    }
-    
-    NSInteger index = 0;
-    for (MEStudentModel *stu in oriArr) {
-        NSInteger reIndex = (index / lineCount) * lineCount + (4 - index % lineCount);
-        [self.dataArr replaceObjectAtIndex:reIndex withObject:stu];
-        index++;
-    }
+    [self.dataArr addObjectsFromArray: oriArr];
     [self.iconView reloadData];
 }
 

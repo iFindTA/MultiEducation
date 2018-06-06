@@ -75,7 +75,7 @@
 
     self.dadView.addressTextField.text = [self resetStringFormatter: pb.fatherWorkUnit placeHolder: @"爸爸工作单位" textField: self.dadView.addressTextField];
 
-    self.momView.nameTextField.text = [self resetStringFormatter: pb.motherName placeHolder: @"妈妈姓名" textField: self.momView.phoneTextField];
+    self.momView.nameTextField.text = [self resetStringFormatter: pb.motherName placeHolder: @"妈妈姓名" textField: self.momView.nameTextField];
 
     self.momView.phoneTextField.text = [self resetStringFormatter: pb.motherMobile placeHolder: @"妈妈手机号" textField: self.momView.phoneTextField];
 
@@ -90,6 +90,7 @@
         textField.placeholder = placeholder;
         return @"";
     } else {
+        textField.placeholder = placeholder;
         return string;
     }
 }

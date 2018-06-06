@@ -413,7 +413,7 @@
 
 - (TZImagePickerController *)pickerProfile {
     if (!_pickerProfile) {
-        _pickerProfile = [[TZImagePickerController alloc] initWithMaxImagesCount: 20 delegate: self];
+        _pickerProfile = [[TZImagePickerController alloc] initWithMaxImagesCount: 1 delegate: self];
         _pickerProfile.allowPickingOriginalPhoto = NO;
         _pickerProfile.allowPickingVideo = YES;
     }
