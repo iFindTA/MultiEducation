@@ -181,6 +181,7 @@ static CGFloat const LEFT_SPACE = 25.f;
 }
 
 - (void)setDataArr:(NSMutableArray<MEStudentModel *> *)dataArr {
+    [self sortSelectStudent: dataArr];
     [self updateLayout];
 }
 
