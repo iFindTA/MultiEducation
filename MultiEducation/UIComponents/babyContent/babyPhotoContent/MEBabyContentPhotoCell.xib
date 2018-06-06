@@ -57,9 +57,6 @@
                             <constraint firstAttribute="height" constant="20" id="tz7-bS-ExQ"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="textColor">
-                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="string" keyPath="text" value="文件夹名称"/>
                             <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
                                 <real key="value" value="14"/>
@@ -102,7 +99,7 @@
                 <outlet property="playIcon" destination="UCe-K4-Yn7" id="0qz-wt-n5v"/>
                 <outlet property="selectBtn" destination="iPr-aa-Z6G" id="1Ca-nf-f4h"/>
             </connections>
-            <point key="canvasLocation" x="-202" y="31"/>
+            <point key="canvasLocation" x="-244" y="31"/>
         </collectionViewCell>
     </objects>
     <resources>

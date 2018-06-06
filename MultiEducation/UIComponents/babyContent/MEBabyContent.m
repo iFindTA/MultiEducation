@@ -105,10 +105,10 @@
         GuStudentArchivesPb *stuPb;
         if ([MEBabyIndexVM fetchSelectBaby] != nil) {
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+            [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
             _whetherGraduate = [MEBabyIndexVM fetchSelectBaby].showGraduate;
             [self.headerView setData: stuPb];
             [self getBabyPhotos];
-            [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
             self.studentPb.id_p = stuPb.studentId;
             return;
         }
@@ -135,6 +135,8 @@
     [babyIndexVM postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
         GuIndexPb *pb = [GuIndexPb parseFromData: resObj error: nil];
+        [MEBabyIndexVM saveSelectBaby: pb];
+        [self.headerView setData: pb.studentArchives];
         [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
         [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
         if (self.babyTabBarBadgeCallback) {
@@ -204,7 +206,6 @@
         }
         [self.browserPhotos addObject: photo];
     }
-    
     return YES;
 }
 

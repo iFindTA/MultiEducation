@@ -77,9 +77,10 @@
     
     NSMutableString *where = [NSMutableString string];
     for (MEPBClass *class in classPbArr) {
-        [where appendString: [NSString stringWithFormat: @"classId = '%lld' AND", class.id_p]];
+        [where appendString: [NSString stringWithFormat: @"classId = '%lld' OR ", class.id_p]];
     }
-    [where appendFormat: @" dataStatus = 1"];
+    [where deleteCharactersInRange: NSMakeRange(where.length - 4, 4)];
+    [where appendFormat: @" AND dataStatus = '1'"];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
     return arr;
 }
