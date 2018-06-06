@@ -9,6 +9,7 @@
 #import "MEParentInfoContent.h"
 #import "MEParentsInfoView.h"
 #import "MebabyGrowth.pbobjc.h"
+#import "UITextView+Placeholder.h"
 
 @interface MEParentInfoContent() <UITextViewDelegate>
 
@@ -81,8 +82,8 @@
 
     self.momView.addressTextField.text = [self resetStringFormatter: pb.motherWorkUnit placeHolder: @"妈妈工作单位" textField: self.momView.addressTextField];
 
-    self.tipTextView.text = [self resetStringFormatter: pb.warnItem placeHolder: @"注意事项" textField: nil];
-    self.tipTextView.text = @"注意事项";
+    self.tipTextView.text = pb.warnItem;
+    [self.tipTextView setPlaceholder: @"  注意事项" placeholdColor: UIColorFromRGB(0x999999)];
 }
 
 - (NSString *)resetStringFormatter:(NSString *)string placeHolder:(NSString *)placeholder textField:(UITextField *)textField {
