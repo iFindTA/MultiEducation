@@ -46,7 +46,7 @@ static CGFloat const HEADER_HEIGHT = 170.f;
     //layout
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR - [MEKits statusBarHeight] - ME_HEIGHT_NAVIGATIONBAR);
+        make.height.mas_equalTo(MESCREEN_HEIGHT - [MEKits tabBarHeight] - [MEKits statusBarHeight] - ME_HEIGHT_NAVIGATIONBAR);
         make.top.mas_equalTo(self.view);
     }];
 }

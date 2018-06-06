@@ -49,7 +49,7 @@
     //layout
     [self.babyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(MESCREEN_HEIGHT - ME_HEIGHT_TABBAR);
+        make.height.mas_equalTo(MESCREEN_HEIGHT - [MEKits tabBarHeight]);
     }];
     
     [self.babyNavigation mas_makeConstraints:^(MASConstraintMaker *make) {

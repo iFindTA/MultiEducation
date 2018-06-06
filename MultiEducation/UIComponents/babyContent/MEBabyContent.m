@@ -41,7 +41,7 @@
 #define COMPONENT_HEIGHT 232.f
 #define BABY_PHOTO_HEIGHT 78.f
 #define GAP_BETWEEN_COMPONENT_PHOTOCONTENT 5.f
-#define TABLEVIEW_HEIGHT MESCREEN_HEIGHT - ME_HEIGHT_TABBAR
+#define TABLEVIEW_HEIGHT MESCREEN_HEIGHT - ([MEKits tabBarHeight])
 #define COMPONENT_CELL_SIZE  CGSizeMake(adoptValue(113.f), 72.f);
 
 @interface MEBabyContent() <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate> {
@@ -269,9 +269,9 @@
     
     if (!(self.currentUser.userType == MEPBUserRole_Parent && self.currentUser.parentsPb.studentPbArray.count == 0)) {
         
-        [self.tableHeaderView addSubview: self.photoHeader];
-        [self.tableHeaderView addSubview: self.babyPhtoView];
-        [self.tableHeaderView addSubview: self.componentView];
+        [self.tableHeaderView addSubview: self.photoHeader];//宝宝相册 查看更多
+        [self.tableHeaderView addSubview: self.babyPhtoView];//10张占位符
+        [self.tableHeaderView addSubview: self.componentView];//九宫格
         
         [self.photoHeader mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.tableHeaderView);

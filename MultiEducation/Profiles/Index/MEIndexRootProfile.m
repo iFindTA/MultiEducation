@@ -276,13 +276,13 @@
         make.height.equalTo(statusBarHeight+ME_HEIGHT_NAVIGATIONBAR+ME_LAYOUT_SUBBAR_HEIGHT);
     }];
     //背景滚动scroller
-    BOOL whetherTourist = self.currentUser.isTourist;
+    BOOL whetherTourist = self.currentUser.isTourist;CGFloat height = [MEKits tabBarHeight];
     self.bgScroller = [MEIndexBgScroller sceneWithSubBar:self.indexNavigationBar];
     [self.view addSubview:self.bgScroller];
     [self.bgScroller makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.indexNavigationBar.mas_bottom).offset(ME_LAYOUT_MARGIN);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset((whetherTourist?0:-ME_HEIGHT_TABBAR));
+        make.bottom.equalTo(self.view).offset((whetherTourist?0: - height));
     }];
     //event
     weakify(self)
