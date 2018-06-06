@@ -192,6 +192,7 @@
     [self.babyPhotos addObjectsFromArray: albums];
     [self updateViewsMasonry];
     [self.babyPhtoView reloadData];
+    [self.tableView reloadData];
     
     [self.browserPhotos removeAllObjects];
     for (ClassAlbumPb *pb in self.babyPhotos) {
