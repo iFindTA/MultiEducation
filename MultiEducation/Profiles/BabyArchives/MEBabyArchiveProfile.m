@@ -188,9 +188,7 @@
     _curArchivesPb.birthday = birth;
     
     //name
-    if ([self whetherNeedPutToServer: self.babyContent.header.nameView.title]) {
-        _curArchivesPb.studentName = self.babyContent.header.nameView.title;
-    }
+    _curArchivesPb.studentName = self.babyContent.header.nameView.title;
     
     //height
     _curArchivesPb.height = [self.babyContent.heightView.title intValue];
@@ -330,11 +328,34 @@
 - (void)putBabyArchives2Server {
     MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: _curArchivesPb cmdCode: @"GU_STUDENT_ARCHIVES_PUT"];
     [self setCurrentStudentArchivesPb];
+    
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        if ([_curArchivesPb.fatherName isEqualToString: @""] || [_curArchivesPb.fatherMobile isEqualToString: @""] || [_curArchivesPb.fatherWorkUnit isEqualToString: @""] || [_curArchivesPb.motherName isEqualToString: @""] || [_curArchivesPb.motherMobile isEqualToString: @""] || [_curArchivesPb.motherWorkUnit isEqualToString: @""]) {
+            [MEKits makeTopToast: @"请输入家长信息"];
+            return;
+        }
+    }
+    
+    if ([_curArchivesPb.studentName isEqualToString: @""] || _curArchivesPb.studentName == nil) {
+        [MEKits makeTopToast: @"请输入宝宝姓名！"];
+        return;
+    }
+    
+    if (_curArchivesPb.studentName.length >= 20) {
+        [MEKits makeTopToast: @"请输入正确格式的宝宝名字"];
+        return;
+    }
+    
+    if (![_curArchivesPb.fatherMobile pb_isMatchRegexPattern: ME_REGULAR_MOBILE] || ![_curArchivesPb.motherMobile pb_isMatchRegexPattern: ME_REGULAR_MOBILE]) {
+        [MEKits makeTopToast: @"请输入正确格式的手机号!"];
+        return;
+    }
+
     weakify(self);
     [vm postData: [_curArchivesPb data] hudEnable: true success:^(NSData * _Nullable resObj) {
         strongify(self);
         _originArchivesPb = _curArchivesPb;
-        [MEKits makeToast: @"修改宝宝档案成功！"];
+        [MEKits makeTopToast: @"修改宝宝档案成功！"];
         _whetherEditArchives = false;
     } failure:^(NSError * _Nonnull error) {
         [MEKits makeToast: error.description];

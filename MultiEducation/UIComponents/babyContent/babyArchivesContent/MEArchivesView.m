@@ -151,6 +151,11 @@
     self.titleTextField.placeholder = placeholder;
 }
 
+- (void)setPlaceHolderTextColor:(UIColor *)color {
+    NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString: self.titleTextField.placeholder attributes: @{NSForegroundColorAttributeName: color}];
+    self.titleTextField.attributedPlaceholder = attStr;
+}
+
 - (void)changeTitle:(NSString *)titleText {
     self.titleTextField.text = titleText;
     self.title = titleText;

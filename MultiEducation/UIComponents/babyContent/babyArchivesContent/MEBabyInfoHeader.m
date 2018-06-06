@@ -168,6 +168,8 @@
         _nameView.tipTextColor = [UIColor whiteColor];
         _nameView.type = MEArchivesTypeNormal;
         [_nameView configArchives: true];
+        [_nameView setPlaceHolder: @"宝宝姓名"];
+        [_nameView setPlaceHolderTextColor: UIColorFromRGB(0x999999)];
     }
     return _nameView;
 }

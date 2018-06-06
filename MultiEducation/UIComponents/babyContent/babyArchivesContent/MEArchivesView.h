@@ -67,6 +67,9 @@ typedef NS_ENUM(NSUInteger, MEArchivesType) {
 //修改placeholder;
 - (void)setPlaceHolder:(NSString *)placeholder;
 
+//placeholder color
+- (void)setPlaceHolderTextColor:(UIColor *)color;
+
 //修改tip文字
 - (void)changeTip:(NSString *)tipText;
 
