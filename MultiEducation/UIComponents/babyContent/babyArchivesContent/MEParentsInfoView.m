@@ -85,7 +85,6 @@
     if (self.currentUser.userType == MEPBUserRole_Gardener) {
         return false;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     return true;
 }
 

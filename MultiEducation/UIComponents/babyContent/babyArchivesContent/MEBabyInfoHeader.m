@@ -70,7 +70,6 @@
         } else {
             [self.genderView changeTitle: @"女"];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
     } origin: delegate.window];
@@ -86,7 +85,6 @@
         formatter.dateFormat = @"yyyy-MM-dd";
         NSString *dateStr = [formatter stringFromDate: selectedDate];
         [self.birthView changeTitle: dateStr];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetDatePicker *picker) {
         
     } origin: delegate.window];
@@ -104,7 +102,6 @@
 - (void)changeBabyPortrait:(NSString *)portrait {
     NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, portrait];
     [self.portrait sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
 }
 
 #pragma mark - lazyloading

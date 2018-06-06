@@ -13,6 +13,7 @@
     BOOL _whetherNeedGes;
     BOOL _isHavePoint;  //是否有了小数点
 }
+
 /**
  edit title
  */
@@ -59,7 +60,6 @@
 
 - (void)configArchives:(BOOL)whetherNeedGes {
     _whetherNeedGes = whetherNeedGes;
-    
     if (!_titleTextColor) {
         _titleTextColor = UIColorFromRGB(0x333333);
     }
@@ -152,9 +152,6 @@
 }
 
 - (void)changeTitle:(NSString *)titleText {
-    if ([titleText isEqualToString: @""] || titleText == nil) {
-        titleText = @"-";
-    }
     self.titleTextField.text = titleText;
     self.title = titleText;
 }
@@ -170,7 +167,6 @@
         [self didTapArchivesView];
         return false;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     return true;
 }
 
@@ -216,7 +212,6 @@
                 }
             }else{
                 if (_isHavePoint) {//存在小数点
-                    
                     //判断小数点的位数
                     NSRange ran = [textField.text rangeOfString:@"."];
                     if (range.location - ran.location <= 2) {
@@ -262,6 +257,12 @@
         self.countLab.text = [NSString stringWithFormat: @"%.1f", count];
     }
     [self updateCountLabWhileTitleTextChanged: count];
+}
+
+- (void)setOriginText:(NSString *)originText {
+    _originText = originText;
+    self.titleTextField.text = originText;
+    self.title = originText;
 }
 
 @end

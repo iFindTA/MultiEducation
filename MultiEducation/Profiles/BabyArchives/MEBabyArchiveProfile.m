@@ -25,6 +25,7 @@
 #define COMPONENT_HEIGHT adoptValue(480)
 
 @interface MEBabyArchiveProfile () <TZImagePickerControllerDelegate> {
+    GuStudentArchivesPb *_originArchivesPb;
     GuStudentArchivesPb *_curArchivesPb;
     BOOL _whetherEditArchives;  //用于判断pop时是否提示
     NSString *_selectedStudentPortrait; //从相册选中的头像
@@ -89,8 +90,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(didReciveEditBabyArchivesNotification:) name: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         [self loadDataOfBabyArchives: 0];
@@ -162,69 +161,16 @@
     }];
 }
 
-- (void)didReciveEditBabyArchivesNotification:(NSNotification *)noti {
-    _whetherEditArchives = true;
-}
-
-- (void)didBackItemTouchEvent {
-    if (!_whetherEditArchives) {
-        [self.navigationController popViewControllerAnimated: true];
-        return;
-    }
-    UIAlertController *controller = [UIAlertController alertControllerWithTitle: @"提示" message: @"您有未提交的修改信息，确定离开吗？" preferredStyle: UIAlertControllerStyleAlert];
-    UIAlertAction *certain = [UIAlertAction actionWithTitle: @"保存" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self putBabyArchives2Server];
-    }];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"离开" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self.navigationController popViewControllerAnimated: true];
-    }];
-    [controller addAction: certain];
-    [controller addAction: cancel];
-    [self presentViewController: controller animated: true completion: nil];
-}
-
-- (void)loadDataOfBabyArchives:(NSInteger)stuId {
-    if (self.currentUser.userType == MEPBUserRole_Parent) {
-        GuIndexPb *indexBb = [MEBabyIndexVM fetchSelectBaby];
-        GuStudentArchivesPb *pb = [[GuStudentArchivesPb alloc] init];
-        pb.studentId = indexBb.studentArchives.studentId;
-        MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: pb cmdCode: @"GU_STUDENT_ARCHIVES_GET"];
-        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
-            GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
-            _curArchivesPb = pb;
-            _selectedStudentPortrait = pb.studentPortrait;
-            [self.babyContent setData: pb];
-            [self.parentContent setData: pb];
-        } failure:^(NSError * _Nonnull error) {
-            [self makeToast: error.description];
-        }];
-        
+- (void)checkWhetherTextChanged {
+    [self setCurrentStudentArchivesPb];
+    if (_curArchivesPb.gender != _originArchivesPb.gender || ![_curArchivesPb.studentPortrait isEqualToString: _originArchivesPb.studentPortrait] || _curArchivesPb.birthday != _originArchivesPb.birthday || ![_curArchivesPb.studentName isEqualToString: _originArchivesPb.studentName] || _curArchivesPb.height != _originArchivesPb.height || _curArchivesPb.weight != _originArchivesPb.weight || ![_curArchivesPb.petName isEqualToString: _originArchivesPb.petName] || ![_curArchivesPb.nation isEqualToString: _originArchivesPb.nation] || ![_curArchivesPb.zodiac isEqualToString: _originArchivesPb.zodiac] || _curArchivesPb.leftVision != _originArchivesPb.leftVision || _curArchivesPb.rightVision != _originArchivesPb.rightVision || _curArchivesPb.hemoglobin != _originArchivesPb.hemoglobin || ![_curArchivesPb.homeAddress isEqualToString: _originArchivesPb.homeAddress] || ![_curArchivesPb.fatherName isEqualToString: _originArchivesPb.fatherName] || ![_curArchivesPb.fatherMobile isEqualToString: _originArchivesPb.fatherMobile] || ![_curArchivesPb.fatherWorkUnit isEqualToString: _originArchivesPb.fatherWorkUnit] || ![_curArchivesPb.motherName isEqualToString: _originArchivesPb.motherName] || ![_curArchivesPb.motherMobile isEqualToString: _originArchivesPb.motherMobile] || ![_curArchivesPb.motherWorkUnit isEqualToString: _originArchivesPb.motherWorkUnit] || ![_curArchivesPb.warnItem isEqualToString: _originArchivesPb.warnItem]) {
+        _whetherEditArchives = true;
     } else {
-        GuStudentArchivesPb *pb = [[GuStudentArchivesPb alloc] init];
-        pb.studentId = stuId;
-        MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: pb cmdCode: @"GU_STUDENT_ARCHIVES_GET"];
-        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
-            GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
-            _curArchivesPb = pb;
-            _selectedStudentPortrait = pb.studentPortrait;
-            [self.babyContent setData: pb];
-            [self.parentContent setData: pb];
-        } failure:^(NSError * _Nonnull error) {
-            [self makeToast: error.description];
-        }];
+        _whetherEditArchives = false;
     }
 }
 
-- (BOOL)whetherNeedPutToServer:(NSString *)text {
-    if ([text isEqualToString: @""] || text == nil || [text isEqualToString: @"-"]) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-- (void)putBabyArchives2Server {
-    MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: _curArchivesPb cmdCode: @"GU_STUDENT_ARCHIVES_PUT"];
+- (void)setCurrentStudentArchivesPb {
     //gender
     if ([self.babyContent.header.genderView.title isEqualToString: @"男"]) {
         _curArchivesPb.gender = 1;
@@ -251,56 +197,56 @@
     
     //weight
     _curArchivesPb.weight = [self.babyContent.weightView.title intValue];
-
+    
     //nickname
     if ([self whetherNeedPutToServer: self.babyContent.nickView.title]) {
         _curArchivesPb.petName = self.babyContent.nickView.title;
     }
-
+    
     //nation
     if ([self whetherNeedPutToServer: self.babyContent.nationView.title]) {
         _curArchivesPb.nation = self.babyContent.nationView.title;
     }
-
+    
     //blood
     if ([self whetherNeedPutToServer: self.babyContent.bloodView.title]) {
         _curArchivesPb.bloodType = self.babyContent.bloodView.title;
     }
-
+    
     //zodiac
     if ([self whetherNeedPutToServer: self.babyContent.zodiacView.title]) {
         _curArchivesPb.zodiac = self.babyContent.zodiacView.title;
     }
-
+    
     //left eye
     _curArchivesPb.leftVision = [self.babyContent.leftEyeView.title floatValue];
-
+    
     //right eye
     _curArchivesPb.rightVision = [self.babyContent.rightEyeView.title floatValue];
-
+    
     //HGB
     _curArchivesPb.hemoglobin = [self.babyContent.HGBView.title intValue];
-
+    
     //home address
     if ([self whetherNeedPutToServer: self.babyContent.addressView.title]) {
         _curArchivesPb.homeAddress = self.babyContent.addressView.title;
     }
-
+    
     //dadname
     if ([self whetherNeedPutToServer: self.parentContent.dadView.nameTextField.text]) {
         _curArchivesPb.fatherName = self.parentContent.dadView.nameTextField.text;
     }
-
+    
     //dadphone
     if ([self whetherNeedPutToServer: self.parentContent.dadView.phoneTextField.text]) {
         _curArchivesPb.fatherMobile = self.parentContent.dadView.phoneTextField.text;
     }
-
+    
     //dad address
     if ([self whetherNeedPutToServer: self.parentContent.dadView.addressTextField.text]) {
         _curArchivesPb.fatherWorkUnit = self.parentContent.dadView.addressTextField.text;
     }
-
+    
     //momname
     if ([self whetherNeedPutToServer: self.parentContent.momView.nameTextField.text]) {
         _curArchivesPb.motherName = self.parentContent.momView.nameTextField.text;
@@ -320,10 +266,74 @@
     if ([self whetherNeedPutToServer: self.parentContent.tipTextView.text]) {
         _curArchivesPb.warnItem = self.parentContent.tipTextView.text;
     }
-    
+}
+
+- (void)didBackItemTouchEvent {
+    [self checkWhetherTextChanged];
+    if (!_whetherEditArchives) {
+        [self.navigationController popViewControllerAnimated: true];
+        return;
+    }
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle: @"提示" message: @"您有未提交的修改信息，确定离开吗？" preferredStyle: UIAlertControllerStyleAlert];
+    UIAlertAction *certain = [UIAlertAction actionWithTitle: @"保存" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self putBabyArchives2Server];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"离开" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated: true];
+    }];
+    [controller addAction: certain];
+    [controller addAction: cancel];
+    [self presentViewController: controller animated: true completion: nil];
+}
+
+- (void)loadDataOfBabyArchives:(NSInteger)stuId {
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        GuIndexPb *indexBb = [MEBabyIndexVM fetchSelectBaby];
+        GuStudentArchivesPb *pb = [[GuStudentArchivesPb alloc] init];
+        pb.studentId = indexBb.studentArchives.studentId;
+        MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: pb cmdCode: @"GU_STUDENT_ARCHIVES_GET"];
+        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+            GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
+            _curArchivesPb = pb;
+            _originArchivesPb = [GuStudentArchivesPb parseFromData: resObj error: nil];
+            _selectedStudentPortrait = pb.studentPortrait;
+            [self.babyContent setData: pb];
+            [self.parentContent setData: pb];
+        } failure:^(NSError * _Nonnull error) {
+            [self makeToast: error.description];
+        }];
+    } else {
+        GuStudentArchivesPb *pb = [[GuStudentArchivesPb alloc] init];
+        pb.studentId = stuId;
+        MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: pb cmdCode: @"GU_STUDENT_ARCHIVES_GET"];
+        [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
+            GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
+            _curArchivesPb = pb;
+            _originArchivesPb = [GuStudentArchivesPb parseFromData: resObj error: nil];
+            _selectedStudentPortrait = pb.studentPortrait;
+            [self.babyContent setData: pb];
+            [self.parentContent setData: pb];
+        } failure:^(NSError * _Nonnull error) {
+            [self makeToast: error.description];
+        }];
+    }
+}
+
+- (BOOL)whetherNeedPutToServer:(NSString *)text {
+    if ([text isEqualToString: @""] || text == nil || [text isEqualToString: @"-"]) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+- (void)putBabyArchives2Server {
+    MEBabyArchivesVM *vm = [MEBabyArchivesVM vmWithPb: _curArchivesPb cmdCode: @"GU_STUDENT_ARCHIVES_PUT"];
+    [self setCurrentStudentArchivesPb];
     weakify(self);
     [vm postData: [_curArchivesPb data] hudEnable: true success:^(NSData * _Nullable resObj) {
         strongify(self);
+        _originArchivesPb = _curArchivesPb;
         [MEKits makeToast: @"修改宝宝档案成功！"];
         _whetherEditArchives = false;
     } failure:^(NSError * _Nonnull error) {

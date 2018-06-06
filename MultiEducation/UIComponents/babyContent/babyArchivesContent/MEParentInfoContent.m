@@ -104,10 +104,6 @@
     return true;
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
-}
-
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ([text isEqualToString: @"\n"]) {
         [textView resignFirstResponder];

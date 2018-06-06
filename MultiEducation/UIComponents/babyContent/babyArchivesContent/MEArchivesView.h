@@ -15,6 +15,10 @@ typedef NS_ENUM(NSUInteger, MEArchivesType) {
 
 @interface MEArchivesView : MEBaseScene
 
+/**
+ 初始化文字内容
+ */
+@property (nonatomic, strong) NSString *originText;
 
 /**
  文字内容

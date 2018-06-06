@@ -119,29 +119,39 @@
 }
 
 - (void)setData:(GuStudentArchivesPb *)pb {
-    [self.header.nameView changeTitle: pb.studentName];
+    self.header.nameView.originText = pb.studentName;
     NSString *sid = pb.sid == 0 ? @"" : [NSString stringWithFormat: @"%lld", pb.sid];
     [self.header.nameView changeTip: sid];
     NSString *dateStr = [MEKits timeStamp2DateStringWithFormatter: @"yyyy-MM-dd" timeStamp: pb.birthday];
-    [self.header.birthView changeTitle: dateStr];
+    self.header.birthView.originText = dateStr;
     NSString *bucket = self.currentUser.bucketDomain;
     NSString *portrait = pb.studentPortrait;
     
     [self.header.portrait sd_setImageWithURL: [NSURL URLWithString: [NSString stringWithFormat: @"%@/%@", bucket, portrait]] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
     NSString *gender = pb.gender == 1 ? @"男" : @"女";
-    [self.header.genderView changeTitle: gender];
+    self.header.genderView.originText = gender;
     
-    [self.heightView changeTitle: [NSString stringWithFormat: @"%d", pb.height]];
-    [self.weightView changeTitle: [NSString stringWithFormat: @"%d", pb.weight]];
-    [self.nickView changeTitle: pb.petName];
-    [self.nationView changeTitle: pb.nation];
-    [self.bloodView changeTitle: pb.bloodType];
-    [self.zodiacView changeTitle: pb.zodiac];
-    [self.leftEyeView changeTitle: [NSString stringWithFormat: @"%.1f", pb.leftVision]];
-    [self.rightEyeView changeTitle: [NSString stringWithFormat: @"%.1f", pb.rightVision]];
-    [self.HGBView changeTitle: [NSString stringWithFormat: @"%d", pb.hemoglobin]];
+    self.heightView.originText = [NSString stringWithFormat: @"%d", pb.height];
+    self.weightView.originText = [NSString stringWithFormat: @"%d", pb.weight];
+    self.nickView.originText = pb.petName;
+    self.nationView.originText = pb.nation;
+    self.bloodView.originText = pb.bloodType;
+    self.zodiacView.originText = pb.zodiac;
+    self.leftEyeView.originText = [NSString stringWithFormat: @"%.1f", pb.leftVision];
+    self.rightEyeView.originText = [NSString stringWithFormat: @"%.1f", pb.rightVision];
+    self.HGBView.originText = [NSString stringWithFormat: @"%d", pb.hemoglobin];
+
+//    [self.heightView changeTitle: [NSString stringWithFormat: @"%d", pb.height]];
+//    [self.weightView changeTitle: [NSString stringWithFormat: @"%d", pb.weight]];
+//    [self.nickView changeTitle: pb.petName];
+//    [self.nationView changeTitle: pb.nation];
+//    [self.bloodView changeTitle: pb.bloodType];
+//    [self.zodiacView changeTitle: pb.zodiac];
+//    [self.leftEyeView changeTitle: [NSString stringWithFormat: @"%.1f", pb.leftVision]];
+//    [self.rightEyeView changeTitle: [NSString stringWithFormat: @"%.1f", pb.rightVision]];
+//    [self.HGBView changeTitle: [NSString stringWithFormat: @"%d", pb.hemoglobin]];
     if (!PBIsEmpty(pb.homeAddress)) {
-        [self.addressView changeTitle: pb.homeAddress];
+        self.addressView.originText = pb.homeAddress;
     } else {
         [self.addressView setPlaceHolder: @"家庭住址"];
     }
@@ -157,7 +167,6 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [ActionSheetStringPicker showPickerWithTitle: @"选择血型" rows: self.bloodArr initialSelection: 1 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         [self.bloodView changeTitle: self.bloodArr[selectedIndex]];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
     } origin: delegate.window];
@@ -167,7 +176,6 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [ActionSheetStringPicker showPickerWithTitle: @"选择属相" rows: self.zodiacArr initialSelection: 1 doneBlock:^(ActionSheetStringPicker *picker, NSInteger selectedIndex, id selectedValue) {
         [self.zodiacView changeTitle: self.zodiacArr[selectedIndex]];
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_EDIT_BABY_ARCHIVES" object: nil];
     } cancelBlock:^(ActionSheetStringPicker *picker) {
         
     } origin: delegate.window];
