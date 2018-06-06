@@ -45,7 +45,7 @@
         if (count > 99) {
             self.countLab.text = @"99+";
         } else {
-            self.countLab.text = [NSString stringWithFormat: @"%ld", count];
+            self.countLab.text = [NSString stringWithFormat: @"%ld张", count];
         }
     } else {
         self.countLab.hidden = YES;
