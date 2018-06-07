@@ -124,10 +124,10 @@ typedef GPB_ENUM(GuStudentArchivesPb_FieldNumber) {
 @property(nonatomic, readwrite, copy, null_resettable) NSString *zodiac;
 
 /** 身高 */
-@property(nonatomic, readwrite) int32_t height;
+@property(nonatomic, readwrite) float height;
 
 /** 体重 */
-@property(nonatomic, readwrite) int32_t weight;
+@property(nonatomic, readwrite) float weight;
 
 /** 左眼视力 */
 @property(nonatomic, readwrite) float leftVision;

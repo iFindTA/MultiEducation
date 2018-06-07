@@ -50,8 +50,8 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if (delegate.curUser.userType == MEPBUserRole_Parent) {
         self.ageLab.text = [NSString stringWithFormat: @"%d岁", growthPb.age];
-        self.babyHeightLab.text = [NSString stringWithFormat: @"%dcm", growthPb.height];
-        self.babyWeightLab.text = [NSString stringWithFormat: @"%dkg", growthPb.weight];
+        self.babyHeightLab.text = [NSString stringWithFormat: @"%.1fcm", growthPb.height];
+        self.babyWeightLab.text = [NSString stringWithFormat: @"%.1fkg", growthPb.weight];
         if (![growthPb.studentPortrait isEqualToString: @""]) {
             NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, growthPb.studentPortrait];
             [self.userHeadIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];

@@ -7,6 +7,7 @@
 //
 
 #import "MEBaseScene.h"
+@class GuStudentArchivesPb;
 
 /**
  scrollview scroll direction
@@ -45,6 +46,8 @@ typedef void(^DidChangeSelectedBaby)(NSString *babyName, NSString *babyPortrait)
 @property (nonatomic, copy) DidChangeSelectedBaby didChangeSelectedBaby;
 
 @property (nonatomic, copy) void((^DidSelectHandler)(NSInteger index, NSArray *photos));
+@property (nonatomic, copy) void(^didUpdateBabyArchivesCallback) (GuStudentArchivesPb *pb);
+
 
 - (void)removeNotiObserver;
 

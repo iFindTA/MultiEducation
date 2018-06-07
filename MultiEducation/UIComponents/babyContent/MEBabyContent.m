@@ -108,8 +108,11 @@
             [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
             _whetherGraduate = [MEBabyIndexVM fetchSelectBaby].showGraduate;
             [self.headerView setData: stuPb];
-            [self getBabyPhotos];
+            [self loadNewestPhoto];
             self.studentPb.id_p = stuPb.studentId;
+            if (self.didUpdateBabyArchivesCallback) {
+                self.didUpdateBabyArchivesCallback(stuPb);
+            }
             return;
         }
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;
@@ -118,9 +121,33 @@
     }
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
-        [self getBabyPhotos];
+        [self loadNewestPhoto];
         [self getBabyArchitecture: 0];
     }
+}
+
+- (void)loadNewestPhoto {
+    ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
+    MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
+    pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDate];
+    NSData *data = [pb data];
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        pb.classId = [MEBabyIndexVM fetchSelectBaby].studentArchives.classId;
+    }
+    
+    weakify(self)
+    [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
+        for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+            albumPb.isSelectStatus = NO;
+            albumPb.isSelect = NO;
+            [MEBabyAlbumListVM saveAlbum: albumPb];
+        }
+        [self getBabyPhotos];
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError: error];
+    }];
 }
 
 //role == parent 由于会保存信息，所以不会请求GuIndexPb,无法获取最新的badge
@@ -223,7 +250,7 @@
         [self.headerView setData: pb.studentArchives];
         [MEBabyIndexVM saveSelectBaby: pb];
         _whetherGraduate = pb.showGraduate;
-        [self getBabyPhotos];
+        [self loadNewestPhoto];
         
         [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
         [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];

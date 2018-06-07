@@ -74,7 +74,7 @@
 
 - (void)gotoBabyPhotoProfile:(MEPBClass *)classPb {
     NSDictionary *params = @{@"classPb": classPb, @"title": @"宝宝相册"};
-    NSString *urlString =@"profile://root@MEBabyPhotoProfile";
+    NSString *urlString = @"profile://root@MEBabyPhotoProfile";
     NSError * err = [MEDispatcher openURL:[NSURL URLWithString:urlString] withParams:params];
     [MEKits handleError:err];
 }
@@ -136,23 +136,32 @@
             strongify(self);
             [self.babyNavigation changeTitle: babyName url: babyPortrait];
         };
+        _babyView.didUpdateBabyArchivesCallback = ^(GuStudentArchivesPb *pb) {
+            strongify(self);
+            [self.babyNavigation changeTitle: pb.studentName url: pb.studentPortrait];
+        };
     }
     return _babyView;
 }
 
 - (MEBabyNavigation *)babyNavigation {
     if (!_babyNavigation) {
-        
         NSString *name;
+        NSString *urlStr;
         if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
             name = self.currentUser.schoolName;
         } else {
             if (self.currentUser.parentsPb.studentPbArray.count == 0) {
                 name = self.currentUser.name;
+                urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
+            } else {
+                if ([MEBabyIndexVM fetchSelectBaby]) {
+                    GuStudentArchivesPb *stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
+                    name = stuPb.studentName;
+                    urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, stuPb.studentPortrait];
+                }
             }
         }
-        
-        NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
         _babyNavigation = [[MEBabyNavigation alloc] initWithFrame: CGRectZero urlStr: urlStr title: name];
         _babyNavigation.alpha = 0;
     }

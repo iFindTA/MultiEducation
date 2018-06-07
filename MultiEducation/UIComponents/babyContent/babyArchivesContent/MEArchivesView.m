@@ -168,6 +168,13 @@
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    if (_isOnlyNumber) {
+        if ([textField.text containsString: @"."]) {
+            _isHavePoint = true;
+        } else {
+            _isHavePoint = false;
+        }
+    }
     if (!_whetherNeedGes) {
         [self didTapArchivesView];
         return false;
@@ -189,6 +196,11 @@
         self.title = textField.text;
         return true;
     }
+    
+    if (! [self whetherInputBiggerThanInputMaxNumber: [NSString stringWithFormat: @"%@%@", textField.text, string]]) {
+        return false;
+    }
+   
     if ([textField.text rangeOfString:@"."].location == NSNotFound) {
         _isHavePoint = NO;
     }
@@ -199,6 +211,14 @@
             if([textField.text length] == 0){
                 if(single == '.') {
                     [MEKits makeTopToast: @"首位不能为."];
+                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                    return NO;
+                }
+            }
+            //当第一位是0，第二位不能是0
+            if([textField.text length] == 1){
+                if([textField.text isEqualToString: @"0"] && single == '0') {
+                    [MEKits makeTopToast: @"请输入正确的数字格式"];
                     [textField.text stringByReplacingCharactersInRange:range withString:@""];
                     return NO;
                 }
@@ -219,11 +239,11 @@
                 if (_isHavePoint) {//存在小数点
                     //判断小数点的位数
                     NSRange ran = [textField.text rangeOfString:@"."];
-                    if (range.location - ran.location <= 2) {
+                    if (range.location - ran.location <= 1) {
                         self.title = textField.text;
                         return YES;
                     } else {
-                        [MEKits makeTopToast: @"小数点后最多可输入两位"];
+                        [MEKits makeTopToast: @"小数点后最多可输入一位"];
                         return NO;
                     }
                 } else {
@@ -241,6 +261,20 @@
         self.title = textField.text;
         return YES;
     }
+}
+
+- (BOOL)whetherInputBiggerThanInputMaxNumber:(NSString *)text {
+    if (_isOnlyNumber) {
+        if ([text floatValue] > _maxNum) {
+            _titleTextField.text = [NSString stringWithFormat: @"%.1f", _maxNum];
+            _isHavePoint = true;
+            NSString *tipText = [_tipLab.text componentsSeparatedByString: @"("].firstObject;
+            [MEKits makeTopToast: [NSString stringWithFormat: @"请输入正确的宝宝%@", tipText]];
+            return false;
+        }
+        return true;
+    }
+    return true;
 }
 
 #pragma mark - setter

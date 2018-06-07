@@ -72,6 +72,7 @@ NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER = @"  请家长围绕孩子的健
 }
 
 - (void)setData:(GuStudentArchivesPb *)pb {
+    self.tipTextView.textColor = UIColorFromRGB(0x284E6C);
     self.dadView.nameTextField.text = [self resetStringFormatter: pb.fatherName placeHolder: @"爸爸姓名" textField: self.dadView.nameTextField];
 
     self.dadView.phoneTextField.text = [self resetStringFormatter: pb.fatherMobile placeHolder: @"爸爸手机号" textField: self.dadView.phoneTextField];
@@ -84,7 +85,14 @@ NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER = @"  请家长围绕孩子的健
 
     self.momView.addressTextField.text = [self resetStringFormatter: pb.motherWorkUnit placeHolder: @"妈妈工作单位" textField: self.momView.addressTextField];
 
-    self.tipTextView.text = pb.warnItem;
+    if (![pb.warnItem isEqualToString: @""] && pb.warnItem != nil) {
+        self.tipTextView.text = pb.warnItem;
+    } else {
+        if (@available(iOS 10, *)) {} else {
+            self.tipTextView.text = WARN_ITEM_DEFAULT_PLACEHOLDER;
+            self.tipTextView.textColor = UIColorFromRGB(0x999999);
+        }
+    }
     if (@available(iOS 11, *)) {
         [self.tipTextView setPlaceholder: WARN_ITEM_DEFAULT_PLACEHOLDER placeholdColor: UIColorFromRGB(0x999999)];
     }
@@ -128,7 +136,7 @@ NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER = @"  请家长围绕孩子的健
     if (@available(iOS 11, *)){} else {
         if([textView.text isEqualToString: WARN_ITEM_DEFAULT_PLACEHOLDER]){
             textView.text = @"";
-            textView.textColor= UIColorFromRGB(0x333333);
+            self.tipTextView.textColor = UIColorFromRGB(0x284E6C);
         }
     }
 }
