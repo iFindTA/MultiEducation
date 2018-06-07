@@ -313,6 +313,24 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 }
 
 /**
+ 更新学生名称/头像
+ */
+- (void)updateStudent:(int64_t)sid name:(NSString *)name avatar:(NSString *)avatar {
+    for (MEMask *m in self.students) {
+        if (m.s_id == sid) {
+            if (name.length > 0) {
+                m.label.text = name;
+            }
+            if (avatar.length > 0) {
+                NSString *full = [MEKits mediaFullPath:avatar];
+                [m.icon sd_setImageWithURL:[NSURL URLWithString:full]];
+            }
+            break;
+        }
+    }
+}
+
+/**
  预选中当前学生 之前状态保存到pre-state
  */
 - (void)preSelectStudent:(int64_t)sid {
@@ -422,7 +440,8 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         student.status = item.status;
         student.tag = ME_STUDENT_PANEL_TAG_START+i;
         student.label.text = item.name;
-        [student setImageURL:item.portrait placeholder:placeholder];
+        NSString *avatar = [MEKits mediaFullPath:item.portrait];
+        [student setImageURL:avatar placeholder:placeholder];
         [self.layout addSubview:student];
         [student makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.layout).offset(offset_y);
@@ -487,6 +506,24 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     for (MEMask *m in self.students) {
         if (m.s_id == sid) {
             m.status = state;
+            break;
+        }
+    }
+}
+
+/**
+ 更新学生名称/头像
+ */
+- (void)updateStudent:(int64_t)sid name:(NSString *)name avatar:(NSString *)avatar {
+    for (MEMask *m in self.students) {
+        if (m.s_id == sid) {
+            if (name.length > 0) {
+                m.label.text = name;
+            }
+            if (avatar.length > 0) {
+                NSString *full = [MEKits mediaFullPath:avatar];
+                [m.icon sd_setImageWithURL:[NSURL URLWithString:full]];
+            }
             break;
         }
     }
@@ -825,6 +862,11 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     if (self.autoScrollNext && state==MEEvaluateStateDone) {
         [self autoScroll2NextStudent];
     }
+}
+
+- (void)updateStudent:(int64_t)sid name:(NSString *)name avatar:(NSString *)avatar {
+    [self.portraitScene updateStudent:sid name:name avatar:avatar];
+    [self.landscapeScene updateStudent:sid name:name avatar:avatar];
 }
 
 /**

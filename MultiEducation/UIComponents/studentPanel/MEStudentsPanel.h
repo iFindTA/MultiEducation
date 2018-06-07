@@ -75,6 +75,11 @@ typedef void(^MEStudentExchangeCallback)(int64_t sid, int64_t pre_sid, NSString 
  */
 - (void)updateStudent:(int64_t)sid status:(MEEvaluateState)state;
 
+/**
+ 更新学生信息 for 宝宝档案
+ */
+- (void)updateStudent:(int64_t)sid name:(NSString *)name avatar:(NSString *)avatar;
+
 @end
 
 /**
