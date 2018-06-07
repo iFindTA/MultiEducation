@@ -152,8 +152,12 @@
 
 #pragma mark --- 配置切换
 - (void)configureEvaluatePanel {
+    __weak UIView *baseView = self.navigationBar;
+    if (!self.whetherParent) {
+        baseView = self.studentPanel;
+    }
     MEEvaluatePanel *panel = [[MEEvaluatePanel alloc] initWithFrame:CGRectZero father:self.view];
-    [self.view insertSubview:panel belowSubview:self.navigationBar];
+    [self.view insertSubview:panel belowSubview:baseView];
     self.evaluatePanel = panel;
     [panel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.navigationBar.mas_bottom).offset(self.whetherParent?0:ME_STUDENT_PANEL_HEIGHT);
