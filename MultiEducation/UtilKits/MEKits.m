@@ -335,7 +335,7 @@
         NSLog(@"无效的版本号！");
     }
     NSLog(@"当前Cordova资源包版本:%d", curVersion);
-    if ([SBNetState isViaWifi]) {
+    if (![SBNetState isViaWifi]) {
         NSLog(@"当前非Wi-Fi环境，不更新资源包！");
         return;
     }
