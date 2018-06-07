@@ -38,6 +38,11 @@ static MEQiniuUtils *qnUtils;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         qnUtils = [[MEQiniuUtils alloc] init];
+        //断点续传代码，暂未实现
+//        NSError *error;
+//        NSString *qnCache = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject stringByAppendingPathComponent: @"qnCache"];
+//        QNFileRecorder *file = [QNFileRecorder fileRecorderWithFolder: qnCache error: &error];
+//        qnUploadManager = [[QNUploadManager alloc] initWithRecorder: file];
         qnUploadManager = [[QNUploadManager alloc] init];
     });
     return qnUtils;

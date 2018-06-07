@@ -157,7 +157,7 @@
     ClassAlbumPb *pb = [MEBabyAlbumListVM fetchAlbumsWithParentId: parentId].firstObject;
     if (pb) {
         if (pb.isParent) {
-            return [self getTheFirstAlbumCoverImageInFolder: pb.parentId];
+            return [self getTheFirstAlbumCoverImageInFolder: pb.id_p];
         } else {
             return pb;
         }

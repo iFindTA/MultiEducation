@@ -335,7 +335,7 @@
     
 #if DEBUG
     //家长
-    self.inputMobile.text = @"18668045166";
+    self.inputMobile.text = @"13575747869";
     self.inputCode.text = @"999999";
     //老师
     //    self.inputMobile.text = @"13023622337";
