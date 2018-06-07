@@ -110,6 +110,9 @@
             [self.headerView setData: stuPb];
             [self getBabyPhotos];
             self.studentPb.id_p = stuPb.studentId;
+            if (self.didUpdateBabyArchivesCallback) {
+                self.didUpdateBabyArchivesCallback(stuPb);
+            }
             return;
         }
         NSInteger studentId = self.currentUser.parentsPb.studentPbArray[0].id_p;

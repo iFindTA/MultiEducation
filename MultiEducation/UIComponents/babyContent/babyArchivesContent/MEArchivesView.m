@@ -217,7 +217,7 @@
             }
             //当第一位是0，第二位不能是0
             if([textField.text length] == 1){
-                if(single == '0') {
+                if([textField.text isEqualToString: @"0"] && single == '0') {
                     [MEKits makeTopToast: @"请输入正确的数字格式"];
                     [textField.text stringByReplacingCharactersInRange:range withString:@""];
                     return NO;
