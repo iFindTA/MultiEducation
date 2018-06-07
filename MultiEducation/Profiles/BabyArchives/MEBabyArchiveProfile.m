@@ -348,9 +348,18 @@
         return;
     }
     
-    if (![_curArchivesPb.fatherMobile pb_isMatchRegexPattern: ME_REGULAR_MOBILE] || ![_curArchivesPb.motherMobile pb_isMatchRegexPattern: ME_REGULAR_MOBILE]) {
-        [MEKits makeTopToast: @"请输入正确格式的手机号!"];
-        return;
+    if (!PBIsEmpty(_curArchivesPb.fatherMobile)) {
+        if (![_curArchivesPb.fatherMobile pb_isMatchRegexPattern: ME_REGULAR_MOBILE]) {
+            [MEKits makeTopToast: @"请输入正确格式的爸爸手机号!"];
+            return;
+        }
+    }
+    
+    if (!PBIsEmpty(_curArchivesPb.motherMobile)) {
+        if (![_curArchivesPb.motherMobile pb_isMatchRegexPattern: ME_REGULAR_MOBILE]) {
+            [MEKits makeTopToast: @"请输入正确格式的妈妈手机号!"];
+            return;
+        }
     }
     
     if (_curArchivesPb.height >= 161) {
