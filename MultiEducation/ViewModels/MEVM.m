@@ -132,7 +132,7 @@
                     }
                     // err cide
                     NSUInteger errCode = -1;
-                    if ([responseCarrier.respCode isEqualToString:@"LOGIN_FAIL"]) {
+                    if ([responseCarrier.respCode isEqualToString:@"SESSION_EXPIRED"]) {
                         errCode = 401;
                     }
                     err = [NSError errorWithDomain:errMsg code:errCode userInfo:nil];
@@ -223,7 +223,7 @@
                     }
                     // err cide
                     NSUInteger errCode = -1;
-                    if ([responseCarrier.respCode isEqualToString:@"LOGIN_FAIL"]) {
+                    if ([responseCarrier.respCode isEqualToString:@"SESSION_EXPIRED"]) {
                         errCode = 401;
                     }
                     err = [NSError errorWithDomain:errMsg code:errCode userInfo:nil];
