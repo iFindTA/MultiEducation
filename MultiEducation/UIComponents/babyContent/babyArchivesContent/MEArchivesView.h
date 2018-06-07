@@ -47,6 +47,13 @@ typedef NS_ENUM(NSUInteger, MEArchivesType) {
 
 
 /**
+ 限制只能输入数字时，限制最大输入数字大小
+ */
+@property (nonatomic, assign) float maxNum;
+
+
+
+/**
  文字color
  */
 @property (nonatomic, strong) UIColor *titleTextColor;

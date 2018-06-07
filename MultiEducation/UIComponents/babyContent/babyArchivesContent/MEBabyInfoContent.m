@@ -131,8 +131,8 @@
     NSString *gender = pb.gender == 1 ? @"男" : @"女";
     self.header.genderView.originText = gender;
     
-    self.heightView.originText = [NSString stringWithFormat: @"%d", pb.height];
-    self.weightView.originText = [NSString stringWithFormat: @"%d", pb.weight];
+    self.heightView.originText = [NSString stringWithFormat: @"%.1f", pb.height];
+    self.weightView.originText = [NSString stringWithFormat: @"%.1f", pb.weight];
     self.nickView.originText = pb.petName;
     self.nationView.originText = pb.nation;
     self.bloodView.originText = pb.bloodType;
@@ -160,7 +160,6 @@
     [self.weightView changeCount: pb.weightRt];
     [self.leftEyeView changeCount: pb.leftVisionRt];
     [self.rightEyeView changeCount: pb.rightVisionRt];
-
 }
 
 - (void)didTapBloodView {
@@ -203,6 +202,7 @@
         _heightView = [[MEArchivesView alloc] initWithFrame: CGRectZero];
         _heightView.isOnlyNumber = true;
         _heightView.title = @"100";
+        _heightView.maxNum = 160;
         _heightView.tip = @"身高(cm)";
         _heightView.type = MEArchivesTypeTipCount;
         [_heightView configArchives: true];
@@ -215,6 +215,7 @@
         _weightView = [[MEArchivesView alloc] initWithFrame: CGRectZero];
         _weightView.isOnlyNumber = true;
         _weightView.title = @"20";
+        _weightView.maxNum = 100;
         _weightView.tip = @"体重(kg)";
         _weightView.type = MEArchivesTypeTipCount;
         [_weightView configArchives: true];
@@ -282,6 +283,7 @@
         _leftEyeView.isOnlyNumber = true;
         _leftEyeView.title = @"4.5";
         _leftEyeView.tip = @"左视力";
+        _leftEyeView.maxNum = 5.3;
         _leftEyeView.type = MEArchivesTypeTipCount;
         [_leftEyeView configArchives: true];
     }
@@ -294,6 +296,7 @@
         _rightEyeView.isOnlyNumber = true;
         _rightEyeView.title = @"4.7";
         _rightEyeView.tip = @"右视力";
+        _rightEyeView.maxNum = 5.3;
         _rightEyeView.type = MEArchivesTypeTipCount;
         [_rightEyeView configArchives: true];
     }
@@ -305,6 +308,7 @@
         _HGBView = [[MEArchivesView alloc] initWithFrame: CGRectZero];
         _HGBView.isOnlyNumber = true;
         _HGBView.title = @"100";
+        _HGBView.maxNum = 1000000;
         _HGBView.tip = @"血色素(g/l)";
         _HGBView.type = MEArchivesTypeNormal;
         [_HGBView configArchives: true];

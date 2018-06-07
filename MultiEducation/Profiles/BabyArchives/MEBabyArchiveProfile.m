@@ -263,6 +263,8 @@
     //tip
     if (![self.parentContent.tipTextView.text isEqualToString: WARN_ITEM_DEFAULT_PLACEHOLDER]) {
         _curArchivesPb.warnItem = self.parentContent.tipTextView.text;
+    } else {
+        _curArchivesPb.warnItem = @"";
     }
 }
 
@@ -350,13 +352,33 @@
         [MEKits makeTopToast: @"请输入正确格式的手机号!"];
         return;
     }
+    
+    if (_curArchivesPb.height >= 161) {
+        [MEKits makeTopToast: @"请输入正确的宝宝身高！"];
+        return;
+    }
+    
+    if (_curArchivesPb.weight >= 101) {
+        [MEKits makeTopToast: @"请输入正确的宝宝体重！"];
+        return;
+    }
+    
+    if (_curArchivesPb.leftVision >= 5.4) {
+        [MEKits makeTopToast: @"请输入正确的宝宝左眼视力！"];
+        return;
+    }
+    
+    if (_curArchivesPb.rightVision >= 5.4) {
+        [MEKits makeTopToast: @"请输入正确的宝宝右眼视力！"];
+        return;
+    }
 
     weakify(self);
     [vm postData: [_curArchivesPb data] hudEnable: true success:^(NSData * _Nullable resObj) {
         strongify(self);
         _originArchivesPb = _curArchivesPb;
         [MEKits makeTopToast: @"修改宝宝档案成功！"];
-
+        [self.panel updateStudent: _curArchivesPb.studentId name:_curArchivesPb.studentName avatar: _curArchivesPb.studentPortrait];
         _whetherEditArchives = false;
     } failure:^(NSError * _Nonnull error) {
         [MEKits makeToast: error.description];
@@ -431,7 +453,6 @@
 
     [self.view insertSubview:_panel belowSubview: self.navigationBar];
     [self.view insertSubview:_panel aboveSubview: self.scroll];
-    
     [_panel loadAndConfigure];
     
     //touch switch student callback

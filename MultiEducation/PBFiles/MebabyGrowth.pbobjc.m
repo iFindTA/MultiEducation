@@ -133,8 +133,8 @@ typedef struct GuStudentArchivesPb__storage_ {
   int32_t semester;
   int32_t gender;
   int32_t age;
-  int32_t height;
-  int32_t weight;
+  float height;
+  float weight;
   float leftVision;
   float rightVision;
   int32_t hemoglobin;
@@ -259,7 +259,7 @@ typedef struct GuStudentArchivesPb__storage_ {
         .hasIndex = 9,
         .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, height),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
+        .dataType = GPBDataTypeFloat,
       },
       {
         .name = "weight",
@@ -268,7 +268,7 @@ typedef struct GuStudentArchivesPb__storage_ {
         .hasIndex = 10,
         .offset = (uint32_t)offsetof(GuStudentArchivesPb__storage_, weight),
         .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
+        .dataType = GPBDataTypeFloat,
       },
       {
         .name = "leftVision",
