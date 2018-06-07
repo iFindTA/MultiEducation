@@ -19,4 +19,6 @@
 
 - (void)setData:(GuStudentArchivesPb *)pb;
 
+FOUNDATION_EXPORT NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER;
+
 @end

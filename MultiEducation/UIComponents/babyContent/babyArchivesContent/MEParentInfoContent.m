@@ -11,6 +11,8 @@
 #import "MebabyGrowth.pbobjc.h"
 #import "UITextView+Placeholder.h"
 
+NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER = @"  请家长围绕孩子的健康、睡眠、饮食、教育等写下有关孩子在幼儿园需要特别注意的事项";
+
 @interface MEParentInfoContent() <UITextViewDelegate>
 
 @end
@@ -27,7 +29,6 @@
 }
 
 - (void)customSubviews {
-    
     self.dadView = [[MEParentsInfoView alloc] initWithFrame: CGRectZero];
     [self addSubview: self.dadView];
     [self.dadView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -61,6 +62,7 @@
     self.tipTextView = [[UITextView alloc] initWithFrame: CGRectZero];
     self.tipTextView.font = UIFontPingFangSC(15.f);
     self.tipTextView.textColor = UIColorFromRGB(0x284E6C);
+    self.tipTextView.delegate = self;
     [self addSubview: self.tipTextView];
     [self.tipTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(tipLab.mas_bottom).mas_offset(adoptValue(16.f));
@@ -83,7 +85,9 @@
     self.momView.addressTextField.text = [self resetStringFormatter: pb.motherWorkUnit placeHolder: @"妈妈工作单位" textField: self.momView.addressTextField];
 
     self.tipTextView.text = pb.warnItem;
-    [self.tipTextView setPlaceholder: @"  请家长围绕孩子的健康、睡眠、饮食、教育等写下有关孩子在幼儿园需要特别注意的事项" placeholdColor: UIColorFromRGB(0x999999)];
+    if (@available(iOS 11, *)) {
+        [self.tipTextView setPlaceholder: WARN_ITEM_DEFAULT_PLACEHOLDER placeholdColor: UIColorFromRGB(0x999999)];
+    }
 }
 
 - (NSString *)resetStringFormatter:(NSString *)string placeHolder:(NSString *)placeholder textField:(UITextField *)textField {
@@ -109,6 +113,24 @@
         [textView resignFirstResponder];
     }
     return true;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (@available(iOS 11, *)) {} else {
+        if(textView.text.length < 1){
+            textView.text = WARN_ITEM_DEFAULT_PLACEHOLDER;
+            textView.textColor = UIColorFromRGB(0x999999);
+        }
+    }
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if (@available(iOS 11, *)){} else {
+        if([textView.text isEqualToString: WARN_ITEM_DEFAULT_PLACEHOLDER]){
+            textView.text = @"";
+            textView.textColor= UIColorFromRGB(0x333333);
+        }
+    }
 }
 
 

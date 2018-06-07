@@ -10,7 +10,14 @@
 
 @interface UITextView (Placeholder)
 
--(void)setPlaceholder:(NSString *)placeholdStr placeholdColor:(UIColor *)placeholdColor;
+
+/**
+ add placeholderLabel for textView, bug when iOSVersion < 11, no effert
+
+ @param placeholdStr string
+ @param placeholdColor color
+ */
+-(void)setPlaceholder:(NSString *)placeholdStr placeholdColor:(UIColor *)placeholdColor API_AVAILABLE(ios(11));
  
 @end
  
