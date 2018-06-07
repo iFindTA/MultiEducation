@@ -261,7 +261,7 @@
     }
     
     //tip
-    if ([self whetherNeedPutToServer: self.parentContent.tipTextView.text]) {
+    if (![self.parentContent.tipTextView.text isEqualToString: WARN_ITEM_DEFAULT_PLACEHOLDER]) {
         _curArchivesPb.warnItem = self.parentContent.tipTextView.text;
     }
 }
@@ -356,6 +356,7 @@
         strongify(self);
         _originArchivesPb = _curArchivesPb;
         [MEKits makeTopToast: @"修改宝宝档案成功！"];
+
         _whetherEditArchives = false;
     } failure:^(NSError * _Nonnull error) {
         [MEKits makeToast: error.description];
