@@ -130,7 +130,7 @@
     ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
     MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
     pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDate];
-    pb.classId = 0;
+    [pb setClassId: 0];
     NSData *data = [pb data];
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         pb.classId = [MEBabyIndexVM fetchSelectBaby].studentArchives.classId;
