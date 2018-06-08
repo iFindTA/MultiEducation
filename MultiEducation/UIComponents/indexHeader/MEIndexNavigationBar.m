@@ -349,7 +349,7 @@ static NSUInteger ME_INDEX_HEADER_FONT_MIN                     =   16;
         _searchTFD.clearButtonMode = UITextFieldViewModeWhileEditing;
         _searchTFD.layer.cornerRadius = ME_LAYOUT_ICON_HEIGHT * 0.5;
         _searchTFD.layer.masksToBounds = true;
-        [_searchTFD addTarget:self action:@selector(textDidChangeInput:) forControlEvents:UIControlEventTouchUpInside];
+        [_searchTFD addTarget:self action:@selector(textDidChangeInput:) forControlEvents:UIControlEventValueChanged];
     }
     return _searchTFD;
 }

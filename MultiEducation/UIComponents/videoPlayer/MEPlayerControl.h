@@ -8,17 +8,19 @@
 
 #import "MEBaseScene.h"
 #import "Meres.pbobjc.h"
-#import "ZFPlayerControlView.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <ZFPlayer/ZFPlayerControlView.h>
+#import <ZFPlayer/UIView+CustomControlView.h>
 
 typedef NS_ENUM(NSUInteger, MEVideoPlayUserAction) {
     MEVideoPlayUserActionBack                               =   1   <<  0,  //返回
     MEVideoPlayUserActionLike                               =   1   <<  1,  //收藏
     MEVideoPlayUserActionShare                              =   1   <<  2,  //分享
     MEVideoPlayUserActionNextItem                           =   1   <<  3,  //用户点击下一个视频
+    MEVideoPlayUserActionReload                             =   1   <<  4,  //加载失败，点击重试
 };
 
-@interface MEPlayerControl : ZFPlayerControlView
+@interface MEPlayerControl : ZFPlayerControlView<ZFPlayerControlViewDelagate>
 
 @property (nonatomic, strong, readonly) MPVolumeView *volume;
 

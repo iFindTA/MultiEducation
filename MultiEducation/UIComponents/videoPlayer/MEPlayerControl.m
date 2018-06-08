@@ -8,7 +8,6 @@
 
 #import <AVKit/AVKit.h>
 #import "MEPlayerControl.h"
-#import <ZFPlayer/UIView+CustomControlView.h>
 
 #define ME_COUNTDOWN_MAX_SECONDS                5
 #define ME_PLAY_CONTROL_SHOW_BACKITEM           0
@@ -145,8 +144,8 @@
         
         [self updateUserActionItemState4Hidden:true];
         
-        __weak typeof (&*self) weakSelf = self;
-        self.delegate = weakSelf;
+//        __weak typeof (&*self) weakSelf = self;
+//        self.delegate = weakSelf;
     }
     return self;
 }
@@ -231,6 +230,16 @@
 //    NSLog(@"did touch full button");
 //}
 
+- (void)failBtnClick:(UIButton *)sender {
+    sender.hidden = true;
+    if ([self.delegate respondsToSelector:@selector(zf_controlView:failAction:)]) {
+        [self.delegate zf_controlView:self failAction:sender];
+    }
+    if (self.videoPlayControlCallback) {
+        self.videoPlayControlCallback(MEVideoPlayUserActionReload);
+    }
+}
+
 #pragma mark --- Touch Event
 
 - (void)userDidTouchVideoBackEvent {
@@ -258,13 +267,13 @@
 }
 
 - (void)updateUserActionItemState4Hidden:(BOOL)hide {
-    [self.airplayScene setHidden:hide];
 #if ME_PLAY_CONTROL_SHOW_BACKITEM
     [self.backItem setHidden:hide];
 #endif
     if (!self.whetherFullScreen) {
         [self.likeBtn setHidden:hide];
         [self.shareBtn setHidden:hide];
+        [self.airplayScene setHidden:hide];
     }
 }
 
@@ -272,7 +281,7 @@
     self.whetherFullScreen = fullscreen;
     [self.likeBtn setHidden:fullscreen];
     [self.shareBtn setHidden:fullscreen];
-    [self.airplayScene setHidden:false];
+    [self.airplayScene setHidden:fullscreen];
 }
 
 - (void)updateUserLikeItemState:(BOOL)like {

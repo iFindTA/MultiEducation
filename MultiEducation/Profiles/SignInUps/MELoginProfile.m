@@ -162,7 +162,7 @@
     line.backgroundColor = lineColor;
     [inputBg addSubview:line];
     [line makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(inputBg).offset(ME_HEIGHT_TABBAR);
+        make.centerX.equalTo(inputBg).offset(adoptValue(ME_LAYOUT_SUBBAR_HEIGHT));
         make.top.equalTo(inputBg).offset(ME_LAYOUT_MARGIN);
         make.bottom.equalTo(inputBg).offset(-ME_LAYOUT_MARGIN);
         make.width.equalTo(ME_LAYOUT_LINE_HEIGHT);

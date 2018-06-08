@@ -18,6 +18,7 @@
 #import "MEPlayInfoTitlePanel.h"
 #import "MEPlayInfoSubTitlePanel.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import <ZFPlayer/UIView+CustomControlView.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 
 static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   16.f/9;
@@ -90,6 +91,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
         make.left.right.equalTo(self.view);
         make.height.equalTo(height);
     }];
+    self.view.delegate = self.playerControl;
     //title panel
     [self.view addSubview:self.titlePanel];
     [self.titlePanel makeConstraints:^(MASConstraintMaker *make) {
@@ -271,6 +273,12 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 
 - (void)zf_playerControlViewWillHidden:(UIView *)controlView isFullscreen:(BOOL)fullscreen {
     [self.playerControl updateUserActionItemState4Hidden:true];
+}
+
+#pragma mark --- ZFPlayerControlView Delegate
+
+- (void)zf_controlView:(UIView *)controlView failAction:(UIButton *)sender {
+    NSLog(@"失败事件");
 }
 
 #pragma mark --- Load Relevant && User Interactive
@@ -640,6 +648,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
 - (void)userVideoPlayerInterfaceActionType:(MEVideoPlayUserAction)action {
     if (action & MEVideoPlayUserActionBack) {
         [self defaultGoBackStack];
+    } else if (action & MEVideoPlayUserActionReload) {
+        [self loadVideoRelevantData];
     } else if (action & MEVideoPlayUserActionLike) {
         //收藏callback
         //MEPBUserRole role = self.currentUser.userType;

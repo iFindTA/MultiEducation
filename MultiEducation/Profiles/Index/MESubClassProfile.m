@@ -197,7 +197,7 @@
 }
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    NSString *text = ME_EMPTY_PROMPT_DESC;
+    NSString *text = @"没有搜索到相关的内容，请换个关键词试试!";
     if ([[PBService shared] netState] == PBNetStateUnavaliable) {
         text = ME_EMPTY_PROMPT_NETWORK;
     }
