@@ -22,10 +22,10 @@
     MEPBUser *user = delegate.curUser;
     if ([pb.fileType isEqualToString: @"mp4"]) {
         NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
-        [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+        [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
     } else {
         NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-        [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr]];
+        [self.babyPhotoImage sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"baby_content_photo_placeholder"]];
     }
 }
 

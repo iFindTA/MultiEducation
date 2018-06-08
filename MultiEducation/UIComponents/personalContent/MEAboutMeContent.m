@@ -37,7 +37,7 @@
     
     NSString *year = [formatter stringFromDate: [NSDate date]];
     
-    self.cpyRightLab.text = [NSString stringWithFormat: @"Copyright @ %@", year];
+    self.cpyRightLab.text = [NSString stringWithFormat: @"Copyright © %@", year];
 }
 
 - (void)qrCodeTapEvent {
@@ -47,11 +47,11 @@
 }
 
 - (IBAction)agreementAndProtocolTouchEvent:(MEBaseButton *)sender {
-    NSLog(@"使用条款和隐私");
+    NSString *urlStr = @"profile://root@METemplateProfile";
+    NSDictionary *params = @{ME_CORDOVA_KEY_STARTPAGE:@"register_agreement.html#/main"};
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+    [MEKits handleError: error];
 }
-
-
-
 
 
 @end
