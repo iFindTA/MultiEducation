@@ -25,4 +25,9 @@
  */
 - (void)stopRongIMService;
 
+/**
+ 刷新本地用户信息
+ */
+- (void)refreshLocalUserInfo;
+
 @end

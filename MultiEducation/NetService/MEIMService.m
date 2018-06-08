@@ -213,4 +213,14 @@ static MEIMService *instance = nil;
     })
 }
 
+#pragma mark --- User Interface Actions
+
+- (void)refreshLocalUserInfo {
+    MEPBUser *user = self.app.curUser;
+    NSString *uid = PBFormat(@"%lld", user.uid);
+    NSString *portrait = [MEKits imageFullPath:user.portrait];
+    RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:uid name:user.name portrait:portrait];
+    [[RCIM sharedRCIM] refreshUserInfoCache:userInfo withUserId:uid];
+}
+
 @end

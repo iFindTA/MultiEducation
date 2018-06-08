@@ -7,6 +7,7 @@
 //
 
 #import "MEKits.h"
+#import "MEIMService.h"
 #import "MEChatProfile.h"
 #import <PBBaseClasses/PBNavigationBar.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
@@ -70,6 +71,7 @@
     [IQKeyboardManager sharedManager].enable = false;
     [IQKeyboardManager sharedManager].enableAutoToolbar = false;
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
+    [[MEIMService shared] refreshLocalUserInfo];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
