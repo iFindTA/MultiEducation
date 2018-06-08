@@ -27,6 +27,7 @@
 #import "MEBaseNavigationProfile.h"
 #import <SDWebImageDownloader.h>
 #import "MEFolderPatchVM.h"
+#import "MEBabyPhotoCell.h"
 
 #define TITLES @[@"照片", @"时间轴"]
 
@@ -159,10 +160,15 @@ static CGFloat const ITEM_LEADING = 10.f;
         pb.parentId = _parentId;
         pb.classId = _classPb.id_p;
         pb.isParent = YES;
-        if (textField.text && ![textField.text  isEqualToString: @""]) {
+        if (textField.text && ![textField.text isEqualToString: @""]) {
             pb.fileName = textField.text;
         } else {
-            pb.fileName = [NSString stringWithFormat: @"%lld", (uint64_t)[MEKits currentTimeInterval]];
+            NSString *dateStr;
+            NSDate *date = [NSDate date];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+            dateStr = [formatter stringFromDate: date];
+            pb.fileName = [NSString stringWithFormat: @"%@", dateStr];
         }
         
         MEQNUploadVM *vm = [MEQNUploadVM vmWithPb: pb reqCode: REQ_CLASS_ALBUM_FOLDER_UPLOAD];
@@ -583,9 +589,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    MEBabyContentPhotoCell *cell;
     if ([collectionView isEqual: self.photoView]) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
+        MEBabyContentPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
         weakify(self)
         cell.handler = ^(ClassAlbumPb *pb) {
             strongify(self)
@@ -608,7 +613,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         };
         return cell;
     } else {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];
+        MEBabyPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];
         [cell setData: [[(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"] objectAtIndex: indexPath.row]];
         return cell;
     }
@@ -792,6 +797,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         _timeLineView.showsVerticalScrollIndicator = NO;
         
         [_timeLineView registerNib: [UINib nibWithNibName: @"MEBabyContentPhotoCell" bundle: nil] forCellWithReuseIdentifier:  TIME_LINE_IDEF];
+        [_timeLineView registerNib: [UINib nibWithNibName: @"MEBabyPhotoCell" bundle: nil] forCellWithReuseIdentifier:  TIME_LINE_IDEF];
         
         [_timeLineView registerClass: [METimeLineSectionView class] forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF];
         
