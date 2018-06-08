@@ -37,11 +37,11 @@
         NSString *sql = PBFormat(@"classId = %lld AND id_p = %lld", s.classId, s.id_p);
         NSArray<MECSession*>* exists = [WHCSqlite query:MECSession.self where:sql limit:@"1"];
         if (exists.count > 0) {
-            NSString *value = PBFormat(@"name = %@, createdDate = %lld, user = %@, sessionStatus = %d", PBAvailableString(s.name), s.createdDate, s.userArray, s.sessionStatus);
-            ret &= [WHCSqlite update:MECSession.self value:value where:sql];
-        } else {
-            ret &= [WHCSqlite insert:s];
-        }
+//            NSString *value = PBFormat(@"name = '%@', createdDate = %lld, user = %@, sessionStatus = %d", PBAvailableString(s.name), s.createdDate, s.userArray, s.sessionStatus);
+//            ret &= [WHCSqlite update:MECSession.self value:value where:sql];
+            ret &=[WHCSqlite delete:MECSession.self where:sql];
+        } 
+        ret &= [WHCSqlite insert:s];
     }
     return ret;
 }

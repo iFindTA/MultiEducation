@@ -369,16 +369,19 @@ typedef void(^MEQuestionItemCallback)(MEQuestionItem *item);
     UIFont *font = UIFontPingFangSCBold(METHEME_FONT_TITLE-1);
     UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     NSString *title = PBFormat(@"%lu.%@", (unsigned long)self.quesIndex, self.source.title);
-    MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+//    NSLog(@"问题:%@", title);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.font = font;
     label.textColor = fontColor;
     label.text = title;
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
     [self addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
         make.left.equalTo(self).offset(ME_LAYOUT_BOUNDARY);
         make.right.equalTo(self).offset(-ME_LAYOUT_BOUNDARY);
-        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
+//        make.height.equalTo(ME_LAYOUT_ICON_HEIGHT);
     }];
     //问题选项
     int i=0; MEQuestionSlice *lastOpt = nil;CGFloat offset = ME_LAYOUT_MARGIN*0.5;
