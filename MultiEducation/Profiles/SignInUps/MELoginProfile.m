@@ -433,7 +433,7 @@
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
     weakify(self)
-    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+    [vm postData:pbdata hudEnable:true useSession:false success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
         if (err) {
@@ -553,7 +553,7 @@
     MEUserVM *vm = [MEUserVM vmWithPB:pb];
     NSData *pbdata = [pb data];
     weakify(self)
-    [vm postData:pbdata hudEnable:true success:^(NSData * _Nullable resObj) {
+    [vm postData:pbdata hudEnable:true useSession:false success:^(NSData * _Nullable resObj) {
         NSError *err;strongify(self)
         MEPBUserList *userList = [MEPBUserList parseFromData:resObj error:&err];
         if (err) {

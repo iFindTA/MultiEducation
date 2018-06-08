@@ -629,8 +629,9 @@ static NSUInteger ME_LIVE_PLAY_SCENE_HEIGHT                             =   200;
 }
 
 - (void)restartPlay {
-    if (/*self.dataLive.status == 1 &&*/ self.playProfile) {
-        [self.playProfile play];
+    if (self.dataLive.status == 1 && self.playProfile) {
+        NSURL *url = [NSURL URLWithString:self.dataLive.streamURL];
+        [self.playProfile reload:url];
     }
 }
 

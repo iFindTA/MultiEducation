@@ -70,6 +70,7 @@
  @param failure callback
  */
 - (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud success:(void(^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
+- (void)postData:(NSData * _Nonnull)data hudEnable:(BOOL)hud useSession:(BOOL)use success:(void (^_Nullable)(NSData * _Nullable resObj))success failure:(void (^_Nullable)(NSError * _Nonnull error))failure;
 
 /**
  fetch paging data according to index and size

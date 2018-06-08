@@ -63,6 +63,10 @@
 }
 
 - (void)postData:(NSData *)data hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
+    [self postData:data hudEnable:hud useSession:true success:success failure:failure];
+}
+
+- (void)postData:(NSData *)data hudEnable:(BOOL)hud useSession:(BOOL)use success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
     if (![SBNetState isReachable]) {
         NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
         if (failure) {
@@ -75,14 +79,17 @@
     /**
      *  uuid for unique request
      */
-//    NSString *uuidToken = [MEVM createUUID];
-//    [carrier setToken:uuidToken];
+    //    NSString *uuidToken = [MEVM createUUID];
+    //    [carrier setToken:uuidToken];
     /**
      * sessionToken
      */
-    NSString *sessionToken = self.app.curUser.sessionToken;
+    NSString *sessionToken = [self sessionToken];
     if (sessionToken.length == 0) {
-        sessionToken = [self sessionToken];
+        sessionToken = self.app.curUser.sessionToken;
+    }
+    if (!use) {
+        sessionToken = nil;
     }
     [carrier setSessionToken:sessionToken];
     /**
