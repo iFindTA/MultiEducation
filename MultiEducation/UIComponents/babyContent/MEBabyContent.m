@@ -140,12 +140,21 @@
     [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
         strongify(self);
         ClassAlbumListPb *pb = [ClassAlbumListPb parseFromData: resObj error: nil];
-        for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
-            albumPb.isSelectStatus = NO;
-            albumPb.isSelect = NO;
-            [MEBabyAlbumListVM saveAlbum: albumPb];
-        }
-        [self getBabyPhotos];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if (pb.classAlbumArray.count > 20) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SVProgressHUD showInfoWithStatus: @"正在获取宝宝照片...."];
+                });
+            }
+            for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+                albumPb.isSelectStatus = NO;
+                albumPb.isSelect = NO;
+                [MEBabyAlbumListVM saveAlbum: albumPb];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self getBabyPhotos];
+            });
+        });
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
     }];

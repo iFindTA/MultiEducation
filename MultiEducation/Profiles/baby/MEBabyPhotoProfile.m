@@ -74,6 +74,11 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) MWPhotoBrowser *photoBrowser;
 @property (nonatomic, strong) NSMutableArray <NSString *> *browserPhotos;    //当前在browser中的Photo的urlString
 
+@property (nonatomic, strong) MEPBClass *classPb;
+@property (nonatomic, strong) UIImage *displayImage;
+@property (nonatomic, assign) NSInteger parentId;
+
+
 @end
 
 @implementation MEBabyPhotoProfile
@@ -100,7 +105,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
     [self loadDataSource: _parentId];
 
-    [self customSideMenu];
+//    [self customSideMenu];
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(uploadSuccessNotification:) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
 }
@@ -158,7 +163,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         strongify(self);
         ClassAlbumPb *pb = [[ClassAlbumPb alloc] init];
         pb.parentId = _parentId;
-        pb.classId = _classPb.id_p;
+        pb.classId = self.classPb.id_p;
         pb.isParent = YES;
         if (textField.text && ![textField.text isEqualToString: @""]) {
             pb.fileName = textField.text;
@@ -323,6 +328,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDate];
         NSData *data = [pb data];
         weakify(self)
+        __block MEPBClass *blockClass = self.classPb;
         [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
             strongify(self);
             [self.photos removeAllObjects];
@@ -334,7 +340,7 @@ static CGFloat const ITEM_LEADING = 10.f;
                 albumPb.isSelect = NO;
                 [MEBabyAlbumListVM saveAlbum: albumPb];
             }
-            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId:_parentId classId: _classPb.id_p]];
+            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: 0 classId: blockClass.id_p]];
             [self.photoView reloadData];
             [self sortPhotoWithTimeLine];
         } failure:^(NSError * _Nonnull error) {
@@ -508,6 +514,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    [SVProgressHUD showErrorWithStatus: @"由于内存紧张，自动返回上级页面"];
+    [self.navigationController popViewControllerAnimated: true];
 }
 
 - (void)longPressPhotoEvent:(UILongPressGestureRecognizer *)ges {
@@ -515,7 +523,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle: nil message: nil preferredStyle: UIAlertControllerStyleActionSheet];
         
         UIAlertAction *certain = [UIAlertAction actionWithTitle: @"保存" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            UIImageWriteToSavedPhotosAlbum(_displayImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+            UIImageWriteToSavedPhotosAlbum(self.displayImage, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
         }];
         
         UIAlertAction *cancel = [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler: nil];
@@ -541,7 +549,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     [MEKits handleUploadPhotos: photos assets: assets checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable images) {
         strongify(self);
         NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: _classPb.id_p], @"parentId": [NSNumber numberWithInteger: _parentId]};
+        NSDictionary *params = @{@"datas": images, @"classId": [NSNumber numberWithInteger: self.classPb.id_p], @"parentId": [NSNumber numberWithInteger: _parentId]};
         NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
         [MEKits handleError: error];
         self.pickerProfile = nil;
@@ -558,7 +566,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [MEKits handleUploadVideos: @[data] checkDiskCap: NO completion:^(NSArray<NSDictionary *> * _Nullable videos) {
             strongify(self);
             NSString *urlStr = @"profile://root@MEPhotoProgressProfile";
-            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: _classPb.id_p], @"parentId": [NSNumber numberWithInteger: _parentId]};
+            NSDictionary *params = @{@"datas": videos, @"classId": [NSNumber numberWithInteger: self.classPb.id_p], @"parentId": [NSNumber numberWithInteger: _parentId]};
             NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
             [MEKits handleError: error];
             self.pickerProfile = nil;
