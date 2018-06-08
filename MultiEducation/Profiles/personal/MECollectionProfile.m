@@ -62,10 +62,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.dataSource.count == 0) {
-        self.totalPages = 0;self.currentPageIndex = 0;
-        [self autoLoadMoreUserCollectionItems4PageIndex:1];
-    }
+    self.totalPages = 0;self.currentPageIndex = 0;
+    [self autoLoadMoreUserCollectionItems4PageIndex:1];
 }
 
 #pragma mark --- load data
