@@ -107,7 +107,6 @@
             stuPb = [MEBabyIndexVM fetchSelectBaby].studentArchives;
             [self getBabyGrowthIndexbadgeWhichRoleParent: stuPb.studentId];
             _whetherGraduate = [MEBabyIndexVM fetchSelectBaby].showGraduate;
-            [self.headerView setData: stuPb];
             [self loadNewestPhoto];
             self.studentPb.id_p = stuPb.studentId;
             if (self.didUpdateBabyArchivesCallback) {
