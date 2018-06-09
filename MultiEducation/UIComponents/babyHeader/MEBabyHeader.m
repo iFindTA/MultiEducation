@@ -40,7 +40,7 @@
         self.babyWeightLab.hidden = YES;
         self.babyWeightTipLabel.hidden = YES;
 
-        self.userNameLab.text = [NSString stringWithFormat: @"欢迎来到%@", self.currentUser.schoolName];
+        self.userNameLab.text = [NSString stringWithFormat: @"%@老师，您好！", self.currentUser.name];
         
         self.settingBtn.hidden = YES;
     }

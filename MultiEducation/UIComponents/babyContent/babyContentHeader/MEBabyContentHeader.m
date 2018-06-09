@@ -24,6 +24,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
  
+    if (self.currentUser.userType != MEPBUserRole_Parent) {
+        self.nameLabel.text = @"班级相册";
+    }
+    
     [self addTapGesture];
 }
 

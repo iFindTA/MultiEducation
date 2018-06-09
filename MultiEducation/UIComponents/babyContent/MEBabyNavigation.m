@@ -76,7 +76,7 @@ static CGFloat const ICON_HEIGHT = 20.f;
 - (void)changeTitle:(NSString *)babyName url:(NSString *)url {
     
     if ([babyName isEqualToString: @""]) {
-        self.titleLabel.text = self.currentUser.schoolName;
+        self.titleLabel.text = [NSString stringWithFormat: @"%@老师，您好！", self.currentUser.name];
         NSString *userPortriat = [NSString stringWithFormat:@"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
         [self.icon sd_setImageWithURL: [NSURL URLWithString: userPortriat] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
     } else {
