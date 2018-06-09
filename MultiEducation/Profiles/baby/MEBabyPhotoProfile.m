@@ -105,7 +105,7 @@ static CGFloat const ITEM_LEADING = 10.f;
 
     [self loadDataSource: _parentId];
 
-//    [self customSideMenu];
+    [self customSideMenu];
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(uploadSuccessNotification:) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
 }
