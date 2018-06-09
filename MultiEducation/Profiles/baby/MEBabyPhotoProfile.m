@@ -514,8 +514,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    [SVProgressHUD showErrorWithStatus: @"由于内存紧张，自动返回上级页面"];
-    [self.navigationController popViewControllerAnimated: true];
 }
 
 - (void)longPressPhotoEvent:(UILongPressGestureRecognizer *)ges {

@@ -34,6 +34,7 @@
 + (BOOL)saveAlbum:(ClassAlbumPb *)album {
     NSString *where = [NSString stringWithFormat: @"id_p = %lld", album.id_p];
     NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where limit: @"1"];
+    [self setClassAlbumCoverImageAndUrlstringOfAlbum: album];
     if (arr.count == 0) {
         return [WHCSqlite insert: album];
     } else {
@@ -107,6 +108,82 @@
     ClassAlbumPb *newestAlbum = [WHCSqlite query: [ClassAlbumPb class] order: @"by modifiedDate desc"].firstObject;
     return newestAlbum.modifiedDate;
 }
+
++ (void)setClassAlbumCoverImageAndUrlstringOfAlbum:(ClassAlbumPb *)pb {
+    UIImage *placeholderImage;
+    NSString *urlString;
+    MEPBUser *user = ((AppDelegate *)[UIApplication sharedApplication].delegate).curUser;
+    if (pb.isParent) {
+        NSArray *albums = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.id_p];
+        if (albums.count != 0) {
+            ClassAlbumPb *firstAlbumPb = albums.firstObject;
+            NSString *urlStr;
+            if (firstAlbumPb.isParent) {
+                ClassAlbumPb *innerPb = [self getTheFirstAlbumCoverImageInFolder: firstAlbumPb.id_p];
+                if (innerPb) {
+                    if ([innerPb.fileType isEqualToString: @"mp4"]) {
+                        urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, innerPb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                    } else {
+                        urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, innerPb.filePath];
+                    }
+                } else {
+                    placeholderImage = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+                }
+            } else {
+                if ([firstAlbumPb.fileType isEqualToString: @"mp4"]) {
+                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, firstAlbumPb.filePath, QN_VIDEO_FIRST_FPS_URL];
+                } else {
+                    urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, firstAlbumPb.filePath];
+                }
+            }
+            urlString = urlStr;
+            placeholderImage = [self getPlaceHolderImage: pb];
+        } else {
+            placeholderImage = [UIImage imageNamed: @"baby_content_folder_placeholder"];
+        }
+    } else {
+        NSString *urlStr;
+        if ([pb.fileType isEqualToString: @"mp4"]) {
+            urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
+        } else {
+            urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
+        }
+        urlString = urlStr;
+        placeholderImage = [self getPlaceHolderImage: pb];
+    }
+    
+    pb.totalPortrait = urlString;
+    pb.coverImageData = UIImagePNGRepresentation(placeholderImage);
+}
+
+//when the folderA in folderB, get the folderA's coverImage to give folderB, and maybe floderC in floderA, so this is a recurrence func
++ (ClassAlbumPb *)getTheFirstAlbumCoverImageInFolder:(int64_t)parentId {
+    ClassAlbumPb *pb = [MEBabyAlbumListVM fetchAlbumsWithParentId: parentId].firstObject;
+    if (pb) {
+        if (pb.isParent) {
+            return [self getTheFirstAlbumCoverImageInFolder: pb.id_p];
+        } else {
+            return pb;
+        }
+    } else {
+        return nil;
+    }
+}
+
++ (UIImage *)getPlaceHolderImage:(ClassAlbumPb *)pb {
+    NSString *absolutePath;
+    if (![[NSFileManager defaultManager] fileExistsAtPath: pb.filePath]) {
+        absolutePath = [[MEKits currentUserDownloadPath] stringByAppendingPathComponent: pb.filePath];
+    }
+    UIImage *image;
+    if ([[NSFileManager defaultManager] fileExistsAtPath: absolutePath]) {
+        image = [[UIImage alloc] initWithContentsOfFile: absolutePath];
+    } else {
+        image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+    }
+    return image;
+}
+
 
 - (NSString *)cmdCode {
     return FSC_CLASS_ALBUM_LIST;

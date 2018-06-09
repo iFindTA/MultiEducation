@@ -157,6 +157,8 @@ typedef struct ClassAlbumListPb__storage_ {
 @dynamic uploadStatu;
 @dynamic isSelect;
 @dynamic isSelectStatus;
+@dynamic totalPortrait;
+@dynamic coverImageData;
 
 typedef struct ClassAlbumPb__storage_ {
   uint32_t _has_storage_[1];
@@ -173,6 +175,8 @@ typedef struct ClassAlbumPb__storage_ {
   NSString *md5;
   NSString *formatterDate;
   NSData *fileData;
+  NSString *totalPortrait;
+  NSData *coverImageData;
   int64_t id_p;
   int64_t classId;
   int64_t parentId;
@@ -368,6 +372,24 @@ typedef struct ClassAlbumPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "totalPortrait",
+        .dataTypeSpecific.className = NULL,
+        .number = ClassAlbumPb_FieldNumber_TotalPortrait,
+        .hasIndex = 20,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, totalPortrait),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "coverImageData",
+        .dataTypeSpecific.className = NULL,
+        .number = ClassAlbumPb_FieldNumber_CoverImageData,
+        .hasIndex = 21,
+        .offset = (uint32_t)offsetof(ClassAlbumPb__storage_, coverImageData),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBytes,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[ClassAlbumPb class]
@@ -379,8 +401,8 @@ typedef struct ClassAlbumPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\022\002\007\000\003\010\000\004\010\000\005\006\000\006\010\000\007\010\000\010\010\000\t\010\000\n\n\000\013\013\000\014\014\000\016\t\000\017\007\000"
-        "\020\r\000\021\010\000\022\013\000\023\010\000\024\016\000";
+        "\024\002\007\000\003\010\000\004\010\000\005\006\000\006\010\000\007\010\000\010\010\000\t\010\000\n\n\000\013\013\000\014\014\000\016\t\000\017\007\000"
+        "\020\r\000\021\010\000\022\013\000\023\010\000\024\016\000\025\r\000\026\016\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

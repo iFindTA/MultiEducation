@@ -13,6 +13,9 @@
 
 @interface MEBabyContentPhotoCell () {
     CAGradientLayer *_gradientLayer;
+    
+    NSString *_urlString;
+    UIImage *_placeholderImage;
 }
 
 @property (nonatomic, strong) ClassAlbumPb *albumPb;
@@ -83,67 +86,35 @@
     }
 }
 
-- (UIImage *)getPlaceHolderImage:(ClassAlbumPb *)pb {
-    NSString *absolutePath;
-    if (![[NSFileManager defaultManager] fileExistsAtPath: pb.filePath]) {
-        absolutePath = [[MEKits currentUserDownloadPath] stringByAppendingPathComponent: pb.filePath];
-    }
-    UIImage *image;
-    if ([[NSFileManager defaultManager] fileExistsAtPath: absolutePath]) {
-        image = [[UIImage alloc] initWithContentsOfFile: absolutePath];
-    } else {
-        image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
-    }
-    return image;
-}
+//- (UIImage *)getPlaceHolderImage:(ClassAlbumPb *)pb {
+//    NSString *absolutePath;
+//    if (![[NSFileManager defaultManager] fileExistsAtPath: pb.filePath]) {
+//        absolutePath = [[MEKits currentUserDownloadPath] stringByAppendingPathComponent: pb.filePath];
+//    }
+//    UIImage *image;
+//    if ([[NSFileManager defaultManager] fileExistsAtPath: absolutePath]) {
+//        image = [[UIImage alloc] initWithContentsOfFile: absolutePath];
+//    } else {
+//        image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
+//    }
+//    return image;
+//}
 
 - (void)setCoverImage:(ClassAlbumPb *)pb {
-    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    MEPBUser *user = delegate.curUser;
     if (pb.isParent) {
         self.playIcon.hidden = true;
         self.floderNameLabel.hidden = NO;
         self.floderNameLabel.text = pb.fileName;
-        NSArray *albums = [MEBabyAlbumListVM fetchAlbumsWithParentId: pb.id_p];
-        if (albums.count != 0) {
-            ClassAlbumPb *firstAlbumPb = albums.firstObject;
-            NSString *urlStr;
-            if (firstAlbumPb.isParent) {
-                ClassAlbumPb *innerPb = [self getTheFirstAlbumCoverImageInFolder: firstAlbumPb.id_p];
-                if (innerPb) {
-                    if ([innerPb.fileType isEqualToString: @"mp4"]) {
-                        urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, innerPb.filePath, QN_VIDEO_FIRST_FPS_URL];
-                    } else {
-                        urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, innerPb.filePath];
-                    }
-                } else {
-                    self.photoIcon.image = [UIImage imageNamed: @"baby_content_photo_placeholder"];
-                    return;
-                }
-            } else {
-                if ([firstAlbumPb.fileType isEqualToString: @"mp4"]) {
-                    urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, firstAlbumPb.filePath, QN_VIDEO_FIRST_FPS_URL];
-                } else {
-                    urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, firstAlbumPb.filePath];
-                }
-            }
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
-        } else {
-            self.photoIcon.image = [UIImage imageNamed: @"baby_content_folder_placeholder"];
-        }
     } else {
         self.floderNameLabel.hidden = YES;
         self.floderNameLabel.text = @"";
         if ([pb.fileType isEqualToString: @"mp4"]) {
             self.playIcon.hidden = false;
-            NSString *urlStr = [NSString stringWithFormat: @"%@/%@%@", user.bucketDomain, pb.filePath, QN_VIDEO_FIRST_FPS_URL];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         } else {
             self.playIcon.hidden = true;
-            NSString *urlStr = [NSString stringWithFormat: @"%@/%@", user.bucketDomain, pb.filePath];
-            [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [self getPlaceHolderImage: pb] options: SDWebImageRetryFailed];
         }
     }
+    [self.photoIcon sd_setImageWithURL: [NSURL URLWithString: pb.totalPortrait] placeholderImage: [UIImage imageWithData: pb.coverImageData] options: SDWebImageRetryFailed];
     self.nameBackView.hidden = self.floderNameLabel.hidden;
 }
 
@@ -159,19 +130,19 @@
     self.albumPb.isSelect = self.selectBtn.selected;
 }
 
-//when the folderA in folderB, get the folderA's coverImage to give folderB, and maybe floderC in floderA, so this is a recurrence func
-- (ClassAlbumPb *)getTheFirstAlbumCoverImageInFolder:(int64_t)parentId {
-    ClassAlbumPb *pb = [MEBabyAlbumListVM fetchAlbumsWithParentId: parentId].firstObject;
-    if (pb) {
-        if (pb.isParent) {
-            return [self getTheFirstAlbumCoverImageInFolder: pb.id_p];
-        } else {
-            return pb;
-        }
-    } else {
-        return nil;
-    }
-}
+////when the folderA in folderB, get the folderA's coverImage to give folderB, and maybe floderC in floderA, so this is a recurrence func
+//- (ClassAlbumPb *)getTheFirstAlbumCoverImageInFolder:(int64_t)parentId {
+//    ClassAlbumPb *pb = [MEBabyAlbumListVM fetchAlbumsWithParentId: parentId].firstObject;
+//    if (pb) {
+//        if (pb.isParent) {
+//            return [self getTheFirstAlbumCoverImageInFolder: pb.id_p];
+//        } else {
+//            return pb;
+//        }
+//    } else {
+//        return nil;
+//    }
+//}
 
 
 @end

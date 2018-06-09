@@ -116,6 +116,8 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
   ClassAlbumPb_FieldNumber_UploadStatu = 18,
   ClassAlbumPb_FieldNumber_IsSelect = 19,
   ClassAlbumPb_FieldNumber_IsSelectStatus = 20,
+  ClassAlbumPb_FieldNumber_TotalPortrait = 21,
+  ClassAlbumPb_FieldNumber_CoverImageData = 22,
 };
 
 @interface ClassAlbumPb : GPBMessage
@@ -176,6 +178,12 @@ typedef GPB_ENUM(ClassAlbumPb_FieldNumber) {
 
 /** 是否处于要选择状态 */
 @property(nonatomic, readwrite) int32_t isSelectStatus;
+
+/** bucketDomain + portrait */
+@property(nonatomic, readwrite, copy, null_resettable) NSString *totalPortrait;
+
+/** 封面图片 */
+@property(nonatomic, readwrite, copy, null_resettable) NSData *coverImageData;
 
 @end
 
