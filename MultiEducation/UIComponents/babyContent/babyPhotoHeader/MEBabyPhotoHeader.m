@@ -71,6 +71,7 @@
 }
 
 - (void)markLineAnimation:(NSInteger)page {
+    _selectedBtn = [self viewWithTag: 100 + page];
     [self updateMarkLineConstraints: page];
 }
 

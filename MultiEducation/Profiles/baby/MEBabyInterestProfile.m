@@ -72,6 +72,7 @@
             }
         }
         _whetherSend4Month = false;
+        [self customNavigation];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
     }];
@@ -79,7 +80,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self customNavigation];
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         _stuId = [MEBabyIndexVM fetchSelectBaby].studentArchives.studentId;
     }

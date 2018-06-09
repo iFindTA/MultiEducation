@@ -19,16 +19,16 @@
 #import "MEStudentModel.h"
 #import "MEStuInterestModel.h"
 
-@interface MESendIntersetingProfile () <TZImagePickerControllerDelegate> {
-    MEPBClass *_classPb;
-    int64_t _stuId;
-    
-    NSArray *_submitPhotos;
-}
+@interface MESendIntersetingProfile () <TZImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) MESendIntersetContent *content;
 @property (nonatomic, strong) TZImagePickerController *pickerProfile;
+
+@property (nonatomic, strong) NSArray *submitPhotos;
+@property (nonatomic, strong) MEPBClass *classPb;
+@property (nonatomic, assign) int64_t stuId;
+
 
 @end
 
@@ -83,7 +83,7 @@
     }
     
     if (self.currentUser.userType == MEPBUserRole_Parent) {
-        if (_stuId == 0) {
+        if (self.stuId == 0) {
             if ([self.content getInterestingStuArr].count == 0) {
                 [self makeToast: @"选择学生失败"];
                 return;
@@ -118,7 +118,7 @@
         pb.title = [self.content getInterestTitle];
         pb.funText = [self.content getInterestContext];
         
-        if (_classPb) {
+        if (self.classPb) {
             pb.type = 1;
         } else {
             pb.type = 2;
@@ -127,10 +127,10 @@
         if (self.currentUser.userType == MEPBUserRole_Parent) {
             pb.gradeId = [MEBabyIndexVM fetchSelectBaby].gradeId;
             GuFunPhotoStudentPb *stuPb = [[GuFunPhotoStudentPb alloc] init];
-            stuPb.studentId = _stuId;
+            stuPb.studentId = self.stuId;
             [pb.studentListArray addObject: stuPb];
         } else {
-            pb.gradeId = _classPb.gradeId;
+            pb.gradeId = self.classPb.gradeId;
             NSArray <MEStudentModel *> *stuArr = [self.content getInterestingStuArr];
             NSMutableArray <GuFunPhotoStudentPb *> *stuListArr = [NSMutableArray array];
             for (MEStudentModel *model in stuArr) {
@@ -170,7 +170,7 @@
         strongify(self);
         [self.content didSelectImagesOrVideo: images];
         self.pickerProfile = nil;
-        _submitPhotos = images;
+        self.submitPhotos = images;
     }];
 }
 
@@ -195,7 +195,7 @@
             
             [self.content didSelectImagesOrVideo: arr];
             self.pickerProfile = nil;
-            _submitPhotos = videos;
+            self.submitPhotos = videos;
         }];
         
     } failure:^(NSString *errorMessage, NSError *error) {
@@ -224,7 +224,7 @@
         };
         _content.didFetchlocalizationDataHandler = ^(MEStuInterestModel *model) {
             strongify(self);
-            _submitPhotos = model.images;
+            self.submitPhotos = model.images;
         };
     }
     return _content;
