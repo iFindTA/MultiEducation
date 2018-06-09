@@ -49,8 +49,6 @@ static CGFloat const ITEM_LEADING = 10.f;
     NSString *_navigationTitle;
     
     UIImage *_displayImage; //  当前显示要保存的图片
-    
-    BOOL _isSelectStatus;
 }
 
 @property (nonatomic, strong) MEBabyPhotoHeader *header;
@@ -78,6 +76,12 @@ static CGFloat const ITEM_LEADING = 10.f;
 @property (nonatomic, strong) UIImage *displayImage;
 @property (nonatomic, assign) NSInteger parentId;
 
+@property (nonatomic, assign) CGSize photoViewCellSize;
+@property (nonatomic, assign) CGSize timeLineViewCellSize;
+
+@property (nonatomic, assign) BOOL isSelectStatus;
+
+
 
 @end
 
@@ -94,6 +98,8 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.photoViewCellSize = PHOTO_CELL_SIZE;
+    self.timeLineViewCellSize = TIME_LINE_CELL_SIZE;
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -104,8 +110,10 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self layoutView];
 
     [self loadDataSource: _parentId];
-
+    
+//#if RELEASE
     [self customSideMenu];
+//#endif
     
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(uploadSuccessNotification:) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
 }
@@ -122,8 +130,8 @@ static CGFloat const ITEM_LEADING = 10.f;
             [self sideMenuTouchEvent: type];
         } operationMenuCallback:^{
             strongify(self);
-            if (_isSelectStatus) {
-                _isSelectStatus = NO;
+            if (self.isSelectStatus) {
+                self.isSelectStatus = NO;
                 [self backToUnselectingStatus];
             }
         }];
@@ -328,7 +336,6 @@ static CGFloat const ITEM_LEADING = 10.f;
         pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDate];
         NSData *data = [pb data];
         weakify(self)
-        __block MEPBClass *blockClass = self.classPb;
         [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {
             strongify(self);
             [self.photos removeAllObjects];
@@ -340,7 +347,7 @@ static CGFloat const ITEM_LEADING = 10.f;
                 albumPb.isSelect = NO;
                 [MEBabyAlbumListVM saveAlbum: albumPb];
             }
-            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: 0 classId: blockClass.id_p]];
+            [self.photos addObjectsFromArray: [MEBabyAlbumListVM fetchAlbumsWithParentId: 0 classId: self.classPb.id_p]];
             [self.photoView reloadData];
             [self sortPhotoWithTimeLine];
         } failure:^(NSError * _Nonnull error) {
@@ -358,37 +365,42 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
     
 - (void)sortPhotoWithTimeLine {
-    NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p];
-    NSMutableArray *dateArr = [NSMutableArray array];
-    for (ClassAlbumPb *album in allPhotos) {
-        [dateArr addObject: album.formatterDate];
-    }
-    //去重
-    NSSet *set = [NSSet setWithArray: dateArr];
-    [dateArr removeAllObjects];
-    [dateArr addObjectsFromArray: [set allObjects]];
-    //按日期升序排列
-    [dateArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM"];
-        NSDate *date1 = [formatter dateFromString:obj1];
-        NSDate *date2 = [formatter dateFromString:obj2];
-        NSComparisonResult result = [date1 compare:date2];
-        return result == NSOrderedAscending;
-    }];
-    for (int i = 0; i < dateArr.count; i++) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setObject: dateArr[i] forKey: @"date"];
-        NSMutableArray *tmpArr = [NSMutableArray array];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p];
+        NSMutableArray *dateArr = [NSMutableArray array];
         for (ClassAlbumPb *album in allPhotos) {
-            if ([album.formatterDate isEqualToString: dateArr[i]] && !album.isParent) {
-                [tmpArr addObject: album];
-            }
+            [dateArr addObject: album.formatterDate];
         }
-        [dic setObject: tmpArr forKey: @"photos"];
-        [self.timeLineArr addObject: dic];
-    }
-    [self.timeLineView reloadData];
+        //去重
+        NSSet *set = [NSSet setWithArray: dateArr];
+        [dateArr removeAllObjects];
+        [dateArr addObjectsFromArray: [set allObjects]];
+        //按日期升序排列
+        [dateArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy-MM"];
+            NSDate *date1 = [formatter dateFromString:obj1];
+            NSDate *date2 = [formatter dateFromString:obj2];
+            NSComparisonResult result = [date1 compare:date2];
+            return result == NSOrderedAscending;
+        }];
+        for (int i = 0; i < dateArr.count; i++) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            [dic setObject: dateArr[i] forKey: @"date"];
+            NSMutableArray *tmpArr = [NSMutableArray array];
+            for (ClassAlbumPb *album in allPhotos) {
+                if ([album.formatterDate isEqualToString: dateArr[i]] && !album.isParent) {
+                    [tmpArr addObject: album];
+                }
+            }
+            [dic setObject: tmpArr forKey: @"photos"];
+            [self.timeLineArr addObject: dic];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.timeLineView reloadData];
+        });
+    });
 }
 
 - (NSString *)formatterDate:(uint64_t)date {
@@ -415,6 +427,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [self backToUnselectingStatus];
     } else {
         [self.navigationController popViewControllerAnimated: YES];
+        [self.sideMenuManager hideSideMenuManager]; //为了使sideMenuManager里的timer invalidate
     }
 }
 
@@ -613,7 +626,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         [cell setData: [self.photos objectAtIndex: indexPath.row]];
         cell.renameFolderCallback = ^(ClassAlbumPb *pb) {
             strongify(self);
-            if (!_isSelectStatus && [self.photos objectAtIndex: indexPath.row].isParent) {
+            if (!self.isSelectStatus && [self.photos objectAtIndex: indexPath.row].isParent) {
                 [self showAlert2RenameFolder: pb];
             }
         };
@@ -627,9 +640,9 @@ static CGFloat const ITEM_LEADING = 10.f;
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([collectionView isEqual: self.photoView]) {
-        return PHOTO_CELL_SIZE;
+        return self.photoViewCellSize;
     } else {
-        return TIME_LINE_CELL_SIZE;
+        return self.timeLineViewCellSize;
     }
 }
 
