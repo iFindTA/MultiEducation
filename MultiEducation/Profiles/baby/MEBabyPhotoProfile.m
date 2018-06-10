@@ -115,11 +115,11 @@ static CGFloat const ITEM_LEADING = 10.f;
     [self customSideMenu];
 //#endif
     
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(uploadSuccessNotification:) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(uploadSuccessNotification:) name: @"DID_SAVE_NEW_PHOTOS_SUCCESS" object: nil];
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_SAVE_NEW_PHOTOS_SUCCESS" object: nil];
 }
 
 - (void)customSideMenu {
@@ -365,7 +365,6 @@ static CGFloat const ITEM_LEADING = 10.f;
 }
     
 - (void)sortPhotoWithTimeLine {
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p];
         NSMutableArray *dateArr = [NSMutableArray array];
@@ -610,8 +609,18 @@ static CGFloat const ITEM_LEADING = 10.f;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([collectionView isEqual: self.photoView]) {
         MEBabyContentPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: PHOTO_IDEF forIndexPath: indexPath];
+        return cell;
+    } else {
+        MEBabyContentPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];
+        return cell;
+    }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    MEBabyContentPhotoCell *photoCell = (MEBabyContentPhotoCell *)cell;
+    if ([collectionView isEqual: self.photoView]) {
         weakify(self)
-        cell.handler = ^(ClassAlbumPb *pb) {
+        photoCell.handler = ^(ClassAlbumPb *pb) {
             strongify(self)
             if (pb.isSelect) {
                 if (![self.selectArr containsObject: pb]) {
@@ -623,28 +632,25 @@ static CGFloat const ITEM_LEADING = 10.f;
                 }
             }
         };
-        [cell setData: [self.photos objectAtIndex: indexPath.row]];
-        cell.renameFolderCallback = ^(ClassAlbumPb *pb) {
+        [photoCell setData: [self.photos objectAtIndex: indexPath.row]];
+        photoCell.renameFolderCallback = ^(ClassAlbumPb *pb) {
             strongify(self);
             if (!self.isSelectStatus && [self.photos objectAtIndex: indexPath.row].isParent) {
                 [self showAlert2RenameFolder: pb];
             }
         };
-        return cell;
     } else {
-        MEBabyPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier: TIME_LINE_IDEF forIndexPath: indexPath];
-        [cell setData: [[(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"] objectAtIndex: indexPath.row]];
-        return cell;
+        [photoCell setData: [[(NSDictionary *)[self.timeLineArr objectAtIndex: indexPath.section] objectForKey: @"photos"] objectAtIndex: indexPath.row]];
     }
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if ([collectionView isEqual: self.photoView]) {
-        return self.photoViewCellSize;
-    } else {
-        return self.timeLineViewCellSize;
-    }
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    if ([collectionView isEqual: self.photoView]) {
+//        return self.photoViewCellSize;
+//    } else {
+//        return self.timeLineViewCellSize;
+//    }
+//}
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
         METimeLineSectionView *reusableView;
@@ -693,7 +699,7 @@ static CGFloat const ITEM_LEADING = 10.f;
             [self didSelectAlbumPb: pb photos: timeLineArr];
         }
     } else {
-        MEBabyContentPhotoCell *cell = [collectionView cellForItemAtIndexPath: indexPath];
+        MEBabyContentPhotoCell *cell = (MEBabyContentPhotoCell *)[collectionView cellForItemAtIndexPath: indexPath];
         [cell changeSelectBtnStatus];
         ClassAlbumPb *pb = [self.photos objectAtIndex: indexPath.row];
         if (pb.isSelect) {
@@ -789,13 +795,14 @@ static CGFloat const ITEM_LEADING = 10.f;
         [layout setScrollDirection: UICollectionViewScrollDirectionVertical];
         layout.minimumInteritemSpacing = PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH;
         layout.minimumLineSpacing = PHOTO_MIN_ITEM_HEIGHT_AND_WIDTH;
-        
+        layout.itemSize = self.photoViewCellSize;
+
         _photoView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
         _photoView.delegate = self;
         _photoView.dataSource = self;
         _photoView.backgroundColor = [UIColor whiteColor];
         _photoView.showsVerticalScrollIndicator = NO;
-        
+
         [_photoView registerNib: [UINib nibWithNibName: @"MEBabyContentPhotoCell" bundle: nil] forCellWithReuseIdentifier:  PHOTO_IDEF];
     }
     return _photoView;
@@ -807,16 +814,16 @@ static CGFloat const ITEM_LEADING = 10.f;
         [layout setScrollDirection: UICollectionViewScrollDirectionVertical];
         layout.minimumInteritemSpacing = TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH;
         layout.minimumLineSpacing = TIME_LINE_MIN_ITEM_HEIGHT_AND_WIDTH;
-//        layout.headerReferenceSize = CGSizeMake(MESCREEN_HEIGHT - 20, 100);
-        
+//        layout.headerReferenceSize = CGSizeMake(MESCREEN_HEIGHT - 20, 40);
+        layout.itemSize = self.timeLineViewCellSize;
+
         _timeLineView = [[UICollectionView alloc] initWithFrame: CGRectZero collectionViewLayout: layout];
         _timeLineView.delegate = self;
         _timeLineView.dataSource = self;
         _timeLineView.backgroundColor = [UIColor whiteColor];
         _timeLineView.showsVerticalScrollIndicator = NO;
-        
+
         [_timeLineView registerNib: [UINib nibWithNibName: @"MEBabyContentPhotoCell" bundle: nil] forCellWithReuseIdentifier:  TIME_LINE_IDEF];
-        [_timeLineView registerNib: [UINib nibWithNibName: @"MEBabyPhotoCell" bundle: nil] forCellWithReuseIdentifier:  TIME_LINE_IDEF];
         
         [_timeLineView registerClass: [METimeLineSectionView class] forSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier: TIME_LINE_SECTION_HEADER_IDEF];
         

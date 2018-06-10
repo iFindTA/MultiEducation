@@ -147,7 +147,7 @@ static CGFloat const ROW_HEIGHT = 60.f;
     weakify(self);
     UIAlertAction *cancelAc = [UIAlertAction actionWithTitle: @"确定" style: UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         strongify(self);
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: [NSNumber numberWithInteger: _parentId]];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DID_SAVE_NEW_PHOTOS_SUCCESS" object: [NSNumber numberWithInteger: _parentId]];
         [self.navigationController popViewControllerAnimated: YES];
     }];
                             

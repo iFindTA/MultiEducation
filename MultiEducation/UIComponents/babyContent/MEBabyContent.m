@@ -84,7 +84,7 @@
         [self loadData];
         [self getBabyNewsInfo];
         
-        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(getBabyPhotos) name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+        [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(getBabyPhotos) name: @"DID_SAVE_NEW_PHOTOS_SUCCESS" object: nil];
     }
     return self;
 }
@@ -97,7 +97,7 @@
 }
 
 - (void)removeNotiObserver {
-    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_UPLOAD_NEW_PHOTOS_SUCCESS" object: nil];
+    [[NSNotificationCenter defaultCenter] removeObserver: self name: @"DID_SAVE_NEW_PHOTOS_SUCCESS" object: nil];
 }
 
 - (void)loadData {
@@ -146,6 +146,7 @@
                 });
             }
             for (ClassAlbumPb *albumPb in pb.classAlbumArray) {
+                albumPb.formatterDate = [self formatterDate: albumPb.modifiedDate];
                 albumPb.isSelectStatus = NO;
                 albumPb.isSelect = NO;
                 [MEBabyAlbumListVM saveAlbum: albumPb];
@@ -445,6 +446,15 @@
     [dic setObject: url forKey: @"url"];
     [dic setObject: params forKey: @"params"];
     return dic;
+}
+
+- (NSString *)formatterDate:(uint64_t)date {
+    NSTimeInterval time=date/1000+28800;
+    NSDate *detaildate=[NSDate dateWithTimeIntervalSince1970:time];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM"];
+    NSString *dateStr = [dateFormatter stringFromDate: detaildate];
+    return dateStr;
 }
 
 #pragma mark - UICollectionViewDataSource

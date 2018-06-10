@@ -130,19 +130,4 @@
     self.albumPb.isSelect = self.selectBtn.selected;
 }
 
-////when the folderA in folderB, get the folderA's coverImage to give folderB, and maybe floderC in floderA, so this is a recurrence func
-//- (ClassAlbumPb *)getTheFirstAlbumCoverImageInFolder:(int64_t)parentId {
-//    ClassAlbumPb *pb = [MEBabyAlbumListVM fetchAlbumsWithParentId: parentId].firstObject;
-//    if (pb) {
-//        if (pb.isParent) {
-//            return [self getTheFirstAlbumCoverImageInFolder: pb.id_p];
-//        } else {
-//            return pb;
-//        }
-//    } else {
-//        return nil;
-//    }
-//}
-
-
 @end
