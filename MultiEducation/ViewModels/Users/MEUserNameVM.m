@@ -11,7 +11,7 @@
 @implementation MEUserNameVM
 
 -(NSString *)operationCode {
-    return PERSONAL_USERNAME_UPDATE;
+    return PERSONAL_NAME_GENDER_UPDATE;
 }
 
 @end
