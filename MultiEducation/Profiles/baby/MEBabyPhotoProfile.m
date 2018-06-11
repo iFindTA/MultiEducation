@@ -366,7 +366,7 @@ static CGFloat const ITEM_LEADING = 10.f;
     
 - (void)sortPhotoWithTimeLine {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray *allPhotos = [MEBabyAlbumListVM fetchAlbmsWithClassId: _classPb.id_p];
+        NSArray *allPhotos = self.photos;
         NSMutableArray *dateArr = [NSMutableArray array];
         for (ClassAlbumPb *album in allPhotos) {
             [dateArr addObject: album.formatterDate];
