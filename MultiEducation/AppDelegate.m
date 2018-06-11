@@ -179,8 +179,8 @@
         UIColor *color = UIColorFromRGB(ME_THEME_COLOR_VALUE);
         //首页
         NSString *title = @"首页";
-        UIImage *image = [UIImage imageNamed:@"bar_index"];
-        UIImage *selectImg = [image pb_darkColor:color lightLevel:1.f];
+        UIImage *image = [UIImage imageNamed:@"tab_icon_index_normal"];
+        UIImage *selectImg = [UIImage imageNamed:@"tab_icon_index_select"];
         MEIndexRootProfile *index = [[MEIndexRootProfile alloc] init];
         MEBaseNavigationProfile *indexNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:index];
         indexNavi.navigationBarHidden = true;
@@ -193,9 +193,8 @@
         self.indexRootProfile = index;
         //宝宝成长
         title = ((self.curUser.userType == MEPBUserRole_Teacher)?@"班级":@"宝宝成长");
-        image = [UIImage imageNamed:@"bar_baby"];
-        //selectImg = [UIImage imageNamed:@"bar_baby_select"];
-        selectImg = [image pb_darkColor:color lightLevel:1.f];
+        image = [UIImage imageNamed:@"tab_icon_class_normal"];
+        selectImg = [UIImage imageNamed:@"tab_icon_class_select"];
         MEBabyRootProfile *baby = [[MEBabyRootProfile alloc] init];
         MEBaseNavigationProfile *babyNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:baby];
         babyNavi.navigationBarHidden = true;
@@ -207,7 +206,8 @@
         babyNavi.tabBarItem.selectedImage = selectImg;
         //聊天
         title = @"聊天";
-        image = [UIImage imageNamed:@"bar_chat"];
+        image = [UIImage imageNamed:@"tab_icon_chat_normal"];
+        selectImg = [UIImage imageNamed:@"tab_icon_chat_select"];
         selectImg = [image pb_darkColor:color lightLevel:1.f];
         MEChatSessionRootProfile *chat = [[MEChatSessionRootProfile alloc] init];
         MEBaseNavigationProfile *chatNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:chat];
@@ -220,7 +220,8 @@
         chatNavi.tabBarItem.selectedImage = selectImg;
         //个人
         title = @"个人";
-        image = [UIImage imageNamed:@"bar_personal"];
+        image = [UIImage imageNamed:@"tab_icon_personal_normal"];
+        selectImg = [UIImage imageNamed:@"tab_icon_personal_select"];
         selectImg = [image pb_darkColor:color lightLevel:1.f];
         MEPersonalRootProfile *personal = [[MEPersonalRootProfile alloc] init];
         MEBaseNavigationProfile *personalNavi = [[MEBaseNavigationProfile alloc] initWithRootViewController:personal];
