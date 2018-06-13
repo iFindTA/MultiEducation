@@ -31,6 +31,10 @@
 @property (nonatomic, strong) MEStudentsPanel *panel;
 
 @property (nonatomic, strong) MEInterestNotFound *notfound;
+
+@property (nonatomic, strong) UINavigationItem *item;
+
+
 @end
 
 @implementation MEBabyInterestProfile
@@ -72,7 +76,7 @@
             }
         }
         _whetherSend4Month = false;
-        [self customNavigation];
+        self.item.rightBarButtonItem = [MEKits barWithUnicode: @"\U0000e670" color: [UIColor whiteColor] target: self action: @selector(pushToSendBabyInterestingProfileItemTouchEvent)];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
     }];
@@ -85,6 +89,7 @@
     }
     [self.view addSubview: self.content];
     [self.view addSubview: self.notfound];
+    [self customNavigation];
 
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.content.center = CGPointMake(MESCREEN_WIDTH / 2, MESCREEN_HEIGHT / 2);
@@ -110,8 +115,8 @@
 - (void)customNavigation {
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: @"趣事趣影"];
     item.leftBarButtonItem = [MEKits defaultGoBackBarButtonItemWithTarget: self];
-    item.rightBarButtonItem = [MEKits barWithUnicode: @"\U0000e670" color: [UIColor whiteColor] target: self action: @selector(pushToSendBabyInterestingProfileItemTouchEvent)];
-    [self.navigationBar pushNavigationItem: item animated: false];
+    _item = item;
+    [self.navigationBar pushNavigationItem: _item animated: false];
 }
 
 - (void)pushToPhotoBrowser {
