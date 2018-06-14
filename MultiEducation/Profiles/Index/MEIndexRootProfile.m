@@ -134,7 +134,41 @@
     
     //更新Cordova资源包
     [self updateOnlineCordovaResource];
+    //更新未读消息数
     [self.appDelegate updateRongIMUnReadMessageCounts];
+    //更新版本信息
+    weakify(self)
+    [MEKits checkAppStoreOnlineVersion:^(NSDictionary * _Nullable info) {
+        if (info) {
+            NSString *lineVer = info[@"version"];
+            NSMutableArray *lineSpilt = [lineVer componentsSeparatedByString:@"."].mutableCopy;
+            NSDictionary *bundleMap = [NSBundle mainBundle].infoDictionary;
+            NSString *newVer = bundleMap[@"CFBundleShortVersionString"];
+            NSMutableArray *newSplit = [newVer componentsSeparatedByString:@"."].mutableCopy;
+            if (lineSpilt.count == 2) {
+                [lineSpilt addObject:@0];
+            }
+            if (newSplit.count == 2) {
+                [newSplit addObject:@0];
+            }
+            if (newSplit.count == 3 && lineSpilt.count == 3) {
+                int o_0 = [lineSpilt[0] intValue];int o_1 = [lineSpilt[1] intValue];int o_2 = [lineSpilt[2] intValue];
+                int l_0 = [newSplit[0] intValue];int l_1 = [newSplit[1] intValue];int l_2 = [newSplit[2] intValue];
+                if (o_0 > l_0 || (o_0 == l_0 && o_1 > l_1) || (o_0 == l_0 && o_1 == l_1 && o_2 > l_2)) {
+                    UIAlertController *profile = [UIAlertController alertControllerWithTitle:@"发现新版本" message:@"多元幼教发现新版本，是否前往AppStore更新？" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+                    [profile addAction:cancel];
+                    UIAlertAction *ensure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        NSString *iTunesLink = @"https://itunes.apple.com/cn/app/asos-zhong-guo/id1105294803?mt=8";
+                        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+                    }];
+                    [profile addAction:ensure];
+                    strongify(self)
+                    [self presentViewController:profile animated:true completion:nil];
+                }
+            }
+        }
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

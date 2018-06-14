@@ -220,6 +220,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength;
 
+/**
+ 检查iTunes Store版本
+ */
++ (void)checkAppStoreOnlineVersion:(void(^_Nullable)(NSDictionary * _Nullable))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

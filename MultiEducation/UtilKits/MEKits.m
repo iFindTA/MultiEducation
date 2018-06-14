@@ -866,4 +866,22 @@
     return resultImage;
 }
 
+#pragma mark --- 版本检车
+
++ (void)checkAppStoreOnlineVersion:(void(^_Nullable)(NSDictionary * _Nullable))completion {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager POST:@"http://itunes.apple.com/lookup?id=1105294803" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSArray *rets = responseObject[@"results"];
+        if (rets.count > 0) {
+            NSLog(@"itunes info:%@", rets);
+            NSDictionary *info = rets.lastObject;
+            if (completion) {
+                completion(info);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog("检查版本出错:%@", error.localizedDescription);
+    }];
+}
+
 @end

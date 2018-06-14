@@ -318,7 +318,7 @@
          showVisitorMode = [self.params pb_boolForKey:ME_SIGNIN_DID_SHOW_VISITOR_FUNC];
      }
      if (showVisitorMode) {
-         font = UIFontPingFangSC(METHEME_FONT_SUBTITLE);
+         font = UIFontPingFangSC(METHEME_FONT_TITLE);
          btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
          btn.titleLabel.font = font;
          [btn setTitle:@"随便逛逛" forState:UIControlStateNormal];
