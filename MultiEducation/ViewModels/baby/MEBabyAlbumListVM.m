@@ -105,8 +105,37 @@
 }
 
 + (int64_t)fetchNewestModifyDate {
-    ClassAlbumPb *newestAlbum = [WHCSqlite query: [ClassAlbumPb class] order: @"by modifiedDate desc"].firstObject;
-    return newestAlbum.modifiedDate;
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    MEPBUser *user = delegate.curUser;
+    
+    NSArray *classPbArr;
+    if (user.userType == MEPBUserRole_Teacher) {
+        classPbArr = user.teacherPb.classPbArray;
+    } else if (user.userType == MEPBUserRole_Gardener) {
+        classPbArr = user.deanPb.classPbArray;
+    } else if (user.userType == MEPBUserRole_Parent) {
+        classPbArr = user.parentsPb.classPbArray;
+    } else {
+        return 0;
+    }
+    if (PBIsEmpty(classPbArr)) {
+        return 0;
+    }
+    
+    NSMutableString *where = [NSMutableString string];
+    for (MEPBClass *class in classPbArr) {
+        [where appendString: [NSString stringWithFormat: @"classId = '%lld' OR ", class.id_p]];
+    }
+    [where deleteCharactersInRange: NSMakeRange(where.length - 4, 4)];
+    NSArray *arr = [WHCSqlite query: [ClassAlbumPb class] where: where order: @"by modifiedDate desc"];
+    ClassAlbumPb *newestPb = arr.firstObject;
+    return newestPb.modifiedDate;
+}
+
++ (int64_t)fetchNewestModifyDateWithClassId:(int64_t)classId {
+    NSString *sql = [NSString stringWithFormat: @"classId = '%lld'", classId];
+    ClassAlbumPb *pb = [WHCSqlite query: [ClassAlbumPb class] where: sql order: @"by modifiedDate desc"].firstObject;
+    return pb.modifiedDate;
 }
 
 + (void)setClassAlbumCoverImageAndUrlstringOfAlbum:(ClassAlbumPb *)pb {

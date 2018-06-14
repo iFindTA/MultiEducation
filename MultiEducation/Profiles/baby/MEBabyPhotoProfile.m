@@ -334,7 +334,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         MEBabyAlbumListVM *babyVm = [MEBabyAlbumListVM vmWithPb: pb];
         pb.classId = _classPb.id_p;
         pb.parentId = parentId;
-        pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDate];
+        pb.modifiedDate = [MEBabyAlbumListVM fetchNewestModifyDateWithClassId: _classPb.id_p];
         NSData *data = [pb data];
         weakify(self)
         [babyVm postData: data hudEnable: YES success:^(NSData * _Nullable resObj) {

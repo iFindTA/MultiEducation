@@ -66,4 +66,13 @@
 + (int64_t)fetchNewestModifyDate;
 
 
+/**
+ 获取当前班级最新时间戳
+
+ @param classId classId
+ @return newest modifyDate
+ */
++ (int64_t)fetchNewestModifyDateWithClassId:(int64_t)classId;
+
+
 @end
