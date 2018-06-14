@@ -230,6 +230,7 @@ static CGFloat const ITEM_LEADING = 10.f;
         _isSelectStatus = NO;
         self.navigationItem.rightBarButtonItem = nil;
         [self loadDataSource: 0];
+        [self.selectArr removeAllObjects];
     };
     
     NSDictionary *params = @{@"albums": self.selectArr, @"folders": folders, ME_DISPATCH_KEY_CALLBACK: moveSuccessCallback};
