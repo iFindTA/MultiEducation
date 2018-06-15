@@ -168,7 +168,7 @@ static METCPService *instance = nil;
                 NSString *reqCode = signedCarrier.reqCode;
                 if (reqCode.length > 0 && [reqCode isEqualToString:@"NOTIFY_KICK_OUT"]) {
                     //账号被顶替
-                    NSString *msg = @"您的多元幼教账号在其他设备上登录，如果这不是您的操作，您的密码有可能已泄露，请重新登录后修改密码。";
+                    NSString *msg = PBFormat(@"您的%@账号在其他设备上登录，如果这不是您的操作，您的密码有可能已泄露，请重新登录后修改密码。", [NSBundle pb_displayName]);
                     //self.accountKickoutCallback(true, msg);
                     
                     NSString *routeUrlString = PBFormat(@"kickout://root@%@/", ME_USER_SIGNIN_PROFILE);

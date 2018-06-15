@@ -26,7 +26,8 @@
 #else
     env = @"prod";
 #endif
-    self.appVersion.text = [NSString stringWithFormat: @"多元幼教%@-%@-%@", appVersion, buildVersion, env];
+    NSString *display = [NSBundle pb_displayName];
+    self.appVersion.text = [NSString stringWithFormat: @"%@%@-%@-%@", display, appVersion, buildVersion, env];
     
     UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget: self action: @selector(qrCodeTapEvent)];
     self.qrCodeShare.userInteractionEnabled = YES;

@@ -63,12 +63,13 @@
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
     }];
     //title
+    NSString *info = PBFormat(@"登录%@", [NSBundle pb_displayName]);
     UIFont *font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE+ME_LAYOUT_OFFSET);
     UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
     MEBaseLabel *title = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     title.font = font;
     title.textColor = fontColor;
-    title.text = @"登录多元幼教";
+    title.text = info;
     [signBgScene addSubview:title];
     [title makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(signBgScene).offset(ME_LAYOUT_BOUNDARY+ME_LAYOUT_OFFSET);

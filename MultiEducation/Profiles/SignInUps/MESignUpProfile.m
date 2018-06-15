@@ -250,8 +250,9 @@
         make.height.equalTo(ME_LAYOUT_SUBBAR_HEIGHT);
     }];
     //protocol
-    NSString *protocol = @"《多元幼教用户服务条款》";
-    NSString *protocolString = @"点击立即注册及代表您同意《多元幼教用户服务条款》";
+    NSString *display = [NSBundle pb_displayName];
+    NSString *protocol = PBFormat(@"《%@用户服务条款》", display);
+    NSString *protocolString = PBFormat(@"点击立即注册及代表您同意《%@用户服务条款》", display);
     NSRange protocolRange = [protocolString rangeOfString:protocol];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:protocolString];
     [text setTextHighlightRange:protocolRange color:themeColor backgroundColor:[UIColor whiteColor] tapAction:^(UIView * _Nonnull containerView, NSAttributedString * _Nonnull text, NSRange range, CGRect rect) {

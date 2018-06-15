@@ -70,9 +70,10 @@
     [self hiddenNavigationBar];
     
     //welcom
+    NSString *info = PBFormat(@"欢迎登录%@", [NSBundle pb_displayName]);
     MEBaseLabel *label = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
     label.font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE);
-    label.text = @"欢迎登录多元幼教";
+    label.text = info;
     [self.view addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(adoptValue(ME_LAYOUT_SUBBAR_HEIGHT * 2));

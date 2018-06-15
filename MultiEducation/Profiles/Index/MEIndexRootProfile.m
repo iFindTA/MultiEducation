@@ -155,7 +155,8 @@
                 int o_0 = [lineSpilt[0] intValue];int o_1 = [lineSpilt[1] intValue];int o_2 = [lineSpilt[2] intValue];
                 int l_0 = [newSplit[0] intValue];int l_1 = [newSplit[1] intValue];int l_2 = [newSplit[2] intValue];
                 if (o_0 > l_0 || (o_0 == l_0 && o_1 > l_1) || (o_0 == l_0 && o_1 == l_1 && o_2 > l_2)) {
-                    UIAlertController *profile = [UIAlertController alertControllerWithTitle:@"发现新版本" message:@"多元幼教发现新版本，是否前往AppStore更新？" preferredStyle:UIAlertControllerStyleAlert];
+                    NSString *msg = PBFormat(@"%@发现新版本，是否前往AppStore更新？", [NSBundle pb_displayName]);
+                    UIAlertController *profile = [UIAlertController alertControllerWithTitle:@"发现新版本" message:msg preferredStyle:UIAlertControllerStyleAlert];
                     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
                     [profile addAction:cancel];
                     UIAlertAction *ensure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
