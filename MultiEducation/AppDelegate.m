@@ -320,6 +320,7 @@
 - (void)startServicesOnBackgroundThread {
     //for chinese-policy
     [SBNetState startPing];
+    [PBService shared].operationQueue.maxConcurrentOperationCount = 3;
     [[PBService shared] challengePermissionWithResponse:^(id _Nullable res, NSError * _Nullable err) {
         
     }];

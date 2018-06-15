@@ -349,6 +349,7 @@
         } else {
             //判断线上版本信息
             if (cdv.version > curVersion && cdv.iosKey.length > 0) {
+                NSLog(@"Cordova资源包最新版本:%lld", cdv.version);
                 [self loadCordovaNewestResource4Info:cdv];
             } else {
                 NSLog(@"当前Cordova资源为最新资源，无需更新！");
@@ -410,16 +411,21 @@
         }
         //写入新的资源包
         err = nil;
-        NSString *resNewPath = path.absoluteString;
-        [fileHandler copyItemAtPath:resNewPath toPath:cdvResourcePath error:&err];
+        NSString *newCDVPath = [self sandboxPath];
+        NSString *newCDVFilePath = [newCDVPath stringByAppendingPathComponent:@"www.zip"];
+        NSURL *newCDVFilePATHURL = [NSURL fileURLWithPath:newCDVFilePath];
+        [fileHandler copyItemAtURL:path toURL:newCDVFilePATHURL error:&err];
         if (err) {
             NSLog(@"移动资源出错:%@", err.description);
         }
         //解压新资源包
         NSString *cdvRunPath = [self sandboxPath];
-        BOOL ret = [SSZipArchive unzipFileAtPath:cdvResourcePath toDestination:cdvRunPath];
+        
+        BOOL ret = [SSZipArchive unzipFileAtPath:newCDVFilePath toDestination:cdvRunPath];
         if (!ret) {
             NSLog(@"解压Cordova新资源包文件出错!");
+        } else {
+            NSLog(@"解压Cordova新资源包done.");
         }
     }
 }
@@ -873,7 +879,6 @@
     [manager POST:@"http://itunes.apple.com/lookup?id=1105294803" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSArray *rets = responseObject[@"results"];
         if (rets.count > 0) {
-            NSLog(@"itunes info:%@", rets);
             NSDictionary *info = rets.lastObject;
             if (completion) {
                 completion(info);
