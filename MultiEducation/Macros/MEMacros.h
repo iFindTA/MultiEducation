@@ -18,7 +18,6 @@
 #define ME_UMENG_APPKEY                                                 @"56fa2db6e0f55ace0f0030c5"
 //#define ME_RONGIM_APPKEY                                                @"mgb7ka1nm4whg"//dev
 #define ME_RONGIM_APPKEY                                                @"6tnym1br64577"//
-#define ME_AMAP_APPKEY                                                  @"c8c05f28b018e10ff4dfab5569c3894c"
 #else
 #define ME_APP_ENV                                                      @"prod"
 #define ME_APP_BASE_HOST                                                @"http://v2.api.x16.com:443"
@@ -26,7 +25,6 @@
 #define ME_CORDOVA_SERVER_HOST                                          @"http://v2.api.x16.com:443"
 #define ME_UMENG_APPKEY                                                 @"5aa770eaa40fa32b340000e1"
 #define ME_RONGIM_APPKEY                                                @"6tnym1br64577"//prod
-#define ME_AMAP_APPKEY                                                  @"6507a4c9c1d533612e9ec728ffa0a4b1"
 
 #endif
 
