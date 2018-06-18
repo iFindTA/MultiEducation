@@ -380,6 +380,7 @@
 		AAA434B42AA724745AC0D266473F45D6 /* ValueSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FE17C32A32C3CB961362800EB84ED8 /* ValueSync.m */; };
 		AB4CA874F33199D9113487CBE6A1290B /* MEHeaderIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E60200E3EA06F787FDC46F092E1F0E2E /* MEHeaderIconCell.xib */; };
 		AC3CCDF991BFC37060BCDCFFC94AFB51 /* MEBabyPhotoProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAF0D3C9391B6C8B803FAED645F2BDA /* MEBabyPhotoProfile.m */; };
+		AC4EB72BCFABCA0A0AD59FDD /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F4A2FAC7D04842F636448627B119E4 /* libPods-MultiEducation.a */; };
 		ACD210A8B5C56085C8B828638A3ED0C3 /* MEQRScanProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA3BE2FEA2DCA4D00371808A87F99AD /* MEQRScanProfile.m */; };
 		AE199C86C4F0713730DD7CB29024BF93 /* MEQiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F941339C22F0F713AFDD400ABDE5353 /* MEQiniuUtils.m */; };
 		AE210B6FB65B89D29B9FAA12603FF95E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29BED58F38B64F9B9542E5193DE02FB4 /* Assets.xcassets */; };
@@ -429,7 +430,6 @@
 		C476B625002A3B0B4FA1A1353BB1C607 /* MEForwardGEProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A23CE6C3FBA42A962175BD1D7138666 /* MEForwardGEProfile.m */; };
 		C48DAAC9D17BB649345362C08E5DBCB5 /* MEIMService.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E61C76658A15EE1540CF4029AB3B6D /* MEIMService.m */; };
 		C533122AF82240F538244B6F8409184B /* MEBabyInfoContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A5521658E2A3048B945B4E0C8B6EC04 /* MEBabyInfoContent.m */; };
-		C72B5423F6E949FC896D058C0CB2B918 /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F4A2FAC7D04842F636448627B119E4 /* libPods-MultiEducation.a */; };
 		C7F8283815EB84FD9596C4095B215DA9 /* MECardSwitchFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = E89B8546B149A07AE2D5DE98ECEA38BD /* MECardSwitchFlowLayout.m */; };
 		C82CCC5E744DD1145CD6A4773B8CA75C /* MELiveRoomRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B2E9CC048604D1CE95118B19AF17A00 /* MELiveRoomRootProfile.m */; };
 		C953851F6C78FC4B2F7EBBEE639C9245 /* MEPersonalDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 99CAB12C335062707998977AE362FCC1 /* MEPersonalDataCell.m */; };
@@ -854,6 +854,7 @@
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
+		77970F35ECDF36128D62C50E /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
 		792872332F743D62E639668F6E34AD68 /* MEQNUploadBatchVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEQNUploadBatchVM.h; sourceTree = "<group>"; };
 		794132D107A5C4C538F9F6B98E1786BA /* MesignIn.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesignIn.pbobjc.h; sourceTree = "<group>"; };
@@ -882,8 +883,6 @@
 		868E2DA8C322D7D73763E337AA9F71AE /* MEDropDownMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEDropDownMenu.m; sourceTree = "<group>"; };
 		86FB94E6F108A00B7F9347A1DC274C92 /* MEBabyIndexVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyIndexVM.m; sourceTree = "<group>"; };
 		87761243CB658B5CAD17F98E91C950F0 /* MEGrowthEvaRootProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEGrowthEvaRootProfile.m; sourceTree = "<group>"; };
-		87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.release.xcconfig"; sourceTree = "<group>"; };
-		87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		88157F8A883158A8B5AC8563AF131301 /* MEBabySelectProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBabySelectProfile.m; sourceTree = "<group>"; };
 		8899CA6E1C9CCB5943E81B923E9492A2 /* MEBabyInterestProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyInterestProfile.m; sourceTree = "<group>"; };
 		899448F5B16EC9B47DB8FE38D1C15E2F /* MEPlayInfoTitlePanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayInfoTitlePanel.h; sourceTree = "<group>"; };
@@ -1135,6 +1134,7 @@
 		FCEE82C74E48522A718B45649B902A95 /* MEStudentListVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentListVM.h; sourceTree = "<group>"; };
 		FD3A4B4F3FEB435AFD8A344D980AC97F /* MEBabyContentHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentHeader.m; sourceTree = "<group>"; };
 		FD95E84F3584B82BD1E6389A562287BE /* MEPlayInfoTitlePanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPlayInfoTitlePanel.m; sourceTree = "<group>"; };
+		FDC0D5DEF2C2620B218BD81B /* Pods-MultiEducation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.release.xcconfig"; sourceTree = "<group>"; };
 		FEC8E2620292EDBB464672D16F9D3E15 /* MEDoLiveVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEDoLiveVM.m; sourceTree = "<group>"; };
 		FEF9D25D9FECFD41D3E5F9AB7A25EC36 /* UIViewController+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Utils.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1149,18 +1149,7 @@
 				7E64FF2AFC108B8F23A9DD90E69E13DA /* libPods-MultiEducation.a in Frameworks */,
 				E024AA38646F95380CE5DE6492DB1003 /* libsqlite3.0.tbd in Frameworks */,
 				401A13434495A43AA92295237E5A5537 /* libz.tbd in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F59E118EBF9D805999BC466EC9934B65 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F017C124D3BDE1BE2A79BB1F81D5FA40 /* MapKit.framework in Frameworks */,
-				E71A2CE54A40DB78AA456E18E492ADE0 /* SystemConfiguration.framework in Frameworks */,
-				C72B5423F6E949FC896D058C0CB2B918 /* libPods-MultiEducation.a in Frameworks */,
-				498C13CC69E0ADDB0CE691B23ABF1C3F /* libsqlite3.0.tbd in Frameworks */,
-				EC969299265F4C144A9D81AE86F73C64 /* libz.tbd in Frameworks */,
+				AC4EB72BCFABCA0A0AD59FDD /* libPods-MultiEducation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1175,6 +1164,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F59E118EBF9D805999BC466EC9934B65 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F017C124D3BDE1BE2A79BB1F81D5FA40 /* MapKit.framework in Frameworks */,
+				E71A2CE54A40DB78AA456E18E492ADE0 /* SystemConfiguration.framework in Frameworks */,
+				498C13CC69E0ADDB0CE691B23ABF1C3F /* libsqlite3.0.tbd in Frameworks */,
+				EC969299265F4C144A9D81AE86F73C64 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2504,8 +2504,8 @@
 		F32FE0075C39257717E2FCB43B8E4D6E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */,
-				87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */,
+				77970F35ECDF36128D62C50E /* Pods-MultiEducation.debug.xcconfig */,
+				FDC0D5DEF2C2620B218BD81B /* Pods-MultiEducation.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2572,25 +2572,6 @@
 			productReference = 2CF561EA7BEC20901643738BB5A623E3 /* MultiEducationUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		B34C76079A78D9F4AB480D831CA0BE8B /* MultiIntelligent */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AEADA3F386145547EF2D6DF7DF6D43DC /* Build configuration list for PBXNativeTarget "MultiIntelligent" */;
-			buildPhases = (
-				B5115CE4F7E1F85940658A3C1A661B9A /* [CP] Check Pods Manifest.lock */,
-				DA8CA204C2FFF1EC71E358EB7991851C /* Sources */,
-				F59E118EBF9D805999BC466EC9934B65 /* Frameworks */,
-				29B2E0305E41813E7A54C676210189A4 /* Resources */,
-				58F223ABFDA8316ECC51A4FD4D62933F /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MultiIntelligent;
-			productName = MultiEducation;
-			productReference = 622FCB0D4E481E21E6DD09F72C112246 /* MultiIntelligent.app */;
-			productType = "com.apple.product-type.application";
-		};
 		65A7AA576F6E3292C4214BF35451A47D /* MultiEducationTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9FF8388DD476AE7D8313DDAE12CAB54E /* Build configuration list for PBXNativeTarget "MultiEducationTests" */;
@@ -2608,6 +2589,23 @@
 			productName = MultiEducationTests;
 			productReference = 25C718D61D61073AA19C5F392B6CC582 /* MultiEducationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		B34C76079A78D9F4AB480D831CA0BE8B /* MultiIntelligent */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AEADA3F386145547EF2D6DF7DF6D43DC /* Build configuration list for PBXNativeTarget "MultiIntelligent" */;
+			buildPhases = (
+				DA8CA204C2FFF1EC71E358EB7991851C /* Sources */,
+				F59E118EBF9D805999BC466EC9934B65 /* Frameworks */,
+				29B2E0305E41813E7A54C676210189A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MultiIntelligent;
+			productName = MultiEducation;
+			productReference = 622FCB0D4E481E21E6DD09F72C112246 /* MultiIntelligent.app */;
+			productType = "com.apple.product-type.application";
 		};
 		C3A0B7953994CEFA6B24AD5BD1A9BE71 /* MultiEducation */ = {
 			isa = PBXNativeTarget;
@@ -2643,13 +2641,13 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = C3A0B7953994CEFA6B24AD5BD1A9BE71;
 					};
-					B34C76079A78D9F4AB480D831CA0BE8B = {
-						ProvisioningStyle = Automatic;
-					};
 					65A7AA576F6E3292C4214BF35451A47D = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = C3A0B7953994CEFA6B24AD5BD1A9BE71;
+					};
+					B34C76079A78D9F4AB480D831CA0BE8B = {
+						ProvisioningStyle = Automatic;
 					};
 					C3A0B7953994CEFA6B24AD5BD1A9BE71 = {
 						CreatedOnToolsVersion = 9.1;
@@ -2729,13 +2727,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AA3F29B716056BA91A063866CF0BE18 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		29B2E0305E41813E7A54C676210189A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2775,6 +2766,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3AA3F29B716056BA91A063866CF0BE18 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F2327B0AB9BA614D9FC5E6CB6A379202 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2785,110 +2783,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B5115CE4F7E1F85940658A3C1A661B9A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MultiEducation-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		58F223ABFDA8316ECC51A4FD4D62933F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-resources.sh",
-				"${PODS_ROOT}/GPUImage/framework/Resources/lookup.png",
-				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_amatorka.png",
-				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_miss_etikate.png",
-				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_1.png",
-				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png",
-				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
-				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle",
-				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj",
-				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj",
-				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/Contents.json",
-				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/pb_navigationBar_back.imageset",
-				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/balanceMap.json",
-				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer",
-				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RongCloud.bundle",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/en.lproj",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/zh-Hans.lproj",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/Emoji.plist",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RCConfig.plist",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/JResource.bundle",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/en.lproj",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/zh-Hans.lproj",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/jrmf.cer",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/AlipaySDK/AlipaySDK.bundle",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/WalletResource.bundle",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
-				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
-				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
-				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800-1.jpeg",
-				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800.jpeg",
-				"${PODS_ROOT}/XHImageViewer/Source/Resources/4_1366x768.jpeg",
-				"${PODS_ROOT}/XHImageViewer/Source/Resources/5_1280x800.jpeg",
-				"${PODS_ROOT}/XHImageViewer/Source/Resources/placeholder.jpeg",
-				"${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle",
-				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
-				"${PODS_ROOT}/libksygpulive/resource/KSYGPUResource.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_amatorka.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_miss_etikate.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_1.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_2.png",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MWPhotoBrowser.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Contents.json",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/pb_navigationBar_back.imageset",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/balanceMap.json",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_dev.cer",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_test.cer",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RongCloud.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Emoji.plist",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCConfig.plist",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/JResource.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/jrmf.cer",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AlipaySDK.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WalletResource.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800-1.jpeg",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800.jpeg",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/4_1366x768.jpeg",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/5_1280x800.jpeg",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/placeholder.jpeg",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YJBannerView.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KSYGPUResource.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E149D66A54DC61455F1AB4932572E645 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2996,256 +2890,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		DA8CA204C2FFF1EC71E358EB7991851C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1E4DC62B09E0964617439498B9D29238 /* AppDelegate.m in Sources */,
-				326617D960C614BE807838E1899C830B /* CDVDevice.m in Sources */,
-				52F01128648867AEBD0600601C41746C /* CDVSplashScreen.m in Sources */,
-				F028EAE7CA990A8397CC4E2DDB9EF77B /* CDVStatusBar.m in Sources */,
-				5F46E40C0EBEC34F58A1C648C3189EDD /* CDVViewController+SplashScreen.m in Sources */,
-				8486DC09BD44CDD1289B312283EB33DF /* GardenHeader.m in Sources */,
-				E37FB7B72F1C602615A4E1E927FCC5D7 /* GuIndexPb+MEStore.m in Sources */,
-				1FC553CAFC9E99358258FAC069245218 /* IonicKeyboard.m in Sources */,
-				EE46D070EE84723769BCF09ACFC42F72 /* MEAboutMeContent.m in Sources */,
-				6BEECDC714219FF70AFE51D32622E269 /* MEAboutMeProfile.m in Sources */,
-				3E4AF1B9BCA8F21704BA4DC3BC52BB4D /* MEAccountSafeProfile.m in Sources */,
-				80E63C5A57E6DCEF81A1701E3BE51643 /* MEActivity.m in Sources */,
-				3F24BA82FAE750F4483C1CFCAFE75393 /* MEAlbumDeleteVM.m in Sources */,
-				168B32A4D13F0553FA1B97ADE6383BFA /* MEArchivesView.m in Sources */,
-				B7C069F310BBA876CA578835B9383273 /* MEBabyAlbumListVM.m in Sources */,
-				649B3B94618CC74053E2372B2824DE46 /* MEBabyArchiveProfile.m in Sources */,
-				B59EE4F4A474FCD0192031D17DB44234 /* MEBabyArchivesVM.m in Sources */,
-				501A94E255DBDCC3A5BDB3C582087776 /* MEBabyComponentCell.m in Sources */,
-				A0999954166F1105B2D21DF8CBF18BFB /* MEBabyContent.m in Sources */,
-				8F0A5C32D0757DD85F3976E2B8136A04 /* MEBabyContentHeader.m in Sources */,
-				3B1B32405AFA2D4D9DBF8BE78C8530EF /* MEBabyContentPhotoCell.m in Sources */,
-				879DB3811328AE11C80074FE9D9C038E /* MEBabyHeader.m in Sources */,
-				98BC205AD05EB0D451AD8746C27C59B8 /* MEBabyIndexVM.m in Sources */,
-				EC38C7815542011D89901F9AFA498AE6 /* MEBabyInfoCell.m in Sources */,
-				C533122AF82240F538244B6F8409184B /* MEBabyInfoContent.m in Sources */,
-				D67BE5DF120F5DBA06FCAC28ACECC181 /* MEBabyInfoHeader.m in Sources */,
-				27DC947BBF9108224E947598251C6DCB /* MEBabyInterestProfile.m in Sources */,
-				A346AF59A1257FF15747AB2D22FE36B3 /* MEBabyInterestingContent.m in Sources */,
-				2B621D93765AC35A753F3E3DBC3941AF /* MEBabyIntersetingSelectView.m in Sources */,
-				CE21B6C6F46112453F6E6FEB1392B391 /* MEBabyNavigation.m in Sources */,
-				AF0176B1BFE31992775BD3F33D2F8BF7 /* MEBabyPhotoCell.m in Sources */,
-				1C7224CF03D7CAC5BC45A492D4AD6371 /* MEBabyPhotoHeader.m in Sources */,
-				AC3CCDF991BFC37060BCDCFFC94AFB51 /* MEBabyPhotoProfile.m in Sources */,
-				F5B0A3A940A5FE58FACF3490B2A8800F /* MEBabyPortraitCell.m in Sources */,
-				58E41509E5D7EA85C4C63C3D762C0506 /* MEBabyRootProfile.m in Sources */,
-				8D95DAC63B432142F6CF9F7081AAF7E2 /* MEBabySelectCell.m in Sources */,
-				8B42CE6CFDDD879FB04CB669E629CFE4 /* MEBabySelectProfile.m in Sources */,
-				0682533023FE495EF7909DC219FD86B0 /* MEBaseButton.m in Sources */,
-				D0DD1DEA1F31C0C2770F266C77172EEE /* MEBaseCell.m in Sources */,
-				9AFD26626ABC49A1F571316E8733DFD7 /* MEBaseCollectionCell.m in Sources */,
-				98C3C9C8E96249F4235297995A866F52 /* MEBaseImageView.m in Sources */,
-				5E9C8FBC4E0281306942225831B00001 /* MEBaseLabel.m in Sources */,
-				1F5159D1B2C1F035FB2192B83C01F8A6 /* MEBaseNavigationProfile.m in Sources */,
-				0F886DE37C470C4C8E47D4764002A281 /* MEBaseProfile.m in Sources */,
-				6F9C967FDE9F664B7DE69413A8F34C5C /* MEBaseScene.m in Sources */,
-				5676681D3771CA88C7376D99BA0BAFB7 /* MEBaseScrollView.m in Sources */,
-				F74E79A41E4DD571D1AF8FD8AEFD45F3 /* MEBaseTabBarProfile.m in Sources */,
-				BEC1AF64EEDE61368FEEF64C6E3D5A5E /* MEBaseTableView.m in Sources */,
-				1C99D749C57EC46E674275F73244EBB9 /* MEBrowserProfile.m in Sources */,
-				A2FFE02FF0073ADCB54C1C4C34219EA0 /* MECardCell.m in Sources */,
-				C7F8283815EB84FD9596C4095B215DA9 /* MECardSwitchFlowLayout.m in Sources */,
-				1AEB3F81E20EF36519B27F90CDE47573 /* MEChatProfile.m in Sources */,
-				16003FB0A8A96FD0BC69867DD4DEEA50 /* MEChatSessionRootProfile.m in Sources */,
-				6426643E9526BB384D1AF988FCE1390B /* MEClassChatVM.m in Sources */,
-				D7F2FE51D5523FDF13AA0CB228CE402B /* MEClassMemberVM.m in Sources */,
-				56391DD76A56864670654214150AFB3E /* MECollectionProfile.m in Sources */,
-				A5A079FA625A4BAD5E72BC8374FB98BA /* MEContactCell.m in Sources */,
-				F19F093D7E57579F53C02C25E7303EA5 /* MEContactInfoProfile.m in Sources */,
-				054764F8CCAD5A4FDFAAD570BC7C945D /* MEContactProfile.m in Sources */,
-				BDF7CAC622AF878FCA5F0EE1CE800F6C /* MEContentSubcategory.m in Sources */,
-				50E44C8A2D2783182D2BF442670B0207 /* MECordovaVM.m in Sources */,
-				88E1424A39205DA484042395A5C870D6 /* MEDispatcher.m in Sources */,
-				9D184D00E9F2AD763A35997732CB07D5 /* MEDoLiveVM.m in Sources */,
-				58363DABB802D6A42D5A7ACBE1B14BA4 /* MEDropDownMenu.m in Sources */,
-				2B4C2B1F2BA030D1883565D7279480D9 /* MEEditScene.m in Sources */,
-				EC46F90C6C895121C17B060319A8751B /* MEEditUserDataProfile.m in Sources */,
-				2DC538A424000B05415803A5822099B5 /* MEEvaluatePanel.m in Sources */,
-				201710219881656D4FB82F34974429EA /* MEFileQuryVM.m in Sources */,
-				B420D1278E3B71CB3015FC27D6A6A33A /* MEFolderCell.m in Sources */,
-				2920A0D509D06C7EAB060E4FECB65032 /* MEFolderPatchVM.m in Sources */,
-				424EB7E3F0351790541A4FB1E691E191 /* MEForwardEvaListVM.m in Sources */,
-				C476B625002A3B0B4FA1A1353BB1C607 /* MEForwardGEProfile.m in Sources */,
-				3673C0FA652A265516C5D256EBB1491A /* MEForwardSEProfile.m in Sources */,
-				9EB0DFD3D91821943C72AFF3C711EB87 /* MEGardenRootProfile.m in Sources */,
-				9AD5939ADD652912753E749A64C00B71 /* MEGenderVM.m in Sources */,
-				F84984146F3EAE3450108EEBCC639533 /* MEGrowthEvaRootProfile.m in Sources */,
-				41A87358AB989EC3D00F8611C589CAEE /* MEHeaderIconCell.m in Sources */,
-				ED353326463BBD411E5A3A7C2F5CFF76 /* MEHeartBeatVM.m in Sources */,
-				4C0FA78D8990F8F4ABC6F046A53B06EA /* MEHistoryCell.m in Sources */,
-				B9A2F33BAADD36987C991918D57EC47D /* MEHistoryVM.m in Sources */,
-				FFCCDE33FCA8DCCEDD4FD54CE96346E8 /* MEHistoryVideo.m in Sources */,
-				E99857E040EF166D20F529BEB7717049 /* MEHybridBaseProfile.m in Sources */,
-				16341A2177BA130E0F00317CF2C08959 /* MEIMService.m in Sources */,
-				83913CFFD3C2DF8C815BFE0CDA0A6D70 /* MEIndexBgScroller.m in Sources */,
-				4A3D479B7237B314BE657329A03116F1 /* MEIndexItemVM.m in Sources */,
-				FB4C051725D32CC437254D2336611471 /* MEIndexLayouter.m in Sources */,
-				8BCED56481A5CF4D5943CD46688BA9BA /* MEIndexNavigationBar.m in Sources */,
-				41E4B733E3C70DE08FF9D400D4C5185F /* MEIndexRootProfile.m in Sources */,
-				CCBD35F5BB6E55111480A946D10FDA87 /* MEIndexSearchBar.m in Sources */,
-				75ED489A91A451CD6F1C63062DC41DFF /* MEIndexSearchMaskScene.m in Sources */,
-				7FB5A89595692B5D97BECAAF6A47042E /* MEIndexSearchScene.m in Sources */,
-				F7744FE249E441D640DD0F01A812FEBB /* MEIndexStoryItemCell.m in Sources */,
-				A4C422406E57664EB8273B2F424CAFF8 /* MEIndexVM.m in Sources */,
-				2D4DFA772AE2522185D94CE9E458C035 /* MEInterestListVM.m in Sources */,
-				C00D9B844FE532CAE340C195D79F543A /* MEInterestNotFound.m in Sources */,
-				853AC39463F8981CF3F584CD822F567A /* MEKits.m in Sources */,
-				3EE33ACC08F4D26759D2681860E49B60 /* MELiveClassVM.m in Sources */,
-				596CEC8FE3EE71D6265C409C45B1F0CC /* MELiveHeartBeatVM.m in Sources */,
-				DEFACE6595BFD549B1766992ABA05B5F /* MELiveMaskLayer.m in Sources */,
-				0F48BB523350B55CEADEA60CFF3DA5F7 /* MELiveProfile.m in Sources */,
-				C82CCC5E744DD1145CD6A4773B8CA75C /* MELiveRoomRootProfile.m in Sources */,
-				056B2FA4785CF7AA50C9C72874AA0FB2 /* MELiveVodProfile.m in Sources */,
-				C21C7BEBE01FA965B60A144619DD5F0A /* MELoginProfile.m in Sources */,
-				9C6CF1AC1221AA193B5DF4718D435B22 /* MEM.m in Sources */,
-				D127B8EE17D139932AC7F0C75328FD5B /* MEMenuButton.m in Sources */,
-				2825AED533DCE4561D5EE52E1C3625D3 /* MEMobileVM.m in Sources */,
-				D8CBE84828C6378251241B31279212BD /* MEMultiBabyCell.m in Sources */,
-				263977BE8919FEE6CFDA8B62A3731607 /* MEMultiSelectBabyProfile.m in Sources */,
-				49DCF59AEC58B90390077A08C0AB44B9 /* MEMulticastRole.m in Sources */,
-				DF5CB8090FAA493F640B177F09912CD6 /* MENewsInfoVM.m in Sources */,
-				8C430BC65EE12B683B1CFC122C299BAA /* MENotFoundProfile.m in Sources */,
-				1B43600C8224C2B8E505EBAE34136237 /* MEPBUser+MEStore.m in Sources */,
-				35C9142160BDB378902AAA12B09ADF90 /* MEParentInfoContent.m in Sources */,
-				DF14DAE1EB6D64AEDA41F41A76F740FA /* MEParentsInfoView.m in Sources */,
-				8038489401CAA8C1C1BE4C6D832160A8 /* MEPersonalCell.m in Sources */,
-				E163859CC5A6C1829DD108C3B6E56831 /* MEPersonalDataCell.m in Sources */,
-				494C89C926ED9B280F43D005C079D195 /* MEPersonalHeader.m in Sources */,
-				28DB9E2D382A9DAF0147393ECD887C63 /* MEPersonalRootProfile.m in Sources */,
-				57412083A34BF98A439BF7F9A473B227 /* MEPersonalSectionHeader.m in Sources */,
-				E7B3C6C5C6DAB5D9A955F231F9D971E4 /* MEPersonalSettingProfile.m in Sources */,
-				E630B8B84A33AA30E57EC36880323471 /* MEPhotoBrowser.m in Sources */,
-				1234550CC5247E3164E915ECCC8FD3AA /* MEPhotoProgressProfile.m in Sources */,
-				DDB222BC56A972C14FACB866AD364726 /* MEPlayInfoSubTitlePanel.m in Sources */,
-				77D0043E52D80DF8A3A9B246E7B44279 /* MEPlayInfoTitlePanel.m in Sources */,
-				76C9773D8C76BCDB6C908DF1A9102096 /* MEPlayerControl.m in Sources */,
-				C44F0AA8D1E9D126DAAB8D55653D254E /* MEPortraitVM.m in Sources */,
-				4B53E4FDF22F8CD444E97B2BF5B429C4 /* MEProgressCell.m in Sources */,
-				651D8181E4CB357C2FB12052DEF38DA5 /* MEProgressView.m in Sources */,
-				EE956B16D40C23A304E7C5690E98E5C5 /* MEQNUploadBatchVM.m in Sources */,
-				D805308B28631391A72771E678169CB7 /* MEQNUploadVM.m in Sources */,
-				1613ED53C3C674A0E421C8CABAC5C2F9 /* MEQRCodeShareProfile.m in Sources */,
-				599FC9205052F6F188C6D8426D0C5F6D /* MEQRResultProfile.m in Sources */,
-				355CE3FBB84F14B904A7B5C43534082D /* MEQRScanProfile.m in Sources */,
-				3B78CDD6296D3C3C8040E0A2D08AD784 /* MEQiniuUtils.m in Sources */,
-				0F77A39DBE7477E23A5C45D1E55414B1 /* MERePasswordVM.m in Sources */,
-				EFAD8CDCE27115AAAC10362453E73A48 /* MERegisterVM.m in Sources */,
-				99DD0A04C42870628A638115D439E873 /* MERephoneProfile.m in Sources */,
-				F637BF71DEF49AA17CE95195888C0CD8 /* MEResFavorListVM.m in Sources */,
-				D6F0C1E23C36D508CFC4A9A3DA3C9A75 /* MEResFavorVM.m in Sources */,
-				75683CF9696E9708BE5F1AD2F7DB227A /* MESEInfoVM.m in Sources */,
-				1FB2F17C758E3A5C91026BAADCB8049C /* MESearchBar.m in Sources */,
-				E4A6343C55C59900B941DED97452F49B /* MESearchPanel.m in Sources */,
-				16C36F06DF1F088A0C88E1A34AE53AD5 /* MESearchProfile.m in Sources */,
-				522441ADCA86E6DDC707C6F46714EBED /* MESelectFolderProfile.m in Sources */,
-				15F096CDC4A0E696A2ABD29F6A9BD254 /* MESelectPhotoCell.m in Sources */,
-				2AD4FA1AF446B3A919F2400175FA8BE4 /* MESemesterEvaListVM.m in Sources */,
-				BE60E42CBA71633827D556A6476074D0 /* MESemesterEvaPanel.m in Sources */,
-				DD1CE44574F265307B1974F904B1517D /* MESemesterEvaRootProfile.m in Sources */,
-				1AE427657841583BDA6F4141EF7F638A /* MESendIntersetContent.m in Sources */,
-				69988FA87142AC82038ACB306F59949C /* MESendIntersetingProfile.m in Sources */,
-				CB5989EE69286D0B06768F08C20EA0FE /* MEServerListVM.m in Sources */,
-				0C3957BCB7CF3CB70CE426F9C59AF0C2 /* MESideHideenMenu.m in Sources */,
-				047C677411C1660991E083AE34E8273C /* MESideMenuManager.m in Sources */,
-				8CD0865E4FEA4895509A582A415056A2 /* MESideShowMenu.m in Sources */,
-				E727690FF36EC78D54D0F962B4281EFA /* MESignInProfile.m in Sources */,
-				23E4CDA7FE46DF51A6240637A7DFB9FB /* MESignInputField.m in Sources */,
-				B15D00D163CBA4FA55049A48C44840F0 /* MESignUpProfile.m in Sources */,
-				63E6153F07B87105EDCA73F2C2F5170B /* MEStuInterestModel.m in Sources */,
-				3CECC51754932B62ACF9068CA645809F /* MEStuInterestVM.m in Sources */,
-				794970B27A5DD67CD4C29A738A369CFE /* MEStudentInfoVM.m in Sources */,
-				FF4AF065168E8FB670F5596B64298A2E /* MEStudentListVM.m in Sources */,
-				E0A19ACC3F80D8DC406AC950ACDC73AA /* MEStudentModel.m in Sources */,
-				5AA2C51451680248A4878268A6D86C21 /* MEStudentVM.m in Sources */,
-				7F312D2E255069CE8B867D5E5ED5F857 /* MEStudentsPanel.m in Sources */,
-				F2B5E16E98ED0E0D742C881EB9B5B132 /* MESubClassProfile.m in Sources */,
-				F5EFAB70F2EEEA89127F4CC120B72F1C /* MESubNavigator.m in Sources */,
-				909D85AFF790857DDDAF67230C38EFB4 /* METCPService.m in Sources */,
-				2B105CE792709465C66451FD6DFACB11 /* METeacherMultiClassTableProfile.m in Sources */,
-				9B635B39B6E8000739139F012F7FFF32 /* METemplateProfile.m in Sources */,
-				E3AC51EA47B3724EC6EDA0DD6454BB79 /* METhemeItem.m in Sources */,
-				F8C5E50C1CECEC99A140400BEE99846D /* METimeLineSectionView.m in Sources */,
-				750A5169B01CA9BE6D67D9A984646AA2 /* MEUpdatePasswordProfile.m in Sources */,
-				046E1C48BF1463A11C5E624EFDA93A0B /* MEUserEditVM.m in Sources */,
-				0B6D82B75D88962E5B87DC5D20E3511C /* MEUserNameVM.m in Sources */,
-				9C3381CA84D2C89915A0D1E443D331E9 /* MEUserVM.m in Sources */,
-				F9BFF71C65B4A2C66955C4DF8101FF1B /* MEVM.m in Sources */,
-				6059ACE6056F2A3604E275DDBFE0C67B /* MEVerifyCodeVM.m in Sources */,
-				68A6A6E43C8F3CE5ED33FA6A26CFFE55 /* MEVideo.m in Sources */,
-				DB00A6D8F158B3E1B10D5F941CF8C6D4 /* MEVideoClassVM.m in Sources */,
-				17D80AB12BA3F045F3860FD4A4DEEB2C /* MEVideoInfoVM.m in Sources */,
-				66A03080BCAE4857CD64DB856FECB31C /* MEVideoPlayProfile.m in Sources */,
-				D50A4216EFF2856F3C88211EE202039F /* MEVideoPreview.m in Sources */,
-				B91E03327F2FA7A62E9DEE1E40CA5ED9 /* MEVideoRecordProfile.m in Sources */,
-				897E1E5A8B35CF4F5438B80B6A4FEE6D /* MEVideoRecorder.m in Sources */,
-				5B360931690ADE4C9BF4DCA06027F5D5 /* MEWatchHistoryProfile.m in Sources */,
-				3E3B5DF51C761771624FE67597ABC6EF /* MEWatchItem.m in Sources */,
-				A7EFF3C01869DAE8B82032373436F020 /* MEWebProgress.m in Sources */,
-				D16E48324C2FFF9A795B13866F72E89B /* MebabyAlbum.pbobjc.m in Sources */,
-				DD7D6D1677FADC72D5F3B538A0F8365C /* MebabyEvaluate.pbobjc.m in Sources */,
-				8F331B2D09E78BB5AAC7D11005447162 /* MebabyGrowth.pbobjc.m in Sources */,
-				9DA4F9B46F0DCD22D4ACE2753E1E4AF9 /* MebabyIndex.pbobjc.m in Sources */,
-				63BA82381B19C8443E4B7C719FD1ED4B /* Mecarrier.pbobjc.m in Sources */,
-				D00D01EF9B41652FB393D84B07633F23 /* Meclass.pbobjc.m in Sources */,
-				D68825A750F2BA28A0B0D6D6ED658A74 /* MeclassChat.pbobjc.m in Sources */,
-				58AB60FBD3DA5293D4B5A27DA337B63D /* MeclassLive.pbobjc.m in Sources */,
-				55ADE06609EF1E2FD885F005853E32E5 /* MeclassMember.pbobjc.m in Sources */,
-				D3DABC9AF775E2909892157B5F731C9D /* Mecordova.pbobjc.m in Sources */,
-				2CE764EF79188E1DDB0A4D6435D6BB68 /* MeforwardEvaluate.pbobjc.m in Sources */,
-				0AE6173366B9C24B911AE4CC51EE2638 /* MegradeList.pbobjc.m in Sources */,
-				68C166F712E5ACCB5C0166C3E706C578 /* MegrowthEvaluate.pbobjc.m in Sources */,
-				C40234A9F1D565E72247A8A6DE4EB8F6 /* Meindex.pbobjc.m in Sources */,
-				CB2463A3AC57FE98103F9C4946A94FE6 /* MenewsInfo.pbobjc.m in Sources */,
-				4AEED5E77E6FC6DF7C6055C54A37A5BB /* MephoneInfo.pbobjc.m in Sources */,
-				0C80A847CDDC9B57FF3283B14D8D12ED /* Meqnfile.pbobjc.m in Sources */,
-				52B2F0509382C77A2C4984500905518B /* Meres.pbobjc.m in Sources */,
-				195D98B976BB15B837A23AED8165983A /* MesemesterEvaluate.pbobjc.m in Sources */,
-				8724E86DE498CF8C199A31A9E0FE45A7 /* MeserverList.pbobjc.m in Sources */,
-				521EE5BCF1D70A4F611C39088DC694F7 /* Mesession.pbobjc.m in Sources */,
-				32AAA331469B48B0B15D8AFBC34EC2FA /* MesessionList.pbobjc.m in Sources */,
-				19EC5823F5797F0C568FB739C3BC4BC5 /* MesignIn.pbobjc.m in Sources */,
-				81680933FA7BBFAE1A7171623DF4DC70 /* MestuFun.pbobjc.m in Sources */,
-				B93C8D794007A2782228B4AE11423449 /* Mestudent.pbobjc.m in Sources */,
-				29B91506F402725333C0EA557C55CB69 /* Meuser.pbobjc.m in Sources */,
-				E41125BC10760D1BEBB797D0F89E4678 /* MeuserData.pbobjc.m in Sources */,
-				6D93AEDD0216E133F36A1DE7DA891932 /* Mevideo.pbobjc.m in Sources */,
-				0A675F280C487A1CEA27AFB09CF08E69 /* NSData+NSHash.m in Sources */,
-				91A3A91DA6F9A1793F2B3C6032A1C485 /* NSString+Md5String.m in Sources */,
-				88784934B6F5679926D90F8B4EBEC2CD /* NSString+NSHash.m in Sources */,
-				8A2B058BCCAB6F98B7D954B840E3DC6B /* SBNetState.m in Sources */,
-				FD181E19B8FA710308F45D2DF3DDC8EB /* UITextField+MaxLength.m in Sources */,
-				96E150F36C3C32C1E2E511B3E11F18BC /* UITextView+Placeholder.m in Sources */,
-				06915703C239620C20A7ACF4F6CB7B1D /* UIView+BlurEffect.m in Sources */,
-				2718CB331058942A3C44054EDDDBCCCD /* UIView+ClipsCornerRadius.m in Sources */,
-				DDD05EAE5865A7987BCC5321F5571D56 /* UIView+Frame.m in Sources */,
-				AE3763E1D33ADD627FF4C15C9DE090A2 /* UIView+Utils.m in Sources */,
-				6067847D03E99E5CA57125BEBC18D860 /* UIViewController+Utils.m in Sources */,
-				BC653BCD46C9C3617340211E7AD09BED /* UIWebViewExtension.m in Sources */,
-				E1F5C81841D8FFB4F2E6BD7072BCBF8E /* VKMsgSend.m in Sources */,
-				D6892EB36DE8876E1DF580A823ABAB36 /* ValueBack.m in Sources */,
-				1547A43D62D5D0C2CDFC2C45EC380EC1 /* ValueClose.m in Sources */,
-				C3E2FBB16517232CB3AE39CA6A5E0276 /* ValueDisk.m in Sources */,
-				76A99F6229615DAF5C22025CFA29F6FD /* ValueEnv.m in Sources */,
-				6966053D94FDC1AD9E704A1419C9DAD5 /* ValueH5n.m in Sources */,
-				FA52B55452E6726BBF3C2EE2EE14BADE /* ValueImg.m in Sources */,
-				0691D5FB44C665126FF4D74F678045DC /* ValueLogin.m in Sources */,
-				6D28CCD27343B81DA6B9BD8104497973 /* ValueMore.m in Sources */,
-				0F4970B7694A097782B338AB56CF04F6 /* ValuePay.m in Sources */,
-				490F85F38A3E716869BB8D50AF70F9F6 /* ValuePlayer.m in Sources */,
-				1D5EB104E4637D4B265B8864EBDA134D /* ValueShare.m in Sources */,
-				94C39CDDE8D86BE3C3D87E9AF96BAAD2 /* ValueSync.m in Sources */,
-				69D1A0A3E5741BA71CAEA70FB99E1ACB /* ValueToolbar.m in Sources */,
-				599B3A88FE126C0F583CC8D5905D44FB /* ViewController.m in Sources */,
-				1CF79F7B8E493C8B7F0E2010E69C1381 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		89F34C940595F113A0A589548AE1A938 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3512,6 +3156,256 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DA8CA204C2FFF1EC71E358EB7991851C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E4DC62B09E0964617439498B9D29238 /* AppDelegate.m in Sources */,
+				326617D960C614BE807838E1899C830B /* CDVDevice.m in Sources */,
+				52F01128648867AEBD0600601C41746C /* CDVSplashScreen.m in Sources */,
+				F028EAE7CA990A8397CC4E2DDB9EF77B /* CDVStatusBar.m in Sources */,
+				5F46E40C0EBEC34F58A1C648C3189EDD /* CDVViewController+SplashScreen.m in Sources */,
+				8486DC09BD44CDD1289B312283EB33DF /* GardenHeader.m in Sources */,
+				E37FB7B72F1C602615A4E1E927FCC5D7 /* GuIndexPb+MEStore.m in Sources */,
+				1FC553CAFC9E99358258FAC069245218 /* IonicKeyboard.m in Sources */,
+				EE46D070EE84723769BCF09ACFC42F72 /* MEAboutMeContent.m in Sources */,
+				6BEECDC714219FF70AFE51D32622E269 /* MEAboutMeProfile.m in Sources */,
+				3E4AF1B9BCA8F21704BA4DC3BC52BB4D /* MEAccountSafeProfile.m in Sources */,
+				80E63C5A57E6DCEF81A1701E3BE51643 /* MEActivity.m in Sources */,
+				3F24BA82FAE750F4483C1CFCAFE75393 /* MEAlbumDeleteVM.m in Sources */,
+				168B32A4D13F0553FA1B97ADE6383BFA /* MEArchivesView.m in Sources */,
+				B7C069F310BBA876CA578835B9383273 /* MEBabyAlbumListVM.m in Sources */,
+				649B3B94618CC74053E2372B2824DE46 /* MEBabyArchiveProfile.m in Sources */,
+				B59EE4F4A474FCD0192031D17DB44234 /* MEBabyArchivesVM.m in Sources */,
+				501A94E255DBDCC3A5BDB3C582087776 /* MEBabyComponentCell.m in Sources */,
+				A0999954166F1105B2D21DF8CBF18BFB /* MEBabyContent.m in Sources */,
+				8F0A5C32D0757DD85F3976E2B8136A04 /* MEBabyContentHeader.m in Sources */,
+				3B1B32405AFA2D4D9DBF8BE78C8530EF /* MEBabyContentPhotoCell.m in Sources */,
+				879DB3811328AE11C80074FE9D9C038E /* MEBabyHeader.m in Sources */,
+				98BC205AD05EB0D451AD8746C27C59B8 /* MEBabyIndexVM.m in Sources */,
+				EC38C7815542011D89901F9AFA498AE6 /* MEBabyInfoCell.m in Sources */,
+				C533122AF82240F538244B6F8409184B /* MEBabyInfoContent.m in Sources */,
+				D67BE5DF120F5DBA06FCAC28ACECC181 /* MEBabyInfoHeader.m in Sources */,
+				27DC947BBF9108224E947598251C6DCB /* MEBabyInterestProfile.m in Sources */,
+				A346AF59A1257FF15747AB2D22FE36B3 /* MEBabyInterestingContent.m in Sources */,
+				2B621D93765AC35A753F3E3DBC3941AF /* MEBabyIntersetingSelectView.m in Sources */,
+				CE21B6C6F46112453F6E6FEB1392B391 /* MEBabyNavigation.m in Sources */,
+				AF0176B1BFE31992775BD3F33D2F8BF7 /* MEBabyPhotoCell.m in Sources */,
+				1C7224CF03D7CAC5BC45A492D4AD6371 /* MEBabyPhotoHeader.m in Sources */,
+				AC3CCDF991BFC37060BCDCFFC94AFB51 /* MEBabyPhotoProfile.m in Sources */,
+				F5B0A3A940A5FE58FACF3490B2A8800F /* MEBabyPortraitCell.m in Sources */,
+				58E41509E5D7EA85C4C63C3D762C0506 /* MEBabyRootProfile.m in Sources */,
+				8D95DAC63B432142F6CF9F7081AAF7E2 /* MEBabySelectCell.m in Sources */,
+				8B42CE6CFDDD879FB04CB669E629CFE4 /* MEBabySelectProfile.m in Sources */,
+				0682533023FE495EF7909DC219FD86B0 /* MEBaseButton.m in Sources */,
+				D0DD1DEA1F31C0C2770F266C77172EEE /* MEBaseCell.m in Sources */,
+				9AFD26626ABC49A1F571316E8733DFD7 /* MEBaseCollectionCell.m in Sources */,
+				98C3C9C8E96249F4235297995A866F52 /* MEBaseImageView.m in Sources */,
+				5E9C8FBC4E0281306942225831B00001 /* MEBaseLabel.m in Sources */,
+				1F5159D1B2C1F035FB2192B83C01F8A6 /* MEBaseNavigationProfile.m in Sources */,
+				0F886DE37C470C4C8E47D4764002A281 /* MEBaseProfile.m in Sources */,
+				6F9C967FDE9F664B7DE69413A8F34C5C /* MEBaseScene.m in Sources */,
+				5676681D3771CA88C7376D99BA0BAFB7 /* MEBaseScrollView.m in Sources */,
+				F74E79A41E4DD571D1AF8FD8AEFD45F3 /* MEBaseTabBarProfile.m in Sources */,
+				BEC1AF64EEDE61368FEEF64C6E3D5A5E /* MEBaseTableView.m in Sources */,
+				1C99D749C57EC46E674275F73244EBB9 /* MEBrowserProfile.m in Sources */,
+				A2FFE02FF0073ADCB54C1C4C34219EA0 /* MECardCell.m in Sources */,
+				C7F8283815EB84FD9596C4095B215DA9 /* MECardSwitchFlowLayout.m in Sources */,
+				1AEB3F81E20EF36519B27F90CDE47573 /* MEChatProfile.m in Sources */,
+				16003FB0A8A96FD0BC69867DD4DEEA50 /* MEChatSessionRootProfile.m in Sources */,
+				6426643E9526BB384D1AF988FCE1390B /* MEClassChatVM.m in Sources */,
+				D7F2FE51D5523FDF13AA0CB228CE402B /* MEClassMemberVM.m in Sources */,
+				56391DD76A56864670654214150AFB3E /* MECollectionProfile.m in Sources */,
+				A5A079FA625A4BAD5E72BC8374FB98BA /* MEContactCell.m in Sources */,
+				F19F093D7E57579F53C02C25E7303EA5 /* MEContactInfoProfile.m in Sources */,
+				054764F8CCAD5A4FDFAAD570BC7C945D /* MEContactProfile.m in Sources */,
+				BDF7CAC622AF878FCA5F0EE1CE800F6C /* MEContentSubcategory.m in Sources */,
+				50E44C8A2D2783182D2BF442670B0207 /* MECordovaVM.m in Sources */,
+				88E1424A39205DA484042395A5C870D6 /* MEDispatcher.m in Sources */,
+				9D184D00E9F2AD763A35997732CB07D5 /* MEDoLiveVM.m in Sources */,
+				58363DABB802D6A42D5A7ACBE1B14BA4 /* MEDropDownMenu.m in Sources */,
+				2B4C2B1F2BA030D1883565D7279480D9 /* MEEditScene.m in Sources */,
+				EC46F90C6C895121C17B060319A8751B /* MEEditUserDataProfile.m in Sources */,
+				2DC538A424000B05415803A5822099B5 /* MEEvaluatePanel.m in Sources */,
+				201710219881656D4FB82F34974429EA /* MEFileQuryVM.m in Sources */,
+				B420D1278E3B71CB3015FC27D6A6A33A /* MEFolderCell.m in Sources */,
+				2920A0D509D06C7EAB060E4FECB65032 /* MEFolderPatchVM.m in Sources */,
+				424EB7E3F0351790541A4FB1E691E191 /* MEForwardEvaListVM.m in Sources */,
+				C476B625002A3B0B4FA1A1353BB1C607 /* MEForwardGEProfile.m in Sources */,
+				3673C0FA652A265516C5D256EBB1491A /* MEForwardSEProfile.m in Sources */,
+				9EB0DFD3D91821943C72AFF3C711EB87 /* MEGardenRootProfile.m in Sources */,
+				9AD5939ADD652912753E749A64C00B71 /* MEGenderVM.m in Sources */,
+				F84984146F3EAE3450108EEBCC639533 /* MEGrowthEvaRootProfile.m in Sources */,
+				41A87358AB989EC3D00F8611C589CAEE /* MEHeaderIconCell.m in Sources */,
+				ED353326463BBD411E5A3A7C2F5CFF76 /* MEHeartBeatVM.m in Sources */,
+				4C0FA78D8990F8F4ABC6F046A53B06EA /* MEHistoryCell.m in Sources */,
+				B9A2F33BAADD36987C991918D57EC47D /* MEHistoryVM.m in Sources */,
+				FFCCDE33FCA8DCCEDD4FD54CE96346E8 /* MEHistoryVideo.m in Sources */,
+				E99857E040EF166D20F529BEB7717049 /* MEHybridBaseProfile.m in Sources */,
+				16341A2177BA130E0F00317CF2C08959 /* MEIMService.m in Sources */,
+				83913CFFD3C2DF8C815BFE0CDA0A6D70 /* MEIndexBgScroller.m in Sources */,
+				4A3D479B7237B314BE657329A03116F1 /* MEIndexItemVM.m in Sources */,
+				FB4C051725D32CC437254D2336611471 /* MEIndexLayouter.m in Sources */,
+				8BCED56481A5CF4D5943CD46688BA9BA /* MEIndexNavigationBar.m in Sources */,
+				41E4B733E3C70DE08FF9D400D4C5185F /* MEIndexRootProfile.m in Sources */,
+				CCBD35F5BB6E55111480A946D10FDA87 /* MEIndexSearchBar.m in Sources */,
+				75ED489A91A451CD6F1C63062DC41DFF /* MEIndexSearchMaskScene.m in Sources */,
+				7FB5A89595692B5D97BECAAF6A47042E /* MEIndexSearchScene.m in Sources */,
+				F7744FE249E441D640DD0F01A812FEBB /* MEIndexStoryItemCell.m in Sources */,
+				A4C422406E57664EB8273B2F424CAFF8 /* MEIndexVM.m in Sources */,
+				2D4DFA772AE2522185D94CE9E458C035 /* MEInterestListVM.m in Sources */,
+				C00D9B844FE532CAE340C195D79F543A /* MEInterestNotFound.m in Sources */,
+				853AC39463F8981CF3F584CD822F567A /* MEKits.m in Sources */,
+				3EE33ACC08F4D26759D2681860E49B60 /* MELiveClassVM.m in Sources */,
+				596CEC8FE3EE71D6265C409C45B1F0CC /* MELiveHeartBeatVM.m in Sources */,
+				DEFACE6595BFD549B1766992ABA05B5F /* MELiveMaskLayer.m in Sources */,
+				0F48BB523350B55CEADEA60CFF3DA5F7 /* MELiveProfile.m in Sources */,
+				C82CCC5E744DD1145CD6A4773B8CA75C /* MELiveRoomRootProfile.m in Sources */,
+				056B2FA4785CF7AA50C9C72874AA0FB2 /* MELiveVodProfile.m in Sources */,
+				C21C7BEBE01FA965B60A144619DD5F0A /* MELoginProfile.m in Sources */,
+				9C6CF1AC1221AA193B5DF4718D435B22 /* MEM.m in Sources */,
+				D127B8EE17D139932AC7F0C75328FD5B /* MEMenuButton.m in Sources */,
+				2825AED533DCE4561D5EE52E1C3625D3 /* MEMobileVM.m in Sources */,
+				D8CBE84828C6378251241B31279212BD /* MEMultiBabyCell.m in Sources */,
+				263977BE8919FEE6CFDA8B62A3731607 /* MEMultiSelectBabyProfile.m in Sources */,
+				49DCF59AEC58B90390077A08C0AB44B9 /* MEMulticastRole.m in Sources */,
+				DF5CB8090FAA493F640B177F09912CD6 /* MENewsInfoVM.m in Sources */,
+				8C430BC65EE12B683B1CFC122C299BAA /* MENotFoundProfile.m in Sources */,
+				1B43600C8224C2B8E505EBAE34136237 /* MEPBUser+MEStore.m in Sources */,
+				35C9142160BDB378902AAA12B09ADF90 /* MEParentInfoContent.m in Sources */,
+				DF14DAE1EB6D64AEDA41F41A76F740FA /* MEParentsInfoView.m in Sources */,
+				8038489401CAA8C1C1BE4C6D832160A8 /* MEPersonalCell.m in Sources */,
+				E163859CC5A6C1829DD108C3B6E56831 /* MEPersonalDataCell.m in Sources */,
+				494C89C926ED9B280F43D005C079D195 /* MEPersonalHeader.m in Sources */,
+				28DB9E2D382A9DAF0147393ECD887C63 /* MEPersonalRootProfile.m in Sources */,
+				57412083A34BF98A439BF7F9A473B227 /* MEPersonalSectionHeader.m in Sources */,
+				E7B3C6C5C6DAB5D9A955F231F9D971E4 /* MEPersonalSettingProfile.m in Sources */,
+				E630B8B84A33AA30E57EC36880323471 /* MEPhotoBrowser.m in Sources */,
+				1234550CC5247E3164E915ECCC8FD3AA /* MEPhotoProgressProfile.m in Sources */,
+				DDB222BC56A972C14FACB866AD364726 /* MEPlayInfoSubTitlePanel.m in Sources */,
+				77D0043E52D80DF8A3A9B246E7B44279 /* MEPlayInfoTitlePanel.m in Sources */,
+				76C9773D8C76BCDB6C908DF1A9102096 /* MEPlayerControl.m in Sources */,
+				C44F0AA8D1E9D126DAAB8D55653D254E /* MEPortraitVM.m in Sources */,
+				4B53E4FDF22F8CD444E97B2BF5B429C4 /* MEProgressCell.m in Sources */,
+				651D8181E4CB357C2FB12052DEF38DA5 /* MEProgressView.m in Sources */,
+				EE956B16D40C23A304E7C5690E98E5C5 /* MEQNUploadBatchVM.m in Sources */,
+				D805308B28631391A72771E678169CB7 /* MEQNUploadVM.m in Sources */,
+				1613ED53C3C674A0E421C8CABAC5C2F9 /* MEQRCodeShareProfile.m in Sources */,
+				599FC9205052F6F188C6D8426D0C5F6D /* MEQRResultProfile.m in Sources */,
+				355CE3FBB84F14B904A7B5C43534082D /* MEQRScanProfile.m in Sources */,
+				3B78CDD6296D3C3C8040E0A2D08AD784 /* MEQiniuUtils.m in Sources */,
+				0F77A39DBE7477E23A5C45D1E55414B1 /* MERePasswordVM.m in Sources */,
+				EFAD8CDCE27115AAAC10362453E73A48 /* MERegisterVM.m in Sources */,
+				99DD0A04C42870628A638115D439E873 /* MERephoneProfile.m in Sources */,
+				F637BF71DEF49AA17CE95195888C0CD8 /* MEResFavorListVM.m in Sources */,
+				D6F0C1E23C36D508CFC4A9A3DA3C9A75 /* MEResFavorVM.m in Sources */,
+				75683CF9696E9708BE5F1AD2F7DB227A /* MESEInfoVM.m in Sources */,
+				1FB2F17C758E3A5C91026BAADCB8049C /* MESearchBar.m in Sources */,
+				E4A6343C55C59900B941DED97452F49B /* MESearchPanel.m in Sources */,
+				16C36F06DF1F088A0C88E1A34AE53AD5 /* MESearchProfile.m in Sources */,
+				522441ADCA86E6DDC707C6F46714EBED /* MESelectFolderProfile.m in Sources */,
+				15F096CDC4A0E696A2ABD29F6A9BD254 /* MESelectPhotoCell.m in Sources */,
+				2AD4FA1AF446B3A919F2400175FA8BE4 /* MESemesterEvaListVM.m in Sources */,
+				BE60E42CBA71633827D556A6476074D0 /* MESemesterEvaPanel.m in Sources */,
+				DD1CE44574F265307B1974F904B1517D /* MESemesterEvaRootProfile.m in Sources */,
+				1AE427657841583BDA6F4141EF7F638A /* MESendIntersetContent.m in Sources */,
+				69988FA87142AC82038ACB306F59949C /* MESendIntersetingProfile.m in Sources */,
+				CB5989EE69286D0B06768F08C20EA0FE /* MEServerListVM.m in Sources */,
+				0C3957BCB7CF3CB70CE426F9C59AF0C2 /* MESideHideenMenu.m in Sources */,
+				047C677411C1660991E083AE34E8273C /* MESideMenuManager.m in Sources */,
+				8CD0865E4FEA4895509A582A415056A2 /* MESideShowMenu.m in Sources */,
+				E727690FF36EC78D54D0F962B4281EFA /* MESignInProfile.m in Sources */,
+				23E4CDA7FE46DF51A6240637A7DFB9FB /* MESignInputField.m in Sources */,
+				B15D00D163CBA4FA55049A48C44840F0 /* MESignUpProfile.m in Sources */,
+				63E6153F07B87105EDCA73F2C2F5170B /* MEStuInterestModel.m in Sources */,
+				3CECC51754932B62ACF9068CA645809F /* MEStuInterestVM.m in Sources */,
+				794970B27A5DD67CD4C29A738A369CFE /* MEStudentInfoVM.m in Sources */,
+				FF4AF065168E8FB670F5596B64298A2E /* MEStudentListVM.m in Sources */,
+				E0A19ACC3F80D8DC406AC950ACDC73AA /* MEStudentModel.m in Sources */,
+				5AA2C51451680248A4878268A6D86C21 /* MEStudentVM.m in Sources */,
+				7F312D2E255069CE8B867D5E5ED5F857 /* MEStudentsPanel.m in Sources */,
+				F2B5E16E98ED0E0D742C881EB9B5B132 /* MESubClassProfile.m in Sources */,
+				F5EFAB70F2EEEA89127F4CC120B72F1C /* MESubNavigator.m in Sources */,
+				909D85AFF790857DDDAF67230C38EFB4 /* METCPService.m in Sources */,
+				2B105CE792709465C66451FD6DFACB11 /* METeacherMultiClassTableProfile.m in Sources */,
+				9B635B39B6E8000739139F012F7FFF32 /* METemplateProfile.m in Sources */,
+				E3AC51EA47B3724EC6EDA0DD6454BB79 /* METhemeItem.m in Sources */,
+				F8C5E50C1CECEC99A140400BEE99846D /* METimeLineSectionView.m in Sources */,
+				750A5169B01CA9BE6D67D9A984646AA2 /* MEUpdatePasswordProfile.m in Sources */,
+				046E1C48BF1463A11C5E624EFDA93A0B /* MEUserEditVM.m in Sources */,
+				0B6D82B75D88962E5B87DC5D20E3511C /* MEUserNameVM.m in Sources */,
+				9C3381CA84D2C89915A0D1E443D331E9 /* MEUserVM.m in Sources */,
+				F9BFF71C65B4A2C66955C4DF8101FF1B /* MEVM.m in Sources */,
+				6059ACE6056F2A3604E275DDBFE0C67B /* MEVerifyCodeVM.m in Sources */,
+				68A6A6E43C8F3CE5ED33FA6A26CFFE55 /* MEVideo.m in Sources */,
+				DB00A6D8F158B3E1B10D5F941CF8C6D4 /* MEVideoClassVM.m in Sources */,
+				17D80AB12BA3F045F3860FD4A4DEEB2C /* MEVideoInfoVM.m in Sources */,
+				66A03080BCAE4857CD64DB856FECB31C /* MEVideoPlayProfile.m in Sources */,
+				D50A4216EFF2856F3C88211EE202039F /* MEVideoPreview.m in Sources */,
+				B91E03327F2FA7A62E9DEE1E40CA5ED9 /* MEVideoRecordProfile.m in Sources */,
+				897E1E5A8B35CF4F5438B80B6A4FEE6D /* MEVideoRecorder.m in Sources */,
+				5B360931690ADE4C9BF4DCA06027F5D5 /* MEWatchHistoryProfile.m in Sources */,
+				3E3B5DF51C761771624FE67597ABC6EF /* MEWatchItem.m in Sources */,
+				A7EFF3C01869DAE8B82032373436F020 /* MEWebProgress.m in Sources */,
+				D16E48324C2FFF9A795B13866F72E89B /* MebabyAlbum.pbobjc.m in Sources */,
+				DD7D6D1677FADC72D5F3B538A0F8365C /* MebabyEvaluate.pbobjc.m in Sources */,
+				8F331B2D09E78BB5AAC7D11005447162 /* MebabyGrowth.pbobjc.m in Sources */,
+				9DA4F9B46F0DCD22D4ACE2753E1E4AF9 /* MebabyIndex.pbobjc.m in Sources */,
+				63BA82381B19C8443E4B7C719FD1ED4B /* Mecarrier.pbobjc.m in Sources */,
+				D00D01EF9B41652FB393D84B07633F23 /* Meclass.pbobjc.m in Sources */,
+				D68825A750F2BA28A0B0D6D6ED658A74 /* MeclassChat.pbobjc.m in Sources */,
+				58AB60FBD3DA5293D4B5A27DA337B63D /* MeclassLive.pbobjc.m in Sources */,
+				55ADE06609EF1E2FD885F005853E32E5 /* MeclassMember.pbobjc.m in Sources */,
+				D3DABC9AF775E2909892157B5F731C9D /* Mecordova.pbobjc.m in Sources */,
+				2CE764EF79188E1DDB0A4D6435D6BB68 /* MeforwardEvaluate.pbobjc.m in Sources */,
+				0AE6173366B9C24B911AE4CC51EE2638 /* MegradeList.pbobjc.m in Sources */,
+				68C166F712E5ACCB5C0166C3E706C578 /* MegrowthEvaluate.pbobjc.m in Sources */,
+				C40234A9F1D565E72247A8A6DE4EB8F6 /* Meindex.pbobjc.m in Sources */,
+				CB2463A3AC57FE98103F9C4946A94FE6 /* MenewsInfo.pbobjc.m in Sources */,
+				4AEED5E77E6FC6DF7C6055C54A37A5BB /* MephoneInfo.pbobjc.m in Sources */,
+				0C80A847CDDC9B57FF3283B14D8D12ED /* Meqnfile.pbobjc.m in Sources */,
+				52B2F0509382C77A2C4984500905518B /* Meres.pbobjc.m in Sources */,
+				195D98B976BB15B837A23AED8165983A /* MesemesterEvaluate.pbobjc.m in Sources */,
+				8724E86DE498CF8C199A31A9E0FE45A7 /* MeserverList.pbobjc.m in Sources */,
+				521EE5BCF1D70A4F611C39088DC694F7 /* Mesession.pbobjc.m in Sources */,
+				32AAA331469B48B0B15D8AFBC34EC2FA /* MesessionList.pbobjc.m in Sources */,
+				19EC5823F5797F0C568FB739C3BC4BC5 /* MesignIn.pbobjc.m in Sources */,
+				81680933FA7BBFAE1A7171623DF4DC70 /* MestuFun.pbobjc.m in Sources */,
+				B93C8D794007A2782228B4AE11423449 /* Mestudent.pbobjc.m in Sources */,
+				29B91506F402725333C0EA557C55CB69 /* Meuser.pbobjc.m in Sources */,
+				E41125BC10760D1BEBB797D0F89E4678 /* MeuserData.pbobjc.m in Sources */,
+				6D93AEDD0216E133F36A1DE7DA891932 /* Mevideo.pbobjc.m in Sources */,
+				0A675F280C487A1CEA27AFB09CF08E69 /* NSData+NSHash.m in Sources */,
+				91A3A91DA6F9A1793F2B3C6032A1C485 /* NSString+Md5String.m in Sources */,
+				88784934B6F5679926D90F8B4EBEC2CD /* NSString+NSHash.m in Sources */,
+				8A2B058BCCAB6F98B7D954B840E3DC6B /* SBNetState.m in Sources */,
+				FD181E19B8FA710308F45D2DF3DDC8EB /* UITextField+MaxLength.m in Sources */,
+				96E150F36C3C32C1E2E511B3E11F18BC /* UITextView+Placeholder.m in Sources */,
+				06915703C239620C20A7ACF4F6CB7B1D /* UIView+BlurEffect.m in Sources */,
+				2718CB331058942A3C44054EDDDBCCCD /* UIView+ClipsCornerRadius.m in Sources */,
+				DDD05EAE5865A7987BCC5321F5571D56 /* UIView+Frame.m in Sources */,
+				AE3763E1D33ADD627FF4C15C9DE090A2 /* UIView+Utils.m in Sources */,
+				6067847D03E99E5CA57125BEBC18D860 /* UIViewController+Utils.m in Sources */,
+				BC653BCD46C9C3617340211E7AD09BED /* UIWebViewExtension.m in Sources */,
+				E1F5C81841D8FFB4F2E6BD7072BCBF8E /* VKMsgSend.m in Sources */,
+				D6892EB36DE8876E1DF580A823ABAB36 /* ValueBack.m in Sources */,
+				1547A43D62D5D0C2CDFC2C45EC380EC1 /* ValueClose.m in Sources */,
+				C3E2FBB16517232CB3AE39CA6A5E0276 /* ValueDisk.m in Sources */,
+				76A99F6229615DAF5C22025CFA29F6FD /* ValueEnv.m in Sources */,
+				6966053D94FDC1AD9E704A1419C9DAD5 /* ValueH5n.m in Sources */,
+				FA52B55452E6726BBF3C2EE2EE14BADE /* ValueImg.m in Sources */,
+				0691D5FB44C665126FF4D74F678045DC /* ValueLogin.m in Sources */,
+				6D28CCD27343B81DA6B9BD8104497973 /* ValueMore.m in Sources */,
+				0F4970B7694A097782B338AB56CF04F6 /* ValuePay.m in Sources */,
+				490F85F38A3E716869BB8D50AF70F9F6 /* ValuePlayer.m in Sources */,
+				1D5EB104E4637D4B265B8864EBDA134D /* ValueShare.m in Sources */,
+				94C39CDDE8D86BE3C3D87E9AF96BAAD2 /* ValueSync.m in Sources */,
+				69D1A0A3E5741BA71CAEA70FB99E1ACB /* ValueToolbar.m in Sources */,
+				599B3A88FE126C0F583CC8D5905D44FB /* ViewController.m in Sources */,
+				1CF79F7B8E493C8B7F0E2010E69C1381 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3635,7 +3529,7 @@
 		};
 		39904C50D89DB23EE47510568CDC11E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */;
+			baseConfigurationReference = 77970F35ECDF36128D62C50E /* Pods-MultiEducation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3714,61 +3608,9 @@
 			};
 			name = Debug;
 		};
-		8CE254E4060FDF5756C25DB0318055F0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
-				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 68CP7SZ6EP;
-				ENABLE_BITCODE = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
-				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.landun.dyzn;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		E2CA8ECC5FF89A1BA7EAEF333F77E4FD /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
-				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 68CP7SZ6EP;
-				ENABLE_BITCODE = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
-				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.landun.dyzn;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 		765DE24CAF2734489501F6860E26B38B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */;
+			baseConfigurationReference = FDC0D5DEF2C2620B218BD81B /* Pods-MultiEducation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3804,6 +3646,56 @@
 				TEST_TARGET_NAME = MultiEducation;
 			};
 			name = Debug;
+		};
+		8CE254E4060FDF5756C25DB0318055F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
+				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 68CP7SZ6EP;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.landun.dyzn;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		E2CA8ECC5FF89A1BA7EAEF333F77E4FD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
+				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 68CP7SZ6EP;
+				ENABLE_BITCODE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.landun.dyzn;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
 		};
 		EEB7C417AFD619D37278DD5FAB9FFBDB /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -3848,20 +3740,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AEADA3F386145547EF2D6DF7DF6D43DC /* Build configuration list for PBXNativeTarget "MultiIntelligent" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8CE254E4060FDF5756C25DB0318055F0 /* Debug */,
-				E2CA8ECC5FF89A1BA7EAEF333F77E4FD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		9FF8388DD476AE7D8313DDAE12CAB54E /* Build configuration list for PBXNativeTarget "MultiEducationTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1F40CD0F7A6001CBDA048207340A0832 /* Debug */,
 				187631F6EBB558C9436CA7618372B0B3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AEADA3F386145547EF2D6DF7DF6D43DC /* Build configuration list for PBXNativeTarget "MultiIntelligent" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CE254E4060FDF5756C25DB0318055F0 /* Debug */,
+				E2CA8ECC5FF89A1BA7EAEF333F77E4FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

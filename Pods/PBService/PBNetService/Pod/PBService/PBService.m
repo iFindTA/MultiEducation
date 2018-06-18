@@ -38,6 +38,7 @@ static NSString *kNetworkPingHost                   =       @"www.baidu.com";
 
 static NSString *kNetworkDisable                    =       @"当前网络不可用，请检查网络设置！";
 static NSString *kNetworkWorking                    =       @"请稍后...";
+static CGFloat kNetworkingTimeout                   =       60;
 
 @implementation PBService
 
@@ -107,7 +108,7 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
         AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager managerForDomain:pingH];
         
         //check for timeout interval
-        instance.requestSerializer.timeoutInterval = 30.f;
+        instance.requestSerializer.timeoutInterval = kNetworkingTimeout;
         
         //setup net check
         [manager startMonitoring];
@@ -188,13 +189,10 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
 #pragma mark -- handle request pre start
 
 - (BOOL)whetherRequestShouldContinueWithHudEnable:(BOOL)hud {
-    //step 1: check the network state
+    /*step 1: check the network state
     if (![self netvalid]) {
-        excuteInMainThread(^{
-            [SVProgressHUD showErrorWithStatus:kNetworkDisable];
-        });
         return false;
-    }
+    }//*/
     
     //step 2: display the hud while netwoking
     if (hud) {
@@ -267,7 +265,8 @@ static NSString *kNetworkWorking                    =       @"请稍后...";
     void (^successResponse)(NSURLSessionDataTask * _Nullable, id _Nullable) = [self successOnRequestWithSuccess:success andFailure:failure hudEnable:hud];
     void (^failureReponse)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull) = [self failureOnRequestWithFailure:failure hudEnable:hud];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/api/app", self.baseURL.absoluteString]];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+//    NSURL *url = self.baseURL;
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kNetworkingTimeout];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-protobuf" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:data];

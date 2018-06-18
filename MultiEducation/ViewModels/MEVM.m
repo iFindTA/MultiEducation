@@ -67,13 +67,13 @@
 }
 
 - (void)postData:(NSData *)data hudEnable:(BOOL)hud useSession:(BOOL)use success:(void (^)(NSData * _Nullable))success failure:(void (^)(NSError * _Nonnull))failure {
-    if (![SBNetState isReachable]) {
-        NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
-        if (failure) {
-            failure(error);
-        }
-        return;
-    }
+//    if (![SBNetState isReachable]) {
+//        NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
+//        if (failure) {
+//            failure(error);
+//        }
+//        return;
+//    }
     
     MECarrierPB *carrier = [[MECarrierPB alloc] init];
     /**
@@ -157,13 +157,13 @@
 }
 
 - (void)postData:(NSData *)data pageSize:(int32_t)size pageIndex:(int32_t)index hudEnable:(BOOL)hud success:(void (^)(NSData * _Nullable, int32_t))success failure:(void (^)(NSError * _Nonnull))failure {
-    if (![SBNetState isReachable]) {
-        NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
-        if (failure) {
-            failure(error);
-        }
-        return;
-    }
+//    if (![SBNetState isReachable]) {
+//        NSError *error = [NSError errorWithDomain:@"网络未连接，请检查网络设置！" code:-1 userInfo:nil];
+//        if (failure) {
+//            failure(error);
+//        }
+//        return;
+//    }
     
     MECarrierPB *carrier = [[MECarrierPB alloc] init];
     /**
