@@ -380,7 +380,6 @@
 		AAA434B42AA724745AC0D266473F45D6 /* ValueSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FE17C32A32C3CB961362800EB84ED8 /* ValueSync.m */; };
 		AB4CA874F33199D9113487CBE6A1290B /* MEHeaderIconCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E60200E3EA06F787FDC46F092E1F0E2E /* MEHeaderIconCell.xib */; };
 		AC3CCDF991BFC37060BCDCFFC94AFB51 /* MEBabyPhotoProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = BDAF0D3C9391B6C8B803FAED645F2BDA /* MEBabyPhotoProfile.m */; };
-		AC4EB72BCFABCA0A0AD59FDD /* libPods-MultiEducation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F4A2FAC7D04842F636448627B119E4 /* libPods-MultiEducation.a */; };
 		ACD210A8B5C56085C8B828638A3ED0C3 /* MEQRScanProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EA3BE2FEA2DCA4D00371808A87F99AD /* MEQRScanProfile.m */; };
 		AE199C86C4F0713730DD7CB29024BF93 /* MEQiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F941339C22F0F713AFDD400ABDE5353 /* MEQiniuUtils.m */; };
 		AE210B6FB65B89D29B9FAA12603FF95E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29BED58F38B64F9B9542E5193DE02FB4 /* Assets.xcassets */; };
@@ -854,7 +853,6 @@
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
-		77970F35ECDF36128D62C50E /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
 		792872332F743D62E639668F6E34AD68 /* MEQNUploadBatchVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEQNUploadBatchVM.h; sourceTree = "<group>"; };
 		794132D107A5C4C538F9F6B98E1786BA /* MesignIn.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesignIn.pbobjc.h; sourceTree = "<group>"; };
@@ -883,6 +881,8 @@
 		868E2DA8C322D7D73763E337AA9F71AE /* MEDropDownMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEDropDownMenu.m; sourceTree = "<group>"; };
 		86FB94E6F108A00B7F9347A1DC274C92 /* MEBabyIndexVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyIndexVM.m; sourceTree = "<group>"; };
 		87761243CB658B5CAD17F98E91C950F0 /* MEGrowthEvaRootProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEGrowthEvaRootProfile.m; sourceTree = "<group>"; };
+		87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.release.xcconfig"; sourceTree = "<group>"; };
+		87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.debug.xcconfig"; sourceTree = "<group>"; };
 		88157F8A883158A8B5AC8563AF131301 /* MEBabySelectProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBabySelectProfile.m; sourceTree = "<group>"; };
 		8899CA6E1C9CCB5943E81B923E9492A2 /* MEBabyInterestProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyInterestProfile.m; sourceTree = "<group>"; };
 		899448F5B16EC9B47DB8FE38D1C15E2F /* MEPlayInfoTitlePanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEPlayInfoTitlePanel.h; sourceTree = "<group>"; };
@@ -1134,7 +1134,6 @@
 		FCEE82C74E48522A718B45649B902A95 /* MEStudentListVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEStudentListVM.h; sourceTree = "<group>"; };
 		FD3A4B4F3FEB435AFD8A344D980AC97F /* MEBabyContentHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyContentHeader.m; sourceTree = "<group>"; };
 		FD95E84F3584B82BD1E6389A562287BE /* MEPlayInfoTitlePanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPlayInfoTitlePanel.m; sourceTree = "<group>"; };
-		FDC0D5DEF2C2620B218BD81B /* Pods-MultiEducation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiEducation.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiEducation/Pods-MultiEducation.release.xcconfig"; sourceTree = "<group>"; };
 		FEC8E2620292EDBB464672D16F9D3E15 /* MEDoLiveVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEDoLiveVM.m; sourceTree = "<group>"; };
 		FEF9D25D9FECFD41D3E5F9AB7A25EC36 /* UIViewController+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Utils.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1149,7 +1148,6 @@
 				7E64FF2AFC108B8F23A9DD90E69E13DA /* libPods-MultiEducation.a in Frameworks */,
 				E024AA38646F95380CE5DE6492DB1003 /* libsqlite3.0.tbd in Frameworks */,
 				401A13434495A43AA92295237E5A5537 /* libz.tbd in Frameworks */,
-				AC4EB72BCFABCA0A0AD59FDD /* libPods-MultiEducation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2504,8 +2502,8 @@
 		F32FE0075C39257717E2FCB43B8E4D6E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				77970F35ECDF36128D62C50E /* Pods-MultiEducation.debug.xcconfig */,
-				FDC0D5DEF2C2620B218BD81B /* Pods-MultiEducation.release.xcconfig */,
+				87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */,
+				87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3529,7 +3527,7 @@
 		};
 		39904C50D89DB23EE47510568CDC11E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77970F35ECDF36128D62C50E /* Pods-MultiEducation.debug.xcconfig */;
+			baseConfigurationReference = 87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3610,7 +3608,7 @@
 		};
 		765DE24CAF2734489501F6860E26B38B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDC0D5DEF2C2620B218BD81B /* Pods-MultiEducation.release.xcconfig */;
+			baseConfigurationReference = 87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
