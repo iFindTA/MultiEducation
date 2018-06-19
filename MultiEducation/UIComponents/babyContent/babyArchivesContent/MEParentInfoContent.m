@@ -63,6 +63,9 @@ NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER = @"  请家长围绕孩子的健
     self.tipTextView.font = UIFontPingFangSC(15.f);
     self.tipTextView.textColor = UIColorFromRGB(0x284E6C);
     self.tipTextView.delegate = self;
+    if (@available(iOS 11, *)) {
+        [self.tipTextView setPlaceholder: WARN_ITEM_DEFAULT_PLACEHOLDER placeholdColor: UIColorFromRGB(0x999999)];
+    }
     [self addSubview: self.tipTextView];
     [self.tipTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(tipLab.mas_bottom).mas_offset(adoptValue(16.f));
@@ -88,14 +91,14 @@ NSString * const WARN_ITEM_DEFAULT_PLACEHOLDER = @"  请家长围绕孩子的健
     if (![pb.warnItem isEqualToString: @""] && pb.warnItem != nil) {
         self.tipTextView.text = pb.warnItem;
     } else {
-        if (@available(iOS 10, *)) {} else {
+        if (@available(iOS 10, *)) {
+            self.tipTextView.text = pb.warnItem;
+        } else {
             self.tipTextView.text = WARN_ITEM_DEFAULT_PLACEHOLDER;
             self.tipTextView.textColor = UIColorFromRGB(0x999999);
         }
     }
-    if (@available(iOS 11, *)) {
-        [self.tipTextView setPlaceholder: WARN_ITEM_DEFAULT_PLACEHOLDER placeholdColor: UIColorFromRGB(0x999999)];
-    }
+
 }
 
 - (NSString *)resetStringFormatter:(NSString *)string placeHolder:(NSString *)placeholder textField:(UITextField *)textField {
