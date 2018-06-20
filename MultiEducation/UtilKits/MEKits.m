@@ -234,7 +234,7 @@
 + (void)configureCordovaEnv {
     PBMAIN(^{
         [ValueEnv setKey:@"env" value:ME_APP_ENV];
-        [ValueEnv setKey:@"webServer" value:ME_CORDOVA_SERVER_HOST];
+        [ValueEnv setKey:@"webServer" value:ME_APP_BASE_HOST];
         NSString *sessionToken = self.app.curUser.sessionToken;
         [ValueEnv setKey:@"sessionToken" value:sessionToken];
         NSLog(@"configure Cordova Env done.");
