@@ -628,6 +628,7 @@
 		15E73591CFA2FC41E38C9DD29BF00AE6 /* MEChatSessionRootProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEChatSessionRootProfile.m; sourceTree = "<group>"; };
 		1601BF976D58D412225D66FFA75035BC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1682E12EC07B66B21080D330C3AA32C1 /* MEVideoRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVideoRecorder.h; sourceTree = "<group>"; };
+		175830ED9BB5A72F4BDE6376CD3DE32F /* MulticastDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MulticastDefines.h; sourceTree = "<group>"; };
 		1766B3195494C2A05871308FB359A89C /* MEMultiBabyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEMultiBabyCell.m; sourceTree = "<group>"; };
 		179DEC08303D75A2C929EDA78ED6F2D3 /* MEActivity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEActivity.h; sourceTree = "<group>"; };
 		18DE6A579B16D12A249181B9B4C6D5FA /* METeacherMultiClassTableProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = METeacherMultiClassTableProfile.h; sourceTree = "<group>"; };
@@ -799,8 +800,6 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
-		6053A1FB20DB99B90066821E /* IntelligentDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntelligentDefines.h; sourceTree = "<group>"; };
-		6053A1FC20DB99E90066821E /* MulticastDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MulticastDefines.h; sourceTree = "<group>"; };
 		60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEContactInfoProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		622FCB0D4E481E21E6DD09F72C112246 /* MultiIntelligent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiIntelligent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -999,6 +998,7 @@
 		C0A6F3A320F717F331276E485C42F325 /* MEWatchHistoryProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEWatchHistoryProfile.m; sourceTree = "<group>"; };
 		C18A646BF454C168479CA01DCBB8A2F6 /* MesemesterEvaluate.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MesemesterEvaluate.pbobjc.m; sourceTree = "<group>"; };
 		C201C8E72A1EE5A46C2BC5AB75890E92 /* MegradeList.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MegradeList.pbobjc.h; sourceTree = "<group>"; };
+		C2A87192AD728C042BD217D064787C36 /* IntelligentDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntelligentDefines.h; sourceTree = "<group>"; };
 		C2BA5CE037E856F252FCB9D0D9DD62E4 /* MESubNavigator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESubNavigator.m; sourceTree = "<group>"; };
 		C2C700DF3199E596167FA6AC3627995D /* MEParentInfoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEParentInfoContent.h; sourceTree = "<group>"; };
 		C2EBF9C277B1EA973BA5FB365F9F8044 /* MEBaseImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEBaseImageView.m; sourceTree = "<group>"; };
@@ -2292,12 +2292,12 @@
 		CB20DB15B305EF50B0106E0AE93F980B /* Macros */ = {
 			isa = PBXGroup;
 			children = (
+				C2A87192AD728C042BD217D064787C36 /* IntelligentDefines.h */,
 				C9657F2DFDAB2E1D3BAA8668ABF6A083 /* MECmdCodes.h */,
 				95B061F57BDAEEA880D7E1D79A54719A /* MEMacros.h */,
 				6C330F7E5B36263BD9CF2E2ABC71E5DD /* MEReqCodes.h */,
+				175830ED9BB5A72F4BDE6376CD3DE32F /* MulticastDefines.h */,
 				4938129E6055F57651D1C8043A9BBEBC /* StatisticalAnalysis.h */,
-				6053A1FB20DB99B90066821E /* IntelligentDefines.h */,
-				6053A1FC20DB99E90066821E /* MulticastDefines.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";
