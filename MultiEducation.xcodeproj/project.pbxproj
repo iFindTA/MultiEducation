@@ -799,6 +799,8 @@
 		5DB6B7FB6B1842922FC439DF3FBBC955 /* MEBaseNavigationProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseNavigationProfile.h; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
+		6053A1FB20DB99B90066821E /* IntelligentDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntelligentDefines.h; sourceTree = "<group>"; };
+		6053A1FC20DB99E90066821E /* MulticastDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MulticastDefines.h; sourceTree = "<group>"; };
 		60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEContactInfoProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		622FCB0D4E481E21E6DD09F72C112246 /* MultiIntelligent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiIntelligent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2294,6 +2296,8 @@
 				95B061F57BDAEEA880D7E1D79A54719A /* MEMacros.h */,
 				6C330F7E5B36263BD9CF2E2ABC71E5DD /* MEReqCodes.h */,
 				4938129E6055F57651D1C8043A9BBEBC /* StatisticalAnalysis.h */,
+				6053A1FB20DB99B90066821E /* IntelligentDefines.h */,
+				6053A1FC20DB99E90066821E /* MulticastDefines.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";
