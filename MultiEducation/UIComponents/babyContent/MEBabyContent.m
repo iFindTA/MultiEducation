@@ -282,6 +282,7 @@
     weakify(self);
     self.headerView.selectCallBack = ^(StudentPb *pb) {
         strongify(self);
+        self.studentPb = pb;
         [self getBabyArchitecture: pb.id_p];
     };
     
@@ -349,8 +350,15 @@
     }
 }
 
+- (BOOL)whetherChildBindClass {
+    if (self.studentPb.classId == 0) {
+        return false;
+    }
+    return true;
+}
+
 - (void)updateViewsMasonry {
-    if (self.currentUser.userType == MEPBUserRole_Visitor) {
+    if (self.currentUser.userType == MEPBUserRole_Visitor || [self whetherChildBindClass]) {
         self.babyPhtoView.hidden = YES;
         self.photoHeader.hidden = YES;
         self.componentView.hidden = YES;

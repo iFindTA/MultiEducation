@@ -336,9 +336,10 @@
     
 #if DEBUG
     //家长
-    self.inputMobile.text = @"13575747869";
+    //家长: 13612345671
+    self.inputMobile.text = @"13612345671";
     self.inputCode.text = @"999999";
-    //老师
+    //老师: 13575747869
     //    self.inputMobile.text = @"13023622337";
     //    self.inputPwd.text = @"123456";
 #endif
