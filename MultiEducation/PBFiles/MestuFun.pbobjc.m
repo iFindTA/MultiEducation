@@ -105,6 +105,7 @@ typedef struct GuFunPhotoListPb__storage_ {
 @dynamic imgListArray, imgListArray_Count;
 @dynamic type;
 @dynamic createdDate;
+@dynamic createdBy;
 
 typedef struct GuFunPhotoPb__storage_ {
   uint32_t _has_storage_[1];
@@ -119,6 +120,7 @@ typedef struct GuFunPhotoPb__storage_ {
   int64_t studentId;
   int64_t gradeId;
   int64_t createdDate;
+  int64_t createdBy;
 } GuFunPhotoPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -226,6 +228,15 @@ typedef struct GuFunPhotoPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "createdBy",
+        .dataTypeSpecific.className = NULL,
+        .number = GuFunPhotoPb_FieldNumber_CreatedBy,
+        .hasIndex = 9,
+        .offset = (uint32_t)offsetof(GuFunPhotoPb__storage_, createdBy),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[GuFunPhotoPb class]
@@ -237,7 +248,7 @@ typedef struct GuFunPhotoPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\006\002\t\000\003\007\000\006\007\000\010\000studentList\000\t\000imgList\000\013\013\000";
+        "\007\002\t\000\003\007\000\006\007\000\010\000studentList\000\t\000imgList\000\013\013\000\014\t\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

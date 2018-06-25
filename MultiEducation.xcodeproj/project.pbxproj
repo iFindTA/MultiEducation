@@ -266,6 +266,20 @@
 		75ED489A91A451CD6F1C63062DC41DFF /* MEIndexSearchMaskScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C00DA13241B4744B0DF0AA5DC2E7F5 /* MEIndexSearchMaskScene.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
 		76A99F6229615DAF5C22025CFA29F6FD /* ValueEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = 683E8395D0E413F0AC0450E7FBCCE91E /* ValueEnv.m */; };
+		76C153B420E0C059002D7F78 /* METextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153B020E0C055002D7F78 /* METextFieldCell.m */; };
+		76C153B520E0C05F002D7F78 /* MEInputChildInfoContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153AC20E0B8B5002D7F78 /* MEInputChildInfoContent.m */; };
+		76C153B620E0C06C002D7F78 /* METextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C153B120E0C055002D7F78 /* METextFieldCell.xib */; };
+		76C153BA20E0C1C5002D7F78 /* MESingleSelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153B820E0C1C5002D7F78 /* MESingleSelectCell.m */; };
+		76C153BB20E0C1C5002D7F78 /* MESingleSelectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C153B920E0C1C5002D7F78 /* MESingleSelectCell.xib */; };
+		76C153C420E0DBEB002D7F78 /* MEActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153C020E0DA7A002D7F78 /* MEActionCell.m */; };
+		76C153C520E0DBF1002D7F78 /* MEActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76C153C120E0DA7A002D7F78 /* MEActionCell.xib */; };
+		76C153C920E0E6B7002D7F78 /* MENurseryProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153C720E0E69E002D7F78 /* MENurseryProfile.m */; };
+		76C153CD20E0F17D002D7F78 /* MENurseryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153CB20E0F17D002D7F78 /* MENurseryCell.m */; };
+		76C153D520E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153D420E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76C153D620E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153D420E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		76C153D920E0FB83002D7F78 /* MENurseryVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153D820E0FB83002D7F78 /* MENurseryVM.m */; };
+		76C153DA20E0FB83002D7F78 /* MENurseryVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153D820E0FB83002D7F78 /* MENurseryVM.m */; };
+		76C153DE20E105A0002D7F78 /* MEAddChildProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153DC20E105A0002D7F78 /* MEAddChildProfile.m */; };
 		76C9773D8C76BCDB6C908DF1A9102096 /* MEPlayerControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 036BFB61E80324B002C4F5EB4E662825 /* MEPlayerControl.m */; };
 		77D0043E52D80DF8A3A9B246E7B44279 /* MEPlayInfoTitlePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = FD95E84F3584B82BD1E6389A562287BE /* MEPlayInfoTitlePanel.m */; };
 		77D8E5669FF8F8627A6274756E695809 /* MEBabyAlbumListVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 47C62E62CAD57D42AB75DEB3CE514893 /* MEBabyAlbumListVM.m */; };
@@ -317,6 +331,7 @@
 		8BCED56481A5CF4D5943CD46688BA9BA /* MEIndexNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 929E61EAC0F5E501A38E8EE877EEF18D /* MEIndexNavigationBar.m */; };
 		8BF5E12E2C27795DD92447A8CA867593 /* MEVideoRecordProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE62783E28FE67C0D35642A7621972B /* MEVideoRecordProfile.m */; };
 		8C0E195CFBF8D1F40BD44FD636C1340E /* MEKits.m in Sources */ = {isa = PBXBuildFile; fileRef = 25190448871181068B1923F95898834E /* MEKits.m */; };
+		8C375219F79E113144B83979 /* libPods-MultiIntelligent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B41A58D12361563C7EB89A /* libPods-MultiIntelligent.a */; };
 		8C430BC65EE12B683B1CFC122C299BAA /* MENotFoundProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = EF77FFC3325EBFD1E6840DB3E5CBD07B /* MENotFoundProfile.m */; };
 		8CD0865E4FEA4895509A582A415056A2 /* MESideShowMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */; };
 		8CE9D8B0447F008EE13E44E9B71F0FF6 /* MEUserEditVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A1ED1B959850D934A86176AA26495B3 /* MEUserEditVM.m */; };
@@ -852,6 +867,27 @@
 		7567079F3C40EB49854A2E000C3AD6FA /* MEBabyInfoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyInfoContent.h; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
+		76C153AB20E0B8B5002D7F78 /* MEInputChildInfoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEInputChildInfoContent.h; sourceTree = "<group>"; };
+		76C153AC20E0B8B5002D7F78 /* MEInputChildInfoContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEInputChildInfoContent.m; sourceTree = "<group>"; };
+		76C153AF20E0C055002D7F78 /* METextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = METextFieldCell.h; sourceTree = "<group>"; };
+		76C153B020E0C055002D7F78 /* METextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = METextFieldCell.m; sourceTree = "<group>"; };
+		76C153B120E0C055002D7F78 /* METextFieldCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = METextFieldCell.xib; sourceTree = "<group>"; };
+		76C153B720E0C1C5002D7F78 /* MESingleSelectCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESingleSelectCell.h; sourceTree = "<group>"; };
+		76C153B820E0C1C5002D7F78 /* MESingleSelectCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESingleSelectCell.m; sourceTree = "<group>"; };
+		76C153B920E0C1C5002D7F78 /* MESingleSelectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MESingleSelectCell.xib; sourceTree = "<group>"; };
+		76C153BF20E0DA7A002D7F78 /* MEActionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEActionCell.h; sourceTree = "<group>"; };
+		76C153C020E0DA7A002D7F78 /* MEActionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEActionCell.m; sourceTree = "<group>"; };
+		76C153C120E0DA7A002D7F78 /* MEActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEActionCell.xib; sourceTree = "<group>"; };
+		76C153C620E0E69E002D7F78 /* MENurseryProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MENurseryProfile.h; sourceTree = "<group>"; };
+		76C153C720E0E69E002D7F78 /* MENurseryProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MENurseryProfile.m; sourceTree = "<group>"; };
+		76C153CA20E0F17D002D7F78 /* MENurseryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MENurseryCell.h; sourceTree = "<group>"; };
+		76C153CB20E0F17D002D7F78 /* MENurseryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MENurseryCell.m; sourceTree = "<group>"; };
+		76C153D320E0FAFC002D7F78 /* MeschoolAddress.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeschoolAddress.pbobjc.h; sourceTree = "<group>"; };
+		76C153D420E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeschoolAddress.pbobjc.m; sourceTree = "<group>"; };
+		76C153D720E0FB83002D7F78 /* MENurseryVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MENurseryVM.h; sourceTree = "<group>"; };
+		76C153D820E0FB83002D7F78 /* MENurseryVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MENurseryVM.m; sourceTree = "<group>"; };
+		76C153DB20E105A0002D7F78 /* MEAddChildProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEAddChildProfile.h; sourceTree = "<group>"; };
+		76C153DC20E105A0002D7F78 /* MEAddChildProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEAddChildProfile.m; sourceTree = "<group>"; };
 		76C1BA7EC975C882622D405364ADE7D8 /* Meqnfile.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meqnfile.pbobjc.h; sourceTree = "<group>"; };
 		770CE8DE97D3E456A552DF86E5950A69 /* ValuePay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValuePay.m; sourceTree = "<group>"; };
 		790D84C3C763D16A0B4F6CB315AE35B3 /* MESideShowMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MESideShowMenu.m; sourceTree = "<group>"; };
@@ -900,6 +936,7 @@
 		9453845D1177C16AD47F3DE2C801A1F8 /* MEPersonalRootProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEPersonalRootProfile.m; sourceTree = "<group>"; };
 		94841A47B85D7E74F62AF41D567918B5 /* MEQNUploadVM.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEQNUploadVM.m; sourceTree = "<group>"; };
 		94ABB536BFD9B9FD406AAD8CF5CBAF2D /* Mesession.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mesession.pbobjc.m; sourceTree = "<group>"; };
+		94CCDA76ABAA109731EECC33 /* Pods-MultiIntelligent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiIntelligent.release.xcconfig"; path = "Pods/Target Support Files/Pods-MultiIntelligent/Pods-MultiIntelligent.release.xcconfig"; sourceTree = "<group>"; };
 		94EC7DAE0CA7456FF6A8C3F51FC7F28F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		95B061F57BDAEEA880D7E1D79A54719A /* MEMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEMacros.h; sourceTree = "<group>"; };
 		95D4A53034A3B8028A4499B8D623C558 /* MELiveClassVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MELiveClassVM.h; sourceTree = "<group>"; };
@@ -911,6 +948,7 @@
 		99CAB12C335062707998977AE362FCC1 /* MEPersonalDataCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPersonalDataCell.m; sourceTree = "<group>"; };
 		9A1351348724E936F5C9108FFED9DD11 /* MEEditScene.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEEditScene.xib; sourceTree = "<group>"; };
 		9A1FC57846368F68DA72AB11D6306B00 /* MEVideoPlayProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEVideoPlayProfile.h; sourceTree = "<group>"; };
+		9A3E44475A0E2B9326D45B33 /* Pods-MultiIntelligent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MultiIntelligent.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MultiIntelligent/Pods-MultiIntelligent.debug.xcconfig"; sourceTree = "<group>"; };
 		9A6555C551F86DB2B2E79B4648ACCE84 /* MEPhotoProgressProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPhotoProgressProfile.m; sourceTree = "<group>"; };
 		9AE62783E28FE67C0D35642A7621972B /* MEVideoRecordProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEVideoRecordProfile.m; sourceTree = "<group>"; };
 		9B33E1FEAD51792AEBFD57B5A850D082 /* MELiveRoomRootProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MELiveRoomRootProfile.h; sourceTree = "<group>"; };
@@ -1031,6 +1069,7 @@
 		D0B6184A2C8F029313186C42E15C44FC /* ValueH5n.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueH5n.m; sourceTree = "<group>"; };
 		D0BE3FC13C398172161FBBECEB4FD5CF /* MEPersonalSectionHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPersonalSectionHeader.m; sourceTree = "<group>"; };
 		D13ABDD4B83F0F14C08FA2B3832DA1BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D1B41A58D12361563C7EB89A /* libPods-MultiIntelligent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MultiIntelligent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1F17A1B1ABD98910CB700DA25B494F6 /* MEHybridBaseProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEHybridBaseProfile.m; sourceTree = "<group>"; };
 		D1F24D63BA52E9A478B70144F6D3E266 /* MebabyEvaluate.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MebabyEvaluate.pbobjc.h; sourceTree = "<group>"; };
 		D252EECD0EFC3CA8F4309F11940D4D71 /* imgResource.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = imgResource.xcassets; sourceTree = "<group>"; };
@@ -1175,6 +1214,7 @@
 				E71A2CE54A40DB78AA456E18E492ADE0 /* SystemConfiguration.framework in Frameworks */,
 				498C13CC69E0ADDB0CE691B23ABF1C3F /* libsqlite3.0.tbd in Frameworks */,
 				EC969299265F4C144A9D81AE86F73C64 /* libz.tbd in Frameworks */,
+				8C375219F79E113144B83979 /* libPods-MultiIntelligent.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1250,6 +1290,7 @@
 		13C7611E76B137BF3324BF687A73FE42 /* Profiles */ = {
 			isa = PBXGroup;
 			children = (
+				76C153AE20E0BFBB002D7F78 /* Intelligence */,
 				52E1F0044C9F64A90A835FF0E86566E5 /* BabyArchives */,
 				A79F01FF025098C35FF1CD06E13E74F3 /* GrowthEvaluate */,
 				4D65A1B9FBE55EDFEF112778F0F738FD /* Index */,
@@ -1741,6 +1782,30 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		76C153AE20E0BFBB002D7F78 /* Intelligence */ = {
+			isa = PBXGroup;
+			children = (
+				76C153AB20E0B8B5002D7F78 /* MEInputChildInfoContent.h */,
+				76C153AC20E0B8B5002D7F78 /* MEInputChildInfoContent.m */,
+				76C153AF20E0C055002D7F78 /* METextFieldCell.h */,
+				76C153B020E0C055002D7F78 /* METextFieldCell.m */,
+				76C153B120E0C055002D7F78 /* METextFieldCell.xib */,
+				76C153B720E0C1C5002D7F78 /* MESingleSelectCell.h */,
+				76C153B820E0C1C5002D7F78 /* MESingleSelectCell.m */,
+				76C153B920E0C1C5002D7F78 /* MESingleSelectCell.xib */,
+				76C153BF20E0DA7A002D7F78 /* MEActionCell.h */,
+				76C153C020E0DA7A002D7F78 /* MEActionCell.m */,
+				76C153C120E0DA7A002D7F78 /* MEActionCell.xib */,
+				76C153CA20E0F17D002D7F78 /* MENurseryCell.h */,
+				76C153CB20E0F17D002D7F78 /* MENurseryCell.m */,
+				76C153C620E0E69E002D7F78 /* MENurseryProfile.h */,
+				76C153C720E0E69E002D7F78 /* MENurseryProfile.m */,
+				76C153DB20E105A0002D7F78 /* MEAddChildProfile.h */,
+				76C153DC20E105A0002D7F78 /* MEAddChildProfile.m */,
+			);
+			path = Intelligence;
+			sourceTree = "<group>";
+		};
 		77BC15F8E686F754390D69C2852A438F /* MultiEducation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1960,6 +2025,8 @@
 				261400A4A9E625CED46F92C01166A074 /* MEUserVM.m */,
 				D7F71A96AFF25BECAE2F2182D53AFBF3 /* MEVerifyCodeVM.h */,
 				DECD3B3CE067BE56D97D62A72CE4F766 /* MEVerifyCodeVM.m */,
+				76C153D720E0FB83002D7F78 /* MENurseryVM.h */,
+				76C153D820E0FB83002D7F78 /* MENurseryVM.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -1992,6 +2059,8 @@
 		9C1D73AA351B3E8485FC64D3B73CF608 /* PBFiles */ = {
 			isa = PBXGroup;
 			children = (
+				76C153D320E0FAFC002D7F78 /* MeschoolAddress.pbobjc.h */,
+				76C153D420E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m */,
 				45D7F62E8F60E1B8895BB5B328C01113 /* MebabyAlbum.pbobjc.h */,
 				7E684F61A1F815D9C208979967FC9CB4 /* MebabyAlbum.pbobjc.m */,
 				D1F24D63BA52E9A478B70144F6D3E266 /* MebabyEvaluate.pbobjc.h */,
@@ -2203,6 +2272,7 @@
 				11F4A2FAC7D04842F636448627B119E4 /* libPods-MultiEducation.a */,
 				EAB2E15017BB5632407C343F3D905875 /* libsqlite3.0.tbd */,
 				09877A44D697C45E57642DD93C5C1836 /* libz.tbd */,
+				D1B41A58D12361563C7EB89A /* libPods-MultiIntelligent.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2508,6 +2578,8 @@
 			children = (
 				87F4C43DB8D4E18FC47F8F0FC1D1E957 /* Pods-MultiEducation.debug.xcconfig */,
 				87B53D0510CA5228EB86F453364DE967 /* Pods-MultiEducation.release.xcconfig */,
+				9A3E44475A0E2B9326D45B33 /* Pods-MultiIntelligent.debug.xcconfig */,
+				94CCDA76ABAA109731EECC33 /* Pods-MultiIntelligent.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2596,9 +2668,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AEADA3F386145547EF2D6DF7DF6D43DC /* Build configuration list for PBXNativeTarget "MultiIntelligent" */;
 			buildPhases = (
+				9218C48849E9D5ED507BD00A /* [CP] Check Pods Manifest.lock */,
 				DA8CA204C2FFF1EC71E358EB7991851C /* Sources */,
 				F59E118EBF9D805999BC466EC9934B65 /* Frameworks */,
 				29B2E0305E41813E7A54C676210189A4 /* Resources */,
+				E3B1163308EE95190F5F1A0D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2737,6 +2811,7 @@
 				9EF9B20E20E6B7ED582133C4AE21A29B /* GardenHeader.xib in Resources */,
 				6917A62362EF1C3AB79DE44A0D128368 /* LaunchScreen.storyboard in Resources */,
 				08EDB79BD43FA2110E3DC0ED45406C3A /* MEAboutMeContent.xib in Resources */,
+				76C153C520E0DBF1002D7F78 /* MEActionCell.xib in Resources */,
 				E013D80BCC24E8D6F3DD303F103E039E /* MEBabyComponentCell.xib in Resources */,
 				1552CEFE1A6C24C6BDC40CA8FD57B82E /* MEBabyContentHeader.xib in Resources */,
 				35A96F1A25BC4A7B4349B8821FA3DAA3 /* MEBabyContentPhotoCell.xib in Resources */,
@@ -2745,8 +2820,10 @@
 				58A4D4AD5A82DF591E1CA4C3BD6373AF /* MEBabyPhotoCell.xib in Resources */,
 				159714BA2E4496EB6B92C7BE2100EEBC /* MEBabyPortraitCell.xib in Resources */,
 				55DEEE7955652206C0323D8C8E0320B2 /* MEBabySelectCell.xib in Resources */,
+				76C153B620E0C06C002D7F78 /* METextFieldCell.xib in Resources */,
 				49B9E9081B44191BFDEC7BB089122A7D /* MECardCell.xib in Resources */,
 				7352BE70D133D43E299917289F604C67 /* MEEditScene.xib in Resources */,
+				76C153BB20E0C1C5002D7F78 /* MESingleSelectCell.xib in Resources */,
 				9C03D3C58333D5513290D339E8E88BB4 /* MEFolderCell.xib in Resources */,
 				555C81EF65235A3AD56259D1AA931C3B /* MEHeaderIconCell.xib in Resources */,
 				14A24C47F89644770BDCA3F7EE960FFC /* MEHistoryCell.xib in Resources */,
@@ -2785,6 +2862,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		9218C48849E9D5ED507BD00A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MultiIntelligent-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E149D66A54DC61455F1AB4932572E645 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2801,6 +2896,92 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3B1163308EE95190F5F1A0D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MultiIntelligent/Pods-MultiIntelligent-resources.sh",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_amatorka.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_miss_etikate.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_1.png",
+				"${PODS_ROOT}/GPUImage/framework/Resources/lookup_soft_elegance_2.png",
+				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/MWPhotoBrowser/MWPhotoBrowser.bundle",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/en.lproj",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/zh-Hans.lproj",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/Contents.json",
+				"${PODS_ROOT}/PBBaseClasses/PBBaseClasses/Pod/Assets/PBBaseClasses.xcassets/pb_navigationBar_back.imageset",
+				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/balanceMap.json",
+				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_dev.cer",
+				"${PODS_ROOT}/PBService/PBNetService/Pod/Assets/flk_test.cer",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RongCloud.bundle",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/en.lproj",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/zh-Hans.lproj",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/Emoji.plist",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RCConfig.plist",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/JResource.bundle",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/en.lproj",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/zh-Hans.lproj",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/jrmf.cer",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/AlipaySDK/AlipaySDK.bundle",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/JrmfIMLib/WalletResource.bundle",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
+				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800-1.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/4_1366x768.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/5_1280x800.jpeg",
+				"${PODS_ROOT}/XHImageViewer/Source/Resources/placeholder.jpeg",
+				"${PODS_ROOT}/YJBannerView/YJBannerViewDemo/YJBannerView/Resource/YJBannerView.bundle",
+				"${PODS_ROOT}/ZFPlayer/ZFPlayer/ZFPlayer.bundle",
+				"${PODS_ROOT}/libksygpulive/resource/KSYGPUResource.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_amatorka.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_miss_etikate.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_1.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/lookup_soft_elegance_2.png",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MWPhotoBrowser.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Contents.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/pb_navigationBar_back.imageset",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/balanceMap.json",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_dev.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/flk_test.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RongCloud.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Emoji.plist",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCConfig.plist",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/JResource.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/jrmf.cer",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AlipaySDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WalletResource.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800-1.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/4_1366x768.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/5_1280x800.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/placeholder.jpeg",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/YJBannerView.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/KSYGPUResource.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MultiIntelligent/Pods-MultiIntelligent-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F83ED8306320A6CE3F8C4D4835AEF304 /* [CP] Copy Pods Resources */ = {
@@ -3109,6 +3290,7 @@
 				E69F751B2E64C0A0DEB822445293B73A /* MeclassLive.pbobjc.m in Sources */,
 				3F06A4AD6AA9C00C4541501F02710BB5 /* MeclassMember.pbobjc.m in Sources */,
 				BD02BB0AA60A9FEE2DD33F5440DC912D /* Mecordova.pbobjc.m in Sources */,
+				76C153D520E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m in Sources */,
 				EDE40CF5F05940BE8825AC21B2B0694D /* MeforwardEvaluate.pbobjc.m in Sources */,
 				B9374E80FC176B1A2371C1389169E83F /* MegradeList.pbobjc.m in Sources */,
 				E6A320C86F2CDDC601E4B74CFE3E5E40 /* MegrowthEvaluate.pbobjc.m in Sources */,
@@ -3123,6 +3305,7 @@
 				33ADC8B22EB70ABD086715B56E8163C3 /* MesessionList.pbobjc.m in Sources */,
 				2EFB9860A569C034AFF6848B38D8CC3E /* MesignIn.pbobjc.m in Sources */,
 				D98A90509D72BDB201E0219BB4E1DAB1 /* MestuFun.pbobjc.m in Sources */,
+				76C153D920E0FB83002D7F78 /* MENurseryVM.m in Sources */,
 				361E9B4B61F89C32AAF5DE2B6A2C447F /* Mestudent.pbobjc.m in Sources */,
 				E4A224F378AF281D3851B5000D94B685 /* Meuser.pbobjc.m in Sources */,
 				B3CB67286F65AC00C1A10B137E5E22E8 /* MeuserData.pbobjc.m in Sources */,
@@ -3219,6 +3402,7 @@
 				D7F2FE51D5523FDF13AA0CB228CE402B /* MEClassMemberVM.m in Sources */,
 				56391DD76A56864670654214150AFB3E /* MECollectionProfile.m in Sources */,
 				A5A079FA625A4BAD5E72BC8374FB98BA /* MEContactCell.m in Sources */,
+				76C153B520E0C05F002D7F78 /* MEInputChildInfoContent.m in Sources */,
 				F19F093D7E57579F53C02C25E7303EA5 /* MEContactInfoProfile.m in Sources */,
 				054764F8CCAD5A4FDFAAD570BC7C945D /* MEContactProfile.m in Sources */,
 				BDF7CAC622AF878FCA5F0EE1CE800F6C /* MEContentSubcategory.m in Sources */,
@@ -3232,6 +3416,7 @@
 				201710219881656D4FB82F34974429EA /* MEFileQuryVM.m in Sources */,
 				B420D1278E3B71CB3015FC27D6A6A33A /* MEFolderCell.m in Sources */,
 				2920A0D509D06C7EAB060E4FECB65032 /* MEFolderPatchVM.m in Sources */,
+				76C153DA20E0FB83002D7F78 /* MENurseryVM.m in Sources */,
 				424EB7E3F0351790541A4FB1E691E191 /* MEForwardEvaListVM.m in Sources */,
 				C476B625002A3B0B4FA1A1353BB1C607 /* MEForwardGEProfile.m in Sources */,
 				3673C0FA652A265516C5D256EBB1491A /* MEForwardSEProfile.m in Sources */,
@@ -3273,6 +3458,7 @@
 				49DCF59AEC58B90390077A08C0AB44B9 /* MEMulticastRole.m in Sources */,
 				DF5CB8090FAA493F640B177F09912CD6 /* MENewsInfoVM.m in Sources */,
 				8C430BC65EE12B683B1CFC122C299BAA /* MENotFoundProfile.m in Sources */,
+				76C153C920E0E6B7002D7F78 /* MENurseryProfile.m in Sources */,
 				1B43600C8224C2B8E505EBAE34136237 /* MEPBUser+MEStore.m in Sources */,
 				35C9142160BDB378902AAA12B09ADF90 /* MEParentInfoContent.m in Sources */,
 				DF14DAE1EB6D64AEDA41F41A76F740FA /* MEParentsInfoView.m in Sources */,
@@ -3295,6 +3481,7 @@
 				1613ED53C3C674A0E421C8CABAC5C2F9 /* MEQRCodeShareProfile.m in Sources */,
 				599FC9205052F6F188C6D8426D0C5F6D /* MEQRResultProfile.m in Sources */,
 				355CE3FBB84F14B904A7B5C43534082D /* MEQRScanProfile.m in Sources */,
+				76C153CD20E0F17D002D7F78 /* MENurseryCell.m in Sources */,
 				3B78CDD6296D3C3C8040E0A2D08AD784 /* MEQiniuUtils.m in Sources */,
 				0F77A39DBE7477E23A5C45D1E55414B1 /* MERePasswordVM.m in Sources */,
 				EFAD8CDCE27115AAAC10362453E73A48 /* MERegisterVM.m in Sources */,
@@ -3304,6 +3491,7 @@
 				75683CF9696E9708BE5F1AD2F7DB227A /* MESEInfoVM.m in Sources */,
 				1FB2F17C758E3A5C91026BAADCB8049C /* MESearchBar.m in Sources */,
 				E4A6343C55C59900B941DED97452F49B /* MESearchPanel.m in Sources */,
+				76C153BA20E0C1C5002D7F78 /* MESingleSelectCell.m in Sources */,
 				16C36F06DF1F088A0C88E1A34AE53AD5 /* MESearchProfile.m in Sources */,
 				522441ADCA86E6DDC707C6F46714EBED /* MESelectFolderProfile.m in Sources */,
 				15F096CDC4A0E696A2ABD29F6A9BD254 /* MESelectPhotoCell.m in Sources */,
@@ -3364,6 +3552,7 @@
 				68C166F712E5ACCB5C0166C3E706C578 /* MegrowthEvaluate.pbobjc.m in Sources */,
 				C40234A9F1D565E72247A8A6DE4EB8F6 /* Meindex.pbobjc.m in Sources */,
 				CB2463A3AC57FE98103F9C4946A94FE6 /* MenewsInfo.pbobjc.m in Sources */,
+				76C153C420E0DBEB002D7F78 /* MEActionCell.m in Sources */,
 				4AEED5E77E6FC6DF7C6055C54A37A5BB /* MephoneInfo.pbobjc.m in Sources */,
 				0C80A847CDDC9B57FF3283B14D8D12ED /* Meqnfile.pbobjc.m in Sources */,
 				52B2F0509382C77A2C4984500905518B /* Meres.pbobjc.m in Sources */,
@@ -3378,9 +3567,11 @@
 				E41125BC10760D1BEBB797D0F89E4678 /* MeuserData.pbobjc.m in Sources */,
 				6D93AEDD0216E133F36A1DE7DA891932 /* Mevideo.pbobjc.m in Sources */,
 				0A675F280C487A1CEA27AFB09CF08E69 /* NSData+NSHash.m in Sources */,
+				76C153DE20E105A0002D7F78 /* MEAddChildProfile.m in Sources */,
 				91A3A91DA6F9A1793F2B3C6032A1C485 /* NSString+Md5String.m in Sources */,
 				88784934B6F5679926D90F8B4EBEC2CD /* NSString+NSHash.m in Sources */,
 				8A2B058BCCAB6F98B7D954B840E3DC6B /* SBNetState.m in Sources */,
+				76C153B420E0C059002D7F78 /* METextFieldCell.m in Sources */,
 				FD181E19B8FA710308F45D2DF3DDC8EB /* UITextField+MaxLength.m in Sources */,
 				96E150F36C3C32C1E2E511B3E11F18BC /* UITextView+Placeholder.m in Sources */,
 				06915703C239620C20A7ACF4F6CB7B1D /* UIView+BlurEffect.m in Sources */,
@@ -3403,6 +3594,7 @@
 				1D5EB104E4637D4B265B8864EBDA134D /* ValueShare.m in Sources */,
 				94C39CDDE8D86BE3C3D87E9AF96BAAD2 /* ValueSync.m in Sources */,
 				69D1A0A3E5741BA71CAEA70FB99E1ACB /* ValueToolbar.m in Sources */,
+				76C153D620E0FAFD002D7F78 /* MeschoolAddress.pbobjc.m in Sources */,
 				599B3A88FE126C0F583CC8D5905D44FB /* ViewController.m in Sources */,
 				1CF79F7B8E493C8B7F0E2010E69C1381 /* main.m in Sources */,
 			);
@@ -3543,6 +3735,15 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"SQLITE_HAS_CODEC=1",
+					"EDU=1",
+				);
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3624,6 +3825,15 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"SQLITE_HAS_CODEC=1",
+					"EDU=1",
+				);
 				INFOPLIST_FILE = MultiEducation/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3651,6 +3861,7 @@
 		};
 		8CE254E4060FDF5756C25DB0318055F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A3E44475A0E2B9326D45B33 /* Pods-MultiIntelligent.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
@@ -3662,6 +3873,11 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"INTE=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3676,6 +3892,7 @@
 		};
 		E2CA8ECC5FF89A1BA7EAEF333F77E4FD /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94CCDA76ABAA109731EECC33 /* Pods-MultiIntelligent.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
@@ -3687,6 +3904,7 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "INTE=1";
 				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

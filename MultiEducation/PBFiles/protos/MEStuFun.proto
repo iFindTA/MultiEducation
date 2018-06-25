@@ -16,6 +16,7 @@ message GuFunPhotoPb {
    repeated GuFunPhotoImgPb imgList=9;//图片
    int32 type = 10; // 1幼儿园  2在家里
    int64 createdDate = 11; 
+   int64 createdBy = 12;	//创建者
 }
 
 message GuFunPhotoStudentPb {

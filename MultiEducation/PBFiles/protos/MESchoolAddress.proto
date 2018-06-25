@@ -1,0 +1,15 @@
+
+syntax = "proto3";
+
+message SchoolAddressListPb {
+     string keyword=1; //查询条件关键字
+     repeated SchoolAddressPb schoolList=2;
+}
+
+message SchoolAddressPb {
+    int64 id = 1; //学校id
+    string name = 2; //学校名称
+    string provinceName = 3; //省份名称
+    string cityName = 4; //城市名称
+    string districtName = 5; //区县名称
+}

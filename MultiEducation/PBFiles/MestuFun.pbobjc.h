@@ -76,6 +76,7 @@ typedef GPB_ENUM(GuFunPhotoPb_FieldNumber) {
   GuFunPhotoPb_FieldNumber_ImgListArray = 9,
   GuFunPhotoPb_FieldNumber_Type = 10,
   GuFunPhotoPb_FieldNumber_CreatedDate = 11,
+  GuFunPhotoPb_FieldNumber_CreatedBy = 12,
 };
 
 @interface GuFunPhotoPb : GPBMessage
@@ -114,6 +115,9 @@ typedef GPB_ENUM(GuFunPhotoPb_FieldNumber) {
 @property(nonatomic, readwrite) int32_t type;
 
 @property(nonatomic, readwrite) int64_t createdDate;
+
+/** 创建者 */
+@property(nonatomic, readwrite) int64_t createdBy;
 
 @end
 

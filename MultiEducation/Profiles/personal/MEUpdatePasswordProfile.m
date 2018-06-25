@@ -185,7 +185,6 @@ static CGFloat const ROW_HEIGHT = 54.f;
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 #pragma mark - lazyloading

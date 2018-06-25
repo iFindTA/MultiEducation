@@ -10,6 +10,8 @@
 #import "MEVerifyCodeVM.h"
 #import "MELoginProfile.h"
 #import "MEMulticastRole.h"
+#import "MEInputChildInfoContent.h"
+#import "Mestudent.pbobjc.h"
 #import "UITextField+MaxLength.h"
 #import <YYKit/NSAttributedString+YYText.h>
 #import <JKCountDownButton/JKCountDownButton.h>
@@ -27,6 +29,8 @@
 @property (nonatomic, strong) MEBaseLabel *helpLabel;
 
 @property (nonatomic, strong) MEMulticastRole *multicastRoleScene;
+
+@property (nonatomic, strong) MEInputChildInfoContent *inputChildInfoScene;
 
 @end
 
@@ -62,6 +66,20 @@
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2.5);
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
     }];
+#if INTE
+    //inputChildInfoView
+    _inputChildInfoScene = [[MEInputChildInfoContent alloc] initWithFrame: CGRectZero];
+    _inputChildInfoScene.layer.cornerRadius = ME_LAYOUT_MARGIN*2.5;
+    _inputChildInfoScene.layer.masksToBounds = true;
+    _inputChildInfoScene.hidden = true;
+    [self.view addSubview: self.inputChildInfoScene];
+    [_inputChildInfoScene mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(offset+adoptValue(100));
+        make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2.5);
+        make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
+        make.height.mas_equalTo(430.f);
+    }];
+#endif
     //title
     NSString *info = PBFormat(@"登录%@", [NSBundle pb_displayName]);
     UIFont *font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE+ME_LAYOUT_OFFSET);
@@ -342,6 +360,9 @@
     //老师: 13575747869
     //    self.inputMobile.text = @"13023622337";
     //    self.inputPwd.text = @"123456";
+    //未绑定学校: 17695712675
+    self.inputMobile.text = @"17695712675";
+    self.inputCode.text = @"999999";
 #endif
 }
 
@@ -446,8 +467,21 @@
                 [SVProgressHUD showInfoWithStatus:@"此账号未关联任何数据，请联系客服！"];
                 return ;
             } else if (list.count == 1) {
+#if INTE
+                MEPBUser *user = list.firstObject;
+                if (user.userType == MEPBUserRole_Parent) {
+                    for (StudentPb *stu in user.parentsPb.studentPbArray) {
+                        if (stu.classId != 0) {
+                            [self handleSingleUserSignIn:user];
+                            return;
+                        }
+                    }
+                }
+                self.inputChildInfoScene.hidden = false;
+#else
                 MEPBUser *user = list.firstObject;
                 [self handleSingleUserSignIn:user];
+#endif
             } else {
                 [self handleMulticastUserIdentitySwitchEvent:userList];
             }
