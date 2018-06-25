@@ -163,6 +163,8 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 - (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)holder answer:(NSString *)answer editable:(BOOL)editable maxLength:(NSUInteger)len quesTitle:(NSString *)title{
     self = [super initWithFrame:frame];
     if (self) {
+        [IQKeyboardManager sharedManager].enable = true;
+        [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = true;
         self.editable = editable;
         _questionTitle = title.copy;
         _maxInputLength = len;
@@ -200,14 +202,15 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
 
 - (IQTextView *)input {
     if (!_input) {
+        //FIXME: delete InputAccess by cxz
         _input = [[IQTextView alloc] initWithFrame:CGRectZero];
         _input.backgroundColor = [UIColor clearColor];
-        _input.keyboardType = UIKeyboardTypeNamePhonePad;
+//        _input.keyboardType = UIKeyboardTypeNamePhonePad;
         _input.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
         _input.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-        if (!([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)) {
-            _input.inputAccessoryView = self.inputAccess;
-        }
+//        if (!([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)) {
+//            _input.inputAccessoryView = self.inputAccess;
+//        }
     }
     return _input;
 }
@@ -248,7 +251,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
         }];
         //textview
         IQTextView *placeholder = [[IQTextView alloc] initWithFrame:CGRectZero];
-        placeholder.editable = false;
+        placeholder.editable = true;
         placeholder.backgroundColor = [UIColor clearColor];
         placeholder.font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE+1);
         placeholder.textColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
@@ -271,6 +274,7 @@ typedef void(^MEQuestionSliceItemCallback)(MEQuestionSlice *opt);
         [MEKits makeToast:@"您不能编辑当前内容！"];
         return false;
     }
+    [self.placeholder becomeFirstResponder];
     return true;
 }
 
@@ -781,12 +785,13 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
 - (id)initWithFrame:(CGRect)frame father:(nonnull UIView *)view {
     self = [super initWithFrame:frame];
     if (self) {
-        _fatherView = view;
-        CGRect bounds = _fatherView.bounds;
-        _inputMask = [[MEBaseScene alloc] initWithFrame:bounds];
-        _inputMask.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
-        _inputMask.hidden = true;
-        [self.fatherView insertSubview:_inputMask aboveSubview:self];
+        //FIXME: delete InputMask by cxz
+//        _fatherView = view;
+//        CGRect bounds = _fatherView.bounds;
+//        _inputMask = [[MEBaseScene alloc] initWithFrame:bounds];
+//        _inputMask.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+//        _inputMask.hidden = true;
+//        [self.fatherView insertSubview:_inputMask aboveSubview:self];
         [self registerKeyboradEvents];
     }
     return self;
@@ -801,10 +806,10 @@ typedef void(^MEQuestionPanelCallback)(BOOL stashed);
 }
 
 - (void)__keyboradWillShow:(NSNotification *)notify {
-    [self.fatherView bringSubviewToFront:self.inputMask];
-    CGRect endBounds = [[[notify userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
-    BOOL hide = fabs(endBounds.origin.y - MESCREEN_HEIGHT) < ME_LAYOUT_MARGIN;
-    self.inputMask.hidden = hide;
+//    [self.fatherView bringSubviewToFront:self.inputMask];
+//    CGRect endBounds = [[[notify userInfo] objectForKey:@"UIKeyboardFrameEndUserInfoKey"] CGRectValue];
+//    BOOL hide = fabs(endBounds.origin.y - MESCREEN_HEIGHT) < ME_LAYOUT_MARGIN;
+//    self.inputMask.hidden = hide;
 }
 
 #pragma mark --- user interface actions
