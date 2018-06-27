@@ -489,8 +489,11 @@
                             return;
                         }
                     }
+                    self.inputChildInfoScene.hidden = false;
+                } else {
+                    [self handleSingleUserSignIn:user];
+                    [self splash2MainScene];
                 }
-                self.inputChildInfoScene.hidden = false;
 #endif
                 [self handleSingleUserSignIn:user];
             } else {
@@ -559,16 +562,19 @@
         } else {
             MEPBUser *curUser = userList.userListArray.firstObject;
 #if INTE
-            if (curUser.userType == MEPBUserRole_Parent) {
-                for (StudentPb *stu in curUser.parentsPb.studentPbArray) {
+            if (user.userType == MEPBUserRole_Parent) {
+                for (StudentPb *stu in user.parentsPb.studentPbArray) {
                     if (stu.classId != 0) {
-                        [self handleSingleUserSignIn:curUser];
+                        [self handleSingleUserSignIn:user];
                         [self splash2MainScene];
                         return;
                     }
                 }
+                self.inputChildInfoScene.hidden = false;
+            } else {
+                [self handleSingleUserSignIn:user];
+                [self splash2MainScene];
             }
-            self.inputChildInfoScene.hidden = false;
 #endif
             [self handleSingleUserSignIn:curUser];
         }

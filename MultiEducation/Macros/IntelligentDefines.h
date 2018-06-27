@@ -17,7 +17,7 @@
 //#define ME_APP_BASE_HOST                                                @"https://v2.api.chinaxqjy.com"
 #define ME_WEB_SERVER_HOST                                              @"http://ost.x16.com/open/res"
 #define ME_UMENG_APPKEY                                                 @"5b2b61dff29d9803fc00002a"
-#define ME_RONGIM_APPKEY                                                @"8w7jv4qb82oxy"//
+#define ME_RONGIM_APPKEY                                                @"82hegw5u8yrnx"//
 #else
 #define ME_APP_ENV                                                      @"prod"
 #define ME_APP_BASE_HOST                                                @"http://dv2.api.chinaxqjy.com:445"
