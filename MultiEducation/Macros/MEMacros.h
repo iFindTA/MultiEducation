@@ -11,9 +11,9 @@
 
 #if DEBUG
 #define ME_APP_ENV                                                      @"lan"
-#define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
+//#define ME_APP_BASE_HOST                                                @"http://192.168.1.199:8080"
 //#define ME_APP_BASE_HOST                                                @"http://101.132.33.243:443"    //多元幼教
-//#define ME_APP_BASE_HOST                                                @"http://dv3.api.x16.com:80"    //多元智能
+#define ME_APP_BASE_HOST                                                @"http://dv3.api.x16.com:80"    //多元智能
 //#define ME_APP_BASE_HOST                                                @"http://v3.api.x16.com"
 //#define ME_APP_BASE_HOST                                                @"https://v2.api.chinaxqjy.com"
 #define ME_WEB_SERVER_HOST                                              @"http://ost.x16.com/open/res"
