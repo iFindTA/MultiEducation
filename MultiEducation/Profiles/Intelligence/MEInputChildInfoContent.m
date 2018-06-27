@@ -11,6 +11,10 @@
 #import "MESingleSelectCell.h"
 #import "MEActionCell.h"
 #import "AppDelegate.h"
+#import "MeschoolAddress.pbobjc.h"
+#import "Meclass.pbobjc.h"
+#import "MEAddChildVM.h"
+#import "MEUserVM.h"
 #import <ActionSheetPicker.h>
 
 static CGFloat const tableHeight = 270;
@@ -25,6 +29,9 @@ static NSString * const selectCellIdef = @"select_cell_idef";
 @property (nonatomic, strong) MEBaseButton *skipBtn;
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, strong) NSArray *titles;
+
+@property (nonatomic, strong) StudentPb *addStu;
+@property (nonatomic, strong) MEPBClass *addClass;
 
 @end
 
@@ -121,11 +128,53 @@ static NSString * const selectCellIdef = @"select_cell_idef";
 }
 
 - (void)userDidTouchAddChild {
-    NSLog(@"add child");
+    METextFieldCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0]];
+    NSString *stuName = cell.input.text;
+    self.inputStu.name = stuName;
+    
+    if ([self.inputStu.name isEqualToString: @""] || self.inputStu.name == nil) {
+        [MEKits makeToast: @"请输入孩子姓名"];
+        return;
+    }
+    
+    if (self.inputStu.gender != 1 && self.inputStu.gender != 2) {
+        [MEKits makeToast: @"请选择孩子性别"];
+        return;
+    }
+    
+    if (self.inputStu.birthday <= 0 ) {
+        [MEKits makeToast: @"请选择孩子生日"];
+        return;
+    }
+    
+    if (self.inputStu.parentType != 1 && self.inputStu.parentType != 2) {
+        [MEKits makeToast: @"请选择与宝宝关系"];
+        return;
+    }
+    
+    if (self.inputStu.schoolId == 0 || self.inputStu.gradeId == 0 || self.inputStu.classId == 0) {
+        [MEKits makeToast: @"请选择幼儿园"];
+        return;
+    }
+    
+    MEAddChildVM *vm = [MEAddChildVM vmWithPB: self.inputStu];
+    weakify(self);
+    [vm postData: self.inputStu.data hudEnable: true success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        if (self.didAddChildSuccessCallback) {
+            self.addStu = self.inputStu;
+            [MEUserVM updateUserStuent: self.addStu cls: self.addClass uid: self.currentUser.uid];
+            self.didAddChildSuccessCallback();
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError: error];
+    }];
 }
 
 - (void)userDidSkipAddChild {
-    NSLog(@"skip this page");
+    if (self.didSkipAddChildCallback) {
+        self.didSkipAddChildCallback();
+    }
 }
 
 - (void)userSelectBirthDay {
@@ -137,12 +186,15 @@ static NSString * const selectCellIdef = @"select_cell_idef";
         date = [formatter dateFromString: cell.subtitleLab.text];
     }
     AppDelegate *delegate= (AppDelegate *)[UIApplication sharedApplication].delegate;
+    weakify(self);
     [ActionSheetDatePicker showPickerWithTitle:@"选择生日" datePickerMode: UIDatePickerModeDate selectedDate: date minimumDate: [NSDate dateWithTimeIntervalSince1970: 0] maximumDate: [NSDate date] doneBlock:^(ActionSheetDatePicker *picker, id selectedDate, id origin) {
+        strongify(self);
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyy-MM-dd";
         NSString *dateStr = [formatter stringFromDate: selectedDate];
         MEActionCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:2 inSection:0]];
         [cell setSubtitleText: dateStr];
+        self.inputStu.birthday = [MEKits DateString2TimeStampWithFormatter:@"yyyy-MM-dd" dateStr: dateStr];
     } cancelBlock:^(ActionSheetDatePicker *picker) {
         
     } origin: delegate.window];
@@ -151,11 +203,16 @@ static NSString * const selectCellIdef = @"select_cell_idef";
 - (void)userSelectRelationWithBaby {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle: nil message: @"选择与宝宝关系" preferredStyle: UIAlertControllerStyleActionSheet];
     MEActionCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow: 3 inSection: 0]];
+    weakify(self);
     UIAlertAction *dadAc = [UIAlertAction actionWithTitle:@"我是爸爸" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
         [cell setSubtitleText: @"我是爸爸"];
+        self.inputStu.parentType = 1;
     }];
     UIAlertAction *momAc = [UIAlertAction actionWithTitle:@"我是妈妈" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [cell setSubtitleText: @"我是爸爸"];
+        strongify(self);
+        [cell setSubtitleText: @"我是妈妈"];
+        self.inputStu.parentType = 2;
     }];
     [alert addAction: dadAc];
     [alert addAction: momAc];
@@ -165,8 +222,19 @@ static NSString * const selectCellIdef = @"select_cell_idef";
 }
 
 - (void)userSelectNursery {
+    weakify(self);
+    void (^didSelectSchoollCallback) (SchoolPb *school, MEPBClass *cls) = ^(SchoolPb *school, MEPBClass *cls) {
+        strongify(self);
+        MEActionCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:4 inSection:0]];
+        [cell setSubtitleText: [NSString stringWithFormat: @"%@%@%@", school.name, cls.gradeName, cls.name]];
+        self.inputStu.schoolId = school.id_p;
+        self.inputStu.classId = cls.id_p;
+        self.inputStu.gradeId = cls.gradeId;
+        self.addClass = cls;
+    };
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectSchoollCallback};
     NSString *urlStr = @"profile://root@MENurseryProfile";
-    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: nil];
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
     [MEKits handleError: error];
 }
 
@@ -182,6 +250,9 @@ static NSString * const selectCellIdef = @"select_cell_idef";
         return cell;
     } else if (indexPath.row == 1) {
         MESingleSelectCell *cell = [tableView dequeueReusableCellWithIdentifier: genderCellIdef forIndexPath: indexPath];
+        cell.didChangeSelectCallback = ^(int32_t index) {
+            self.inputStu.gender = index;
+        };
         cell.titleLab.text = self.titles[indexPath.row];
         return cell;
     } else {
@@ -203,6 +274,9 @@ static NSString * const selectCellIdef = @"select_cell_idef";
         METextFieldCell *cell = [self.table cellForRowAtIndexPath: indexPath];
         [cell.input becomeFirstResponder];
     }
+    if (indexPath.row == 1) {
+        
+    }
     if (indexPath.row == 2) {
         [self userSelectBirthDay];
     }
@@ -221,6 +295,14 @@ static NSString * const selectCellIdef = @"select_cell_idef";
         _titles = @[@"孩子姓名", @"性别", @"生日", @"与宝宝关系", @"幼儿园"];
     }
     return _titles;
+}
+
+- (StudentPb *)inputStu {
+    if (!_inputStu) {
+        _inputStu = [[StudentPb alloc] init];
+        _inputStu.gender = 1;
+    }
+    return _inputStu;
 }
 
 @end

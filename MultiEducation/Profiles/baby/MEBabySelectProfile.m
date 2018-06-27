@@ -39,13 +39,29 @@ static CGFloat const CELL_HEIGHT = 54.f;
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];
     
+#if INTE
+    UIBarButtonItem *addStuItem = [MEKits barWithTitle: @"添加宝宝" color: [UIColor whiteColor] target: self action: @selector(pushToAddChildProfile)];
+    item.rightBarButtonItem = addStuItem;
+#endif
     [self.view addSubview: self.tableView];
-    
     //layout
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.mas_equalTo(self.view);
         make.top.mas_equalTo([MEKits statusBarHeight] + ME_HEIGHT_NAVIGATIONBAR);
     }];
+}
+
+- (void)pushToAddChildProfile {
+    NSString *urlStr = @"profile://root@MEAddChildProfile";
+    weakify(self);
+    void(^didAddChildSuccessCallback) (void) = ^ (void) {
+        strongify(self);
+        self.babys = self.currentUser.parentsPb.studentPbArray;
+        [self.tableView reloadData];
+    };
+    NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didAddChildSuccessCallback};
+    NSError *error = [MEDispatcher openURL: [NSURL URLWithString: urlStr] withParams: params];
+    [MEKits handleError: error];
 }
 
 - (void)didReceiveMemoryWarning {

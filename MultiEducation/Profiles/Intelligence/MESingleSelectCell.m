@@ -37,12 +37,18 @@
     _secondBtn.selected = sender.selected;
     sender.selected = !sender.selected;
     [self changeBtnBorderLayer];
+    if (self.didChangeSelectCallback) {
+        self.didChangeSelectCallback(1);
+    }
 }
 
 - (IBAction)didTouchFemale:(MEBaseButton *)sender {
     _firstBtn.selected = sender.selected;
     sender.selected = !sender.selected;
     [self changeBtnBorderLayer];
+    if (self.didChangeSelectCallback) {
+        self.didChangeSelectCallback(2);
+    }
 }
 
 - (void)changeBtnBorderLayer {

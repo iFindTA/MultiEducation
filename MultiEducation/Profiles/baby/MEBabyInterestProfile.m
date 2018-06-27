@@ -22,7 +22,6 @@
 @interface MEBabyInterestProfile () <MWPhotoBrowserDelegate> {
     MEPBClass *_classPb;   //role == teacher || gardener
     int64_t _stuId;     //selected student's id ,if role == parent [MEBabyIndexVM fetchSelectBaby]
-    BOOL _whetherSend4Month;    //本月是否已经发送过趣事趣影
 }
 
 @property (nonatomic, strong) GuFunPhotoPb *funPb;
@@ -69,13 +68,6 @@
             self.notfound.hidden = false;
         }
         self.content.items = pb.funPhotoPbArray;
-        for (GuFunPhotoPb *photoPb in pb.funPhotoPbArray) {
-            if (photoPb.month == [MEBabyIndexVM fetchSelectBaby].month) {
-                _whetherSend4Month = true;
-                return;
-            }
-        }
-        _whetherSend4Month = false;
         self.item.rightBarButtonItem = [MEKits barWithUnicode: @"\U0000e670" color: [UIColor whiteColor] target: self action: @selector(pushToSendBabyInterestingProfileItemTouchEvent)];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
@@ -138,12 +130,6 @@
 }
 
 - (void)pushToSendBabyInterestingProfileItemTouchEvent {
-    for (GuFunPhotoPb *pb in self.content.items) {
-        if (pb.month == [MEBabyIndexVM fetchSelectBaby].month) {
-            [self makeToast: @"当月已发布过趣事趣影"];
-            return;
-        }
-    }
     NSString *urlStr = @"profile://root@MESendIntersetingProfile";
     weakify(self);
     void (^didSubmitStuInterestCallback) (void) = ^ {
@@ -211,7 +197,14 @@
         _stuId = sid;
         [self loadData];
     };
-
+    
+    _panel.exchangeCallback = ^(int64_t sid, int64_t pre_sid, NSString *sName) {
+//        NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+        strongify(self);
+//        _stuId = sid;
+//        [self loadData];
+        self.item.title = [NSString stringWithFormat: @"趣事趣影-%@", sName];
+    };
 }
 
 #pragma mark - lazyloading
@@ -224,6 +217,10 @@
             strongify(self);
             self.funPb = pb;
             [self pushToPhotoBrowser];
+        };
+        _content.didDeleteBabyFunSuccessCallback = ^{
+            strongify(self);
+            [self loadData];
         };
     }
     return _content;

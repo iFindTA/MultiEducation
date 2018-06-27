@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *firstBtn;
 @property (weak, nonatomic) IBOutlet UIButton *secondBtn;
 
+@property (nonatomic, copy) void(^didChangeSelectCallback) (int32_t index);
+
 @end

@@ -976,6 +976,7 @@ typedef struct DeanPb__storage_ {
 @dynamic parentType;
 @dynamic gender;
 @dynamic portrait;
+@dynamic schoolId;
 @dynamic userId;
 
 typedef struct StudentPb__storage_ {
@@ -990,6 +991,7 @@ typedef struct StudentPb__storage_ {
   int64_t classId;
   int64_t gradeId;
   int64_t birthday;
+  int64_t schoolId;
   int64_t userId;
 } StudentPb__storage_;
 
@@ -1090,10 +1092,19 @@ typedef struct StudentPb__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
+        .name = "schoolId",
+        .dataTypeSpecific.className = NULL,
+        .number = StudentPb_FieldNumber_SchoolId,
+        .hasIndex = 10,
+        .offset = (uint32_t)offsetof(StudentPb__storage_, schoolId),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
+      {
         .name = "userId",
         .dataTypeSpecific.className = NULL,
         .number = StudentPb_FieldNumber_UserId,
-        .hasIndex = 10,
+        .hasIndex = 11,
         .offset = (uint32_t)offsetof(StudentPb__storage_, userId),
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
@@ -1109,7 +1120,7 @@ typedef struct StudentPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\005\004\007\000\005\007\000\006\007\000\010\n\000\013\006\000";
+        "\006\004\007\000\005\007\000\006\007\000\010\n\000\013\010\000\014\006\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

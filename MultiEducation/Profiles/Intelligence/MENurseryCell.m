@@ -7,13 +7,15 @@
 //
 
 #import "MENurseryCell.h"
+#import "MeschoolAddress.pbobjc.h"
+#import "Meclass.pbobjc.h"
 
 @implementation MENurseryCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle: style reuseIdentifier: reuseIdentifier];
     if (self) {
-        
+        [self customSubviews];
     }
     return self;
 }
@@ -43,11 +45,17 @@
         make.height.mas_equalTo(20.f);
         make.right.mas_equalTo(self.contentView.mas_right).mas_offset(-10.f);
     }];
-    
-    
-    
 }
 
+- (void)setData:(SchoolAddressPb *)school {
+    self.titleLab.text = school.name;
+    self.subTitleLab.text = [NSString stringWithFormat: @"%@%@%@", school.provinceName, school.cityName, school.districtName];
+}
+
+- (void)setDataWithClass:(MEPBClass *)classPb {
+    self.titleLab.text = classPb.gradeName;
+    self.subTitleLab.text = classPb.name;
+}
 
 
 @end

@@ -176,6 +176,17 @@
         [self.headerView setData: pb.studentArchives];
         [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
         [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        if (pb.studyEvaluateNotice) {
+            [self.badgeArr replaceObjectAtIndex: 1 withObject: @1];
+        }  else {
+            [self.badgeArr replaceObjectAtIndex: 1 withObject: @0];
+        }
+        if (pb.semesterEvaluateNotice) {
+            [self.badgeArr replaceObjectAtIndex: 7 withObject: @1];
+        }  else {
+            [self.badgeArr replaceObjectAtIndex: 7 withObject: @0];
+        }
+        
         if (self.babyTabBarBadgeCallback) {
             self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
         }
@@ -188,7 +199,7 @@
 - (void)getBabyNewsInfo {
     OsrInformationPb *pb = [[OsrInformationPb alloc] init];
     MENewsInfoVM *infoVM = [MENewsInfoVM vmWithPb: pb];
-    [infoVM postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, int32_t totalPages) {
+    [infoVM postData: [pb data] pageSize: 100 pageIndex: _pageIndex hudEnable: YES success:^(NSData * _Nullable resObj, int32_t totalPages) {
         OsrInformationPbList *listPb = [OsrInformationPbList parseFromData: resObj error: nil];
         _pageIndex +=  ME_PAGING_SIZE;
         [self.newsInfos addObjectsFromArray: listPb.osrInformationPbArray];        
@@ -264,6 +275,16 @@
         
         [self.badgeArr replaceObjectAtIndex: 2 withObject: [NSNumber numberWithInteger: pb.unNoticeNum]];
         [self.badgeArr replaceObjectAtIndex: 3 withObject: [NSNumber numberWithInteger: pb.unVoteNum]];
+        if (pb.studyEvaluateNotice) {
+            [self.badgeArr replaceObjectAtIndex: 1 withObject: @1];
+        }  else {
+            [self.badgeArr replaceObjectAtIndex: 1 withObject: @0];
+        }
+        if (pb.semesterEvaluateNotice) {
+            [self.badgeArr replaceObjectAtIndex: 7 withObject: @1];
+        }  else {
+            [self.badgeArr replaceObjectAtIndex: 7 withObject: @0];
+        }
         [self.componentView reloadData];
         if (self.babyTabBarBadgeCallback) {
             self.babyTabBarBadgeCallback(pb.unVoteNum + pb.unNoticeNum);
@@ -358,7 +379,7 @@
 }
 
 - (void)updateViewsMasonry {
-    if (self.currentUser.userType == MEPBUserRole_Visitor || [self whetherChildBindClass]) {
+    if (self.currentUser.userType == MEPBUserRole_Visitor) {
         self.babyPhtoView.hidden = YES;
         self.photoHeader.hidden = YES;
         self.componentView.hidden = YES;
@@ -366,7 +387,7 @@
     } else  {
         if (self.babyPhotos.count == 0) {
             self.babyPhtoView.hidden = YES;
-            if (self.currentUser.userType == MEPBUserRole_Parent) {
+            if (self.currentUser.userType == MEPBUserRole_Parent && [self whetherChildBindClass]) {
                 if (self.currentUser.parentsPb.studentPbArray.count == 0) {
                     self.photoHeader.hidden = YES;
                     self.componentView.hidden = YES;

@@ -42,6 +42,8 @@
 
 @property (nonatomic, strong) TZImagePickerController *pickerProfile;
 
+@property (nonatomic, strong) UINavigationItem *item;
+
 @end
 
 @implementation MEBabyArchiveProfile
@@ -98,6 +100,7 @@
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *back = [MEKits barWithUnicode: @"\U0000e6e2" color: UIColorFromRGB(ME_THEME_COLOR_TEXT) target: self action: @selector(didBackItemTouchEvent)];
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"宝宝档案"];
+    _item = item;
     item.leftBarButtonItems = @[spacer, back];
     UIBarButtonItem *confirm = [MEKits barWithTitle: @"确认" color: UIColorFromRGB(ME_THEME_COLOR_TEXT) target: self action: @selector(putBabyArchives2Server)];
     item.rightBarButtonItems = @[confirm, spacer];
@@ -470,6 +473,13 @@
         NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
         strongify(self);
         [self loadDataOfBabyArchives: sid];
+    };
+    
+    _panel.exchangeCallback = ^(int64_t sid, int64_t pre_sid, NSString *sName) {
+//        NSLog(@"切换学生===从%lld切换到%lld", pre_sid, sid);
+        strongify(self);
+//        [self loadDataOfBabyArchives: sid];
+        self.item.title = [NSString stringWithFormat: @"宝宝档案-%@", sName];
     };
 }
 

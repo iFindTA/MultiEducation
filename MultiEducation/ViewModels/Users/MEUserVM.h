@@ -9,6 +9,7 @@
 #import "MEVM.h"
 #import "Meuser.pbobjc.h"
 #import "MesignIn.pbobjc.h"
+@class MEPBClass;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,6 +49,12 @@ NS_ASSUME_NONNULL_BEGIN
  update user's nick
  */
 + (BOOL)updateUserNick:(NSString *)nick uid:(int64_t)uid;
+
+
+/**
+ when userRole == MEPBUserRole_Parent, update user's ParentPb
+ */
++ (BOOL)updateUserStuent:(StudentPb *)stu cls:(MEPBClass *)cls uid:(int64_t)uid;
 
 @end
 

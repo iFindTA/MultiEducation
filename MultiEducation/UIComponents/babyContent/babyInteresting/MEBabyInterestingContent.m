@@ -136,6 +136,12 @@ static NSString * const Cell_idef = @"cell_idef";
             self.gotoPhotoBrowserHandler(pb);
         }
     };
+    card.didDeleteBabyFunSuccessCallback = ^{
+        strongify(self);
+        if (self.didDeleteBabyFunSuccessCallback) {
+            self.didDeleteBabyFunSuccessCallback();
+        }
+    };
     [card setData: [self.items objectAtIndex: indexPath.row]];
     return card;
 }

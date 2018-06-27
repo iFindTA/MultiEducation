@@ -21,6 +21,13 @@
     // Configure the view for the selected state
 }
 
-
+- (void)setSubtitleText:(NSString *)text {
+    if ([text isEqualToString: @"请选择"] || [text isEqualToString: @"请输入"]) {
+        self.subtitleLab.textColor = UIColorFromRGB(0x999999);
+    } else {
+        self.subtitleLab.textColor = UIColorFromRGB(0x333333);
+    }
+    self.subtitleLab.text = text;
+}
 
 @end

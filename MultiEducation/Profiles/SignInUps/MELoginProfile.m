@@ -66,6 +66,7 @@
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2.5);
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
     }];
+    weakify(self);
 #if INTE
     //inputChildInfoView
     _inputChildInfoScene = [[MEInputChildInfoContent alloc] initWithFrame: CGRectZero];
@@ -79,6 +80,10 @@
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
         make.height.mas_equalTo(430.f);
     }];
+    _inputChildInfoScene.didAddChildSuccessCallback = ^{
+        strongify(self);
+        [self splash2MainScene];
+    };
 #endif
     //title
     NSString *info = PBFormat(@"登录%@", [NSBundle pb_displayName]);
@@ -199,7 +204,7 @@
         make.right.equalTo(inputBg);
         make.left.equalTo(line.mas_right);
     }];
-    weakify(self)
+    
     [countDown countDownButtonHandler:^(JKCountDownButton *countDownButton, NSInteger tag) {
         strongify(self)
         NSString *mobile = self.inputMobile.text;
@@ -360,9 +365,12 @@
     //老师: 13575747869
     //    self.inputMobile.text = @"13023622337";
     //    self.inputPwd.text = @"123456";
+//    老师: 15211026150
+//        self.inputMobile.text = @"15211026150";
+//        self.inputCode.text = @"999999";
     //未绑定学校: 17695712675
-    self.inputMobile.text = @"17695712675";
-    self.inputCode.text = @"999999";
+//    self.inputMobile.text = @"17695712675";
+//    self.inputCode.text = @"999999";
 #endif
 }
 
@@ -467,21 +475,20 @@
                 [SVProgressHUD showInfoWithStatus:@"此账号未关联任何数据，请联系客服！"];
                 return ;
             } else if (list.count == 1) {
-#if INTE
                 MEPBUser *user = list.firstObject;
+#if INTE
                 if (user.userType == MEPBUserRole_Parent) {
                     for (StudentPb *stu in user.parentsPb.studentPbArray) {
                         if (stu.classId != 0) {
                             [self handleSingleUserSignIn:user];
+                            [self splash2MainScene];
                             return;
                         }
                     }
                 }
                 self.inputChildInfoScene.hidden = false;
-#else
-                MEPBUser *user = list.firstObject;
-                [self handleSingleUserSignIn:user];
 #endif
+                [self handleSingleUserSignIn:user];
             } else {
                 [self handleMulticastUserIdentitySwitchEvent:userList];
             }
@@ -494,6 +501,9 @@
 #pragma mark --- 处理多用户登录身份选择
 
 - (void)handleMulticastUserIdentitySwitchEvent:(MEPBUserList*)list {
+#if INTE
+    //FIXME: 多元智能多用户处理暂未实现
+#endif
     if (list.userListArray.count > 1) {
         [self.view endEditing:true];
         //CGRect fromBounds = CGRectZero;
@@ -555,9 +565,21 @@
 }
 
 - (void)handleSingleUserSignIn:(MEPBUser *)user {
+#if INTE
     user.signinstamp = [MEKits currentTimeInterval];
     [MEUserVM saveUser:user];
     [self.appDelegate updateCurrentSignedInUser:user];
+#else
+    user.signinstamp = [MEKits currentTimeInterval];
+    [MEUserVM saveUser:user];
+    [self.appDelegate updateCurrentSignedInUser:user];
+    [self splash2MainScene];
+#endif
+   
+}
+
+#pragma mark -- 登录成功之后的操作
+- (void)splash2MainScene {
     //登录成功之后的操作
     //有 block 则先执行
     void(^signInCallback)(void) = [self.params objectForKey:ME_DISPATCH_KEY_CALLBACK];

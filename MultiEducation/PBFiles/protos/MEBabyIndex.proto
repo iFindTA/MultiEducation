@@ -11,6 +11,7 @@ message GuIndexPb {
    int32 unNoticeNum = 6; //园所公告badage
    int32 unVoteNum = 7;	//问卷调查badage
    bool showGraduate = 8;	//是否显示毕业菜单
-   int64 userId = 9;   //用户id
-
+   bool studyEvaluateNotice=9; //发展评价通知
+   bool semesterEvaluateNotice=10; //学期评价通知
+   int64 userId = 11;   //用户id
 }

@@ -96,11 +96,11 @@ message StudentPb {
 
     string classNo = 6; //班级码
     int64 birthday = 7; //出生日期
-    int32 parentType = 8;//家长类型
+    int32 parentType = 8;//家长类型 1爸爸 2妈妈 3其他
     int32 gender = 9;//性别
     string portrait = 10;//头像
-
-    int64 userId = 11;//用户id
+    int64 schoolId = 11;//学校Id
+    int64 userId = 12;//用户id
 
 }
 

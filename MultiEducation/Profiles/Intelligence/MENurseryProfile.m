@@ -9,29 +9,53 @@
 #import "MENurseryProfile.h"
 #import "MENurseryCell.h"
 #import "MENurseryVM.h"
+#import "Meclass.pbobjc.h"
+#import "MENurseryClassVM.h"
 #import <MJRefresh.h>
+
+typedef NS_ENUM(NSUInteger ,SelectingType) {
+    SelectingSchool =                                      1            << 0,   //当前正在选择学校
+    SelectingClass =                                       1            << 1    //当前正在选择班级
+};
 
 static NSString * const cellIdef = @"cell_idef";
 static CGFloat const cellHeight = 54.f;
 
-@interface MENurseryProfile () <UITableViewDataSource, UITableViewDelegate>
+@interface MENurseryProfile () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField *search;
 @property (nonatomic, strong) MEBaseButton *cancelBtn;
 
 @property (nonatomic, strong) UITableView *table;
-@property (nonatomic, strong) NSMutableArray *schoolArr;
+@property (nonatomic, strong) NSMutableArray <SchoolAddressPb *> *schoolArr;
+@property (nonatomic, strong) NSMutableArray <MEPBClass *> *classArr;
+
 @property (nonatomic, assign) int page;
+@property (nonatomic, assign) int totalPages;
+
+@property (nonatomic, assign) SelectingType type;
+
+@property (nonatomic, strong) SchoolAddressPb *selectSchool;    //选中的学校
+@property (nonatomic, strong) MEPBClass *selectClass;  //选中的班级
 
 @end
 
 @implementation MENurseryProfile
 
+- (id)__initWithParams:(NSDictionary *)params {
+    if (self = [super init]) {
+        if (params) {
+            self.didSelectSchoolCallback = [params objectForKey: ME_DISPATCH_KEY_CALLBACK];
+        }
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.type = SelectingSchool;
     self.navigationBar.hidden = true;
     [self customSubviews];
-    [self loadNurseryData];
 }
 
 - (void)customSubviews {
@@ -65,6 +89,9 @@ static CGFloat const cellHeight = 54.f;
     self.search.placeholder = @"搜索幼儿园";
     self.search.font = UIFontPingFangSC(14);
     self.search.textColor = UIColorFromRGB(0x333333);
+    self.search.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.search.delegate = self;
+    [self.search addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     self.search.leftView = leftView;
     self.search.leftViewMode = UITextFieldViewModeAlways;
     NSMutableAttributedString *attStr = [[NSMutableAttributedString alloc] initWithString: self.search.placeholder attributes: @{NSForegroundColorAttributeName: UIColorFromRGB(0x999999), NSFontAttributeName: UIFontPingFangSC(14)}];
@@ -92,19 +119,47 @@ static CGFloat const cellHeight = 54.f;
     _table.delegate = self;
     _table.backgroundColor = [UIColor whiteColor];
     _table.tableFooterView = [UIView new];
-    _table.scrollEnabled = false;
     _table.separatorColor = UIColorFromRGB(0xF3F3F3);
     _table.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    [_table registerNib: [UINib nibWithNibName: @"MENurseryCell" bundle: nil] forCellReuseIdentifier: cellIdef];
+    [_table registerClass: [MENurseryCell class] forCellReuseIdentifier: cellIdef];
+    weakify(self);
+    self.table.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        strongify(self);
+        self.page = 0;
+        [self loadNurseryData: self.search.text];
+        [self.table.mj_header endRefreshing];
+    }];
+    self.table.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        strongify(self)
+        self.page++;
+        [self loadNurseryData: self.search.text];
+        [self.table.mj_footer endRefreshing];
+    }];
     [self.view addSubview: self.table];
+    [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(naviBar.mas_bottom);
+        make.left.right.bottom.mas_equalTo(self.view);
+    }];
 }
 
-- (void)loadNurseryData {
-    SchoolAddressPb *pb = [[SchoolAddressPb alloc] init];
+- (void)textFieldDidChange:(id)sender {
+    [self loadNurseryData: self.search.text];
+}
+
+- (void)loadNurseryData:(NSString *)text {
+    SchoolAddressListPb *pb = [[SchoolAddressListPb alloc] init];
+    pb.keyword = text;
     MENurseryVM *vm = [MENurseryVM vmWithPB: pb];
+    if (self.totalPages != 0 && self.page >= self.totalPages) {
+        return;
+    }
     weakify(self);
-    [vm postData: [pb data] pageSize: 20 pageIndex: _page hudEnable: true success:^(NSData * _Nullable resObj, int32_t totalPages) {
+    [vm postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _page hudEnable: true success:^(NSData * _Nullable resObj, int32_t totalPages) {
         strongify(self);
+        self.totalPages = totalPages;
+        if (self.page == 0) {
+            [self.schoolArr removeAllObjects];
+        }
         NSError *err = [[NSError alloc] init];
         SchoolAddressListPb *pb = [SchoolAddressListPb parseFromData: resObj error: &err];
         if (err) {
@@ -112,6 +167,24 @@ static CGFloat const cellHeight = 54.f;
             return;
         }
         [self.schoolArr addObjectsFromArray: pb.schoolListArray];
+        [self.table reloadData];
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError: error];
+    }];
+}
+
+- (void)loadNurseryClassData {
+    MEPBClass *classPb = [[MEPBClass alloc] init];
+    classPb.schoolId = self.selectSchool.id_p;
+    MENurseryClassVM *vm = [MENurseryClassVM vmWithPB: classPb];
+    [vm postData: classPb.data hudEnable: true success:^(NSData * _Nullable resObj) {
+        NSError *err = [[NSError alloc] init];
+        MEPBClassList *classListPb = [MEPBClassList parseFromData: resObj error: &err];
+        if (err) {
+            [MEKits handleError: err];
+            return;
+        }
+        [self.classArr addObjectsFromArray: classListPb.classPbArray];
         [self.table reloadData];
     } failure:^(NSError * _Nonnull error) {
         [MEKits handleError: error];
@@ -128,12 +201,20 @@ static CGFloat const cellHeight = 54.f;
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.schoolArr.count;
+    if (self.type == SelectingSchool) {
+        return self.schoolArr.count;
+    } else {
+        return self.classArr.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MENurseryCell *cell = [tableView dequeueReusableCellWithIdentifier: cellIdef forIndexPath: indexPath];
-    
+    if (self.type == SelectingSchool) {
+        [cell setData: [self.schoolArr objectAtIndex: indexPath.row]];
+    } else {
+        [cell setDataWithClass: [self.classArr objectAtIndex: indexPath.row]];
+    }
     return cell;
 }
 
@@ -144,10 +225,41 @@ static CGFloat const cellHeight = 54.f;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath: indexPath animated: false];
-    
-    
+    if (self.type == SelectingSchool) {
+        self.type = SelectingClass;
+        self.selectSchool = [self.schoolArr objectAtIndex: indexPath.row];
+        self.search.text = @"";
+        [self.schoolArr removeAllObjects];
+        [self loadNurseryClassData];
+        self.table.mj_header = nil;
+        self.table.mj_footer = nil;
+    } else {
+        self.selectClass = [self.classArr objectAtIndex: indexPath.row];
+        if (self.didSelectSchoolCallback) {
+            [self.navigationController popViewControllerAnimated: true];
+            self.didSelectSchoolCallback(self.selectSchool, self.selectClass);
+        }
+    }
 }
 
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (self.type == SelectingSchool) {
+        if ([string isEqualToString: @"\n"]) {
+            return false;
+        }
+        NSString *searchText = [NSString stringWithFormat: @"%@%@", textField.text, string];
+        [self loadNurseryData: searchText];
+        return true;
+    } else {
+        return true;
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return true;
+}
 
 #pragma mark - lazyloading
 - (NSMutableArray *)schoolArr {
@@ -155,6 +267,13 @@ static CGFloat const cellHeight = 54.f;
         _schoolArr = [NSMutableArray array];
     }
     return _schoolArr;
+}
+
+- (NSMutableArray<MEPBClass *> *)classArr {
+    if (!_classArr) {
+        _classArr = [NSMutableArray array];
+    }
+    return _classArr;
 }
 
 @end

@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dog-kO-EIB" customClass="MEBaseLabel">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="80" height="44"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="100" id="hqa-2V-kB6"/>
+                            <constraint firstAttribute="width" constant="80" id="hqa-2V-kB6"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -34,7 +34,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Lr-7E-RGO" customClass="MEBaseLabel">
-                        <rect key="frame" x="112" y="0.0" width="181" height="43.5"/>
+                        <rect key="frame" x="80" y="0.0" width="213" height="43.5"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="textColor">
@@ -63,7 +63,7 @@
                     <constraint firstAttribute="bottom" secondItem="2Lr-7E-RGO" secondAttribute="bottom" id="OOy-SW-TkR"/>
                     <constraint firstItem="2Lr-7E-RGO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="SDC-Dc-YVt"/>
                     <constraint firstItem="0Zc-Zv-tfk" firstAttribute="leading" secondItem="2Lr-7E-RGO" secondAttribute="trailing" constant="12" id="YdE-GL-BE4"/>
-                    <constraint firstItem="2Lr-7E-RGO" firstAttribute="leading" secondItem="Dog-kO-EIB" secondAttribute="trailing" constant="12" id="gxb-4U-xZs"/>
+                    <constraint firstItem="2Lr-7E-RGO" firstAttribute="leading" secondItem="Dog-kO-EIB" secondAttribute="trailing" id="gxb-4U-xZs"/>
                     <constraint firstItem="0Zc-Zv-tfk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="l8t-vp-zNI"/>
                     <constraint firstAttribute="trailing" secondItem="0Zc-Zv-tfk" secondAttribute="trailing" constant="10" id="ylv-P4-6jP"/>
                 </constraints>

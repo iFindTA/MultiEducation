@@ -10,4 +10,6 @@
 
 @interface MEAddChildProfile : MEBaseProfile
 
+@property (nonatomic, copy) void(^didAddChildSuccessCallback) (void);
+
 @end

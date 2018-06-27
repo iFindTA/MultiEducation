@@ -12,4 +12,5 @@ message MEPBClass {
     string monitorUrl = 5; //监控地址
     int64 year = 6; //年
     int32 semester = 7; //学期
+    int64 schoolId = 8;
 }

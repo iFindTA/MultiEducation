@@ -59,6 +59,7 @@ typedef GPB_ENUM(MEStudent_FieldNumber) {
   MEStudent_FieldNumber_GradeId = 8,
   MEStudent_FieldNumber_Semester = 9,
   MEStudent_FieldNumber_Month = 10,
+  MEStudent_FieldNumber_MsgNotice = 11,
 };
 
 @interface MEStudent : GPBMessage
@@ -81,7 +82,7 @@ typedef GPB_ENUM(MEStudent_FieldNumber) {
 /** 1已完成 0未填写 2已暂存 */
 @property(nonatomic, readwrite) int32_t status;
 
-/** 1学期评价 2发展评价 */
+/** 2学期评价 4发展评价 6趣事趣影 */
 @property(nonatomic, readwrite) int32_t type;
 
 /** 年级ID */
@@ -92,6 +93,9 @@ typedef GPB_ENUM(MEStudent_FieldNumber) {
 
 /** 月份 */
 @property(nonatomic, readwrite) int32_t month;
+
+/** 通知查看 */
+@property(nonatomic, readwrite) BOOL msgNotice;
 
 @end
 

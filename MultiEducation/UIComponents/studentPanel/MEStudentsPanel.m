@@ -20,6 +20,7 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
 
 @interface MEMask: UIView
 
+@property (nonatomic, strong) MEBaseScene *badge;
 @property (nonatomic, strong) UIImageView *icon, *mask;
 @property (nonatomic, strong) MEBaseLabel *label;
 
@@ -27,6 +28,11 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
  学生ID
  */
 @property (nonatomic, assign) int64_t s_id;
+
+/**
+ 学生姓名
+ */
+@property (nonatomic, strong) NSString *s_name;
 
 /**
  编辑状态
@@ -45,6 +51,7 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
         [self addSubview:self.icon];
         [self.icon addSubview:self.mask];
         [self addSubview:self.label];
+        [self.icon addSubview:self.badge];
     }
     return self;
 }
@@ -64,6 +71,14 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
         make.left.bottom.right.equalTo(self);
         make.top.equalTo(self.icon.mas_bottom).offset(ME_STUDENT_PANEL_OFFSET*0.5);
     }];
+    [self.badge mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.icon);
+        make.top.mas_equalTo(self.icon);
+        make.width.height.mas_equalTo(8);
+    }];
+    [self.badge layoutIfNeeded];
+    self.badge.layer.cornerRadius = 4.f;
+    self.badge.layer.masksToBounds = true;
 }
 
 #pragma mark --- lazy loading
@@ -93,6 +108,15 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
         _label.textAlignment = NSTextAlignmentCenter;
     }
     return _label;
+}
+
+- (MEBaseScene *)badge {
+    if (!_badge) {
+        _badge = [[MEBaseScene alloc] init];
+        _badge.hidden = true;
+        _badge.backgroundColor = [UIColor redColor];
+    }
+    return _badge;
 }
 
 #pragma mark --- setter
@@ -152,7 +176,7 @@ CGFloat const ME_STUDENT_PANEL_HEIGHT = 120;
 /**
  学生点击回调
  */
-typedef void(^MEStudentTouchEvent)(int64_t sid);
+typedef void(^MEStudentTouchEvent)(int64_t sid, NSString *sName);
 
 #pragma mark --- Class:>>>>> 学生横向列表
 @interface MEStudentLandscape: MEBaseScene
@@ -240,6 +264,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         student.status = item.status;
         student.tag = ME_STUDENT_PANEL_TAG_START+i;
         student.label.text = item.name;
+        student.s_name = item.name;
         NSString *avatar = [MEKits mediaFullPath:item.portrait];
         [student setImageURL:avatar placeholder:placeholder];
         [self.layout addSubview:student];
@@ -259,6 +284,8 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         [self.students addObject:student];
         //flag
         lastMask = student;
+        //update msg notic status
+        student.badge.hidden = item.msgNotice ? false : true;
     }
     //trailing margin
     [self.layout mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -270,6 +297,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     UIView *view = [gesture view];
     if ([view isKindOfClass:[MEMask class]]|| [view isMemberOfClass:[MEMask class]]) {
         MEMask *mask = (MEMask*)view;
+        mask.badge.hidden = true;
         if (mask == self.preChoosenMask) {
             return;
         }
@@ -279,7 +307,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         //更新选中状态
         [mask updateStudentEditState:MEEvaluateStateChoosing];
         if (self.callback) {
-            self.callback(mask.s_id);
+            self.callback(mask.s_id, mask.s_name);
         }
     }
 }
@@ -437,6 +465,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         NSUInteger offset_y = itemHeight*__row_idx;
         MEMask *student = [[MEMask alloc] initWithFrame:CGRectZero];
         student.s_id = item.id_p;
+        student.s_name = item.name;
         student.status = item.status;
         student.tag = ME_STUDENT_PANEL_TAG_START+i;
         student.label.text = item.name;
@@ -458,6 +487,8 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         [self.students addObject:student];
         //flag
         lastMask = student;
+        //update msg notic status
+        student.badge.hidden = item.msgNotice ? false : true;
     }
     //trailing margin
     [self.layout mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -469,6 +500,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     UIView *view = [gesture view];
     if ([view isKindOfClass:[MEMask class]]|| [view isMemberOfClass:[MEMask class]]) {
         MEMask *mask = (MEMask*)view;
+        mask.badge.hidden = true;
         if (mask == self.preChoosenMask) {
             return;
         }
@@ -478,7 +510,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
         //更新选中状态
         [mask updateStudentEditState:MEEvaluateStateChoosing];
         if (self.callback) {
-            self.callback(mask.s_id);
+            self.callback(mask.s_id, mask.s_name);
         }
     }
 }
@@ -576,6 +608,12 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
  */
 @property (nonatomic, assign) int64_t currentSID;
 
+/**
+ 当前选择的学生姓名
+ */
+@property (nonatomic, strong) NSString *currentSName;
+
+
 @end
 
 @implementation MEStudentsPanel
@@ -665,19 +703,19 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     
     //event
     weakify(self)
-    self.portraitScene.callback = ^(int64_t sid){
+    self.portraitScene.callback = ^(int64_t sid, NSString *sName){
         strongify(self)
         if (self.currentSID == sid) {
             return ;
         }
-        [self portraitCallbackDidTriggeredChoosing4SID:sid];
+        [self portraitCallbackDidTriggeredChoosing4SID:sid sName:sName];
     };
-    self.landscapeScene.callback = ^(int64_t sid){
+    self.landscapeScene.callback = ^(int64_t sid, NSString *sName){
         strongify(self)
         if (self.currentSID == sid) {
             return ;
         }
-        [self landscapeCallbackDidTriggeredChoosing4SID:sid];
+        [self landscapeCallbackDidTriggeredChoosing4SID:sid sName:sName];
     };
     
     //默认选中下一个待编辑的学生
@@ -787,7 +825,7 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
 /**
  portrait触发回调
  */
-- (void)portraitCallbackDidTriggeredChoosing4SID:(int64_t)sid {
+- (void)portraitCallbackDidTriggeredChoosing4SID:(int64_t)sid sName:(NSString *)sName {
     int64_t preStudentID = self.currentSID;
     self.currentSID = sid;
     //更新状态
@@ -797,12 +835,15 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     if (self.callback) {
         self.callback(sid, preStudentID);
     }
+    if (self.exchangeCallback) {
+        self.exchangeCallback(sid, preStudentID, sName);
+    }
 }
 
 /**
  landscape触发回调
  */
-- (void)landscapeCallbackDidTriggeredChoosing4SID:(int64_t)sid {
+- (void)landscapeCallbackDidTriggeredChoosing4SID:(int64_t)sid sName:(NSString *)sName {
     int64_t preStudentID = self.currentSID;
     self.currentSID = sid;
     //更新状态
@@ -811,6 +852,9 @@ typedef void(^MEStudentTouchEvent)(int64_t sid);
     //[self updatePortraitVisiable];
     if (self.callback) {
         self.callback(sid, preStudentID);
+    }
+    if (self.exchangeCallback) {
+        self.exchangeCallback(sid, preStudentID, sName);
     }
 }
 

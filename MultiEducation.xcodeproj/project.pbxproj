@@ -265,6 +265,10 @@
 		75683CF9696E9708BE5F1AD2F7DB227A /* MESEInfoVM.m in Sources */ = {isa = PBXBuildFile; fileRef = AA822FB3583BA5DD808160B9A2DE0D66 /* MESEInfoVM.m */; };
 		75ED489A91A451CD6F1C63062DC41DFF /* MEIndexSearchMaskScene.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C00DA13241B4744B0DF0AA5DC2E7F5 /* MEIndexSearchMaskScene.m */; };
 		7600BF8A69A5FE7BEDCE1B85C588EC70 /* UITextField+MaxLength.m in Sources */ = {isa = PBXBuildFile; fileRef = 04412DCBB4B94DE68754729DACCBC1B6 /* UITextField+MaxLength.m */; };
+		7669CF9620E1DFCE00FC6B95 /* MENurseryClassVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7669CF9520E1DFCE00FC6B95 /* MENurseryClassVM.m */; };
+		7669CF9920E20B2B00FC6B95 /* MEAddChildVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7669CF9820E20B2B00FC6B95 /* MEAddChildVM.m */; };
+		7669CF9C20E23BAF00FC6B95 /* MEBabyFunDelVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7669CF9B20E23BAF00FC6B95 /* MEBabyFunDelVM.m */; };
+		7669CF9D20E23BAF00FC6B95 /* MEBabyFunDelVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 7669CF9B20E23BAF00FC6B95 /* MEBabyFunDelVM.m */; };
 		76A99F6229615DAF5C22025CFA29F6FD /* ValueEnv.m in Sources */ = {isa = PBXBuildFile; fileRef = 683E8395D0E413F0AC0450E7FBCCE91E /* ValueEnv.m */; };
 		76C153B420E0C059002D7F78 /* METextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153B020E0C055002D7F78 /* METextFieldCell.m */; };
 		76C153B520E0C05F002D7F78 /* MEInputChildInfoContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C153AC20E0B8B5002D7F78 /* MEInputChildInfoContent.m */; };
@@ -867,6 +871,12 @@
 		7567079F3C40EB49854A2E000C3AD6FA /* MEBabyInfoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyInfoContent.h; sourceTree = "<group>"; };
 		75730C38FD1673193F8360462CC81DAE /* MESearchPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MESearchPanel.m; sourceTree = "<group>"; };
 		761FE4759C6C8DBB33932B4791198F97 /* ValueBack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ValueBack.m; sourceTree = "<group>"; };
+		7669CF9420E1DFCE00FC6B95 /* MENurseryClassVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MENurseryClassVM.h; sourceTree = "<group>"; };
+		7669CF9520E1DFCE00FC6B95 /* MENurseryClassVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MENurseryClassVM.m; sourceTree = "<group>"; };
+		7669CF9720E20B2B00FC6B95 /* MEAddChildVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEAddChildVM.h; sourceTree = "<group>"; };
+		7669CF9820E20B2B00FC6B95 /* MEAddChildVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEAddChildVM.m; sourceTree = "<group>"; };
+		7669CF9A20E23BAF00FC6B95 /* MEBabyFunDelVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEBabyFunDelVM.h; sourceTree = "<group>"; };
+		7669CF9B20E23BAF00FC6B95 /* MEBabyFunDelVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEBabyFunDelVM.m; sourceTree = "<group>"; };
 		76C153AB20E0B8B5002D7F78 /* MEInputChildInfoContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEInputChildInfoContent.h; sourceTree = "<group>"; };
 		76C153AC20E0B8B5002D7F78 /* MEInputChildInfoContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEInputChildInfoContent.m; sourceTree = "<group>"; };
 		76C153AF20E0C055002D7F78 /* METextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = METextFieldCell.h; sourceTree = "<group>"; };
@@ -2027,6 +2037,12 @@
 				DECD3B3CE067BE56D97D62A72CE4F766 /* MEVerifyCodeVM.m */,
 				76C153D720E0FB83002D7F78 /* MENurseryVM.h */,
 				76C153D820E0FB83002D7F78 /* MENurseryVM.m */,
+				7669CF9420E1DFCE00FC6B95 /* MENurseryClassVM.h */,
+				7669CF9520E1DFCE00FC6B95 /* MENurseryClassVM.m */,
+				7669CF9720E20B2B00FC6B95 /* MEAddChildVM.h */,
+				7669CF9820E20B2B00FC6B95 /* MEAddChildVM.m */,
+				7669CF9A20E23BAF00FC6B95 /* MEBabyFunDelVM.h */,
+				7669CF9B20E23BAF00FC6B95 /* MEBabyFunDelVM.m */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -3235,6 +3251,7 @@
 				3489F00726CC1DDA9EB29D9333EED94B /* MESEInfoVM.m in Sources */,
 				08CB6B9ECBE3E0992D415627BA93613E /* MESearchBar.m in Sources */,
 				D54EBCE228E7B14E2698CCE6D2E4D169 /* MESearchPanel.m in Sources */,
+				7669CF9C20E23BAF00FC6B95 /* MEBabyFunDelVM.m in Sources */,
 				6CCACAB606D19DF03360F6CBF9A096E7 /* MESearchProfile.m in Sources */,
 				808E092654D03C2D569678D1A82C32C0 /* MESelectFolderProfile.m in Sources */,
 				47D4F905DCFE4CF003A8506554B70BC9 /* MESelectPhotoCell.m in Sources */,
@@ -3348,6 +3365,7 @@
 				1E4DC62B09E0964617439498B9D29238 /* AppDelegate.m in Sources */,
 				326617D960C614BE807838E1899C830B /* CDVDevice.m in Sources */,
 				52F01128648867AEBD0600601C41746C /* CDVSplashScreen.m in Sources */,
+				7669CF9920E20B2B00FC6B95 /* MEAddChildVM.m in Sources */,
 				F028EAE7CA990A8397CC4E2DDB9EF77B /* CDVStatusBar.m in Sources */,
 				5F46E40C0EBEC34F58A1C648C3189EDD /* CDVViewController+SplashScreen.m in Sources */,
 				8486DC09BD44CDD1289B312283EB33DF /* GardenHeader.m in Sources */,
@@ -3357,6 +3375,7 @@
 				6BEECDC714219FF70AFE51D32622E269 /* MEAboutMeProfile.m in Sources */,
 				3E4AF1B9BCA8F21704BA4DC3BC52BB4D /* MEAccountSafeProfile.m in Sources */,
 				80E63C5A57E6DCEF81A1701E3BE51643 /* MEActivity.m in Sources */,
+				7669CF9620E1DFCE00FC6B95 /* MENurseryClassVM.m in Sources */,
 				3F24BA82FAE750F4483C1CFCAFE75393 /* MEAlbumDeleteVM.m in Sources */,
 				168B32A4D13F0553FA1B97ADE6383BFA /* MEArchivesView.m in Sources */,
 				B7C069F310BBA876CA578835B9383273 /* MEBabyAlbumListVM.m in Sources */,
@@ -3566,6 +3585,7 @@
 				29B91506F402725333C0EA557C55CB69 /* Meuser.pbobjc.m in Sources */,
 				E41125BC10760D1BEBB797D0F89E4678 /* MeuserData.pbobjc.m in Sources */,
 				6D93AEDD0216E133F36A1DE7DA891932 /* Mevideo.pbobjc.m in Sources */,
+				7669CF9D20E23BAF00FC6B95 /* MEBabyFunDelVM.m in Sources */,
 				0A675F280C487A1CEA27AFB09CF08E69 /* NSData+NSHash.m in Sources */,
 				76C153DE20E105A0002D7F78 /* MEAddChildProfile.m in Sources */,
 				91A3A91DA6F9A1793F2B3C6032A1C485 /* NSString+Md5String.m in Sources */,

@@ -7,7 +7,13 @@
 //
 
 #import "MEBaseScene.h"
+@class StudentPb;
 
 @interface MEInputChildInfoContent : MEBaseScene
+
+@property (nonatomic, strong) StudentPb *inputStu;  //当前正在录入信息的孩子
+
+@property (nonatomic, copy) void(^didAddChildSuccessCallback) (void);
+@property (nonatomic, copy) void(^didSkipAddChildCallback) (void);
 
 @end

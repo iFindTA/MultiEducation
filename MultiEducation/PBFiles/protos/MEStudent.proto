@@ -12,6 +12,7 @@ message MEStudent {
 	int64 gradeId = 8;//年级ID
 	int64 semester = 9;//学期
 	int32 month = 10;//月份
+	bool msgNotice=11;//通知查看
 }
 
 message MEStudentList {

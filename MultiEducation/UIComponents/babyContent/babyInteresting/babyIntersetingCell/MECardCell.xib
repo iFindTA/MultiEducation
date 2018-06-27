@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -43,7 +43,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lGH-Xd-imh" customClass="MEBaseLabel">
-                        <rect key="frame" x="17" y="436" width="286" height="14"/>
+                        <rect key="frame" x="17" y="436" width="143" height="14"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="aag-rm-GnE"/>
@@ -102,6 +102,16 @@
                             <constraint firstAttribute="height" constant="50" id="PpX-Pg-deZ"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mhj-PF-l7C">
+                        <rect key="frame" x="260" y="429.5" width="43" height="27"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="删除">
+                            <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="deleteBabyInteresting:" destination="gTV-IL-0wX" eventType="touchUpInside" id="EIL-Pv-pHP"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -113,15 +123,18 @@
                 <constraint firstItem="ENh-ki-J64" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="Aem-d5-TJ0"/>
                 <constraint firstItem="ok3-oZ-0rx" firstAttribute="centerY" secondItem="ENh-ki-J64" secondAttribute="centerY" id="FVY-tK-hhZ"/>
                 <constraint firstItem="lGH-Xd-imh" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="17" id="J4O-c8-4mt"/>
-                <constraint firstAttribute="trailing" secondItem="lGH-Xd-imh" secondAttribute="trailing" constant="17" id="LnJ-TT-FGi"/>
+                <constraint firstAttribute="trailing" secondItem="lGH-Xd-imh" secondAttribute="trailing" constant="160" id="LnJ-TT-FGi"/>
                 <constraint firstItem="0Ad-BL-DNT" firstAttribute="bottom" secondItem="ENh-ki-J64" secondAttribute="bottom" constant="-6" id="OW4-Rc-CHD"/>
                 <constraint firstAttribute="trailing" secondItem="ENh-ki-J64" secondAttribute="trailing" constant="10" id="Oe6-AC-XVI"/>
+                <constraint firstItem="Mhj-PF-l7C" firstAttribute="centerY" secondItem="lGH-Xd-imh" secondAttribute="centerY" id="T2K-ha-TGB"/>
                 <constraint firstItem="Kpo-jU-aln" firstAttribute="top" secondItem="ENh-ki-J64" secondAttribute="bottom" constant="8" id="Tr2-Rh-4pe"/>
                 <constraint firstItem="lGH-Xd-imh" firstAttribute="top" secondItem="Zay-o2-qJg" secondAttribute="bottom" constant="10" id="VcM-0G-pPV"/>
+                <constraint firstAttribute="trailing" secondItem="Mhj-PF-l7C" secondAttribute="trailing" constant="17" id="Y5P-OD-Kkr"/>
                 <constraint firstItem="Zay-o2-qJg" firstAttribute="top" secondItem="Kpo-jU-aln" secondAttribute="bottom" constant="10" id="Yqb-Ki-45Q"/>
                 <constraint firstItem="ok3-oZ-0rx" firstAttribute="centerX" secondItem="ENh-ki-J64" secondAttribute="centerX" id="cr9-61-fb2"/>
                 <constraint firstItem="0Ad-BL-DNT" firstAttribute="trailing" secondItem="ENh-ki-J64" secondAttribute="trailing" constant="-6" id="kdl-5Y-1Bx"/>
                 <constraint firstAttribute="trailing" secondItem="Kpo-jU-aln" secondAttribute="trailing" constant="17" id="oXF-RT-ShU"/>
+                <constraint firstItem="Mhj-PF-l7C" firstAttribute="leading" secondItem="lGH-Xd-imh" secondAttribute="trailing" constant="100" id="w0R-yL-dIu"/>
                 <constraint firstItem="Kpo-jU-aln" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="17" id="xHU-El-5Eu"/>
             </constraints>
             <userDefinedRuntimeAttributes>
@@ -131,6 +144,7 @@
             <connections>
                 <outlet property="countLab" destination="0Ad-BL-DNT" id="Usl-Lk-01w"/>
                 <outlet property="coverImage" destination="ENh-ki-J64" id="ARm-Rb-24l"/>
+                <outlet property="delBtn" destination="Mhj-PF-l7C" id="ryS-bM-woG"/>
                 <outlet property="markLab" destination="lGH-Xd-imh" id="LvS-d0-SFZ"/>
                 <outlet property="playIcon" destination="ok3-oZ-0rx" id="XMR-A2-OnD"/>
                 <outlet property="subtitleLab" destination="Zay-o2-qJg" id="W8Y-Hz-pP0"/>

@@ -19,7 +19,17 @@
     NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
     
     [self.userHeadIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
-    
+#if INTE
+    if (self.currentUser.userType == MEPBUserRole_Parent) {
+        self.settingBtn.hidden = NO;
+        if (self.currentUser.parentsPb.studentPbArray.count == 0) {
+            self.userNameLab.text = self.currentUser.name;
+            self.ageLab.text = @"--";
+            self.babyHeightLab.text = @"--";
+            self.babyWeightLab.text = @"--";
+        }
+    }
+#else
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         if (self.currentUser.parentsPb.studentPbArray.count < 2) {
             self.settingBtn.hidden = YES;
@@ -31,6 +41,8 @@
             }
         }
     }
+#endif
+    
     
     if (self.currentUser.userType == MEPBUserRole_Teacher || self.currentUser.userType == MEPBUserRole_Gardener) {
         self.ageLab.hidden = YES;

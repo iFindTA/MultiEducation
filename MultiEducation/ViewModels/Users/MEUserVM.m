@@ -7,6 +7,7 @@
 //
 
 #import "MEUserVM.h"
+#import "AppDelegate.h"
 
 @interface MEUserVM ()
 
@@ -136,6 +137,38 @@ static NSString * userFile = @"signedin.bat";
     NSString *sql = PBFormat(@"name = '%@'", nick);
     NSString *where = PBFormat(@"uid = %lld", uid);
     return [WHCSqlite update:[MEPBUser class] value:sql where:where];
+}
+
++ (BOOL)updateUserStuent:(StudentPb *)stu cls:(MEPBClass *)cls uid:(int64_t)uid {
+    MEPBUser *user = [self fetchLatestSignedInUser];
+    if (user.userType != MEPBUserRole_Parent) {
+        return false;
+    }
+    
+    ParentsPb *parentsPb;
+    if (!user.parentsPb) {
+        parentsPb = [[ParentsPb alloc] init];
+        parentsPb.mobile = user.mobile;
+    } else {
+        parentsPb = user.parentsPb;
+    }
+    
+    if (![parentsPb.studentPbArray containsObject: stu]) {
+        [parentsPb.studentPbArray addObject: stu];
+    }
+    
+    if (![parentsPb.classPbArray containsObject: cls]) {
+        [parentsPb.classPbArray addObject: cls];
+    }
+    
+    user.parentsPb = parentsPb;
+    NSString *where = PBFormat(@"uid = %lld", uid);
+    BOOL result = [WHCSqlite update: user where: where];
+    if (result) {
+        AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [delegate updateCurrentSignedInUser: user];
+    }
+    return result;
 }
 
 #pragma mark --- setter & getter

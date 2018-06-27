@@ -7,7 +7,11 @@
 //
 
 #import "MEBaseProfile.h"
+@class SchoolAddressPb;
+@class MEPBClass;
 
 @interface MENurseryProfile : MEBaseProfile
+
+@property (nonatomic, copy) void (^didSelectSchoolCallback) (SchoolAddressPb *school, MEPBClass *classPb);
 
 @end

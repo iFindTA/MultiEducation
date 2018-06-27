@@ -1,38 +1,39 @@
 //
-//  MENurseryVM.m
+//  MEBabyFunDelVM.m
 //  MultiEducation
 //
-//  Created by cxz on 2018/6/25.
+//  Created by cxz on 2018/6/26.
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
-#import "MENurseryVM.h"
+#import "MEBabyFunDelVM.h"
+#import "MestuFun.pbobjc.h"
 
-@interface MENurseryVM ()
+@interface MEBabyFunDelVM ()
 
-@property (nonatomic, strong) SchoolAddressListPb *schoolPb;
+@property (nonatomic, strong) GuFunPhotoPb *funPb;
 
 @end
 
-@implementation MENurseryVM
+@implementation MEBabyFunDelVM
 
 #pragma mark --- Override
 
 - (NSString *)cmdCode {
-    return @"FSC_SCHOOL_LIST";
+    return @"GU_FUN_PHOTO_DEL";
 }
 
 #pragma mark --- Class Methods for instance
 
-+ (instancetype)vmWithPB:(SchoolAddressListPb *)pb {
++ (instancetype)vmWithPB:(GuFunPhotoPb *)pb {
     NSAssert(pb != nil, @" could not initialized by nil!");
     return [[self alloc] initWithPB:pb];
 }
 
-- (id)initWithPB:(SchoolAddressListPb *)pb {
+- (id)initWithPB:(GuFunPhotoPb *)pb {
     self = [super init];
     if (self) {
-        _schoolPb = pb;
+        _funPb = pb;
     }
     return self;
 }

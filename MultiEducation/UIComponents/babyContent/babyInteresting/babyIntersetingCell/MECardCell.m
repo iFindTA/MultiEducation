@@ -8,6 +8,7 @@
 
 #import "MECardCell.h"
 #import "MestuFun.pbobjc.h"
+#import "MEBabyFunDelVM.h"
 #import "AppDelegate.h"
 
 @interface MECardCell ()
@@ -62,6 +63,41 @@
     } else {
         self.markLab.text = [NSString stringWithFormat: @"家庭趣事  %@", dateStr];
     }
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (self.pb.createdBy != delegate.curUser.uid) {
+        self.delBtn.hidden = true;
+    } else {
+        self.delBtn.hidden = false;
+    }
+}
+
+- (IBAction)deleteBabyInteresting:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle: nil message: @"确定要删除该趣事趣影吗?" preferredStyle: UIAlertControllerStyleActionSheet];
+    weakify(self);
+    UIAlertAction *dadAc = [UIAlertAction actionWithTitle:@"确定" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        strongify(self);
+        [self confrimDelStuFun];
+    }];
+    UIAlertAction *momAc = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler: nil];
+    [alert addAction: dadAc];
+    [alert addAction: momAc];
+    
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate.window.rootViewController presentViewController: alert animated: true completion: nil];
+}
+
+- (void)confrimDelStuFun {
+    MEBabyFunDelVM *vm = [MEBabyFunDelVM vmWithPB: self.pb];
+    weakify(self);
+    [vm postData: self.pb.data hudEnable: true success:^(NSData * _Nullable resObj) {
+        strongify(self);
+        if (self.didDeleteBabyFunSuccessCallback) {
+            self.didDeleteBabyFunSuccessCallback();
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError: error];
+    }];
 }
 
 #pragma mark-添加阴影

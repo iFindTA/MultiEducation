@@ -70,6 +70,7 @@ typedef GPB_ENUM(MEPBClass_FieldNumber) {
   MEPBClass_FieldNumber_MonitorURL = 5,
   MEPBClass_FieldNumber_Year = 6,
   MEPBClass_FieldNumber_Semester = 7,
+  MEPBClass_FieldNumber_SchoolId = 8,
 };
 
 @interface MEPBClass : GPBMessage
@@ -94,6 +95,8 @@ typedef GPB_ENUM(MEPBClass_FieldNumber) {
 
 /** 学期 */
 @property(nonatomic, readwrite) int32_t semester;
+
+@property(nonatomic, readwrite) int64_t schoolId;
 
 @end
 

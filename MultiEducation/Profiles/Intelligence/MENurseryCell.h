@@ -7,10 +7,16 @@
 //
 
 #import "MEBaseCell.h"
+@class SchoolAddressPb;
+@class MEPBClass;
 
 @interface MENurseryCell : MEBaseCell
 
 @property (nonatomic, strong) MEBaseLabel *titleLab;
 @property (nonatomic, strong) MEBaseLabel *subTitleLab;
+
+- (void)setData:(SchoolAddressPb *)school;
+
+- (void)setDataWithClass:(MEPBClass *)classPb;
 
 @end

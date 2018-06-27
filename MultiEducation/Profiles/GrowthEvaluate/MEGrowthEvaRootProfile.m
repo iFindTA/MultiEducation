@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSDictionary *params;
 @property (nonatomic, strong) MEStudentsPanel *studentPanel;
 @property (nonatomic, strong) MEEvaluatePanel *evaluatePanel;
+@property (nonatomic, strong) UINavigationItem *item;
 
 @property (nonatomic, assign) BOOL whetherParent;
 
@@ -64,7 +65,8 @@
     UIBarButtonItem *spacer = [self barSpacer];
     UIBarButtonItem *back = [MEKits defaultGoBackBarButtonItemWithTarget:self color:pbColorMake(ME_THEME_COLOR_TEXT)];
     UIBarButtonItem *forward = [MEKits barWithTitle:@"往期评价" color:UIColorFromRGB(ME_THEME_COLOR_TEXT) target:self action:@selector(displayForwardEvaluate)];
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:@"发展评价"];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: [NSString stringWithFormat: @"%@月发展评价", _params[@"month"]]];
+    _item = item;
     item.leftBarButtonItems = @[spacer, back];
     item.rightBarButtonItems = @[spacer, forward];
     [self.navigationBar pushNavigationItem:item animated:true];
@@ -141,6 +143,11 @@
     panel.callback = ^(int64_t sid, int64_t pre_sid) {
         strongify(self);
         [self userDidExchange2Student:sid preStudent:pre_sid];
+    };
+    panel.exchangeCallback = ^(int64_t sid, int64_t pre_sid, NSString *sName) {
+        strongify(self);
+//        [self userDidExchange2Student:sid preStudent:pre_sid];
+        self.item.title = [NSString stringWithFormat: @"%@月发展评价-%@", _params[@"month"], sName];
     };
     //编辑完成
     panel.editCallback = ^(BOOL done) {

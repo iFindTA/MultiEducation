@@ -25,6 +25,7 @@
 @property (nonatomic, assign) BOOL pagingEnabled;
 
 @property (nonatomic, copy) void(^gotoPhotoBrowserHandler) (GuFunPhotoPb *pb);
+@property (nonatomic, copy) void(^didDeleteBabyFunSuccessCallback) (void);
 
 /**
  手动滚动到某个卡片位置

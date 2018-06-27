@@ -17,8 +17,9 @@
 @property (weak, nonatomic) IBOutlet MEBaseLabel *titleLab;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *subtitleLab;
 @property (weak, nonatomic) IBOutlet MEBaseLabel *markLab;
-
+@property (weak, nonatomic) IBOutlet UIButton *delBtn;
 @property (nonatomic, copy) void(^gotoPhotoBrowserHandler) (GuFunPhotoPb *pb);
+@property (nonatomic, copy) void(^didDeleteBabyFunSuccessCallback) ();
 
 - (void)setData:(GuFunPhotoPb *)pb;
 

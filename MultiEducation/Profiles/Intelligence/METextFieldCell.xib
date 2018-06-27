@@ -18,12 +18,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="53.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zkN-iE-Ysx" customClass="MEBaseLabel">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="53.5"/>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zkN-iE-Ysx" customClass="MEBaseLabel">
+                        <rect key="frame" x="228" y="0.0" width="100" height="53.5"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="7F8-VY-ggO"/>
-                        </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="fontSize_">
                                 <real key="value" value="14"/>
@@ -33,24 +31,14 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEO-41-0De">
-                        <rect key="frame" x="100" y="12" width="275" height="30"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="pHw-Rt-LQw"/>
-                        </constraints>
+                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEO-41-0De">
+                        <rect key="frame" x="328" y="12" width="47" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                 </subviews>
-                <constraints>
-                    <constraint firstItem="hEO-41-0De" firstAttribute="leading" secondItem="zkN-iE-Ysx" secondAttribute="trailing" id="GgC-rI-aK7"/>
-                    <constraint firstItem="zkN-iE-Ysx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="WnT-yb-JT2"/>
-                    <constraint firstAttribute="bottom" secondItem="zkN-iE-Ysx" secondAttribute="bottom" id="ZDo-Zv-Hi3"/>
-                    <constraint firstAttribute="trailing" secondItem="hEO-41-0De" secondAttribute="trailing" id="ga2-Xg-pxo"/>
-                    <constraint firstItem="zkN-iE-Ysx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="mXR-Ur-y2N"/>
-                    <constraint firstItem="hEO-41-0De" firstAttribute="centerY" secondItem="zkN-iE-Ysx" secondAttribute="centerY" id="ucA-bP-MAR"/>
-                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="input" destination="hEO-41-0De" id="9lC-7p-HIN"/>

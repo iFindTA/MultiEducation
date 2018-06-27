@@ -56,6 +56,7 @@ static GPBFileDescriptor *MestudentRoot_FileDescriptor(void) {
 @dynamic gradeId;
 @dynamic semester;
 @dynamic month;
+@dynamic msgNotice;
 
 typedef struct MEStudent__storage_ {
   uint32_t _has_storage_[1];
@@ -167,6 +168,15 @@ typedef struct MEStudent__storage_ {
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeInt32,
       },
+      {
+        .name = "msgNotice",
+        .dataTypeSpecific.className = NULL,
+        .number = MEStudent_FieldNumber_MsgNotice,
+        .hasIndex = 10,
+        .offset = 11,  // Stored in _has_storage_ to save space.
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeBool,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEStudent class]
@@ -178,7 +188,7 @@ typedef struct MEStudent__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\002\002\007\000\010\007\000";
+        "\003\002\007\000\010\007\000\013\t\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

@@ -14,4 +14,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *input;
 
+- (void)updateLayout;
+
 @end

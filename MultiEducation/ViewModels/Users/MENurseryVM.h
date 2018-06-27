@@ -11,6 +11,6 @@
 
 @interface MENurseryVM : MEVM
 
-+ (instancetype)vmWithPB:(SchoolAddressPb *)pb;
++ (instancetype)vmWithPB:(SchoolAddressListPb *)pb;
 
 @end
