@@ -43,11 +43,10 @@
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZL-Tw-ucE" customClass="MEBaseLabel">
-                        <rect key="frame" x="222" y="16.5" width="100" height="20"/>
+                        <rect key="frame" x="143" y="16.5" width="179" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="V0H-tW-MYL"/>
-                            <constraint firstAttribute="width" constant="100" id="niV-QQ-VlF"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="string" keyPath="text" value="subtitle"/>
@@ -65,6 +64,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="FgV-jA-4TW" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="A3Q-hD-2jt"/>
+                    <constraint firstItem="EZL-Tw-ucE" firstAttribute="leading" secondItem="FgV-jA-4TW" secondAttribute="trailing" constant="10" id="EQq-Ll-opS"/>
                     <constraint firstItem="l0n-c8-x7Y" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fBG-KU-um8"/>
                     <constraint firstItem="EZL-Tw-ucE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="g76-0l-cdS"/>
                     <constraint firstAttribute="trailing" secondItem="l0n-c8-x7Y" secondAttribute="trailing" constant="31" id="h6N-Qe-bKO"/>

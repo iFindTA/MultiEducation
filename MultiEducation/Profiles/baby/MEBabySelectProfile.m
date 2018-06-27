@@ -77,7 +77,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
             self.selectBabyCallBack(studentPb);
         }
     } failure:^(NSError * _Nonnull error) {
-
+        [MEKits handleError: error];
     }];
 }
 

@@ -161,9 +161,10 @@ static NSString * const selectCellIdef = @"select_cell_idef";
     weakify(self);
     [vm postData: self.inputStu.data hudEnable: true success:^(NSData * _Nullable resObj) {
         strongify(self);
+        ParentsPb *newParentsPb = [ParentsPb parseFromData: resObj error: nil];
         if (self.didAddChildSuccessCallback) {
             self.addStu = self.inputStu;
-            [MEUserVM updateUserStuent: self.addStu cls: self.addClass uid: self.currentUser.uid];
+            [MEUserVM updateUserStuent: newParentsPb uid: self.currentUser.uid];
             self.didAddChildSuccessCallback();
         }
     } failure:^(NSError * _Nonnull error) {

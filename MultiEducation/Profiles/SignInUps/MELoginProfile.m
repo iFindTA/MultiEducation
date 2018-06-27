@@ -84,6 +84,10 @@
         strongify(self);
         [self splash2MainScene];
     };
+    _inputChildInfoScene.didSkipAddChildCallback = ^{
+        strongify(self);
+        [self splash2MainScene];
+    };
 #endif
     //title
     NSString *info = PBFormat(@"登录%@", [NSBundle pb_displayName]);
@@ -359,18 +363,18 @@
     
 #if DEBUG
     //家长
-    //家长: 13612345671
-    self.inputMobile.text = @"13612345671";
-    self.inputCode.text = @"999999";
+//    //家长: 13612345671
+//    self.inputMobile.text = @"13612345671";
+//    self.inputCode.text = @"999999";
     //老师: 13575747869
     //    self.inputMobile.text = @"13023622337";
     //    self.inputPwd.text = @"123456";
 //    老师: 15211026150
 //        self.inputMobile.text = @"15211026150";
 //        self.inputCode.text = @"999999";
-    //未绑定学校: 17695712675
-//    self.inputMobile.text = @"17695712675";
-//    self.inputCode.text = @"999999";
+//    未绑定学校: 17695712675
+    self.inputMobile.text = @"13333333333";
+    self.inputCode.text = @"999999";
 #endif
 }
 
@@ -501,9 +505,6 @@
 #pragma mark --- 处理多用户登录身份选择
 
 - (void)handleMulticastUserIdentitySwitchEvent:(MEPBUserList*)list {
-#if INTE
-    //FIXME: 多元智能多用户处理暂未实现
-#endif
     if (list.userListArray.count > 1) {
         [self.view endEditing:true];
         //CGRect fromBounds = CGRectZero;
@@ -557,6 +558,18 @@
             [MEKits handleError:err];
         } else {
             MEPBUser *curUser = userList.userListArray.firstObject;
+#if INTE
+            if (curUser.userType == MEPBUserRole_Parent) {
+                for (StudentPb *stu in curUser.parentsPb.studentPbArray) {
+                    if (stu.classId != 0) {
+                        [self handleSingleUserSignIn:curUser];
+                        [self splash2MainScene];
+                        return;
+                    }
+                }
+            }
+            self.inputChildInfoScene.hidden = false;
+#endif
             [self handleSingleUserSignIn:curUser];
         }
     } failure:^(NSError * _Nonnull error) {

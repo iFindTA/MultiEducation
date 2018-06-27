@@ -72,6 +72,7 @@
                 <outlet property="subtitleLab" destination="2Lr-7E-RGO" id="UnU-ka-3Wb"/>
                 <outlet property="titleLab" destination="Dog-kO-EIB" id="m6y-Du-5Yy"/>
             </connections>
+            <point key="canvasLocation" x="-96" y="71"/>
         </tableViewCell>
     </objects>
     <resources>

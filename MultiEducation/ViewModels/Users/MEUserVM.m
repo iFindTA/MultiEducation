@@ -139,26 +139,10 @@ static NSString * userFile = @"signedin.bat";
     return [WHCSqlite update:[MEPBUser class] value:sql where:where];
 }
 
-+ (BOOL)updateUserStuent:(StudentPb *)stu cls:(MEPBClass *)cls uid:(int64_t)uid {
++ (BOOL)updateUserStuent:(ParentsPb *)parentsPb uid:(int64_t)uid {
     MEPBUser *user = [self fetchLatestSignedInUser];
     if (user.userType != MEPBUserRole_Parent) {
         return false;
-    }
-    
-    ParentsPb *parentsPb;
-    if (!user.parentsPb) {
-        parentsPb = [[ParentsPb alloc] init];
-        parentsPb.mobile = user.mobile;
-    } else {
-        parentsPb = user.parentsPb;
-    }
-    
-    if (![parentsPb.studentPbArray containsObject: stu]) {
-        [parentsPb.studentPbArray addObject: stu];
-    }
-    
-    if (![parentsPb.classPbArray containsObject: cls]) {
-        [parentsPb.classPbArray addObject: cls];
     }
     
     user.parentsPb = parentsPb;

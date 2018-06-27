@@ -55,6 +55,16 @@ static NSString * const inputCellIdef = @"input_cell_idef";
         make.top.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR + [MEKits statusBarHeight]);
         make.height.mas_equalTo(tableHeight);
     }];
+    [self.view addSubview: self.confirmBtn];
+    [self.confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view).mas_offset(30.f);
+        make.right.mas_equalTo(self.view).mas_offset(-30.f);
+        make.height.mas_equalTo(ME_HEIGHT_NAVIGATIONBAR);
+        make.top.mas_equalTo(self.table.mas_bottom).mas_offset(30.f);
+    }];
+    [self.confirmBtn layoutIfNeeded];
+    self.confirmBtn.layer.cornerRadius = self.confirmBtn.frame.size.height / 2;
+    self.confirmBtn.layer.masksToBounds = true;
 }
 
 - (void)customNavigation {
@@ -139,12 +149,13 @@ static NSString * const inputCellIdef = @"input_cell_idef";
     weakify(self);
     void (^didSelectSchoollCallback) (SchoolPb *school, MEPBClass *cls) = ^(SchoolPb *school, MEPBClass *cls) {
         strongify(self);
-        MEActionCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:4 inSection:0]];
+        MEPersonalDataCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:1 inSection:1]];
         [cell setSubtitleText: [NSString stringWithFormat: @"%@%@%@", school.name, cls.gradeName, cls.name]];
         self.inputStu.schoolId = school.id_p;
         self.inputStu.classId = cls.id_p;
         self.inputStu.gradeId = cls.gradeId;
         self.addClass = cls;
+        self.addStu = self.inputStu;
     };
     NSDictionary *params = @{ME_DISPATCH_KEY_CALLBACK: didSelectSchoollCallback};
     NSString *urlStr = @"profile://root@MENurseryProfile";
@@ -181,20 +192,43 @@ static NSString * const inputCellIdef = @"input_cell_idef";
         [MEKits makeToast: @"请选择幼儿园"];
         return;
     }
-    
-    MEAddChildVM *vm = [MEAddChildVM vmWithPB: self.inputStu];
     weakify(self);
-    [vm postData: self.inputStu.data hudEnable: true success:^(NSData * _Nullable resObj) {
-        strongify(self);
-        self.addStu = self.inputStu;
-        [MEUserVM updateUserStuent: self.addStu cls: self.addClass uid: self.currentUser.uid];
-        [self.navigationController popViewControllerAnimated: true];
-        if (self.didAddChildSuccessCallback) {
-            self.didAddChildSuccessCallback();
-        }
-    } failure:^(NSError * _Nonnull error) {
-        [MEKits handleError: error];
-    }];
+    if (self.currentUser.schoolId != self.addClass.schoolId) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"提示" message: @"添加宝宝所属学校不同，是否继续添加并重新登录？" preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertAction *continueAc = [UIAlertAction actionWithTitle:@"继续" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            strongify(self);
+            MEAddChildVM *vm = [MEAddChildVM vmWithPB: self.inputStu];
+            weakify(self);
+            [vm postData: self.inputStu.data hudEnable: true success:^(NSData * _Nullable resObj) {
+                strongify(self);
+                [[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES] forKey: ME_USER_DID_INITIATIVE_LOGOUT];
+                [self.appDelegate updateCurrentSignedInUser:nil];
+                [self splash2ChangeDisplayStyle: MEDisplayStyleAuthor];
+            } failure:^(NSError * _Nonnull error) {
+                [MEKits handleError: error];
+            }];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style: UIAlertActionStyleCancel handler: nil];
+        [alertController addAction: continueAc];
+        [alertController addAction: cancel];
+        [self.navigationController presentViewController: alertController animated: true completion: nil];
+    } else {
+        MEAddChildVM *vm = [MEAddChildVM vmWithPB: self.inputStu];
+        [vm postData: self.inputStu.data hudEnable: true success:^(NSData * _Nullable resObj) {
+            strongify(self);
+            NSError *err = [[NSError alloc] init];
+            ParentsPb *newParentsPb = [ParentsPb parseFromData: resObj error: &err];
+            self.addStu = self.inputStu;
+            [MEUserVM updateUserStuent: newParentsPb uid: self.currentUser.uid];
+            [self.navigationController popViewControllerAnimated: true];
+            if (self.didAddChildSuccessCallback) {
+                self.didAddChildSuccessCallback();
+            }
+        } failure:^(NSError * _Nonnull error) {
+            [MEKits handleError: error];
+        }];
+       
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -280,15 +314,23 @@ static NSString * const inputCellIdef = @"input_cell_idef";
 }
 
 - (MEBaseButton *)confirmBtn {
-    if (_confirmBtn) {
+    if (!_confirmBtn) {
         _confirmBtn = [[MEBaseButton alloc] init];
         [_confirmBtn setTitle: @"添加" forState: UIControlStateNormal];
         _confirmBtn.titleLabel.font = UIFontPingFangSC(15);
         [_confirmBtn setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
-        _confirmBtn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_BG_GRAY);
+        _confirmBtn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
         [_confirmBtn addTarget: self action: @selector(sendAddChildMsgToServer) forControlEvents: UIControlEventTouchUpInside];
     }
     return _confirmBtn;
+}
+
+- (StudentPb *)inputStu {
+    if (!_inputStu) {
+        _inputStu = [[StudentPb alloc] init];
+        _inputStu.gender = 1;
+    }
+    return _inputStu;
 }
 
 @end

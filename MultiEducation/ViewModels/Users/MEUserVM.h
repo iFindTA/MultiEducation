@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  when userRole == MEPBUserRole_Parent, update user's ParentPb
  */
-+ (BOOL)updateUserStuent:(StudentPb *)stu cls:(MEPBClass *)cls uid:(int64_t)uid;
++ (BOOL)updateUserStuent:(ParentsPb *)parentsPb uid:(int64_t)uid;
 
 @end
 
