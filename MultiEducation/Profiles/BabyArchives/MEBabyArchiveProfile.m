@@ -188,7 +188,8 @@
     
     //birthday
     int64_t birth = [MEKits DateString2TimeStampWithFormatter: @"yyyy-MM-dd" dateStr: self.babyContent.header.birthView.title];
-    _curArchivesPb.birthday = birth;
+    
+    _curArchivesPb.birthday = birth < 0 ? 0 : birth;
     
     //name
     _curArchivesPb.studentName = self.babyContent.header.nameView.title;
@@ -312,6 +313,7 @@
         [vm postData: [pb data] hudEnable: true success:^(NSData * _Nullable resObj) {
             GuStudentArchivesPb *pb = [GuStudentArchivesPb parseFromData: resObj error: nil];
             _curArchivesPb = pb;
+            NSLog(@"------birthday-----%lld", pb.birthday);
             _originArchivesPb = [GuStudentArchivesPb parseFromData: resObj error: nil];
             _selectedStudentPortrait = pb.studentPortrait;
             [self.babyContent setData: pb];
