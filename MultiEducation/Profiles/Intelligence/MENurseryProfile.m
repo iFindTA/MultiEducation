@@ -56,6 +56,7 @@ static CGFloat const cellHeight = 54.f;
     self.type = SelectingSchool;
     self.navigationBar.hidden = true;
     [self customSubviews];
+    self.page = 1;
 }
 
 - (void)customSubviews {
@@ -125,7 +126,7 @@ static CGFloat const cellHeight = 54.f;
     weakify(self);
     self.table.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         strongify(self);
-        self.page = 0;
+        self.page = 1;
         [self loadNurseryData: self.search.text];
         [self.table.mj_header endRefreshing];
     }];
@@ -143,6 +144,10 @@ static CGFloat const cellHeight = 54.f;
 }
 
 - (void)textFieldDidChange:(id)sender {
+    self.page = 1;
+    if ([self.search.text isEqualToString: @""]) {
+        return;
+    }
     [self loadNurseryData: self.search.text];
 }
 
@@ -150,14 +155,14 @@ static CGFloat const cellHeight = 54.f;
     SchoolAddressListPb *pb = [[SchoolAddressListPb alloc] init];
     pb.keyword = text;
     MENurseryVM *vm = [MENurseryVM vmWithPB: pb];
-    if (self.totalPages != 0 && self.page >= self.totalPages) {
+    if (self.page >= self.totalPages && self.page != 1) {
         return;
     }
     weakify(self);
     [vm postData: [pb data] pageSize: ME_PAGING_SIZE pageIndex: _page hudEnable: true success:^(NSData * _Nullable resObj, int32_t totalPages) {
         strongify(self);
         self.totalPages = totalPages;
-        if (self.page == 0) {
+        if (self.page == 1) {
             [self.schoolArr removeAllObjects];
         }
         NSError *err = [[NSError alloc] init];
@@ -166,6 +171,7 @@ static CGFloat const cellHeight = 54.f;
             [MEKits handleError: err];
             return;
         }
+        
         [self.schoolArr addObjectsFromArray: pb.schoolListArray];
         [self.table reloadData];
     } failure:^(NSError * _Nonnull error) {
@@ -245,15 +251,9 @@ static CGFloat const cellHeight = 54.f;
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (self.type == SelectingSchool) {
-        if ([string isEqualToString: @"\n"]) {
-            return false;
-        }
-        NSString *searchText = [NSString stringWithFormat: @"%@%@", textField.text, string];
-        [self loadNurseryData: searchText];
-        return true;
-    } else {
-        return true;
+        self.page = 1;
     }
+    return true;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

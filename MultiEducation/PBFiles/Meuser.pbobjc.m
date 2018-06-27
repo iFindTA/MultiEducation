@@ -1137,13 +1137,11 @@ typedef struct StudentPb__storage_ {
 
 @dynamic diskCap;
 @dynamic uploadLimit;
-@dynamic hasClassPb, classPb;
 
 typedef struct SystemConfigPb__storage_ {
   uint32_t _has_storage_[1];
   NSString *diskCap;
   NSString *uploadLimit;
-  MEPBClass *classPb;
 } SystemConfigPb__storage_;
 
 // This method is threadsafe because it is initially called
@@ -1170,15 +1168,6 @@ typedef struct SystemConfigPb__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeString,
       },
-      {
-        .name = "classPb",
-        .dataTypeSpecific.className = GPBStringifySymbol(MEPBClass),
-        .number = SystemConfigPb_FieldNumber_ClassPb,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(SystemConfigPb__storage_, classPb),
-        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
-        .dataType = GPBDataTypeMessage,
-      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[SystemConfigPb class]
@@ -1190,7 +1179,7 @@ typedef struct SystemConfigPb__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\001\007\000\002\013\000\003\007\000";
+        "\002\001\007\000\002\013\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

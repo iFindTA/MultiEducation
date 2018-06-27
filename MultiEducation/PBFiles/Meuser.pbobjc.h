@@ -460,7 +460,6 @@ typedef GPB_ENUM(StudentPb_FieldNumber) {
 typedef GPB_ENUM(SystemConfigPb_FieldNumber) {
   SystemConfigPb_FieldNumber_DiskCap = 1,
   SystemConfigPb_FieldNumber_UploadLimit = 2,
-  SystemConfigPb_FieldNumber_ClassPb = 3,
 };
 
 @interface SystemConfigPb : GPBMessage
@@ -470,11 +469,6 @@ typedef GPB_ENUM(SystemConfigPb_FieldNumber) {
 
 /** 上传限制 */
 @property(nonatomic, readwrite, copy, null_resettable) NSString *uploadLimit;
-
-/** 班级 */
-@property(nonatomic, readwrite, strong, null_resettable) MEPBClass *classPb;
-/** Test to see if @c classPb has been set. */
-@property(nonatomic, readwrite) BOOL hasClassPb;
 
 @end
 

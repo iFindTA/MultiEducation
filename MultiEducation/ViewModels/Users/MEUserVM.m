@@ -146,8 +146,8 @@ static NSString * userFile = @"signedin.bat";
     }
     
     user.parentsPb = parentsPb;
-    NSString *where = PBFormat(@"uid = %lld", uid);
-    BOOL result = [WHCSqlite update: user where: where];
+    user.signinstamp = [MEKits currentTimeInterval];
+    BOOL result = [self saveUser: user];
     if (result) {
         AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [delegate updateCurrentSignedInUser: user];

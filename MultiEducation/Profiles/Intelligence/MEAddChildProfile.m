@@ -69,10 +69,10 @@ static NSString * const inputCellIdef = @"input_cell_idef";
 
 - (void)customNavigation {
     NSString *title = @"添加孩子";
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle: title];
     UIBarButtonItem *spacer = [self barSpacer];
-    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget: self];
-    self.navigationItem.leftBarButtonItems = @[spacer, backItem];
+    UIBarButtonItem *backItem = [MEKits defaultGoBackBarButtonItemWithTarget:self];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
+    item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];
 }
 
@@ -193,7 +193,7 @@ static NSString * const inputCellIdef = @"input_cell_idef";
         return;
     }
     weakify(self);
-    if (self.currentUser.schoolId != self.addClass.schoolId) {
+    if (self.currentUser.schoolId != 0 && (self.currentUser.schoolId != self.addClass.schoolId)) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"提示" message: @"添加宝宝所属学校不同，是否继续添加并重新登录？" preferredStyle: UIAlertControllerStyleAlert];
         UIAlertAction *continueAc = [UIAlertAction actionWithTitle:@"继续" style: UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             strongify(self);
