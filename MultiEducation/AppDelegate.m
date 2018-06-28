@@ -48,7 +48,7 @@
     NSLog(@"sandbox path for debug:%@", sandboxPath);
 #endif
     //configure for base host
-    [PBService configBaseURL:ME_APP_BASE_HOST];
+    [PBService configBaseURL:[PBMacros apiURI]];
     //for input
     [IQKeyboardManager sharedManager].enable = true;
     //create user
@@ -332,7 +332,7 @@
         }
     };
     //for umeng
-    UMConfigInstance.appKey = ME_UMENG_APPKEY;
+    UMConfigInstance.appKey = [PBMacros umengAppKey];
     [MobClick startWithConfigure:UMConfigInstance];
     //for Cordova
     [MEKits configureCordovaEnv];

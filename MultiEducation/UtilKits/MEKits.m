@@ -108,7 +108,7 @@
 }
 
 + (NSString *)shareResourceUri:(ino64_t)resId type:(int32_t)type {
-    return PBFormat(@"%@/%d/%lld", ME_WEB_SERVER_HOST, type, resId);
+    return PBFormat(@"%@/%d/%lld", [PBMacros webHost], type, resId);
 }
 
 + (BOOL)isNineKeyBoard:(NSString*)string {
@@ -233,8 +233,8 @@
  */
 + (void)configureCordovaEnv {
     PBMAIN(^{
-        [ValueEnv setKey:@"env" value:ME_APP_ENV];
-        [ValueEnv setKey:@"webServer" value:ME_APP_BASE_HOST];
+        [ValueEnv setKey:@"env" value:[PBMacros env]];
+        [ValueEnv setKey:@"webServer" value:[PBMacros apiURI]];
         NSString *sessionToken = self.app.curUser.sessionToken;
         [ValueEnv setKey:@"sessionToken" value:sessionToken];
         NSLog(@"configure Cordova Env done.");

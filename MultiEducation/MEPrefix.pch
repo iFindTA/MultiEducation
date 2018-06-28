@@ -23,6 +23,7 @@
 #define MAS_SHORTHAND
 #define MAS_SHORTHAND_GLOBALS
 #import "MEMacros.h"
+#import "PBMacros.h"
 #import "SBNetState.h"
 #import "MEDispatcher.h"
 #import <PBKits/PBKits.h>

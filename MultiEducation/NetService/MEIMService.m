@@ -66,7 +66,7 @@ static MEIMService *instance = nil;
     //[[RCIM sharedRCIM] clearUserInfoCache];
     [[RCIM sharedRCIM] clearGroupInfoCache];
     [[RCIM sharedRCIM] setCurrentUserInfo:nil];
-    [[RCIM sharedRCIM] initWithAppKey:ME_RONGIM_APPKEY];
+    [[RCIM sharedRCIM] initWithAppKey:[PBMacros rongIMAppKey]];
     [[RCIM sharedRCIM] setEnableMessageMentioned:true];
     [[RCIM sharedRCIM] setEnableMessageRecall:true];
     [[RCIM sharedRCIM] setEnableMessageAttachUserInfo:true];
