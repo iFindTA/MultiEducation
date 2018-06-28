@@ -1368,6 +1368,40 @@
 			path = webBrowser;
 			sourceTree = "<group>";
 		};
+		1C0A178BB8A2FC42E1DBCD07BEC4425F /* Publics */ = {
+			isa = PBXGroup;
+			children = (
+				E7C2B5A8673B682B0F4EC9462082B6C2 /* Education */,
+				BC3815A5BE55501EEAD601950F6559F8 /* Intelligent */,
+				A1A175283F317F7A14F54F57A1BA4A68 /* PBMacros.h */,
+			);
+			path = Publics;
+			sourceTree = "<group>";
+		};
+		1E53533B4C701CE3BCBB9FFCA88DC392 /* Intelligence */ = {
+			isa = PBXGroup;
+			children = (
+				9C3AE399697D92081F5A678CA66E5B1C /* MEActionCell.h */,
+				01C87EE275111E7284057B7914D6F795 /* MEActionCell.m */,
+				6650C736DB11AE9EB1AC4D566AE3D7A1 /* MEActionCell.xib */,
+				45E5850D53ED31714D690327C1348901 /* MEAddChildProfile.h */,
+				BD9D705AA197ACCC673C9CBF94469543 /* MEAddChildProfile.m */,
+				92C16BCA1F57BEF0561C171A8F5FC179 /* MEInputChildInfoContent.h */,
+				834971A0FD9B20D731446DE57A0EA2D4 /* MEInputChildInfoContent.m */,
+				7FA7571F10380FE8789F0DB858D26E4E /* MENurseryCell.h */,
+				E99165FCD237489048B7D4B188F67375 /* MENurseryCell.m */,
+				62B88B4EC1FEF5A1610A7996918B070F /* MENurseryProfile.h */,
+				BEB757D77DB078CB58EB857F58073F4E /* MENurseryProfile.m */,
+				CBE31D55EEC6E5498DBC23BF500DD08C /* MESingleSelectCell.h */,
+				F0AA2A2673A9506FAF49CCA1AC92598F /* MESingleSelectCell.m */,
+				F0BDE50788CCF379FD643A11E0B00DC5 /* MESingleSelectCell.xib */,
+				A4F2CB387BE929D4632496D4DE110CE6 /* METextFieldCell.h */,
+				056BF1AC125B2A83FD15A6F4038C6ADF /* METextFieldCell.m */,
+				A74CAA1F471CC2121CA5D08D9E5C9350 /* METextFieldCell.xib */,
+			);
+			path = Intelligence;
+			sourceTree = "<group>";
+		};
 		1FEB9DA63DEEF5C45237E96FC033BF87 /* indexSearchMask */ = {
 			isa = PBXGroup;
 			children = (
@@ -1721,32 +1755,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		1C0A178BB8A2FC42E1DBCD07BEC4425F /* Publics */ = {
-			isa = PBXGroup;
-			children = (
-				E7C2B5A8673B682B0F4EC9462082B6C2 /* Education */,
-				BC3815A5BE55501EEAD601950F6559F8 /* Intelligent */,
-				A1A175283F317F7A14F54F57A1BA4A68 /* PBMacros.h */,
-			);
-			path = Publics;
-			sourceTree = "<group>";
-		};
-		E7C2B5A8673B682B0F4EC9462082B6C2 /* Education */ = {
-			isa = PBXGroup;
-			children = (
-				7A366F6F24E955BD25D384FA1C057B7C /* PBMacros.m */,
-			);
-			path = Education;
-			sourceTree = "<group>";
-		};
-		BC3815A5BE55501EEAD601950F6559F8 /* Intelligent */ = {
-			isa = PBXGroup;
-			children = (
-				7FEBB654F47405B1792E3BC41ED1A051 /* PBMacros.m */,
-			);
-			path = Intelligent;
-			sourceTree = "<group>";
-		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1819,30 +1827,6 @@
 				37C5362DA42A191FF5509710C751D6D7 /* MEVM.m */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		1E53533B4C701CE3BCBB9FFCA88DC392 /* Intelligence */ = {
-			isa = PBXGroup;
-			children = (
-				9C3AE399697D92081F5A678CA66E5B1C /* MEActionCell.h */,
-				01C87EE275111E7284057B7914D6F795 /* MEActionCell.m */,
-				6650C736DB11AE9EB1AC4D566AE3D7A1 /* MEActionCell.xib */,
-				45E5850D53ED31714D690327C1348901 /* MEAddChildProfile.h */,
-				BD9D705AA197ACCC673C9CBF94469543 /* MEAddChildProfile.m */,
-				92C16BCA1F57BEF0561C171A8F5FC179 /* MEInputChildInfoContent.h */,
-				834971A0FD9B20D731446DE57A0EA2D4 /* MEInputChildInfoContent.m */,
-				7FA7571F10380FE8789F0DB858D26E4E /* MENurseryCell.h */,
-				E99165FCD237489048B7D4B188F67375 /* MENurseryCell.m */,
-				62B88B4EC1FEF5A1610A7996918B070F /* MENurseryProfile.h */,
-				BEB757D77DB078CB58EB857F58073F4E /* MENurseryProfile.m */,
-				CBE31D55EEC6E5498DBC23BF500DD08C /* MESingleSelectCell.h */,
-				F0AA2A2673A9506FAF49CCA1AC92598F /* MESingleSelectCell.m */,
-				F0BDE50788CCF379FD643A11E0B00DC5 /* MESingleSelectCell.xib */,
-				A4F2CB387BE929D4632496D4DE110CE6 /* METextFieldCell.h */,
-				056BF1AC125B2A83FD15A6F4038C6ADF /* METextFieldCell.m */,
-				A74CAA1F471CC2121CA5D08D9E5C9350 /* METextFieldCell.xib */,
-			);
-			path = Intelligence;
 			sourceTree = "<group>";
 		};
 		77BC15F8E686F754390D69C2852A438F /* MultiEducation */ = {
@@ -2362,6 +2346,14 @@
 			path = "value-plugin-more";
 			sourceTree = "<group>";
 		};
+		BC3815A5BE55501EEAD601950F6559F8 /* Intelligent */ = {
+			isa = PBXGroup;
+			children = (
+				7FEBB654F47405B1792E3BC41ED1A051 /* PBMacros.m */,
+			);
+			path = Intelligent;
+			sourceTree = "<group>";
+		};
 		C0C27DD797922B383F5C4307B6CBEBCE /* signin */ = {
 			isa = PBXGroup;
 			children = (
@@ -2572,6 +2564,14 @@
 				AD4BABE19BFA80223DFB93B3BA30E46B /* MELiveHeartBeatVM.m */,
 			);
 			path = live;
+			sourceTree = "<group>";
+		};
+		E7C2B5A8673B682B0F4EC9462082B6C2 /* Education */ = {
+			isa = PBXGroup;
+			children = (
+				7A366F6F24E955BD25D384FA1C057B7C /* PBMacros.m */,
+			);
+			path = Education;
 			sourceTree = "<group>";
 		};
 		E7C6C2045265D39A7398FAA9637E0AA4 /* Vendors */ = {
@@ -2906,42 +2906,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B5115CE4F7E1F85940658A3C1A661B9A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MultiIntelligent-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E149D66A54DC61455F1AB4932572E645 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MultiEducation-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		690E33A87F4612E97AB4138D5AE227B9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3026,6 +2990,42 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MultiIntelligent/Pods-MultiIntelligent-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B5115CE4F7E1F85940658A3C1A661B9A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MultiIntelligent-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E149D66A54DC61455F1AB4932572E645 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MultiEducation-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F83ED8306320A6CE3F8C4D4835AEF304 /* [CP] Copy Pods Resources */ = {
