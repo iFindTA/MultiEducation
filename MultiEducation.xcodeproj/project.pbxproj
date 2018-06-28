@@ -3954,7 +3954,16 @@
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "INTE=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"INTE=1",
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"SQLITE_HAS_CODEC=1",
+					"EDU=1",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
