@@ -396,8 +396,8 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     self.table.tableHeaderView = subDescPanel;
     
     //table data
-    NSArray<MEPBRes*>*relevants = self.currentRes.relevantListArray.copy;
-    NSLog(@"此视频相关资源个数:%zd", relevants.count);
+//    NSArray<MEPBRes*>*relevants = self.currentRes.relevantListArray.copy;
+//    NSLog(@"此视频相关资源个数:%zd", relevants.count);
     [self.table reloadData];
     
     //prepare query for network type
@@ -411,7 +411,7 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     [self.playerControl.audioMask sd_setImageWithURL:[NSURL URLWithString:placeholderString]];
     [self.playerControl updatePlayControlMask4ResourceType:self.currentRes.type];
     NSString *videoUrlString = [MEKits mediaFullPath:self.currentRes.filePath];
-    //videoUrlString = @"http://other.web.rh01.sycdn.kuwo.cn/resource/n3/21/19/3413654131.mp3";
+//    videoUrlString = @"http://weblive.hebtv.com/live/hbws_bq/index.m3u8";
     ZFPlayerModel *model = [[ZFPlayerModel alloc] init];
     model.fatherView = self.playerScene;
     model.placeholderImageURLString = placeholderString;
