@@ -119,7 +119,7 @@ static NSString * const selectCellIdef = @"select_cell_idef";
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.confirmBtn).mas_offset(20.f);
     }];
-}
+} 
 
 - (void)userDidTouchAddChild {
     METextFieldCell *cell = [self.table cellForRowAtIndexPath: [NSIndexPath indexPathForRow:0 inSection:0]];

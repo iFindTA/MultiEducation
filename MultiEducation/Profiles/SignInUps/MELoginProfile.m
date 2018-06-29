@@ -79,7 +79,7 @@
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2.5);
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
         make.height.greaterThanOrEqualTo(@0);
-    }];
+    }]; 
     _inputChildInfoScene.didAddChildSuccessCallback = ^{
         strongify(self);
         [self splash2MainScene];
