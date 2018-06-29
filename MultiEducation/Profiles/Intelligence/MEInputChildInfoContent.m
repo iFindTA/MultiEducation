@@ -26,9 +26,12 @@ static NSString * const selectCellIdef = @"select_cell_idef";
 
 @interface MEInputChildInfoContent() <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) MEBaseLabel *title;
+@property (nonatomic, strong) MEBaseButton *codeBtn;
 @property (nonatomic, strong) MEBaseButton *skipBtn;
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, strong) NSArray *titles;
+@property (nonatomic, strong) MEBaseButton *confirmBtn;
 
 @property (nonatomic, strong) StudentPb *addStu;
 @property (nonatomic, strong) MEPBClass *addClass;
@@ -46,40 +49,34 @@ static NSString * const selectCellIdef = @"select_cell_idef";
 }
 
 - (void)customSubviews {
-    //bg
-    MEBaseScene *signBgScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
-    signBgScene.layer.cornerRadius = ME_LAYOUT_MARGIN*2.5;
-    signBgScene.layer.masksToBounds = true;
-    [self addSubview:signBgScene];
-    [signBgScene makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self);
-    }];
     //title
     NSString *info = @"添加孩子";
     UIFont *font = UIFontPingFangSCBold(METHEME_FONT_LARGETITLE+ME_LAYOUT_OFFSET);
     UIColor *fontColor = UIColorFromRGB(ME_THEME_COLOR_TEXT);
-    MEBaseLabel *title = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
-    title.font = font;
-    title.textColor = fontColor;
-    title.text = info;
-    [signBgScene addSubview:title];
-    [title makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(signBgScene).offset(ME_LAYOUT_BOUNDARY+ME_LAYOUT_OFFSET);
-        make.left.equalTo(signBgScene).offset(ME_LAYOUT_BOUNDARY*1.5);
+    self.title = [[MEBaseLabel alloc] initWithFrame:CGRectZero];
+    self.title.font = font;
+    self.title.textColor = fontColor;
+    self.title.text = info;
+    [self addSubview:self.title];
+    [self.title makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(ME_LAYOUT_BOUNDARY+ME_LAYOUT_OFFSET);
+        make.right.equalTo(self).offset(ME_LAYOUT_BOUNDARY*1.5);
+        make.left.equalTo(self).offset(ME_LAYOUT_BOUNDARY*1.5);
         make.height.equalTo(28);
     }];
     //code sign-in
     font = UIFontPingFangSCMedium(METHEME_FONT_SUBTITLE);
-    MEBaseButton *codeBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
-    codeBtn.titleLabel.font = font;
-    [codeBtn setTitle:@"跳过" forState:UIControlStateNormal];
-    [codeBtn setTitleColor:fontColor forState:UIControlStateNormal];
-    [codeBtn addTarget:self action:@selector(userDidSkipAddChild) forControlEvents:UIControlEventTouchUpInside];
-    [signBgScene addSubview:codeBtn];self.skipBtn = codeBtn;
-    [codeBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(title.mas_centerY);
-        make.right.equalTo(signBgScene).offset(-ME_LAYOUT_BOUNDARY*1.5);
+    self.codeBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    self.codeBtn.titleLabel.font = font;
+    [self.codeBtn setTitle:@"跳过" forState:UIControlStateNormal];
+    [self.codeBtn setTitleColor:fontColor forState:UIControlStateNormal];
+    [self.codeBtn addTarget:self action:@selector(userDidSkipAddChild) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.codeBtn];self.skipBtn = self.codeBtn;
+    [self.codeBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.title.mas_centerY);
+        make.right.equalTo(self).offset(-ME_LAYOUT_BOUNDARY*1.5);
         make.height.equalTo(ME_LAYOUT_BOUNDARY);
+        make.width.equalTo(30.f);
     }];
     
     _table = [[UITableView alloc] initWithFrame: CGRectZero style: UITableViewStylePlain];
@@ -96,35 +93,32 @@ static NSString * const selectCellIdef = @"select_cell_idef";
     [self addSubview: self.table];
     
     [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(title);
-        make.right.mas_equalTo(codeBtn);
-        make.top.mas_equalTo(title.mas_bottom).mas_offset(ME_LAYOUT_MARGIN*2.5);
+        make.left.mas_equalTo(self.title);
+        make.right.mas_equalTo(self.codeBtn);
+        make.top.mas_equalTo(self.title.mas_bottom).mas_offset(ME_LAYOUT_MARGIN*2.5);
         make.height.mas_equalTo(tableHeight);
     }];
     
     // sign in
     font = UIFontPingFangSCBold(METHEME_FONT_TITLE);
-    MEBaseButton *btn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
-    btn.titleLabel.font = font;
-    btn.layer.cornerRadius = ME_HEIGHT_NAVIGATIONBAR * 0.5;
-    btn.layer.masksToBounds = true;
-    btn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
-    [btn setTitle:@"确定" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(userDidTouchAddChild) forControlEvents:UIControlEventTouchUpInside];
-    [signBgScene addSubview:btn];
-    [btn makeConstraints:^(MASConstraintMaker *make) {
+    self.confirmBtn = [MEBaseButton buttonWithType:UIButtonTypeCustom];
+    self.confirmBtn.titleLabel.font = font;
+    self.confirmBtn.layer.cornerRadius = ME_HEIGHT_NAVIGATIONBAR * 0.5;
+    self.confirmBtn.layer.masksToBounds = true;
+    self.confirmBtn.backgroundColor = UIColorFromRGB(ME_THEME_COLOR_VALUE);
+    [self.confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [self.confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.confirmBtn addTarget:self action:@selector(userDidTouchAddChild) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.confirmBtn];
+    [self.confirmBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.table.mas_bottom).offset(ME_LAYOUT_MARGIN);
-        make.left.equalTo(signBgScene).offset(ME_LAYOUT_BOUNDARY*1.5);
-        make.right.equalTo(signBgScene).offset(-ME_LAYOUT_BOUNDARY*1.5);
+        make.left.equalTo(self).offset(ME_LAYOUT_BOUNDARY*1.5);
+        make.right.equalTo(self).offset(-ME_LAYOUT_BOUNDARY*1.5);
         make.height.equalTo(ME_HEIGHT_NAVIGATIONBAR);
     }];
-
-    //bottom margin
-    [signBgScene mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(btn.mas_bottom).offset(ME_LAYOUT_BOUNDARY);
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.confirmBtn).mas_offset(20.f);
     }];
-    
 }
 
 - (void)userDidTouchAddChild {
