@@ -229,6 +229,7 @@
 		5F7A54AEA5ADE8DCDD51771194B77FB5 /* MEIndexSearchBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65CAA3B439C752E643669049657CD9B0 /* MEIndexSearchBar.xib */; };
 		5F84C2C9A3EEB651B117290AF53174F8 /* UIView+ClipsCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 387D90F8FF395ECF63072784244CA105 /* UIView+ClipsCornerRadius.m */; };
 		6059ACE6056F2A3604E275DDBFE0C67B /* MEVerifyCodeVM.m in Sources */ = {isa = PBXBuildFile; fileRef = DECD3B3CE067BE56D97D62A72CE4F766 /* MEVerifyCodeVM.m */; };
+		60652A8020E5D0F4004C0815 /* MultiIntelligent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60652A7F20E5D0F4004C0815 /* MultiIntelligent.plist */; };
 		6067847D03E99E5CA57125BEBC18D860 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA705D3F0BFFE39B743B60947687E652 /* UIViewController+Utils.m */; };
 		60767CD0DFD3A2A8144DF8AB4258E811 /* MEPersonalHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C1198DD98CB742BB11DB00E25358824 /* MEPersonalHeader.xib */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
@@ -389,7 +390,6 @@
 		A6001A019DE8EFD88B814B23A7C1E192 /* MEResFavorVM.m in Sources */ = {isa = PBXBuildFile; fileRef = F0D50A119993B5EF829EC1BA23FBBCD0 /* MEResFavorVM.m */; };
 		A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = DF202D9C6AA31F2A6DF0BF9A5165905A /* MEGardenRootProfile.m */; };
 		A66400286CB8705DBDAE02A84F8F8D14 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = C0520D6AEBF1CEC574CC9C50B6779EC0 /* config.xml */; };
-		A7756303A0ABC39BF586F7C2B17C8139 /* MultiIntelligent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 334BF3F09BD5409DD0A6AA3395646EB3 /* MultiIntelligent.plist */; };
 		A7EFF3C01869DAE8B82032373436F020 /* MEWebProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = A3216EE2AA68A749EC2B4C5920C5306F /* MEWebProgress.m */; };
 		A84621F70812F8093BFEEBB0FA560B80 /* MESubNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BA5CE037E856F252FCB9D0D9DD62E4 /* MESubNavigator.m */; };
 		A8D07D10E662B7B56C179325BF921677 /* MECollectionProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F05D31938AC29A7511DC91EA51695E47 /* MECollectionProfile.m */; };
@@ -736,7 +736,6 @@
 		32476F9F3E2D04D4219FC9A9A50226E4 /* MEGrowthEvaRootProfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEGrowthEvaRootProfile.h; sourceTree = "<group>"; };
 		32AE04634C3BD9B6B3FF37371D406E43 /* MEFolderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEFolderCell.xib; sourceTree = "<group>"; };
 		3306B0945584A668D8F02DBDCDE0FC2F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		334BF3F09BD5409DD0A6AA3395646EB3 /* MultiIntelligent.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = MultiIntelligent.plist; path = /Users/nanhujiaju/Documents/Gitee/MultiEducation/MultiIntelligent.plist; sourceTree = "<absolute>"; };
 		34D92D563567411F55127DABA7E33F87 /* MEPersonalDataCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MEPersonalDataCell.xib; sourceTree = "<group>"; };
 		3505BE73388DA13E154B835FDE737E02 /* MESEInfoVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MESEInfoVM.h; sourceTree = "<group>"; };
 		35321B07CEA36FE81CE1DF23B13DB646 /* MEBabyHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEBabyHeader.xib; sourceTree = "<group>"; };
@@ -834,6 +833,7 @@
 		5E3A1DB79DA5815AE949DF3B1FBD379B /* MeschoolAddress.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeschoolAddress.pbobjc.m; sourceTree = "<group>"; };
 		5FA4B18DA2C44D930455095FE9233A89 /* MEBaseImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEBaseImageView.h; sourceTree = "<group>"; };
 		5FB8C5490A3716B44AB3FD3C1E060BAB /* MERegisterVM.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MERegisterVM.m; sourceTree = "<group>"; };
+		60652A7F20E5D0F4004C0815 /* MultiIntelligent.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MultiIntelligent.plist; sourceTree = SOURCE_ROOT; };
 		60B6DF7787A5CB27E94028F41EB321F2 /* MEContactInfoProfile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEContactInfoProfile.m; sourceTree = "<group>"; };
 		60F318309E481D4B6B13A6FFFAF77CCC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		622FCB0D4E481E21E6DD09F72C112246 /* MultiIntelligent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiIntelligent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1853,6 +1853,7 @@
 				E571C0A7628E6337DA62477D076B2CB8 /* AppDelegate.m */,
 				29BED58F38B64F9B9542E5193DE02FB4 /* Assets.xcassets */,
 				6D3954FCAA3E9678E79B25E1878A3C97 /* Info.plist */,
+				60652A7F20E5D0F4004C0815 /* MultiIntelligent.plist */,
 				9374EE8DBC03FADF9DB92AAF51E1DC38 /* LaunchScreen.storyboard */,
 				66991392FA7E53BF2EF833F5A0B738D2 /* MEPrefix.pch */,
 				72FA255D450F8860C65D125ABC3D5AFC /* Main.storyboard */,
@@ -2276,7 +2277,6 @@
 				968A2ED6E41E301B9A269642FE175C70 /* MultiEducationUITests */,
 				F32FE0075C39257717E2FCB43B8E4D6E /* Pods */,
 				1331982429FFB0F75F12B0C325D3ADD2 /* Products */,
-				334BF3F09BD5409DD0A6AA3395646EB3 /* MultiIntelligent.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2880,10 +2880,10 @@
 				E9498EA19590AFFB43F62127E0E53EE6 /* MEProgressCell.xib in Resources */,
 				8BBF652F180F6C4BFE5933B35D898789 /* MESelectPhotoCell.xib in Resources */,
 				43CA615905F6D1E27D5E662DBCB26C0D /* MESingleSelectCell.xib in Resources */,
+				60652A8020E5D0F4004C0815 /* MultiIntelligent.plist in Resources */,
 				CABCC29E2CF9601FD53008BB60B69FFD /* METextFieldCell.xib in Resources */,
 				D4FB3CB603E2C75FB5CE50B686C0818B /* MEVideoRecorder.bundle in Resources */,
 				89E8235A5551807CE104324C0B38A422 /* Main.storyboard in Resources */,
-				A7756303A0ABC39BF586F7C2B17C8139 /* MultiIntelligent.plist in Resources */,
 				BA42D0707AFFA92FF866173E37E62D33 /* README in Resources */,
 				8D0EB0D78A68BF111CAFDF978BEA549D /* config.xml in Resources */,
 				D6BC037A7EF6E78238CD7763D4EF83CB /* iconfont.ttf in Resources */,
