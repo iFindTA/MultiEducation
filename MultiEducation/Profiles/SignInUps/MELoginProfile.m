@@ -78,7 +78,7 @@
         make.top.equalTo(self.view).offset(offset+adoptValue(100));
         make.left.equalTo(self.view).offset(ME_LAYOUT_MARGIN*2.5);
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
-        make.height.mas_equalTo(430.f);
+        make.height.greaterThanOrEqualTo(@0);
     }];
     _inputChildInfoScene.didAddChildSuccessCallback = ^{
         strongify(self);
