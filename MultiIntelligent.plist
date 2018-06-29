@@ -24,25 +24,10 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>api.x16.com</key>
-			<dict>
-				<key>NSAllowsArbitraryLoadsForMedia</key>
-				<true/>
-				<key>NSAllowsArbitraryLoadsInWebContent</key>
-				<true/>
-				<key>NSAllowsLocalNetworking</key>
-				<true/>
-				<key>NSExceptionRequiresForwardSecrecy</key>
-				<string>NO</string>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSTemporaryExceptionMinimumTLSVersion</key>
-				<string>TLSv1.1</string>
-			</dict>
 			<key>glb.clouddn.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

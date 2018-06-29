@@ -19,7 +19,7 @@
     NSString *urlStr = [NSString stringWithFormat: @"%@/%@", self.currentUser.bucketDomain, self.currentUser.portrait];
     
     [self.userHeadIcon sd_setImageWithURL: [NSURL URLWithString: urlStr] placeholderImage: [UIImage imageNamed: @"appicon_placeholder"]];
-#if INTE
+#if TARGET_INTELLIGENT
     if (self.currentUser.userType == MEPBUserRole_Parent) {
         self.settingBtn.hidden = NO;
         if (self.currentUser.parentsPb.studentPbArray.count == 0) {

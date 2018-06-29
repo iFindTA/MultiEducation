@@ -67,7 +67,7 @@
         make.right.equalTo(self.view).offset(-ME_LAYOUT_MARGIN*2.5);
     }];
     weakify(self);
-#if INTE
+#if TARGET_INTELLIGENT
     //inputChildInfoView
     _inputChildInfoScene = [[MEInputChildInfoContent alloc] initWithFrame: CGRectZero];
     _inputChildInfoScene.layer.cornerRadius = ME_LAYOUT_MARGIN*2.5;
@@ -480,7 +480,7 @@
                 return ;
             } else if (list.count == 1) {
                 MEPBUser *user = list.firstObject;
-#if INTE
+#if TARGET_INTELLIGENT
                 if (user.userType == MEPBUserRole_Parent) {
                     for (StudentPb *stu in user.parentsPb.studentPbArray) {
                         if (stu.classId != 0) {
@@ -561,7 +561,7 @@
             [MEKits handleError:err];
         } else {
             MEPBUser *curUser = userList.userListArray.firstObject;
-#if INTE
+#if TARGET_INTELLIGENT
             if (user.userType == MEPBUserRole_Parent) {
                 for (StudentPb *stu in user.parentsPb.studentPbArray) {
                     if (stu.classId != 0) {
@@ -584,7 +584,7 @@
 }
 
 - (void)handleSingleUserSignIn:(MEPBUser *)user {
-#if INTE
+#if TARGET_INTELLIGENT
     user.signinstamp = [MEKits currentTimeInterval];
     [MEUserVM saveUser:user];
     [self.appDelegate updateCurrentSignedInUser:user];

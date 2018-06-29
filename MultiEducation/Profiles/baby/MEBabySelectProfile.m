@@ -39,7 +39,7 @@ static CGFloat const CELL_HEIGHT = 54.f;
     item.leftBarButtonItems = @[spacer, backItem];
     [self.navigationBar pushNavigationItem:item animated:true];
     
-#if INTE
+#if TARGET_INTELLIGENT
     UIBarButtonItem *addStuItem = [MEKits barWithTitle: @"添加宝宝" color: [UIColor whiteColor] target: self action: @selector(pushToAddChildProfile)];
     item.rightBarButtonItem = addStuItem;
 #endif

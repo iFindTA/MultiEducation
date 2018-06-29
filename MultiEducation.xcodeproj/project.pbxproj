@@ -228,6 +228,8 @@
 		5F7A54AEA5ADE8DCDD51771194B77FB5 /* MEIndexSearchBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65CAA3B439C752E643669049657CD9B0 /* MEIndexSearchBar.xib */; };
 		5F84C2C9A3EEB651B117290AF53174F8 /* UIView+ClipsCornerRadius.m in Sources */ = {isa = PBXBuildFile; fileRef = 387D90F8FF395ECF63072784244CA105 /* UIView+ClipsCornerRadius.m */; };
 		6059ACE6056F2A3604E275DDBFE0C67B /* MEVerifyCodeVM.m in Sources */ = {isa = PBXBuildFile; fileRef = DECD3B3CE067BE56D97D62A72CE4F766 /* MEVerifyCodeVM.m */; };
+		60652A7D20E5CB63004C0815 /* MultiIntelligent.plist in Resources */ = {isa = PBXBuildFile; fileRef = 334BF3F09BD5409DD0A6AA3395646EB3 /* MultiIntelligent.plist */; };
+		60652A7E20E5CB69004C0815 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6D3954FCAA3E9678E79B25E1878A3C97 /* Info.plist */; };
 		6067847D03E99E5CA57125BEBC18D860 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA705D3F0BFFE39B743B60947687E652 /* UIViewController+Utils.m */; };
 		60767CD0DFD3A2A8144DF8AB4258E811 /* MEPersonalHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7C1198DD98CB742BB11DB00E25358824 /* MEPersonalHeader.xib */; };
 		610B40D3549F93189DC779D7BD2EB94E /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 700EC88EDE776E955691EEAD75BE8B32 /* UIView+Utils.m */; };
@@ -2820,6 +2822,7 @@
 				7E5A791149A86D5D5A529FB8C1932E6F /* MEBabyContentHeader.xib in Resources */,
 				D62AEB4BF3ADC75B8F782D5275E781E1 /* MEBabyContentPhotoCell.xib in Resources */,
 				187831884199A563646659BED8437C23 /* MEBabyHeader.xib in Resources */,
+				60652A7E20E5CB69004C0815 /* Info.plist in Resources */,
 				309A30B69F2693D54CD6FE4B47011A68 /* MEBabyInfoCell.xib in Resources */,
 				17F302F2BDD50A0D3D1C6DDFB61065F8 /* MEBabyPhotoCell.xib in Resources */,
 				0BB3C9F892EB453973C4D86195F34A8E /* MEBabyPortraitCell.xib in Resources */,
@@ -2877,6 +2880,7 @@
 				E9498EA19590AFFB43F62127E0E53EE6 /* MEProgressCell.xib in Resources */,
 				8BBF652F180F6C4BFE5933B35D898789 /* MESelectPhotoCell.xib in Resources */,
 				43CA615905F6D1E27D5E662DBCB26C0D /* MESingleSelectCell.xib in Resources */,
+				60652A7D20E5CB63004C0815 /* MultiIntelligent.plist in Resources */,
 				CABCC29E2CF9601FD53008BB60B69FFD /* METextFieldCell.xib in Resources */,
 				D4FB3CB603E2C75FB5CE50B686C0818B /* MEVideoRecorder.bundle in Resources */,
 				89E8235A5551807CE104324C0B38A422 /* Main.storyboard in Resources */,
@@ -3924,9 +3928,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
-					"INTE=1",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS=1",
+					"$(inherited)",
+					"SQLITE_HAS_CODEC=1",
+					"EDU=1",
+					"TARGET_INTELLIGENT=1",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -3955,7 +3964,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = $SRCROOT/MultiEducation/MEPrefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"INTE=1",
 					"$(inherited)",
 					"COCOAPODS=1",
 					"$(inherited)",
@@ -3963,6 +3971,7 @@
 					"$(inherited)",
 					"SQLITE_HAS_CODEC=1",
 					"EDU=1",
+					"TARGET_INTELLIGENT=1",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MultiIntelligent.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

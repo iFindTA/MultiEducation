@@ -19,11 +19,8 @@
 }
 
 + (NSString *)apiURI {
-#if DEBUG
-    return @"http://192.168.1.199:8080";
-#else
-    return @"http://dv3.api.x16.com:80";
-#endif
+    //return @"http://192.168.1.199:8080";
+    return @"http://dv3.api.chinaxqjy.com";
 }
 
 + (NSString *)webHost {
