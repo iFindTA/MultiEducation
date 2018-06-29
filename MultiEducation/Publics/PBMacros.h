@@ -37,6 +37,21 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)rongIMAppKey;
 
+/**
+ app uri online for looking-up
+ */
++ (NSString *)appLookupURI;
+
+/**
+ app uri online for App-Store
+ */
++ (NSString *)appDownloadURI;
+
+/**
+ app share uri
+ */
++ (NSString *)qrCodeShareURI;
+
 @end
 
 NS_ASSUME_NONNULL_END

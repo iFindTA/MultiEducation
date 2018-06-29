@@ -875,8 +875,9 @@
 #pragma mark --- 版本检车
 
 + (void)checkAppStoreOnlineVersion:(void(^_Nullable)(NSDictionary * _Nullable))completion {
+    NSString *uri = [PBMacros appLookupURI];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    [manager POST:@"http://itunes.apple.com/lookup?id=1105294803" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager POST:uri parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSArray *rets = responseObject[@"results"];
         if (rets.count > 0) {
             NSDictionary *info = rets.lastObject;

@@ -40,7 +40,7 @@
     // 2. 恢复滤镜的默认属性
     [filter setDefaults];
     // 3. 将字符串转换成NSData
-    NSData *data = [QRCODE_URL dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [[PBMacros qrCodeShareURI] dataUsingEncoding:NSUTF8StringEncoding];
     // 4. 通过KVO设置滤镜inputMessage数据
     [filter setValue:data forKey:@"inputMessage"];
     // 5. 获得滤镜输出的图像
