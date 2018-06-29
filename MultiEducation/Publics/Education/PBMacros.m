@@ -35,4 +35,16 @@
     return @"6tnym1br64577";
 }
 
++ (NSString *)appLookupURI {
+    return @"http://itunes.apple.com/lookup?id=1105294803";
+}
+
++ (NSString *)appDownloadURI {
+    return @"https://itunes.apple.com/cn/app/asos-zhong-guo/id1105294803?mt=8";
+}
+
++ (NSString *)qrCodeShareURI {
+    return @"http://app.chinaxqjy.com";
+}
+
 @end

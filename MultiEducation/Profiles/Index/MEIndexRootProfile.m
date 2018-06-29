@@ -160,7 +160,7 @@
                     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
                     [profile addAction:cancel];
                     UIAlertAction *ensure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        NSString *iTunesLink = @"https://itunes.apple.com/cn/app/asos-zhong-guo/id1105294803?mt=8";
+                        NSString *iTunesLink = [PBMacros appDownloadURI];
                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
                     }];
                     [profile addAction:ensure];

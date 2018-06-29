@@ -58,8 +58,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define LIMIT_UPLOAD_KEY @"limit_upload_key"
 
-#define QRCODE_URL @"http://app.chinaxqjy.com"
-
 #define ME_USER_SIGNIN_PROFILE                                              @"MELoginProfile"//用户授权界面
 #define ME_SIGNIN_DID_SHOW_VISITOR_FUNC                                     @"ME_SIGNIN_DID_SHOW_VISITOR_FUNC"//登录界面显示随便逛逛
 #define ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN                           @"ME_SIGNIN_SHOULD_GOBACKSTACK_AFTER_SIGNIN"//登录成功后是否返回 是则返回 否则跳转主界面
