@@ -370,7 +370,7 @@
 //        self.inputMobile.text = @"13023622337";
 //        self.inputPwd.text = @"123456";
 //    老师: 15211026150
-        self.inputMobile.text = @"15211026150";
+        self.inputMobile.text = @"13575747869";
         self.inputCode.text = @"999999";
 ////    未绑定学校: 17695712675
 //    self.inputMobile.text = @"13333333333";
