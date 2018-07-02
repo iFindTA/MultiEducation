@@ -19,8 +19,12 @@
 }
 
 + (NSString *)apiURI {
+#if DEBUG
     //return @"http://192.168.1.199:8080";
     return @"http://101.132.33.243:443";
+#else
+    return @"http://101.132.33.243:443";
+#endif
 }
 
 + (NSString *)webHost {

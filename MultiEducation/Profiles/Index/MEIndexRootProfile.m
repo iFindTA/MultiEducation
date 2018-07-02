@@ -136,8 +136,9 @@
     [self updateOnlineCordovaResource];
     //更新未读消息数
     [self.appDelegate updateRongIMUnReadMessageCounts];
-    //更新版本信息
+    //更新App Store版本信息
     weakify(self)
+    /*
     [MEKits checkAppStoreOnlineVersion:^(NSDictionary * _Nullable info) {
         if (info) {
             NSString *lineVer = info[@"version"];
@@ -168,6 +169,25 @@
                     [self presentViewController:profile animated:true completion:nil];
                 }
             }
+        }
+    }];//*/
+    // 更新官方在线版本
+    [MEKits checkNativeOnlineVersion:^(int64_t code) {
+        NSDictionary *bundleMap = [NSBundle mainBundle].infoDictionary;
+        NSString *newVer = bundleMap[@"CFBundleVersion"];
+        int64_t localCode = [newVer intValue];
+        if (code > localCode) {
+            NSString *msg = PBFormat(@"%@发现新版本，是否前往AppStore更新？", [NSBundle pb_displayName]);
+            UIAlertController *profile = [UIAlertController alertControllerWithTitle:@"发现新版本" message:msg preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+            [profile addAction:cancel];
+            UIAlertAction *ensure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSString *iTunesLink = [PBMacros appDownloadURI];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+            }];
+            [profile addAction:ensure];
+            strongify(self)
+            [self presentViewController:profile animated:true completion:nil];
         }
     }];
 }

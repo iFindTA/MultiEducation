@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+message MEVersion {
+	int64 code = 1;//build code
+}

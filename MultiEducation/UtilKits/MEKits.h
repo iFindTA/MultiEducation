@@ -225,6 +225,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)checkAppStoreOnlineVersion:(void(^_Nullable)(NSDictionary * _Nullable))completion;
 
+/**
+ 检查官方在线版本
+ */
++ (void)checkNativeOnlineVersion:(void(^_Nullable)(int64_t code))completion;
+
 @end
 
 NS_ASSUME_NONNULL_END

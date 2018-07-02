@@ -10,6 +10,7 @@
 #import "ValueEnv.h"
 #import <sys/stat.h>
 #import "MEUserVM.h"
+#import "MEVersionVM.h"
 #import "MECordovaVM.h"
 #import "AppDelegate.h"
 #import <Toast/Toast.h>
@@ -887,6 +888,23 @@
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog("检查版本出错:%@", error.localizedDescription);
+    }];
+}
+
++ (void)checkNativeOnlineVersion:(void(^_Nullable)(int64_t code))completion {
+    MEVersionVM *vm = [[MEVersionVM alloc] init];
+    [vm postData:[NSData data] hudEnable:false success:^(NSData * _Nullable resObj) {
+        NSError *err;
+        MEVersion *version = [MEVersion parseFromData:resObj error:&err];
+        if (err) {
+            [MEKits handleError:err];
+        } else {
+            if (completion) {
+                completion(version.code);
+            }
+        }
+    } failure:^(NSError * _Nonnull error) {
+        [MEKits handleError:error];
     }];
 }
 
