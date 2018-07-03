@@ -1,8 +1,5 @@
 .DS_Store
-.idea/
-.xcworkspace
-.xcuserdata
-.xcuserstate
-Pods/Pods.xcodeproj/xcuserdata/
-MultiEducation.xcodeproj/xcuserdata/
-MultiEducation.xcworkspace/xcuserdata/
+.idea/*
+*.xcworkspace/*
+*.xcodeproj/xcuserdata/*
+Pods/Pods.xcodeproj/xcuserdata/*
