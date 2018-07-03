@@ -935,6 +935,9 @@ typedef void(^MEStudentTouchEvent)(int64_t sid, NSString *sName);
     if (self.callback) {
         self.callback(next.id_p, preStudentID);
     }
+    if (self.exchangeCallback) {
+        self.exchangeCallback(next.id_p, preStudentID, next.name);
+    }
 }
 
 /*
