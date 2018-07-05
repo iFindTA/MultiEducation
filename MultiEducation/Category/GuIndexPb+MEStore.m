@@ -14,4 +14,8 @@
     return @[@"hasStudentArchives"];
 }
 
++ (NSString *)whc_SqliteVersion {
+    return @"2";
+}
+
 @end
