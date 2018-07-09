@@ -7,6 +7,7 @@
 //
 
 #import "MEIndexItemVM.h"
+#import "MEGradientLayer.h"
 #import "MEIndexLayouter.h"
 #import <MJRefresh/MJRefresh.h>
 #import "MEContentSubcategory.h"
@@ -331,6 +332,7 @@
     NSUInteger itemWidth = (MESCREEN_WIDTH-itemMargin*2-itemDistance*(numPerLine-1))/numPerLine;NSUInteger itemHeight = adoptValue(ME_INDEX_STORY_ITEM_HEIGHT);
     UIFont *iconfont = [UIFont fontWithName:@"iconfont" size:METHEME_FONT_SUBTITLE];
     UIFont *browserFont = UIFontPingFangSC(METHEME_FONT_SUBTITLE-2);
+    //CGRect gradientBounds = CGRectMake(0, 0, <#CGFloat width#>, <#CGFloat height#>)
     for (int i = 0;i < recommand.count;i++) {
         MEPBResType *type = recommand[i];
         MEBaseScene *sectTitleScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
@@ -397,22 +399,30 @@
                  make.top.left.right.equalTo(itemScene);
                  make.bottom.equalTo(label.mas_top);
              }];//*/
-            //browser counts
+            //browser counts scene
+            
+            MEGradientLayer *browserScene = [[MEGradientLayer alloc] initWithFrame:CGRectZero];
+            [itemScene addSubview:browserScene];
+            [browserScene makeConstraints:^(MASConstraintMaker *make) {
+                make.left.bottom.right.equalTo(image);
+                make.height.equalTo(ME_LAYOUT_MARGIN*2);
+            }];
+            //counts
             int64_t counts = item.viewCounts;
             UILabel *preLab = [[UILabel alloc] init];
             preLab.font = iconfont;
             preLab.text = @"\U0000e662";
             preLab.textColor = [UIColor whiteColor];
-            [itemScene addSubview:preLab];
+            [browserScene addSubview:preLab];
             [preLab makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(image).offset(ME_LAYOUT_MARGIN*0.5);
-                make.bottom.equalTo(image).offset(-ME_LAYOUT_MARGIN*0.5);
+                make.left.equalTo(browserScene).offset(ME_LAYOUT_MARGIN*0.5);
+                make.centerY.equalTo(browserScene);
             }];
             UILabel *countsLab = [[UILabel alloc] init];
             countsLab.font = browserFont;
             countsLab.textColor = [UIColor whiteColor];
             countsLab.text = PBFormat(@"%lld次播放", counts);
-            [itemScene addSubview:countsLab];
+            [browserScene addSubview:countsLab];
             [countsLab makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(preLab.mas_right).offset(ME_LAYOUT_MARGIN*0.5);
                 make.centerY.equalTo(preLab);

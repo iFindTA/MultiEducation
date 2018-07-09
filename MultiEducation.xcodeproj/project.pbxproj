@@ -150,6 +150,7 @@
 		3B78CDD6296D3C3C8040E0A2D08AD784 /* MEQiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F941339C22F0F713AFDD400ABDE5353 /* MEQiniuUtils.m */; };
 		3B8094F2FBA1A02D321918AE9625790F /* MEBabyInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC36F96F3D45CF9E3A61A44985F24F3 /* MEBabyInfoCell.m */; };
 		3BA17528E222ADE896DD047E031F336A /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AA705D3F0BFFE39B743B60947687E652 /* UIViewController+Utils.m */; };
+		3BB99F514F74CFA48F3A573C132B8BF6 /* MEGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 123E31CBC5B17FB8765BDA595DC2BA5C /* MEGradientLayer.m */; };
 		3CECC51754932B62ACF9068CA645809F /* MEStuInterestVM.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4393FD8CA6966784F12C5DD9DFBE1A /* MEStuInterestVM.m */; };
 		3E3B5DF51C761771624FE67597ABC6EF /* MEWatchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E6ED304D07D9241B0E90929BD8FF55F9 /* MEWatchItem.m */; };
 		3E4AF1B9BCA8F21704BA4DC3BC52BB4D /* MEAccountSafeProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 992737B2A5200441C0D27B709D2D86C6 /* MEAccountSafeProfile.m */; };
@@ -582,6 +583,7 @@
 		F84984146F3EAE3450108EEBCC639533 /* MEGrowthEvaRootProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 87761243CB658B5CAD17F98E91C950F0 /* MEGrowthEvaRootProfile.m */; };
 		F8C5E50C1CECEC99A140400BEE99846D /* METimeLineSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A27BA73661DFF020F5DDBA0E89DF726F /* METimeLineSectionView.m */; };
 		F90CFE9DF41AA62079C936B193E82C1D /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 3872E70BBDFBF208D08CBB36B9CBFFFD /* IonicKeyboard.m */; };
+		F95EC8D8B420FCE1B0A86570E83C908E /* MEGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 123E31CBC5B17FB8765BDA595DC2BA5C /* MEGradientLayer.m */; };
 		F9BFF71C65B4A2C66955C4DF8101FF1B /* MEVM.m in Sources */ = {isa = PBXBuildFile; fileRef = 37C5362DA42A191FF5509710C751D6D7 /* MEVM.m */; };
 		FA52B55452E6726BBF3C2EE2EE14BADE /* ValueImg.m in Sources */ = {isa = PBXBuildFile; fileRef = 46D0AED1E0E9D220CEDCE8760AA83E8D /* ValueImg.m */; };
 		FB38A0844095733226FCE4F14089F278 /* MEHeaderIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AB108E89017B93EF9DF7335BF4AEAA9 /* MEHeaderIconCell.m */; };
@@ -647,6 +649,7 @@
 		11BE8B08480170FD2BF15656B5D95C86 /* ValueImg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueImg.h; sourceTree = "<group>"; };
 		11F4A2FAC7D04842F636448627B119E4 /* libPods-MultiEducation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MultiEducation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		11FC63D7E8F217BC62BBE8E9FAE4C764 /* MEEditScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEEditScene.m; sourceTree = "<group>"; };
+		123E31CBC5B17FB8765BDA595DC2BA5C /* MEGradientLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEGradientLayer.m; sourceTree = "<group>"; };
 		1275DE173B9559B4A4577B3CA8BC7FD9 /* MEPlayInfoSubTitlePanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEPlayInfoSubTitlePanel.m; sourceTree = "<group>"; };
 		12EFBA8885079F1353D873B3989608C9 /* MeclassMember.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeclassMember.pbobjc.m; sourceTree = "<group>"; };
 		13F2645D025547107CF53917CF996031 /* MEIndexSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MEIndexSearchBar.m; sourceTree = "<group>"; };
@@ -818,6 +821,7 @@
 		5334B79CE07EF5966CBB2B2A0B27ACD9 /* MEClassMemberVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEClassMemberVM.h; sourceTree = "<group>"; };
 		5453914554F197529BE6DF1E3E9711B9 /* MEBabySelectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MEBabySelectCell.xib; sourceTree = "<group>"; };
 		54D443F3313D153101868B84CAAB6B6D /* Meclass.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meclass.pbobjc.m; sourceTree = "<group>"; };
+		54D6FC3B7AD8824F9939D274176E672B /* MEGradientLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MEGradientLayer.h; sourceTree = "<group>"; };
 		550684533188ADA8787016D79EE1EF20 /* MERegisterVM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MERegisterVM.h; sourceTree = "<group>"; };
 		56A2D9DF22ACD31CDB8A9A8FFA65721F /* IonicKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IonicKeyboard.h; sourceTree = "<group>"; };
 		56E843041C216FAE1544E4651AF1A1DC /* MEStudentsPanel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MEStudentsPanel.m; sourceTree = "<group>"; };
@@ -2011,6 +2015,8 @@
 		8C3F4F90AFC8A18214A7DB82A693DB3E /* MEIndexBgScroller */ = {
 			isa = PBXGroup;
 			children = (
+				54D6FC3B7AD8824F9939D274176E672B /* MEGradientLayer.h */,
+				123E31CBC5B17FB8765BDA595DC2BA5C /* MEGradientLayer.m */,
 				F15C256198E1F45A14E3FF99ABB958B8 /* MEIndexBgScroller.h */,
 				EBD3A635F51E5EC8262E8DBF9FE831FE /* MEIndexBgScroller.m */,
 				CA98383DBBC826ABA9D34EC462F6F1EB /* MEIndexLayouter.h */,
@@ -3246,6 +3252,7 @@
 				0E2180047B8A4C884A7D1A7BB90CDFB6 /* MEForwardSEProfile.m in Sources */,
 				A632F50951095882B830509531A563AD /* MEGardenRootProfile.m in Sources */,
 				B47B439AD08DC8B5D54A312F64EAC41C /* MEGenderVM.m in Sources */,
+				3BB99F514F74CFA48F3A573C132B8BF6 /* MEGradientLayer.m in Sources */,
 				61A29A41EFBF3E4E9B879D37BC52D916 /* MEGrowthEvaRootProfile.m in Sources */,
 				FB38A0844095733226FCE4F14089F278 /* MEHeaderIconCell.m in Sources */,
 				E41191B6CA37EB7ABBAB828628A37D58 /* MEHeartBeatVM.m in Sources */,
@@ -3505,6 +3512,7 @@
 				3673C0FA652A265516C5D256EBB1491A /* MEForwardSEProfile.m in Sources */,
 				9EB0DFD3D91821943C72AFF3C711EB87 /* MEGardenRootProfile.m in Sources */,
 				9AD5939ADD652912753E749A64C00B71 /* MEGenderVM.m in Sources */,
+				F95EC8D8B420FCE1B0A86570E83C908E /* MEGradientLayer.m in Sources */,
 				F84984146F3EAE3450108EEBCC639533 /* MEGrowthEvaRootProfile.m in Sources */,
 				41A87358AB989EC3D00F8611C589CAEE /* MEHeaderIconCell.m in Sources */,
 				ED353326463BBD411E5A3A7C2F5CFF76 /* MEHeartBeatVM.m in Sources */,
