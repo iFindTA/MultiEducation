@@ -102,6 +102,7 @@ BOOL MEPBResourceType_IsValidValue(int32_t value__) {
 @dynamic resTypeId;
 @dynamic isFavor;
 @dynamic gradeId;
+@dynamic viewCounts;
 
 typedef struct MEPBRes__storage_ {
   uint32_t _has_storage_[1];
@@ -116,6 +117,7 @@ typedef struct MEPBRes__storage_ {
   int64_t resId;
   int64_t resTypeId;
   int64_t gradeId;
+  int64_t viewCounts;
 } MEPBRes__storage_;
 
 // This method is threadsafe because it is initially called
@@ -232,6 +234,15 @@ typedef struct MEPBRes__storage_ {
         .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
         .dataType = GPBDataTypeInt64,
       },
+      {
+        .name = "viewCounts",
+        .dataTypeSpecific.className = NULL,
+        .number = MEPBRes_FieldNumber_ViewCounts,
+        .hasIndex = 11,
+        .offset = (uint32_t)offsetof(MEPBRes__storage_, viewCounts),
+        .flags = (GPBFieldFlags)(GPBFieldOptional | GPBFieldTextFormatNameCustom),
+        .dataType = GPBDataTypeInt64,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MEPBRes class]
@@ -243,8 +254,8 @@ typedef struct MEPBRes__storage_ {
                                          flags:GPBDescriptorInitializationFlag_None];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\010\001\005\000\003\010\000\007\010\000\010\000resLabelPb\000\t\000relevantList\000\n\t"
-        "\000\013\007\000\014\007\000";
+        "\t\001\005\000\003\010\000\007\010\000\010\000resLabelPb\000\t\000relevantList\000\n\t"
+        "\000\013\007\000\014\007\000\r\n\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

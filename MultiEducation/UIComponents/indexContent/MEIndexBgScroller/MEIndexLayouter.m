@@ -329,6 +329,8 @@
     NSUInteger numPerLine = ME_INDEX_STORY_ITEM_NUMBER_PER_LINE;
     NSUInteger itemMargin = ME_LAYOUT_MARGIN;NSUInteger itemDistance = ME_LAYOUT_MARGIN;
     NSUInteger itemWidth = (MESCREEN_WIDTH-itemMargin*2-itemDistance*(numPerLine-1))/numPerLine;NSUInteger itemHeight = adoptValue(ME_INDEX_STORY_ITEM_HEIGHT);
+    UIFont *iconfont = [UIFont fontWithName:@"iconfont" size:METHEME_FONT_SUBTITLE];
+    UIFont *browserFont = UIFontPingFangSC(METHEME_FONT_SUBTITLE-2);
     for (int i = 0;i < recommand.count;i++) {
         MEPBResType *type = recommand[i];
         MEBaseScene *sectTitleScene = [[MEBaseScene alloc] initWithFrame:CGRectZero];
@@ -395,6 +397,26 @@
                  make.top.left.right.equalTo(itemScene);
                  make.bottom.equalTo(label.mas_top);
              }];//*/
+            //browser counts
+            int64_t counts = item.viewCounts;
+            UILabel *preLab = [[UILabel alloc] init];
+            preLab.font = iconfont;
+            preLab.text = @"\U0000e662";
+            preLab.textColor = [UIColor whiteColor];
+            [itemScene addSubview:preLab];
+            [preLab makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(image).offset(ME_LAYOUT_MARGIN*0.5);
+                make.bottom.equalTo(image).offset(-ME_LAYOUT_MARGIN*0.5);
+            }];
+            UILabel *countsLab = [[UILabel alloc] init];
+            countsLab.font = browserFont;
+            countsLab.textColor = [UIColor whiteColor];
+            countsLab.text = PBFormat(@"%lld次播放", counts);
+            [itemScene addSubview:countsLab];
+            [countsLab makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(preLab.mas_right).offset(ME_LAYOUT_MARGIN*0.5);
+                make.centerY.equalTo(preLab);
+            }];
             //add gesture
             UITapGestureRecognizer *tapGestuer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(indexLayoutStoryItemDidTouchEvent:)];
             tapGestuer.numberOfTapsRequired = 1;

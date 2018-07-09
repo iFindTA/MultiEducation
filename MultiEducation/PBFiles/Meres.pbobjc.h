@@ -95,6 +95,7 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
   MEPBRes_FieldNumber_ResTypeId = 10,
   MEPBRes_FieldNumber_IsFavor = 11,
   MEPBRes_FieldNumber_GradeId = 12,
+  MEPBRes_FieldNumber_ViewCounts = 13,
 };
 
 @interface MEPBRes : GPBMessage
@@ -138,6 +139,9 @@ typedef GPB_ENUM(MEPBRes_FieldNumber) {
 
 /** 年级ID 小班3/中班4/大班5 精选0 */
 @property(nonatomic, readwrite) int64_t gradeId;
+
+/** 浏览数 */
+@property(nonatomic, readwrite) int64_t viewCounts;
 
 @end
 
