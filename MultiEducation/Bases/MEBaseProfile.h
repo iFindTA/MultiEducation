@@ -12,7 +12,7 @@
 #import <PBService/PBService.h>
 #import <PBBaseClasses/PBBaseProfile.h>
 #import <UIViewController+SJVideoPlayerAdd.h>
-#import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
+#import <UMCAnalytics/UMAnalytics/MobClick.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

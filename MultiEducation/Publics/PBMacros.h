@@ -33,6 +33,31 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)umengAppKey;
 
 /**
+ app key for qq
+ */
++ (NSString *)shareQQKey;
+
+/**
+ secret for qq
+ */
++ (NSString *)shareQQSecret;
+
+/**
+ ap key for weichat
+ */
++ (NSString *)shareWeiChatKey;
+
+/**
+ secret for weichat
+ */
++ (NSString *)shareWeiChatSecret;
+
+/**
+ app icon for share
+ */
++ (NSString *)shareAppIcon;
+
+/**
  app key for rong-cloud im
  */
 + (NSString *)rongIMAppKey;

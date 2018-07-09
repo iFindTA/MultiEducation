@@ -927,9 +927,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-## UMengAnalytics-NO-IDFA
+## UMCAnalytics
 
-Copyright 2011 - 2015 UMeng.com. All rights reserved.
+Copyright 2011 - 2018 umeng.com. All rights reserved.
+
+
+## UMCCommon
+
+Copyright 2011 - 2018 umeng.com. All rights reserved.
+
+
+## UMCShare
+
+Copyright 2011 - 2018 umeng.com. All rights reserved.
 
 
 ## WHC_Model

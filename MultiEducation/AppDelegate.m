@@ -19,11 +19,12 @@
 #import "MEChatSessionRootProfile.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import <UINavigationController+SJVideoPlayerAdd.h>
-#import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
 #import "MEIMService.h"
 #import "MEServerListVM.h"
 #import <RongIMKit/RongIMKit.h>
 #import <RongIMLib/RCStatusDefine.h>
+#import <UMShare/UMShare.h>
+#import <UMCommon/UMCommon.h>
 
 @interface AppDelegate ()
 
@@ -332,8 +333,14 @@
         }
     };
     //for umeng
-    UMConfigInstance.appKey = [PBMacros umengAppKey];
-    [MobClick startWithConfigure:UMConfigInstance];
+    [UMSocialGlobal shareInstance].isUsingWaterMark = true;
+    [UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = false;
+    [UMConfigure initWithAppkey:[PBMacros umengAppKey] channel:@"App Store"];
+    NSString *redirect_uri = @"http://mobile.umeng.com/social";
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:[PBMacros shareQQKey] appSecret:[PBMacros shareQQSecret] redirectURL:redirect_uri];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:[PBMacros shareWeiChatKey] appSecret:[PBMacros shareWeiChatSecret] redirectURL:redirect_uri];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatTimeLine appKey:[PBMacros shareWeiChatKey] appSecret:[PBMacros shareWeiChatSecret] redirectURL:redirect_uri];
+    [[UMSocialManager defaultManager] removePlatformProviderWithPlatformTypes:@[@(UMSocialPlatformType_WechatFavorite)]];
     //for Cordova
     [MEKits configureCordovaEnv];
     [MEKits UnzipCordovaResources];
@@ -368,6 +375,27 @@
         unreadCounts -= 1;
     }
     PBMAIN(^{[self.indexRootProfile setBadgeValue:unreadCounts atIndex:2];})
+}
+
+#pragma mark --- share abouts
+
+// 支持所有iOS系统
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    //6.3的新的API调用，是为了兼容国外平台(例如:新版facebookSDK,VK等)的调用[如果用6.2的api调用会没有回调],对国内平台没有影响
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+    if (!result) {
+        // 其他如支付等SDK的回调
+    }
+    return result;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    //6.3的新的API调用，是为了兼容国外平台(例如:新版facebookSDK,VK等)的调用[如果用6.2的api调用会没有回调],对国内平台没有影响
+    BOOL result = [[UMSocialManager defaultManager]  handleOpenURL:url options:options];
+    if (!result) {
+        // 其他如支付等SDK的回调
+    }
+    return result;
 }
 
 @end

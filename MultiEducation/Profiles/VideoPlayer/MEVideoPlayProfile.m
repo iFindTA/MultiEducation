@@ -20,6 +20,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <ZFPlayer/UIView+CustomControlView.h>
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
+#import <UMShare/UMShare.h>
+#import <UShareUI/UShareUI.h>
 
 static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   16.f/9;
 
@@ -692,40 +694,90 @@ static CGFloat const ME_VIDEO_PLAYER_WIDTH_HEIGHT_SCALE                     =   
     } else if (action & MEVideoPlayUserActionShare) {
         [self disablePlayer];
         NSString *title = [NSBundle pb_displayName];
-        NSString *textIntro = PBAvailableString(self.currentRes.intro);
-        NSString *textToShare = PBFormat(@"【%@】-- %@", PBAvailableString(title), textIntro);
-        UIImage *imageToShare = [UIImage imageNamed:@"AppIcon"];
+        NSString *description = PBAvailableString(self.currentRes.intro);
+        UIImage *imageToShare = [UIImage imageNamed:[PBMacros shareAppIcon]];
         NSString *urlString = [MEKits shareResourceUri:self.currentRes.resId type:self.currentRes.type];
         NSURL *urlToShare = [NSURL URLWithString:urlString];
-        NSArray *activityItems = @[urlToShare,textToShare,imageToShare];
-        //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
-//        MEActivity *active = [[MEActivity alloc] initWithTitie:title withActivityImage:imageToShare withUrl:urlToShare withType:@"MEActivity" withShareContext:activityItems];
-//        NSArray *activities = @[active];
-        UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
-        weakify(self)
-        shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
-            strongify(self)
-            [self enablePlayer];
-        };
-        //关闭系统的一些activity类型
-        shareProfile.excludedActivityTypes = @[UIActivityTypePostToTwitter,
-                                               UIActivityTypeMessage,
-                                               UIActivityTypeMail,
-                                               UIActivityTypePrint,
-                                               UIActivityTypeCopyToPasteboard,
-                                               UIActivityTypeAssignToContact,
-                                               UIActivityTypeSaveToCameraRoll,
-                                               UIActivityTypeAddToReadingList,
-                                               UIActivityTypePostToFlickr,
-                                               UIActivityTypePostToVimeo,
-                                               UIActivityTypePostToTencentWeibo,
-                                               UIActivityTypeAirDrop];
-        [self presentViewController:shareProfile animated:true completion:nil];
+        BOOL installed_qq = [[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_QQ];
+        BOOL installed_wx = [[UMSocialManager defaultManager] isInstall:UMSocialPlatformType_WechatSession];
+        BOOL installed = installed_qq & installed_wx;
+        if (!installed) {
+            //系统自带分享
+             NSArray *activityItems = @[title, description, imageToShare, urlToShare];
+             //自定义 customActivity继承于UIActivity,创建自定义的Activity加在数组Activities中。
+             UIActivityViewController *shareProfile = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+             weakify(self)
+             shareProfile.completionWithItemsHandler = ^(NSString *activityType,BOOL completed,NSArray *returnedItems,NSError *activityError) {
+             strongify(self)
+             [self enablePlayer];
+             };
+             //关闭系统的一些activity类型
+             shareProfile.excludedActivityTypes = @[UIActivityTypePostToTwitter,
+             UIActivityTypeMessage,
+             UIActivityTypeMail,
+             UIActivityTypePrint,
+             UIActivityTypeCopyToPasteboard,
+             UIActivityTypeAssignToContact,
+             UIActivityTypeSaveToCameraRoll,
+             UIActivityTypeAddToReadingList,
+             UIActivityTypePostToFlickr,
+             UIActivityTypePostToVimeo,
+             UIActivityTypePostToTencentWeibo,
+             UIActivityTypeAirDrop];
+             [self presentViewController:shareProfile animated:true completion:nil];
+        } else {
+            //UMeng分享
+            NSArray *platforms = @[@(UMSocialPlatformType_QQ), @(UMSocialPlatformType_WechatSession), @(UMSocialPlatformType_WechatTimeLine)];
+            [UMSocialUIManager setPreDefinePlatforms:platforms];
+            weakify(self)
+            [UMSocialUIManager showShareMenuViewInWindowWithPlatformSelectionBlock:^(UMSocialPlatformType platformType, NSDictionary *userInfo) {
+                strongify(self)
+                [self share2Platform:platformType];
+            }];
+        }
     } else if (action & MEVideoPlayUserActionNextItem) {
         self.previewRes = self.nextRes;
         _nextRes = nil;
         [self resetAllUIResources4NextPlayItem];
     }
+}
+
+- (void)share2Platform:(UMSocialPlatformType)platform {
+    NSString *bundle = [NSBundle pb_displayName];
+    NSString *title = PBAvailableString(self.currentRes.title);
+    title = PBFormat(@"【%@】%@", bundle, title);
+    NSString *description = PBAvailableString(self.currentRes.intro);
+    NSString *coverImg = self.currentRes.coverImg;
+    NSString *placeholderString = [MEKits imageFullPath:coverImg];
+    NSString *urlString = [MEKits shareResourceUri:self.currentRes.resId type:self.currentRes.type];
+    //创建分享消息对象
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    //创建网页内容对象
+    UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:title descr:description thumImage:placeholderString];
+    //设置网页地址
+    shareObject.webpageUrl = urlString;
+    //分享消息对象设置分享内容对象
+    messageObject.shareObject = shareObject;
+    
+    //调用分享接口
+    [[UMSocialManager defaultManager] shareToPlatform:platform messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (error) {
+            UMSocialLogInfo(@"************Share fail with error %@*********",error);
+            [MEKits makeToast:@"分享失败！"];
+        }else{
+            [MEKits makeToast:@"分享成功！"];
+            if ([data isKindOfClass:[UMSocialShareResponse class]]) {
+                UMSocialShareResponse *resp = data;
+                //分享结果消息
+                UMSocialLogInfo(@"response message is %@",resp.message);
+                //第三方原始返回的数据
+                UMSocialLogInfo(@"response originalResponse data is %@",resp.originalResponse);
+                
+            }else{
+                UMSocialLogInfo(@"response data is %@",data);
+            }
+        }
+    }];
 }
 
 /*

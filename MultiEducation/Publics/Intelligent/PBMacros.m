@@ -35,6 +35,26 @@
     return @"5b2b61dff29d9803fc00002a";
 }
 
++ (NSString *)shareQQKey {
+    return @"1107029716";
+}
+
++ (NSString *)shareQQSecret {
+    return @"M3rvWoAboeneeCKN";
+}
+
++ (NSString *)shareWeiChatKey {
+    return @"wx3a7f97330b9c5a3f";
+}
+
++ (NSString *)shareWeiChatSecret {
+    return @"911e13f30ea954670f684b843eab488f";
+}
+
++ (NSString *)shareAppIcon {
+    return @"AppIcon-intelligent";
+}
+
 + (NSString *)rongIMAppKey {
     return @"82hegw5u8yrnx";
 }

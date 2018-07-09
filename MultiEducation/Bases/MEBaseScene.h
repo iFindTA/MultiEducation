@@ -14,7 +14,7 @@
 #import "MEBaseScrollView.h"
 #import <PBService/PBService.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import <UMengAnalytics-NO-IDFA/UMMobClick/MobClick.h>
+#import <UMCAnalytics/UMAnalytics/MobClick.h>
 
 @interface MEBaseScene : PBView
 

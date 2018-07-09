@@ -1765,15 +1765,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		A49FB4DA024ABCA1C0A267474E85B72D /* Version */ = {
-			isa = PBXGroup;
-			children = (
-				A457128F71904888C365632B6C3533DB /* MEVersionVM.h */,
-				F3944FF6CCD74051F9FB16DAD9CCA6C6 /* MEVersionVM.m */,
-			);
-			path = Version;
-			sourceTree = "<group>";
-		};
 		66B1CEFC8C1A3937C665A8D7796825C8 /* value-plugin-disk */ = {
 			isa = PBXGroup;
 			children = (
@@ -2239,6 +2230,15 @@
 				F4F644496D42EFCDAEC7F3C5B480AE59 /* MEContactProfile.m */,
 			);
 			path = chatContact;
+			sourceTree = "<group>";
+		};
+		A49FB4DA024ABCA1C0A267474E85B72D /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				A457128F71904888C365632B6C3533DB /* MEVersionVM.h */,
+				F3944FF6CCD74051F9FB16DAD9CCA6C6 /* MEVersionVM.m */,
+			);
+			path = Version;
 			sourceTree = "<group>";
 		};
 		A4E51ED08356D9BA4BD3FEB22E5DEAEE /* personal */ = {
@@ -2971,6 +2971,7 @@
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
+				"${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle",
 				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800-1.jpeg",
 				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800.jpeg",
 				"${PODS_ROOT}/XHImageViewer/Source/Resources/4_1366x768.jpeg",
@@ -3007,6 +3008,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800-1.jpeg",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800.jpeg",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/4_1366x768.jpeg",
@@ -3093,6 +3095,7 @@
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
 				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
 				"${PODS_ROOT}/TZImagePickerController/TZImagePickerController/TZImagePickerController/TZImagePickerController.bundle",
+				"${PODS_ROOT}/UMCShare/UMShare/UMSocialUI/UMSocialSDKResources.bundle",
 				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800-1.jpeg",
 				"${PODS_ROOT}/XHImageViewer/Source/Resources/1_1280x800.jpeg",
 				"${PODS_ROOT}/XHImageViewer/Source/Resources/4_1366x768.jpeg",
@@ -3129,6 +3132,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TZImagePickerController.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800-1.jpeg",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/1_1280x800.jpeg",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/4_1366x768.jpeg",
@@ -3946,7 +3950,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B447BEBA4CAF7C47C0DAF977A0E32A2 /* Pods-MultiIntelligent.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-intelligent";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
 				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3982,7 +3986,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E3EC43100C229E03BDF7EFA9A8CD579 /* Pods-MultiIntelligent.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-Intelligent";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-intelligent";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-Intelligent";
 				CODE_SIGN_ENTITLEMENTS = MultiEducation/MultiEducation.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
