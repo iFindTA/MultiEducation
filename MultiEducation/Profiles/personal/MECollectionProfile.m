@@ -223,12 +223,14 @@
             NSString *title = res.title.copy;
             (i % numPerLine == 0)?[cell.leftItemLabel setText:title]:[cell.rightItemLabel setText:title];
             (i % numPerLine == 0)?[cell.leftItemScene setTag:real_item_index]:[cell.rightItemScene setTag:real_item_index];
-            
+            NSString *counts = PBFormat(@"%lld次播放",res.viewCounts);
             NSString *imgUrl = [MEKits imageFullPath:res.coverImg];
             UIImage *image = [UIImage imageNamed:@"index_content_placeholder"];
             if (i % numPerLine == 0) {
+                cell.browserLabLeft.text = counts;
                 [cell.leftItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
             } else {
+                cell.browserLabRight.text = counts;
                 [cell.rightItemImage setImageWithURL:[NSURL URLWithString:imgUrl] placeholder:image];
             }
         } else {

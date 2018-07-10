@@ -21,6 +21,7 @@
 @property (nonatomic, strong) MEBaseScene *leftItemScene;
 @property (nonatomic, strong) MEBaseImageView *leftItemImage;
 @property (nonatomic, strong) MEBaseLabel *leftItemLabel;
+@property (nonatomic, strong) UILabel *browserLabLeft;
 
 /**
  right
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) MEBaseScene *rightItemScene;
 @property (nonatomic, strong) MEBaseImageView *rightItemImage;
 @property (nonatomic, strong) MEBaseLabel *rightItemLabel;
+@property (nonatomic, strong) UILabel *browserLabRight;
 
 @property (nonatomic, copy) void(^indexContentItemCallback)(NSUInteger sect, NSUInteger row);
 

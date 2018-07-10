@@ -6,6 +6,7 @@
 //  Copyright © 2018年 niuduo. All rights reserved.
 //
 
+#import "MEGradientLayer.h"
 #import "MEIndexStoryItemCell.h"
 
 static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              =   30;
@@ -90,6 +91,57 @@ static NSUInteger ME_INDEX_STORY_ITEM_TITLE_HEIGHT                              
             make.top.right.equalTo(self.rightItemScene);
             make.left.equalTo(self.middleSeperator.mas_right);
             make.bottom.equalTo(self.rightItemLabel.mas_top);
+        }];
+        //browser counts
+        UIFont *iconfont = [UIFont fontWithName:@"iconfont" size:METHEME_FONT_SUBTITLE];
+        UIFont *browserFont = UIFontPingFangSC(METHEME_FONT_SUBTITLE-2);
+        MEGradientLayer *browserScene = [[MEGradientLayer alloc] initWithFrame:CGRectZero];
+        [self.leftItemScene addSubview:browserScene];
+        [browserScene makeConstraints:^(MASConstraintMaker *make) {
+            make.left.bottom.right.equalTo(_leftItemImage);
+            make.height.equalTo(ME_LAYOUT_MARGIN*2);
+        }];
+        UILabel *preLab = [[UILabel alloc] init];
+        preLab.font = iconfont;
+        preLab.text = @"\U0000e662";
+        preLab.textColor = [UIColor whiteColor];
+        [browserScene addSubview:preLab];
+        [preLab makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(browserScene).offset(ME_LAYOUT_MARGIN*0.5);
+            make.centerY.equalTo(browserScene);
+        }];
+        UILabel *countsLab = [[UILabel alloc] init];
+        countsLab.font = browserFont;
+        countsLab.textColor = [UIColor whiteColor];
+        [browserScene addSubview:countsLab];
+        self.browserLabLeft = countsLab;
+        [countsLab makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(preLab.mas_right).offset(ME_LAYOUT_MARGIN*0.5);
+            make.centerY.equalTo(preLab);
+        }];
+        browserScene = [[MEGradientLayer alloc] initWithFrame:CGRectZero];
+        [self.rightItemScene addSubview:browserScene];
+        [browserScene makeConstraints:^(MASConstraintMaker *make) {
+            make.left.bottom.right.equalTo(_rightItemImage);
+            make.height.equalTo(ME_LAYOUT_MARGIN*2);
+        }];
+        preLab = [[UILabel alloc] init];
+        preLab.font = iconfont;
+        preLab.text = @"\U0000e662";
+        preLab.textColor = [UIColor whiteColor];
+        [browserScene addSubview:preLab];
+        [preLab makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(browserScene).offset(ME_LAYOUT_MARGIN*0.5);
+            make.centerY.equalTo(browserScene);
+        }];
+        countsLab = [[UILabel alloc] init];
+        countsLab.font = browserFont;
+        countsLab.textColor = [UIColor whiteColor];
+        [browserScene addSubview:countsLab];
+        self.browserLabRight = countsLab;
+        [countsLab makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(preLab.mas_right).offset(ME_LAYOUT_MARGIN*0.5);
+            make.centerY.equalTo(preLab);
         }];
         //*/
     }
